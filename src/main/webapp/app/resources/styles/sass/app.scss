@@ -1,0 +1,29 @@
+@import "variables/all";
+@import "theme-base";
+
+@import "overrides/all";
+@import "imports";
+@import "main";
+
+@import "splash/all";
+
+html {
+  height: 100%;
+}
+
+body {
+  font-family: Arial, Helvetica, Sans-Serif;
+  opacity: 0;
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: 1fr auto;
+}
+
+tamufooter {
+  grid-row-start: 2;
+  grid-row-end: 3;
+}
+
+.clickable:hover {
+  cursor: pointer;
+}

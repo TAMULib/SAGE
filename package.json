@@ -1,0 +1,48 @@
+{
+  "name": "sage",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Solr Agregation Engine UI",
+  "repository": "https://github.com/TAMULib/Sage",
+  "license": "MIT",
+  "scripts": {
+    "prestart": "npm install -g grunt-cli",
+    "postinstall": "grunt",
+    "pretest": "npm install",
+    "test": "karma start karma.conf.js",
+    "test-single-run": "karma start karma.conf.js  --single-run",
+    "preupdate-webdriver": "npm install",
+    "update-webdriver": "webdriver-manager update",
+    "preprotractor": "npm run update-webdriver",
+    "protractor": "protractor e2e-tests/protractor.conf.js",
+    "stop": "wvr server --stop",
+    "start": "wvr server -b /cap --prod --uid magpie-webserver",
+    "start-dev": "wvr server -b /magpie --uid magpie-webserver"
+  },
+  "dependencies": {
+    "ng-csv": "0.3.6",
+    "ng-file-upload": "12.2.13",
+    "ng-table": "3.0.1",
+    "weaver-ui-core": "git+https://github.com/TAMULib/Weaver-UI-Core.git#2.x"
+  },
+  "devDependencies": {
+    "grunt": "1.0.1",
+    "grunt-cli": "1.2.0",
+    "grunt-contrib-clean": "1.1.0",
+    "grunt-contrib-concat": "1.0.1",
+    "grunt-contrib-copy": "1.0.0",
+    "grunt-contrib-jshint": "1.1.0",
+    "grunt-contrib-symlink": "1.0.0",
+    "grunt-contrib-uglify": "3.0.1",
+    "grunt-contrib-watch": "1.0.0",
+    "grunt-usemin": "3.1.1",
+    "http-server": "0.10.0",
+    "jshint-stylish": "2.2.1",
+    "karma": "1.7.0",
+    "karma-chrome-launcher": "2.0.0",
+    "karma-firefox-launcher": "1.0",
+    "karma-jasmine": "1.1.0",
+    "karma-junit-reporter": "1.2.0",
+    "protractor": "5.1.1"
+  }
+}
