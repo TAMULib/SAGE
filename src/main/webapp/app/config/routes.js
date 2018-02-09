@@ -1,4 +1,4 @@
-cap.config(function ($locationProvider, $routeProvider) {
+sage.config(function ($locationProvider, $routeProvider) {
 
       $locationProvider.html5Mode(true);
 
@@ -8,6 +8,10 @@ cap.config(function ($locationProvider, $routeProvider) {
       }).
       when('/home', {
         redirectTo: '/',
+      }).
+      when('/admin/index', {
+        templateUrl: 'views/admin/indexManagement.html',
+        controller: 'IndexManagementController'
       }).
 
       // Error Routes

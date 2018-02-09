@@ -1,0 +1,33 @@
+
+<div class="index-management">
+
+  <h1>Index Management</h1>
+
+  <div class="panel panel-default index-container">
+    <div class="panel-heading clearfix">
+      <button class="btn btn-success pull-right" ng-click="startCreateIndex()">New</button>
+      <modal
+        modal-id="createIndexModal"
+        modal-view="views/modals/createIndexModal.html"
+        modal-header-class="modal-header-primary"
+        modal-fullscreen="true"
+        wvr-modal-backdrop="static">
+      </modal>
+    </div>
+
+    <div class="panel-body">
+      <table ng-table="tableParams" class="table table-hover index-table">
+        <tbody>
+          <tr ng-repeat="index in $data">
+            <td data-title="'Name'">
+              {{index.name}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+
+</div>

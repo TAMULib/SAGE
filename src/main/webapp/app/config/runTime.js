@@ -1,4 +1,4 @@
-cap.run(function($route, $rootScope, $location) {
+sage.run(function($route, $rootScope, $location) {
 
   angular.element("body").css('opacity',0).animate({opacity:1}, 1000);
 

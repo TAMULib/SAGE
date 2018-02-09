@@ -1,4 +1,4 @@
-cap.service("AbstractAppRepo", function () {
+sage.service("AbstractAppRepo", function () {
   
     return function AbstractAppRepo() {
 

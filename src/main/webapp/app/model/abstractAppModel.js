@@ -1,4 +1,4 @@
-cap.factory("AbstractAppModel", function AbstractAppModel() {
+sage.factory("AbstractAppModel", function AbstractAppModel() {
   
     return function AbstractAppModel() {
 
