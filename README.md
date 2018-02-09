@@ -1,3 +1,3 @@
-# Cap
+# Sage
 
-Fedora Repository Management
+Solr Aggregation Engine
