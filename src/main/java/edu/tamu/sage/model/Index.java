@@ -1,9 +1,12 @@
 package edu.tamu.sage.model;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 
+import edu.tamu.sage.model.validation.IndexValidator;
 import edu.tamu.weaver.validation.model.ValidatingBaseEntity;
 
+@Entity
 public class Index extends ValidatingBaseEntity {
 
     @Column(unique = true)
@@ -12,7 +15,9 @@ public class Index extends ValidatingBaseEntity {
     @Column
     private String uri;
     
-    public Index() {}
+    public Index() {
+        setModelValidator(new IndexValidator());
+    }
     
     public Index(String name, String uri) {
         this();
