@@ -4,8 +4,31 @@
     <h4 class="modal-title">Create Index</h4>
   </div>
   <div class="modal-body">
-    <input class="form-control" name="indexForms.create.name" ng-model="indexToCreate.name" placeholder="name">
-  </div>     
+    <validationmessage results="irForms.getResults()"></validationmessage>
+
+    <validatedinput
+      model="indexToCreate"
+      property="name"
+      label="Name"
+      placeholder="Name of the new Index"
+      form="indexForms.create"
+      validations="indexForms.validations"
+      results="indexForms.getResults()"
+      autocomplete="off">
+    </validatedinput>
+
+    <validatedinput
+      model="indexToCreate"
+      property="uri"
+      label="URI"
+      placeholder="URI for the new Index"
+      form="indexForms.create"
+      validations="indexForms.validations"
+      results="indexForms.getResults()"
+      autocomplete="off">
+    </validatedinput>
+
+  </div>
   <div class="modal-footer">
     <button type="button" class="btn" ng-click="cancelCreateIndex()">Cancel</button>
     <button type="submit" class="btn btn-success">Create</button>

@@ -4,11 +4,4 @@ sage.controller('AdminController', function ($controller, $scope, IndexRepo) {
         $scope: $scope
     }));
 
-    $scope.indexToDelete = {};
-    $scope.indexToEdit = {};
-
-    $scope.resetIndexForms = function() {
-        IndexRepo.clearValidationResults();
-    }
-
 });

@@ -1,4 +1,4 @@
-sage.controller('IndexManagementController', function ($controller, $scope, NgTableParams) {
+sage.controller('IndexManagementController', function ($controller, $scope, NgTableParams, IndexRepo) {
   
   angular.extend(this, $controller('AbstractController', {
       $scope: $scope
@@ -10,6 +10,11 @@ sage.controller('IndexManagementController', function ($controller, $scope, NgTa
 
   $scope.createIndex = function() {
     console.log($scope.indexToCreate);
+    IndexRepo.create($scope.indexToCreate).then(function(res) {
+      if(angular.fromJson(res.body).meta.status === "SUCCESS") {
+        $scope.cancelCreateIndex();
+      }
+    })
     resetCreateModal();
   };
 
