@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.tamu.sage.model.Index;
+import edu.tamu.sage.model.SolrCore;
 import edu.tamu.sage.model.User;
 import edu.tamu.sage.model.repo.IndexRepo;
 import edu.tamu.weaver.auth.annotation.WeaverUser;
@@ -38,7 +38,7 @@ public class IndexController {
     @RequestMapping("/create")
     @PreAuthorize("hasRole('USER')")
 //    @WeaverValidation(business = { @WeaverValidation.Business(value = CREATE) })
-    public ApiResponse createIndex(@RequestBody @WeaverValidatedModel Index index) {
+    public ApiResponse createIndex(@RequestBody @WeaverValidatedModel SolrCore index) {
         System.out.println(index.getName());
         logger.info("Creating Index: " + index.getName());
         return new ApiResponse(SUCCESS, indexRepo.create(index));
