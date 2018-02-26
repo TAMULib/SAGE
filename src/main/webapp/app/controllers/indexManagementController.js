@@ -4,6 +4,8 @@ sage.controller('IndexManagementController', function ($controller, $scope, NgTa
       $scope: $scope
   }));
 
+  $scope.indexes = IndexRepo.getAll();
+
   $scope.startCreateIndex = function() {
     $scope.openModal("#createIndexModal");
   };
@@ -28,5 +30,21 @@ sage.controller('IndexManagementController', function ($controller, $scope, NgTa
   };
 
   resetCreateModal();
+
+  IndexRepo.ready().then(function() {
+    $scope.setTable = function() {
+      $scope.tableParams = new NgTableParams({
+        count: $scope.indexes.length,
+        sorting: {name: 'desc'}
+      }, {
+        counts: [],
+        total: 0,
+        getData: function(params) {
+          return $scope.indexes;
+        }
+      });
+    };
+    $scope.setTable();
+  })
 
 });
