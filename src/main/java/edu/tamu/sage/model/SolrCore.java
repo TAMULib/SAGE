@@ -18,7 +18,7 @@ public class SolrCore extends ValidatingBaseEntity implements Core {
     @Column
     private String uri;
     
-    @Column(unique = true)
+    @Column
     private String username;
 
     @Column

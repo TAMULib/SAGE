@@ -20,24 +20,23 @@ import edu.tamu.weaver.validation.aspect.annotation.WeaverValidatedModel;
 import edu.tamu.weaver.validation.aspect.annotation.WeaverValidation;
 
 @RestController
-@RequestMapping("/index")
-public class IndexController {
+@RequestMapping("/core/solr")
+public class SolrCoreController {
     
     @Autowired
     private SolrCoreRepo indexRepo;
     
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @RequestMapping("/all")
-    @PreAuthorize("hasRole('USER')")
+    @RequestMapping(value = "/all")
+    @PreAuthorize("hasRole('ANONYMOUS')")
     public ApiResponse getAll(@WeaverUser User user) {
-        System.out.println(user.getRole());
         return new ApiResponse(SUCCESS, indexRepo.findAll());
     }
     
-    @RequestMapping("/create")
-    @PreAuthorize("hasRole('USER')")
-//    @WeaverValidation(business = { @WeaverValidation.Business(value = CREATE) })
+    @RequestMapping(value = "/create")
+    @PreAuthorize("hasRole('ANONYMOUS')")
+    @WeaverValidation(business = { @WeaverValidation.Business(value = CREATE) })
     public ApiResponse createIndex(@RequestBody @WeaverValidatedModel SolrCore index) {
         System.out.println(index.getName());
         logger.info("Creating Index: " + index.getName());
