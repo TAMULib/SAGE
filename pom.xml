@@ -9,7 +9,7 @@
 	<packaging>war</packaging>
 
 	<name>Sage</name>
-	<description>Weaver Solar Agregation Engine</description>
+	<description>Weaver Solr Agregation Engine</description>
 
 	<parent>
 		<groupId>edu.tamu.framework</groupId>
