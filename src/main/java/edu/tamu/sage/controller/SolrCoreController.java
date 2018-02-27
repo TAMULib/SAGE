@@ -2,6 +2,7 @@ package edu.tamu.sage.controller;
 
 import static edu.tamu.weaver.response.ApiStatus.SUCCESS;
 import static edu.tamu.weaver.validation.model.BusinessValidationType.CREATE;
+import static edu.tamu.weaver.validation.model.BusinessValidationType.UPDATE;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,23 +26,32 @@ import edu.tamu.weaver.validation.aspect.annotation.WeaverValidation;
 public class SolrCoreController {
     
     @Autowired
-    private SolrCoreRepo indexRepo;
+    private SolrCoreRepo solrCoreRepo;
     
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ANONYMOUS')")
     public ApiResponse getAll(@WeaverUser User user) {
-        return new ApiResponse(SUCCESS, indexRepo.findAll());
+        return new ApiResponse(SUCCESS, solrCoreRepo.findAll());
     }
     
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ANONYMOUS')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = CREATE) })
-    public ApiResponse createIndex(@RequestBody @WeaverValidatedModel SolrCore index) {
-        System.out.println(index.getName());
-        logger.info("Creating Index: " + index.getName());
-        return new ApiResponse(SUCCESS, indexRepo.create(index));
+    public ApiResponse createSolrCore(@RequestBody @WeaverValidatedModel SolrCore solrCore) {
+        System.out.println(solrCore.getName());
+        logger.info("Creating SolrCore: " + solrCore.getName());
+        return new ApiResponse(SUCCESS, solrCoreRepo.create(solrCore));
+    }
+    
+    // Why do we use POST for update and not put?
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @PreAuthorize("hasRole('ANONYMOUS')")
+    @WeaverValidation(business = { @WeaverValidation.Business(value = UPDATE) })
+    public ApiResponse updateSolrCore(@RequestBody @WeaverValidatedModel SolrCore solrCore) {
+        logger.info("Updating SolrCore: " + solrCore.getName());
+        return new ApiResponse(SUCCESS, solrCoreRepo.update(solrCore));
     }
 
 }
