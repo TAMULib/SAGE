@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.tamu.sage.model.SolrCore;
@@ -28,13 +29,13 @@ public class SolrCoreController {
     
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @RequestMapping(value = "/all")
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ANONYMOUS')")
     public ApiResponse getAll(@WeaverUser User user) {
         return new ApiResponse(SUCCESS, indexRepo.findAll());
     }
     
-    @RequestMapping(value = "/create")
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ANONYMOUS')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = CREATE) })
     public ApiResponse createIndex(@RequestBody @WeaverValidatedModel SolrCore index) {
