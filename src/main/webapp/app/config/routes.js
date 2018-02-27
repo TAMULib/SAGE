@@ -11,7 +11,7 @@ sage.config(function ($locationProvider, $routeProvider) {
       }).
       when('/admin/index', {
         templateUrl: 'views/admin/indexManagement.html',
-        controller: 'IndexManagementController'
+        controller: 'SolrCoreManagementController'
       }).
 
       // Error Routes

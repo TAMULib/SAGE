@@ -1,0 +1,60 @@
+<form name="SolrCoreForms.create" ng-submit="createSolrCore()" novalidate class="Solr-core-forms-create">
+  <div class="modal-header {{attr.modalHeaderClass}}">
+    <button type="button" class="close modal-close" aria-label="Close" ng-click="cancelCreateSolrCore()"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Create Solr Core</h4>
+  </div>
+  <div class="modal-body">
+    <validationmessage results="solrCoreForms.getResults()"></validationmessage>
+
+    <validatedinput
+      model="solrCoreToCreate"
+      property="name"
+      label="Name"
+      placeholder="URI for the new Solr Core"
+      form="solrCoreForms.create"
+      validations="solrCoreForms.validations"
+      results="solrCoreForms.getResults()"
+      autocomplete="off">
+    </validatedinput>
+
+    <validatedinput
+      model="solrCoreToCreate"
+      property="uri"
+      label="URI"
+      placeholder="URI for the new Solr Core"
+      form="solrCoreForms.create"
+      validations="solrCoreForms.validations"
+      results="solrCoreForms.getResults()"
+      autocomplete="off">
+    </validatedinput>
+
+    <validatedinput
+      model="solrCoreToCreate"
+      property="username"
+      label="User Name"
+      placeholder="User Name for the new Solr Core"
+      form="solrCoreForms.create"
+      validations="solrCoreForms.validations"
+      results="solrCoreForms.getResults()"
+      autocomplete="off">
+    </validatedinput>
+
+
+    <validatedinput
+      model="solrCoreToCreate"
+      property="password"
+      label="Password"
+      placeholder="Password for the new Solr Core"
+      form="solrCoreForms.create"
+      validations="solrCoreForms.validations"
+      results="solrCoreForms.getResults()"
+      autocomplete="off">
+    </validatedinput>
+
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn" ng-click="cancelCreatesolrCore()">Cancel</button>
+    <button type="submit" class="btn btn-success">Create</button>
+  </div>
+</form>

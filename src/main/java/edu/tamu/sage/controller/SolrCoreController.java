@@ -2,6 +2,7 @@ package edu.tamu.sage.controller;
 
 import static edu.tamu.weaver.response.ApiStatus.SUCCESS;
 import static edu.tamu.weaver.validation.model.BusinessValidationType.CREATE;
+import static edu.tamu.weaver.validation.model.BusinessValidationType.DELETE;
 import static edu.tamu.weaver.validation.model.BusinessValidationType.UPDATE;
 
 import org.slf4j.Logger;
@@ -22,7 +23,7 @@ import edu.tamu.weaver.validation.aspect.annotation.WeaverValidatedModel;
 import edu.tamu.weaver.validation.aspect.annotation.WeaverValidation;
 
 @RestController
-@RequestMapping("/core/solr")
+@RequestMapping("/solrCore")
 public class SolrCoreController {
     
     @Autowired
@@ -44,7 +45,7 @@ public class SolrCoreController {
         logger.info("Creating SolrCore: " + solrCore.getName());
         return new ApiResponse(SUCCESS, solrCoreRepo.create(solrCore));
     }
-    
+
     // Why do we use POST for update and not put?
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @PreAuthorize("hasRole('ANONYMOUS')")
@@ -52,6 +53,15 @@ public class SolrCoreController {
     public ApiResponse updateSolrCore(@RequestBody @WeaverValidatedModel SolrCore solrCore) {
         logger.info("Updating SolrCore: " + solrCore.getName());
         return new ApiResponse(SUCCESS, solrCoreRepo.update(solrCore));
+    }
+    
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @PreAuthorize("hasRole('ANONYMOUS')")
+    @WeaverValidation(business = { @WeaverValidation.Business(value = DELETE) })
+    public ApiResponse deleteSolrCore(@RequestBody @WeaverValidatedModel SolrCore solrCore) {
+        logger.info("Deleting SolrCore: " + solrCore.getName());
+        solrCoreRepo.delete(solrCore);
+        return new ApiResponse(SUCCESS);
     }
 
 }

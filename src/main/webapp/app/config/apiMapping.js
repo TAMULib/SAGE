@@ -23,27 +23,27 @@ var apiMapping = {
         'method': 'delete'
     }
   },
-  Index: {
-    channel: '/channel/index',
+  SolrCore: {
+    channel: '/channel/solrCore',
     validations: true,
     all: {
         'endpoint': '/private/queue',
-        'controller': 'index',
+        'controller': 'solrCore',
         'method': 'all'
     },
     create: {
       'endpoint': '/private/queue',
-      'controller': 'index',
+      'controller': 'solrCore',
       'method': 'create'
     },
     update: {
         'endpoint': '/private/queue',
-        'controller': 'index',
+        'controller': 'solrCore',
         'method': 'update'
     },
     remove: {
         'endpoint': '/private/queue',
-        'controller': 'index',
+        'controller': 'solrCore',
         'method': 'delete'
     }
   }

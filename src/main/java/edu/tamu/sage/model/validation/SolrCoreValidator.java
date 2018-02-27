@@ -5,9 +5,9 @@ import edu.tamu.weaver.validation.utility.ValidationUtility;
 import edu.tamu.weaver.validation.validators.BaseModelValidator;
 import edu.tamu.weaver.validation.validators.InputValidator;
 
-public class IndexValidator extends BaseModelValidator {
+public class SolrCoreValidator extends BaseModelValidator {
     
-    public IndexValidator() {
+    public SolrCoreValidator() {
         String typeProperty = "name";
         this.addInputValidator(new InputValidator(InputValidationType.required, "An Index requires a name", typeProperty, true));
         

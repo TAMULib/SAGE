@@ -6,7 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
-import edu.tamu.sage.model.validation.IndexValidator;
+import edu.tamu.sage.model.validation.SolrCoreValidator;
 import edu.tamu.weaver.validation.model.ValidatingBaseEntity;
 
 @Entity
@@ -28,7 +28,7 @@ public class SolrCore extends ValidatingBaseEntity implements Core {
     Set<Field> fields;
     
     public SolrCore() {
-        setModelValidator(new IndexValidator());
+        setModelValidator(new SolrCoreValidator());
     }
     
     public SolrCore(String name, String uri, String username, String password, Set<Field> fields) {
