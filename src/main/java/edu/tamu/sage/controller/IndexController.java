@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import edu.tamu.sage.model.SolrCore;
 import edu.tamu.sage.model.User;
-import edu.tamu.sage.model.repo.IndexRepo;
+import edu.tamu.sage.model.repo.SolrCoreRepo;
 import edu.tamu.weaver.auth.annotation.WeaverUser;
 import edu.tamu.weaver.response.ApiResponse;
 import edu.tamu.weaver.validation.aspect.annotation.WeaverValidatedModel;
@@ -24,7 +24,7 @@ import edu.tamu.weaver.validation.aspect.annotation.WeaverValidation;
 public class IndexController {
     
     @Autowired
-    private IndexRepo indexRepo;
+    private SolrCoreRepo indexRepo;
     
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 

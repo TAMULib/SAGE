@@ -1,5 +1,5 @@
 package edu.tamu.sage.model.repo.custom;
 
-public interface IndexRepoCustom {
+public interface SolrCoreRepoCustom {
 
 }
