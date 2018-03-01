@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import edu.tamu.sage.model.validation.SolrCoreValidator;
 import edu.tamu.weaver.validation.model.ValidatingBaseEntity;
 
@@ -22,6 +24,7 @@ public class SolrCore extends ValidatingBaseEntity implements Core {
     private String username;
 
     @Column
+    @JsonIgnore
     private String password;
     
     @OneToMany

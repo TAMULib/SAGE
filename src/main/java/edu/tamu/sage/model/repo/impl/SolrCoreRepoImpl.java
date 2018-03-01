@@ -9,7 +9,7 @@ public class SolrCoreRepoImpl extends AbstractWeaverRepoImpl<SolrCore, SolrCoreR
 
     @Override
     protected String getChannel() {
-        return "/channel/index";
+        return "/channel/core/solr";
     }
 
 }

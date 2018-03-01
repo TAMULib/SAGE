@@ -23,7 +23,7 @@ import edu.tamu.weaver.validation.aspect.annotation.WeaverValidatedModel;
 import edu.tamu.weaver.validation.aspect.annotation.WeaverValidation;
 
 @RestController
-@RequestMapping("/solrCore")
+@RequestMapping("/core/solr")
 public class SolrCoreController {
     
     @Autowired
@@ -31,14 +31,14 @@ public class SolrCoreController {
     
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasRole('ANONYMOUS')")
     public ApiResponse getAll(@WeaverUser User user) {
         return new ApiResponse(SUCCESS, solrCoreRepo.findAll());
     }
     
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    @PreAuthorize("hasRole('ANONYMOUS')")
+    @RequestMapping(method = RequestMethod.POST)
+    @PreAuthorize("hasRole('USER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = CREATE) })
     public ApiResponse createSolrCore(@RequestBody @WeaverValidatedModel SolrCore solrCore) {
         System.out.println(solrCore.getName());
@@ -47,16 +47,16 @@ public class SolrCoreController {
     }
 
     // Why do we use POST for update and not put?
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
-    @PreAuthorize("hasRole('ANONYMOUS')")
+    @RequestMapping(method = RequestMethod.PUT)
+    @PreAuthorize("hasRole('USER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = UPDATE) })
     public ApiResponse updateSolrCore(@RequestBody @WeaverValidatedModel SolrCore solrCore) {
         logger.info("Updating SolrCore: " + solrCore.getName());
         return new ApiResponse(SUCCESS, solrCoreRepo.update(solrCore));
     }
     
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    @PreAuthorize("hasRole('ANONYMOUS')")
+    @RequestMapping(method = RequestMethod.DELETE)
+    @PreAuthorize("hasRole('USER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = DELETE) })
     public ApiResponse deleteSolrCore(@RequestBody @WeaverValidatedModel SolrCore solrCore) {
         logger.info("Deleting SolrCore: " + solrCore.getName());
