@@ -10,7 +10,7 @@ sage.config(function ($locationProvider, $routeProvider) {
         redirectTo: '/',
       }).
       when('/admin/index', {
-        templateUrl: 'views/admin/indexManagement.html',
+        templateUrl: 'views/admin/solrCoreManagement.html',
         controller: 'SolrCoreManagementController'
       }).
 

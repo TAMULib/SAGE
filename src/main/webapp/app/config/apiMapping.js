@@ -24,27 +24,31 @@ var apiMapping = {
     }
   },
   SolrCore: {
-    channel: '/channel/solrCore',
+    channel: '/channel/core/solr',
     validations: true,
     all: {
         'endpoint': '/private/queue',
-        'controller': 'solrCore',
-        'method': 'all'
+        'controller': 'core/solr',
+        'httpMethod': 'GET',
+        'method': ''
     },
     create: {
       'endpoint': '/private/queue',
-      'controller': 'solrCore',
-      'method': 'create'
+      'controller': 'core/solr',
+      'httpMethod': 'POST',
+      'method': ''
     },
     update: {
         'endpoint': '/private/queue',
-        'controller': 'solrCore',
-        'method': 'update'
+        'controller': 'core/solr',
+        'httpMethod': 'PUT',
+        'method': ''
     },
     remove: {
         'endpoint': '/private/queue',
-        'controller': 'solrCore',
-        'method': 'delete'
+        'controller': 'core/solr',
+        'httpMethod': 'DELETE',
+        'method': ''
     }
   }
 };

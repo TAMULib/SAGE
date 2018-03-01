@@ -6,6 +6,23 @@ sage.controller('SolrCoreManagementController', function ($controller, $scope, N
 
   $scope.solrCores = SolrCoreRepo.getAll();
 
+  $scope.solrCoreToCreate = SolrCoreRepo.getScaffold();
+
+  $scope.solrCoreForms = {
+    validations: SolrCoreRepo.getValidations(),
+    getResults: SolrCoreRepo.getValidationResults
+  };
+
+  $scope.resetSolrCoreForms = function() {
+    SolrCoreRepo.clearValidationResults();
+    for (var key in $scope.solrCoreForms) {
+      if ($scope.solrCoreForms[key] !== undefined && !$scope.solrCoreForms[key].$pristine && $scope.solrCoreForms[key].$setPristine) {
+        $scope.solrCoreForms[key].$setPristine();
+      }
+    }
+    $scope.closeModal();
+  };
+
   $scope.startCreateSolrCore = function() {
     $scope.openModal("#createSolrCoreModal");
   };
@@ -16,20 +33,14 @@ sage.controller('SolrCoreManagementController', function ($controller, $scope, N
       if(angular.fromJson(res.body).meta.status === "SUCCESS") {
         $scope.cancelCreateSolrCore();
       }
-    })
-    resetCreateModal();
+    });
   };
 
   $scope.cancelCreateSolrCore = function() {
-    resetCreateModal();
-  };
-
-  var resetCreateModal = function() {
+    angular.extend($scope.solrCoreToCreate, SolrCoreRepo.getScaffold());
+    $scope.resetSolrCoreForms();
     $scope.closeModal();
-    $scope.solrCoreToCreate = {};
   };
-
-  resetCreateModal();
 
   SolrCoreRepo.ready().then(function() {
     $scope.setTable = function() {
@@ -45,6 +56,6 @@ sage.controller('SolrCoreManagementController', function ($controller, $scope, N
       });
     };
     $scope.setTable();
-  })
+  });
 
 });

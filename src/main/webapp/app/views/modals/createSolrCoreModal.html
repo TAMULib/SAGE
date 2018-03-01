@@ -1,4 +1,4 @@
-<form name="SolrCoreForms.create" ng-submit="createSolrCore()" novalidate class="Solr-core-forms-create">
+<form name="solrCoreForms.create" ng-submit="createSolrCore()" novalidate class="solr-core-forms-create">
   <div class="modal-header {{attr.modalHeaderClass}}">
     <button type="button" class="close modal-close" aria-label="Close" ng-click="cancelCreateSolrCore()"><span aria-hidden="true">&times;</span></button>
     <h4 class="modal-title">Create Solr Core</h4>
@@ -51,10 +51,9 @@
       autocomplete="off">
     </validatedinput>
 
-
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn" ng-click="cancelCreatesolrCore()">Cancel</button>
-    <button type="submit" class="btn btn-success">Create</button>
+    <button type="button" class="btn" ng-click="cancelCreateSolrCore()">Cancel</button>
+    <button ng-disabled="solrCoreForms.create.$invalid" type="submit" class="btn btn-success">Create</button>
   </div>
 </form>
