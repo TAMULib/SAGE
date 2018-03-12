@@ -1,0 +1,19 @@
+
+<div class="row">
+  <div class="col-xs-2">
+    <button type="button" class="btn btn-success pull-right" ng-click="$ctrl.runTests()">Test</button>
+  </div>
+  <div class="col-xs-10">
+    <ul class="list-unstyled">
+      <li ng-repeat="test in $ctrl.tests">
+        <span ng-show="test.active" class="glyphicon glyphicon-refresh spinning"> </span>
+        <span ng-show="test.passed" class="glyphicon glyphicon-ok text-success"> </span>
+        <span ng-show="test.failed" class="glyphicon glyphicon-remove text-danger"> </span>
+        <span> {{test.name}}</span>
+      </li>
+    </ul>
+  </div>
+
+  {{$ctrl.testStatus}}
+
+</div>

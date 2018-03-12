@@ -49,6 +49,18 @@ var apiMapping = {
         'controller': 'core/solr',
         'httpMethod': 'DELETE',
         'method': ''
-    }
+    },
+    testLocation: {
+      'endpoint': '/private/queue',
+      'controller': 'core/solr',
+      'httpMethod': 'POST',
+      'method': 'test/location'
+    },
+    testAuthorization: {
+      'endpoint': '/private/queue',
+      'controller': 'core/solr',
+      'httpMethod': 'POST',
+      'method': 'test/authorization'
+    },
   }
 };

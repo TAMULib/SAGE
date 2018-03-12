@@ -7,6 +7,8 @@ sage.controller('SolrCoreManagementController', function ($controller, $scope, N
   $scope.solrCores = SolrCoreRepo.getAll();
 
   $scope.solrCoreToCreate = SolrCoreRepo.getScaffold();
+  $scope.solrCoreToUpdate = {};
+  $scope.solrCoreToDelete = {};
 
   $scope.solrCoreForms = {
     validations: SolrCoreRepo.getValidations(),
@@ -28,7 +30,6 @@ sage.controller('SolrCoreManagementController', function ($controller, $scope, N
   };
 
   $scope.createSolrCore = function() {
-    console.log($scope.solrCoreToCreate);
     SolrCoreRepo.create($scope.solrCoreToCreate).then(function(res) {
       if(angular.fromJson(res.body).meta.status === "SUCCESS") {
         $scope.cancelCreateSolrCore();
@@ -39,7 +40,42 @@ sage.controller('SolrCoreManagementController', function ($controller, $scope, N
   $scope.cancelCreateSolrCore = function() {
     angular.extend($scope.solrCoreToCreate, SolrCoreRepo.getScaffold());
     $scope.resetSolrCoreForms();
-    $scope.closeModal();
+  };
+
+  $scope.updateSolrCore = function() {
+    $scope.updatingSolrCore = true;
+    $scope.solrCoreToUpdate.save().then(function() {
+      $scope.resetSolrCoreForms();
+      $scope.updatingSolrCore = false;
+    });
+  };
+
+  $scope.startUpdateSolrCore = function(core) {
+    $scope.solrCoreToUpdate = core;
+    $scope.openModal("#updateSolrCoreModal");
+  };
+
+  $scope.cancelUpdateSolrCore = function(core) {
+    $scope.solrCoreToUpdate = {};
+    $scope.resetSolrCoreForms();
+  };
+
+  $scope.confirmDeleteSolrCore = function(core) {
+    $scope.solrCoreToDelete = core;
+    $scope.openModal("#confirmDeleteSolrCoreModal");
+  };
+
+  $scope.cancelDeleteSolrCore = function(core) {
+    $scope.solrCoreToDelete = {};
+    $scope.resetSolrCoreForms();
+  };
+
+  $scope.deleteSolrCore = function() {
+    $scope.deletingSolrCore = true;
+    SolrCoreRepo.delete($scope.solrCoreToDelete).then(function() {
+      $scope.deletingSolrCore = false;
+      $scope.resetSolrCoreForms();
+    });
   };
 
   SolrCoreRepo.ready().then(function() {
