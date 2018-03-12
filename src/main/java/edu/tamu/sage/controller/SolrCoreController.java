@@ -8,13 +8,18 @@ import static edu.tamu.weaver.validation.model.BusinessValidationType.UPDATE;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.apache.solr.client.solrj.request.LukeRequest;
 import org.apache.solr.client.solrj.response.FacetField;
 import org.apache.solr.client.solrj.response.FacetField.Count;
+import org.apache.solr.client.solrj.response.LukeResponse;
+import org.apache.solr.client.solrj.response.LukeResponse.FieldInfo;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,26 +57,41 @@ public class SolrCoreController {
 
         try {
             solr.ping();
+            LukeRequest lukeRequest = new LukeRequest();
+            lukeRequest.setNumTerms(0);
+
+            LukeResponse lukeResponse = lukeRequest.process(solr);
+
+            Map<String, FieldInfo> fieldInfoMap = lukeResponse.getFieldInfo();
+
+            
             SolrQuery query = new SolrQuery();
             query.set("q", "*");
-            query.addFilterQuery("title:foo");
-            query.setFacet(true);
-            query.addFacetField("title");
+            
+            for (Entry<String, FieldInfo> entry : fieldInfoMap.entrySet()) {
+                String fieldName = entry.getKey();
+                //FieldInfo fieldInfo = entry.getValue();
+                query.addFilterQuery(fieldName+":*");
+                query.setFacet(true);
+                query.addFacetField(fieldName);               
+            }
+            
+            
             System.out.println(query);
             QueryResponse queryResponse = solr.query(query);
-            List<FacetField> facetFields = queryResponse.getFacetFields();
+           
             
-            facetFields.forEach(ff->{
-                FacetField cnameMainFacetField = queryResponse.getFacetField(ff.getName());
-                for (Count cnameAndCount : cnameMainFacetField.getValues()) {
-                    String cnameMain = cnameAndCount.getName();
-                    System.out.println(cnameMain);
-                    System.out.println(cnameAndCount.getCount());
-                }
-            });
+            //List<FacetField> facetFields = queryResponse.getFacetFields();
+            FacetField cnameMainFacetField = queryResponse.getFacetField("name");
+            for (Count cnameAndCount : cnameMainFacetField.getValues()) {
+                String cnameMain = cnameAndCount.getName();
+                System.out.println(cnameMain);
+                System.out.println(cnameAndCount.getCount());
+            }
             
         } catch (Exception e) {
             e.getMessage();
+            e.printStackTrace();
             response = new ApiResponse(ERROR, "Error connecting with " + solrCore.getName() + " at URL " + solrCore.getUri());
         } finally {
             solr.close();
