@@ -7,13 +7,14 @@ import static edu.tamu.weaver.validation.model.BusinessValidationType.DELETE;
 import static edu.tamu.weaver.validation.model.BusinessValidationType.UPDATE;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.request.LukeRequest;
 import org.apache.solr.client.solrj.response.FacetField;
@@ -29,9 +30,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.tamu.sage.model.Field;
 import edu.tamu.sage.model.SolrCore;
 import edu.tamu.sage.model.User;
 import edu.tamu.sage.model.repo.SolrCoreRepo;
+import edu.tamu.sage.service.ProcessorService;
 import edu.tamu.weaver.auth.annotation.WeaverUser;
 import edu.tamu.weaver.response.ApiResponse;
 import edu.tamu.weaver.validation.aspect.annotation.WeaverValidatedModel;
@@ -43,6 +46,9 @@ public class SolrCoreController {
 
     @Autowired
     private SolrCoreRepo solrCoreRepo;
+
+    @Autowired
+    private ProcessorService processorService;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -117,8 +123,21 @@ public class SolrCoreController {
     @PreAuthorize("hasRole('USER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = CREATE) })
     public ApiResponse createSolrCore(@WeaverValidatedModel SolrCore solrCore) {
-        System.out.println(solrCore.getName());
         logger.info("Creating SolrCore: " + solrCore.getName());
+        
+        //TODO We'll eventually want the Fields and schema mappings to be dynamically configurable, but this will work in the very short term
+        Map<String,String> schemaMap = new HashMap<String,String>();
+        schemaMap.put("title", "title");
+        schemaMap.put("creator", "creator");
+        schemaMap.put("created", "created");
+        schemaMap.put("terms.identifier", "id");
+        
+        List<Field> fields = new ArrayList<Field>();
+        schemaMap.forEach((k,v) -> {
+            fields.add(new Field(v,k));
+        });
+        solrCore.setFields(fields);
+        
         return new ApiResponse(SUCCESS, solrCoreRepo.create(solrCore));
     }
 
@@ -137,6 +156,13 @@ public class SolrCoreController {
     public ApiResponse deleteSolrCore(@WeaverValidatedModel SolrCore solrCore) {
         logger.info("Deleting SolrCore: " + solrCore.getName());
         solrCoreRepo.delete(solrCore);
+        return new ApiResponse(SUCCESS);
+    }
+
+    @RequestMapping("/testing")
+    @PreAuthorize("hasRole('ANONYMOUS')")
+    public ApiResponse test() {
+        processorService.process();
         return new ApiResponse(SUCCESS);
     }
 

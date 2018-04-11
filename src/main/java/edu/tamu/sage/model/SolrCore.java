@@ -1,10 +1,15 @@
 package edu.tamu.sage.model;
 
-import java.util.Set;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -27,14 +32,15 @@ public class SolrCore extends ValidatingBaseEntity implements Core {
     @JsonIgnore
     private String password;
     
-    @OneToMany
-    Set<Field> fields;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @Fetch(FetchMode.SELECT)
+    List<Field> fields;
     
     public SolrCore() {
         setModelValidator(new SolrCoreValidator());
     }
     
-    public SolrCore(String name, String uri, String username, String password, Set<Field> fields) {
+    public SolrCore(String name, String uri, String username, String password, List<Field> fields) {
         this();
         setName(name);
         setUri(uri);
@@ -75,11 +81,11 @@ public class SolrCore extends ValidatingBaseEntity implements Core {
         this.password = password;
     }
 
-    public Set<Field> getFields() {
+    public List<Field> getFields() {
         return fields;
     }
 
-    public void setFields(Set<Field> fields) {
+    public void setFields(List<Field> fields) {
         this.fields = fields;
     }
 

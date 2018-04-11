@@ -1,5 +1,6 @@
 package edu.tamu.sage.model;
 
+import java.util.List;
 import java.util.Set;
 
 public interface Core {
@@ -16,8 +17,8 @@ public interface Core {
     public String getPassword();
     public void setPassword(String password);
     
-    public Set<Field> getFields();
-    public void setFields(Set<Field> fields);
+    public List<Field> getFields();
+    public void setFields(List<Field> fields);
     public void addField(Field field);
     public void removeField(Field field);
     

@@ -10,9 +10,16 @@ public class Field extends ValidatingBaseEntity {
     
     @Column(unique = true)
     private String name;
-    
+
     @Column
-    private String value;
+    private String schemaMapping;
+    
+    public Field() {}
+    
+    public Field(String name, String schemaMapping) {
+        setName(name);
+        setSchemaMapping(schemaMapping);
+    }
 
     public String getName() {
         return name;
@@ -22,12 +29,11 @@ public class Field extends ValidatingBaseEntity {
         this.name = name;
     }
 
-    public String getValue() {
-        return value;
+    public String getSchemaMapping() {
+        return schemaMapping;
     }
 
-    public void setValue(String value) {
-        this.value = value;
-    }
-    
+    public void setSchemaMapping(String schemaMapping) {
+        this.schemaMapping = schemaMapping;
+    }    
 }
