@@ -130,6 +130,9 @@ public class SolrCoreController {
         schemaMap.put("title", "title");
         schemaMap.put("creator", "creator");
         schemaMap.put("created", "created");
+        schemaMap.put("subject", "subject");
+        schemaMap.put("format", "format");
+        schemaMap.put("language", "language");
         schemaMap.put("terms.identifier", "id");
         
         List<Field> fields = new ArrayList<Field>();

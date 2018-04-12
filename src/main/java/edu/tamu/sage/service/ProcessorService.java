@@ -71,16 +71,12 @@ public class ProcessorService {
                     });
                     
                     if (!resultsMap.isEmpty()) {
-                        // Dummy data
-                        resultsMap.put("alternative","subtitle text");
-                        resultsMap.put("spatial","India");
-                        resultsMap.put("subject","Priests, Buddhist");
-                        resultsMap.put("published_display","Publisher text");
-                        resultsMap.put("creator","Author text");
-                        resultsMap.put("created","2002");
-                        resultsMap.put("format","Format");
-                        resultsMap.put("medium","type display");
-                        resultsMap.put("language","English");
+                        // Dummy data, if our source document doesn't already have the field
+                        Arrays.asList("alternative","spatial","subject","creator","created","format","medium","language").forEach(f -> {
+                            if (!resultsMap.containsKey(f)) {
+                                resultsMap.put(f,f+" test text");
+                            }
+                        });
                         mappedResults.add(resultsMap);
                     }
                 }
@@ -106,7 +102,7 @@ public class ProcessorService {
         schemaMap.put("alternative", Arrays.asList("subtitle_display","subtitle_t"));
         schemaMap.put("spatial",Arrays.asList("subject_geo_facet"));
         schemaMap.put("subject",Arrays.asList("subject_topic_facet"));
-        schemaMap.put("created",Arrays.asList("published_display","pub_date"));
+        schemaMap.put("created",Arrays.asList("published_display"));
         schemaMap.put("creator",Arrays.asList("author_display"));
         schemaMap.put("format",Arrays.asList("format"));
         schemaMap.put("medium",Arrays.asList("material_type_display","lc_callnum_display"));
