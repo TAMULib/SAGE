@@ -29,6 +29,14 @@
           results="solrReaderForms.getResults()"
           autocomplete="off">
         </validatedselect>
+
+        <label>Field Mappings</label>
+        <ul class="list-group">
+          <li class="list-group-item" ng-repeat="field in solrReaderToUpdate.fields">
+            <label>{{field.schemaMapping}}</label>
+            <input class="form-control" type="text" name="fieldMapping" ng-model="field.name" />
+          </li>
+        </ul>
       </div>
     </div>
   </div>

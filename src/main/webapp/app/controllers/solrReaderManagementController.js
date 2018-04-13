@@ -6,15 +6,20 @@ sage.controller('SolrReaderManagementController', function ($controller, $scope,
 
   $scope.solrReaders = SolrReaderRepo.getAll();
   $scope.solrCores = SolrCoreRepo.getAll();
+  $scope.metadataFields = [];
 
   $scope.solrReaderToCreate = SolrReaderRepo.getScaffold();
+  $scope.newSolrReaderFields = {};
   $scope.solrReaderToUpdate = {};
   $scope.solrReaderToDelete = {};
+
 
   $scope.solrReaderForms = {
     validations: SolrReaderRepo.getValidations(),
     getResults: SolrReaderRepo.getValidationResults
   };
+
+    SolrReaderRepo.getMetadataFields($scope.metadataFields);
 
   $scope.resetSolrReaderForms = function() {
     SolrReaderRepo.clearValidationResults();
@@ -31,6 +36,12 @@ sage.controller('SolrReaderManagementController', function ($controller, $scope,
   };
 
   $scope.createSolrReader = function() {
+    var fields = [];
+    angular.forEach($scope.newSolrReaderFields, function(valueObj,key) {
+        this.push({"name":valueObj.value,"schemaMapping": key});
+    },fields);
+    $scope.solrReaderToCreate.fields = fields;
+
     SolrReaderRepo.create($scope.solrReaderToCreate).then(function(res) {
       if(angular.fromJson(res.body).meta.status === "SUCCESS") {
         $scope.cancelCreateSolrReader();
@@ -40,11 +51,13 @@ sage.controller('SolrReaderManagementController', function ($controller, $scope,
 
   $scope.cancelCreateSolrReader = function() {
     angular.extend($scope.solrReaderToCreate, SolrReaderRepo.getScaffold());
+    $scope.newSolrReaderFields = {};
     $scope.resetSolrReaderForms();
   };
 
   $scope.updateSolrReader = function() {
     $scope.updatingSolrReader = true;
+    $scope.solrReaderToUpdate.dirty(true);
     $scope.solrReaderToUpdate.save().then(function() {
       $scope.resetSolrReaderForms();
       $scope.updatingSolrReader = false;

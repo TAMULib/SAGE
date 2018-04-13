@@ -6,8 +6,8 @@ import static edu.tamu.weaver.validation.model.BusinessValidationType.DELETE;
 import static edu.tamu.weaver.validation.model.BusinessValidationType.UPDATE;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.tamu.sage.model.Field;
 import edu.tamu.sage.model.SolrReader;
 import edu.tamu.sage.model.repo.SolrReaderRepo;
 import edu.tamu.weaver.response.ApiResponse;
@@ -45,23 +44,6 @@ public class SolrReaderController {
     @WeaverValidation(business = { @WeaverValidation.Business(value = CREATE) })
     public ApiResponse createSolrReader(@WeaverValidatedModel SolrReader solrReader) {
         logger.info("Creating SolrReader: " + solrReader.getName());
-        
-        //TODO We'll eventually want the Fields and schema mappings to be dynamically configurable, but this will work in the very short term
-        Map<String,String> schemaMap = new HashMap<String,String>();
-        schemaMap.put("title", "title");
-        schemaMap.put("creator", "creator");
-        schemaMap.put("created", "created");
-        schemaMap.put("subject", "subject");
-        schemaMap.put("format", "format");
-        schemaMap.put("language", "language");
-        schemaMap.put("terms.identifier", "id");
-        
-        List<Field> fields = new ArrayList<Field>();
-        schemaMap.forEach((k,v) -> {
-            fields.add(new Field(v,k));
-        });
-        solrReader.setFields(fields);
-        
         return new ApiResponse(SUCCESS, solrReaderRepo.create(solrReader));
     }
 
@@ -82,4 +64,10 @@ public class SolrReaderController {
         return new ApiResponse(SUCCESS);
     }
 
+    @RequestMapping("/metadata-fields")
+    @PreAuthorize("hasRole('USER')")
+    public ApiResponse getMetadataFields() {
+        //TODO We'll eventually want the Fields and schema mappings to be dynamically configurable, but this will work in the very short term
+        return new ApiResponse(SUCCESS, new ArrayList<String>(Arrays.asList("title","creator","created","subject","format","language","terms.identifier")));
+    }
 }
