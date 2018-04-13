@@ -96,5 +96,33 @@ var apiMapping = {
         'httpMethod': 'GET',
         'method': 'metadata-fields'
     }
+  },
+  SolrWriter: {
+    channel: '/channel/writer/solr',
+    validations: true,
+    all: {
+        'endpoint': '/private/queue',
+        'controller': 'writer/solr',
+        'httpMethod': 'GET',
+        'method': ''
+    },
+    create: {
+      'endpoint': '/private/queue',
+      'controller': 'writer/solr',
+      'httpMethod': 'POST',
+      'method': ''
+    },
+    update: {
+        'endpoint': '/private/queue',
+        'controller': 'writer/solr',
+        'httpMethod': 'PUT',
+        'method': ''
+    },
+    remove: {
+        'endpoint': '/private/queue',
+        'controller': 'writer/solr',
+        'httpMethod': 'DELETE',
+        'method': ''
+    }
   }
 };

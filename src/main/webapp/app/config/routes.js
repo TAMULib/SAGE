@@ -17,6 +17,10 @@ sage.config(function ($locationProvider, $routeProvider) {
         templateUrl: 'views/admin/solrReaderManagement.html',
         controller: 'SolrReaderManagementController'
       }).
+      when('/admin/writers', {
+        templateUrl: 'views/admin/solrWriterManagement.html',
+        controller: 'SolrWriterManagementController'
+      }).
       // Error Routes
       when('/error/403', {
           templateUrl: 'views/errors/403.html',
