@@ -1,15 +1,7 @@
 package edu.tamu.sage.model;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -32,21 +24,16 @@ public class SolrCore extends ValidatingBaseEntity implements Core {
     @JsonIgnore
     private String password;
     
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @Fetch(FetchMode.SELECT)
-    List<Field> fields;
-    
     public SolrCore() {
         setModelValidator(new SolrCoreValidator());
     }
     
-    public SolrCore(String name, String uri, String username, String password, List<Field> fields) {
+    public SolrCore(String name, String uri, String username, String password) {
         this();
         setName(name);
         setUri(uri);
         setUsername(username);
         setPassword(password);
-        setFields(fields);
     }
 
     public String getName() {
@@ -80,27 +67,4 @@ public class SolrCore extends ValidatingBaseEntity implements Core {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public List<Field> getFields() {
-        return fields;
-    }
-
-    public void setFields(List<Field> fields) {
-        this.fields = fields;
-    }
-
-    @Override
-    public void addField(Field field) {
-        fields.add(field);
-    }
-
-    @Override
-    public void removeField(Field field) {
-        fields.forEach(f->{
-            if(f.getId().equals(field.getId())) {
-                fields.remove(f);
-            }
-        });
-    }
-
 }

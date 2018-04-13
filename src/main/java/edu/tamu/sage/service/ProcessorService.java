@@ -22,13 +22,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import edu.tamu.sage.model.SolrCore;
-import edu.tamu.sage.model.repo.SolrCoreRepo;
+import edu.tamu.sage.model.SolrReader;
+import edu.tamu.sage.model.repo.SolrReaderRepo;
 
 @Service
 public class ProcessorService {
     @Autowired
-    private SolrCoreRepo solrCoreRepo;
+    private SolrReaderRepo solrReaderRepo;
     
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     
@@ -39,10 +39,10 @@ public class ProcessorService {
 
         //gather Readers
         //loop and Reader->read()        
-        List<SolrCore> solrCores = solrCoreRepo.findAll();
-        solrCores.forEach(solrCore -> {
-            logger.info("Reading from SOLR Core: "+solrCore.getName()+" - "+solrCore.getUri());
-            SolrClient solr = new HttpSolrClient(solrCore.getUri());
+        List<SolrReader> solrReaders = solrReaderRepo.findAll();
+        solrReaders.forEach(solrReader -> {
+            logger.info("Using Reader: "+solrReader.getName()+" to read from SOLR Core: "+solrReader.getSolrCore().getName()+" - "+solrReader.getSolrCore().getUri());
+            SolrClient solr = new HttpSolrClient(solrReader.getSolrCore().getUri());
 
             try {
                 solr.ping();               
@@ -57,7 +57,7 @@ public class ProcessorService {
                 for (int i = 0; i < results.size(); ++i) {
                     Map<String,String> resultsMap = new HashMap<String,String>();                    
                     SolrDocument doc = (SolrDocument) results.get(i);
-                    solrCore.getFields().forEach(field -> {
+                    solrReader.getFields().forEach(field -> {
                         if (doc.getFieldValue("title") != null && doc.getFieldValue(field.getName()) != null) {
                             if (field.getName().equals("id") && doc.getFieldValue(field.getName()).toString().contains("://")) {
                                 resultsMap.put(field.getSchemaMapping(), new String(Base64.encodeBase64(doc.getFieldValue(field.getName()).toString().getBytes())));

@@ -7,9 +7,6 @@ import static edu.tamu.weaver.validation.model.BusinessValidationType.DELETE;
 import static edu.tamu.weaver.validation.model.BusinessValidationType.UPDATE;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -30,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.tamu.sage.model.Field;
 import edu.tamu.sage.model.SolrCore;
 import edu.tamu.sage.model.User;
 import edu.tamu.sage.model.repo.SolrCoreRepo;
@@ -124,27 +120,9 @@ public class SolrCoreController {
     @WeaverValidation(business = { @WeaverValidation.Business(value = CREATE) })
     public ApiResponse createSolrCore(@WeaverValidatedModel SolrCore solrCore) {
         logger.info("Creating SolrCore: " + solrCore.getName());
-        
-        //TODO We'll eventually want the Fields and schema mappings to be dynamically configurable, but this will work in the very short term
-        Map<String,String> schemaMap = new HashMap<String,String>();
-        schemaMap.put("title", "title");
-        schemaMap.put("creator", "creator");
-        schemaMap.put("created", "created");
-        schemaMap.put("subject", "subject");
-        schemaMap.put("format", "format");
-        schemaMap.put("language", "language");
-        schemaMap.put("terms.identifier", "id");
-        
-        List<Field> fields = new ArrayList<Field>();
-        schemaMap.forEach((k,v) -> {
-            fields.add(new Field(v,k));
-        });
-        solrCore.setFields(fields);
-        
         return new ApiResponse(SUCCESS, solrCoreRepo.create(solrCore));
     }
-
-    // Why do we use POST for update and not put?
+    
     @RequestMapping(method = RequestMethod.PUT)
     @PreAuthorize("hasRole('USER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = UPDATE) })

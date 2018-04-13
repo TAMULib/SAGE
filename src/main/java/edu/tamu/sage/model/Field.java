@@ -8,7 +8,7 @@ import edu.tamu.weaver.validation.model.ValidatingBaseEntity;
 @Entity
 public class Field extends ValidatingBaseEntity {
     
-    @Column(unique = true)
+    @Column
     private String name;
 
     @Column

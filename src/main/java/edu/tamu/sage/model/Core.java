@@ -1,7 +1,5 @@
 package edu.tamu.sage.model;
 
-import java.util.List;
-
 public interface Core {
 
     public String getName();
@@ -15,10 +13,5 @@ public interface Core {
     
     public String getPassword();
     public void setPassword(String password);
-    
-    public List<Field> getFields();
-    public void setFields(List<Field> fields);
-    public void addField(Field field);
-    public void removeField(Field field);
-    
+   
 }

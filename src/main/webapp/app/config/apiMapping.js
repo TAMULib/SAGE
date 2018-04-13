@@ -62,5 +62,33 @@ var apiMapping = {
       'httpMethod': 'POST',
       'method': 'test/authorization'
     },
+  },
+  SolrReader: {
+    channel: '/channel/reader/solr',
+    validations: true,
+    all: {
+        'endpoint': '/private/queue',
+        'controller': 'reader/solr',
+        'httpMethod': 'GET',
+        'method': ''
+    },
+    create: {
+      'endpoint': '/private/queue',
+      'controller': 'reader/solr',
+      'httpMethod': 'POST',
+      'method': ''
+    },
+    update: {
+        'endpoint': '/private/queue',
+        'controller': 'reader/solr',
+        'httpMethod': 'PUT',
+        'method': ''
+    },
+    remove: {
+        'endpoint': '/private/queue',
+        'controller': 'reader/solr',
+        'httpMethod': 'DELETE',
+        'method': ''
+    }
   }
 };
