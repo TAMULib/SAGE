@@ -3,7 +3,7 @@ sage.repo("SolrCoreRepo", function(SolrCore) {
 
   solrCoreRepo.scaffold = new SolrCore({
     name: "Local Fedora",
-    uri: "http://savell.evans.tamu.edu:8080/solr/collection1"
+    uri: "http://localhost:8983/solr/collection1"
   });
 
   return solrCoreRepo;
