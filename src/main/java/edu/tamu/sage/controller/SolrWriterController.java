@@ -37,18 +37,15 @@ public class SolrWriterController {
     @RequestMapping(method = RequestMethod.POST)
     @PreAuthorize("hasRole('USER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = CREATE) })
-    public ApiResponse createSolrReader(@WeaverValidatedModel SolrWriter solrWriter) {
+    public ApiResponse createSolrWriter(@WeaverValidatedModel SolrWriter solrWriter) {
         logger.info("Creating SolrWriter: " + solrWriter.getName());
-        solrWriter.getOutputMapping().forEach(m -> {
-            logger.info("mapping"+m.getInputField()+" "+m.getOutputMappings().size());
-        });
         return new ApiResponse(SUCCESS, solrWriterRepo.create(solrWriter));
     }
 
     @RequestMapping(method = RequestMethod.PUT)
     @PreAuthorize("hasRole('USER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = UPDATE) })
-    public ApiResponse updateSolrReader(@WeaverValidatedModel SolrWriter solrWriter) {
+    public ApiResponse updateSolrWriter(@WeaverValidatedModel SolrWriter solrWriter) {
         logger.info("Updating SolrWriter: " + solrWriter.getName());
         return new ApiResponse(SUCCESS, solrWriterRepo.update(solrWriter));
     }
@@ -56,8 +53,8 @@ public class SolrWriterController {
     @RequestMapping(method = RequestMethod.DELETE)
     @PreAuthorize("hasRole('USER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = DELETE) })
-    public ApiResponse deleteSolrReader(@WeaverValidatedModel SolrWriter solrWriter) {
-        logger.info("Deleting SolrReader: " + solrWriter.getName());
+    public ApiResponse deleteSolrWriter(@WeaverValidatedModel SolrWriter solrWriter) {
+        logger.info("Deleting SolrWriter: " + solrWriter.getName());
         solrWriterRepo.delete(solrWriter);
         return new ApiResponse(SUCCESS);
     }

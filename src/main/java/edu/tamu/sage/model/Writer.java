@@ -10,6 +10,6 @@ public interface Writer {
     public SolrCore getSolrCore();
     public void setSolrCore(SolrCore solrCore);
 
-    public List<OutputMapping> getOutputMapping();
-    public void setOutputMapping(List<OutputMapping> outputMapping);
+    public List<OutputMapping> getOutputMappings();
+    public void setOutputMappings(List<OutputMapping> outputMapping);
 }

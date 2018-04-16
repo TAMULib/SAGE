@@ -39,8 +39,8 @@ sage.controller('SolrWriterManagementController', function ($controller, $scope,
     var mappings = [];
 
     angular.forEach($scope.newSolrWriterMappings, function(v,k) {
-      mappings.push({"name": k, "outputMappings": v.split(";")});
-    });
+      mappings.push({"inputField": k, "mappings": v.split(";")});
+    }, mappings);
 
     $scope.solrWriterToCreate.outputMappings = mappings;
 

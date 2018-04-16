@@ -9,12 +9,13 @@ import javax.persistence.Entity;
 import edu.tamu.weaver.data.model.BaseEntity;
 
 @Entity
-public class OutputMapping extends BaseEntity{
+public class OutputMapping extends BaseEntity {
+
     @Column
     private String inputField;
     
     @ElementCollection
-    private List<String> outputMappings;
+    private List<String> mappings;
     
     public String getInputField() {
         return inputField;
@@ -24,12 +25,12 @@ public class OutputMapping extends BaseEntity{
         this.inputField = inputField;
     }
 
-    public List<String> getOutputMappings() {
-        return outputMappings;
+    public List<String> getMappings() {
+        return mappings;
     }
 
-    public void setOutputMappings(List<String> outputMappings) {
-        this.outputMappings = outputMappings;
+    public void setMappings(List<String> mappings) {
+        this.mappings = mappings;
     }
     
 
