@@ -28,6 +28,12 @@ public class SolrReader extends ValidatingBaseEntity implements Reader {
     @Fetch(FetchMode.SELECT)
     List<Field> fields;
     
+    @Column
+    private String sortTitle;
+
+    @Column
+    private String sortId;
+
     public SolrReader() {
         setModelValidator(new SolrReaderValidator());
     }    
@@ -66,5 +72,21 @@ public class SolrReader extends ValidatingBaseEntity implements Reader {
                 fields.remove(f);
             }
         });
-    }    
+    }
+
+    public String getSortTitle() {
+        return sortTitle;
+    }
+
+    public void setSortTitle(String sortTitle) {
+        this.sortTitle = sortTitle;
+    }
+
+    public String getSortId() {
+        return sortId;
+    }
+
+    public void setSortId(String sortId) {
+        this.sortId = sortId;
+    }
 }

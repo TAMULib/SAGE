@@ -39,6 +39,17 @@
             <input class="form-control" type="text" name="fieldMapping" ng-model="newSolrReaderFields[field].value" />
           </li>
         </ul>
+
+        <label>Sort Fields</label>
+        <ul class="list-group">
+          <li class="list-group-item">
+            <label>Title</label>
+            <input class="form-control" type="text" name="sortTitle" ng-model="solrWriterToCreate.sortTitle" />
+          </li>
+          <li class="list-group-item">
+            <label>ID</label>
+            <input class="form-control" type="text" name="sortId" ng-model="solrWriterToCreate.sortId" />
+          </li>
       </div>
     </div>
   </div>

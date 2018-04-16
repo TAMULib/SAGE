@@ -14,4 +14,7 @@ public interface Reader {
     public void setFields(List<Field> fields);
     public void addField(Field field);
     public void removeField(Field field);
+
+    public String getSortTitle();
+    public String getSortId();
 }

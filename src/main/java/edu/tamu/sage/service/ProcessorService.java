@@ -8,13 +8,14 @@ import java.util.Map;
 
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrQuery.ORDER;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrDocument;
-import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
+import org.apache.solr.common.params.CursorMarkParams;
 import org.codehaus.plexus.util.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,30 +52,47 @@ public class ProcessorService {
                 solr.ping();               
 
                 SolrQuery query = new SolrQuery();
-                query.set("q", "*");
-                query.set("rows", "100");
+                query.set("q", "*:*");
+                query.set("rows", "500");
 
-                QueryResponse queryResponse = solr.query(query);
-                
-                SolrDocumentList results = queryResponse.getResults();
-                for (int i = 0; i < results.size(); ++i) {
-                    Map<String,String> resultsMap = new HashMap<String,String>();                    
-                    SolrDocument doc = (SolrDocument) results.get(i);
-                    solrReader.getFields().forEach(field -> {
-                        if (doc.getFieldValue("title") != null && doc.getFieldValue(field.getName()) != null) {
-                            if (field.getName().equals("id") && doc.getFieldValue(field.getName()).toString().contains("://")) {
-                                resultsMap.put(field.getSchemaMapping(), new String(Base64.encodeBase64(doc.getFieldValue(field.getName()).toString().getBytes())));
-                            } else {
-                                resultsMap.put(field.getSchemaMapping(), doc.getFieldValue(field.getName()).toString());
-                            }
+                query.addSort(((solrReader.getSortTitle() != null) ? "sort="+solrReader.getSortTitle()+" asc, ":"")+solrReader.getSortId() , ORDER.asc);
+
+                String cursorMark = CursorMarkParams.CURSOR_MARK_START;
+                boolean readComplete = false;
+
+                while (!readComplete) {
+                    query.set(CursorMarkParams.CURSOR_MARK_PARAM, cursorMark);
+                    QueryResponse rsp = solr.query(query);
+                    String nextCursorMark = rsp.getNextCursorMark();
+                    for (SolrDocument doc : rsp.getResults()) {
+                        Map<String,String> resultsMap = new HashMap<String,String>();
+                        if (doc.getFieldValues("title") != null) {
+                            solrReader.getFields().forEach(field -> {
+                                if (doc.getFieldValues(field.getName()) != null) {
+                                    boolean hasValue = false;
+                                    doc.getFieldValues(field.getName()).forEach(result -> {
+                                        if (hasValue) {
+                                            return;
+                                        }
+                                        if (field.getName().equals("id") && doc.getFieldValue(field.getName()).toString().contains("://")) {
+                                            resultsMap.put(field.getSchemaMapping(), new String(Base64.encodeBase64(result.toString().getBytes())));
+                                        } else {
+                                            resultsMap.put(field.getSchemaMapping(), result.toString());
+                                        }
+                                    });
+                                }
+                            });
                         }
-                    });
 
-                    if (!resultsMap.isEmpty()) {
-                        mappedResults.add(resultsMap);
+                        if (!resultsMap.isEmpty()) {
+                            mappedResults.add(resultsMap);
+                        }
                     }
+                    if (cursorMark.equals(nextCursorMark)) {
+                        readComplete = true;
+                    }
+                    cursorMark = nextCursorMark;
                 }
-
             } catch (Exception e) {
                 e.getMessage();
                 e.printStackTrace();
