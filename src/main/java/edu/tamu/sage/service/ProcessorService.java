@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import edu.tamu.sage.model.Field;
 import edu.tamu.sage.model.SolrReader;
 import edu.tamu.sage.model.repo.SolrReaderRepo;
 import edu.tamu.sage.model.repo.SolrWriterRepo;
@@ -41,8 +42,6 @@ public class ProcessorService {
         
         List<Map<String,String>> mappedResults = new ArrayList<Map<String,String>>();
 
-        //gather Readers
-        //loop and Reader->read()        
         List<SolrReader> solrReaders = solrReaderRepo.findAll();
         solrReaders.forEach(solrReader -> {
             logger.info("Using Reader: "+solrReader.getName()+" to read from SOLR Core: "+solrReader.getSolrCore().getName()+" - "+solrReader.getSolrCore().getUri());
@@ -60,29 +59,40 @@ public class ProcessorService {
                 String cursorMark = CursorMarkParams.CURSOR_MARK_START;
                 boolean readComplete = false;
 
+                String titleField = null;
+                for (Field field:solrReader.getFields()) {
+                    if (field.getSchemaMapping().equals("title")) {
+                        titleField = field.getName();
+                        break;
+                    }
+                }
+
                 while (!readComplete) {
                     query.set(CursorMarkParams.CURSOR_MARK_PARAM, cursorMark);
                     QueryResponse rsp = solr.query(query);
                     String nextCursorMark = rsp.getNextCursorMark();
                     for (SolrDocument doc : rsp.getResults()) {
-                        Map<String,String> resultsMap = new HashMap<String,String>();
-                        if (doc.getFieldValues("title") != null) {
-                            solrReader.getFields().forEach(field -> {
-                                if (doc.getFieldValues(field.getName()) != null) {
-                                    boolean hasValue = false;
-                                    doc.getFieldValues(field.getName()).forEach(result -> {
-                                        if (hasValue) {
-                                            return;
-                                        }
-                                        if (field.getName().equals("id") && doc.getFieldValue(field.getName()).toString().contains("://")) {
-                                            resultsMap.put(field.getSchemaMapping(), new String(Base64.encodeBase64(result.toString().getBytes())));
-                                        } else {
-                                            resultsMap.put(field.getSchemaMapping(), result.toString());
-                                        }
-                                    });
-                                }
-                            });
+                        if (doc.getFieldValues(titleField) == null) {
+                            continue;
                         }
+
+                        Map<String,String> resultsMap = new HashMap<String,String>();
+
+                        solrReader.getFields().forEach(field -> {
+                            if (doc.getFieldValues(field.getName()) != null) {
+                                boolean hasValue = false;
+                                doc.getFieldValues(field.getName()).forEach(result -> {
+                                    if (hasValue) {
+                                        return;
+                                    }
+                                    if (field.getSchemaMapping().equals("terms.identifier") && doc.getFieldValue(field.getName()).toString().contains("://")) {
+                                        resultsMap.put(field.getSchemaMapping(), new String(Base64.encodeBase64(result.toString().getBytes())));
+                                    } else {
+                                        resultsMap.put(field.getSchemaMapping(), result.toString());
+                                    }
+                                });
+                            }
+                        });
 
                         if (!resultsMap.isEmpty()) {
                             mappedResults.add(resultsMap);
@@ -106,49 +116,50 @@ public class ProcessorService {
             }            
         });
 
-        //gather Writers
-        //loop and Writer->write()
-        
-        solrWriterRepo.findAll().forEach(writer -> {
-            
-            SolrClient writeableSolr = new HttpSolrClient(writer.getSolrCore().getUri());
-            
-            try {
-                writeableSolr.ping();
-    
-                logger.info("Writing to Destination SOLR...");
-                mappedResults.forEach(map -> {
-                    logger.info("Creating SOLR Document");
-                    SolrInputDocument document = new SolrInputDocument();
-                    writer.getOutputMappings().forEach(outputMapping -> {
-                        if (map.containsKey(outputMapping.getInputField())) {
-                            logger.debug("Writing field: "+outputMapping.getInputField());
-                            outputMapping.getMappings().forEach(mapping -> {
-                                    logger.debug("Indexing metatdata: "+outputMapping.getInputField()+" = '"+map.get(outputMapping.getInputField())+"' to field: "+mapping);
-                                    document.addField(mapping, map.get(outputMapping.getInputField()));
-                            });
-                        } else {
-                            logger.debug("Skipping field: "+outputMapping.getInputField());
+        //TODO Provide an intermediate Interface/Implementation to hold all the SOLR specific code that's currently here, so we can just call Writer->write()
+        if (!mappedResults.isEmpty()) {
+            solrWriterRepo.findAll().forEach(writer -> {
+                SolrClient writeableSolr = new HttpSolrClient(writer.getSolrCore().getUri());
+
+                try {
+                    writeableSolr.ping();
+
+                    logger.info("Writing to Destination SOLR...");
+                    mappedResults.forEach(map -> {
+                        logger.info("Creating SOLR Document");
+                        SolrInputDocument document = new SolrInputDocument();
+                        writer.getOutputMappings().forEach(outputMapping -> {
+                            if (map.containsKey(outputMapping.getInputField())) {
+                                logger.debug("Writing field: "+outputMapping.getInputField());
+                                outputMapping.getMappings().forEach(mapping -> {
+                                        logger.debug("Indexing metatdata: "+outputMapping.getInputField()+" = '"+map.get(outputMapping.getInputField())+"' to field: "+mapping);
+                                        document.addField(mapping, map.get(outputMapping.getInputField()));
+                                });
+                            } else {
+                                logger.debug("Skipping field: "+outputMapping.getInputField());
+                            }
+                        });
+
+                        try {
+                            writeableSolr.add(document);
+                        } catch (SolrServerException | IOException e) {
+                            logger.error("Error adding SOLR document");
+                            e.printStackTrace();
                         }
                     });
-                    
-                    try {
-                        writeableSolr.add(document);
-                    } catch (SolrServerException | IOException e) {
-                        logger.error("Error adding SOLR document");
-                        e.printStackTrace();
-                    }
-                });
-
-                UpdateResponse ur = writeableSolr.commit();
-                logger.debug("SOLR Commit response:");
-                logger.debug(ur.getResponse().toString());
     
-                writeableSolr.close();
-            } catch(Exception e) {
-                e.printStackTrace();
-            }
-        });            
+                    UpdateResponse ur = writeableSolr.commit();
+                    logger.debug("SOLR Commit response:");
+                    logger.debug(ur.getResponse().toString());
+
+                    writeableSolr.close();
+                } catch(Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        } else {
+            logger.info("SOLR Writer results: There were no documents to write");
+        }
     }
 
 }
