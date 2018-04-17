@@ -12,6 +12,8 @@ public class SolrReaderValidator extends BaseModelValidator {
         
         String solrCoreProperty = "solrCore";
         this.addInputValidator(new InputValidator(InputValidationType.required, "A Solr Reader requires a SolrCore", solrCoreProperty, true));
+
+        String sortIdProperty = "sortId";
+        this.addInputValidator(new InputValidator(InputValidationType.required, "A Solr Reader requires an ID for reading from the selected Core", sortIdProperty, true));
     }
-    
 }

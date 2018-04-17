@@ -10,7 +10,7 @@ import edu.tamu.weaver.validation.model.ValidatingBaseEntity;
 
 @Entity
 public class SolrCore extends ValidatingBaseEntity implements Core {
-
+    //TODO Query the SOLR Core for its fields to provide Readers/Writers with a list of fields to choose from for mapping to the internal metadata fields
     @Column(unique = true)
     private String name;
 

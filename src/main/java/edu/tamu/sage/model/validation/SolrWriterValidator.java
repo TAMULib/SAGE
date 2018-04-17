@@ -11,5 +11,8 @@ public class SolrWriterValidator extends BaseModelValidator {
         
         String mappingProperty = "outputMappings";
         this.addInputValidator(new InputValidator(InputValidationType.required, "A Solr Writer requires Output Mappings", mappingProperty, true));
+
+        String solrCoreProperty = "solrCore";
+        this.addInputValidator(new InputValidator(InputValidationType.required, "A Solr Writer requires a SolrCore", solrCoreProperty, true));
     }
 }
