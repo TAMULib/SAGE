@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.tamu.sage.model.SolrCore;
 import edu.tamu.sage.model.User;
 import edu.tamu.sage.model.repo.SolrCoreRepo;
-import edu.tamu.sage.service.ProcessorService;
+import edu.tamu.sage.service.SimpleProcessorService;
 import edu.tamu.weaver.auth.annotation.WeaverUser;
 import edu.tamu.weaver.response.ApiResponse;
 import edu.tamu.weaver.validation.aspect.annotation.WeaverValidatedModel;
@@ -44,7 +44,7 @@ public class SolrCoreController {
     private SolrCoreRepo solrCoreRepo;
 
     @Autowired
-    private ProcessorService processorService;
+    private SimpleProcessorService processorService;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
