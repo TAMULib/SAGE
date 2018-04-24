@@ -117,6 +117,8 @@ public class SimpleProcessorService implements ProcessorService {
         });
 
         //TODO Provide an intermediate Interface/Implementation to hold all the SOLR specific code that's currently here, so we can just call Writer->write()
+
+        int batchSize = 1000;
         if (!mappedResults.isEmpty()) {
             solrWriterRepo.findAll().forEach(writer -> {
                 SolrClient writeableSolr = new HttpSolrClient(writer.getSolrCore().getUri());
@@ -124,10 +126,12 @@ public class SimpleProcessorService implements ProcessorService {
                 try {
                     writeableSolr.ping();
 
-                    logger.info("Writing to Destination SOLR...");
+                    logger.info("Writing to Destination SOLR: "+writer.getName());
+
+                    List<SolrInputDocument> outputDocuments = new ArrayList<SolrInputDocument>();
                     mappedResults.forEach(map -> {
-                        logger.info("Creating SOLR Document");
                         SolrInputDocument document = new SolrInputDocument();
+
                         writer.getOutputMappings().forEach(outputMapping -> {
                             if (map.containsKey(outputMapping.getInputField())) {
                                 logger.debug("Writing field: "+outputMapping.getInputField());
@@ -140,14 +144,26 @@ public class SimpleProcessorService implements ProcessorService {
                             }
                         });
 
-                        try {
-                            writeableSolr.add(document);
-                        } catch (SolrServerException | IOException e) {
-                            logger.error("Error adding SOLR document");
-                            e.printStackTrace();
+                        outputDocuments.add(document);
+
+                        if (outputDocuments.size() >= batchSize) {
+                            try {
+                                logger.debug("Writing batch of "+batchSize);
+                                writeableSolr.add(outputDocuments);
+                                outputDocuments.clear();
+                            } catch (SolrServerException | IOException e) {
+                                logger.error("Error adding SOLR document");
+                                e.printStackTrace();
+                            }
                         }
                     });
-    
+
+                    if (!outputDocuments.isEmpty()) {
+                        writeableSolr.add(outputDocuments);
+                        outputDocuments.clear();
+                    }
+
+                    logger.info("Wrote "+mappedResults.size()+" documents to "+writer.getName());
                     UpdateResponse ur = writeableSolr.commit();
                     logger.debug("SOLR Commit response:");
                     logger.debug(ur.getResponse().toString());
