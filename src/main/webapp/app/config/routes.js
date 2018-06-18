@@ -10,10 +10,17 @@ sage.config(function ($locationProvider, $routeProvider) {
         redirectTo: '/',
       }).
       when('/admin/index', {
-        templateUrl: 'views/admin/indexManagement.html',
-        controller: 'IndexManagementController'
+        templateUrl: 'views/admin/solrCoreManagement.html',
+        controller: 'SolrCoreManagementController'
       }).
-
+      when('/admin/readers', {
+        templateUrl: 'views/admin/solrReaderManagement.html',
+        controller: 'SolrReaderManagementController'
+      }).
+      when('/admin/writers', {
+        templateUrl: 'views/admin/solrWriterManagement.html',
+        controller: 'SolrWriterManagementController'
+      }).
       // Error Routes
       when('/error/403', {
           templateUrl: 'views/errors/403.html',
