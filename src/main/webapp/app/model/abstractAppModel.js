@@ -1,10 +1,9 @@
 sage.factory("AbstractAppModel", function AbstractAppModel() {
-  
-    return function AbstractAppModel() {
+  return function AbstractAppModel() {
 
-        // additional app level model methods and variables
+    // additional app level model methods and variables
 
-        return this;
-    };
+    return this;
+  };
 
 });

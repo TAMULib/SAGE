@@ -9,7 +9,7 @@
   <packaging>war</packaging>
 
   <name>Sage</name>
-  <description>Weaver Solar Agregation Engine</description>
+  <description>Weaver Solr Aggregation Engine</description>
 
   <parent>
     <groupId>edu.tamu.framework</groupId>
@@ -149,9 +149,8 @@
     </dependency>
 
     <dependency>
-      <groupId>org.fcrepo.client</groupId>
-      <artifactId>fcrepo-java-client</artifactId>
-      <version>0.3.0</version>
+      <groupId>org.springframework.data</groupId>
+      <artifactId>spring-data-solr</artifactId>
     </dependency>
 
   </dependencies>
@@ -178,6 +177,15 @@
       </releases>
       <snapshots>
         <enabled>true</enabled>
+      </snapshots>
+    </repository>
+
+    <repository>
+      <id>spring-libs-release</id>
+      <name>Spring Releases</name>
+      <url>https://repo.spring.io/libs-release</url>
+      <snapshots>
+        <enabled>false</enabled>
       </snapshots>
     </repository>
 
@@ -375,6 +383,7 @@
           <repoToken></repoToken>
         </configuration>
       </plugin>
+
     </plugins>
 
     <resources>
@@ -443,6 +452,5 @@
 
     </plugins>
   </reporting>
-
 
 </project>
