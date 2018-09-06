@@ -63,6 +63,8 @@
   </main>
   <tamufooter></tamufooter>
 
+  <!-- build:js resources/scripts/bundle.js -->
+  <!-- Vendor Libraries -->
 
   <script src="node_modules/jquery/dist/jquery.min.js"></script>
   <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -165,53 +167,37 @@
   <script src="node_modules/weaver-ui-core/app/controllers/registrationController.js"></script>
   <script src="node_modules/weaver-ui-core/app/controllers/userController.js"></script>
   <script src="node_modules/weaver-ui-core/app/controllers/errorpagecontroller.js"></script>
-  <!-- endbuild -->
-
-  <!-- build:js resources/scripts/app_concat.js -->
 
   <!-- App Libraries -->
-
-  <!-- App Configuration -->
-  <script src="config/appConfig.js"></script>
-  <script src="config/apiMapping.js"></script>
 
   <!-- Application Start -->
   <script src="app.js"></script>
   <script src="config/runTime.js"></script>
   <script src="config/routes.js"></script>
 
-  <!-- Components -->
-  <script src="components/solrCoreTestComponent.js"></script>
-
-  <!-- Directives -->
-
-  <!-- Services -->
-
-  <!-- Repos -->
   <script src="repo/abstractAppRepo.js"></script>
   <script src="repo/solrCoreRepo.js"></script>
   <script src="repo/solrReaderRepo.js"></script>
   <script src="repo/solrWriterRepo.js"></script>
 
-  <!-- Models -->
-  <script src="model/abstractAppModel.js"></script>
-  <script src="model/solrCoreModel.js"></script>
-  <script src="model/solrReaderModel.js"></script>
-  <script src="model/solrWriterModel.js"></script>
-
-  <!-- Constants -->
-
-  <!-- Factories -->
-
-  <!-- filters -->
-
-  <!-- Controllers -->
   <script src="controllers/adminController.js"></script>
   <script src="controllers/solrCoreManagementController.js"></script>
   <script src="controllers/solrReaderManagementController.js"></script>
   <script src="controllers/solrWriterManagementController.js"></script>
 
+  <!-- Models -->
+  <script src="model/abstractAppModel.js"></script>
+  <script src="model/solrCoreRepo.js"></script>
+  <script src="model/solrReaderRepo.js"></script>
+  <script src="model/solrWriterRepo.js"></script>
+
+  <!-- Controllers -->
+  <script src="controllers/abstractController.js"></script>
+  <script src="controllers/solrCoreManagementController.js"></script>
+  <script src="controllers/solrReaderManagementController.js"></script>
+  <script src="controllers/solrWriterManagementController.js"></script>
   <!-- endbuild -->
+
 
 </body>
 
