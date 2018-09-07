@@ -95,7 +95,7 @@ public class AppWebMvcConfig extends WebMvcConfigurerAdapter {
                 .resourceChain(useResourceCache)
                 .addResolver(new VersionResourceResolver().addContentVersionStrategy("/**")).addTransformer(new AppCacheManifestTransformer());
         registry.addResourceHandler("/node_modules/**")
-				.addResourceLocations("file:"+File.separator+File.separator+SageApplication.getRootPath()+"node_modules"+File.separator);
+				.addResourceLocations("file:"+File.separator+File.separator+SageApplication.getRootPath()+"app"+File.separator+"node_modules"+File.separator);
         // @formatter:on
     }
 
