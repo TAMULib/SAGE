@@ -218,6 +218,7 @@ module.exports = function (grunt) {
                   files: [{
                       src: [
                           'node_modules/weaver-ui-core/**/*.html',
+                          'node_modules/weaver-ui-core/**/*.png',
                           '!node_modules/weaver-ui-core/docs/'
                       ],
                       dest: '<%= build.app %>',
