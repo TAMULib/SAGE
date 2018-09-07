@@ -1,5 +1,6 @@
 package edu.tamu.sage.config;
 
+import java.io.File;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
@@ -25,6 +26,7 @@ import org.springframework.web.servlet.resource.AppCacheManifestTransformer;
 import org.springframework.web.servlet.resource.ResourceUrlEncodingFilter;
 import org.springframework.web.servlet.resource.VersionResourceResolver;
 
+import edu.tamu.sage.SageApplication;
 import edu.tamu.sage.model.User;
 import edu.tamu.sage.model.repo.UserRepo;
 import edu.tamu.weaver.auth.resolver.WeaverCredentialsArgumentResolver;
@@ -39,7 +41,7 @@ public class AppWebMvcConfig extends WebMvcConfigurerAdapter {
 
 	@Value("${app.ui.path}")
     private String path;
-	
+
     @Autowired
     private Environment env;
 
@@ -69,9 +71,9 @@ public class AppWebMvcConfig extends WebMvcConfigurerAdapter {
 
     /**
      * Executor Service configuration.
-     * 
+     *
      * @return ExecutorSevice
-     * 
+     *
      */
     @Bean(name = "executorService")
     private static ExecutorService configureExecutorService() {
@@ -84,6 +86,7 @@ public class AppWebMvcConfig extends WebMvcConfigurerAdapter {
         boolean devMode = this.env.acceptsProfiles("dev");
         boolean useResourceCache = !devMode;
         Integer cachePeriod = devMode ? 0 : null;
+
         // @formatter:off
         registry.addResourceHandler("/**")
                 .addResourceLocations("classpath:static/")
@@ -92,7 +95,7 @@ public class AppWebMvcConfig extends WebMvcConfigurerAdapter {
                 .resourceChain(useResourceCache)
                 .addResolver(new VersionResourceResolver().addContentVersionStrategy("/**")).addTransformer(new AppCacheManifestTransformer());
         registry.addResourceHandler("/node_modules/**")
-				.addResourceLocations("file:node_modules/");
+				.addResourceLocations("file:"+File.separator+File.separator+SageApplication.getRootPath()+"node_modules"+File.separator);
         // @formatter:on
     }
 
