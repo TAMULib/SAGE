@@ -37,7 +37,7 @@ public class AppWebMvcConfig extends WebMvcConfigurerAdapter {
 	@Value("${app.ui.path}")
     private String path;
 
-    @Value("${info.build.production:false}")
+    @Value("#{new Boolean('${info.build.production:false}')}")
     private boolean production;
 
     @Autowired
