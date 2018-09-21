@@ -63,6 +63,8 @@
   </main>
   <tamufooter></tamufooter>
 
+  <!-- build:js resources/scripts/bundle.js -->
+  <!-- Vendor Libraries -->
 
   <script src="node_modules/jquery/dist/jquery.min.js"></script>
   <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -103,9 +105,6 @@
   <script src="config/apiMapping.js"></script>
 
   <!-- App Modules -->
-  <!-- <script src="components/version/version.js"></script>
-  <script src="components/version/version-directive.js"></script>
-  <script src="components/version/interpolate-filter.js"></script> -->
 
   <!-- Application Start -->
   <script src="node_modules/weaver-ui-core/app/core.js"></script>
@@ -165,9 +164,6 @@
   <script src="node_modules/weaver-ui-core/app/controllers/registrationController.js"></script>
   <script src="node_modules/weaver-ui-core/app/controllers/userController.js"></script>
   <script src="node_modules/weaver-ui-core/app/controllers/errorpagecontroller.js"></script>
-  <!-- endbuild -->
-
-  <!-- build:js resources/scripts/app_concat.js -->
 
   <!-- App Libraries -->
 
@@ -180,13 +176,6 @@
   <script src="config/runTime.js"></script>
   <script src="config/routes.js"></script>
 
-  <!-- Components -->
-  <script src="components/solrCoreTestComponent.js"></script>
-
-  <!-- Directives -->
-
-  <!-- Services -->
-
   <!-- Repos -->
   <script src="repo/abstractAppRepo.js"></script>
   <script src="repo/solrCoreRepo.js"></script>
@@ -198,12 +187,6 @@
   <script src="model/solrCoreModel.js"></script>
   <script src="model/solrReaderModel.js"></script>
   <script src="model/solrWriterModel.js"></script>
-
-  <!-- Constants -->
-
-  <!-- Factories -->
-
-  <!-- filters -->
 
   <!-- Controllers -->
   <script src="controllers/adminController.js"></script>

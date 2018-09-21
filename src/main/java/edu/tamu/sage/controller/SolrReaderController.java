@@ -66,6 +66,6 @@ public class SolrReaderController {
     @PreAuthorize("hasRole('USER')")
     public ApiResponse getMetadataFields() {
         //TODO We'll eventually want the Fields and schema mappings to be dynamically configurable, but this will work in the very short term
-        return new ApiResponse(SUCCESS, new ArrayList<String>(Arrays.asList("title","creator","created","subject","format","language","terms.identifier")));
+        return new ApiResponse(SUCCESS, new ArrayList<String>(Arrays.asList("title","creator","created","subject","format","language","terms.identifier","isPartOf")));
     }
 }

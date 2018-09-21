@@ -1,17 +1,17 @@
 module.exports = function (grunt) {
-  
+
       // Configurable paths
       var build = {
           app: 'src/main/webapp/app',
           templates: 'src/main/resources/templates'
       };
-  
-  
+
+
       grunt.initConfig({
-  
+
           // Project settings
           build: build,
-  
+
           symlink: {
               options: {
                   overwrite: true,
@@ -22,7 +22,7 @@ module.exports = function (grunt) {
                   dest: 'src/main/webapp/app/node_modules'
               }
           },
-  
+
           jshint: {
               options: {
                   jshintrc: '.jshintrc',
@@ -40,7 +40,7 @@ module.exports = function (grunt) {
                   '!<%= build.app %>/resources/**/*'
               ]
           },
-  
+
           concat: {
               options: {
                   separator: ';',
@@ -50,32 +50,32 @@ module.exports = function (grunt) {
                   src: [
                       'node_modules/jquery/dist/jquery.min.js',
                       'node_modules/bootstrap/dist/js/bootstrap.min.js',
-  
+
                       'node_modules/sockjs-client/dist/sockjs.min.js',
                       'node_modules/stompjs/lib/stomp.min.js',
-  
+
                       'node_modules/angular/angular.min.js',
-  
+
                       'node_modules/angular-sanitize/angular-sanitize.min.js',
                       'node_modules/angular-route/angular-route.min.js',
                       'node_modules/angular-loader/angular-loader.min.js',
                       'node_modules/angular-messages/angular-messages.min.js',
                       'node_modules/angular-mocks/angular-mocks.js',
-  
+
                       'node_modules/ng-csv/build/ng-csv.min.js',
-  
+
                       'node_modules/ng-sortable/dist/ng-sortable.min.js',
-  
+
                       'node_modules/ng-table/bundles/ng-table.min.js',
-  
+
                       'node_modules/ng-file-upload/dist/ng-file-upload-shim.min.js',
                       'node_modules/ng-file-upload/dist/ng-file-upload.min.js',
-  
+
                       'node_modules/tinymce/tinymce.min.js',
                       'node_modules/angular-ui-tinymce/dist/tinymce.min.js',
-  
+
                       'node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js',
-  
+
                       'node_modules/file-saver/FileSaver.min.js'
                   ],
                   dest: '<%= build.app %>/resources/scripts/vendor_concat.js'
@@ -83,35 +83,37 @@ module.exports = function (grunt) {
               core: {
                   src: [
                       'node_modules/weaver-ui-core/app/config/coreConfig.js',
-  
+
                       'node_modules/weaver-ui-core/app/components/version/version.js',
                       'node_modules/weaver-ui-core/app/components/version/version-directive.js',
                       'node_modules/weaver-ui-core/app/components/version/interpolate-filter.js',
-  
+
                       '<%= build.app %>/config/appConfig.js',
                       '<%= build.app %>/config/apiMapping.js',
-  
+
                       '<%= build.app %>/components/version/version.js',
                       '<%= build.app %>/components/version/version-directive.js',
                       '<%= build.app %>/components/version/interpolate-filter.js',
-  
+
                       'node_modules/weaver-ui-core/app/core.js',
                       'node_modules/weaver-ui-core/app/setup.js',
                       'node_modules/weaver-ui-core/app/config/coreRuntime.js',
                       'node_modules/weaver-ui-core/app/config/coreAngularConfig.js',
                       'node_modules/weaver-ui-core/app/config/logging.js',
-  
+
                       'node_modules/weaver-ui-core/app/constants/apiResponseActions.js',
-  
+                      'node_modules/weaver-ui-core/app/constants/httpMethodVerbs.js',
+
                       'node_modules/weaver-ui-core/app/directives/headerDirective.js',
                       'node_modules/weaver-ui-core/app/directives/footerDirective.js',
                       'node_modules/weaver-ui-core/app/directives/userDirective.js',
                       'node_modules/weaver-ui-core/app/directives/modalDirective.js',
                       'node_modules/weaver-ui-core/app/directives/alertDirective.js',
                       'node_modules/weaver-ui-core/app/directives/validationMessageDirective.js',
+                      'node_modules/weaver-ui-core/app/directives/validatedInputDirective.js',
                       'node_modules/weaver-ui-core/app/directives/validatedSelectDirective.js',
                       'node_modules/weaver-ui-core/app/directives/validatedTextAreaDirective.js',
-  
+
                       'node_modules/weaver-ui-core/app/services/accessControlService.js',
                       'node_modules/weaver-ui-core/app/services/wsService.js',
                       'node_modules/weaver-ui-core/app/services/wsApi.js',
@@ -126,13 +128,13 @@ module.exports = function (grunt) {
                       'node_modules/weaver-ui-core/app/services/modalService.js',
                       'node_modules/weaver-ui-core/app/services/modelCache.js',
                       'node_modules/weaver-ui-core/app/services/modelUpdateService.js',
-  
+
                       'node_modules/weaver-ui-core/app/repo/abstractRepo.js',
-  
+
                       'node_modules/weaver-ui-core/app/model/abstractModel.js',
                       'node_modules/weaver-ui-core/app/model/assumedControl.js',
                       'node_modules/weaver-ui-core/app/model/user.js',
-  
+
                       'node_modules/weaver-ui-core/app/controllers/abstractController.js',
                       'node_modules/weaver-ui-core/app/controllers/coreAdminController.js',
                       'node_modules/weaver-ui-core/app/controllers/authenticationController.js',
@@ -163,7 +165,7 @@ module.exports = function (grunt) {
                   dest: '<%= build.app %>/resources/scripts/bundle.js'
               }
           },
-  
+
           uglify: {
               options: {
                   mangle: false
@@ -173,14 +175,14 @@ module.exports = function (grunt) {
                   dest: '<%= build.app %>/resources/scripts/bundle.js'
               }
           },
-  
+
           usemin: {
               html: '<%= build.templates %>/index.html',
               options: {
                   assetsDirs: ['<%= build.app %>/resources/scripts']
               }
           },
-  
+
           clean: {
               development: [
                   '<%= build.app %>/node_modules'
@@ -191,7 +193,7 @@ module.exports = function (grunt) {
                   ]
               }
           },
-  
+
           copy: {
               styles: {
                   files: [{
@@ -217,6 +219,7 @@ module.exports = function (grunt) {
                   files: [{
                       src: [
                           'node_modules/weaver-ui-core/**/*.html',
+                          'node_modules/weaver-ui-core/**/*.png',
                           '!node_modules/weaver-ui-core/docs/'
                       ],
                       dest: '<%= build.app %>',
@@ -233,9 +236,9 @@ module.exports = function (grunt) {
                   }],
               }
           }
-  
+
       });
-  
+
       grunt.loadNpmTasks('grunt-usemin');
       grunt.loadNpmTasks('grunt-contrib-copy');
       grunt.loadNpmTasks('grunt-contrib-clean');
@@ -244,13 +247,13 @@ module.exports = function (grunt) {
       grunt.loadNpmTasks('grunt-contrib-jshint');
       grunt.loadNpmTasks('grunt-contrib-uglify');
       grunt.loadNpmTasks('grunt-contrib-symlink');
-  
+
       grunt.registerTask('default', ['jshint', 'copy:styles', 'clean', 'symlink']);
-  
+
       grunt.registerTask('watch', ['watch']);
-  
+
       grunt.registerTask('develop', ['jshint', 'concat', 'usemin', 'copy:styles', 'clean', 'symlink', 'watch']);
-  
+
       grunt.registerTask('deploy', ['jshint', 'concat', 'uglify', 'usemin', 'clean', 'copy']);
-  
+
   };
