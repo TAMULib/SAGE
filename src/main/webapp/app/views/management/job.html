@@ -1,0 +1,61 @@
+<div ng-controller="JobManagementController" class="jobs-management">
+  <h1>Job Management</h1>
+
+  <div class="panel panel-default jobs-container">
+    <div class="panel-heading clearfix">
+      <button class="btn btn-success pull-right" ng-click="startCreateJob()">New</button>
+
+    </div>
+
+    <div class="panel-body">
+      <table ng-table="tableParams" class="table table-hover jobs-table">
+        <tbody>
+          <tr ng-repeat="job in $data">
+            <td data-title="'Name'" sortable="'name'">
+              {{job.name}}
+            </td>
+            <td data-title="'Readers'" class="jobs-table-row-reader">
+              <ul ng-if="job.readers && job.readers.length">
+                <li ng-repeat="reader in job.readers">{{reader.name}}</li>
+              </ul>
+            </td>
+            <td data-title="'Writers'" class="jobs-table-row-writer">
+              <ul ng-if="job.writers && job.writers.length">
+                <li ng-repeat="writer in job.writers">{{writer.name}}</li>
+              </ul>
+            </td>
+            <td data-title="'Actions'">
+              <span class="glyphicon glyphicon-pencil clickable" ng-click="startUpdateJob(job)"></span>
+              <span class="glyphicon glyphicon-trash clickable" ng-click="confirmDeleteJob(job)"></span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <modal
+    modal-id="createJobModal"
+    modal-view="views/modals/createJobModal.html"
+    modal-header-class="modal-header-primary"
+    modal-fullscreen="true"
+    wvr-modal-backdrop="static">
+  </modal>
+
+  <modal
+    modal-id="confirmDeleteJobModal"
+    modal-view="views/modals/confirmDeleteJobModal.html"
+    modal-header-class="modal-header-danger"
+    wvr-modal-backdrop="static">
+  </modal>
+
+  <modal
+    modal-id="updateJobModal"
+    modal-view="views/modals/updateJobModal.html"
+    modal-header-class="modal-header-primary"
+    modal-fullscreen="true"
+    wvr-modal-backdrop="static">
+  </modal>
+
+</div>

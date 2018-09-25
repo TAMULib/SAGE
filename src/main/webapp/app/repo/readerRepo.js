@@ -1,4 +1,4 @@
-sage.repo("ReaderRepo", function(Reader,WsApi) {
+sage.repo("ReaderRepo", function(Reader, WsApi) {
   var readerRepo = this;
 
   readerRepo.getMetadataFields = function(fields) {
@@ -7,7 +7,7 @@ sage.repo("ReaderRepo", function(Reader,WsApi) {
       angular.extend(fields, angular.fromJson(res.body).payload['ArrayList<String>']);
     });
     return fieldsPromise;
-};
+  };
 
   return readerRepo;
 });
