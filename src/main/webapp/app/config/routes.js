@@ -9,17 +9,13 @@ sage.config(function ($locationProvider, $routeProvider) {
       when('/home', {
         redirectTo: '/',
       }).
-      when('/admin/index', {
-        templateUrl: 'views/admin/solrCoreManagement.html',
-        controller: 'SolrCoreManagementController'
+      when('/management', {
+        redirectTo: '/management/sources',
       }).
-      when('/admin/readers', {
-        templateUrl: 'views/admin/solrReaderManagement.html',
-        controller: 'SolrReaderManagementController'
-      }).
-      when('/admin/writers', {
-        templateUrl: 'views/admin/solrWriterManagement.html',
-        controller: 'SolrWriterManagementController'
+      when('/management/:tab', {
+        templateUrl: 'views/management.html',
+        controller: 'ManagementController',
+        access: ["ROLE_ADMIN", "ROLE_MANAGER"]
       }).
       // Error Routes
       when('/error/403', {

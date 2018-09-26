@@ -1,15 +1,67 @@
 package edu.tamu.sage.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public interface Writer {
-    
-    public String getName();
-    public void setName(String name);
-    
-    public SolrCore getSolrCore();
-    public void setSolrCore(SolrCore solrCore);
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
-    public List<OutputMapping> getOutputMappings();
-    public void setOutputMappings(List<OutputMapping> outputMapping);
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+import edu.tamu.sage.model.validation.WriterValidator;
+import edu.tamu.weaver.validation.model.ValidatingBaseEntity;
+
+@Entity
+public class Writer extends ValidatingBaseEntity implements Writable {
+    @Column(unique=true)
+    private String name;
+
+    @ManyToOne
+    private Source source;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @Fetch(FetchMode.SELECT)
+    private List<OutputMapping> outputMappings;
+
+    public Writer() {
+        setModelValidator(new WriterValidator());
+        this.outputMappings = new ArrayList<OutputMapping>();
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public Source getSource() {
+        return source;
+    }
+
+    @Override
+    public void setSource(Source source) {
+        this.source = source;
+
+    }
+
+    @Override
+    public List<OutputMapping> getOutputMappings() {
+        return outputMappings;
+    }
+
+    @Override
+    public void setOutputMappings(List<OutputMapping> outputMappings) {
+        this.outputMappings = outputMappings;
+    }
+
 }

@@ -7,15 +7,15 @@ import edu.tamu.weaver.validation.model.ValidatingBaseEntity;
 
 @Entity
 public class Field extends ValidatingBaseEntity {
-    
+
     @Column
     private String name;
 
     @Column
     private String schemaMapping;
-    
+
     public Field() {}
-    
+
     public Field(String name, String schemaMapping) {
         setName(name);
         setSchemaMapping(schemaMapping);
@@ -35,5 +35,5 @@ public class Field extends ValidatingBaseEntity {
 
     public void setSchemaMapping(String schemaMapping) {
         this.schemaMapping = schemaMapping;
-    }    
+    }
 }

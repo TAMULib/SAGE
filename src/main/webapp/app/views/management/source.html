@@ -1,0 +1,52 @@
+<div ng-controller="SourceManagementController" class="solr-source-management">
+  <h1>Source Management</h1>
+
+  <div class="panel panel-default solr-source-container">
+    <div class="panel-heading clearfix">
+      <button class="btn btn-success pull-right" ng-click="startCreateSource()">New</button>
+    </div>
+
+    <div class="panel-body">
+      <table ng-table="tableParams" class="table table-hover solr-source-table">
+        <tbody>
+          <tr ng-repeat="source in $data">
+            <td data-title="'Name'" sortable="'name'">
+              {{source.name}}
+            </td>
+            <td data-title="'URI'" sortable="'uri'">
+              <a href="{{source.uri}}">{{source.uri}}</a>
+            </td>
+            <td data-title="'Actions'">
+              <span class="glyphicon glyphicon-pencil clickable" ng-click="startUpdateSource(source)"></span>
+              <span class="glyphicon glyphicon-trash clickable" ng-click="confirmDeleteSource(source)"></span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <modal
+    modal-id="createSourceModal"
+    modal-view="views/modals/createSourceModal.html"
+    modal-header-class="modal-header-primary"
+    modal-fullscreen="true"
+    wvr-modal-backdrop="static">
+  </modal>
+
+  <modal
+    modal-id="confirmDeleteSourceModal"
+    modal-view="views/modals/confirmDeleteSourceModal.html"
+    modal-header-class="modal-header-danger"
+    wvr-modal-backdrop="static">
+  </modal>
+
+  <modal
+    modal-id="updateSourceModal"
+    modal-view="views/modals/updateSourceModal.html"
+    modal-header-class="modal-header-primary"
+    modal-fullscreen="true"
+    wvr-modal-backdrop="static">
+  </modal>
+
+</div>

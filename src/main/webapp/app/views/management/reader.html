@@ -1,0 +1,52 @@
+<div ng-controller="ReaderManagementController" class="solr-source-management">
+  <h1>Reader Management</h1>
+
+  <div class="panel panel-default solr-source-container">
+    <div class="panel-heading clearfix">
+      <button class="btn btn-success pull-right" ng-click="startCreateReader()">New</button>
+    </div>
+
+    <div class="panel-body">
+      <table ng-table="tableParams" class="table table-hover solr-source-table">
+        <tbody>
+          <tr ng-repeat="reader in $data">
+            <td data-title="'Name'" sortable="'name'">
+              {{reader.name}}
+            </td>
+            <td data-title="'Solr Source'" sortable="'SolrSource'">
+              {{reader.source.name}}</a>
+            </td>
+            <td data-title="'Actions'">
+              <span class="glyphicon glyphicon-pencil clickable" ng-click="startUpdateReader(reader)"></span>
+              <span class="glyphicon glyphicon-trash clickable" ng-click="confirmDeleteReader(reader)"></span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <modal
+    modal-id="createReaderModal"
+    modal-view="views/modals/createReaderModal.html"
+    modal-header-class="modal-header-primary"
+    modal-fullscreen="true"
+    wvr-modal-backdrop="static">
+  </modal>
+
+  <modal
+    modal-id="confirmDeleteReaderModal"
+    modal-view="views/modals/confirmDeleteReaderModal.html"
+    modal-header-class="modal-header-danger"
+    wvr-modal-backdrop="static">
+  </modal>
+
+  <modal
+    modal-id="updateReaderModal"
+    modal-view="views/modals/updateReaderModal.html"
+    modal-header-class="modal-header-primary"
+    modal-fullscreen="true"
+    wvr-modal-backdrop="static">
+  </modal>
+
+</div>

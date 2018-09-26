@@ -23,17 +23,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.tamu.sage.model.Field;
-import edu.tamu.sage.model.SolrReader;
-import edu.tamu.sage.model.repo.SolrReaderRepo;
-import edu.tamu.sage.model.repo.SolrWriterRepo;
+import edu.tamu.sage.model.Reader;
+import edu.tamu.sage.model.repo.ReaderRepo;
+import edu.tamu.sage.model.repo.WriterRepo;
 
 @Service
 public class SimpleProcessorService implements ProcessorService {
     @Autowired
-    private SolrReaderRepo solrReaderRepo;
+    private ReaderRepo solrReaderRepo;
     
     @Autowired
-    private SolrWriterRepo solrWriterRepo;
+    private WriterRepo solrWriterRepo;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     
@@ -42,10 +42,10 @@ public class SimpleProcessorService implements ProcessorService {
         
         List<Map<String,String>> mappedResults = new ArrayList<Map<String,String>>();
 
-        List<SolrReader> solrReaders = solrReaderRepo.findAll();
+        List<Reader> solrReaders = solrReaderRepo.findAll();
         solrReaders.forEach(solrReader -> {
-            logger.info("Using Reader: "+solrReader.getName()+" to read from SOLR Core: "+solrReader.getSolrCore().getName()+" - "+solrReader.getSolrCore().getUri());
-            SolrClient solr = new HttpSolrClient(solrReader.getSolrCore().getUri());
+            logger.info("Using Reader: "+solrReader.getName()+" to read from SOLR Core: "+solrReader.getSource().getName()+" - "+solrReader.getSource().getUri());
+            SolrClient solr = new HttpSolrClient(solrReader.getSource().getUri());
 
             try {
                 solr.ping();               
@@ -121,7 +121,7 @@ public class SimpleProcessorService implements ProcessorService {
         int batchSize = 1000;
         if (!mappedResults.isEmpty()) {
             solrWriterRepo.findAll().forEach(writer -> {
-                SolrClient writeableSolr = new HttpSolrClient(writer.getSolrCore().getUri());
+                SolrClient writeableSolr = new HttpSolrClient(writer.getSource().getUri());
 
                 try {
                     writeableSolr.ping();

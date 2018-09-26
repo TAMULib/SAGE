@@ -1,0 +1,49 @@
+<form name="writerForms.create" ng-submit="createWriter()" novalidate class="solr-source-forms-create">
+  <div class="modal-header {{attr.modalHeaderClass}}">
+    <button type="button" class="close modal-close" aria-label="Close" ng-click="cancelCreateWriter()"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Create Writer</h4>
+  </div>
+  <div class="modal-body">
+
+    <validationmessage results="writerForms.getResults()"></validationmessage>
+    <div class="row">
+      <div class="col-sm-10 col-sm-offset-1">
+        <validatedinput
+          model="writerToCreate"
+          property="name"
+          label="Name"
+          placeholder="Name for the new Writer"
+          form="writerForms.create"
+          validations="writerForms.validations"
+          results="writerForms.getResults()"
+          autocomplete="off">
+        </validatedinput>
+
+        <validatedselect
+          model="writerToCreate"
+          property="source"
+          options="sources"
+          optionproperty="name"
+          label="Source"
+          placeholder="Source for the new Writer"
+          form="writerForms.create"
+          validations="writerForms.validations"
+          results="writerForms.getResults()"
+          autocomplete="off">
+        </validatedselect>
+
+        <label>Field Mappings</label>
+        <ul class="list-group">
+          <li class="list-group-item" ng-repeat="field in metadataFields">
+            <label>{{field}}</label>
+            <input class="form-control" type="text" name="newWriterMappings" ng-model="newWriterMappings[field]" />
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="cancelCreateWriter()">Cancel</button>
+    <button ng-disabled="writerForms.create.$invalid" type="submit" class="btn btn-success">Create</button>
+  </div>
+</form>

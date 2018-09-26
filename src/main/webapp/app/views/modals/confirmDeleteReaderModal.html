@@ -1,0 +1,23 @@
+<form name="readerForms.delete" ng-submit="deleteReader()" novalidate>
+  <div class="modal-header {{attr.modalHeaderClass}}">
+    <button type="button" class="close modal-close" aria-label="Close" ng-click="cancelCreateReader()"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Confirm Removal?</h4>
+  </div>
+  <div class="modal-body">
+    <validationmessage results="readerForms.getResults()"></validationmessage>
+
+      <h3>Are you sure you want to remove:</h3>
+      <p>{{readerToDelete.name}}</p>
+
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="cancelDeleteReader()">Cancel</button>
+    <button type="submit" class="btn btn-danger">
+        <span ng-show="deletingReader">
+          <span class="glyphicon glyphicon-refresh spinning"></span>
+        </span>
+      <span ng-hide="deletingReader">Confirm</span>
+    </button>
+  </div>
+</form>
