@@ -31,15 +31,15 @@ import edu.tamu.sage.model.repo.WriterRepo;
 public class SimpleProcessorService implements ProcessorService {
     @Autowired
     private ReaderRepo solrReaderRepo;
-    
+
     @Autowired
     private WriterRepo solrWriterRepo;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-    
+
     public void process() {
         logger.info("Processing!");
-        
+
         List<Map<String,String>> mappedResults = new ArrayList<Map<String,String>>();
 
         List<Reader> solrReaders = solrReaderRepo.findAll();
@@ -48,10 +48,10 @@ public class SimpleProcessorService implements ProcessorService {
             SolrClient solr = new HttpSolrClient(solrReader.getSource().getUri());
 
             try {
-                solr.ping();               
+                solr.ping();
 
                 SolrQuery query = new SolrQuery();
-                query.set("q", "*:*");
+                query.set("q", solrReader.getFilter());
                 query.set("rows", "500");
 
                 query.addSort(((solrReader.getSortTitle() != null) ? "sort="+solrReader.getSortTitle()+" asc, ":"")+solrReader.getSortId() , ORDER.asc);
@@ -113,7 +113,7 @@ public class SimpleProcessorService implements ProcessorService {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
-            }            
+            }
         });
 
         //TODO Provide an intermediate Interface/Implementation to hold all the SOLR specific code that's currently here, so we can just call Writer->write()

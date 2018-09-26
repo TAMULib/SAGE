@@ -34,6 +34,9 @@ public class Reader extends ValidatingBaseEntity implements Readable {
     @Column
     private String sortId;
 
+    @Column
+    private String filter;
+
     public Reader() {
         setModelValidator(new ReaderValidator());
     }
@@ -98,5 +101,13 @@ public class Reader extends ValidatingBaseEntity implements Readable {
 
     public void setSortId(String sortId) {
         this.sortId = sortId;
+    }
+
+    public String getFilter() {
+        return filter;
+    }
+
+    public void setFilter(String filter) {
+        this.filter = filter;
     }
 }
