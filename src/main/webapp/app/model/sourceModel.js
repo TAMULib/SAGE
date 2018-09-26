@@ -1,20 +1,20 @@
-sage.model("SolrCore", function(WsApi, HttpMethodVerbs) {
-  return function SolrCore() {
-    var solrCore = this;
+sage.model("Source", function(WsApi, HttpMethodVerbs) {
+  return function Source() {
+    var core = this;
 
-    solrCore.testLocation = function(core) {
-      var testLocationPromise = WsApi.fetch(solrCore.getMapping().testLocation, {
+    core.testLocation = function(core) {
+      var testLocationPromise = WsApi.fetch(core.getMapping().testLocation, {
         data: core
       });
       return testLocationPromise;
     };
 
-    solrCore.testAuthorization = function() {
+    core.testAuthorization = function() {
       return $q(function(resolve) {
         resolve();
       });
     };
 
-    return solrCore;
+    return core;
   };
 });

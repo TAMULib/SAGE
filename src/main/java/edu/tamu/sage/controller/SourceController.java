@@ -27,9 +27,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.tamu.sage.model.SolrCore;
+import edu.tamu.sage.model.Source;
 import edu.tamu.sage.model.User;
-import edu.tamu.sage.model.repo.SolrCoreRepo;
+import edu.tamu.sage.model.repo.SourceRepo;
 import edu.tamu.sage.service.SimpleProcessorService;
 import edu.tamu.weaver.auth.annotation.WeaverUser;
 import edu.tamu.weaver.response.ApiResponse;
@@ -37,11 +37,11 @@ import edu.tamu.weaver.validation.aspect.annotation.WeaverValidatedModel;
 import edu.tamu.weaver.validation.aspect.annotation.WeaverValidation;
 
 @RestController
-@RequestMapping("/core/solr")
-public class SolrCoreController {
+@RequestMapping("/source/solr")
+public class SourceController {
 
     @Autowired
-    private SolrCoreRepo solrCoreRepo;
+    private SourceRepo sourceRepo;
 
     @Autowired
     private SimpleProcessorService processorService;
@@ -50,10 +50,10 @@ public class SolrCoreController {
 
     @RequestMapping("/test/location")
     @PreAuthorize("hasRole('ANONYMOUS')")
-    public ApiResponse testSolrCoreLocation(@WeaverValidatedModel SolrCore solrCore) throws IOException {
-        logger.info("Testing SolrCore location: " + solrCore.getName());
+    public ApiResponse testSolrCoreLocation(@WeaverValidatedModel Source source) throws IOException {
+        logger.info("Testing Source location: " + source.getName());
 
-        SolrClient solr = new HttpSolrClient(solrCore.getUri());
+        SolrClient solr = new HttpSolrClient(source.getUri());
 
         ApiResponse response = new ApiResponse(SUCCESS);
 
@@ -66,23 +66,23 @@ public class SolrCoreController {
 
             Map<String, FieldInfo> fieldInfoMap = lukeResponse.getFieldInfo();
 
-            
+
             SolrQuery query = new SolrQuery();
             query.set("q", "*");
-            
+
             for (Entry<String, FieldInfo> entry : fieldInfoMap.entrySet()) {
                 String fieldName = entry.getKey();
                 //FieldInfo fieldInfo = entry.getValue();
                 query.addFilterQuery(fieldName+":*");
                 query.setFacet(true);
-                query.addFacetField(fieldName);               
+                query.addFacetField(fieldName);
             }
-            
-            
+
+
             System.out.println(query);
             QueryResponse queryResponse = solr.query(query);
-           
-            
+
+
             //List<FacetField> facetFields = queryResponse.getFacetFields();
             FacetField cnameMainFacetField = queryResponse.getFacetField("name");
             for (Count cnameAndCount : cnameMainFacetField.getValues()) {
@@ -90,53 +90,53 @@ public class SolrCoreController {
                 System.out.println(cnameMain);
                 System.out.println(cnameAndCount.getCount());
             }
-            
+
         } catch (Exception e) {
             e.getMessage();
             e.printStackTrace();
-            response = new ApiResponse(ERROR, "Error connecting with " + solrCore.getName() + " at URL " + solrCore.getUri());
+            response = new ApiResponse(ERROR, "Error connecting with " + source.getName() + " at URL " + source.getUri());
         } finally {
             solr.close();
         }
-        
+
 
         return response;
     }
 
     @RequestMapping("/test/authorization")
     @PreAuthorize("hasRole('ANONYMOUS')")
-    public ApiResponse testSolrCoreAuthorization(@WeaverValidatedModel SolrCore solrCore) {
+    public ApiResponse testSolrCoreAuthorization(@WeaverValidatedModel Source source) {
         return new ApiResponse(SUCCESS);
     }
 
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasRole('ANONYMOUS')")
     public ApiResponse getAll(@WeaverUser User user) {
-        return new ApiResponse(SUCCESS, solrCoreRepo.findAll());
+        return new ApiResponse(SUCCESS, sourceRepo.findAll());
     }
 
     @RequestMapping(method = RequestMethod.POST)
     @PreAuthorize("hasRole('USER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = CREATE) })
-    public ApiResponse createSolrCore(@WeaverValidatedModel SolrCore solrCore) {
-        logger.info("Creating SolrCore: " + solrCore.getName());
-        return new ApiResponse(SUCCESS, solrCoreRepo.create(solrCore));
+    public ApiResponse createSolrCore(@WeaverValidatedModel Source source) {
+        logger.info("Creating Source: " + source.getName());
+        return new ApiResponse(SUCCESS, sourceRepo.create(source));
     }
-    
+
     @RequestMapping(method = RequestMethod.PUT)
     @PreAuthorize("hasRole('USER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = UPDATE) })
-    public ApiResponse updateSolrCore(@WeaverValidatedModel SolrCore solrCore) {
-        logger.info("Updating SolrCore: " + solrCore.getName());
-        return new ApiResponse(SUCCESS, solrCoreRepo.update(solrCore));
+    public ApiResponse updateSolrCore(@WeaverValidatedModel Source source) {
+        logger.info("Updating Source: " + source.getName());
+        return new ApiResponse(SUCCESS, sourceRepo.update(source));
     }
 
     @RequestMapping(method = RequestMethod.DELETE)
     @PreAuthorize("hasRole('USER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = DELETE) })
-    public ApiResponse deleteSolrCore(@WeaverValidatedModel SolrCore solrCore) {
-        logger.info("Deleting SolrCore: " + solrCore.getName());
-        solrCoreRepo.delete(solrCore);
+    public ApiResponse deleteSolrCore(@WeaverValidatedModel Source source) {
+        logger.info("Deleting Source: " + source.getName());
+        sourceRepo.delete(source);
         return new ApiResponse(SUCCESS);
     }
 

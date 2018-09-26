@@ -1,93 +1,93 @@
-sage.controller('SolrCoreManagementController', function ($controller, $scope, NgTableParams, SolrCoreRepo) {
-  
+sage.controller('SourceManagementController', function ($controller, $scope, NgTableParams, SourceRepo) {
+
   angular.extend(this, $controller('AbstractController', {
       $scope: $scope
   }));
 
-  $scope.solrCores = SolrCoreRepo.getAll();
+  $scope.sources = SourceRepo.getAll();
 
-  $scope.solrCoreToCreate = SolrCoreRepo.getScaffold();
-  $scope.solrCoreToUpdate = {};
-  $scope.solrCoreToDelete = {};
+  $scope.sourceToCreate = SourceRepo.getScaffold();
+  $scope.sourceToUpdate = {};
+  $scope.sourceToDelete = {};
 
-  $scope.solrCoreForms = {
-    validations: SolrCoreRepo.getValidations(),
-    getResults: SolrCoreRepo.getValidationResults
+  $scope.sourceForms = {
+    validations: SourceRepo.getValidations(),
+    getResults: SourceRepo.getValidationResults
   };
 
-  $scope.resetSolrCoreForms = function() {
-    SolrCoreRepo.clearValidationResults();
-    for (var key in $scope.solrCoreForms) {
-      if ($scope.solrCoreForms[key] !== undefined && !$scope.solrCoreForms[key].$pristine && $scope.solrCoreForms[key].$setPristine) {
-        $scope.solrCoreForms[key].$setPristine();
+  $scope.resetSourceForms = function() {
+    SourceRepo.clearValidationResults();
+    for (var key in $scope.sourceForms) {
+      if ($scope.sourceForms[key] !== undefined && !$scope.sourceForms[key].$pristine && $scope.sourceForms[key].$setPristine) {
+        $scope.sourceForms[key].$setPristine();
       }
     }
     $scope.closeModal();
   };
 
-  $scope.startCreateSolrCore = function() {
-    $scope.openModal("#createSolrCoreModal");
+  $scope.startCreateSource = function() {
+    $scope.openModal("#createSourceModal");
   };
 
-  $scope.createSolrCore = function() {
-    SolrCoreRepo.create($scope.solrCoreToCreate).then(function(res) {
+  $scope.createSource = function() {
+    SourceRepo.create($scope.sourceToCreate).then(function(res) {
       if(angular.fromJson(res.body).meta.status === "SUCCESS") {
-        $scope.cancelCreateSolrCore();
+        $scope.cancelCreateSource();
       }
     });
   };
 
-  $scope.cancelCreateSolrCore = function() {
-    angular.extend($scope.solrCoreToCreate, SolrCoreRepo.getScaffold());
-    $scope.resetSolrCoreForms();
+  $scope.cancelCreateSource = function() {
+    angular.extend($scope.sourceToCreate, SourceRepo.getScaffold());
+    $scope.resetSourceForms();
   };
 
-  $scope.updateSolrCore = function() {
-    $scope.updatingSolrCore = true;
-    $scope.solrCoreToUpdate.save().then(function() {
-      $scope.resetSolrCoreForms();
-      $scope.updatingSolrCore = false;
+  $scope.updateSource = function() {
+    $scope.updatingSource = true;
+    $scope.sourceToUpdate.save().then(function() {
+      $scope.resetSourceForms();
+      $scope.updatingSource = false;
     });
   };
 
-  $scope.startUpdateSolrCore = function(core) {
-    $scope.solrCoreToUpdate = core;
-    $scope.openModal("#updateSolrCoreModal");
+  $scope.startUpdateSource = function(core) {
+    $scope.sourceToUpdate = core;
+    $scope.openModal("#updateSourceModal");
   };
 
-  $scope.cancelUpdateSolrCore = function(core) {
-    $scope.solrCoreToUpdate = {};
-    $scope.resetSolrCoreForms();
+  $scope.cancelUpdateSource = function(core) {
+    $scope.sourceToUpdate = {};
+    $scope.resetSourceForms();
   };
 
-  $scope.confirmDeleteSolrCore = function(core) {
-    $scope.solrCoreToDelete = core;
-    $scope.openModal("#confirmDeleteSolrCoreModal");
+  $scope.confirmDeleteSource = function(core) {
+    $scope.sourceToDelete = core;
+    $scope.openModal("#confirmDeleteSourceModal");
   };
 
-  $scope.cancelDeleteSolrCore = function(core) {
-    $scope.solrCoreToDelete = {};
-    $scope.resetSolrCoreForms();
+  $scope.cancelDeleteSource = function(core) {
+    $scope.sourceToDelete = {};
+    $scope.resetSourceForms();
   };
 
-  $scope.deleteSolrCore = function() {
-    $scope.deletingSolrCore = true;
-    SolrCoreRepo.delete($scope.solrCoreToDelete).then(function() {
-      $scope.deletingSolrCore = false;
-      $scope.resetSolrCoreForms();
+  $scope.deleteSource = function() {
+    $scope.deletingSource = true;
+    SourceRepo.delete($scope.sourceToDelete).then(function() {
+      $scope.deletingSource = false;
+      $scope.resetSourceForms();
     });
   };
 
-  SolrCoreRepo.ready().then(function() {
+  SourceRepo.ready().then(function() {
     $scope.setTable = function() {
       $scope.tableParams = new NgTableParams({
-        count: $scope.solrCores.length,
+        count: $scope.sources.length,
         sorting: {name: 'desc'}
       }, {
         counts: [],
         total: 0,
         getData: function(params) {
-          return $scope.solrCores;
+          return $scope.sources;
         }
       });
     };

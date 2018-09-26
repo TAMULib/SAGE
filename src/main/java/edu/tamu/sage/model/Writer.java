@@ -13,50 +13,55 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
-import edu.tamu.sage.model.validation.SolrWriterValidator;
+import edu.tamu.sage.model.validation.WriterValidator;
 import edu.tamu.weaver.validation.model.ValidatingBaseEntity;
 
 @Entity
-public class SolrWriter extends ValidatingBaseEntity implements Writer {
+public class Writer extends ValidatingBaseEntity implements Writable {
     @Column(unique=true)
     private String name;
-    
+
     @ManyToOne
-    private SolrCore solrCore;
-    
+    private Source source;
+
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.SELECT)
     private List<OutputMapping> outputMappings;
-    
-    public SolrWriter() {
-        setModelValidator(new SolrWriterValidator());
+
+    public Writer() {
+        setModelValidator(new WriterValidator());
         this.outputMappings = new ArrayList<OutputMapping>();
-    }     
-    
+    }
+
     @Override
     public String getName() {
         return name;
     }
+
     @Override
     public void setName(String name) {
         this.name = name;
     }
-    @Override
-    public SolrCore getSolrCore() {
-        return solrCore;
-    }
-    @Override
-    public void setSolrCore(SolrCore solrCore) {
-        this.solrCore = solrCore;
-        
-    }    
 
+    @Override
+    public Source getSource() {
+        return source;
+    }
+
+    @Override
+    public void setSource(Source source) {
+        this.source = source;
+
+    }
+
+    @Override
     public List<OutputMapping> getOutputMappings() {
         return outputMappings;
     }
-    
+
+    @Override
     public void setOutputMappings(List<OutputMapping> outputMappings) {
         this.outputMappings = outputMappings;
     }
-    
+
 }

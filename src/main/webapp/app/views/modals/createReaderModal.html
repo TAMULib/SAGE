@@ -1,34 +1,34 @@
-<form name="solrReaderForms.create" ng-submit="createSolrReader()" novalidate class="solr-core-forms-create">
+<form name="readerForms.create" ng-submit="createReader()" novalidate class="solr-source-forms-create">
   <div class="modal-header {{attr.modalHeaderClass}}">
-    <button type="button" class="close modal-close" aria-label="Close" ng-click="cancelCreateSolrReader()"><span aria-hidden="true">&times;</span></button>
-    <h4 class="modal-title">Create Solr Reader</h4>
+    <button type="button" class="close modal-close" aria-label="Close" ng-click="cancelCreateReader()"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Create Reader</h4>
   </div>
   <div class="modal-body">
+    <validationmessage results="readerForms.getResults()"></validationmessage>
 
-    <validationmessage results="solrReaderForms.getResults()"></validationmessage>
     <div class="row">
-      <div class="col-sm-10 col-sm-offset-1">     
+      <div class="col-sm-10 col-sm-offset-1">
         <validatedinput
-          model="solrReaderToCreate"
+          model="readerToCreate"
           property="name"
           label="Name"
-          placeholder="Name for the new Solr Reader"
-          form="solrReaderForms.create"
-          validations="solrReaderForms.validations"
-          results="solrReaderForms.getResults()"
+          placeholder="Name for the new Reader"
+          form="readerForms.create"
+          validations="readerForms.validations"
+          results="readerForms.getResults()"
           autocomplete="off">
         </validatedinput>
-    
+
         <validatedselect
-          model="solrReaderToCreate"
-          property="solrCore"
-          options="solrCores"
+          model="readerToCreate"
+          property="source"
+          options="sources"
           optionproperty="name"
-          label="Solr Core"
-          placeholder="Solr Core for the new Solr Reader"
-          form="solrReaderForms.create"
-          validations="solrReaderForms.validations"
-          results="solrReaderForms.getResults()"
+          label="Source"
+          placeholder="Source for the new Reader"
+          form="readerForms.create"
+          validations="readerForms.validations"
+          results="readerForms.getResults()"
           autocomplete="off">
         </validatedselect>
 
@@ -36,7 +36,7 @@
         <ul class="list-group">
           <li class="list-group-item" ng-repeat="field in metadataFields">
             <label>{{field}}</label>
-            <input class="form-control" type="text" name="fieldMapping" ng-model="newSolrReaderFields[field].value" />
+            <input class="form-control" type="text" name="fieldMapping" ng-model="newReaderFields[field].value" />
           </li>
         </ul>
 
@@ -44,17 +44,17 @@
         <ul class="list-group">
           <li class="list-group-item">
             <label>Title</label>
-            <input class="form-control" type="text" name="sortTitle" ng-model="solrReaderToCreate.sortTitle" />
+            <input class="form-control" type="text" name="sortTitle" ng-model="readerToCreate.sortTitle" />
           </li>
           <li class="list-group-item">
             <label>ID</label>
-            <input class="form-control" type="text" name="sortId" ng-model="solrReaderToCreate.sortId" />
+            <input class="form-control" type="text" name="sortId" ng-model="readerToCreate.sortId" />
           </li>
       </div>
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-default" ng-click="cancelCreateSolrReader()">Cancel</button>
-    <button ng-disabled="solrCoreForms.create.$invalid" type="submit" class="btn btn-success">Create</button>
+    <button type="button" class="btn btn-default" ng-click="cancelCreateReader()">Cancel</button>
+    <button ng-disabled="readerForms.create.$invalid" type="submit" class="btn btn-success">Create</button>
   </div>
 </form>

@@ -23,47 +23,47 @@ var apiMapping = {
         'method': 'delete'
     }
   },
-  SolrCore: {
-    channel: '/channel/core/solr',
+  Source: {
+    channel: '/channel/source/solr',
     validations: true,
     all: {
         'endpoint': '/private/queue',
-        'controller': 'core/solr',
+        'controller': 'source/solr',
         'httpMethod': 'GET',
         'method': ''
     },
     create: {
       'endpoint': '/private/queue',
-      'controller': 'core/solr',
+      'controller': 'source/solr',
       'httpMethod': 'POST',
       'method': ''
     },
     update: {
         'endpoint': '/private/queue',
-        'controller': 'core/solr',
+        'controller': 'source/solr',
         'httpMethod': 'PUT',
         'method': ''
     },
     remove: {
         'endpoint': '/private/queue',
-        'controller': 'core/solr',
+        'controller': 'source/solr',
         'httpMethod': 'DELETE',
         'method': ''
     },
     testLocation: {
       'endpoint': '/private/queue',
-      'controller': 'core/solr',
+      'controller': 'source/solr',
       'httpMethod': 'POST',
       'method': 'test/location'
     },
     testAuthorization: {
       'endpoint': '/private/queue',
-      'controller': 'core/solr',
+      'controller': 'source/solr',
       'httpMethod': 'POST',
       'method': 'test/authorization'
     },
   },
-  SolrReader: {
+  Reader: {
     channel: '/channel/reader/solr',
     validations: true,
     all: {
@@ -97,7 +97,7 @@ var apiMapping = {
         'method': 'metadata-fields'
     }
   },
-  SolrWriter: {
+  Writer: {
     channel: '/channel/writer/solr',
     validations: true,
     all: {

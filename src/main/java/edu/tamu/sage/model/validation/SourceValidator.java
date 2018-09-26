@@ -5,15 +5,15 @@ import edu.tamu.weaver.validation.utility.ValidationUtility;
 import edu.tamu.weaver.validation.validators.BaseModelValidator;
 import edu.tamu.weaver.validation.validators.InputValidator;
 
-public class SolrCoreValidator extends BaseModelValidator {
-    
-    public SolrCoreValidator() {
+public class SourceValidator extends BaseModelValidator {
+
+    public SourceValidator() {
         String typeProperty = "name";
-        this.addInputValidator(new InputValidator(InputValidationType.required, "An Solr Core requires a name", typeProperty, true));
-        
+        this.addInputValidator(new InputValidator(InputValidationType.required, "An Solr Source requires a name", typeProperty, true));
+
         String uriProperty = "uri";
-        this.addInputValidator(new InputValidator(InputValidationType.required, "An Solr Core requires a URI", uriProperty, true));
-        this.addInputValidator(new InputValidator(InputValidationType.pattern, "An Solr Core requires a valid URI", uriProperty, ValidationUtility.URL_REGEX));
+        this.addInputValidator(new InputValidator(InputValidationType.required, "An Solr Source requires a URI", uriProperty, true));
+        this.addInputValidator(new InputValidator(InputValidationType.pattern, "An Solr Source requires a valid URI", uriProperty, ValidationUtility.URL_REGEX));
     }
-    
+
 }

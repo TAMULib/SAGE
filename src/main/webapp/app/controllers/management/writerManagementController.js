@@ -1,109 +1,109 @@
-sage.controller('SolrWriterManagementController', function ($controller, $scope, NgTableParams, SolrWriterRepo, SolrReaderRepo, SolrCoreRepo) {
-  
+sage.controller('WriterManagementController', function ($controller, $scope, NgTableParams, WriterRepo, ReaderRepo, SourceRepo) {
+
   angular.extend(this, $controller('AbstractController', {
       $scope: $scope
   }));
 
-  $scope.solrWriters = SolrWriterRepo.getAll();
-  $scope.solrCores = SolrCoreRepo.getAll();
+  $scope.writers = WriterRepo.getAll();
+  $scope.sources = SourceRepo.getAll();
   $scope.metadataFields = [];
 
-  $scope.solrWriterToCreate = SolrReaderRepo.getScaffold();
-  $scope.newSolrWriterMappings = {};
-  $scope.solrWriterToUpdate = {};
-  $scope.solrWriterToDelete = {};
+  $scope.writerToCreate = ReaderRepo.getScaffold();
+  $scope.newWriterMappings = {};
+  $scope.writerToUpdate = {};
+  $scope.writerToDelete = {};
 
 
-  $scope.solrWriterForms = {
-    validations: SolrWriterRepo.getValidations(),
-    getResults: SolrWriterRepo.getValidationResults
+  $scope.writerForms = {
+    validations: WriterRepo.getValidations(),
+    getResults: WriterRepo.getValidationResults
   };
 
-    SolrReaderRepo.getMetadataFields($scope.metadataFields);
+    ReaderRepo.getMetadataFields($scope.metadataFields);
 
-  $scope.resetSolrWriterForms = function() {
-    SolrWriterRepo.clearValidationResults();
-    for (var key in $scope.solrWriterForms) {
-      if ($scope.solrWriterForms[key] !== undefined && !$scope.solrWriterForms[key].$pristine && $scope.solrWriterForms[key].$setPristine) {
-        $scope.solrWriterForms[key].$setPristine();
+  $scope.resetWriterForms = function() {
+    WriterRepo.clearValidationResults();
+    for (var key in $scope.writerForms) {
+      if ($scope.writerForms[key] !== undefined && !$scope.writerForms[key].$pristine && $scope.writerForms[key].$setPristine) {
+        $scope.writerForms[key].$setPristine();
       }
     }
     $scope.closeModal();
   };
 
-  $scope.startCreateSolrWriter = function() {
-    $scope.openModal("#createSolrWriterModal");
+  $scope.startCreateWriter = function() {
+    $scope.openModal("#createWriterModal");
   };
 
-  $scope.createSolrWriter = function() {
+  $scope.createWriter = function() {
     var mappings = [];
 
-    angular.forEach($scope.newSolrWriterMappings, function(v,k) {
+    angular.forEach($scope.newWriterMappings, function(v,k) {
       mappings.push({"inputField": k, "mappings": v.split(";")});
     }, mappings);
 
-    $scope.solrWriterToCreate.outputMappings = mappings;
+    $scope.writerToCreate.outputMappings = mappings;
 
-    SolrWriterRepo.create($scope.solrWriterToCreate).then(function(res) {
+    WriterRepo.create($scope.writerToCreate).then(function(res) {
       if(angular.fromJson(res.body).meta.status === "SUCCESS") {
-        $scope.cancelCreateSolrWriter();
+        $scope.cancelCreateWriter();
       }
     });
   };
 
-  $scope.cancelCreateSolrWriter = function() {
-    angular.extend($scope.solrWriterToCreate, SolrWriterRepo.getScaffold());
-    $scope.newSolrWriterFields = {};
-    $scope.resetSolrWriterForms();
+  $scope.cancelCreateWriter = function() {
+    angular.extend($scope.writerToCreate, WriterRepo.getScaffold());
+    $scope.newWriterFields = {};
+    $scope.resetWriterForms();
   };
 
-  $scope.updateSolrWriter = function() {
-    $scope.updatingSolrWriter = true;
-    $scope.solrWriterToUpdate.dirty(true);
-    $scope.solrWriterToUpdate.save().then(function() {
-      $scope.resetSolrWriterForms();
-      $scope.updatingSolrWriter = false;
+  $scope.updateWriter = function() {
+    $scope.updatingWriter = true;
+    $scope.writerToUpdate.dirty(true);
+    $scope.writerToUpdate.save().then(function() {
+      $scope.resetWriterForms();
+      $scope.updatingWriter = false;
     });
   };
 
-  $scope.startUpdateSolrWriter = function(reader) {
-    $scope.solrWriterToUpdate = reader;
-    $scope.openModal("#updateSolrWriterModal");
+  $scope.startUpdateWriter = function(reader) {
+    $scope.writerToUpdate = reader;
+    $scope.openModal("#updateWriterModal");
   };
 
-  $scope.cancelUpdateSolrWriter = function(reader) {
-    $scope.solrWriterToUpdate = {};
-    $scope.resetSolrWriterForms();
+  $scope.cancelUpdateWriter = function(reader) {
+    $scope.writerToUpdate = {};
+    $scope.resetWriterForms();
   };
 
-  $scope.confirmDeleteSolrWriter = function(reader) {
-    $scope.solrWriterToDelete = reader;
-    $scope.openModal("#confirmDeleteSolrWriterModal");
+  $scope.confirmDeleteWriter = function(reader) {
+    $scope.writerToDelete = reader;
+    $scope.openModal("#confirmDeleteWriterModal");
   };
 
-  $scope.cancelDeleteSolrWriter = function(reader) {
-    $scope.solrWriterToDelete = {};
-    $scope.resetSolrWriterForms();
+  $scope.cancelDeleteWriter = function(reader) {
+    $scope.writerToDelete = {};
+    $scope.resetWriterForms();
   };
 
-  $scope.deleteSolrWriter = function() {
-    $scope.deletingSolrWriter = true;
-    SolrWriterRepo.delete($scope.solrWriterToDelete).then(function() {
-      $scope.deletingSolrWriter = false;
-      $scope.resetSolrWriterForms();
+  $scope.deleteWriter = function() {
+    $scope.deletingWriter = true;
+    WriterRepo.delete($scope.writerToDelete).then(function() {
+      $scope.deletingWriter = false;
+      $scope.resetWriterForms();
     });
   };
 
-  SolrWriterRepo.ready().then(function() {
+  WriterRepo.ready().then(function() {
     $scope.setTable = function() {
       $scope.tableParams = new NgTableParams({
-        count: $scope.solrWriters.length,
+        count: $scope.writers.length,
         sorting: {name: 'desc'}
       }, {
         counts: [],
         total: 0,
         getData: function(params) {
-          return $scope.solrWriters;
+          return $scope.writers;
         }
       });
     };

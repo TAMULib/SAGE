@@ -1,10 +1,10 @@
-sage.repo("SolrCoreRepo", function(SolrCore) {
-  var solrCoreRepo = this;
+sage.repo("SourceRepo", function(Source) {
+  var sourceRepo = this;
 
-  solrCoreRepo.scaffold = new SolrCore({
-    name: "Local Fedora",
+  sourceRepo.scaffold = new Source({
+    name: "Local Solr",
     uri: "http://localhost:8983/solr/collection1"
   });
 
-  return solrCoreRepo;
+  return sourceRepo;
 });

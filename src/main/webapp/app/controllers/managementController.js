@@ -1,5 +1,5 @@
-sage.controller('AdminController', function ($controller, $scope) {
-  
+sage.controller('ManagementController', function ($controller, $scope) {
+
     angular.extend(this, $controller('CoreAdminController', {
         $scope: $scope
     }));

@@ -12,60 +12,68 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
-import edu.tamu.sage.model.validation.SolrReaderValidator;
+import edu.tamu.sage.model.validation.ReaderValidator;
 import edu.tamu.weaver.validation.model.ValidatingBaseEntity;
 
 @Entity
-public class SolrReader extends ValidatingBaseEntity implements Reader {
+public class Reader extends ValidatingBaseEntity implements Readable {
 
     @Column(unique = true)
     private String name;
 
     @ManyToOne
-    private SolrCore solrCore;
+    private Source source;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @Fetch(FetchMode.SELECT)
     List<Field> fields;
-    
+
     @Column
     private String sortTitle;
 
     @Column
     private String sortId;
 
-    public SolrReader() {
-        setModelValidator(new SolrReaderValidator());
-    }    
+    public Reader() {
+        setModelValidator(new ReaderValidator());
+    }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
 
-    public SolrCore getSolrCore() {
-        return solrCore;
+    @Override
+    public Source getSource() {
+        return source;
     }
 
-    public void setSolrCore(SolrCore solrCore) {
-        this.solrCore = solrCore;
+    @Override
+    public void setSource(Source source) {
+        this.source = source;
     }
-    
+
+    @Override
     public List<Field> getFields() {
         return fields;
     }
 
+    @Override
     public void setFields(List<Field> fields) {
         this.fields = fields;
     }
 
+    @Override
     public void addField(Field field) {
         fields.add(field);
     }
 
+    @Override
     public void removeField(Field field) {
         fields.forEach(f->{
             if(f.getId().equals(field.getId())) {
@@ -74,6 +82,7 @@ public class SolrReader extends ValidatingBaseEntity implements Reader {
         });
     }
 
+    @Override
     public String getSortTitle() {
         return sortTitle;
     }
@@ -82,6 +91,7 @@ public class SolrReader extends ValidatingBaseEntity implements Reader {
         this.sortTitle = sortTitle;
     }
 
+    @Override
     public String getSortId() {
         return sortId;
     }

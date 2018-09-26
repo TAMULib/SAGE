@@ -1,48 +1,47 @@
-  <h1>Solr Writer Management</h1>
+<div ng-controller="WriterManagementController" class="panel panel-default solr-source-container">
+  <h1>Writer Management</h1>
 
-  <div class="panel panel-default Solr-core-container">
-    <div class="panel-heading clearfix">
-      <button class="btn btn-success pull-right" ng-click="startCreateSolrWriter()">New</button>
-      
-    </div>
+  <div class="panel-heading clearfix">
+    <button class="btn btn-success pull-right" ng-click="startCreateWriter()">New</button>
+  </div>
 
-    <div class="panel-body">
-      <table ng-table="tableParams" class="table table-hover Solr-core-table">
-        <tbody>
-          <tr ng-repeat="writer in $data">
-            <td data-title="'Name'" sortable="'name'">
-              {{writer.name}}
-            </td>
-            <td data-title="'Solr Core'" sortable="'SolrCore'">
-                {{writer.solrCore.name}}</a>
-            </td>
-            <td data-title="'Actions'">
-              <span class="glyphicon glyphicon-pencil clickable" ng-click="startUpdateSolrWriter(writer)"></span>
-              <span class="glyphicon glyphicon-trash clickable" ng-click="confirmDeleteSolrWriter(writer)"></span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <div class="panel-body">
+    <table ng-table="tableParams" class="table table-hover solr-source-table">
+      <tbody>
+        <tr ng-repeat="writer in $data">
+          <td data-title="'Name'" sortable="'name'">
+            {{writer.name}}
+          </td>
+          <td data-title="'Solr Source'" sortable="'SolrSource'">
+            {{writer.source.name}}</a>
+          </td>
+          <td data-title="'Actions'">
+            <span class="glyphicon glyphicon-pencil clickable" ng-click="startUpdateWriter(writer)"></span>
+            <span class="glyphicon glyphicon-trash clickable" ng-click="confirmDeleteWriter(writer)"></span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
   <modal
-    modal-id="createSolrWriterModal"
-    modal-view="views/modals/createSolrWriterModal.html"
+    modal-id="createWriterModal"
+    modal-view="views/modals/createWriterModal.html"
     modal-header-class="modal-header-primary"
     modal-fullscreen="true"
     wvr-modal-backdrop="static">
   </modal>
 
   <modal
-    modal-id="confirmDeleteSolrWriterModal"
-    modal-view="views/modals/confirmDeleteSolrWriterModal.html"
+    modal-id="confirmDeleteWriterModal"
+    modal-view="views/modals/confirmDeleteWriterModal.html"
     modal-header-class="modal-header-danger"
     wvr-modal-backdrop="static">
   </modal>
 
   <modal
-    modal-id="updateSolrWriterModal"
-    modal-view="views/modals/updateSolrWriterModal.html"
+    modal-id="updateWriterModal"
+    modal-view="views/modals/updateWriterModal.html"
     modal-header-class="modal-header-primary"
     modal-fullscreen="true"
     wvr-modal-backdrop="static">

@@ -1,107 +1,107 @@
-sage.controller('SolrReaderManagementController', function ($controller, $scope, NgTableParams, SolrReaderRepo, SolrCoreRepo) {
-  
+sage.controller('ReaderManagementController', function ($controller, $scope, NgTableParams, ReaderRepo, SourceRepo) {
+
   angular.extend(this, $controller('AbstractController', {
       $scope: $scope
   }));
 
-  $scope.solrReaders = SolrReaderRepo.getAll();
-  $scope.solrCores = SolrCoreRepo.getAll();
+  $scope.readers = ReaderRepo.getAll();
+  $scope.sources = SourceRepo.getAll();
   $scope.metadataFields = [];
 
-  $scope.solrReaderToCreate = SolrReaderRepo.getScaffold();
-  $scope.newSolrReaderFields = {};
-  $scope.solrReaderToUpdate = {};
-  $scope.solrReaderToDelete = {};
+  $scope.readerToCreate = ReaderRepo.getScaffold();
+  $scope.newReaderFields = {};
+  $scope.readerToUpdate = {};
+  $scope.readerToDelete = {};
 
 
-  $scope.solrReaderForms = {
-    validations: SolrReaderRepo.getValidations(),
-    getResults: SolrReaderRepo.getValidationResults
+  $scope.readerForms = {
+    validations: ReaderRepo.getValidations(),
+    getResults: ReaderRepo.getValidationResults
   };
 
-    SolrReaderRepo.getMetadataFields($scope.metadataFields);
+  ReaderRepo.getMetadataFields($scope.metadataFields);
 
-  $scope.resetSolrReaderForms = function() {
-    SolrReaderRepo.clearValidationResults();
-    for (var key in $scope.solrReaderForms) {
-      if ($scope.solrReaderForms[key] !== undefined && !$scope.solrReaderForms[key].$pristine && $scope.solrReaderForms[key].$setPristine) {
-        $scope.solrReaderForms[key].$setPristine();
+  $scope.resetReaderForms = function() {
+    ReaderRepo.clearValidationResults();
+    for (var key in $scope.readerForms) {
+      if ($scope.readerForms[key] !== undefined && !$scope.readerForms[key].$pristine && $scope.readerForms[key].$setPristine) {
+        $scope.readerForms[key].$setPristine();
       }
     }
     $scope.closeModal();
   };
 
-  $scope.startCreateSolrReader = function() {
-    $scope.openModal("#createSolrReaderModal");
+  $scope.startCreateReader = function() {
+    $scope.openModal("#createReaderModal");
   };
 
-  $scope.createSolrReader = function() {
+  $scope.createReader = function() {
     var fields = [];
-    angular.forEach($scope.newSolrReaderFields, function(valueObj,key) {
+    angular.forEach($scope.newReaderFields, function(valueObj,key) {
         this.push({"name":valueObj.value,"schemaMapping": key});
     },fields);
-    $scope.solrReaderToCreate.fields = fields;
+    $scope.readerToCreate.fields = fields;
 
-    SolrReaderRepo.create($scope.solrReaderToCreate).then(function(res) {
+    ReaderRepo.create($scope.readerToCreate).then(function(res) {
       if(angular.fromJson(res.body).meta.status === "SUCCESS") {
-        $scope.cancelCreateSolrReader();
+        $scope.cancelCreateReader();
       }
     });
   };
 
-  $scope.cancelCreateSolrReader = function() {
-    angular.extend($scope.solrReaderToCreate, SolrReaderRepo.getScaffold());
-    $scope.newSolrReaderFields = {};
-    $scope.resetSolrReaderForms();
+  $scope.cancelCreateReader = function() {
+    angular.extend($scope.readerToCreate, ReaderRepo.getScaffold());
+    $scope.newReaderFields = {};
+    $scope.resetReaderForms();
   };
 
-  $scope.updateSolrReader = function() {
-    $scope.updatingSolrReader = true;
-    $scope.solrReaderToUpdate.dirty(true);
-    $scope.solrReaderToUpdate.save().then(function() {
-      $scope.resetSolrReaderForms();
-      $scope.updatingSolrReader = false;
+  $scope.updateReader = function() {
+    $scope.updatingReader = true;
+    $scope.readerToUpdate.dirty(true);
+    $scope.readerToUpdate.save().then(function() {
+      $scope.resetReaderForms();
+      $scope.updatingReader = false;
     });
   };
 
-  $scope.startUpdateSolrReader = function(reader) {
-    $scope.solrReaderToUpdate = reader;
-    $scope.openModal("#updateSolrReaderModal");
+  $scope.startUpdateReader = function(reader) {
+    $scope.readerToUpdate = reader;
+    $scope.openModal("#updateReaderModal");
   };
 
-  $scope.cancelUpdateSolrReader = function(reader) {
-    $scope.solrReaderToUpdate = {};
-    $scope.resetSolrReaderForms();
+  $scope.cancelUpdateReader = function(reader) {
+    $scope.readerToUpdate = {};
+    $scope.resetReaderForms();
   };
 
-  $scope.confirmDeleteSolrReader = function(reader) {
-    $scope.solrReaderToDelete = reader;
-    $scope.openModal("#confirmDeleteSolrReaderModal");
+  $scope.confirmDeleteReader = function(reader) {
+    $scope.readerToDelete = reader;
+    $scope.openModal("#confirmDeleteReaderModal");
   };
 
-  $scope.cancelDeleteSolrReader = function(reader) {
-    $scope.solrReaderToDelete = {};
-    $scope.resetSolrReaderForms();
+  $scope.cancelDeleteReader = function(reader) {
+    $scope.readerToDelete = {};
+    $scope.resetReaderForms();
   };
 
-  $scope.deleteSolrReader = function() {
-    $scope.deletingSolrReader = true;
-    SolrReaderRepo.delete($scope.solrReaderToDelete).then(function() {
-      $scope.deletingSolrReader = false;
-      $scope.resetSolrReaderForms();
+  $scope.deleteReader = function() {
+    $scope.deletingReader = true;
+    ReaderRepo.delete($scope.readerToDelete).then(function() {
+      $scope.deletingReader = false;
+      $scope.resetReaderForms();
     });
   };
 
-  SolrReaderRepo.ready().then(function() {
+  ReaderRepo.ready().then(function() {
     $scope.setTable = function() {
       $scope.tableParams = new NgTableParams({
-        count: $scope.solrReaders.length,
+        count: $scope.readers.length,
         sorting: {name: 'desc'}
       }, {
         counts: [],
         total: 0,
         getData: function(params) {
-          return $scope.solrReaders;
+          return $scope.readers;
         }
       });
     };

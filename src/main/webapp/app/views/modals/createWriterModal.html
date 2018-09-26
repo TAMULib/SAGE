@@ -1,34 +1,34 @@
-<form name="solrWriterForms.create" ng-submit="createSolrWriter()" novalidate class="solr-core-forms-create">
+<form name="writerForms.create" ng-submit="createWriter()" novalidate class="solr-source-forms-create">
   <div class="modal-header {{attr.modalHeaderClass}}">
-    <button type="button" class="close modal-close" aria-label="Close" ng-click="cancelCreateSolrWriter()"><span aria-hidden="true">&times;</span></button>
-    <h4 class="modal-title">Create Solr Writer</h4>
+    <button type="button" class="close modal-close" aria-label="Close" ng-click="cancelCreateWriter()"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Create Writer</h4>
   </div>
   <div class="modal-body">
 
-    <validationmessage results="solrWriterForms.getResults()"></validationmessage>
+    <validationmessage results="writerForms.getResults()"></validationmessage>
     <div class="row">
-      <div class="col-sm-10 col-sm-offset-1">     
+      <div class="col-sm-10 col-sm-offset-1">
         <validatedinput
-          model="solrWriterToCreate"
+          model="writerToCreate"
           property="name"
           label="Name"
-          placeholder="Name for the new Solr Writer"
-          form="solrWriterForms.create"
-          validations="solrWriterForms.validations"
-          results="solrWriterForms.getResults()"
+          placeholder="Name for the new Writer"
+          form="writerForms.create"
+          validations="writerForms.validations"
+          results="writerForms.getResults()"
           autocomplete="off">
         </validatedinput>
-    
+
         <validatedselect
-          model="solrWriterToCreate"
-          property="solrCore"
-          options="solrCores"
+          model="writerToCreate"
+          property="source"
+          options="sources"
           optionproperty="name"
-          label="Solr Core"
-          placeholder="Solr Core for the new Solr Writer"
-          form="solrWriterForms.create"
-          validations="solrWriterForms.validations"
-          results="solrWriterForms.getResults()"
+          label="Source"
+          placeholder="Source for the new Writer"
+          form="writerForms.create"
+          validations="writerForms.validations"
+          results="writerForms.getResults()"
           autocomplete="off">
         </validatedselect>
 
@@ -36,14 +36,14 @@
         <ul class="list-group">
           <li class="list-group-item" ng-repeat="field in metadataFields">
             <label>{{field}}</label>
-            <input class="form-control" type="text" name="newSolrWriterMappings" ng-model="newSolrWriterMappings[field]" />
+            <input class="form-control" type="text" name="newWriterMappings" ng-model="newWriterMappings[field]" />
           </li>
         </ul>
       </div>
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-default" ng-click="cancelCreateSolrWriter()">Cancel</button>
-    <button ng-disabled="solrCoreForms.create.$invalid" type="submit" class="btn btn-success">Create</button>
+    <button type="button" class="btn btn-default" ng-click="cancelCreateWriter()">Cancel</button>
+    <button ng-disabled="writerForms.create.$invalid" type="submit" class="btn btn-success">Create</button>
   </div>
 </form>

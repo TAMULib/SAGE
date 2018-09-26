@@ -33,7 +33,7 @@
 
     <div class="container-fluid">
       <div class="container">
-        <div class="col-md-12" ng-controller="AdminController">
+        <div class="col-md-12" ng-controller="ManagementController">
           <div class="row">
             <nav class="pull-right">
               <div class="dropdown">
@@ -119,12 +119,13 @@
   <script src="node_modules/weaver-ui-core/app/constants/httpMethodVerbs.js"></script>
 
   <!-- Directives -->
-  <script src="node_modules/weaver-ui-core/app/directives/headerDirective.js"></script>
-  <script src="node_modules/weaver-ui-core/app/directives/footerDirective.js"></script>
-  <script src="node_modules/weaver-ui-core/app/directives/userDirective.js"></script>
-  <script src="node_modules/weaver-ui-core/app/directives/modalDirective.js"></script>
-  <script src="node_modules/weaver-ui-core/app/directives/tooltipDirective.js"></script>
   <script src="node_modules/weaver-ui-core/app/directives/alertDirective.js"></script>
+  <script src="node_modules/weaver-ui-core/app/directives/footerDirective.js"></script>
+  <script src="node_modules/weaver-ui-core/app/directives/headerDirective.js"></script>
+  <script src="node_modules/weaver-ui-core/app/directives/modalDirective.js"></script>
+  <script src="node_modules/weaver-ui-core/app/directives/tabsDirective.js"></script>
+  <script src="node_modules/weaver-ui-core/app/directives/tooltipDirective.js"></script>
+  <script src="node_modules/weaver-ui-core/app/directives/userDirective.js"></script>
   <script src="node_modules/weaver-ui-core/app/directives/validatedInputDirective.js"></script>
   <script src="node_modules/weaver-ui-core/app/directives/validationMessageDirective.js"></script>
   <script src="node_modules/weaver-ui-core/app/directives/validatedSelectDirective.js"></script>
@@ -163,7 +164,7 @@
   <script src="node_modules/weaver-ui-core/app/controllers/loginController.js"></script>
   <script src="node_modules/weaver-ui-core/app/controllers/registrationController.js"></script>
   <script src="node_modules/weaver-ui-core/app/controllers/userController.js"></script>
-  <script src="node_modules/weaver-ui-core/app/controllers/errorpagecontroller.js"></script>
+  <script src="node_modules/weaver-ui-core/app/controllers/errorPageController.js"></script>
 
   <!-- App Libraries -->
 
@@ -178,21 +179,21 @@
 
   <!-- Repos -->
   <script src="repo/abstractAppRepo.js"></script>
-  <script src="repo/solrCoreRepo.js"></script>
-  <script src="repo/solrReaderRepo.js"></script>
-  <script src="repo/solrWriterRepo.js"></script>
+  <script src="repo/sourceRepo.js"></script>
+  <script src="repo/readerRepo.js"></script>
+  <script src="repo/writerRepo.js"></script>
 
   <!-- Models -->
   <script src="model/abstractAppModel.js"></script>
-  <script src="model/solrCoreModel.js"></script>
-  <script src="model/solrReaderModel.js"></script>
-  <script src="model/solrWriterModel.js"></script>
+  <script src="model/sourceModel.js"></script>
+  <script src="model/readerModel.js"></script>
+  <script src="model/writerModel.js"></script>
 
   <!-- Controllers -->
-  <script src="controllers/adminController.js"></script>
-  <script src="controllers/solrCoreManagementController.js"></script>
-  <script src="controllers/solrReaderManagementController.js"></script>
-  <script src="controllers/solrWriterManagementController.js"></script>
+  <script src="controllers/managementController.js"></script>
+  <script src="controllers/management/sourceManagementController.js"></script>
+  <script src="controllers/management/readerManagementController.js"></script>
+  <script src="controllers/management/writerManagementController.js"></script>
 
   <!-- endbuild -->
 

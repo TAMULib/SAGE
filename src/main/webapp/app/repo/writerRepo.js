@@ -1,5 +1,5 @@
-sage.repo("SolrWriterRepo", function(SolrWriter,WsApi) {
-  var solrWriterRepo = this;
+sage.repo("WriterRepo", function(Writer,WsApi) {
+  var writerRepo = this;
 
-  return solrWriterRepo;
+  return writerRepo;
 });

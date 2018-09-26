@@ -1,35 +1,35 @@
-<form name="solrCoreForms.create" ng-submit="createSolrCore()" novalidate class="solr-core-forms-create">
+<form name="sourceForms.create" ng-submit="createSource()" novalidate class="solr-source-forms-create">
   <div class="modal-header {{attr.modalHeaderClass}}">
-    <button type="button" class="close modal-close" aria-label="Close" ng-click="cancelCreateSolrCore()"><span aria-hidden="true">&times;</span></button>
-    <h4 class="modal-title">Create Solr Core</h4>
+    <button type="button" class="close modal-close" aria-label="Close" ng-click="cancelCreateSource()"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Create Source</h4>
   </div>
   <div class="modal-body">
 
-    <validationmessage results="solrCoreForms.getResults()"></validationmessage>
+    <validationmessage results="sourceForms.getResults()"></validationmessage>
 
     <uib-tabset active="activeJustified" justified="true">
       <uib-tab index="0" heading="General">
         <div class="row">
-          <div class="col-sm-10 col-sm-offset-1">     
+          <div class="col-sm-10 col-sm-offset-1">
             <validatedinput
-              model="solrCoreToCreate"
+              model="sourceToCreate"
               property="name"
               label="Name"
-              placeholder="URI for the new Solr Core"
-              form="solrCoreForms.create"
-              validations="solrCoreForms.validations"
-              results="solrCoreForms.getResults()"
+              placeholder="URI for the new Source"
+              form="sourceForms.create"
+              validations="sourceForms.validations"
+              results="sourceForms.getResults()"
               autocomplete="off">
             </validatedinput>
-        
+
             <validatedinput
-              model="solrCoreToCreate"
+              model="sourceToCreate"
               property="uri"
               label="URI"
-              placeholder="URI for the new Solr Core"
-              form="solrCoreForms.create"
-              validations="solrCoreForms.validations"
-              results="solrCoreForms.getResults()"
+              placeholder="URI for the new Source"
+              form="sourceForms.create"
+              validations="sourceForms.validations"
+              results="sourceForms.getResults()"
               autocomplete="off">
             </validatedinput>
           </div>
@@ -37,27 +37,27 @@
       </uib-tab>
       <uib-tab index="1" heading="Authorization">
           <div class="row">
-            <div class="col-sm-10 col-sm-offset-1">     
+            <div class="col-sm-10 col-sm-offset-1">
               <validatedinput
-                model="solrCoreToCreate"
+                model="sourceToCreate"
                 property="username"
                 label="User Name"
-                placeholder="User Name for the new Solr Core"
-                form="solrCoreForms.create"
-                validations="solrCoreForms.validations"
-                results="solrCoreForms.getResults()"
+                placeholder="User Name for the new Source"
+                form="sourceForms.create"
+                validations="sourceForms.validations"
+                results="sourceForms.getResults()"
                 autocomplete="off">
               </validatedinput>
-          
-          
+
+
               <validatedinput
-                model="solrCoreToCreate"
+                model="sourceToCreate"
                 property="password"
                 label="Password"
-                placeholder="Password for the new Solr Core"
-                form="solrCoreForms.create"
-                validations="solrCoreForms.validations"
-                results="solrCoreForms.getResults()"
+                placeholder="Password for the new Source"
+                form="sourceForms.create"
+                validations="sourceForms.validations"
+                results="sourceForms.getResults()"
                 autocomplete="off">
               </validatedinput>
             </div>
@@ -65,15 +65,15 @@
         </uib-tab>
         <uib-tab index="2" heading="Test">
             <div class="row">
-              <div class="col-sm-10 col-sm-offset-1">     
-                <solr-core-test solr-core="solrCoreToCreate"></solr-core-test>
+              <div class="col-sm-10 col-sm-offset-1">
+                <solr-source-test solr-source="sourceToCreate"></solr-source-test>
               </div>
             </div>
           </uib-tab>
     </uib-tabset>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-default" ng-click="cancelCreateSolrCore()">Cancel</button>
-    <button ng-disabled="solrCoreForms.create.$invalid" type="submit" class="btn btn-success">Create</button>
+    <button type="button" class="btn btn-default" ng-click="cancelCreateSource()">Cancel</button>
+    <button ng-disabled="sourceForms.create.$invalid" type="submit" class="btn btn-success">Create</button>
   </div>
 </form>

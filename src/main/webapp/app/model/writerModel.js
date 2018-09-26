@@ -1,7 +1,7 @@
-sage.model("SolrWriter", function(WsApi, HttpMethodVerbs) {
-  return function SolrWriter() {
-    var solrWriter = this;
+sage.model("Writer", function(WsApi, HttpMethodVerbs) {
+  return function Writer() {
+    var writer = this;
 
-    return solrWriter;
+    return writer;
   };
 });
