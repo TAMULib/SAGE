@@ -63,6 +63,34 @@ var apiMapping = {
       'method': 'test/authorization'
     },
   },
+  Job: {
+    channel: '/channel/job/solr',
+    validations: true,
+    all: {
+        'endpoint': '/private/queue',
+        'controller': 'job/solr',
+        'httpMethod': 'GET',
+        'method': ''
+    },
+    create: {
+      'endpoint': '/private/queue',
+      'controller': 'job/solr',
+      'httpMethod': 'POST',
+      'method': ''
+    },
+    update: {
+        'endpoint': '/private/queue',
+        'controller': 'job/solr',
+        'httpMethod': 'PUT',
+        'method': ''
+    },
+    remove: {
+        'endpoint': '/private/queue',
+        'controller': 'job/solr',
+        'httpMethod': 'DELETE',
+        'method': ''
+    }
+  },
   Reader: {
     channel: '/channel/reader/solr',
     validations: true,

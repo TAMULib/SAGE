@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.RestController;
 import edu.tamu.sage.model.Source;
 import edu.tamu.sage.model.User;
 import edu.tamu.sage.model.repo.SourceRepo;
-import edu.tamu.sage.service.SimpleProcessorService;
 import edu.tamu.weaver.auth.annotation.WeaverUser;
 import edu.tamu.weaver.response.ApiResponse;
 import edu.tamu.weaver.validation.aspect.annotation.WeaverValidatedModel;
@@ -42,9 +41,6 @@ public class SourceController {
 
     @Autowired
     private SourceRepo sourceRepo;
-
-    @Autowired
-    private SimpleProcessorService processorService;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -137,13 +133,6 @@ public class SourceController {
     public ApiResponse deleteSolrCore(@WeaverValidatedModel Source source) {
         logger.info("Deleting Source: " + source.getName());
         sourceRepo.delete(source);
-        return new ApiResponse(SUCCESS);
-    }
-
-    @RequestMapping("/testing")
-    @PreAuthorize("hasRole('ANONYMOUS')")
-    public ApiResponse test() {
-        processorService.process();
         return new ApiResponse(SUCCESS);
     }
 
