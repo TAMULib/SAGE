@@ -64,6 +64,7 @@ public class UserControllerTest {
         when(userRepo.findAll()).thenReturn(mockUserList);
         when(userRepo.update(any(User.class))).thenReturn(testUser1);
         doNothing().when(simpMessagingTemplate).convertAndSend(any(String.class), any(Object.class));
+        doNothing().when(userRepo).delete(any(User.class));
     }
 
     @Test
@@ -90,5 +91,11 @@ public class UserControllerTest {
     public void testUpdateUser() throws Exception {
         apiResponse = userController.update(testUser1);
         assertEquals("User was not successfully updated", SUCCESS, apiResponse.getMeta().getStatus());
+    }
+    
+    @Test
+    public void testDeleteUser() throws Exception {
+        apiResponse = userController.delete(testUser1);
+        assertEquals("User was not successfully deleted", SUCCESS, apiResponse.getMeta().getStatus());
     }
 }
