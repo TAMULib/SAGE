@@ -25,16 +25,12 @@ import org.springframework.stereotype.Service;
 import edu.tamu.sage.model.Field;
 import edu.tamu.sage.model.Reader;
 import edu.tamu.sage.model.Writer;
-import edu.tamu.sage.model.repo.ReaderRepo;
-import edu.tamu.sage.model.repo.WriterRepo;
+import edu.tamu.sage.model.repo.JobRepo;
 
 @Service
 public class SimpleProcessorService implements ProcessorService {
     @Autowired
-    private ReaderRepo solrReaderRepo;
-
-    @Autowired
-    private WriterRepo solrWriterRepo;
+    private JobRepo jobRepo;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -176,18 +172,19 @@ public class SimpleProcessorService implements ProcessorService {
 
         List<Map<String,String>> mappedResults = new ArrayList<Map<String,String>>();
 
-        List<Reader> solrReaders = solrReaderRepo.findAll();
-        solrReaders.forEach(solrReader -> {
-            mappedResults.addAll(readSolrCore(solrReader));
-        });
-
-        if (!mappedResults.isEmpty()) {
-            solrWriterRepo.findAll().forEach(writer -> {
-                writeSolrCore(writer,mappedResults);
+        jobRepo.findAll().forEach(job -> {
+            job.getReaders().forEach(reader -> {
+                mappedResults.addAll(readSolrCore(reader));
             });
-        } else {
-            logger.info("SOLR Writer results: There were no documents to write");
-        }
+
+            if (!mappedResults.isEmpty()) {
+                job.getWriters().forEach(writer -> {
+                    writeSolrCore(writer,mappedResults);
+                });
+            } else {
+                logger.info("Writer results: There were no documents to write");
+            }
+        });
     }
 
 }
