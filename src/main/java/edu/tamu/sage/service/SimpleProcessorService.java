@@ -23,6 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.tamu.sage.model.Field;
+import edu.tamu.sage.model.Job;
 import edu.tamu.sage.model.Reader;
 import edu.tamu.sage.model.Writer;
 import edu.tamu.sage.model.repo.JobRepo;
@@ -167,12 +168,20 @@ public class SimpleProcessorService implements ProcessorService {
         }
     }
 
-    public void process() {
+    public void process(Map<String,String> configuration) {
         logger.info("Processing!");
 
         List<Map<String,String>> mappedResults = new ArrayList<Map<String,String>>();
 
-        jobRepo.findAll().forEach(job -> {
+        List<Job> jobs = new ArrayList<Job>();
+
+        if (configuration != null && configuration.containsKey("jobId")) {
+            jobs.add(jobRepo.findOne(Long.parseLong(configuration.get("jobId"))));
+        } else {
+            jobs.addAll(jobRepo.findAll());
+        }
+
+        jobs.forEach(job -> {
             job.getReaders().forEach(reader -> {
                 mappedResults.addAll(readSolrCore(reader));
             });
@@ -186,5 +195,4 @@ public class SimpleProcessorService implements ProcessorService {
             }
         });
     }
-
 }
