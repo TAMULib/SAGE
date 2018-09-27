@@ -9,6 +9,6 @@ public class JobRepoImpl extends AbstractWeaverRepoImpl<Job, JobRepo> implements
 
     @Override
     protected String getChannel() {
-        return "/channel/job";
+        return "/channel/job/solr";
     }
 }
