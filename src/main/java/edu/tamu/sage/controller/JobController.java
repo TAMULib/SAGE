@@ -10,8 +10,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.tamu.sage.model.Job;
@@ -29,13 +32,13 @@ public class JobController {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     @PreAuthorize("hasRole('USER')")
     public ApiResponse getAll() {
         return new ApiResponse(SUCCESS, jobRepo.findAll());
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     @PreAuthorize("hasRole('USER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = CREATE) })
     public ApiResponse createReader(@WeaverValidatedModel Job job) {
@@ -43,7 +46,7 @@ public class JobController {
         return new ApiResponse(SUCCESS, jobRepo.create(job));
     }
 
-    @RequestMapping(method = RequestMethod.PUT)
+    @PutMapping
     @PreAuthorize("hasRole('USER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = UPDATE) })
     public ApiResponse updateReader(@WeaverValidatedModel Job job) {
@@ -51,7 +54,7 @@ public class JobController {
         return new ApiResponse(SUCCESS, jobRepo.update(job));
     }
 
-    @RequestMapping(method = RequestMethod.DELETE)
+    @DeleteMapping
     @PreAuthorize("hasRole('USER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = DELETE) })
     public ApiResponse deleteReader(@WeaverValidatedModel Job job) {
