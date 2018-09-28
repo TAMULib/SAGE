@@ -12,6 +12,10 @@ matrix:
     addons:
       - chrome: stable
     before_script:
+      - cp src/main/resources/templates/index.html src/main/webapp/app/
+      - sed -i -e "s|\${ base + '/'}\"|/\"|" src/main/resources/templates/index.html
+      - sed -i -e "s|\[\[\${base}\]\]|\"/\"|g" src/main/resources/templates/index.html
+      - ln -s ../../../../node_modules src/main/webapp/app/node_modules
       - export DISPLAY=:99.0
       - sh -e /etc/init.d/xvfb start
       - npm start > /dev/null &
