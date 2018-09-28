@@ -32,6 +32,17 @@
           autocomplete="off">
         </validatedselect>
 
+        <validatedinput
+          model="readerToCreate"
+          property="filter"
+          label="Filter"
+          placeholder=""
+          form="readerForms.create"
+          validations="readerForms.validations"
+          results="readerForms.getResults()"
+          autocomplete="off">
+        </validatedinput>
+
         <label>Field Mappings</label>
         <ul class="list-group">
           <li class="list-group-item" ng-repeat="field in metadataFields">

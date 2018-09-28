@@ -12,7 +12,7 @@
           model="readerToUpdate"
           property="name"
           label="Name"
-          form="readerForms.create"
+          form="readerForms.update"
           validations="readerForms.validations"
           results="readerForms.getResults()"
           autocomplete="off">
@@ -24,11 +24,22 @@
           options="sources"
           optionproperty="name"
           label="Source"
-          form="readerForms.create"
+          form="readerForms.update"
           validations="readerForms.validations"
           results="readerForms.getResults()"
           autocomplete="off">
         </validatedselect>
+
+        <validatedinput
+          model="readerToUpdate"
+          property="filter"
+          label="Filter"
+          placeholder=""
+          form="readerForms.update"
+          validations="readerForms.validations"
+          results="readerForms.getResults()"
+          autocomplete="off">
+        </validatedinput>
 
         <label>Field Mappings</label>
         <ul class="list-group">
