@@ -46,7 +46,7 @@ public class SimpleProcessorService implements ProcessorService {
             solr.ping();
 
             SolrQuery query = new SolrQuery();
-            query.set("q", "*:*");
+            query.set("q", solrReader.getFilter());
             query.set("rows", "500");
 
             query.addSort(((solrReader.getSortTitle() != null) ? "sort="+solrReader.getSortTitle()+" asc, ":"")+solrReader.getSortId() , ORDER.asc);

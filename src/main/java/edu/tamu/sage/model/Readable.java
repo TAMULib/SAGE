@@ -17,4 +17,6 @@ public interface Readable {
 
     public String getSortTitle();
     public String getSortId();
+
+    public String getFilter();
 }
