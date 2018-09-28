@@ -235,6 +235,13 @@ module.exports = function (grunt) {
                       expand: true
                   }],
               }
+          },
+
+          coveralls: {
+              options: {
+                  debug: true,
+                  coverageDir: 'src/main/webapp/coverage/'
+              }
           }
 
       });
@@ -247,8 +254,11 @@ module.exports = function (grunt) {
       grunt.loadNpmTasks('grunt-contrib-jshint');
       grunt.loadNpmTasks('grunt-contrib-uglify');
       grunt.loadNpmTasks('grunt-contrib-symlink');
+      grunt.loadNpmTasks('grunt-karma-coveralls');
 
       grunt.registerTask('default', ['jshint', 'copy:styles', 'clean', 'symlink']);
+
+      grunt.registerTask('coverage', ['jshint', 'copy:styles', 'symlink', 'coveralls']);
 
       grunt.registerTask('watch', ['watch']);
 
