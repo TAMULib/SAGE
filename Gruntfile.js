@@ -108,6 +108,8 @@ module.exports = function (grunt) {
                       'node_modules/weaver-ui-core/app/directives/footerDirective.js',
                       'node_modules/weaver-ui-core/app/directives/userDirective.js',
                       'node_modules/weaver-ui-core/app/directives/modalDirective.js',
+                      'node_modules/weaver-ui-core/app/directives/tabsDirective.js',
+                      'node_modules/weaver-ui-core/app/directives/tooltipDirective.js',
                       'node_modules/weaver-ui-core/app/directives/alertDirective.js',
                       'node_modules/weaver-ui-core/app/directives/validationMessageDirective.js',
                       'node_modules/weaver-ui-core/app/directives/validatedInputDirective.js',
