@@ -72,6 +72,11 @@ describe('controller: SourceManagementController', function () {
         expect(typeof scope.resetSourceForms).toEqual("function");
       });
 
+      it('setTable should be defined', function () {
+        expect(scope.setTable).toBeDefined();
+        expect(typeof scope.setTable).toEqual("function");
+      });
+
       it('startCreateSource should be defined', function () {
         expect(scope.startCreateSource).toBeDefined();
         expect(typeof scope.startCreateSource).toEqual("function");
@@ -169,11 +174,27 @@ describe('controller: SourceManagementController', function () {
         spyOn(SourceRepo, 'clearValidationResults');
         spyOn(scope, 'closeModal');
 
+        var key;
+        for (key in scope.sourceForms) {
+          scope.sourceForms[key].$setPristine = function() { };
+          spyOn(scope.sourceForms[key], '$setPristine');
+        }
+
         scope.resetSourceForms();
         scope.$digest();
 
         expect(SourceRepo.clearValidationResults).toHaveBeenCalled();
         expect(scope.closeModal).toHaveBeenCalled();
+
+        for (key in scope.sourceForms) {
+          expect(scope.sourceForms[key].$setPristine).toHaveBeenCalled();
+        }
+      });
+
+      it('setTable should start creating a sources', function () {
+        var data = scope.tableParams._settings.getData();
+
+        expect(scope.sources).toEqual(data);
       });
 
       it('startCreateSource should start creating a source', function () {
