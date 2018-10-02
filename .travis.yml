@@ -1,10 +1,23 @@
-language: java
+matrix:
+  include:
+  - language: java
+    jdk: oraclejdk8
+    install:
+      - mvn test-compile -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+    after_success:
+      - mvn clean test cobertura:cobertura jacoco:report coveralls:report
 
-jdk:
-  - oraclejdk8
-
-install:
-  - mvn test-compile -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-
-after_success:
-  - mvn clean test cobertura:cobertura jacoco:report coveralls:report
+  - language: node_js
+    node_js: "6"
+    addons:
+      - chrome: stable
+    before_script:
+      - export DISPLAY=:99.0
+      - sh -e /etc/init.d/xvfb start
+      - npm start > /dev/null &
+      - npm run update-webdriver
+      - sleep 1 # give server time to start
+      - grunt coverage-preprocess
+    script:
+      - npm run test-ci
+      - grunt coverage

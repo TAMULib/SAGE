@@ -80,6 +80,11 @@ describe('controller: WriterManagementController', function () {
         expect(typeof scope.resetWriterForms).toEqual("function");
       });
 
+      it('setTable should be defined', function () {
+        expect(scope.setTable).toBeDefined();
+        expect(typeof scope.setTable).toEqual("function");
+      });
+
       it('startCreateWriter should be defined', function () {
         expect(scope.startCreateWriter).toBeDefined();
         expect(typeof scope.startCreateWriter).toEqual("function");
@@ -180,11 +185,27 @@ describe('controller: WriterManagementController', function () {
         spyOn(WriterRepo, 'clearValidationResults');
         spyOn(scope, 'closeModal');
 
+        var key;
+        for (key in scope.writerForms) {
+          scope.writerForms[key].$setPristine = function() { };
+          spyOn(scope.writerForms[key], '$setPristine');
+        }
+
         scope.resetWriterForms();
         scope.$digest();
 
         expect(WriterRepo.clearValidationResults).toHaveBeenCalled();
         expect(scope.closeModal).toHaveBeenCalled();
+
+        for (key in scope.writerForms) {
+          expect(scope.writerForms[key].$setPristine).toHaveBeenCalled();
+        }
+      });
+
+      it('setTable should start creating a writers', function () {
+        var data = scope.tableParams._settings.getData();
+
+        expect(scope.writers).toEqual(data);
       });
 
       it('startCreateWriter should start creating a writer', function () {

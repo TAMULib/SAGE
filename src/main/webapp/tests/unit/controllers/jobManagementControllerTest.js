@@ -84,6 +84,11 @@ describe('controller: JobManagementController', function () {
         expect(typeof scope.resetJobForms).toEqual("function");
       });
 
+      it('setTable should be defined', function () {
+        expect(scope.setTable).toBeDefined();
+        expect(typeof scope.setTable).toEqual("function");
+      });
+
       it('startCreateJob should be defined', function () {
         expect(scope.startCreateJob).toBeDefined();
         expect(typeof scope.startCreateJob).toEqual("function");
@@ -181,11 +186,27 @@ describe('controller: JobManagementController', function () {
         spyOn(JobRepo, 'clearValidationResults');
         spyOn(scope, 'closeModal');
 
+        var key;
+        for (key in scope.jobForms) {
+          scope.jobForms[key].$setPristine = function() { };
+          spyOn(scope.jobForms[key], '$setPristine');
+        }
+
         scope.resetJobForms();
         scope.$digest();
 
         expect(JobRepo.clearValidationResults).toHaveBeenCalled();
         expect(scope.closeModal).toHaveBeenCalled();
+
+        for (key in scope.jobForms) {
+          expect(scope.jobForms[key].$setPristine).toHaveBeenCalled();
+        }
+      });
+
+      it('setTable should start creating a job', function () {
+        var data = scope.tableParams._settings.getData();
+
+        expect(scope.jobs).toEqual(data);
       });
 
       it('startCreateJob should start creating a job', function () {

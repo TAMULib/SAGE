@@ -78,6 +78,11 @@ describe('controller: ReaderManagementController', function () {
         expect(typeof scope.resetReaderForms).toEqual("function");
       });
 
+      it('setTable should be defined', function () {
+        expect(scope.setTable).toBeDefined();
+        expect(typeof scope.setTable).toEqual("function");
+      });
+
       it('startCreateReader should be defined', function () {
         expect(scope.startCreateReader).toBeDefined();
         expect(typeof scope.startCreateReader).toEqual("function");
@@ -178,11 +183,27 @@ describe('controller: ReaderManagementController', function () {
         spyOn(ReaderRepo, 'clearValidationResults');
         spyOn(scope, 'closeModal');
 
+        var key;
+        for (key in scope.readerForms) {
+          scope.readerForms[key].$setPristine = function() { };
+          spyOn(scope.readerForms[key], '$setPristine');
+        }
+
         scope.resetReaderForms();
         scope.$digest();
 
         expect(ReaderRepo.clearValidationResults).toHaveBeenCalled();
         expect(scope.closeModal).toHaveBeenCalled();
+
+        for (key in scope.readerForms) {
+          expect(scope.readerForms[key].$setPristine).toHaveBeenCalled();
+        }
+      });
+
+      it('setTable should start creating a reader', function () {
+        var data = scope.tableParams._settings.getData();
+
+        expect(scope.readers).toEqual(data);
       });
 
       it('startCreateReader should start creating a reader', function () {
