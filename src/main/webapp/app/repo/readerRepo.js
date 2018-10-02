@@ -2,7 +2,7 @@ sage.repo("ReaderRepo", function(Reader, WsApi) {
   var readerRepo = this;
 
   readerRepo.scaffold = {
-    filter: "*.*"
+    filter: "*:*"
   };
 
   readerRepo.getMetadataFields = function(fields) {
