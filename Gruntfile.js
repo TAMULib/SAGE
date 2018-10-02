@@ -258,6 +258,8 @@ module.exports = function (grunt) {
 
       grunt.registerTask('default', ['jshint', 'copy:styles', 'clean', 'symlink']);
 
+      grunt.registerTask('coverage-preprocess', ['concat', 'usemin', 'clean', 'copy', 'symlink']);
+
       grunt.registerTask('coverage', ['jshint', 'copy:styles', 'symlink', 'coveralls']);
 
       grunt.registerTask('watch', ['watch']);
