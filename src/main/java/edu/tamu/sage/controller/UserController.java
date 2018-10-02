@@ -9,6 +9,7 @@
  */
 package edu.tamu.sage.controller;
 
+import static edu.tamu.weaver.response.ApiStatus.ERROR;
 import static edu.tamu.weaver.response.ApiStatus.SUCCESS;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,9 @@ public class UserController {
     @RequestMapping("/credentials")
     @PreAuthorize("hasRole('USER')")
     public ApiResponse credentials(@WeaverCredentials Credentials credentials) {
+        if (credentials == null) {
+            return new ApiResponse(ERROR, "Unable to retrieve credentials!");
+        }
         return new ApiResponse(SUCCESS, credentials);
     }
 

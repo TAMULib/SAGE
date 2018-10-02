@@ -1,0 +1,81 @@
+<form name="sourceForms.update" ng-submit="updateSource()" novalidate class="solr-source-forms-update">
+  <div class="modal-header {{attr.modalHeaderClass}}">
+    <button type="button" class="close modal-close" aria-label="Close" ng-click="cancelUpdateSource()"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">update Solr Source</h4>
+  </div>
+  <div class="modal-body">
+    <validationmessage results="sourceForms.getResults()"></validationmessage>
+
+    <uib-tabset active="activeJustified" justified="true">
+      <uib-tab index="0" heading="General">
+        <div class="row">
+          <div class="col-sm-10 col-sm-offset-1">
+            <validatedinput
+              model="sourceToUpdate"
+              property="name"
+              label="Name"
+              placeholder="URI for the new Solr Source"
+              form="sourceForms.create"
+              validations="sourceForms.validations"
+              results="sourceForms.getResults()"
+              autocomplete="off">
+            </validatedinput>
+
+            <validatedinput
+              model="sourceToUpdate"
+              property="uri"
+              label="URI"
+              placeholder="URI for the new Solr Source"
+              form="sourceForms.create"
+              validations="sourceForms.validations"
+              results="sourceForms.getResults()"
+              autocomplete="off">
+            </validatedinput>
+          </div>
+        </div>
+      </uib-tab>
+      <uib-tab index="1" heading="Authorization">
+          <div class="row">
+            <div class="col-sm-10 col-sm-offset-1">
+              <validatedinput
+                model="sourceToUpdate"
+                property="username"
+                label="User Name"
+                placeholder="User Name for the new Solr Source"
+                form="sourceForms.create"
+                validations="sourceForms.validations"
+                results="sourceForms.getResults()"
+                autocomplete="off">
+              </validatedinput>
+
+              <validatedinput
+                model="sourceToUpdate"
+                property="password"
+                label="Password"
+                placeholder="Password for the new Solr Source"
+                form="sourceForms.create"
+                validations="sourceForms.validations"
+                results="sourceForms.getResults()"
+                autocomplete="off">
+              </validatedinput>
+            </div>
+          </div>
+        </uib-tab>
+        <uib-tab index="2" heading="Test">
+            <div class="row">
+              <div class="col-sm-10 col-sm-offset-1">
+                <solr-source-test solr-source="sourceToUpdate"></solr-source-test>
+              </div>
+            </div>
+          </uib-tab>
+    </uib-tabset>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="cancelUpdateSource()">Cancel</button>
+    <span ng-show="updatingSource">
+      <span class="glyphicon glyphicon-refresh spinning"></span>
+    </span>
+    <button ng-hide="updatingSource" ng-disabled="sourceForms.update.$invalid" type="submit" class="btn btn-success">Update</button>
+  </div>
+</form>

@@ -1,0 +1,72 @@
+<form name="readerForms.create" ng-submit="createReader()" novalidate class="solr-source-forms-create">
+  <div class="modal-header {{attr.modalHeaderClass}}">
+    <button type="button" class="close modal-close" aria-label="Close" ng-click="cancelCreateReader()"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Create Reader</h4>
+  </div>
+  <div class="modal-body">
+    <validationmessage results="readerForms.getResults()"></validationmessage>
+
+    <div class="row">
+      <div class="col-sm-10 col-sm-offset-1">
+        <validatedinput
+          model="readerToCreate"
+          property="name"
+          label="Name"
+          placeholder="Name for the new Reader"
+          form="readerForms.create"
+          validations="readerForms.validations"
+          results="readerForms.getResults()"
+          autocomplete="off">
+        </validatedinput>
+
+        <validatedselect
+          model="readerToCreate"
+          property="source"
+          options="sources"
+          optionproperty="name"
+          label="Source"
+          placeholder="Source for the new Reader"
+          form="readerForms.create"
+          validations="readerForms.validations"
+          results="readerForms.getResults()"
+          autocomplete="off">
+        </validatedselect>
+
+        <validatedinput
+          model="readerToCreate"
+          property="filter"
+          label="Filter"
+          placeholder=""
+          form="readerForms.create"
+          validations="readerForms.validations"
+          results="readerForms.getResults()"
+          autocomplete="off">
+        </validatedinput>
+
+        <label>Field Mappings</label>
+        <ul class="list-group">
+          <li class="list-group-item" ng-repeat="field in metadataFields">
+            <label>{{field}}</label>
+            <input class="form-control" type="text" name="fieldMapping" ng-model="newReaderFields[field].value" />
+          </li>
+        </ul>
+
+        <label>Sort Fields</label>
+        <ul class="list-group">
+          <li class="list-group-item">
+            <label>Title</label>
+            <input class="form-control" type="text" name="sortTitle" ng-model="readerToCreate.sortTitle" />
+          </li>
+          <li class="list-group-item">
+            <label>ID</label>
+            <input class="form-control" type="text" name="sortId" ng-model="readerToCreate.sortId" />
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="cancelCreateReader()">Cancel</button>
+    <button ng-disabled="readerForms.create.$invalid" type="submit" class="btn btn-success">Create</button>
+  </div>
+</form>
