@@ -6,12 +6,12 @@
 
   <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
-    window.location.base = "/";
+    window.location.base = [[${base}]];
     /*]]>*/
   </script>
 
 
-  <base th:href="/" />
+  <base th:href="${ base + '/'}" />
 
   <title>Sage :: Solr Aggregation Engine</title>
 
