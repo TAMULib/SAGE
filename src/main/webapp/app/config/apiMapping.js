@@ -152,5 +152,33 @@ var apiMapping = {
         'httpMethod': 'DELETE',
         'method': ''
     }
+  },
+  DiscoveryView: {
+    channel: '/channel/discovery-view',
+    validations: true,
+    all: {
+        'endpoint': '/private/queue',
+        'controller': 'discovery-view',
+        'httpMethod': 'GET',
+        'method': ''
+    },
+    create: {
+      'endpoint': '/private/queue',
+      'controller': 'discovery-view',
+      'httpMethod': 'POST',
+      'method': ''
+    },
+    update: {
+        'endpoint': '/private/queue',
+        'controller': 'discovery-view',
+        'httpMethod': 'PUT',
+        'method': ''
+    },
+    remove: {
+        'endpoint': '/private/queue',
+        'controller': 'discovery-view',
+        'httpMethod': 'DELETE',
+        'method': ''
+    }
   }
 };

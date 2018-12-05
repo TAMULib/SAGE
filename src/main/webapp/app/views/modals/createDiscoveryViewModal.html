@@ -1,0 +1,28 @@
+<form name="discoveryViewForms.create" ng-submit="createDiscoveryView()" novalidate class="solr-source-forms-create">
+  <div class="modal-header {{attr.modalHeaderClass}}">
+    <button type="button" class="close modal-close" aria-label="Close" ng-click="cancelCreateDiscoveryView()"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Create DiscoveryView</h4>
+  </div>
+  <div class="modal-body">
+
+    <validationmessage results="discoveryViewForms.getResults()"></validationmessage>
+    <div class="row">
+      <div class="col-sm-10 col-sm-offset-1">
+        <validatedinput
+          model="discoveryViewToCreate"
+          property="name"
+          label="Name"
+          placeholder="Name for the new Discovery View"
+          form="discoveryViewForms.create"
+          validations="discoveryViewForms.validations"
+          results="discoveryViewForms.getResults()"
+          autocomplete="off">
+        </validatedinput>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="cancelCreateDiscoveryView()">Cancel</button>
+    <button ng-disabled="discoveryViewForms.create.$invalid" type="submit" class="btn btn-success">Create</button>
+  </div>
+</form>

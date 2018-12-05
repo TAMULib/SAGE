@@ -1,0 +1,12 @@
+package edu.tamu.sage.model.validation;
+
+import edu.tamu.weaver.validation.model.InputValidationType;
+import edu.tamu.weaver.validation.validators.BaseModelValidator;
+import edu.tamu.weaver.validation.validators.InputValidator;
+
+public class DiscoveryViewValidator extends BaseModelValidator {
+    public DiscoveryViewValidator() {
+        String nameProperty = "name";
+        this.addInputValidator(new InputValidator(InputValidationType.required, "A Discovery View requires a name", nameProperty, true));
+    }
+}
