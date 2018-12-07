@@ -10,6 +10,7 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
 
   discoveryContext.ready().then(function() {
     $scope.discoveryContext = discoveryContext;
+    console.log($scope.discoveryContext);
   });
 
 });
