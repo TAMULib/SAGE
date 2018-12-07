@@ -180,5 +180,16 @@ var apiMapping = {
         'httpMethod': 'DELETE',
         'method': ''
     }
+  },
+  DiscoveryContext: {
+    channel: '/channel/discovery-view/context',
+    validations: false,
+    method: "",
+    lazy: false,
+    load: {
+      'endpoint': '/private/queue',
+      'controller': 'discovery-view/context',
+      'method': ':slug'
+    }
   }
 };

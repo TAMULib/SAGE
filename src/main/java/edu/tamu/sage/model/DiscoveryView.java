@@ -10,7 +10,7 @@ import edu.tamu.weaver.validation.model.ValidatingBaseEntity;
 @Entity
 public class DiscoveryView extends ValidatingBaseEntity {
     
-    @Column(unique=true)
+    @Column
     private String name;
     
     @ManyToOne
@@ -19,7 +19,7 @@ public class DiscoveryView extends ValidatingBaseEntity {
     @Column
     private String filter;
     
-    @Column
+    @Column(unique=true)
     private String slug;
 
     public DiscoveryView() {

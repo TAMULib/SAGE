@@ -65,4 +65,11 @@ public class DiscoveryViewController {
         discoveryViewRepo.delete(discoveryView);
         return new ApiResponse(SUCCESS);
     }
+    
+    @RequestMapping(value="/context/{slug}", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('ANONYMOUS')")
+    public ApiResponse findBySlug(@PathVariable String slug) {
+        logger.info(slug);
+        return new ApiResponse(SUCCESS, discoveryViewRepo.findOneBySlug(slug));
+    }
 }

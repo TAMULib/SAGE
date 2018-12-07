@@ -17,6 +17,11 @@ sage.config(function ($locationProvider, $routeProvider) {
         controller: 'ManagementController',
         access: ["ROLE_ADMIN", "ROLE_MANAGER"]
       }).
+      when('/discovery-context/:slug', {
+        templateUrl: 'views/discovery/discovery-context.html',
+        controller: 'DiscoveryContextController'
+      }).
+      
       // Error Routes
       when('/error/403', {
           templateUrl: 'views/errors/403.html',

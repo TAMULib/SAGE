@@ -6,4 +6,6 @@ import edu.tamu.weaver.data.model.repo.WeaverRepo;
 
 public interface DiscoveryViewRepo extends WeaverRepo<DiscoveryView>, DiscoveryViewRepoCustom {
 
+    public DiscoveryView findOneBySlug(String slug);
+    
 }
