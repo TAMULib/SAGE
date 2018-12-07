@@ -18,6 +18,31 @@
           results="discoveryViewForms.getResults()"
           autocomplete="off">
         </validatedinput>
+
+        <validatedselect
+          model="discoveryViewToCreate"
+          property="source"
+          options="sources"
+          optionproperty="name"
+          label="Source"
+          placeholder="Source for the new Writer"
+          form="writerForms.create"
+          validations="writerForms.validations"
+          results="writerForms.getResults()"
+          autocomplete="off">
+        </validatedselect>
+
+        <validatedinput
+          model="discoveryViewToCreate"
+          property="filter"
+          label="Filter"
+          placeholder=""
+          form="readerForms.create"
+          validations="readerForms.validations"
+          results="readerForms.getResults()"
+          autocomplete="off">
+        </validatedinput>
+
       </div>
     </div>
   </div>
