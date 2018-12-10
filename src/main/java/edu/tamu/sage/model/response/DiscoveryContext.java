@@ -3,8 +3,6 @@ package edu.tamu.sage.model.response;
 import java.io.Serializable;
 import java.util.List;
 
-import edu.tamu.sage.model.DiscoveryView;
-
 public class DiscoveryContext implements Serializable {
 
     private static final long serialVersionUID = 6808155032067806535L;
@@ -13,15 +11,16 @@ public class DiscoveryContext implements Serializable {
     
     private List<Result> results;
     
-    public DiscoveryContext() {}
+    private List<SolrField> fields;
+
     
-    public DiscoveryContext(String name, List<Result> results) {
-        this.name = name;
-        this.results = results;
+    public DiscoveryContext() {
+        super();
     }
     
-    public static DiscoveryContext of(DiscoveryView discoveryView, List<Result> results) {
-        return new DiscoveryContext(discoveryView.getName(), results);
+    public DiscoveryContext(String name) {
+        this();
+        this.name = name;
     }
 
     public String getName() {
@@ -38,5 +37,13 @@ public class DiscoveryContext implements Serializable {
 
     public void setResults(List<Result> results) {
         this.results = results;
+    }
+
+    public List<SolrField> getFields() {
+        return fields;
+    }
+
+    public void setFields(List<SolrField> fields) {
+        this.fields = fields;
     }
 }

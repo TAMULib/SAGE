@@ -19,6 +19,8 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
     getResults: DiscoveryViewRepo.getValidationResults
   };
 
+  console.log($scope.discoveryViewForms);
+
   $scope.resetDiscoveryViewForms = function() {
     DiscoveryViewRepo.clearValidationResults();
     for (var key in $scope.discoveryViewForms) {
@@ -45,6 +47,29 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
     angular.extend($scope.discoveryViewToCreate, DiscoveryViewRepo.getScaffold());
     $scope.newDiscoveryViewFields = {};
     $scope.resetDiscoveryViewForms();
+  };
+
+  $scope.createDiscoveryViewGeneralIsInvalid = function() {
+
+    var createName = $scope.discoveryViewForms.create.name;
+    var createSource = $scope.discoveryViewForms.create.source;
+    var createFilter = $scope.discoveryViewForms.create.filter;
+    var createSlug = $scope.discoveryViewForms.create.slug;
+
+    return  (createName && createName.$invalid) ||
+            (createSource && createSource.$invalid) ||
+            (createFilter && createFilter.$invalid) ||
+            (createSlug && createSlug.$invalid);
+  };
+
+  $scope.createDiscoveryViewResultsIsInvalid = function() {
+
+    var createPrimaryKey = $scope.discoveryViewForms.create.primaryKey;
+    var createPrimaryURI = $scope.discoveryViewForms.create.primaryURIKey;
+
+    return  (createPrimaryKey && createPrimaryKey.$invalid) ||
+            (createPrimaryURI && createPrimaryURI.$invalid);
+            
   };
 
   $scope.updateDiscoveryView = function() {

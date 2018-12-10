@@ -6,6 +6,9 @@ import static edu.tamu.weaver.validation.model.BusinessValidationType.CREATE;
 import static edu.tamu.weaver.validation.model.BusinessValidationType.DELETE;
 import static edu.tamu.weaver.validation.model.BusinessValidationType.UPDATE;
 
+import java.io.IOException;
+
+import org.apache.solr.client.solrj.SolrServerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.tamu.sage.exceptions.DiscoveryContextBuildException;
 import edu.tamu.sage.exceptions.DiscoveryContextNotFoundException;
 import edu.tamu.sage.model.DiscoveryView;
 import edu.tamu.sage.model.repo.DiscoveryViewRepo;
@@ -75,11 +79,11 @@ public class DiscoveryViewController {
     
     @RequestMapping(value="/context/{slug}", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ANONYMOUS')")
-    public ApiResponse findBySlug(@PathVariable String slug) throws DiscoveryContextNotFoundException {
+    public ApiResponse findBySlug(@PathVariable String slug) throws DiscoveryContextNotFoundException, DiscoveryContextBuildException {
         DiscoveryView discoveryView = discoveryViewRepo.findOneBySlug(slug);
         if(discoveryView == null) {
             throw new DiscoveryContextNotFoundException(String.format("Could not find Discovery Context for %s", slug));
         }
-        return new ApiResponse(SUCCESS, DiscoveryContext.of(discoveryView,  solrDiscoveryService.readSolrCore(discoveryView)));
+        return new ApiResponse(SUCCESS, solrDiscoveryService.buildDiscoveryContext(discoveryView));
     }
 }

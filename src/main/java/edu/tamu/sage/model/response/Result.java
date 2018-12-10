@@ -1,35 +1,31 @@
 package edu.tamu.sage.model.response;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.solr.common.SolrDocument;
 
 public class Result {
 
-    private List<ResultField> fields;
+    private Map<String, String> fields;
     
     public Result() {
-        this.fields = new ArrayList<ResultField>();
+        this.fields = new HashMap<String, String>();
     }
     
-    public List<ResultField> getFields() {
+    public Map<String, String> getFields() {
         return fields;
     }
 
-    public void setFields(List<ResultField> fields) {
+    public void setFields(Map<String, String> fields) {
         this.fields = fields;
-    }
-    
-    public void addResultField(ResultField resultField) {
-        this.fields.add(resultField);
     }
 
     public static Result of(SolrDocument doc, Collection<String> fieldNames) {
         Result result = new Result();
         for (String s: fieldNames) {
-            result.addResultField(ResultField.of(s, doc.getFieldValue(s).toString()));
+            result.fields.put(s, doc.getFieldValue(s).toString());
         }
         return result;
     }

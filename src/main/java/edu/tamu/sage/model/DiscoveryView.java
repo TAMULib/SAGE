@@ -19,6 +19,12 @@ public class DiscoveryView extends ValidatingBaseEntity {
     @Column
     private String filter;
     
+    @Column
+    private String primaryKey;
+    
+    @Column
+    private String primaryURIKey;
+    
     @Column(unique=true)
     private String slug;
 
@@ -56,6 +62,22 @@ public class DiscoveryView extends ValidatingBaseEntity {
 
     public void setSlug(String slug) {
         this.slug = slug;
+    }
+
+    public String getPrimaryKey() {
+        return primaryKey;
+    }
+
+    public void setPrimaryKey(String primaryKey) {
+        this.primaryKey = primaryKey;
+    }
+
+    public String getPrimaryURIKey() {
+        return primaryURIKey;
+    }
+
+    public void setPrimaryURIKey(String primaryURIKey) {
+        this.primaryURIKey = primaryURIKey;
     }
     
     

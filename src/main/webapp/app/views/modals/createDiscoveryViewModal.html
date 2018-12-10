@@ -6,59 +6,106 @@
   <div class="modal-body">
 
     <validationmessage results="discoveryViewForms.getResults()"></validationmessage>
-    <div class="row">
-      <div class="col-sm-10 col-sm-offset-1">
-        <validatedinput
-          model="discoveryViewToCreate"
-          property="name"
-          label="Name"
-          placeholder="Name for the new Discovery View"
-          form="discoveryViewForms.create"
-          validations="discoveryViewForms.validations"
-          results="discoveryViewForms.getResults()"
-          autocomplete="off">
-        </validatedinput>
 
-        <validatedselect
-          model="discoveryViewToCreate"
-          property="source"
-          options="sources"
-          optionproperty="name"
-          label="Source"
-          placeholder="Source for the new Writer"
-          form="writerForms.create"
-          validations="writerForms.validations"
-          results="writerForms.getResults()"
-          autocomplete="off">
-        </validatedselect>
+    <uib-tabset active="activeJustified" justified="true">
+      <uib-tab index="0" heading="General">
+        <div class="row">
+          <div class="col-sm-10 col-sm-offset-1">
+            <br>
+            <validatedinput
+              model="discoveryViewToCreate"
+              property="name"
+              label="Name"
+              placeholder="Name for the new Discovery View"
+              form="discoveryViewForms.create"
+              validations="discoveryViewForms.validations"
+              results="discoveryViewForms.getResults()"
+              autocomplete="off">
+            </validatedinput>
+    
+            <validatedselect
+              model="discoveryViewToCreate"
+              property="source"
+              options="sources"
+              optionproperty="name"
+              label="Source"
+              placeholder="Source for the new Writer"
+              form="discoveryViewForms.create"
+              validations="discoveryViewForms.validations"
+              results="discoveryViewForms.getResults()"
+              autocomplete="off">
+            </validatedselect>
+    
+            <validatedinput
+              model="discoveryViewToCreate"
+              property="filter"
+              label="Filter"
+              placeholder=""
+              form="discoveryViewForms.create"
+              validations="discoveryViewForms.validations"
+              results="discoveryViewForms.getResults()"
+              autocomplete="off">
+            </validatedinput>
+    
+            <validatedinput
+              model="discoveryViewToCreate"
+              property="slug"
+              label="Slug"
+              placeholder=""
+              form="discoveryViewForms.create"
+              validations="discoveryViewForms.validations"
+              results="discoveryViewForms.getResults()"
+              autocomplete="off">
+            </validatedinput>
 
-        <validatedinput
-          model="discoveryViewToCreate"
-          property="filter"
-          label="Filter"
-          placeholder=""
-          form="readerForms.create"
-          validations="readerForms.validations"
-          results="readerForms.getResults()"
-          autocomplete="off">
-        </validatedinput>
+          </div>
+        </div>
+      </uib-tab>
+      <uib-tab index="1" heading="Results" disable="true">
+        <div class="row">
+          <div class="col-sm-10 col-sm-offset-1">
+            <br>
+            <validatedselect
+              model="discoveryViewToCreate"
+              property="primaryKey"
+              options="sources"
+              optionproperty="name"
+              label="Primary Key"
+              placeholder="Primary Key for the new Discovery View"
+              form="discoveryViewForms.create"
+              validations="discoveryViewForms.validations"
+              results="discoveryViewForms.getResults()"
+              autocomplete="off">
+            </validatedselect>
 
-        <validatedinput
-          model="discoveryViewToCreate"
-          property="slug"
-          label="Slug"
-          placeholder=""
-          form="readerForms.create"
-          validations="readerForms.validations"
-          results="readerForms.getResults()"
-          autocomplete="off">
-        </validatedinput>
-
-      </div>
-    </div>
+            <validatedselect
+              model="discoveryViewToCreate"
+              property="primaryURIKey"
+              options="sources"
+              optionproperty="name"
+              label="Primary URI Key"
+              placeholder="Source for the new Writer"
+              form="discoveryViewForms.create"
+              validations="discoveryViewForms.validations"
+              results="discoveryViewForms.getResults()"
+              autocomplete="off">
+            </validatedselect>
+          </div>
+        </div>
+      </uib-tab>
+      <uib-tab index="2" heading="Facets" disable="true">
+        
+      </uib-tab>
+    </uib-tabset>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" ng-click="cancelCreateDiscoveryView()">Cancel</button>
-    <button ng-disabled="discoveryViewForms.create.$invalid" type="submit" class="btn btn-success">Create</button>
+
+
+    <button ng-show="activeJustified == 0" ng-disabled="createDiscoveryViewGeneralIsInvalid()" type="button" class="btn btn-success" ng-click="activeJustified = 1">Next</button>
+    <button ng-show="activeJustified == 1" type="button" class="btn btn-success" ng-click="activeJustified = 0">Back</button>
+    <button ng-show="activeJustified == 1" ng-disabled="createDiscoveryViewResultsIsInvalid()" type="button" class="btn btn-success" ng-click="activeJustified = 2">Next</button>
+    <button ng-show="activeJustified == 2" type="button" class="btn btn-success" ng-click="activeJustified = 1">Back</button>
+    <button ng-show="activeJustified == 2" ng-disabled="discoveryViewForms.create.$invalid" type="submit" class="btn btn-success">Create</button>
   </div>
 </form>
