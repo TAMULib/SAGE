@@ -4,17 +4,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
-import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.apache.solr.client.solrj.request.LukeRequest;
+import org.apache.solr.client.solrj.response.LukeResponse;
+import org.apache.solr.client.solrj.response.LukeResponse.FieldInfo;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.params.CommonParams;
-import org.apache.solr.common.util.NamedList;
 import org.apache.solr.common.util.SimpleOrderedMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,15 +51,19 @@ public class SolrDiscoveryService {
         ArrayList<SolrField> solrFields = new ArrayList<SolrField>();
         try(SolrClient solr = new HttpSolrClient(discoveryView.getSource().getUri())) {
             SolrQuery query = new SolrQuery();
-            query.add(CommonParams.QT, "/schema/fields");
+            query.add(CommonParams.QT, "/admin/luke");
             query.setQuery(discoveryView.getFilter());
             query.setRows(Integer.MAX_VALUE);
-            QueryResponse response = solr.query(query);
-            NamedList responseHeader = response.getResponseHeader();
-            ArrayList<SimpleOrderedMap> fields = (ArrayList<SimpleOrderedMap>) response.getResponse().get("fields");
-            for (SimpleOrderedMap field : fields) {
+            
+            
+            LukeRequest luke = new LukeRequest();
+            LukeResponse rsp = luke.process( solr );
+            
+            System.out.println(rsp.getFieldInfo());
+            Map<String, FieldInfo> map = rsp.getFieldInfo();
+            
+            for (Entry<String, FieldInfo> field : map.entrySet()) {
                 if(field != null) {
-                    System.out.println(field.toString());
                     solrFields.add(SolrField.of(field));    
                 }
             }

@@ -179,6 +179,12 @@ var apiMapping = {
         'controller': 'discovery-view',
         'httpMethod': 'DELETE',
         'method': ''
+    },
+    getFields: {
+      'endpoint': '/private/queue',
+      'controller': 'discovery-view',
+      'httpMethod': 'POST',
+      'method': 'fields'
     }
   },
   DiscoveryContext: {

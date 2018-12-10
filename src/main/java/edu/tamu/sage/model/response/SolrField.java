@@ -1,15 +1,16 @@
 package edu.tamu.sage.model.response;
 
-import org.apache.solr.common.util.SimpleOrderedMap;
+import java.util.Map.Entry;
+
+import org.apache.solr.client.solrj.response.LukeResponse.FieldInfo;
 
 public class SolrField {
 
     private String name;
     private String type;
-    private boolean repeatable;
 
     public SolrField() {
-        repeatable = false;
+        super();
     }
 
     public String getName() {
@@ -28,24 +29,11 @@ public class SolrField {
         this.type = type;
     }
 
-    public boolean isRepeatable() {
-        return repeatable;
-    }
-
-    public void setRepeatable(boolean repeatable) {
-        this.repeatable = repeatable;
-    }
-
-    public static SolrField of(SimpleOrderedMap field) {
+    public static SolrField of(Entry<String, FieldInfo> field) {
         SolrField solrField = new SolrField();
-        solrField.setName((String) field.get("name"));
-        solrField.setType((String) field.get("type"));
-        
-        Object key;
-        if ((key = field.get("multiValued")) != null) {
-            solrField.setRepeatable((Boolean) key);
-        }
-        
+        FieldInfo info = field.getValue();
+        solrField.setType(info.getType());
+        solrField.setName(info.getName());
         return solrField;
     }
 

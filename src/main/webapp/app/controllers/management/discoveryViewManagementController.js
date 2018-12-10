@@ -109,6 +109,10 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
     });
   };
 
+  $scope.getFields = function(discoveryView) {
+    $scope.fields = DiscoveryViewRepo.getFields(discoveryView);
+  };
+
   DiscoveryViewRepo.ready().then(function() {
     $scope.setTable = function() {
       $scope.tableParams = new NgTableParams({

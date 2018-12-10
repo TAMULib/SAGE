@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -56,7 +57,7 @@ public class DiscoveryViewController {
     @PreAuthorize("hasRole('USER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = CREATE) })
     public ApiResponse createDiscoveryView(@WeaverValidatedModel DiscoveryView discoveryView) {
-        logger.info("Creating Writer: " + discoveryView.getName());
+        logger.info("Creating Discovery View: " + discoveryView.getName());
         return new ApiResponse(SUCCESS, discoveryViewRepo.create(discoveryView));
     }
 
@@ -64,7 +65,7 @@ public class DiscoveryViewController {
     @PreAuthorize("hasRole('USER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = UPDATE) })
     public ApiResponse updateDiscoveryView(@WeaverValidatedModel DiscoveryView discoveryView) {
-        logger.info("Updating Writer: " + discoveryView.getName());
+        logger.info("Updating Discovery View: " + discoveryView.getName());
         return new ApiResponse(SUCCESS, discoveryViewRepo.update(discoveryView));
     }
 
@@ -72,9 +73,16 @@ public class DiscoveryViewController {
     @PreAuthorize("hasRole('USER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = DELETE) })
     public ApiResponse deleteDiscoveryView(@WeaverValidatedModel DiscoveryView discoveryView) {
-        logger.info("Deleting Writer: " + discoveryView.getName());
+        logger.info("Deleting Discovery View: " + discoveryView.getName());
         discoveryViewRepo.delete(discoveryView);
         return new ApiResponse(SUCCESS);
+    }
+    
+    @RequestMapping(value="fields", method = RequestMethod.POST)
+    @PreAuthorize("hasRole('USER')")
+    public ApiResponse getFields(@RequestBody DiscoveryView discoveryView) throws DiscoveryContextBuildException {
+        logger.info("Getting fields for Discovery View: " + discoveryView.getName());
+        return new ApiResponse(SUCCESS, solrDiscoveryService.getFields(discoveryView));
     }
     
     @RequestMapping(value="/context/{slug}", method = RequestMethod.GET)
