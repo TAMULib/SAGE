@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.tamu.sage.exceptions.DiscoveryContextNotFoundException;
 import edu.tamu.sage.model.DiscoveryView;
 import edu.tamu.sage.model.repo.DiscoveryViewRepo;
 import edu.tamu.sage.model.response.DiscoveryContext;
@@ -74,13 +75,11 @@ public class DiscoveryViewController {
     
     @RequestMapping(value="/context/{slug}", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ANONYMOUS')")
-    public ApiResponse findBySlug(@PathVariable String slug) {
+    public ApiResponse findBySlug(@PathVariable String slug) throws DiscoveryContextNotFoundException {
         DiscoveryView discoveryView = discoveryViewRepo.findOneBySlug(slug);
-                
         if(discoveryView == null) {
-            return new ApiResponse(ERROR, "Could not find Discovery Context for " + slug); 
+            throw new DiscoveryContextNotFoundException(String.format("Could not find Discovery Context for %s", slug));
         }
-        
         return new ApiResponse(SUCCESS, DiscoveryContext.of(discoveryView,  solrDiscoveryService.readSolrCore(discoveryView)));
     }
 }

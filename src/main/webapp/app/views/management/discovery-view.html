@@ -11,7 +11,7 @@
         <tbody>
           <tr ng-repeat="discoveryView in $data">
             <td data-title="'Name'" sortable="'name'">
-              {{discoveryView.name}}
+              <a href="discovery-context/{{discoveryView.slug}}">{{discoveryView.name}}</a>
             </td>
             <td data-title="'Solr Source'" sortable="'SolrSource'">
               {{discoveryView.source.name}}

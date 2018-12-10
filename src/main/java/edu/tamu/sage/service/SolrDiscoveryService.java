@@ -3,9 +3,7 @@ package edu.tamu.sage.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -19,16 +17,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import edu.tamu.sage.model.DiscoveryView;
+import edu.tamu.sage.model.response.Result;
 
 @Service
 public class SolrDiscoveryService {
     
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     
-    public List<Map<String,String>> readSolrCore(DiscoveryView discoveryView) {
+    public List<Result> readSolrCore(DiscoveryView discoveryView) {
         logger.info("Using Reader: "+discoveryView.getName()+" to read from SOLR Core: "+discoveryView.getSource().getName()+" - "+discoveryView.getSource().getUri());
 
-        List<Map<String,String>> mappedResults = new ArrayList<Map<String,String>>();
+        List<Result> results = new ArrayList<Result>();
 
         SolrClient solr = new HttpSolrClient(discoveryView.getSource().getUri());
 
@@ -47,14 +46,7 @@ public class SolrDiscoveryService {
             SolrDocumentList docs = rsp.getResults();
             for (SolrDocument doc : docs) {
                 Collection<String> fieldNames = doc.getFieldNames();
-                Map<String,String> resultsMap = new HashMap<String,String>();
-                for (String s: fieldNames) {
-                    System.out.println(doc.getFieldValue(s));
-                    resultsMap.put(s, doc.getFieldValue(s).toString());
-                }
-                if (!resultsMap.isEmpty()) {
-                    mappedResults.add(resultsMap);
-                }
+                results.add(Result.of(doc, fieldNames));
             }
             
         } catch (Exception e) {
@@ -68,7 +60,7 @@ public class SolrDiscoveryService {
                 e.printStackTrace();
             }
         }
-        return mappedResults;
+        return results;
     }
 
 }
