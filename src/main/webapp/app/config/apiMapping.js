@@ -197,6 +197,12 @@ var apiMapping = {
       'httpMethod': 'GET',
       'controller': 'discovery-view/context',
       'method': ':slug'
+    },
+    instantiate: {
+      'endpoint': '/private/queue',
+      'httpMethod': 'GET',
+      'controller': 'discovery-view/context',
+      'method': ':slug'
     }
   },
   Result: {

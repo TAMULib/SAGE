@@ -42,6 +42,7 @@ public class SolrDiscoveryService {
         
         discoveryContext.setResults(results);
         discoveryContext.setFields(solrFields);
+        discoveryContext.setSearch(search);
         
         return discoveryContext;
     }

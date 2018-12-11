@@ -5,13 +5,23 @@
       <form class="form-group">
       <div class="input-group">
           <div class="input-group-btn">
-              <select class="filter-select form-control" ng-model="new" ng-options="field.name for field in discoveryContext.fields"></select>
+              <select class="filter-select form-control" ng-model="currentSearchFilter" ng-options="field.name for field in discoveryContext.fields"></select>
           </div>
-          <input type="text" class="form-control">
+          <input type="text" class="form-control" ng-model="currentSearchValue" ng-keypress="searchProcessKeyPress($event)">
       </div>
     </form>
   </div>
 </div>
+
+<div class="row">
+  <div class="col-xs-12">
+    <ul class="list list-inline">
+      <li role="presentation" ng-repeat="(key, value) in discoveryContext.search.filters" class="btn btn-primary" ng-click="removeFilter(key)">{{key}} <span ng-if="key">:</span> {{value}} <span class="gliphicon glyphicon-remove"></span></li>
+    </ul>
+  </div>
+</div>
+
+<br>
 
 <div class="row">
   <div class="col-xs-12">

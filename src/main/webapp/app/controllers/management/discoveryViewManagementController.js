@@ -19,8 +19,6 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
     getResults: DiscoveryViewRepo.getValidationResults
   };
 
-  console.log($scope.discoveryViewForms);
-
   $scope.resetDiscoveryViewForms = function() {
     DiscoveryViewRepo.clearValidationResults();
     for (var key in $scope.discoveryViewForms) {
