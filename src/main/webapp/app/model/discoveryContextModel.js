@@ -1,4 +1,4 @@
-sage.model("DiscoveryContext", function ($q, HttpMethodVerbs, WsApi) {
+sage.model("DiscoveryContext", function ($q, HttpMethodVerbs, WsApi, Result) {
   return function DiscoveryContext() {
 
     var discoveryContext = this;
@@ -15,7 +15,14 @@ sage.model("DiscoveryContext", function ($q, HttpMethodVerbs, WsApi) {
     discoveryContext.before(function () {
       var defer = $q.defer();
       fetchContext().then(function (res) {
-        angular.extend(discoveryContext, angular.fromJson(res.body).payload.DiscoveryContext);
+        var dc = angular.fromJson(res.body).payload.DiscoveryContext;
+
+        for(var i in dc.results) {
+          dc.results[i] = new Result(dc.results[i]);
+        }
+
+        angular.extend(discoveryContext, dc);
+        
         defer.resolve(discoveryContext);
       });
       return defer.promise;

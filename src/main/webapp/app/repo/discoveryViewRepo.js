@@ -2,7 +2,9 @@ sage.repo("DiscoveryViewRepo", function(DiscoveryView, WsApi) {
   var discoveryViewRepo = this;
 
   discoveryViewRepo.scaffold = new DiscoveryView({
-    filter: "*:*"
+    name: "Avalon Discovery",
+    filter: "*:*",
+    slug: "avalon"
   });
 
   discoveryViewRepo.getFields = function(discoveryView) {

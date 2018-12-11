@@ -72,7 +72,7 @@ public class DiscoveryViewController {
     @RequestMapping(method = RequestMethod.DELETE)
     @PreAuthorize("hasRole('USER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = DELETE) })
-    public ApiResponse deleteDiscoveryView(@WeaverValidatedModel DiscoveryView discoveryView) {
+    public ApiResponse deleteDiscoveryView(@RequestBody DiscoveryView discoveryView) {
         logger.info("Deleting Discovery View: " + discoveryView.getName());
         discoveryViewRepo.delete(discoveryView);
         return new ApiResponse(SUCCESS);

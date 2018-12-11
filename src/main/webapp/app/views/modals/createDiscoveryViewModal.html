@@ -70,33 +70,33 @@
               property="primaryKey"
               options="fields"
               optionproperty="name"
+              optionvalue="name"
               label="Primary Key"
               placeholder="Primary Key for the new Discovery View"
               form="discoveryViewForms.create"
               validations="discoveryViewForms.validations"
-              results="discoveryViewForms.getResults()"
-              autocomplete="off">
+              results="discoveryViewForms.getResults()">
             </validatedselect>
           </div>
           <div class="col-sm-5 col-sm-offset-1">
             <br>
-            <validatedinput
+            <validatedselect
               model="discoveryViewToCreate"
               property="primaryURIKey"
-              wvr-typeahead="fields"
-              typeaheadproperty="name"
-              label="Primary URI Key"
-              placeholder=""
+              options="fields"
+              optionproperty="name"
+              optionvalue="name"
+              label="Primary Key"
+              placeholder="Primary URI Key for the new Discovery View"
               form="discoveryViewForms.create"
               validations="discoveryViewForms.validations"
-              results="discoveryViewForms.getResults()"
-              autocomplete="off">
-            </validatedinput>
+              results="discoveryViewForms.getResults()">
+            </validatedselect>
           </div>
         </div>
       </uib-tab>
       <uib-tab index="2" heading="Facets" disable="true">
-        
+        {{discoveryViewToCreate}}
       </uib-tab>
     </uib-tabset>
   </div>

@@ -197,5 +197,9 @@ var apiMapping = {
       'controller': 'discovery-view/context',
       'method': ':slug'
     }
+  },
+  Result: {
+    validations: false,
+    lazy: true
   }
 };

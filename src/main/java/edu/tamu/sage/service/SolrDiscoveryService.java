@@ -17,8 +17,6 @@ import org.apache.solr.client.solrj.response.LukeResponse.FieldInfo;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
-import org.apache.solr.common.params.CommonParams;
-import org.apache.solr.common.util.SimpleOrderedMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -36,10 +34,10 @@ public class SolrDiscoveryService {
     
     public DiscoveryContext buildDiscoveryContext(DiscoveryView discoveryView) throws DiscoveryContextBuildException {
         
+        DiscoveryContext discoveryContext = DiscoveryContext.of(discoveryView);
+        
         List<Result> results = querySolrCore(discoveryView);
         List<SolrField> solrFields = getFields(discoveryView);
-        
-        DiscoveryContext discoveryContext = new DiscoveryContext(discoveryView.getName());
         
         discoveryContext.setResults(results);
         discoveryContext.setFields(solrFields);
@@ -50,29 +48,35 @@ public class SolrDiscoveryService {
     public List<SolrField> getFields(DiscoveryView discoveryView) throws DiscoveryContextBuildException {
         ArrayList<SolrField> solrFields = new ArrayList<SolrField>();
         try(SolrClient solr = new HttpSolrClient(discoveryView.getSource().getUri())) {
-            SolrQuery query = new SolrQuery();
-            query.add(CommonParams.QT, "/admin/luke");
-            query.setQuery(discoveryView.getFilter());
-            query.setRows(Integer.MAX_VALUE);
-            
-            
-            LukeRequest luke = new LukeRequest();
-            LukeResponse rsp = luke.process( solr );
-            
-            System.out.println(rsp.getFieldInfo());
-            Map<String, FieldInfo> map = rsp.getFieldInfo();
-            
-            for (Entry<String, FieldInfo> field : map.entrySet()) {
-                if(field != null) {
-                    solrFields.add(SolrField.of(field));    
-                }
-            }
+          
+          LukeRequest luke = new LukeRequest();
+          luke.setNumTerms(0);
+          LukeResponse lr = luke.process( solr );
+          
+          Map<String, FieldInfo> map = lr.getFieldInfo();
+          
+          SolrQuery query = new SolrQuery();
+          query.setRows(1);
+          
+          for (Entry<String, FieldInfo> field : map.entrySet()) {
+              if(field != null) {
+                  String q = String.format("%s AND %s:*", discoveryView.getFilter(), field.getKey());
+                  System.out.println(q);
+                  query.setQuery(q);
+                  QueryResponse qr = solr.query(query);
+                  if(qr.getResults().size() > 0) {
+                      solrFields.add(SolrField.of(field));
+                  }    
+              }
+          }
         } catch(Exception e) {
             throw new DiscoveryContextBuildException("Could not populate fields", e);
         }
         
         return solrFields;
     }
+    
+
     
     public List<Result> querySolrCore(DiscoveryView discoveryView) {
         logger.info("Using Reader: "+discoveryView.getName()+" to read from SOLR Core: "+discoveryView.getSource().getName()+" - "+discoveryView.getSource().getUri());
