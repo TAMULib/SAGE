@@ -1,5 +1,7 @@
 package edu.tamu.sage.model.response;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -10,8 +12,8 @@ public class Search {
 
     @JsonIgnore
     private String solrQuery;
-
-    private Map<String, String> filters;
+    
+    private List<Filter> filters;
 
     public Search() {
         super();
@@ -33,23 +35,30 @@ public class Search {
         this.solrQuery = solrQuery;
     }
 
-    public Map<String, String> getFilters() {
+    public List<Filter> getFilters() {
         return filters;
     }
 
-    public void setFilters(Map<String, String> filters) {
+    public void setFilters(List<Filter> filters) {
         this.filters = filters;
     }
 
-    public static Search of(Map<String, String> filters) {
+    public static Search of(Map<String, String> searchMap) {
+        
+        List<Filter> filters = new ArrayList<Filter>();
+        
+        searchMap.forEach((k,v)->{
+            filters.add(new Filter(k,v));
+        });
+        
         Search search = new Search();
         search.setFilters(filters);
         String solrQuery = "";
         String query = "";
-        for (Map.Entry<String, String> entry : filters.entrySet()) {
-            String key = entry.getKey();
+        for (Filter filter : filters) {
+            String key = filter.getKey();
             query += key + "=";
-            String[] values = entry.getValue().split(",");
+            String[] values = filter.getValue().split(",");
             for (int i = 0; i < values.length; i++) {
                 solrQuery += key + ":\"" + values[i] + "\"";
                 query += values[i];

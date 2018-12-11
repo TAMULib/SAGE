@@ -4,8 +4,6 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
       $scope: $scope
   }));
 
-  $scope.filters = {};
-
   var discoveryContext = new DiscoveryContext({
     slug: $routeParams.slug
   });
@@ -21,7 +19,7 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
 
     $scope.executeSearch = function() {
       if($scope.currentSearchFilter) {
-        $scope.filters[$scope.currentSearchFilter.name] = angular.copy($scope.currentSearchValue);
+        $scope.discoveryContext.search.filters[$scope.currentSearchFilter.name] = angular.copy($scope.currentSearchValue);
       }
       $scope.discoveryContext.results.length = 0;
       $scope.discoveryContext.reload().then(function() {
@@ -30,7 +28,7 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
     };
 
     $scope.removeFilter = function(key) {
-      delete $scope.filters[key];
+      delete $scope.discoveryContext.search.filters[key];
       $scope.executeSearch();
     };
 
