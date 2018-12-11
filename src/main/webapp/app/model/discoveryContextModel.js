@@ -1,28 +1,37 @@
-sage.model("DiscoveryContext", function ($q, HttpMethodVerbs, WsApi, Result) {
+sage.model("DiscoveryContext", function ($q, HttpMethodVerbs, WsApi, Result, Field, Search) {
   return function DiscoveryContext() {
 
     var discoveryContext = this;
 
     var fetchContext = function () {
       return WsApi.fetch(discoveryContext.getMapping().load, {
-        method: HttpMethodVerbs.GET,
         pathValues: {
           slug: discoveryContext.slug
-        }
+        },
+        query: discoveryContext.search
       });
     };
 
+    var populateProperty = function(pname, ctor) {
+      for(var i in discoveryContext[pname]) {
+        discoveryContext[pname][i] = new ctor(discoveryContext[pname][i]);
+      }
+    };
+ 
     discoveryContext.before(function () {
       var defer = $q.defer();
       fetchContext().then(function (res) {
         var dc = angular.fromJson(res.body).payload.DiscoveryContext;
-
-        for(var i in dc.results) {
-          dc.results[i] = new Result(dc.results[i]);
-        }
-
         angular.extend(discoveryContext, dc);
-        
+
+        populateProperty("results", Result);
+
+        populateProperty("fields", Field);
+
+        discoveryContext.search = new Search(discoveryContext.search);
+
+        console.log(discoveryContext);
+
         defer.resolve(discoveryContext);
       });
       return defer.promise;

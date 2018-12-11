@@ -25,6 +25,7 @@ import edu.tamu.sage.exceptions.DiscoveryContextBuildException;
 import edu.tamu.sage.model.DiscoveryView;
 import edu.tamu.sage.model.response.DiscoveryContext;
 import edu.tamu.sage.model.response.Result;
+import edu.tamu.sage.model.response.Search;
 import edu.tamu.sage.model.response.SolrField;
 
 @Service
@@ -32,11 +33,11 @@ public class SolrDiscoveryService {
     
     private Logger logger = LoggerFactory.getLogger(this.getClass());
     
-    public DiscoveryContext buildDiscoveryContext(DiscoveryView discoveryView) throws DiscoveryContextBuildException {
+    public DiscoveryContext buildDiscoveryContext(DiscoveryView discoveryView, Search search) throws DiscoveryContextBuildException {
         
         DiscoveryContext discoveryContext = DiscoveryContext.of(discoveryView);
         
-        List<Result> results = querySolrCore(discoveryView);
+        List<Result> results = querySolrCore(discoveryView, search);
         List<SolrField> solrFields = getFields(discoveryView);
         
         discoveryContext.setResults(results);
@@ -61,7 +62,6 @@ public class SolrDiscoveryService {
           for (Entry<String, FieldInfo> field : map.entrySet()) {
               if(field != null) {
                   String q = String.format("%s AND %s:*", discoveryView.getFilter(), field.getKey());
-                  System.out.println(q);
                   query.setQuery(q);
                   QueryResponse qr = solr.query(query);
                   if(qr.getResults().size() > 0) {
@@ -75,10 +75,8 @@ public class SolrDiscoveryService {
         
         return solrFields;
     }
-    
-
-    
-    public List<Result> querySolrCore(DiscoveryView discoveryView) {
+        
+    public List<Result> querySolrCore(DiscoveryView discoveryView, Search search) {
         logger.info("Using Reader: "+discoveryView.getName()+" to read from SOLR Core: "+discoveryView.getSource().getName()+" - "+discoveryView.getSource().getUri());
 
         List<Result> results = new ArrayList<Result>();
@@ -90,7 +88,18 @@ public class SolrDiscoveryService {
             solr.ping();
 
             SolrQuery query = new SolrQuery();
-            query.set("q", discoveryView.getFilter());
+            
+            
+            String q = discoveryView.getFilter();
+            
+            if(search.getSolrQuery().length() > 0) {
+                q += " AND " + search.getSolrQuery();
+            }
+            
+            System.out.println("\n\n" + q + "\n\n");
+            
+            query.set("q", q);
+            
             query.set("rows", "500");
 
             query.addSort("id" , ORDER.asc);

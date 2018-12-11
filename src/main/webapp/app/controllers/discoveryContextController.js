@@ -1,11 +1,12 @@
-sage.controller('DiscoveryContextController', function ($controller, $scope, $routeParams, DiscoveryContext) {
+sage.controller('DiscoveryContextController', function ($controller, $scope, $routeParams, DiscoveryContext, Search, Field) {
 
   angular.extend(this, $controller('CoreAdminController', {
       $scope: $scope
   }));
 
   var discoveryContext = new DiscoveryContext({
-    slug: $routeParams.slug
+    slug: $routeParams.slug,
+    search: new Search()
   });
 
   discoveryContext.ready().then(function() {

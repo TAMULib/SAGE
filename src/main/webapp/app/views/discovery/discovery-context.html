@@ -1,3 +1,20 @@
 <h1>{{discoveryContext.name}}</h1>
 
-<div ng-repeat="result in discoveryContext.results">{{$index}}: <a href="{{result.getValue(discoveryContext.uriKey)}}">{{result.getValue(discoveryContext.titleKey)}}</a></div>
+<div class="row search-control">
+  <div class="col-xs-12">
+      <form class="form-group">
+      <div class="input-group">
+          <div class="input-group-btn">
+              <select class="filter-select form-control" ng-model="new" ng-options="field.name for field in discoveryContext.fields"></select>
+          </div>
+          <input type="text" class="form-control">
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-12">
+    <div ng-repeat="result in discoveryContext.results">{{$index}}: <a href="{{result.getValue(discoveryContext.uriKey)}}">{{result.getValue(discoveryContext.titleKey)}}</a></div>
+  </div>
+</div>

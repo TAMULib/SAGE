@@ -194,6 +194,7 @@ var apiMapping = {
     lazy: false,
     load: {
       'endpoint': '/private/queue',
+      'httpMethod': 'GET',
       'controller': 'discovery-view/context',
       'method': ':slug'
     }
@@ -201,5 +202,14 @@ var apiMapping = {
   Result: {
     validations: false,
     lazy: true
+  },
+  Field: {
+    validations: false,
+    lazy: true
+  },
+  Search: {
+    validations: false,
+    lazy: true
   }
+
 };
