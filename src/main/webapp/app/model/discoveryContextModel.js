@@ -5,14 +5,20 @@ sage.model("DiscoveryContext", function ($q, HttpMethodVerbs, WsApi, Result, Fie
 
     var fetchContext = function () {
 
-      console.log(discoveryContext.search.filters);
+      var q = {};
+
+      angular.forEach(discoveryContext.search.filters, function(filter) {
+        if(!q[filter.key]) {
+          q[filter.key] = [];  
+        }
+        q[filter.key].push(filter.value);
+      });
+
       return WsApi.fetch(discoveryContext.getMapping().load, {
         pathValues: {
           slug: discoveryContext.slug
         },
-        query: {
-          search: encodeURI(angular.toJson(discoveryContext.search.filters))
-        }
+        query: q
       });
     };
 

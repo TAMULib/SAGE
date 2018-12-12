@@ -5,14 +5,8 @@ import static edu.tamu.weaver.validation.model.BusinessValidationType.CREATE;
 import static edu.tamu.weaver.validation.model.BusinessValidationType.DELETE;
 import static edu.tamu.weaver.validation.model.BusinessValidationType.UPDATE;
 
-import java.util.Map;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import java.io.IOException;
-import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,11 +19,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import edu.tamu.sage.exceptions.DiscoveryContextBuildException;
 import edu.tamu.sage.exceptions.DiscoveryContextNotFoundException;
 import edu.tamu.sage.model.DiscoveryView;
 import edu.tamu.sage.model.repo.DiscoveryViewRepo;
-import edu.tamu.sage.model.response.Search;
 import edu.tamu.sage.service.SolrDiscoveryService;
 import edu.tamu.weaver.response.ApiResponse;
 import edu.tamu.weaver.validation.aspect.annotation.WeaverValidatedModel;
@@ -40,23 +35,20 @@ import edu.tamu.weaver.validation.aspect.annotation.WeaverValidation;
 public class DiscoveryViewController {
 
     @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
     private DiscoveryViewRepo discoveryViewRepo;
-    
+
     @Autowired
     private SolrDiscoveryService solrDiscoveryService;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-    
+
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasRole('ANONYMOUS')")
     public ApiResponse getAll() {
         return new ApiResponse(SUCCESS, discoveryViewRepo.findAll());
     }
-    
-    @RequestMapping(value="/{id}", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ANONYMOUS')")
     public ApiResponse getDiscoveryViewById(@PathVariable long id) {
         return new ApiResponse(SUCCESS, discoveryViewRepo.read(id));
@@ -86,26 +78,22 @@ public class DiscoveryViewController {
         discoveryViewRepo.delete(discoveryView);
         return new ApiResponse(SUCCESS);
     }
-    
-    @RequestMapping(value="fields", method = RequestMethod.POST)
+
+    @RequestMapping(value = "fields", method = RequestMethod.POST)
     @PreAuthorize("hasRole('USER')")
     public ApiResponse getFields(@RequestBody DiscoveryView discoveryView) throws DiscoveryContextBuildException {
         logger.info("Getting fields for Discovery View: " + discoveryView.getName());
         return new ApiResponse(SUCCESS, solrDiscoveryService.getFields(discoveryView));
     }
-    
+
     @RequestMapping(value = "/context/{slug}", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ANONYMOUS')")
-    public ApiResponse findBySlug(@PathVariable String slug, @RequestParam String search) throws DiscoveryContextNotFoundException, DiscoveryContextBuildException, JsonProcessingException, IOException {
-        System.out.println("\n\n\n" + search + "\n\n\n");
+    public ApiResponse findBySlug(@PathVariable String slug, @RequestParam Map<String, String> filterMap) throws DiscoveryContextNotFoundException, DiscoveryContextBuildException, JsonProcessingException, IOException {
         DiscoveryView discoveryView = discoveryViewRepo.findOneBySlug(slug);
-        if(discoveryView == null) {
+        if (discoveryView == null) {
             throw new DiscoveryContextNotFoundException(String.format("Could not find Discovery Context for %s", slug));
         }
-
-        JsonNode searchNode = objectMapper.readTree(search);
-
-        return new ApiResponse(SUCCESS, solrDiscoveryService.buildDiscoveryContext(discoveryView, Search.of(searchNode)));
+        return new ApiResponse(SUCCESS, solrDiscoveryService.buildDiscoveryContext(discoveryView, filterMap));
     }
-  
+
 }
