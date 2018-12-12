@@ -1,7 +1,7 @@
 <form name="discoveryViewForms.create" ng-submit="createDiscoveryView()" novalidate class="solr-source-forms-create">
   <div class="modal-header {{attr.modalHeaderClass}}">
     <button type="button" class="close modal-close" aria-label="Close" ng-click="cancelCreateDiscoveryView()"><span aria-hidden="true">&times;</span></button>
-    <h4 class="modal-title">Create DiscoveryView</h4>
+    <h4 class="modal-title">Create Discovery View</h4>
   </div>
   <div class="modal-body">
 
@@ -94,37 +94,100 @@
       </uib-tab>
       <uib-tab index="1" heading="Results" disable="true">
         <div class="row">
-          <div class="col-sm-5 col-sm-offset-1">
-            <br>
-            <validatedselect
-              model="discoveryViewToCreate"
-              property="primaryKey"
-              options="fields"
-              optionproperty="name"
-              optionvalue="name"
-              label="Primary Key"
-              placeholder="Primary Key for the new Discovery View"
-              form="discoveryViewForms.create"
-              validations="discoveryViewForms.validations"
-              results="discoveryViewForms.getResults()">
-            </validatedselect>
+
+          <div class="row">
+            <div class="col-sm-offset-1 co-xs-12">
+                <h4>Result Heading</h4>
+            </div>
           </div>
-          <div class="col-sm-5 col-sm-offset-1">
-            <br>
-            <validatedselect
-              model="discoveryViewToCreate"
-              property="primaryURIKey"
-              options="fields"
-              optionproperty="name"
-              optionvalue="name"
-              label="Primary Key"
-              placeholder="Primary URI Key for the new Discovery View"
-              form="discoveryViewForms.create"
-              validations="discoveryViewForms.validations"
-              results="discoveryViewForms.getResults()">
-            </validatedselect>
+          <div class="row">
+            <div class="col-sm-5 col-sm-offset-1">
+              <validatedselect
+                model="discoveryViewToCreate"
+                property="titleKey"
+                options="fields"
+                optionproperty="name"
+                optionvalue="name"
+                label="Title Key"
+                placeholder="Title Key for the new Discovery View"
+                form="discoveryViewForms.create"
+                validations="discoveryViewForms.validations"
+                results="discoveryViewForms.getResults()">
+              </validatedselect>
+            </div>
           </div>
         </div>
+        <hr>
+        <div class="row" ng-init="discoveryViewToCreate.resultMetadataFields=[]">
+            <div class="row">
+              <div class="col-sm-offset-1 co-xs-12">
+                  <h4>Result Metadata</h4>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-2 col-sm-offset-1">
+                  <div class="form-group">
+                      <label for="key">Key</label>
+                      <select name="key" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[0].key" ng-options="option['name'] as option['name'] for option in fields"></select>
+                  </div>
+              </div>
+              <div class="col-xs-7">
+                  <div class="form-group">
+                      <label for="name">Label</label>
+                      <input name="name" placeholder="Display name of filter" type="text" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[0].label">
+                  </div>
+              </div>
+              <div class="col-xs-2">
+                  <div class="form-group add-field-group">
+                      <button type="button" class="btn btn-success" ng-click="discoveryViewToCreate.resultMetadataFields.push({})"><span class="glyphicon glyphicon-plus"></span></button>
+                  </div>
+              </div>
+            </div>
+            <div class="row" ng-repeat="resultMetadataField in discoveryViewToCreate.resultMetadataFields track by $index" ng-hide="$first">
+                <div class="col-xs-2 col-sm-offset-1">
+                    <div class="form-group">
+                        <label for="key">Key</label>
+                        <select name="key" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[$index].key" ng-options="option['name'] as option['name'] for option in fields"></select>
+                    </div>
+                </div>
+                <div class="col-xs-7">
+                    <div class="form-group">
+                        <label for="name">Label</label>
+                        <input name="name" placeholder="Display name of filter" type="text" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[$index].label">
+                    </div>
+                </div>
+                <div class="col-xs-2">
+                    <div class="form-group add-field-group">
+                        <button type="button" class="btn btn-danger" ng-click="discoveryViewToCreate.resultMetadataFields.splice($index,1)"><span class="glyphicon glyphicon-minus"></span></button>
+                    </div>
+                </div>
+              </div>
+        </div>
+
+        <!-- <div class="row" ng-repeat="metadatum in irForm.addMetadata.entries track by $index" ng-hide="$first">
+            <div class="col-xs-2">
+                <div class="form-group" ng-init="selectedSchema=ir.schemas[0]">
+                    <select class="form-control" ng-model="selectedSchema" ng-options="schema as schema.abbreviation for schema in ir.schemas track by schema.namespace"></select>
+                    <small><a href="{{selectedSchema.namespace}}" target="_blank">{{selectedSchema.name}}</a></small>
+                </div>
+            </div>
+            <div class="col-xs-3">
+                <div class="form-group">
+                    <input placeholder="e.g. {{selectedSchema.properties[$index].label}}" type="text" class="form-control" ng-model="irForm.addMetadata.entries[$index].property" typeahead-input-formatter="$model.label" uib-typeahead="property as property.label for property in selectedSchema.properties | orderBy:'label' | filter:$viewValue | limitTo:10">
+                    <small><a href="{{irForm.addMetadata.entries[$index].property.uir}}" target="_blank">{{irForm.addMetadata.entries[$index].property.uri}}</a></small>
+                </div>
+            </div>
+            <div class="col-xs-5">
+                <div class="form-group">
+                    <input name="metadata.value" type="text" ng-model="irForm.addMetadata.entries[$index].value" class="form-control" placeholder="My Title" ng-disabled="!irForm.addMetadata.entries[$index].property.uri" required>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="form-group">
+                    <button type="button" class="btn btn-danger" ng-click="irForm.addMetadata.entries.splice($index,1)"><span class="glyphicon glyphicon-minus"></span></button>
+                </div>
+            </div>
+        </div> -->
       </uib-tab>
       <uib-tab index="2" heading="Facets" disable="true">
         {{discoveryViewToCreate}}

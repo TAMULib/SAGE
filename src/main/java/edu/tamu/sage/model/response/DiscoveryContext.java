@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import edu.tamu.sage.model.DiscoveryView;
+import edu.tamu.sage.model.MetadataField;
 
 public class DiscoveryContext implements Serializable {
 
@@ -20,7 +21,7 @@ public class DiscoveryContext implements Serializable {
     private List<Result> results;
     
     private List<SolrField> fields;
-
+    
     private String infoText;
 
     private String infoLinkText;
@@ -70,7 +71,7 @@ public class DiscoveryContext implements Serializable {
     public void setResults(List<Result> results) {
         this.results = results;
     }
-
+    
     public List<SolrField> getFields() {
         return fields;
     }
@@ -107,8 +108,7 @@ public class DiscoveryContext implements Serializable {
         DiscoveryContext dc = new DiscoveryContext();
         
         dc.setName(dv.getName());
-        dc.setTitleKey(dv.getPrimaryKey());
-        dc.setUriKey(dv.getPrimaryURIKey());
+        dc.setTitleKey(dv.getTitleKey());
         dc.setInfoText(dv.getInfoText());
         dc.setInfoLinkUrl(dv.getInfoLinkUrl());
         dc.setInfoLinkText(dv.getInfoLinkText());

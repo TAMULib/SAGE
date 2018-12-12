@@ -2,7 +2,6 @@ package edu.tamu.sage.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -157,20 +156,23 @@ public class SolrDiscoveryService {
                 q += " AND " + search.getSolrQuery();
             }
 
-            System.out.println("\n\n" + q + "\n\n");
-
             query.set("q", q);
 
             query.set("rows", "500");
 
             query.addSort("id", ORDER.asc);
 
+            discoveryView.getResultMetadataFields().forEach(f -> {
+                query.addField(f.getKey());
+            });
+
+            query.addField(discoveryView.getTitleKey());
+
             QueryResponse rsp = solr.query(query);
 
             SolrDocumentList docs = rsp.getResults();
             for (SolrDocument doc : docs) {
-                Collection<String> fieldNames = doc.getFieldNames();
-                results.add(Result.of(doc, fieldNames));
+                results.add(Result.of(doc, discoveryView));
             }
 
         } catch (Exception e) {

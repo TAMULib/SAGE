@@ -1,6 +1,9 @@
 package edu.tamu.sage.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
@@ -9,26 +12,23 @@ import edu.tamu.weaver.validation.model.ValidatingBaseEntity;
 
 @Entity
 public class DiscoveryView extends ValidatingBaseEntity {
-    
+
     @Column
     private String name;
-    
+
     @ManyToOne
     private Source source;
-    
+
     @Column
     private String filter;
-    
+
     @Column
-    private String primaryKey;
-    
-    @Column
-    private String primaryURIKey;
-    
-    @Column(unique=true)
+    private String titleKey;
+
+    @Column(unique = true)
     private String slug;
 
-    @Column(length=4096)
+    @Column(length = 4096)
     private String infoText;
 
     @Column
@@ -37,10 +37,13 @@ public class DiscoveryView extends ValidatingBaseEntity {
     @Column
     private String infoLinkUrl;
 
+    @ElementCollection
+    private List<MetadataField> resultMetadataFields;
+
     public DiscoveryView() {
         setModelValidator(new DiscoveryViewValidator());
     }
-    
+
     public String getName() {
         return name;
     }
@@ -73,20 +76,12 @@ public class DiscoveryView extends ValidatingBaseEntity {
         this.slug = slug;
     }
 
-    public String getPrimaryKey() {
-        return primaryKey;
+    public String getTitleKey() {
+        return titleKey;
     }
 
-    public void setPrimaryKey(String primaryKey) {
-        this.primaryKey = primaryKey;
-    }
-
-    public String getPrimaryURIKey() {
-        return primaryURIKey;
-    }
-
-    public void setPrimaryURIKey(String primaryURIKey) {
-        this.primaryURIKey = primaryURIKey;
+    public void setTitleKey(String primaryKey) {
+        this.titleKey = primaryKey;
     }
 
     public String getInfoText() {
@@ -112,5 +107,13 @@ public class DiscoveryView extends ValidatingBaseEntity {
     public void setInfoLinkUrl(String infoLinkUrl) {
         this.infoLinkUrl = infoLinkUrl;
     }
-    
+
+    public List<MetadataField> getResultMetadataFields() {
+        return resultMetadataFields;
+    }
+
+    public void setResultMetadataFields(List<MetadataField> resultMetadataFields) {
+        this.resultMetadataFields = resultMetadataFields;
+    }
+
 }

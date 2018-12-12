@@ -1,19 +1,23 @@
 package edu.tamu.sage.model.response;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.solr.common.SolrDocument;
 
+import edu.tamu.sage.model.DiscoveryView;
+import edu.tamu.sage.model.MetadataField;
+
 public class Result {
 
+    private String title;
+
     private Map<String, String> fields;
-    
+
     public Result() {
         this.fields = new HashMap<String, String>();
     }
-    
+
     public Map<String, String> getFields() {
         return fields;
     }
@@ -22,12 +26,21 @@ public class Result {
         this.fields = fields;
     }
 
-    public static Result of(SolrDocument doc, Collection<String> fieldNames) {
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public static Result of(SolrDocument doc, DiscoveryView discoveryView) {
         Result result = new Result();
-        for (String s: fieldNames) {
-            result.fields.put(s, doc.getFieldValue(s).toString());
+        result.setTitle(doc.getFieldValue(discoveryView.getTitleKey()).toString());
+        for (MetadataField mf : discoveryView.getResultMetadataFields()) {
+            result.fields.put(mf.getLabel(), doc.getFieldValue(mf.getKey()).toString());
         }
         return result;
     }
-    
+
 }

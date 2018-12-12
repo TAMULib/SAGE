@@ -18,11 +18,8 @@ public class DiscoveryViewValidator extends BaseModelValidator {
         String slugProperty = "slug";
         this.addInputValidator(new InputValidator(InputValidationType.required, "A Discovery View requires a slug", slugProperty, true));
         
-        String primaryKeyProperty = "primaryKey";
-        this.addInputValidator(new InputValidator(InputValidationType.required, "A Discovery View requires a Primary Key", primaryKeyProperty, true));
-        
-        String primaryURIKeyProperty = "primaryURIKey";
-        this.addInputValidator(new InputValidator(InputValidationType.required, "A Discovery View requires a Primary URI Key", primaryURIKeyProperty, true));
+        String primaryKeyProperty = "titleKey";
+        this.addInputValidator(new InputValidator(InputValidationType.required, "A Discovery View requires a Title Key", primaryKeyProperty, true));
         
     }
 }
