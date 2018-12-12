@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public class Search {
 
@@ -43,12 +44,17 @@ public class Search {
         this.filters = filters;
     }
 
-    public static Search of(Map<String, String> searchMap) {
+    public static Search of(JsonNode searchNode) {
         
         List<Filter> filters = new ArrayList<Filter>();
         
-        searchMap.forEach((k,v)->{
-            filters.add(new Filter(k,v));
+        System.out.println("****");
+        System.out.println(searchNode);
+        System.out.println("*****");
+
+        searchNode.forEach(m->{
+            System.out.println(searchNode);
+            filters.add(new Filter(m.get("key").asText(),m.get("value").asText()));
         });
         
         Search search = new Search();

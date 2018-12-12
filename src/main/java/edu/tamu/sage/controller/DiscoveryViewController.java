@@ -7,6 +7,13 @@ import static edu.tamu.weaver.validation.model.BusinessValidationType.UPDATE;
 
 import java.util.Map;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +38,9 @@ import edu.tamu.weaver.validation.aspect.annotation.WeaverValidation;
 @RestController
 @RequestMapping("/discovery-view")
 public class DiscoveryViewController {
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Autowired
     private DiscoveryViewRepo discoveryViewRepo;
@@ -84,15 +94,18 @@ public class DiscoveryViewController {
         return new ApiResponse(SUCCESS, solrDiscoveryService.getFields(discoveryView));
     }
     
-    @RequestMapping(value="/context/{slug}", method = RequestMethod.GET)
+    @RequestMapping(value = "/context/{slug}", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ANONYMOUS')")
-    public ApiResponse findBySlug(@PathVariable String slug, @RequestParam Map<String, String> search) throws DiscoveryContextNotFoundException, DiscoveryContextBuildException {
+    public ApiResponse findBySlug(@PathVariable String slug, @RequestParam String search) throws DiscoveryContextNotFoundException, DiscoveryContextBuildException, JsonProcessingException, IOException {
         System.out.println("\n\n\n" + search + "\n\n\n");
         DiscoveryView discoveryView = discoveryViewRepo.findOneBySlug(slug);
         if(discoveryView == null) {
             throw new DiscoveryContextNotFoundException(String.format("Could not find Discovery Context for %s", slug));
         }
-        return new ApiResponse(SUCCESS, solrDiscoveryService.buildDiscoveryContext(discoveryView, Search.of(search)));
+
+        JsonNode searchNode = objectMapper.readTree(search);
+
+        return new ApiResponse(SUCCESS, solrDiscoveryService.buildDiscoveryContext(discoveryView, Search.of(searchNode)));
     }
   
 }

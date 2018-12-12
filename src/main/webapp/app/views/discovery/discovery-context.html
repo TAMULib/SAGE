@@ -39,7 +39,7 @@
       <div class="row dc-active-filters">
         <div class="col-xs-12">
           <ul class="list list-inline">
-            <li role="presentation" ng-repeat="filter in discoveryContext.search.filters" class="btn btn-primary dc-active-filter" ng-click="removeFilter(filter.key)">{{filter.key}} <span ng-if="filter.key">:</span> {{filter.value}} <span class="gliphicon glyphicon-remove"></span></li>
+            <li role="presentation" ng-repeat="filter in discoveryContext.search.filters" class="btn btn-primary dc-active-filter" ng-click="removeFilter(filter)">{{filter.key}} <span ng-if="filter.key">:</span> {{filter.value}} <span class="gliphicon glyphicon-remove"></span></li>
           </ul>
         </div>
       </div>

@@ -4,11 +4,15 @@ sage.model("DiscoveryContext", function ($q, HttpMethodVerbs, WsApi, Result, Fie
     var discoveryContext = this;
 
     var fetchContext = function () {
+
+      console.log(discoveryContext.search.filters);
       return WsApi.fetch(discoveryContext.getMapping().load, {
         pathValues: {
           slug: discoveryContext.slug
         },
-        query: discoveryContext.search.filters
+        query: {
+          search: encodeURI(angular.toJson(discoveryContext.search.filters))
+        }
       });
     };
 
@@ -21,7 +25,7 @@ sage.model("DiscoveryContext", function ($q, HttpMethodVerbs, WsApi, Result, Fie
     discoveryContext.before(function () {
 
       discoveryContext.search = new Search({
-        filters: {},
+        filters: [],
         query: ""
       });
 

@@ -12,23 +12,30 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
     $scope.discoveryContext = discoveryContext;
 
     $scope.searchProcessKeyPress = function($event) {
-      if(event.keyCode === 13) {
-        $scope.executeSearch();
-      }
-    };
-
-    $scope.executeSearch = function() {
-      if($scope.currentSearchFilter) {
-        $scope.discoveryContext.search.filters[$scope.currentSearchFilter.name] = angular.copy($scope.currentSearchValue);
-        $scope.discoveryContext.results.length = 0;
-        $scope.discoveryContext.reload().then(function() {
+      if(event.keyCode === 13 && $scope.currentSearchFilter) {
+        var filter = {
+          key: $scope.currentSearchFilter.name,
+          value: $scope.currentSearchValue
+        };
+        $scope.discoveryContext.search.filters.push(filter);
+        $scope.executeSearch().then(function() {
           $scope.currentSearchValue = "";
         });
       }
     };
 
-    $scope.removeFilter = function(key) {
-      delete $scope.discoveryContext.search.filters[key];
+    $scope.executeSearch = function() {
+      $scope.discoveryContext.results.length = 0;
+      return $scope.discoveryContext.reload();
+    };
+
+    $scope.removeFilter = function(filter) {
+      for(var i = 0; i < $scope.discoveryContext.search.filters.length; i++) {
+        var f = $scope.discoveryContext.search.filters[i];
+        if(f.key === filter.key && f.value === filter.value) {
+          $scope.discoveryContext.search.filters.splice(i, 1);
+        }
+      }
       $scope.executeSearch();
     };
 
