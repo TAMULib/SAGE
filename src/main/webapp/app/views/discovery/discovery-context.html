@@ -46,7 +46,17 @@
     
       <div class="row dc-results">
         <div class="col-xs-12">
-          <div ng-repeat="result in discoveryContext.results">{{$index}}: <a href="{{result.getValue(discoveryContext.uriKey)}}">{{result.getValue(discoveryContext.titleKey)}}</a></div>
+          <div class="dc-result" ng-repeat="result in discoveryContext.results">
+            <h4>{{$index+1}}: 
+              <a href="{{result.getValue(discoveryContext.uriKey)}}">{{result.getValue(discoveryContext.titleKey)}}</a>
+            </h4>
+            <dl class="dl-horizontal dc-result-metadata">
+              <span class="dc-field" ng-repeat="(k,v) in result.fields">
+                <dt><span class="dc-field-key"><small>{{k}}:</small></span></dt>
+                <dd><span class="dc-field-value">{{v}}</span></dd>
+              </span>
+            </dl>
+          </div>
         </div>
       </div>
     </div>
