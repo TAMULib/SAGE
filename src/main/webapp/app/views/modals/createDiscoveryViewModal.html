@@ -51,12 +51,43 @@
               model="discoveryViewToCreate"
               property="slug"
               label="Slug"
-              placeholder="The UIR slug of this Discovery View"
+              placeholder="The URI slug of this Discovery View"
               form="discoveryViewForms.create"
               validations="discoveryViewForms.validations"
               results="discoveryViewForms.getResults()"
               autocomplete="off">
             </validatedinput>
+
+            <validatedinput
+              model="discoveryViewToCreate"
+              property="infoLinkText"
+              label="Info Link Text"
+              placeholder="e.g. 'About This Collection'"
+              form="discoveryViewForms.create"
+              validations="discoveryViewForms.validations"
+              results="discoveryViewForms.getResults()"
+              autocomplete="off">
+            </validatedinput>
+
+            <validatedinput
+              model="discoveryViewToCreate"
+              property="infoLinkUrl"
+              label="Info Link Url"
+              placeholder="The URL of the info link"
+              form="discoveryViewForms.create"
+              validations="discoveryViewForms.validations"
+              results="discoveryViewForms.getResults()"
+              autocomplete="off">
+            </validatedinput>
+
+            <validatedtextarea
+            model="discoveryViewToCreate"
+            property="infoText"
+            label="Info Text"
+            form="discoveryViewForms.create"
+            validations="discoveryViewForms.validations"
+            results="discoveryViewForms.getResults()"> 
+            </validatedtextarea>
 
           </div>
         </div>

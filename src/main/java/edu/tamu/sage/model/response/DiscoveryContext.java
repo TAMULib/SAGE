@@ -21,7 +21,12 @@ public class DiscoveryContext implements Serializable {
     
     private List<SolrField> fields;
 
-    
+    private String infoText;
+
+    private String infoLinkText;
+
+    private String infoLinkUrl;
+
     public DiscoveryContext() {
         super();
     }
@@ -74,12 +79,39 @@ public class DiscoveryContext implements Serializable {
         this.fields = fields;
     }
 
+    public String getInfoText() {
+        return infoText;
+    }
+
+    public void setInfoText(String infoText) {
+        this.infoText = infoText;
+    }
+
+    public String getInfoLinkText() {
+        return infoLinkText;
+    }
+
+    public void setInfoLinkText(String infoLinkText) {
+        this.infoLinkText = infoLinkText;
+    }
+
+    public String getInfoLinkUrl() {
+        return infoLinkUrl;
+    }
+
+    public void setInfoLinkUrl(String infoLinkUrl) {
+        this.infoLinkUrl = infoLinkUrl;
+    }
+
     public static DiscoveryContext of(DiscoveryView dv) {
         DiscoveryContext dc = new DiscoveryContext();
         
         dc.setName(dv.getName());
         dc.setTitleKey(dv.getPrimaryKey());
         dc.setUriKey(dv.getPrimaryURIKey());
+        dc.setInfoText(dv.getInfoText());
+        dc.setInfoLinkUrl(dv.getInfoLinkUrl());
+        dc.setInfoLinkText(dv.getInfoLinkText());
         
         return dc;
     }

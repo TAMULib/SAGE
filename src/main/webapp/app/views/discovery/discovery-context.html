@@ -1,30 +1,55 @@
-<h1>{{discoveryContext.name}}</h1>
+<div class="discovery-context">
 
-<div class="row search-control">
-  <div class="col-xs-12">
-      <form class="form-group">
-      <div class="input-group">
-          <div class="input-group-btn">
-              <select class="filter-select form-control" ng-model="currentSearchFilter" ng-options="field.name for field in discoveryContext.fields"></select>
+  <div class="row dc-heading">
+    <h1>{{discoveryContext.name}}</h1>
+  </div>
+
+  <div class="row dc-content">
+    <div class="col-md-3 dc-side-panel">
+      <div ng-if="discoveryContext.infoLinkText || discoveryContext.infoText" class="panel panel-default information-box">
+          <div ng-if="discoveryContext.infoText" class="panel-body">
+            {{discoveryContext.infoText}}
           </div>
-          <input type="text" class="form-control" ng-model="currentSearchValue" ng-keypress="searchProcessKeyPress($event)">
+          <div ng-if="discoveryContext.infoLinkText" class="panel-footer">
+            <a ng-if="discoveryContext.infoLinkUrl" href="{{discoveryContext.infoLinkUrl}}">{{discoveryContext.infoLinkText}}</a>
+            <p ng-if="!discoveryContext.infoLinkUrl">{{discoveryContext.infoLinkText}}</p>
+          </div>
       </div>
-    </form>
-  </div>
+      <div class="panel panel-default facets">
+          <div class="panel-heading">Facets</div>
+          <div class="panel-body">
+          </div>
+      </div>
+    </div>
+  
+    <div class="col-md-9 dc-main">
+      <div class="row dc-search">
+        <div class="col-xs-12">
+            <form class="form-group">
+            <div class="input-group">
+                <div class="input-group-btn">
+                    <select class="form-control dc-filter-select" ng-model="currentSearchFilter" ng-options="field.name for field in discoveryContext.fields"></select>
+                </div>
+                <input type="text" class="form-control dc-search-input" ng-model="currentSearchValue" ng-keypress="searchProcessKeyPress($event)">
+            </div>
+          </form>
+        </div>
+      </div>
+    
+      <div class="row dc-active-filters">
+        <div class="col-xs-12">
+          <ul class="list list-inline">
+            <li role="presentation" ng-repeat="filter in discoveryContext.search.filters" class="btn btn-primary dc-active-filter" ng-click="removeFilter(filter.key)">{{filter.key}} <span ng-if="filter.key">:</span> {{filter.value}} <span class="gliphicon glyphicon-remove"></span></li>
+          </ul>
+        </div>
+      </div>
+    
+      <div class="row dc-results">
+        <div class="col-xs-12">
+          <div ng-repeat="result in discoveryContext.results">{{$index}}: <a href="{{result.getValue(discoveryContext.uriKey)}}">{{result.getValue(discoveryContext.titleKey)}}</a></div>
+        </div>
+      </div>
+    </div>
+  </div>  
 </div>
-
-<div class="row">
-  <div class="col-xs-12">
-    <ul class="list list-inline">
-      <li role="presentation" ng-repeat="filter in discoveryContext.search.filters" class="btn btn-primary" ng-click="removeFilter(filter.key)">{{filter.key}} <span ng-if="key">:</span> {{filter.value}} <span class="gliphicon glyphicon-remove"></span></li>
-    </ul>
-  </div>
-</div>
-
-<br>
-
-<div class="row">
-  <div class="col-xs-12">
-    <div ng-repeat="result in discoveryContext.results">{{$index}}: <a href="{{result.getValue(discoveryContext.uriKey)}}">{{result.getValue(discoveryContext.titleKey)}}</a></div>
-  </div>
-</div>
+  

@@ -1,5 +1,38 @@
-.search-control {
-  .filter-select {
-    width: 100px;
+.discovery-context {
+
+  .dc-heading {
+    margin-bottom: 50px;
   }
+
+  .dc-main {
+
+    margin-bottom: 50px;
+
+    .dc-search {
+
+      margin-bottom: 10px;
+
+      .dc-filter-select {
+        border-radius: 4px 0px 0px 4px;
+        background-color: #f5f5f5;
+        width: 125px;
+        height: 40px;
+      }
+
+      .dc-search-input {
+        height: 40px;
+      }
+
+    }
+    .dc-active-filters {
+
+      margin-bottom: 10px;
+
+      .dc-active-filter {
+        margin-right: 10px;
+      }
+    }
+  }
+  
+
 }

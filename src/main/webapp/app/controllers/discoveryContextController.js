@@ -20,11 +20,11 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
     $scope.executeSearch = function() {
       if($scope.currentSearchFilter) {
         $scope.discoveryContext.search.filters[$scope.currentSearchFilter.name] = angular.copy($scope.currentSearchValue);
+        $scope.discoveryContext.results.length = 0;
+        $scope.discoveryContext.reload().then(function() {
+          $scope.currentSearchValue = "";
+        });
       }
-      $scope.discoveryContext.results.length = 0;
-      $scope.discoveryContext.reload().then(function() {
-        $scope.currentSearchValue = "";
-      });
     };
 
     $scope.removeFilter = function(key) {

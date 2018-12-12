@@ -28,6 +28,15 @@ public class DiscoveryView extends ValidatingBaseEntity {
     @Column(unique=true)
     private String slug;
 
+    @Column(length=4096)
+    private String infoText;
+
+    @Column
+    private String infoLinkText;
+
+    @Column
+    private String infoLinkUrl;
+
     public DiscoveryView() {
         setModelValidator(new DiscoveryViewValidator());
     }
@@ -79,7 +88,29 @@ public class DiscoveryView extends ValidatingBaseEntity {
     public void setPrimaryURIKey(String primaryURIKey) {
         this.primaryURIKey = primaryURIKey;
     }
-    
-    
+
+    public String getInfoText() {
+        return infoText;
+    }
+
+    public void setInfoText(String infoText) {
+        this.infoText = infoText;
+    }
+
+    public String getInfoLinkText() {
+        return infoLinkText;
+    }
+
+    public void setInfoLinkText(String infoLinkText) {
+        this.infoLinkText = infoLinkText;
+    }
+
+    public String getInfoLinkUrl() {
+        return infoLinkUrl;
+    }
+
+    public void setInfoLinkUrl(String infoLinkUrl) {
+        this.infoLinkUrl = infoLinkUrl;
+    }
     
 }
