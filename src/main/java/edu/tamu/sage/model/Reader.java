@@ -34,7 +34,7 @@ public class Reader extends ValidatingBaseEntity implements Readable {
     @Column
     private String sortId;
 
-    @Column
+    @Column(length=10000)
     private String filter;
 
     public Reader() {
