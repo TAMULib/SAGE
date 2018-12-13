@@ -1,4 +1,4 @@
-sage.model("DiscoveryContext", function ($q, HttpMethodVerbs, WsApi, Result, Field, Search) {
+sage.model("DiscoveryContext", function ($q, $location, HttpMethodVerbs, WsApi, Result, Field, Search) {
   return function DiscoveryContext() {
 
     var discoveryContext = this;
@@ -30,9 +30,18 @@ sage.model("DiscoveryContext", function ($q, HttpMethodVerbs, WsApi, Result, Fie
 
     discoveryContext.before(function () {
 
+      var filters = []
+      angular.forEach($location.search(), function(v,k) {
+        var filter = {
+          key: k,
+          value: v
+        };
+        filters.push(filter);
+      });
+
       discoveryContext.search = new Search({
-        filters: [],
-        query: ""
+        filters: filters,
+        query: $location.search()
       });
 
       return discoveryContext.reload();

@@ -19,7 +19,8 @@ sage.config(function ($locationProvider, $routeProvider) {
       }).
       when('/discovery-context/:slug', {
         templateUrl: 'views/discovery/discovery-context.html',
-        controller: 'DiscoveryContextController'
+        controller: 'DiscoveryContextController',
+        reloadOnSearch: false
       }).
       
       // Error Routes

@@ -1,11 +1,13 @@
-sage.controller('DiscoveryContextController', function ($controller, $scope, $routeParams, DiscoveryContext, Search, Field) {
+sage.controller('DiscoveryContextController', function ($controller, $scope, $routeParams, $location, DiscoveryContext, Search, Field) {
 
   angular.extend(this, $controller('CoreAdminController', {
       $scope: $scope
   }));
 
+  
+
   var discoveryContext = new DiscoveryContext({
-    slug: $routeParams.slug
+    slug: $routeParams.slug,
   });
 
   var resetSearch = function() {
@@ -15,8 +17,7 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
 
   discoveryContext.ready().then(function() {
     $scope.discoveryContext = discoveryContext;
-    console.log($scope.discoveryContext);
-
+    console.log();
     resetSearch();
     
     $scope.searchProcessKeyPress = function($event) {
@@ -34,6 +35,8 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
       $scope.discoveryContext.results.length = 0;
       var reoloadPromise = $scope.discoveryContext.reload();
       reoloadPromise.then(function() {
+        console.log($scope.discoveryContext);
+        $location.search($scope.discoveryContext.search.query)
         resetSearch();
       });
       return reoloadPromise;
