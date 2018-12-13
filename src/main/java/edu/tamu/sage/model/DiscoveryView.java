@@ -127,4 +127,15 @@ public class DiscoveryView extends ValidatingBaseEntity {
         this.resultMetadataFields = resultMetadataFields;
     }
 
+	public MetadataField findMetadataFieldByKey(String key) {
+        MetadataField  m = null;
+        for(MetadataField rm : resultMetadataFields) {
+            if(rm.getKey().equals(key)) {
+                m = rm;
+                break;
+            }
+        }
+		return m;
+	}
+
 }

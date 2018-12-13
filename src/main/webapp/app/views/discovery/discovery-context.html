@@ -28,7 +28,7 @@
             <form class="form-group">
             <div class="input-group">
                 <div class="input-group-btn">
-                    <select class="form-control dc-filter-select" ng-model="currentSearchFilter" ng-options="field.name for field in discoveryContext.fields"></select>
+                    <select class="form-control dc-filter-select" ng-model="currentSearchFilter" ng-options="filter.label for filter in discoveryContext.searchFilters"></select>
                 </div>
                 <input type="text" class="form-control dc-search-input" ng-model="currentSearchValue" ng-keypress="searchProcessKeyPress($event)">
             </div>
@@ -39,7 +39,7 @@
       <div class="row dc-active-filters">
         <div class="col-xs-12">
           <ul class="list list-inline">
-            <li role="presentation" ng-repeat="filter in discoveryContext.search.filters" class="btn btn-primary dc-active-filter" ng-click="removeFilter(filter)">{{filter.key}} <span ng-if="filter.key">:</span> {{filter.value}} <span class="glyphicon glyphicon-remove"></span></li>
+            <li role="presentation" ng-repeat="filter in discoveryContext.search.filters" class="btn btn-primary dc-active-filter" ng-click="removeFilter(filter)">{{filter.label}} <span ng-if="filter.key">:</span> {{filter.value}} <span class="glyphicon glyphicon-remove"></span></li>
           </ul>
         </div>
       </div>

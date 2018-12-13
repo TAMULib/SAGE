@@ -1,6 +1,7 @@
 package edu.tamu.sage.model.response;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.tamu.sage.model.DiscoveryView;
@@ -19,7 +20,7 @@ public class DiscoveryContext implements Serializable {
     
     private List<Result> results;
     
-    private List<SolrField> fields;
+    private List<SearchFilter> searchFilters;
     
     private String infoText;
 
@@ -29,6 +30,7 @@ public class DiscoveryContext implements Serializable {
 
     public DiscoveryContext() {
         super();
+        searchFilters = new  ArrayList<SearchFilter>();
     }
 
     public String getName() {
@@ -71,12 +73,12 @@ public class DiscoveryContext implements Serializable {
         this.results = results;
     }
     
-    public List<SolrField> getFields() {
-        return fields;
+    public List<SearchFilter> getSearchFilters() {
+        return searchFilters;
     }
 
-    public void setFields(List<SolrField> fields) {
-        this.fields = fields;
+    public void setSearchFilters(List<SearchFilter> searchFilters) {
+        this.searchFilters = searchFilters;
     }
 
     public String getInfoText() {
@@ -112,6 +114,21 @@ public class DiscoveryContext implements Serializable {
         dc.setInfoText(dv.getInfoText());
         dc.setInfoLinkUrl(dv.getInfoLinkUrl());
         dc.setInfoLinkText(dv.getInfoLinkText());
+
+        
+        SearchFilter defaultSearchFilter = new SearchFilter();
+        defaultSearchFilter.setKey("all_fields");
+        defaultSearchFilter.setLabel("All Fields");
+        dc.searchFilters.add(defaultSearchFilter);
+
+        SearchFilter titleSearchFilter = new SearchFilter();
+        titleSearchFilter.setKey(dv.getTitleKey());
+        titleSearchFilter.setLabel("Name");
+        dc.searchFilters.add(titleSearchFilter);
+
+        dv.getResultMetadataFields().forEach(metadataFfield->{
+            dc.searchFilters.add(SearchFilter.of(metadataFfield));
+        });
         
         return dc;
     }

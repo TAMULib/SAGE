@@ -11,7 +11,7 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
   });
 
   var resetSearch = function() {
-    $scope.currentSearchFilter = discoveryContext.fields[0];
+    $scope.currentSearchFilter = discoveryContext.searchFilters[0];
     $scope.currentSearchValue = '';
   };
 
@@ -23,7 +23,8 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
     $scope.searchProcessKeyPress = function($event) {
       if(event.keyCode === 13 && $scope.currentSearchFilter) {
         var filter = {
-          key: $scope.currentSearchFilter.name,
+          label: $scope.currentSearchFilter.label,
+          key: $scope.currentSearchFilter.key,
           value: $scope.currentSearchValue
         };
         $scope.discoveryContext.search.filters.push(filter);

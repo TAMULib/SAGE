@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import edu.tamu.sage.exceptions.DiscoveryContextBuildException;
 import edu.tamu.sage.model.DiscoveryView;
+import edu.tamu.sage.model.MetadataField;
 import edu.tamu.sage.model.response.DiscoveryContext;
 import edu.tamu.sage.model.response.Filter;
 import edu.tamu.sage.model.response.Result;
@@ -39,25 +40,33 @@ public class SolrDiscoveryService {
 
         DiscoveryContext discoveryContext = DiscoveryContext.of(discoveryView);
 
-        List<SolrField> solrFields = getFields(discoveryView);
-
-        Search search = buildSearch(filterMap, solrFields);
+        Search search = buildSearch(filterMap, discoveryView);
 
         List<Result> results = querySolrCore(discoveryView, search);
 
         discoveryContext.setResults(results);
-        discoveryContext.setFields(solrFields);
+        //discoveryContext.setFields(availableFields);
         discoveryContext.setSearch(search);
 
         return discoveryContext;
     }
 
-    private Search buildSearch(Map<String, String> filterMap, List<SolrField> solrFields) {
+    private Search buildSearch(Map<String, String> filterMap, DiscoveryView discoveryView)
+            throws DiscoveryContextBuildException {
+
+        List<SolrField> availableFields = getAvailableFields(discoveryView);
+
         Search search = new Search();
         List<Filter> filters = new ArrayList<Filter>();
         filterMap.forEach((key, values) -> {
             for (String value : values.split(",")) {
-                filters.add(new Filter(key, value));
+                
+                MetadataField m = discoveryView.findMetadataFieldByKey(key);
+                String label = m==null ? key : m.getLabel();
+
+                label = discoveryView.getTitleKey().equals(key) ? "Name" : label;
+                
+                filters.add(new Filter(key, label, value));
             }
         });
         search.setFilters(filters);
@@ -69,11 +78,11 @@ public class SolrDiscoveryService {
             String[] values = filter.getValue().split(",");
             for (int i = 0; i < values.length; i++) {
                 if (key.equals(ALL_FIELDS_KEY)) {
-                    for (int j = 0; j < solrFields.size(); j++) {
-                        SolrField field = solrFields.get(j);
+                    for (int j = 0; j < availableFields.size(); j++) {
+                        SolrField field = availableFields.get(j);
                         if (!field.getName().equals(ALL_FIELDS_KEY)) {
                             solrQuery += field.getName() + ":\"" + values[i] + "\"";
-                            if (j < solrFields.size()) {
+                            if (j < availableFields.size()) {
                                 solrQuery += " OR ";
                             }
                         }
@@ -102,13 +111,13 @@ public class SolrDiscoveryService {
         return search;
     }
 
-    public List<SolrField> getFields(DiscoveryView discoveryView) throws DiscoveryContextBuildException {
-        ArrayList<SolrField> solrFields = new ArrayList<SolrField>();
+    public List<SolrField> getAvailableFields(DiscoveryView discoveryView) throws DiscoveryContextBuildException {
+        ArrayList<SolrField> availableFields = new ArrayList<SolrField>();
         SolrField defaultField = new SolrField();
         // TODO: ensure type is actual Solr datatype for text
         defaultField.setName(ALL_FIELDS_KEY);
         defaultField.setType("text");
-        solrFields.add(defaultField);
+        availableFields.add(defaultField);
         try (SolrClient solr = new HttpSolrClient(discoveryView.getSource().getUri())) {
 
             LukeRequest luke = new LukeRequest();
@@ -126,7 +135,7 @@ public class SolrDiscoveryService {
                     query.setQuery(q);
                     QueryResponse qr = solr.query(query);
                     if (qr.getResults().size() > 0) {
-                        solrFields.add(SolrField.of(field));
+                        availableFields.add(SolrField.of(field));
                     }
                 }
             }
@@ -134,7 +143,7 @@ public class SolrDiscoveryService {
             throw new DiscoveryContextBuildException("Could not populate fields", e);
         }
 
-        return solrFields;
+        return availableFields;
     }
 
     public List<Result> querySolrCore(DiscoveryView discoveryView, Search search) {
