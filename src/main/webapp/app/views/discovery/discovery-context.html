@@ -2,8 +2,8 @@
 
   <div class="row dc-heading">
     <h1>{{discoveryContext.name}}</h1>
+    <hr>
   </div>
-
   <div class="row dc-content">
     <div class="col-md-3 dc-side-panel">
       <div ng-if="discoveryContext.infoLinkText || discoveryContext.infoText" class="panel panel-default information-box">
@@ -48,7 +48,7 @@
         <div class="col-xs-12">
           <div class="dc-result" ng-repeat="result in discoveryContext.results">
             <h4>{{$index+1}}: 
-              <a href="item/{{result.id}}">{{result.title}}</a>
+              <a href="discovery-context/{{discoveryContext.name}}/{{result.uniqueIdentifier}}">{{result.title}}</a>
             </h4>
             <dl class="dl-horizontal dc-result-metadata">
               <span class="dc-field" ng-repeat="(k,v) in result.fields">

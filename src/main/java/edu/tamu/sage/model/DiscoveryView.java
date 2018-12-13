@@ -25,6 +25,9 @@ public class DiscoveryView extends ValidatingBaseEntity {
     @Column
     private String titleKey;
 
+    @Column
+    private String uniqueIdentifierKey;
+
     @Column(unique = true)
     private String slug;
 
@@ -80,8 +83,16 @@ public class DiscoveryView extends ValidatingBaseEntity {
         return titleKey;
     }
 
-    public void setTitleKey(String primaryKey) {
-        this.titleKey = primaryKey;
+    public void setTitleKey(String titleKey) {
+        this.titleKey = titleKey;
+    }
+
+    public String getUniqueIdentifierKey() {
+        return uniqueIdentifierKey;
+    }
+
+    public void setUniqueIdentifierKey(String uniqueIdentifierKey) {
+        this.uniqueIdentifierKey = uniqueIdentifierKey;
     }
 
     public String getInfoText() {

@@ -167,6 +167,7 @@ public class SolrDiscoveryService {
             });
 
             query.addField(discoveryView.getTitleKey());
+            query.addField(discoveryView.getUniqueIdentifierKey());
 
             QueryResponse rsp = solr.query(query);
 

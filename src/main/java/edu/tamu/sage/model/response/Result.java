@@ -12,6 +12,8 @@ public class Result {
 
     private String title;
 
+    private String uniqueIdentifier;
+
     private Map<String, String> fields;
 
     public Result() {
@@ -34,10 +36,20 @@ public class Result {
         this.title = title;
     }
 
+    public String getUniqueIdentifier() {
+        return uniqueIdentifier;
+    }
+
+    public void setUniqueIdentifier(String uniqueIdentifier) {
+        this.uniqueIdentifier = uniqueIdentifier;
+    }
+
     public static Result of(SolrDocument doc, DiscoveryView discoveryView) {
         Result result = new Result();
         result.setTitle(doc.getFieldValue(discoveryView.getTitleKey()).toString());
-        for (MetadataField mf : discoveryView.getResultMetadataFields()) {
+        result.setUniqueIdentifier(doc.getFieldValue(discoveryView.getUniqueIdentifierKey()).toString());
+        for
+         (MetadataField mf : discoveryView.getResultMetadataFields()) {
             result.fields.put(mf.getLabel(), doc.getFieldValue(mf.getKey()).toString());
         }
         return result;

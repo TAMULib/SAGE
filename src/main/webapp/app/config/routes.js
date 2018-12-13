@@ -22,6 +22,11 @@ sage.config(function ($locationProvider, $routeProvider) {
         controller: 'DiscoveryContextController',
         reloadOnSearch: false
       }).
+      when('/discovery-context/:slug/:resultId', {
+        templateUrl: 'views/discovery/single-result.html',
+        controller: 'SingleResultController',
+        reloadOnSearch: false
+      }).
       
       // Error Routes
       when('/error/403', {

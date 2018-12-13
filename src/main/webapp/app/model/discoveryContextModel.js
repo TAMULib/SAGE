@@ -30,7 +30,7 @@ sage.model("DiscoveryContext", function ($q, $location, HttpMethodVerbs, WsApi, 
 
     discoveryContext.before(function () {
 
-      var filters = []
+      var filters = [];
       angular.forEach($location.search(), function(v,k) {
         var filter = {
           key: k,

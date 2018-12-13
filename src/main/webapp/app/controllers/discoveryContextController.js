@@ -17,7 +17,7 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
 
   discoveryContext.ready().then(function() {
     $scope.discoveryContext = discoveryContext;
-    console.log();
+    console.log($scope.discoveryContext);
     resetSearch();
     
     $scope.searchProcessKeyPress = function($event) {
@@ -36,7 +36,7 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
       var reoloadPromise = $scope.discoveryContext.reload();
       reoloadPromise.then(function() {
         console.log($scope.discoveryContext);
-        $location.search($scope.discoveryContext.search.query)
+        $location.search($scope.discoveryContext.search.query);
         resetSearch();
       });
       return reoloadPromise;

@@ -114,6 +114,18 @@
                 validations="discoveryViewForms.validations"
                 results="discoveryViewForms.getResults()">
               </validatedselect>
+              <validatedselect
+                model="discoveryViewToCreate"
+                property="uniqueIdentifierKey"
+                options="fields"
+                optionproperty="name"
+                optionvalue="name"
+                label="Unique Identifier Key"
+                placeholder="A unique identifier key for the new Discovery View"
+                form="discoveryViewForms.create"
+                validations="discoveryViewForms.validations"
+                results="discoveryViewForms.getResults()">
+              </validatedselect>
             </div>
           </div>
         </div>

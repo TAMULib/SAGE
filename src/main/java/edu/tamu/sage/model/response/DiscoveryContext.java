@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import edu.tamu.sage.model.DiscoveryView;
-import edu.tamu.sage.model.MetadataField;
 
 public class DiscoveryContext implements Serializable {
 
@@ -14,7 +13,7 @@ public class DiscoveryContext implements Serializable {
     
     private String titleKey;
 
-    private String uriKey;
+    private String uniqueIdentifierKey;
     
     private Search search;
     
@@ -48,12 +47,12 @@ public class DiscoveryContext implements Serializable {
         this.titleKey = titleKey;
     }
     
-    public String getUriKey() {
-        return uriKey;
+    public String getUniqueIdentifierKey() {
+        return uniqueIdentifierKey;
     }
 
-    public void setUriKey(String uriKey) {
-        this.uriKey = uriKey;
+    public void setUniqueIdentifierKey(String uniqueIdentifierKey) {
+        this.uniqueIdentifierKey = uniqueIdentifierKey;
     }
 
     public Search getSearch() {
@@ -109,6 +108,7 @@ public class DiscoveryContext implements Serializable {
         
         dc.setName(dv.getName());
         dc.setTitleKey(dv.getTitleKey());
+        dc.setUniqueIdentifierKey(dv.getUniqueIdentifierKey());
         dc.setInfoText(dv.getInfoText());
         dc.setInfoLinkUrl(dv.getInfoLinkUrl());
         dc.setInfoLinkText(dv.getInfoLinkText());
