@@ -22,6 +22,8 @@ public class DiscoveryContext implements Serializable {
     
     private List<SearchFilter> searchFilters;
     
+    private List<FacetFilter> facetFilters;
+    
     private String infoText;
 
     private String infoLinkText;
@@ -79,6 +81,14 @@ public class DiscoveryContext implements Serializable {
 
     public void setSearchFilters(List<SearchFilter> searchFilters) {
         this.searchFilters = searchFilters;
+    }
+
+    public List<FacetFilter> getFacetFilters() {
+        return facetFilters;
+    }
+
+    public void setFacetFilters(List<FacetFilter> facetFilters) {
+        this.facetFilters = facetFilters;
     }
 
     public String getInfoText() {

@@ -42,6 +42,9 @@ public class DiscoveryView extends ValidatingBaseEntity {
 
     @ElementCollection
     private List<MetadataField> resultMetadataFields;
+    
+    @ElementCollection
+    private List<FacetFields> facetFields;
 
     public DiscoveryView() {
         setModelValidator(new DiscoveryViewValidator());
@@ -137,5 +140,13 @@ public class DiscoveryView extends ValidatingBaseEntity {
         }
 		return m;
 	}
+
+    public List<FacetFields> getFacetFields() {
+        return facetFields;
+    }
+
+    public void setFacetFields(List<FacetFields> facetFields) {
+        this.facetFields = facetFields;
+    }
 
 }

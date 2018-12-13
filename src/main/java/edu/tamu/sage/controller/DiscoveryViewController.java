@@ -83,7 +83,7 @@ public class DiscoveryViewController {
     @PreAuthorize("hasRole('USER')")
     public ApiResponse getFields(@RequestBody DiscoveryView discoveryView) throws DiscoveryContextBuildException {
         logger.info("Getting fields for Discovery View: " + discoveryView.getName());
-        return new ApiResponse(SUCCESS, solrDiscoveryService.getFields(discoveryView));
+        return new ApiResponse(SUCCESS, solrDiscoveryService.getAvailableFields(discoveryView));
     }
 
     @RequestMapping(value = "/context/{slug}", method = RequestMethod.GET)

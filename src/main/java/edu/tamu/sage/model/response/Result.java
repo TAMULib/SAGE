@@ -50,7 +50,8 @@ public class Result {
         result.setUniqueIdentifier(doc.getFieldValue(discoveryView.getUniqueIdentifierKey()).toString());
         for
          (MetadataField mf : discoveryView.getResultMetadataFields()) {
-            result.fields.put(mf.getLabel(), doc.getFieldValue(mf.getKey()).toString());
+            Object value = doc.getFieldValue(mf.getKey());
+            result.fields.put(mf.getLabel(), value != null ? value.toString() : "uknown");
         }
         return result;
     }

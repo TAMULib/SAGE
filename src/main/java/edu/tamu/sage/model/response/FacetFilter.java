@@ -1,22 +1,27 @@
 package edu.tamu.sage.model.response;
 
+import org.apache.solr.client.solrj.response.FacetField;
+
+import edu.tamu.sage.model.FacetFields;
+
 public class FacetFilter {
 
-    private String name;
+    private String label;
     private String key;
     private String widget;
     private String type;
+    private int count;
 
     public FacetFilter() {
         super();
     }
 
-    public String getName() {
-        return name;
+    public String getLabel() {
+        return label;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     public String getKey() {
@@ -42,5 +47,25 @@ public class FacetFilter {
     public void setType(String type) {
         this.type = type;
     }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public static FacetFilter of(FacetField solrFacetField, FacetFields facetField) {
+        FacetFilter facetFilter = new FacetFilter();
+        facetFilter.label = facetField.getLabel();
+        facetFilter.key = facetField.getKey();
+        facetFilter.type = facetField.getType();
+        facetFilter.widget = facetField.getWidget();
+        facetFilter.count = solrFacetField.getValueCount();
+        return facetFilter;
+    }
+    
+    
 
 }
