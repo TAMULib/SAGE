@@ -1,5 +1,8 @@
 package edu.tamu.sage.model.response;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.solr.client.solrj.response.FacetField;
 
 import edu.tamu.sage.model.FacetFields;
@@ -10,10 +13,11 @@ public class FacetFilter {
     private String key;
     private String widget;
     private String type;
-    private int count;
+    private Map<String, Long> counts;
 
     public FacetFilter() {
         super();
+        counts = new HashMap<String, Long>();
     }
 
     public String getLabel() {
@@ -48,12 +52,12 @@ public class FacetFilter {
         this.type = type;
     }
 
-    public int getCount() {
-        return count;
+    public Map<String, Long> getCounts() {
+        return counts;
     }
 
-    public void setCount(int count) {
-        this.count = count;
+    public void setCounts(Map<String, Long> counts) {
+        this.counts = counts;
     }
 
     public static FacetFilter of(FacetField solrFacetField, FacetFields facetField) {
@@ -62,7 +66,11 @@ public class FacetFilter {
         facetFilter.key = facetField.getKey();
         facetFilter.type = facetField.getType();
         facetFilter.widget = facetField.getWidget();
-        facetFilter.count = solrFacetField.getValueCount();
+
+        solrFacetField.getValues().forEach(count->{
+            facetFilter.counts.put(count.getName(), count.getCount());
+        });
+
         return facetFilter;
     }
     

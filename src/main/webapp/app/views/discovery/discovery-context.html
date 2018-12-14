@@ -15,10 +15,13 @@
             <p ng-if="!discoveryContext.infoLinkUrl">{{discoveryContext.infoLinkText}}</p>
           </div>
       </div>
-      <div class="panel panel-default facets">
-          <div class="panel-heading">Facets</div>
-          <div class="panel-body">
-          </div>
+      <hr>
+      <h3>Faceted Discovery</h3>
+      <div class="panel panel-default dc-fecet" ng-repeat="facet in discoveryContext.facetFilters" ng-if="facet.widget!=='search'">
+          <div class="panel-heading">{{facet.label}} <span class="glyphicon glyphicon-chevron-right pull-right"></span></div>
+          <ul class="list-group dc-fecet-counts">
+            <li class="list-group-item" ng-repeat="(facetName, facetCount) in facet.counts">{{facetName}} <span class="badge pull-right">{{facetCount}}</span></li>
+          </ul>
       </div>
     </div>
   
