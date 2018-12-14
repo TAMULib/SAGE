@@ -48,8 +48,7 @@ public class Result {
         Result result = new Result();
         result.setTitle(doc.getFieldValue(discoveryView.getTitleKey()).toString());
         result.setUniqueIdentifier(doc.getFieldValue(discoveryView.getUniqueIdentifierKey()).toString());
-        for
-         (MetadataField mf : discoveryView.getResultMetadataFields()) {
+        for (MetadataField mf : discoveryView.getResultMetadataFields()) {
             Object value = doc.getFieldValue(mf.getKey());
             result.fields.put(mf.getLabel(), value != null ? value.toString() : "uknown");
         }

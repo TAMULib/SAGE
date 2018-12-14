@@ -113,6 +113,13 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
     console.log($scope.fields);
   };
 
+  SourceRepo.ready().then(function() {
+    if($scope.sources.length > 0) {
+      $scope.discoveryViewToCreate.source = $scope.sources[0];
+      $scope.discoveryViewToUpdate.source = $scope.sources[0];
+    }
+  });
+
   DiscoveryViewRepo.ready().then(function() {
     $scope.setTable = function() {
       $scope.tableParams = new NgTableParams({

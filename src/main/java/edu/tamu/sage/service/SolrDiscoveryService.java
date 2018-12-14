@@ -92,7 +92,7 @@ public class SolrDiscoveryService {
 
                 if (discoveryView.getTitleKey().equals(key)) {
                     label = "Name";
-                } else if(ALL_FIELDS_KEY.equals(key)) {
+                } else if (ALL_FIELDS_KEY.equals(key)) {
                     label = "All Fields";
                 } else {
                     MetadataField m = discoveryView.findMetadataFieldByKey(key);
@@ -178,6 +178,7 @@ public class SolrDiscoveryService {
             for (Entry<String, FieldInfo> field : map.entrySet()) {
                 if (field != null) {
                     String q = String.format("%s AND %s:*", discoveryView.getFilter(), field.getKey());
+                    System.out.println(q);
                     query.setQuery(q);
                     QueryResponse qr = solr.query(query);
                     if (qr.getResults().size() > 0) {
