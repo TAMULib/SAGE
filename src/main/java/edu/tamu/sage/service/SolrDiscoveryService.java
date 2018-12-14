@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import edu.tamu.sage.exceptions.DiscoveryContextBuildException;
 import edu.tamu.sage.model.DiscoveryView;
+import edu.tamu.sage.model.FacetFields;
 import edu.tamu.sage.model.MetadataField;
 import edu.tamu.sage.model.response.DiscoveryContext;
 import edu.tamu.sage.model.response.FacetFilter;
@@ -36,11 +37,11 @@ public class SolrDiscoveryService {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private static final String ALL_FIELDS_KEY = "all_fields";
-  
+
     private class ResultSet {
         public List<Result> results;
         public List<FacetFilter> facetFilters;
-        
+
         public ResultSet(List<Result> results, List<FacetFilter> facetFilters) {
             this.results = results;
             this.facetFilters = facetFilters;
@@ -67,7 +68,7 @@ public class SolrDiscoveryService {
     private Search buildSearch(Map<String, String> filterMap, DiscoveryView discoveryView) throws DiscoveryContextBuildException {
 
         // TODO: REDO!!!
-        
+
         Search search = new Search();
 
         List<SolrField> availableFields = getAvailableFields(discoveryView);
@@ -87,9 +88,22 @@ public class SolrDiscoveryService {
             String[] values = vs.split(",");
             for (int i = 0; i < values.length; i++) {
 
-                MetadataField m = discoveryView.findMetadataFieldByKey(key);
-                String label = m == null ? key : m.getLabel();
-                label = discoveryView.getTitleKey().equals(key) ? "Name" : label;
+                String label = key;
+
+                if (discoveryView.getTitleKey().equals(key)) {
+                    label = "Name";
+                } else if(ALL_FIELDS_KEY.equals(key)) {
+                    label = "All Fields";
+                } else {
+                    MetadataField m = discoveryView.findMetadataFieldByKey(key);
+                    if (m != null) {
+                        label = m.getLabel();
+                    } else {
+                        FacetFields ff = discoveryView.findFacetFieldByKey(key);
+                        label = ff != null ? ff.getLabel() : label;
+                    }
+                }
+
                 filters.add(new Filter(key, label, values[i]));
 
                 if (key.equals(ALL_FIELDS_KEY)) {
@@ -193,12 +207,11 @@ public class SolrDiscoveryService {
             SolrQuery query = new SolrQuery();
 
             query.setFacet(true);
-            
-            discoveryView.getFacetFields().forEach(facetField->{
+
+            discoveryView.getFacetFields().forEach(facetField -> {
                 query.addFacetField(facetField.getKey());
             });
-            
-            
+
             String q = discoveryView.getFilter();
 
             if (search.getSolrQuery().length() > 0) {
@@ -224,8 +237,8 @@ public class SolrDiscoveryService {
             for (SolrDocument doc : docs) {
                 results.add(Result.of(doc, discoveryView));
             }
-            
-            discoveryView.getFacetFields().forEach(facetField->{ 
+
+            discoveryView.getFacetFields().forEach(facetField -> {
                 facetFilters.add(FacetFilter.of(rsp.getFacetField(facetField.getKey()), facetField));
             });
 
@@ -240,7 +253,7 @@ public class SolrDiscoveryService {
                 e.printStackTrace();
             }
         }
-        
+
         return new ResultSet(results, facetFilters);
     }
 

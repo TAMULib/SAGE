@@ -15,6 +15,25 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
     $scope.currentSearchValue = '';
   };
 
+  var addFilter = function(label, key, value) {
+    var filter = {
+      label: label,
+      key: key,
+      value: value
+    };
+    $scope.discoveryContext.search.filters.push(filter);
+  };
+
+  $scope.removeFilter = function(filter) {
+    for(var i = 0; i < $scope.discoveryContext.search.filters.length; i++) {
+      var f = $scope.discoveryContext.search.filters[i];
+      if(f.key === filter.key && f.value === filter.value) {
+        $scope.discoveryContext.search.filters.splice(i, 1);
+      }
+    }
+    $scope.executeSearch();
+  };
+
   discoveryContext.ready().then(function() {
     $scope.discoveryContext = discoveryContext;
     console.log($scope.discoveryContext);
@@ -22,12 +41,7 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
     
     $scope.searchProcessKeyPress = function($event) {
       if(event.keyCode === 13 && $scope.currentSearchFilter) {
-        var filter = {
-          label: $scope.currentSearchFilter.label,
-          key: $scope.currentSearchFilter.key,
-          value: $scope.currentSearchValue
-        };
-        $scope.discoveryContext.search.filters.push(filter);
+        addFilter($scope.currentSearchFilter.label, $scope.currentSearchFilter.key, $scope.currentSearchValue);
         $scope.executeSearch();
       }
     };
@@ -43,13 +57,8 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
       return reoloadPromise;
     };
 
-    $scope.removeFilter = function(filter) {
-      for(var i = 0; i < $scope.discoveryContext.search.filters.length; i++) {
-        var f = $scope.discoveryContext.search.filters[i];
-        if(f.key === filter.key && f.value === filter.value) {
-          $scope.discoveryContext.search.filters.splice(i, 1);
-        }
-      }
+    $scope.addFacetFilter = function(facet, value) {
+      addFilter(facet.label, facet.key, value);
       $scope.executeSearch();
     };
 

@@ -7,6 +7,8 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
+import org.apache.solr.client.solrj.response.FacetField;
+
 import edu.tamu.sage.model.validation.DiscoveryViewValidator;
 import edu.tamu.weaver.validation.model.ValidatingBaseEntity;
 
@@ -140,6 +142,17 @@ public class DiscoveryView extends ValidatingBaseEntity {
         }
 		return m;
 	}
+	
+    public FacetFields findFacetFieldByKey(String key) {
+        FacetFields f = null;
+        for(FacetFields ff : facetFields) {
+            if(ff.getKey().equals(key)) {
+                f = ff;
+                break;
+            }
+        }
+        return f;
+    }
 
     public List<FacetFields> getFacetFields() {
         return facetFields;
