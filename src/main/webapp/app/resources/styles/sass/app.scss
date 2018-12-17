@@ -31,3 +31,14 @@ tamufooter {
 .clickable:hover {
   cursor: pointer;
 }
+
+.link-like {
+  color:#337ab7;
+  text-decoration:none;
+}
+
+.link-like:hover {
+  cursor:pointer;
+  text-decoration:underline;
+  color: #23527c;
+}

@@ -48,11 +48,11 @@ public class SolrDiscoveryService {
         }
     }
 
-    public DiscoveryContext buildDiscoveryContext(DiscoveryView discoveryView, Map<String, String> filterMap) throws DiscoveryContextBuildException {
+    public DiscoveryContext buildDiscoveryContext(DiscoveryView discoveryView, Map<String, String> filterMap, int rows, int start) throws DiscoveryContextBuildException {
 
         DiscoveryContext discoveryContext = DiscoveryContext.of(discoveryView);
 
-        Search search = buildSearch(filterMap, discoveryView);
+        Search search = buildSearch(filterMap, discoveryView, rows, start);
 
         ResultSet resultSet = querySolrCore(discoveryView, search);
         List<Result> results = resultSet.results;
@@ -65,7 +65,7 @@ public class SolrDiscoveryService {
         return discoveryContext;
     }
 
-    private Search buildSearch(Map<String, String> filterMap, DiscoveryView discoveryView) throws DiscoveryContextBuildException {
+    private Search buildSearch(Map<String, String> filterMap, DiscoveryView discoveryView, int rows, int start) throws DiscoveryContextBuildException {
 
         // TODO: REDO!!!
 
@@ -148,11 +148,16 @@ public class SolrDiscoveryService {
             solrQuery = "(" + solrQuery.substring(0, solrQuery.length() - 5) + ")";
         }
 
-        System.out.println("\n\n" + query + "\n\n");
-        System.out.println("\n\n" + solrQuery + "\n\n");
+        query += (query.length() > 0 ? "&" : "") + "start=" + start + "&rows=" + rows;
+
+        System.out.println("URL query: " + query);
+        System.out.println("Solr query: " + solrQuery);
 
         search.setQuery(query);
         search.setSolrQuery(solrQuery);
+
+        search.setRows(rows);
+        search.setStart(start);
 
         return search;
     }
@@ -178,7 +183,6 @@ public class SolrDiscoveryService {
             for (Entry<String, FieldInfo> field : map.entrySet()) {
                 if (field != null) {
                     String q = String.format("%s AND %s:*", discoveryView.getFilter(), field.getKey());
-                    System.out.println(q);
                     query.setQuery(q);
                     QueryResponse qr = solr.query(query);
                     if (qr.getResults().size() > 0) {
@@ -219,9 +223,11 @@ public class SolrDiscoveryService {
                 q += " AND " + search.getSolrQuery();
             }
 
-            query.set("q", q);
+            query.setRows(search.getRows());
 
-            query.set("rows", "500");
+            query.setStart(search.getStart());
+
+            query.setQuery(q);
 
             query.addSort("id", ORDER.asc);
 
@@ -235,6 +241,9 @@ public class SolrDiscoveryService {
             QueryResponse rsp = solr.query(query);
 
             SolrDocumentList docs = rsp.getResults();
+
+            search.setTotal(docs.getNumFound());
+
             for (SolrDocument doc : docs) {
                 results.add(Result.of(doc, discoveryView));
             }

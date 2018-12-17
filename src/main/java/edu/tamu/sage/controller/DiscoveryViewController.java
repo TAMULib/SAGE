@@ -88,12 +88,16 @@ public class DiscoveryViewController {
 
     @RequestMapping(value = "/context/{slug}", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ANONYMOUS')")
-    public ApiResponse findBySlug(@PathVariable String slug, @RequestParam Map<String, String> filterMap) throws DiscoveryContextNotFoundException, DiscoveryContextBuildException, JsonProcessingException, IOException {
+    public ApiResponse findBySlug(@PathVariable String slug, @RequestParam Map<String, String> filterMap, @RequestParam("rows") int rows, @RequestParam("start") int start) throws DiscoveryContextNotFoundException, DiscoveryContextBuildException, JsonProcessingException, IOException {
+        
+        filterMap.remove("rows");
+        filterMap.remove("start");
+        
         DiscoveryView discoveryView = discoveryViewRepo.findOneBySlug(slug);
         if (discoveryView == null) {
             throw new DiscoveryContextNotFoundException(String.format("Could not find Discovery Context for %s", slug));
         }
-        return new ApiResponse(SUCCESS, solrDiscoveryService.buildDiscoveryContext(discoveryView, filterMap));
+        return new ApiResponse(SUCCESS, solrDiscoveryService.buildDiscoveryContext(discoveryView, filterMap, rows, start));
     }
 
 }

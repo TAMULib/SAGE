@@ -1,4 +1,4 @@
-sage.model("DiscoveryContext", function ($q, $location, HttpMethodVerbs, WsApi, Result, Field, Search) {
+sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Result, Field, Search) {
   return function DiscoveryContext() {
 
     var discoveryContext = this;
@@ -13,6 +13,12 @@ sage.model("DiscoveryContext", function ($q, $location, HttpMethodVerbs, WsApi, 
         }
         q[filter.key].push(filter.value);
       });
+
+      var rows = $routeParams.rows ? $routeParams.rows : 10;
+      var start = $routeParams.start ? $routeParams.start : 0;
+
+      q.rows = discoveryContext.search.rows !== undefined ? discoveryContext.search.rows : rows;
+      q.start = discoveryContext.search.start !== undefined ? discoveryContext.search.start : start;
 
       return WsApi.fetch(discoveryContext.getMapping().load, {
         pathValues: {

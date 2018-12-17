@@ -18,10 +18,12 @@
       <hr>
       <h3>Faceted Discovery</h3>
       <div class="panel panel-default dc-fecet" ng-repeat="facet in discoveryContext.facetFilters" ng-if="facet.widget!=='search'">
-          <div class="panel-heading">{{facet.label}} <span class="glyphicon glyphicon-chevron-right pull-right"></span></div>
-          <ul class="list-group dc-fecet-counts">
-            <li class="list-group-item dc-fecet-count clickable" ng-repeat="(facetName, facetCount) in facet.counts track by $index" ng-click="addFacetFilter(facet, facetName)">{{facetName}} <span class="badge pull-right">{{facetCount}}</span></li>
-          </ul>
+        <div class="panel-heading clickable" ng-click="open=!open">{{facet.label}} <span class="glyphicon glyphicon-chevron-right pull-right"></span></div>
+        <ul class="list-group dc-fecet-counts" ng-class="{'open':open}">
+          <li class="list-group-item dc-fecet-count clickable clearfix" ng-repeat="(facetName, facetCount) in facet.counts track by $index" ng-click="addFacetFilter(facet, facetName)">
+            {{facetName}} <span class="badge pull-right">{{facetCount}}</span>
+          </li>
+        </ul>
       </div>
     </div>
   
@@ -31,15 +33,15 @@
             <form class="form-group">
             <div class="input-group">
                 <div class="input-group-btn">
-                    <select class="form-control dc-filter-select" ng-model="currentSearchFilter" ng-options="filter.label for filter in discoveryContext.searchFilters"></select>
+                  <select class="form-control dc-filter-select" ng-model="currentSearchFilter" ng-options="filter.label for filter in discoveryContext.searchFilters"></select>
                 </div>
                 <input type="text" class="form-control dc-search-input" ng-model="currentSearchValue" ng-keypress="searchProcessKeyPress($event)">
             </div>
           </form>
         </div>
       </div>
-    
-      <div class="row dc-active-filters">
+
+      <div class="row dc-active-filters" ng-if="discoveryContext.search.filters.length > 0">
         <div class="col-xs-12">
           <ul class="list list-inline">
             <li role="presentation" ng-repeat="filter in discoveryContext.search.filters" class="btn btn-primary dc-active-filter" ng-click="removeFilter(filter)">{{filter.label}} <span ng-if="filter.key">:</span> {{filter.value}} <span class="glyphicon glyphicon-remove"></span></li>
@@ -47,10 +49,28 @@
         </div>
       </div>
     
+      <div class="row dc-paging-controls-top">
+        <div class="col-md-9 col-sm-8">
+          <ul class="list-inline paging-controls">
+            <li class="list-inline-item" ng-click="pageBack()"><span ng-class="{'link-like': discoveryContext.search.start>0}"><span class="glyphicon glyphicon-chevron-left"></span>Previouse</span></li>
+            <li class="list-inline-item"><strong>{{discoveryContext.search.start + 1}}</strong>-<strong>{{discoveryContext.search.start + discoveryContext.search.rows > discoveryContext.search.total ? discoveryContext.search.total : discoveryContext.search.start + discoveryContext.search.rows}}</strong> of <strong>{{discoveryContext.search.total}}</strong></li>
+            <li class="list-inline-item" ng-click="pageForward()"><span ng-class="{'link-like': discoveryContext.search.start<discoveryContext.search.total-discoveryContext.search.rows}">Next<span class="glyphicon glyphicon-chevron-right"></span></span></li>
+          </ul>
+        </div>
+        <div class="col-sm-3 col-sm-offset-1 col-md-2 col-md-offset-1">
+          <select class="form-control dc-filter-select" ng-model="discoveryContext.search.rows" ng-options="rows.value as rows.label for rows in rowOptions" ng-change="executeSearch()"></select>
+        </div>
+      </div>
+    
+      <hr class="dc-results-hr" />
+
       <div class="row dc-results">
-        <div class="col-xs-12">
+        <!-- <div class="col-xs-12 results-loader" ng-class="{'show-loader': searching}">
+          <img src="resources/images/loading.gif">
+        </div> -->
+        <div class="col-xs-12 results" ng-class="{'hide-results': searching}">
           <div class="dc-result" ng-repeat="result in discoveryContext.results">
-            <h4>{{$index+1}}: 
+            <h4>{{$index+discoveryContext.search.start+1}}: 
               <a href="discovery-context/{{discoveryContext.name}}/{{result.uniqueIdentifier}}">{{result.title}}</a>
             </h4>
             <dl class="dl-horizontal dc-result-metadata">

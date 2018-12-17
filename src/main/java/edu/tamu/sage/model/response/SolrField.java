@@ -90,7 +90,6 @@ public class SolrField {
         solrField.setSchema(info.getSchema());
         solrField.setName(info.getName());
         solrField.setDistinct(info.getDistinct());
-        System.out.println(info.getDistinct());
         return solrField;
     }
 

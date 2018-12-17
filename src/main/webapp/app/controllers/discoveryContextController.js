@@ -1,10 +1,16 @@
-sage.controller('DiscoveryContextController', function ($controller, $scope, $routeParams, $location, DiscoveryContext, Search, Field) {
+sage.controller('DiscoveryContextController', function ($controller, $scope, $routeParams, $location, DiscoveryContext) {
 
   angular.extend(this, $controller('CoreAdminController', {
       $scope: $scope
   }));
 
+  $scope.rowOptions = [];
+
+  var options = [10,25,50,100];
   
+  for(var i in options) {
+    $scope.rowOptions.push({ value: options[i], label: options[i] + " Per Page"});
+  }
 
   var discoveryContext = new DiscoveryContext({
     slug: $routeParams.slug,
@@ -47,10 +53,11 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
     };
 
     $scope.executeSearch = function() {
-      $scope.discoveryContext.results.length = 0;
+      $scope.searching = true;
       var reoloadPromise = $scope.discoveryContext.reload();
       reoloadPromise.then(function() {
         console.log($scope.discoveryContext);
+        $scope.searching = false;
         $location.search($scope.discoveryContext.search.query);
         resetSearch();
       });
@@ -60,6 +67,22 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
     $scope.addFacetFilter = function(facet, value) {
       addFilter(facet.label, facet.key, value);
       $scope.executeSearch();
+    };
+
+    $scope.pageBack = function() {
+      if(discoveryContext.search.start > 0) {
+        discoveryContext.search.start -= discoveryContext.search.rows;
+        discoveryContext.search.start = discoveryContext.search.start < 0 ? 0 : discoveryContext.search.start;
+        $scope.executeSearch();
+      }
+    };
+
+    $scope.pageForward = function() {
+      if(discoveryContext.search.start < discoveryContext.search.total - discoveryContext.search.rows) {
+        discoveryContext.search.start += discoveryContext.search.rows;
+        discoveryContext.search.start = discoveryContext.search.start > discoveryContext.search.total ? discoveryContext.search.total : discoveryContext.search.start;
+        $scope.executeSearch();
+      }
     };
 
   });
