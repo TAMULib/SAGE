@@ -17,15 +17,15 @@
       </div>
       <hr>
       <h3>Faceted Discovery</h3>
-      <div class="panel panel-default dc-fecet" ng-repeat="facet in discoveryContext.facetFilters" ng-if="facet.widget!=='search' && _keys(facet.counts).length">
+      <div class="panel panel-default dc-facet" ng-repeat="facet in discoveryContext.facetFilters" ng-if="facet.widget!=='search' && _keys(facet.counts).length">
         <div class="panel-heading clickable" ng-click="open=!open">{{facet.label}} <span class="glyphicon glyphicon-chevron-right pull-right"></span></div>
-        <ul class="list-group dc-fecet-counts-in-use">
-          <li class="list-group-item dc-fecet-count clickable clearfix list-group-item-success" ng-repeat="(facetName, facetCount) in facet.counts track by $index" ng-click="removeFacetFilter(facet, facetName)" ng-if="facetInUse(facet.label, facetName)">
-            {{facetName}} <span class="badge pull-right">{{facetCount}}</span>
+        <ul class="list-group dc-facet-counts-in-use">
+          <li class="list-group-item dc-facet-count-in-use clickable clearfix" ng-class="{'list-group-item-success': !hover, 'list-group-item-warning': hover}" ng-mouseover="hover=true" ng-mouseleave="hover=false" ng-repeat="(facetName, facetCount) in facet.counts track by $index" ng-click="addRemoveFacetFilter(facet, facetName)" ng-if="findFilterByFacet(facet.label, facetName)">
+            {{facetName}} <span class="badge pull-right" ng-hide="hover">{{facetCount}}</span> <span class="glyphicon glyphicon-remove pull-right" ng-show="hover"></span>
           </li>
         </ul>
-        <ul class="list-group dc-fecet-counts" ng-class="{'open':open}">
-          <li class="list-group-item dc-fecet-count clickable clearfix" ng-repeat="(facetName, facetCount) in facet.counts track by $index" ng-click="addRemoveFacetFilter(facet, facetName)" ng-if="!facetInUse(facet.label, facetName)">
+        <ul class="list-group dc-facet-counts" ng-class="{'open':open}">
+          <li class="list-group-item dc-facet-count clickable clearfix" ng-repeat="(facetName, facetCount) in facet.counts track by $index" ng-click="addRemoveFacetFilter(facet, facetName)" ng-if="!findFilterByFacet(facet.label, facetName)">
             {{facetName}} <span class="badge pull-right">{{facetCount}}</span>
           </li>
         </ul>
@@ -63,7 +63,7 @@
           </ul>
         </div>
         <div class="col-sm-4 col-md-3">
-          <select class="form-control dc-filter-select" ng-model="discoveryContext.search.rows" ng-options="rows.value as rows.label for rows in rowOptions" ng-change="executeSearch()"></select>
+          <select class="form-control dc-filter-select" ng-model="discoveryContext.search.rows" ng-options="rows.value as rows.label for rows in rowOptions" ng-change="executeSearch(true)"></select>
         </div>
       </div>
     

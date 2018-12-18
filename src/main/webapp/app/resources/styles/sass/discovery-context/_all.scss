@@ -8,9 +8,13 @@
 
     .dc-side-panel {
 
-      .dc-fecet {
+      .dc-facet {
+        
+        .dc-facet-counts-in-use {
 
-        .dc-fecet-counts {
+        }
+
+        .dc-facet-counts {
           height: 0;
           max-height: 0;
           overflow: hidden;
@@ -23,7 +27,7 @@
 
         }
 
-        .dc-fecet-counts.open {
+        .dc-facet-counts.open {
           height: auto;
           max-height: 1000px;
           transition: all 1s linear;

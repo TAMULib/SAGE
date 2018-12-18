@@ -54,16 +54,22 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
       }
     };
 
-    $scope.executeSearch = function() {
-      $scope.searching = true;
-      var reoloadPromise = $scope.discoveryContext.reload();
-      reoloadPromise.then(function() {
-        console.log($scope.discoveryContext);
-        $scope.searching = false;
-        $location.search($scope.discoveryContext.search.query);
-        resetSearch();
-      });
-      return reoloadPromise;
+    $scope.executeSearch = function(maintainPage) {
+      if(!$scope.searching) {
+        $scope.searching = true;
+        if(!maintainPage) {
+          discoveryContext.search.start = 0;
+          $location.search("start", 0);
+        }
+        var reoloadPromise = $scope.discoveryContext.reload();
+        reoloadPromise.then(function() {
+          console.log($scope.discoveryContext);
+          $scope.searching = false;
+          $location.search($scope.discoveryContext.search.query);
+          resetSearch();
+        });
+        return reoloadPromise;
+      }
     };
 
     $scope.clearFilters = function() {
@@ -72,29 +78,34 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
     };
 
     $scope.addRemoveFacetFilter = function(facet, value) {
-      if(!$scope.facetInUse(facet.label)) {
+
+      var filter = $scope.findFilterByFacet(facet.label, value);
+
+      if(filter) {
+        $scope.removeFilter(filter);
+      } else {
         addFilter(facet.label, facet.key, value);
-        $scope.executeSearch();
       }
+      $scope.executeSearch();
     };
 
-    $scope.facetInUse = function(facetLabel, facetName) {
-      var inUse = false;
+    $scope.findFilterByFacet = function(facetLabel, facetName) {
+      var filter = false;
       for(var i in $scope.discoveryContext.search.filters) {
-        var filter = $scope.discoveryContext.search.filters[i];
-        if(filter.label === facetLabel && filter.value === facetName) {
-          inUse = true;
+        var f = $scope.discoveryContext.search.filters[i];
+        if(f.label === facetLabel && f.value === facetName) {
+          filter = f;
           break;
         }
       }
-      return inUse;
-    }
+      return filter;
+    };
 
     $scope.pageBack = function() {
       if(discoveryContext.search.start > 0) {
         discoveryContext.search.start -= discoveryContext.search.rows;
         discoveryContext.search.start = discoveryContext.search.start < 0 ? 0 : discoveryContext.search.start;
-        $scope.executeSearch();
+        $scope.executeSearch(true);
       }
     };
 
@@ -102,7 +113,7 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
       if(discoveryContext.search.start < discoveryContext.search.total - discoveryContext.search.rows) {
         discoveryContext.search.start += discoveryContext.search.rows;
         discoveryContext.search.start = discoveryContext.search.start > discoveryContext.search.total ? discoveryContext.search.total : discoveryContext.search.start;
-        $scope.executeSearch();
+        $scope.executeSearch(true);
       }
     };
 
