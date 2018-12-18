@@ -17,16 +17,20 @@
       </div>
       <hr>
       <h3>Faceted Discovery</h3>
-      <div class="panel panel-default dc-fecet" ng-repeat="facet in discoveryContext.facetFilters" ng-if="facet.widget!=='search'">
+      <div class="panel panel-default dc-fecet" ng-repeat="facet in discoveryContext.facetFilters" ng-if="facet.widget!=='search' && _keys(facet.counts).length">
         <div class="panel-heading clickable" ng-click="open=!open">{{facet.label}} <span class="glyphicon glyphicon-chevron-right pull-right"></span></div>
+        <ul class="list-group dc-fecet-counts-in-use">
+          <li class="list-group-item dc-fecet-count clickable clearfix list-group-item-success" ng-repeat="(facetName, facetCount) in facet.counts track by $index" ng-click="removeFacetFilter(facet, facetName)" ng-if="facetInUse(facet.label, facetName)">
+            {{facetName}} <span class="badge pull-right">{{facetCount}}</span>
+          </li>
+        </ul>
         <ul class="list-group dc-fecet-counts" ng-class="{'open':open}">
-          <li class="list-group-item dc-fecet-count clickable clearfix" ng-repeat="(facetName, facetCount) in facet.counts track by $index" ng-click="addFacetFilter(facet, facetName)">
+          <li class="list-group-item dc-fecet-count clickable clearfix" ng-repeat="(facetName, facetCount) in facet.counts track by $index" ng-click="addRemoveFacetFilter(facet, facetName)" ng-if="!facetInUse(facet.label, facetName)">
             {{facetName}} <span class="badge pull-right">{{facetCount}}</span>
           </li>
         </ul>
       </div>
     </div>
-  
     <div class="col-md-9 dc-main">
       <div class="row dc-search">
         <div class="col-xs-12">
@@ -44,6 +48,7 @@
       <div class="row dc-active-filters" ng-if="discoveryContext.search.filters.length > 0">
         <div class="col-xs-12">
           <ul class="list list-inline">
+            <li class="btn btn-primary dc-active-filter" ng-if="discoveryContext.search.filters.length" ng-click="clearFilters()"><span class="glyphicon glyphicon-home"></span></li>
             <li role="presentation" ng-repeat="filter in discoveryContext.search.filters" class="btn btn-primary dc-active-filter" ng-click="removeFilter(filter)">{{filter.label}} <span ng-if="filter.key">:</span> {{filter.value}} <span class="glyphicon glyphicon-remove"></span></li>
           </ul>
         </div>
@@ -57,7 +62,7 @@
             <li class="list-inline-item" ng-click="pageForward()"><span ng-class="{'link-like': discoveryContext.search.start<discoveryContext.search.total-discoveryContext.search.rows}">Next<span class="glyphicon glyphicon-chevron-right"></span></span></li>
           </ul>
         </div>
-        <div class="col-sm-3 col-sm-offset-1 col-md-2 col-md-offset-1">
+        <div class="col-sm-4 col-md-3">
           <select class="form-control dc-filter-select" ng-model="discoveryContext.search.rows" ng-options="rows.value as rows.label for rows in rowOptions" ng-change="executeSearch()"></select>
         </div>
       </div>

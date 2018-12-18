@@ -4,6 +4,8 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
       $scope: $scope
   }));
 
+  $scope._keys = Object.keys;
+
   $scope.rowOptions = [];
 
   var options = [10,25,50,100];
@@ -64,10 +66,29 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
       return reoloadPromise;
     };
 
-    $scope.addFacetFilter = function(facet, value) {
-      addFilter(facet.label, facet.key, value);
+    $scope.clearFilters = function() {
+      $scope.discoveryContext.search.filters.length = 0;
       $scope.executeSearch();
     };
+
+    $scope.addRemoveFacetFilter = function(facet, value) {
+      if(!$scope.facetInUse(facet.label)) {
+        addFilter(facet.label, facet.key, value);
+        $scope.executeSearch();
+      }
+    };
+
+    $scope.facetInUse = function(facetLabel, facetName) {
+      var inUse = false;
+      for(var i in $scope.discoveryContext.search.filters) {
+        var filter = $scope.discoveryContext.search.filters[i];
+        if(filter.label === facetLabel && filter.value === facetName) {
+          inUse = true;
+          break;
+        }
+      }
+      return inUse;
+    }
 
     $scope.pageBack = function() {
       if(discoveryContext.search.start > 0) {
