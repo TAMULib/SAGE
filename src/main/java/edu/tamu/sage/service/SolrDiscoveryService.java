@@ -48,13 +48,13 @@ public class SolrDiscoveryService {
         }
     }
 
-    public DiscoveryContext buildDiscoveryContext(DiscoveryView discoveryView, Map<String, String> filterMap, int rows, int start) throws DiscoveryContextBuildException {
+    public DiscoveryContext buildDiscoveryContext(DiscoveryView discoveryView, Map<String, String> filterMap, int rows, int start, String sort) throws DiscoveryContextBuildException {
 
         DiscoveryContext discoveryContext = DiscoveryContext.of(discoveryView);
 
-        Search search = buildSearch(filterMap, discoveryView, rows, start);
+        Search search = buildSearch(filterMap, discoveryView, rows, start, sort);
 
-        ResultSet resultSet = querySolrCore(discoveryView, search);
+        ResultSet resultSet = querySolrCore(discoveryView, search, sort);
         List<Result> results = resultSet.results;
         List<FacetFilter> facetFilter = resultSet.facetFilters;
 
@@ -65,7 +65,7 @@ public class SolrDiscoveryService {
         return discoveryContext;
     }
 
-    private Search buildSearch(Map<String, String> filterMap, DiscoveryView discoveryView, int rows, int start) throws DiscoveryContextBuildException {
+    private Search buildSearch(Map<String, String> filterMap, DiscoveryView discoveryView, int rows, int start, String sort) throws DiscoveryContextBuildException {
 
         // TODO: REDO!!!
 
@@ -148,7 +148,7 @@ public class SolrDiscoveryService {
             solrQuery = "(" + solrQuery.substring(0, solrQuery.length() - 5) + ")";
         }
 
-        query += (query.length() > 0 ? "&" : "") + "start=" + start + "&rows=" + rows;
+        query += (query.length() > 0 ? "&" : "") + "start=" + start + "&rows=" + rows + "&sort=" + sort;
 
         System.out.println("URL query: " + query);
         System.out.println("Solr query: " + solrQuery);
@@ -158,6 +158,7 @@ public class SolrDiscoveryService {
 
         search.setRows(rows);
         search.setStart(start);
+        search.setSort(sort);
 
         return search;
     }
@@ -197,7 +198,7 @@ public class SolrDiscoveryService {
         return availableFields;
     }
 
-    public ResultSet querySolrCore(DiscoveryView discoveryView, Search search) {
+    public ResultSet querySolrCore(DiscoveryView discoveryView, Search search, String sort) {
         logger.info("Using Reader: " + discoveryView.getName() + " to read from SOLR Core: " + discoveryView.getSource().getName() + " - " + discoveryView.getSource().getUri());
 
         List<Result> results = new ArrayList<Result>();
@@ -229,7 +230,7 @@ public class SolrDiscoveryService {
 
             query.setQuery(q);
 
-            query.addSort("id", ORDER.asc);
+            query.addSort(sort, ORDER.asc);
 
             discoveryView.getResultMetadataFields().forEach(f -> {
                 query.addField(f.getKey());

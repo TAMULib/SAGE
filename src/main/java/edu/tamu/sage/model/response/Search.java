@@ -8,6 +8,8 @@ public class Search {
 
     private String query;
     
+    private String sort;
+    
     private long total;
 
     private int rows;
@@ -31,6 +33,14 @@ public class Search {
 
     public void setQuery(String query) {
         this.query = query;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
     }
 
     public String getSolrQuery() {

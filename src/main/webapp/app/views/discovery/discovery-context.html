@@ -55,12 +55,15 @@
       </div>
     
       <div class="row dc-paging-controls-top">
-        <div class="col-md-9 col-sm-8">
+        <div class="col-md-6 col-sm-4">
           <ul class="list-inline paging-controls">
             <li class="list-inline-item" ng-click="pageBack()"><span ng-class="{'link-like': discoveryContext.search.start>0}"><span class="glyphicon glyphicon-chevron-left"></span>Previouse</span></li>
             <li class="list-inline-item"><strong>{{discoveryContext.search.start + 1}}</strong>-<strong>{{discoveryContext.search.start + discoveryContext.search.rows > discoveryContext.search.total ? discoveryContext.search.total : discoveryContext.search.start + discoveryContext.search.rows}}</strong> of <strong>{{discoveryContext.search.total}}</strong></li>
             <li class="list-inline-item" ng-click="pageForward()"><span ng-class="{'link-like': discoveryContext.search.start<discoveryContext.search.total-discoveryContext.search.rows}">Next<span class="glyphicon glyphicon-chevron-right"></span></span></li>
           </ul>
+        </div>
+        <div class="col-sm-4 col-md-3">
+          <select class="form-control dc-filter-select" ng-model="discoveryContext.search.sort" ng-options="sort.key as sort.label for sort in discoveryContext.sortFields" ng-change="executeSearch(true)"></select>
         </div>
         <div class="col-sm-4 col-md-3">
           <select class="form-control dc-filter-select" ng-model="discoveryContext.search.rows" ng-options="rows.value as rows.label for rows in rowOptions" ng-change="executeSearch(true)"></select>

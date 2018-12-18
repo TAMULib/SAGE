@@ -13,9 +13,13 @@ public class Result {
     private String title;
 
     private String uniqueIdentifier;
-
+    
+    private boolean inList;
+    
+    private boolean inGrid;
+    
     private Map<String, String> fields;
-
+        
     public Result() {
         this.fields = new HashMap<String, String>();
     }
@@ -44,12 +48,36 @@ public class Result {
         this.uniqueIdentifier = uniqueIdentifier;
     }
 
+    public boolean isInList() {
+        return inList;
+    }
+
+    public void setInList(boolean inList) {
+        this.inList = inList;
+    }
+
+    public boolean isInGrid() {
+        return inGrid;
+    }
+
+    public void setInGrid(boolean inGrid) {
+        this.inGrid = inGrid;
+    }
+
     public static Result of(SolrDocument doc, DiscoveryView discoveryView) {
         Result result = new Result();
-        result.setTitle(doc.getFieldValue(discoveryView.getTitleKey()).toString());
-        result.setUniqueIdentifier(doc.getFieldValue(discoveryView.getUniqueIdentifierKey()).toString());
+        Object title = doc.getFieldValue(discoveryView.getTitleKey());
+        if(title!=null) {
+            result.setTitle(title.toString());
+        }
+        Object id = doc.getFieldValue(discoveryView.getUniqueIdentifierKey());
+        if(id!=null) {
+            result.setUniqueIdentifier(id.toString());
+        }
         for (MetadataField mf : discoveryView.getResultMetadataFields()) {
             Object value = doc.getFieldValue(mf.getKey());
+            result.inList = mf.isInList();
+            result.inGrid = mf.isInGrid();
             result.fields.put(mf.getLabel(), value != null ? value.toString() : "uknown");
         }
         return result;

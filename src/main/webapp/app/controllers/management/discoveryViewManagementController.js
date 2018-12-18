@@ -113,6 +113,18 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
     console.log($scope.fields);
   };
 
+  $scope.findFieldByKey = function(key) {
+    var f = null;
+    for(var i in $scope.fields) {
+      var pf = $scope.fields[i];
+      if(pf.name===key) {
+        f = pf;
+        break;
+      }
+    }
+    return f;
+  };
+
   SourceRepo.ready().then(function() {
     if($scope.sources.length > 0) {
       $scope.discoveryViewToCreate.source = $scope.sources[0];

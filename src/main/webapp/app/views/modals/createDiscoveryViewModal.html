@@ -130,6 +130,36 @@
                 </validatedselect>
               </div>
           </div>
+          <div class="row">
+              <div class="col-sm-5 col-sm-offset-1">
+                <validatedselect
+                  model="discoveryViewToCreate"
+                  property="resourceThumbnailUriKey"
+                  options="fields"
+                  optionproperty="name"
+                  optionvalue="name"
+                  label="Thumbnail Key"
+                  placeholder="A resovable location for the recours' thumbnail"
+                  form="discoveryViewForms.create"
+                  validations="discoveryViewForms.validations"
+                  results="discoveryViewForms.getResults()">
+                </validatedselect>
+              </div>
+              <div class="col-sm-5">
+                  <validatedselect
+                    model="discoveryViewToCreate"
+                    property="resourceLocationUriKey"
+                    options="fields"
+                    optionproperty="name"
+                    optionvalue="name"
+                    label="Resource Key"
+                    placeholder="A resovable location for the resource"
+                    form="discoveryViewForms.create"
+                    validations="discoveryViewForms.validations"
+                    results="discoveryViewForms.getResults()">
+                  </validatedselect>
+                </div>
+            </div>
         </div>
         <hr>
         <div class="row" ng-init="discoveryViewToCreate.resultMetadataFields=[]">
@@ -139,21 +169,45 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-xs-2 col-sm-offset-1">
+            <div class="col-xs-2 col-sm-offset-1" ng-init="discoveryViewToCreate.resultMetadataFields[0]={sortable:true,inList:true,inGrid:true,singleItem:true}">
               <div class="form-group">
                 <label for="key">Key</label>
-                <select name="key" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[0].key" ng-options="option['name'] as option['name'] for option in fields"></select>
+                <select name="key" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[0].key" ng-options="option['name'] as option['name'] for option in fields" ng-change="discoveryViewToCreate.resultMetadataFields[0].sortable=!findFieldByKey(discoveryViewToCreate.resultMetadataFields[0].key).multivalued"></select>
               </div>
             </div>
-            <div class="col-xs-7">
+            <div class="col-xs-3">
               <div class="form-group">
-                <label for="name">Label</label>
-                <input name="name" placeholder="Display name of filter" type="text" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[0].label">
+                <label for="label">Label</label>
+                <input name="label" placeholder="Display label of filter" type="text" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[0].label">
+              </div>
+            </div>
+            <div class="col-xs-1">
+              <div class="form-group">
+                <label for="sortable">Sortable</label>
+                <input name="sortable" type="checkbox" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[0].sortable" ng-disabled="findFieldByKey(discoveryViewToCreate.resultMetadataFields[0].key).multivalued">
+              </div>
+            </div>
+            <div class="col-xs-1">
+              <div class="form-group">
+                <label for="list">List</label>
+                <input name="list" type="checkbox" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[0].inList">
+              </div>
+            </div>
+            <div class="col-xs-1">
+              <div class="form-group">
+                <label for="grid">Grid</label>
+                <input name="grid" type="checkbox" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[0].inGrid">
+              </div>
+            </div>
+            <div class="col-xs-1">
+              <div class="form-group">
+                <label for="item">Item</label>
+                <input name="item" type="checkbox" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[0].singleItem">
               </div>
             </div>
             <div class="col-xs-2">
               <div class="form-group add-field-group">
-                <button type="button" class="btn btn-success" ng-click="discoveryViewToCreate.resultMetadataFields.push({})"><span class="glyphicon glyphicon-plus"></span></button>
+                <button type="button" class="btn btn-success" ng-click="discoveryViewToCreate.resultMetadataFields.push({sortable:true,inList:true,inGrid:true,singleItem:true})"><span class="glyphicon glyphicon-plus"></span></button>
               </div>
             </div>
           </div>
@@ -164,10 +218,34 @@
                 <select name="key" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[$index].key" ng-options="option['name'] as option['name'] for option in fields"></select>
               </div>
             </div>
-            <div class="col-xs-7">
+            <div class="col-xs-3">
               <div class="form-group">
-                <label for="name">Label</label>
-                <input name="name" placeholder="Display name of filter" type="text" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[$index].label">
+                <label for="label">Label</label>
+                <input name="label" placeholder="Display label of filter" type="text" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[$index].label">
+              </div>
+            </div>
+            <div class="col-xs-1">
+              <div class="form-group">
+                <label for="sortable">Sortable</label>
+                <input name="sortable" type="checkbox" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[$index].sortable">
+              </div>
+            </div>
+            <div class="col-xs-1">
+              <div class="form-group">
+                <label for="list">List</label>
+                <input name="list" type="checkbox" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[$index].inList">
+              </div>
+            </div>
+            <div class="col-xs-1">
+              <div class="form-group">
+                <label for="grid">Grid</label>
+                <input name="grid" type="checkbox" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[$index].inGrid">
+              </div>
+            </div>
+            <div class="col-xs-1">
+              <div class="form-group">
+                <label for="item">Item</label>
+                <input name="item" type="checkbox" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[$index].singleItem">
               </div>
             </div>
             <div class="col-xs-2">
@@ -189,7 +267,7 @@
             <div class="col-xs-2 col-sm-offset-1">
               <div class="form-group">
                 <label for="key">Key</label>
-                <select name="key" class="form-control" ng-model="discoveryViewToCreate.facetFields[0].key" ng-options="option['name'] as option['name'] for option in fields | filter: {tokenized: false}"></select>
+                <select name="key" class="form-control" ng-model="discoveryViewToCreate.facetFields[0].key" ng-options="option['name'] as option['name'] for option in fields"></select>
               </div>
             </div>
             <div class="col-xs-5">
@@ -217,19 +295,19 @@
             <div class="col-xs-2 col-sm-offset-1">
               <div class="form-group">
                 <label for="key">Key</label>
-                <select name="key" class="form-control" ng-model="discoveryViewToCreate.facetFields[$index].key" ng-options="option['name'] as option['name'] for option in fields | filter: {tokenized: true}" ></select>
+                <select name="key" class="form-control" ng-model="discoveryViewToCreate.facetFields[$index].key" ng-options="option['name'] as option['name'] for option in fields" ></select>
               </div>
             </div>
             <div class="col-xs-5">
               <div class="form-group">
-                <label for="name">Label</label>
-                <input name="name" placeholder="Display name of filter" type="text" class="form-control" ng-model="discoveryViewToCreate.facetFields[$index].label">
+                <label for="label">Label</label>
+                <input name="label" placeholder="Display label of filter" type="text" class="form-control" ng-model="discoveryViewToCreate.facetFields[$index].label">
               </div>
             </div>
             <div class="col-xs-2">
               <div class="form-group">
-                <label for="key">Widget</label>
-                <select name="key" class="form-control" ng-model="discoveryViewToCreate.facetFields[$index].widget">
+                <label for="widget">Widget</label>
+                <select name="widget" class="form-control" ng-model="discoveryViewToCreate.facetFields[$index].widget">
                   <option>Link</option>
                   <option>Text</option>
                 </select>

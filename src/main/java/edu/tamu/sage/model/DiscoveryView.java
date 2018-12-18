@@ -24,6 +24,12 @@ public class DiscoveryView extends ValidatingBaseEntity {
 
     @Column
     private String titleKey;
+    
+    @Column
+    private String resourceThumbnailUriKey;
+    
+    @Column
+    private String resourceLocationUriKey;
 
     @Column
     private String uniqueIdentifierKey;
@@ -88,6 +94,22 @@ public class DiscoveryView extends ValidatingBaseEntity {
 
     public void setTitleKey(String titleKey) {
         this.titleKey = titleKey;
+    }
+
+    public String getResourceThumbnailUriKey() {
+        return resourceThumbnailUriKey;
+    }
+
+    public void setResourceThumbnailUriKey(String resourceThumbnailUriKey) {
+        this.resourceThumbnailUriKey = resourceThumbnailUriKey;
+    }
+
+    public String getResourceLocationUriKey() {
+        return resourceLocationUriKey;
+    }
+
+    public void setResourceLocationUriKey(String resourceLocationUriKey) {
+        this.resourceLocationUriKey = resourceLocationUriKey;
     }
 
     public String getUniqueIdentifierKey() {

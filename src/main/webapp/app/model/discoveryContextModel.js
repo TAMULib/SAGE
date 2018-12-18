@@ -16,9 +16,11 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
 
       var rows = $routeParams.rows ? $routeParams.rows : 10;
       var start = $routeParams.start ? $routeParams.start : 0;
+      var sort = $routeParams.sort ? $routeParams.sort : "id";
 
       q.rows = discoveryContext.search.rows !== undefined ? discoveryContext.search.rows : rows;
       q.start = discoveryContext.search.start !== undefined ? discoveryContext.search.start : start;
+      q.sort = discoveryContext.search.sort !== undefined ? discoveryContext.search.sort : sort;
 
       return WsApi.fetch(discoveryContext.getMapping().load, {
         pathValues: {
