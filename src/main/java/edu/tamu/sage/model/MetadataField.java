@@ -10,7 +10,9 @@ public class MetadataField {
     private String label;
     
     private String type;
-    
+
+    private boolean searchable;
+
     private boolean sortable;
     
     private boolean inList;
@@ -45,6 +47,14 @@ public class MetadataField {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public boolean isSearchable() {
+        return searchable;
+    }
+
+    public void setSearchable(boolean searchable) {
+        this.searchable = searchable;
     }
 
     public boolean isSortable() {

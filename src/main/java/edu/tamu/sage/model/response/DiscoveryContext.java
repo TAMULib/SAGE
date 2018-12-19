@@ -181,7 +181,9 @@ public class DiscoveryContext implements Serializable {
         dc.sortFields.add(identifierSortField);
         
         dv.getResultMetadataFields().forEach(metadataField->{
-            dc.searchFilters.add(SearchFilter.of(metadataField));
+            if(metadataField.isSearchable()) {
+                dc.searchFilters.add(SearchFilter.of(metadataField));
+            }
             if(metadataField.isSortable()) {
                 dc.sortFields.add(SortField.of(metadataField));
             }

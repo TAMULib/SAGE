@@ -78,7 +78,7 @@ public class Result {
             Object value = doc.getFieldValue(mf.getKey());
             result.inList = mf.isInList();
             result.inGrid = mf.isInGrid();
-            result.fields.put(mf.getLabel(), value != null ? value.toString() : "uknown");
+            result.fields.put(mf.getLabel() !=null ? mf.getLabel() : "uknown", value != null ? value.toString() : "uknown");
         }
         return result;
     }

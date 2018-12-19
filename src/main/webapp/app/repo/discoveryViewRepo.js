@@ -2,9 +2,12 @@ sage.repo("DiscoveryViewRepo", function(DiscoveryView, WsApi) {
   var discoveryViewRepo = this;
 
   discoveryViewRepo.scaffold = new DiscoveryView({
-    name: "Avalon Discovery",
+    name: "Digital Collections",
     filter: "*:*",
-    slug: "avalon"
+    slug: "digital-collections",
+    infoLinkText: "About Our Digital Collections",
+    infoLinkUrl: "https://api-dev.library.tamu.edu/solr/#/spotlight-core",
+    infoText: "Welcome to Digital Collections for Texas A&M University Libraries."
   });
 
   discoveryViewRepo.getFields = function(discoveryView) {

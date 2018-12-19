@@ -1,4 +1,4 @@
-sage.controller('DiscoveryViewManagementController', function ($controller, $scope, NgTableParams, DiscoveryViewRepo, SourceRepo) {
+sage.controller('DiscoveryViewManagementController', function ($controller, $scope, $timeout, $element, NgTableParams, DiscoveryViewRepo, SourceRepo) {
 
   angular.extend(this, $controller('AbstractController', {
       $scope: $scope
@@ -123,6 +123,17 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
       }
     }
     return f;
+  };
+
+  $scope.onSelect = function($event) {
+    $timeout(function () {
+        console.log($event);
+        // var control = $element.find($event.currentTarget).controller('ngModel');
+        // control.$setViewValue(''); // Replicate an on change event
+        // control.$setViewValue("foooo");
+        // control.$render();
+    }, 0);
+    return false;
   };
 
   SourceRepo.ready().then(function() {
