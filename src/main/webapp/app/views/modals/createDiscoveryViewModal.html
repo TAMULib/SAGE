@@ -145,7 +145,7 @@
                   results="discoveryViewForms.getResults()">
                 </validatedselect> -->
 
-                <div class="form-group">
+                <!-- <div class="form-group">
                   <label for="resourceThumbnailUriKey">Thumbnail Key</label>
                   <input
                   ng-model="discoveryViewToCreate.resourceThumbnailUriKey"
@@ -156,8 +156,9 @@
                   uib-typeahead="field.name for field in fields | filter:$viewValue"
                   typeahead-on-select="onSelect($item, $model, $label, $event)"
                   />
-               </div>
+               </div> -->
 
+               <templatedinput model="discoveryViewToCreate.resourceThumbnailUriKey"></templatedinput>
 
               </div>
               <div class="col-sm-5">
