@@ -10,7 +10,7 @@
   ng-keyup="processKeyUp($event)"/>
   <div class="btn-group" uib-dropdown is-open="open">
     <ul class="dropdown-menu" uib-dropdown-menu role="menu">
-        <li role="menuitem" ng-repeat="suggestion in $ctrl.suggestions | filter:curentValue" ng-click="addSelection(suggestion[$ctrl.property])" ng-class="{'active': selectedIndex===$index}"><a href="#">{{suggestion[$ctrl.property]}}</a></li>
+        <li role="menuitem" ng-repeat="suggestion in filteredSuggestions = ($ctrl.suggestions | filter:curentValue)" ng-click="addSelection(suggestion[$ctrl.property])" ng-class="{'active': selectedIndex===$index}"><a href="#">{{suggestion[$ctrl.property]}}</a></li>
     </ul>
   </div>
   <!-- <div class="suggestions" ng-show="open" >{{$ctrl.suggestions}}</div> -->

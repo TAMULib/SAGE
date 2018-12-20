@@ -29,7 +29,8 @@ sage.component("multiSuggestionInput", {
       switch($event.which) {
         case 13: //Enter
           console.log($event.which, "Enter");
-          addValue($ctrl.suggestions[$scope.selectedIndex][$ctrl.property]);
+          console.log($scope.filteredSuggestions);
+          addValue($scope.filteredSuggestions[$scope.selectedIndex][$ctrl.property]);
           closeSuggestions();
           $event.preventDefault();
           break;
