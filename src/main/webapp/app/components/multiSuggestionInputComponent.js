@@ -14,7 +14,9 @@ sage.component("multiSuggestionInput", {
 
     $scope.selectedIndex=0;
 
-    $scope.processKeyDown = function($event) {
+    var fs = [];
+
+    $scope.processKeyDown = function($event, filteredSuggestion) {
       switch($event.which) {
         case 38: //Up Arrow 
           $event.preventDefault();
@@ -22,19 +24,27 @@ sage.component("multiSuggestionInput", {
         case 40: //Down Arrow
           $event.preventDefault();
           break;
+        case 13: //Enter
+        fs.length = 0;
+          angular.extend(fs, filteredSuggestion);
+          $event.preventDefault();
+          break;
       }
     }
 
-    $scope.processKeyUp = function($event) {
+    $scope.processKeyUp = function($event, filteredSuggestion) {
       switch($event.which) {
         case 13: //Enter
           console.log($event.which, "Enter");
-          addValue($ctrl.suggestions[$scope.selectedIndex][$ctrl.property]);
-          closeSuggestions();
+          console.log(fs.length);
+          addValue(fs[$scope.selectedIndex][$ctrl.property]);
+          $timeout(function() {
+            closeSuggestions();
+          });
           $event.preventDefault();
           break;
         case 27: //ESC
-        console.log($event.which, "Esc");
+          console.log($event.which, "Esc");
           $event.preventDefault();
           break;
         case 37: //Left Arrow
@@ -48,7 +58,7 @@ sage.component("multiSuggestionInput", {
           break;
         case 38: //Up Arrow
           console.log($event.which, "Up Arrow");
-          $scope.selectedIndex = $ctrl.selectedIndex === 0 ? $ctrl.suggestions.length : $scope.selectedIndex-1;
+          $scope.selectedIndex = $scope.selectedIndex === 0 ? filteredSuggestion.length - 1 : $scope.selectedIndex-1;
           $event.preventDefault();
           break;
         case 39: //Right Arrow
@@ -62,7 +72,7 @@ sage.component("multiSuggestionInput", {
           break;
         case 40: //Down Arrow
           console.log($event.which, "Down Arrow");
-          $scope.selectedIndex = $ctrl.selectedIndex === $ctrl.suggestions.length ? 0: $scope.selectedIndex+1;
+          $scope.selectedIndex = $scope.selectedIndex === filteredSuggestion.length - 1 ? 0: $scope.selectedIndex+1;
           $event.preventDefault();
           break;  
         default:
@@ -94,7 +104,9 @@ sage.component("multiSuggestionInput", {
           });
         }  
       } else {
-        closeSuggestions();
+        $timeout(function() {
+          closeSuggestions();
+        });
       }
     };
 

@@ -6,6 +6,7 @@ private/
 attachments/
 node_modules/
 *node_modules*
+*.db
 
 .vscode/
 .apt_generated/

@@ -102,86 +102,47 @@
           </div>
           <div class="row">
             <div class="col-sm-5 col-sm-offset-1">
-              <validatedselect
-                model="discoveryViewToCreate"
-                property="titleKey"
-                options="fields"
-                optionproperty="name"
-                optionvalue="name"
+              <multi-suggestion-input 
+                model="discoveryViewToCreate.titleKey"
+                suggestions="fields"
+                property="name"
+                name="titleKey"                
                 label="Title Key"
-                placeholder="Title Key for the new Discovery View"
-                form="discoveryViewForms.create"
-                validations="discoveryViewForms.validations"
-                results="discoveryViewForms.getResults()">
-              </validatedselect>
+                placeholder="'{{' to see Title Key suggesions">
+              </multi-suggestion-input>
             </div>
             <div class="col-sm-5">
-                <validatedselect
-                  model="discoveryViewToCreate"
-                  property="uniqueIdentifierKey"
-                  options="fields"
-                  optionproperty="name"
-                  optionvalue="name"
+                <multi-suggestion-input 
+                  model="discoveryViewToCreate.uniqueIdentifierKey"
+                  suggestions="fields"
+                  property="name"
+                  name="uniqueIdentifierKey"                
                   label="Unique Identifier Key"
-                  placeholder="A unique identifier key for the new Discovery View"
-                  form="discoveryViewForms.create"
-                  validations="discoveryViewForms.validations"
-                  results="discoveryViewForms.getResults()">
-                </validatedselect>
+                  placeholder="'{{' to see Unique Identifier Key suggesions">
+                </multi-suggestion-input>
               </div>
           </div>
           <div class="row">
               <div class="col-sm-5 col-sm-offset-1">
-                <!-- <validatedselect
-                  model="discoveryViewToCreate"
-                  property="resourceThumbnailUriKey"
-                  options="fields"
-                  optionproperty="name"
-                  optionvalue="name"
-                  label="Thumbnail Key"
-                  placeholder="A resolvable location for the resource's thumbnail"
-                  form="discoveryViewForms.create"
-                  validations="discoveryViewForms.validations"
-                  results="discoveryViewForms.getResults()">
-                </validatedselect> -->
-
-                <!-- <div class="form-group">
-                  <label for="resourceThumbnailUriKey">Thumbnail Key</label>
-                  <input
-                  ng-model="discoveryViewToCreate.resourceThumbnailUriKey"
-                  name="resourceThumbnailUriKey"
-                  type="text"
-                  class="form-control"
-                  placeholder="Free type URL. Enclose Key in {{}}"
-                  uib-typeahead="field.name for field in fields | filter:$viewValue"
-                  typeahead-on-select="onSelect($item, $model, $label, $event)"
-                  />
-               </div> -->
-
-               <multi-suggestion-input 
-                model="discoveryViewToCreate.resourceThumbnailUriKey"
-                suggestions="fields"
-                property="name"
-                name="resourceThumbnailUriKey"                
-                label="Thumbnail Uri Key"
-                placeholder="Use '{{' to see suggesions">
-              </multi-suggestion-input>
-
+                <multi-suggestion-input 
+                  model="discoveryViewToCreate.resourceThumbnailUriKey"
+                  suggestions="fields"
+                  property="name"
+                  name="resourceThumbnailUriKey"                
+                  label="Thumbnail Uri Key"
+                  placeholder="'{{' to see Thumbnail Uri Key suggesions">
+                </multi-suggestion-input>
               </div>
               <div class="col-sm-5">
-                  <validatedselect
-                    model="discoveryViewToCreate"
-                    property="resourceLocationUriKey"
-                    options="fields"
-                    optionproperty="name"
-                    optionvalue="name"
-                    label="Resource Key"
-                    placeholder="A resolvable location for the resource"
-                    form="discoveryViewForms.create"
-                    validations="discoveryViewForms.validations"
-                    results="discoveryViewForms.getResults()">
-                  </validatedselect>
-                </div>
+                <multi-suggestion-input 
+                  model="discoveryViewToCreate.resourceLocationUriKey"
+                  suggestions="fields"
+                  property="name"
+                  name="resourceUriKey"                
+                  label="Resource Key"
+                  placeholder="'{{' to see Resource Key suggesions">
+                </multi-suggestion-input>
+              </div>
             </div>
         </div>
         <hr>
