@@ -158,7 +158,14 @@
                   />
                </div> -->
 
-               <templatedinput model="discoveryViewToCreate.resourceThumbnailUriKey"></templatedinput>
+               <multi-suggestion-input 
+                model="discoveryViewToCreate.resourceThumbnailUriKey"
+                suggestions="fields"
+                property="name"
+                name="resourceThumbnailUriKey"                
+                label="Thumbnail Uri Key"
+                placeholder="Use '{{' to see suggesions">
+              </multi-suggestion-input>
 
               </div>
               <div class="col-sm-5">
