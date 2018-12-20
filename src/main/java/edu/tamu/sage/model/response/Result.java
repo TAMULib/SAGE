@@ -8,11 +8,17 @@ import org.apache.solr.common.SolrDocument;
 import edu.tamu.sage.model.DiscoveryView;
 import edu.tamu.sage.model.MetadataField;
 
+import static edu.tamu.sage.utility.ValueTemplateUtility.compileTemplate;
+
 public class Result {
 
     private String title;
 
     private String uniqueIdentifier;
+    
+    private String resourceThumbnailUriKey;
+
+    private String resourceLocationUriKey;
     
     private boolean inList;
     
@@ -48,6 +54,22 @@ public class Result {
         this.uniqueIdentifier = uniqueIdentifier;
     }
 
+    public String getResourceThumbnailUriKey() {
+        return resourceThumbnailUriKey;
+    }
+
+    public void setResourceThumbnailUriKey(String resourceThumbnailUriKey) {
+        this.resourceThumbnailUriKey = resourceThumbnailUriKey;
+    }
+
+    public String getResourceLocationUriKey() {
+        return resourceLocationUriKey;
+    }
+
+    public void setResourceLocationUriKey(String resourceLocationUriKey) {
+        this.resourceLocationUriKey = resourceLocationUriKey;
+    }
+
     public boolean isInList() {
         return inList;
     }
@@ -66,14 +88,12 @@ public class Result {
 
     public static Result of(SolrDocument doc, DiscoveryView discoveryView) {
         Result result = new Result();
-        Object title = doc.getFieldValue(discoveryView.getTitleKey());
-        if(title!=null) {
-            result.setTitle(title.toString());
-        }
-        Object id = doc.getFieldValue(discoveryView.getUniqueIdentifierKey());
-        if(id!=null) {
-            result.setUniqueIdentifier(id.toString());
-        }
+        
+        result.setTitle(compileTemplate(discoveryView.getTitleKey(), doc));
+        result.setUniqueIdentifier(compileTemplate(discoveryView.getUniqueIdentifierKey(), doc));
+        result.setResourceLocationUriKey(compileTemplate(discoveryView.getResourceLocationUriKey(), doc));
+        result.setResourceThumbnailUriKey(compileTemplate(discoveryView.getResourceThumbnailUriKey(), doc));
+        
         for (MetadataField mf : discoveryView.getResultMetadataFields()) {
             Object value = doc.getFieldValue(mf.getKey());
             result.inList = mf.isInList();

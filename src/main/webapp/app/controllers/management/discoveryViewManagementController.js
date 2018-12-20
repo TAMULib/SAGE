@@ -34,8 +34,8 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
   };
 
   $scope.createDiscoveryView = function() {
-    console.log($scope.discoveryViewToCreate);
     DiscoveryViewRepo.create($scope.discoveryViewToCreate).then(function(res) {
+      console.log($scope.discoveryViewToCreate, angular.fromJson(res.body));
       if(angular.fromJson(res.body).meta.status === "SUCCESS") {
         $scope.cancelCreateDiscoveryView();
       }

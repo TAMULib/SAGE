@@ -4,11 +4,13 @@ sage.component("multiSuggestionInput", {
     suggestions: '=',
     model: '=',
     property: '@',
+    optionproperty: '@',
+    displayproperty: '@',
     name: '@',
     label: '@',
     placeholder: "@"
   },
-  controller: function($scope, $element, $timeout) {
+  controller: function($scope, $element, $attrs, $timeout) {
 
     $ctrl = this;
 
@@ -37,7 +39,7 @@ sage.component("multiSuggestionInput", {
         case 13: //Enter
           console.log($event.which, "Enter");
           console.log(fs.length);
-          addValue(fs[$scope.selectedIndex][$ctrl.property]);
+          addValue(fs[$scope.selectedIndex][$ctrl.optionproperty]);
           $timeout(function() {
             closeSuggestions();
           });
@@ -149,7 +151,8 @@ sage.component("multiSuggestionInput", {
 
     var addValue = function(value) {
       var cursorPos = getCursorPosition();
-      $scope.model = $scope.model.slice(0, cursorPos - $scope.curentValue.length) + value + $scope.model.slice(cursorPos,$scope.model.length);
+      console.log($attrs);
+      $ctrl.model[$attrs.property] = $ctrl.model[$attrs.property].slice(0, cursorPos - $scope.curentValue.length) + value + $ctrl.model[$attrs.property].slice(cursorPos,$ctrl.model[$attrs.property].length);
     };
 
     var getCursorPosition = function() {

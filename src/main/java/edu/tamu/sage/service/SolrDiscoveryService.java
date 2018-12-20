@@ -18,6 +18,7 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.tamu.sage.exceptions.DiscoveryContextBuildException;
@@ -30,12 +31,13 @@ import edu.tamu.sage.model.response.Filter;
 import edu.tamu.sage.model.response.Result;
 import edu.tamu.sage.model.response.Search;
 import edu.tamu.sage.model.response.SolrField;
+import edu.tamu.sage.utility.ValueTemplateUtility;
 
 @Service
 public class SolrDiscoveryService {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-
+    
     private static final String ALL_FIELDS_KEY = "all_fields";
 
     private class ResultSet {
@@ -215,7 +217,14 @@ public class SolrDiscoveryService {
             query.setFacet(true);
 
             discoveryView.getFacetFields().forEach(facetField -> {
-                query.addFacetField(facetField.getKey());
+                System.out.println(facetField.getKey().contains("{{"));
+                if(facetField.getKey().contains("{{")) {
+                    ValueTemplateUtility.extractKeysFromtemplate(facetField.getKey()).forEach(key->{
+                        query.addFacetField(key);
+                    });
+                } else {
+                    query.addFacetField(facetField.getKey());
+                }
             });
 
             String q = discoveryView.getFilter();
