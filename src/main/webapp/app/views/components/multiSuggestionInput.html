@@ -1,17 +1,17 @@
 <div class="form-group">
   <label for="{{$ctrl.name}}">{{$ctrl.label}}</label>
   <input
-  ng-model="model"
+  ng-model="$ctrl.model[$ctrl.property]"
   name="{{$ctrl.name}}"
   type="text"
   class="form-control input"
   placeholder="{{$ctrl.placeholder}}"
-  ng-keydown="processKeyDown($event)"
-  ng-keyup="processKeyUp($event)"/>
+  ng-keydown="processKeyDown($event, filteredSuggestion)"
+  ng-keyup="processKeyUp($event, filteredSuggestion)"
+  autocomplete="off"/>
   <div class="btn-group" uib-dropdown is-open="open">
     <ul class="dropdown-menu" uib-dropdown-menu role="menu">
-        <li role="menuitem" ng-repeat="suggestion in filteredSuggestions = ($ctrl.suggestions | filter:curentValue)" ng-click="addSelection(suggestion[$ctrl.property])" ng-class="{'active': selectedIndex===$index}"><a href="#">{{suggestion[$ctrl.property]}}</a></li>
+        <li role="menuitem" ng-repeat="suggestion in filteredSuggestion = ($ctrl.suggestions | filter:curentValue)" ng-click="addSelection(suggestion[$ctrl.optionproperty])" ng-class="{'active': selectedIndex===$index}"><a href="#">{{suggestion[$ctrl.displayproperty] || $ctrl.optionproperty | boldMatch:curentValue}}</a></li>
     </ul>
   </div>
-  <!-- <div class="suggestions" ng-show="open" >{{$ctrl.suggestions}}</div> -->
 </div>

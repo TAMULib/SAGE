@@ -4,17 +4,21 @@ sage.component("multiSuggestionInput", {
     suggestions: '=',
     model: '=',
     property: '@',
+    optionproperty: '@',
+    displayproperty: '@',
     name: '@',
     label: '@',
     placeholder: "@"
   },
-  controller: function($scope, $element, $timeout) {
+  controller: function($scope, $element, $attrs, $timeout) {
 
     $ctrl = this;
 
     $scope.selectedIndex=0;
 
-    $scope.processKeyDown = function($event) {
+    var fs = [];
+
+    $scope.processKeyDown = function($event, filteredSuggestion) {
       switch($event.which) {
         case 38: //Up Arrow 
           $event.preventDefault();
@@ -22,20 +26,27 @@ sage.component("multiSuggestionInput", {
         case 40: //Down Arrow
           $event.preventDefault();
           break;
+        case 13: //Enter
+        fs.length = 0;
+          angular.extend(fs, filteredSuggestion);
+          $event.preventDefault();
+          break;
       }
     }
 
-    $scope.processKeyUp = function($event) {
+    $scope.processKeyUp = function($event, filteredSuggestion) {
       switch($event.which) {
         case 13: //Enter
           console.log($event.which, "Enter");
-          console.log($scope.filteredSuggestions);
-          addValue($scope.filteredSuggestions[$scope.selectedIndex][$ctrl.property]);
-          closeSuggestions();
+          console.log(fs.length);
+          addValue(fs[$scope.selectedIndex][$ctrl.optionproperty]);
+          $timeout(function() {
+            closeSuggestions();
+          });
           $event.preventDefault();
           break;
         case 27: //ESC
-        console.log($event.which, "Esc");
+          console.log($event.which, "Esc");
           $event.preventDefault();
           break;
         case 37: //Left Arrow
@@ -49,7 +60,7 @@ sage.component("multiSuggestionInput", {
           break;
         case 38: //Up Arrow
           console.log($event.which, "Up Arrow");
-          $scope.selectedIndex = $ctrl.selectedIndex === 0 ? $ctrl.suggestions.length : $scope.selectedIndex-1;
+          $scope.selectedIndex = $scope.selectedIndex === 0 ? filteredSuggestion.length - 1 : $scope.selectedIndex-1;
           $event.preventDefault();
           break;
         case 39: //Right Arrow
@@ -63,13 +74,13 @@ sage.component("multiSuggestionInput", {
           break;
         case 40: //Down Arrow
           console.log($event.which, "Down Arrow");
-          $scope.selectedIndex = $ctrl.selectedIndex === $ctrl.suggestions.length ? 0: $scope.selectedIndex+1;
+          $scope.selectedIndex = $scope.selectedIndex === filteredSuggestion.length - 1 ? 0: $scope.selectedIndex+1;
           $event.preventDefault();
           break;  
         default:
           typing($event);
       }
-    }
+    };
 
     $scope.curentValue = "";
     var curentValueStartPos = 0;
@@ -95,7 +106,9 @@ sage.component("multiSuggestionInput", {
           });
         }  
       } else {
-        closeSuggestions();
+        $timeout(function() {
+          closeSuggestions();
+        });
       }
     };
 
@@ -105,7 +118,7 @@ sage.component("multiSuggestionInput", {
       var lastTwoChars = elem.value.slice(cursorPos-2-$scope.curentValue.length,cursorPos-$scope.curentValue.length);
       var nextChar = elem.value.slice(cursorPos, cursorPos+1);
       return lastTwoChars==="{{" && (nextChar === '' || nextChar === " " || nextChar === "}");
-    }
+    };
 
     $scope.addSelection = function(selection) {
       var elem = $element.find(".input").get(0);
@@ -116,7 +129,7 @@ sage.component("multiSuggestionInput", {
         setCursor(elem, cursorPos + selection.length + 2);
         closeSuggestions();
       });
-    }
+    };
 
     var openSuggestions = function() {
       $scope.open = true;
@@ -138,7 +151,8 @@ sage.component("multiSuggestionInput", {
 
     var addValue = function(value) {
       var cursorPos = getCursorPosition();
-      $scope.model = $scope.model.slice(0, cursorPos - $scope.curentValue.length) + value + $scope.model.slice(cursorPos,$scope.model.length);
+      console.log($attrs);
+      $ctrl.model[$attrs.property] = $ctrl.model[$attrs.property].slice(0, cursorPos - $scope.curentValue.length) + value + $ctrl.model[$attrs.property].slice(cursorPos,$ctrl.model[$attrs.property].length);
     };
 
     var getCursorPosition = function() {
@@ -146,7 +160,7 @@ sage.component("multiSuggestionInput", {
       var startPos = elem.selectionStart;
       var endPos = elem.selectionEnd;
       return startPos === endPos ? startPos : elem.selectionEnd;
-    }
+    };
 
     var setCursor = function(node,pos){
 
@@ -168,7 +182,7 @@ sage.component("multiSuggestionInput", {
         }
     
         return false;
-    }
+    };
 
   }
 });
