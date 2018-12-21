@@ -4,6 +4,6 @@ sage.filter('convertBracketsToButtons', function() {
     if(input) {
       out += input.split("{{").join("<span class='btn btn-small btn-default'>").split("}}").join("</span>");  
     }
-    return out
+    return out;
   };
 });
