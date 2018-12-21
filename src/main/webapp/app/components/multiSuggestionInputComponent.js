@@ -88,10 +88,11 @@ sage.component("multiSuggestionInput", {
     var typing = function($event) {
       var elem = $element.find(".input").get(0);
       var cursorPos = getCursorPosition();
-      var nextChar = elem.value.slice(cursorPos, cursorPos+1);
+      console.log($ctrl.model[$attrs.property]);
+      var nextChar = angular.copy($ctrl.model[$attrs.property]).slice(cursorPos, cursorPos+1);
 
       if($scope.open) {
-        $scope.curentValue =  elem.value.slice(curentValueStartPos, cursorPos);
+        $scope.curentValue =  angular.copy($ctrl.model[$attrs.property]).slice(curentValueStartPos, cursorPos);
         $scope.selectedIndex=0
       } else {
         curentValueStartPos=cursorPos;
@@ -115,8 +116,8 @@ sage.component("multiSuggestionInput", {
     var shouldOpen = function() {
       var cursorPos = getCursorPosition();
       var elem = $element.find(".input").get(0);
-      var lastTwoChars = elem.value.slice(cursorPos-2-$scope.curentValue.length,cursorPos-$scope.curentValue.length);
-      var nextChar = elem.value.slice(cursorPos, cursorPos+1);
+      var lastTwoChars = angular.copy($ctrl.model[$ctrl.property]).slice(cursorPos-2-$scope.curentValue.length,cursorPos-$scope.curentValue.length);
+      var nextChar = angular.copy($ctrl.model[$ctrl.property]).slice(cursorPos, cursorPos+1);
       return lastTwoChars==="{{" && (nextChar === '' || nextChar === " " || nextChar === "}");
     };
 
