@@ -217,14 +217,7 @@ public class SolrDiscoveryService {
             query.setFacet(true);
 
             discoveryView.getFacetFields().forEach(facetField -> {
-                System.out.println(facetField.getKey().contains("{{"));
-                if(facetField.getKey().contains("{{")) {
-                    ValueTemplateUtility.extractKeysFromtemplate(facetField.getKey()).forEach(key->{
-                        query.addFacetField(key);
-                    });
-                } else {
-                    query.addFacetField(facetField.getKey());
-                }
+                query.addFacetField(facetField.getKey());
             });
 
             String q = discoveryView.getFilter();
@@ -244,10 +237,25 @@ public class SolrDiscoveryService {
             discoveryView.getResultMetadataFields().forEach(f -> {
                 query.addField(f.getKey());
             });
-
-            query.addField(discoveryView.getTitleKey());
-            query.addField(discoveryView.getUniqueIdentifierKey());
-
+            
+            List<String> resultKeys = new ArrayList<>();
+            resultKeys.add(discoveryView.getTitleKey());
+            resultKeys.add(discoveryView.getUniqueIdentifierKey());
+            resultKeys.add(discoveryView.getResourceThumbnailUriKey());
+            resultKeys.add(discoveryView.getResourceLocationUriKey());
+            
+            resultKeys.forEach(rawKey->{
+                if(rawKey.contains("{{")) {
+                    ValueTemplateUtility.extractKeysFromtemplate(rawKey).forEach(key->{
+                        query.addField(key);
+                    });
+                } else {
+                    query.addField(rawKey);
+                }
+            });
+            
+            System.out.println(query);
+            
             QueryResponse rsp = solr.query(query);
 
             SolrDocumentList docs = rsp.getResults();

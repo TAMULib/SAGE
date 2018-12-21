@@ -13,10 +13,10 @@ public class ValueTemplateUtility {
         
         StringBuilder strBldr = new StringBuilder();
         
-        solrDoc.getFieldValueMap().forEach((key, valueObject)->{
-            if(valueObject!=null) {
-                strBldr.replace(0, strBldr.length(), template.replaceAll("{{"+key+"}}", valueObject.toString()));
-            }
+        extractKeysFromtemplate(template).forEach(key->{
+            strBldr
+                .append(solrDoc.getFieldValue(key))
+                .append(" ");
         });
         
         return strBldr.toString();
@@ -25,14 +25,14 @@ public class ValueTemplateUtility {
 
     public static List<String> extractKeysFromtemplate(String key) {
         
-        Pattern pattern = Pattern.compile("\\{\\{[^}]*}}");
+        Pattern pattern = Pattern.compile("\\{\\{(.*?)\\}\\}");
    
         Matcher matcher = pattern.matcher(key);
         
         List<String> keys = new ArrayList<String>();
         
         while (matcher.find()) {
-            keys.add(key.substring(matcher.start(), matcher.end()));
+            keys.add(key.substring(matcher.start(), matcher.end()).replaceAll("\\{", "").replaceAll("\\}", ""));
         }
         
         return keys;
