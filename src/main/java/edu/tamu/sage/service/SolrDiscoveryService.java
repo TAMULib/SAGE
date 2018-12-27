@@ -150,13 +150,13 @@ public class SolrDiscoveryService {
         if (solrQuery.length() > 5) {
             solrQuery = "(" + solrQuery.substring(0, solrQuery.length() - 5) + ")";
         }
-
+        
         query += (query.length() > 0 ? "&" : "") + "start=" + start + "&rows=" + rows + "&sort=" + sort;
 
         System.out.println("URL query: " + query);
         System.out.println("Solr query: " + solrQuery);
 
-        search.setQuery(URLEncoder.encode(query, "UTF-8"));
+        search.setQuery(query);
         search.setSolrQuery(solrQuery);
 
         search.setRows(rows);
@@ -233,6 +233,7 @@ public class SolrDiscoveryService {
 
             query.setQuery(q);
 
+            System.out.println(sort);
             query.addSort(sort, ORDER.asc);
 
             discoveryView.getResultMetadataFields().forEach(metadataField -> {

@@ -102,6 +102,20 @@
           </div>
           <div class="row">
             <div class="col-sm-5 col-sm-offset-1">
+              <validatedselect
+                model="discoveryViewToCreate"
+                property="uniqueIdentifierKey"
+                options="fields"
+                optionproperty="name"
+                optionvalue="name"
+                label="Unique Identifier Key"
+                placeholder="A unique identifier key for the new Discovery View"
+                form="discoveryViewForms.create"
+                validations="discoveryViewForms.validations"
+                results="discoveryViewForms.getResults()">
+              </validatedselect>
+            </div>
+            <div class="col-sm-5">
               <multi-suggestion-input 
                 model="discoveryViewToCreate"
                 property="titleKey"
@@ -112,17 +126,6 @@
                 placeholder="'{{' to see Title Key suggesions">
               </multi-suggestion-input>
             </div>
-            <div class="col-sm-5">
-                <multi-suggestion-input 
-                  model="discoveryViewToCreate"
-                  property="uniqueIdentifierKey"
-                  optionproperty="name"
-                  suggestions="fields"
-                  name="uniqueIdentifierKey"                
-                  label="Unique Identifier Key"
-                  placeholder="'{{' to see Unique Identifier Key suggesions">
-                </multi-suggestion-input>
-              </div>
           </div>
           <div class="row">
               <div class="col-sm-5 col-sm-offset-1">

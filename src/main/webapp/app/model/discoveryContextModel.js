@@ -8,7 +8,6 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
       var q = {};
 
       angular.forEach(discoveryContext.search.filters, function(filter) {
-        console.log(encodeURIComponent(filter.value));
         if(!q[filter.key]) {
           q[filter.key] = [];  
         }
@@ -22,7 +21,7 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
       q.rows = discoveryContext.search.rows !== undefined ? discoveryContext.search.rows : rows;
       q.start = discoveryContext.search.start !== undefined ? discoveryContext.search.start : start;
       q.sort = discoveryContext.search.sort !== undefined ? discoveryContext.search.sort : sort;
-
+      
       return WsApi.fetch(discoveryContext.getMapping().load, {
         pathValues: {
           slug: discoveryContext.slug
@@ -47,7 +46,6 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
         };
         filters.push(filter);
       });
-
       discoveryContext.search = new Search({
         filters: filters,
         query: $location.search()

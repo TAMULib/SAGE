@@ -170,10 +170,10 @@ public class DiscoveryContext implements Serializable {
         defaultSearchFilter.setLabel("All Fields");
         dc.searchFilters.add(defaultSearchFilter);
 
-        SearchFilter titleSearchFilter = new SearchFilter();
-        titleSearchFilter.setKey(dv.getTitleKey());
-        titleSearchFilter.setLabel("Name");
-        dc.searchFilters.add(titleSearchFilter);
+//        SearchFilter titleSearchFilter = new SearchFilter();
+//        titleSearchFilter.setKey(dv.getTitleKey());
+//        titleSearchFilter.setLabel("Name");
+//        dc.searchFilters.add(titleSearchFilter);
 
         SortField identifierSortField = new SortField();
         identifierSortField.setKey(dc.getUniqueIdentifierKey());
