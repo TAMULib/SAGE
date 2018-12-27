@@ -83,9 +83,9 @@
             <div class="media-body">
               <h4 class="media-heading"><a href="discovery-context/{{discoveryContext.name}}/{{result.uniqueIdentifier}}">{{result.title | removeBrackets}}</a></h4>
               <dl class="dl-horizontal dc-result-metadata">
-                <span class="dc-field" ng-repeat="(k,v) in result.fields">
-                  <dt><span class="dc-field-key"><small>{{k}}:</small></span></dt>
-                  <dd><span class="dc-field-value">{{v | removeBrackets}}</span></dd>
+                <span class="dc-field" ng-repeat="resultField in result.fields" ng-if="resultField.inList">
+                  <dt><span class="dc-field-key"><small>{{resultField.label}}:</small></span></dt>
+                  <dd><span class="dc-field-value">{{resultField.value | removeBrackets}}</span></dd>
                 </span>
               </dl>
             </div>

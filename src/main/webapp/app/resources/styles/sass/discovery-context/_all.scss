@@ -115,9 +115,13 @@
         }
 
         .dc-result {
+
+          margin-bottom: 20px;
+
           img {
             max-width: 100px;
             min-width: 100px;
+            max-height: 250px;
           }
 
           .media-body {

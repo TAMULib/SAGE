@@ -1,6 +1,8 @@
 package edu.tamu.sage.model.response;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.solr.common.SolrDocument;
@@ -24,17 +26,17 @@ public class Result {
     
     private boolean inGrid;
     
-    private Map<String, String> fields;
+    private List<ResultMetadataField> fields;
         
     public Result() {
-        this.fields = new HashMap<String, String>();
+        this.fields = new ArrayList<ResultMetadataField>();
     }
 
-    public Map<String, String> getFields() {
+    public List<ResultMetadataField> getFields() {
         return fields;
     }
 
-    public void setFields(Map<String, String> fields) {
+    public void setFields(List<ResultMetadataField> fields) {
         this.fields = fields;
     }
 
@@ -98,7 +100,7 @@ public class Result {
             Object value = doc.getFieldValue(mf.getKey());
             result.inList = mf.isInList();
             result.inGrid = mf.isInGrid();
-            result.fields.put(mf.getLabel() !=null ? mf.getLabel() : "unavailable", value != null ? value.toString() : "unavailable");
+            result.fields.add(ResultMetadataField.of(mf,  value != null ? value.toString() : "unavailable"));            
         }
         return result;
     }
