@@ -31,6 +31,8 @@ var appConfig = {
     // Set this to 'admin' or 'user' if using mock AuthService
     // otherwise set to null or false
 
-    'mockRole': null
+    'mockRole': null,
+
+    'defaultThumbnailURI': "resources/images/default-thumbnail.jpg"
 
 };

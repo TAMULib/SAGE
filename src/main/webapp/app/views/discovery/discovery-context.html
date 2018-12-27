@@ -73,14 +73,11 @@
       <hr class="dc-results-hr" />
 
       <div class="row dc-results">
-        <!-- <div class="col-xs-12 results-loader" ng-class="{'show-loader': searching}">
-          <img src="resources/images/loading.gif">
-        </div> -->
         <div class="col-xs-12 results" ng-class="{'hide-results': searching}">
           <div class="media dc-result" ng-repeat="result in discoveryContext.results">
             <div class="media-left media-middle">
               <a href="discovery-context/{{discoveryContext.name}}/{{result.uniqueIdentifier}}">
-                <img class="media-object" src="{{result.resourceLocationUriKey | removeBrackets}}" alt="picture of: {{result.title}}">
+                <img class="media-object" default-src="defaultThumbnailURI" ng-src="{{result.resourceLocationUriKey | removeBrackets}}" alt="picture of: {{result.title}}">
               </a>
             </div>
             <div class="media-body">
@@ -93,20 +90,6 @@
               </dl>
             </div>
           </div>
-
-
-
-          <!-- <div class="dc-result" ng-repeat="result in discoveryContext.results">
-            <h4>{{$index+discoveryContext.search.start+1}}: 
-              <a href="discovery-context/{{discoveryContext.name}}/{{result.uniqueIdentifier}}">{{result.title | removeBrackets}}</a>
-            </h4>
-            <dl class="dl-horizontal dc-result-metadata">
-              <span class="dc-field" ng-repeat="(k,v) in result.fields">
-                <dt><span class="dc-field-key"><small>{{k}}:</small></span></dt>
-                <dd><span class="dc-field-value">{{v | removeBrackets}}</span></dd>
-              </span>
-            </dl>
-          </div> -->
         </div>
       </div>
     </div>

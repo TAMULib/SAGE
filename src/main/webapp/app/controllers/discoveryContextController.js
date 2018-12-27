@@ -1,10 +1,12 @@
-sage.controller('DiscoveryContextController', function ($controller, $scope, $routeParams, $location, DiscoveryContext) {
+sage.controller('DiscoveryContextController', function ($controller, $scope, $routeParams, $location, DiscoveryContext, appConfig) {
 
   angular.extend(this, $controller('CoreAdminController', {
       $scope: $scope
   }));
 
   $scope._keys = Object.keys;
+
+  $scope.defaultThumbnailURI = appConfig.defaultThumbnailURI;
 
   $scope.rowOptions = [];
 
