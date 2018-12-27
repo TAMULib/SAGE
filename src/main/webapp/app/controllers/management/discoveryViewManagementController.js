@@ -80,8 +80,9 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
     });
   };
 
-  $scope.startUpdateDiscoveryView = function(reader) {
-    $scope.discoveryViewToUpdate = reader;
+  $scope.startUpdateDiscoveryView = function(dv) {
+    console.log(dv);
+    $scope.discoveryViewToUpdate = dv;
     $scope.openModal("#updateDiscoveryViewModal");
   };
 

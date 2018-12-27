@@ -8,6 +8,7 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
       var q = {};
 
       angular.forEach(discoveryContext.search.filters, function(filter) {
+        console.log(encodeURIComponent(filter.value));
         if(!q[filter.key]) {
           q[filter.key] = [];  
         }

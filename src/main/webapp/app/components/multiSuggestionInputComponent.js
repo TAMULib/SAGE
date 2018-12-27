@@ -87,8 +87,8 @@ sage.component("multiSuggestionInput", {
 
     var typing = function($event) {
       var elem = $element.find(".input").get(0);
-      var cursorPos = getCaretPosition();
-      
+      var cursorPos = getCursorPosition();
+      console.log($ctrl.model[$attrs.property]);
       var nextChar = angular.copy($ctrl.model[$attrs.property]).slice(cursorPos, cursorPos+1);
 
       if($scope.open) {
@@ -103,7 +103,7 @@ sage.component("multiSuggestionInput", {
         if(nextChar!=="}") {
           addValue("}}", true);
           $timeout(function() {
-            setCaretPosition(cursorPos);
+            setCursor(elem,cursorPos);
           });
         }  
       } else {
@@ -114,21 +114,20 @@ sage.component("multiSuggestionInput", {
     };
 
     var shouldOpen = function() {
-      var cursorPos = getCaretPosition();
+      var cursorPos = getCursorPosition();
       var elem = $element.find(".input").get(0);
       var lastTwoChars = angular.copy($ctrl.model[$attrs.property]).slice(cursorPos-2-$scope.curentValue.length,cursorPos-$scope.curentValue.length);
       var nextChar = angular.copy($ctrl.model[$attrs.property]).slice(cursorPos, cursorPos+1);
-      console.log(cursorPos);
       return lastTwoChars==="{{" && (nextChar === '' || nextChar === " " || nextChar === "}");
     };
 
     $scope.addSelection = function(selection) {
       var elem = $element.find(".input").get(0);
-      var cursorPos = getCaretPosition();
+      var cursorPos = getCursorPosition();
       addValue(selection);
       elem.focus();
       $timeout(function() {
-        setCaretPosition(cursorPos + selection.length + 2);
+        setCursor(elem, cursorPos + selection.length + 2);
         closeSuggestions();
       });
     };
@@ -152,67 +151,39 @@ sage.component("multiSuggestionInput", {
     };
 
     var addValue = function(value) {
-      var cursorPos = getCaretPosition();
+      var cursorPos = getCursorPosition();
       console.log($attrs);
       $ctrl.model[$attrs.property] = $ctrl.model[$attrs.property].slice(0, cursorPos - $scope.curentValue.length) + value + $ctrl.model[$attrs.property].slice(cursorPos,$ctrl.model[$attrs.property].length);
     };
 
-    // var getCaretPosition = function() {
-    //   var elem = $element.find(".input").get(0);
-    //   var startPos = elem.selectionStart;
-    //   var endPos = elem.selectionEnd;
-    //   return startPos === endPos ? startPos : elem.selectionEnd;
-    // };
+    var getCursorPosition = function() {
+      var elem = $element.find(".input").get(0);
+      var startPos = elem.selectionStart;
+      var endPos = elem.selectionEnd;
+      return startPos === endPos ? startPos : elem.selectionEnd;
+    };
 
-    var setCaretPosition = function(pos){
+    var setCursor = function(node,pos){
 
-        // node = (typeof node == "string" || node instanceof String) ? document.getElementById(node) : node;
-
-        var range = angular.element("document").createRange();
-        var sel = window.getSelection();
-        range.setStart($element.find(".input").childNodes[2], pos);
-        range.collapse(true);
-        sel.removeAllRanges();
-        sel.addRange(range);
+        node = (typeof node == "string" || node instanceof String) ? document.getElementById(node) : node;
     
-        // if(!node){
-        //     return false;
-        // }else if(node.createTextRange){
-        //     var textRange = node.createTextRange();
-        //     textRange.collapse(true);
-        //     textRange.moveEnd(pos);
-        //     textRange.moveStart(pos);
-        //     textRange.select();
-        //     return true;
-        // } else if(node.setSelectionRange){
-        //       node.setSelectionRange(pos,pos);
+        if(!node){
+            return false;
+        }else if(node.createTextRange){
+            var textRange = node.createTextRange();
+            textRange.collapse(true);
+            textRange.moveEnd(pos);
+            textRange.moveStart(pos);
+            textRange.select();
+            return true;
+        } else if(node.setSelectionRange){
+              node.setSelectionRange(pos,pos);
             
-        //     return true;
-        // }
+            return true;
+        }
     
         return false;
     };
-
-    var getCaretPosition = function() {
-      if (window.getSelection && window.getSelection().getRangeAt) {
-        var range = window.getSelection().getRangeAt(0);
-        var selectedObj = window.getSelection();
-        var rangeCount = 0;
-        var childNodes = selectedObj.anchorNode.parentNode.childNodes;
-        for (var i = 0; i < childNodes.length; i++) {
-          if (childNodes[i] == selectedObj.anchorNode) {
-            break;
-          }
-          if (childNodes[i].outerHTML)
-            rangeCount += childNodes[i].outerHTML.length;
-          else if (childNodes[i].nodeType == 3) {
-            rangeCount += childNodes[i].textContent.length;
-          }
-        }
-        return range.startOffset + rangeCount;
-      }
-      return -1;
-    }
 
   }
 });

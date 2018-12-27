@@ -32,7 +32,7 @@ public class Search {
     }
 
     public void setQuery(String query) {
-        this.query = query;
+        this.query =  query;
     }
 
     public String getSort() {

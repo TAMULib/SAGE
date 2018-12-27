@@ -1,6 +1,8 @@
 package edu.tamu.sage.service;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +51,7 @@ public class SolrDiscoveryService {
         }
     }
 
-    public DiscoveryContext buildDiscoveryContext(DiscoveryView discoveryView, Map<String, String> filterMap, int rows, int start, String sort) throws DiscoveryContextBuildException {
+    public DiscoveryContext buildDiscoveryContext(DiscoveryView discoveryView, Map<String, String> filterMap, int rows, int start, String sort) throws DiscoveryContextBuildException, UnsupportedEncodingException {
 
         DiscoveryContext discoveryContext = DiscoveryContext.of(discoveryView);
 
@@ -66,7 +68,7 @@ public class SolrDiscoveryService {
         return discoveryContext;
     }
 
-    private Search buildSearch(Map<String, String> filterMap, DiscoveryView discoveryView, int rows, int start, String sort) throws DiscoveryContextBuildException {
+    private Search buildSearch(Map<String, String> filterMap, DiscoveryView discoveryView, int rows, int start, String sort) throws DiscoveryContextBuildException, UnsupportedEncodingException {
 
         // TODO: REDO!!!
 
@@ -154,7 +156,7 @@ public class SolrDiscoveryService {
         System.out.println("URL query: " + query);
         System.out.println("Solr query: " + solrQuery);
 
-        search.setQuery(query);
+        search.setQuery(URLEncoder.encode(query, "UTF-8"));
         search.setSolrQuery(solrQuery);
 
         search.setRows(rows);
@@ -233,17 +235,24 @@ public class SolrDiscoveryService {
 
             query.addSort(sort, ORDER.asc);
 
-            discoveryView.getResultMetadataFields().forEach(f -> {
-                query.addField(f.getKey());
+            discoveryView.getResultMetadataFields().forEach(metadataField -> {
+                if(metadataField.getKey().contains("{{")) {
+                    ValueTemplateUtility.extractKeysFromtemplate(metadataField.getKey()).forEach(key->{
+                        query.addField(key);
+                    });
+                } else {
+                    query.addField(metadataField.getKey());
+                }
             });
             
-            List<String> resultKeys = new ArrayList<>();
-            resultKeys.add(discoveryView.getTitleKey());
-            resultKeys.add(discoveryView.getUniqueIdentifierKey());
-            resultKeys.add(discoveryView.getResourceThumbnailUriKey());
-            resultKeys.add(discoveryView.getResourceLocationUriKey());
+            List<String> privellegedKeys = new ArrayList<>();
             
-            resultKeys.forEach(rawKey->{
+            privellegedKeys.add(discoveryView.getTitleKey());
+            privellegedKeys.add(discoveryView.getUniqueIdentifierKey());
+            privellegedKeys.add(discoveryView.getResourceThumbnailUriKey());
+            privellegedKeys.add(discoveryView.getResourceLocationUriKey());
+            
+            privellegedKeys.forEach(rawKey->{
                 if(rawKey.contains("{{")) {
                     ValueTemplateUtility.extractKeysFromtemplate(rawKey).forEach(key->{
                         query.addField(key);
