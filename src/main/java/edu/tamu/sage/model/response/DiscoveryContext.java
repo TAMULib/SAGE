@@ -164,7 +164,6 @@ public class DiscoveryContext implements Serializable {
         dc.setInfoLinkUrl(dv.getInfoLinkUrl());
         dc.setInfoLinkText(dv.getInfoLinkText());
 
-        
         SearchFilter defaultSearchFilter = new SearchFilter();
         defaultSearchFilter.setKey("all_fields");
         defaultSearchFilter.setLabel("All Fields");

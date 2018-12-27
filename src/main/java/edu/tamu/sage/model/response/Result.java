@@ -89,8 +89,8 @@ public class Result {
     public static Result of(SolrDocument doc, DiscoveryView discoveryView) {
         Result result = new Result();
         
+        result.setUniqueIdentifier(discoveryView.getUniqueIdentifierKey());
         result.setTitle(compileTemplate(discoveryView.getTitleKey(), doc));
-        result.setUniqueIdentifier(compileTemplate(discoveryView.getUniqueIdentifierKey(), doc));
         result.setResourceLocationUriKey(compileTemplate(discoveryView.getResourceLocationUriKey(), doc));
         result.setResourceThumbnailUriKey(compileTemplate(discoveryView.getResourceThumbnailUriKey(), doc));
         
@@ -98,7 +98,7 @@ public class Result {
             Object value = doc.getFieldValue(mf.getKey());
             result.inList = mf.isInList();
             result.inGrid = mf.isInGrid();
-            result.fields.put(mf.getLabel() !=null ? mf.getLabel() : "uknown", value != null ? value.toString() : "uknown");
+            result.fields.put(mf.getLabel() !=null ? mf.getLabel() : "unavailable", value != null ? value.toString() : "unavailable");
         }
         return result;
     }

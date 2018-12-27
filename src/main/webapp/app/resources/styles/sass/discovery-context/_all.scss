@@ -113,22 +113,36 @@
           -webkit-filter: blur(5px);
           transition: all 0.25s ease-in;
         }
-        
-        .dc-result-metadata {
-  
-          .dc-field {
-  
-            margin-bottom: 5px;
-  
-            .dc-field-key {
-              color: grey;
+
+        .dc-result {
+          img {
+            max-width: 100px;
+          }
+
+          .media-body {
+
+            .media-heading {
+              margin-left: 25px;
             }
+
+            .dc-result-metadata {
   
-            .dc-field-value {
-              font-size:  1.1em;
+              .dc-field {
+      
+                margin-bottom: 5px;
+      
+                .dc-field-key {
+                  color: grey;
+                }
+      
+                .dc-field-value {
+                  font-size:  1.1em;
+                }
+              }  
             }
-          }  
+          }
         }
+          
       }
     }
   }

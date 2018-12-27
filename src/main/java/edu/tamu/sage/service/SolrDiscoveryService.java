@@ -189,7 +189,8 @@ public class SolrDiscoveryService {
                     String q = String.format("%s AND %s:*", discoveryView.getFilter(), field.getKey());
                     query.setQuery(q);
                     QueryResponse qr = solr.query(query);
-                    if (qr.getResults().size() > 0) {
+                    System.out.println(q +" | "+ qr.getResults().size() + " | " + field.getValue().getSchema());
+                    if (qr.getResults().size() > 0 || !field.getValue().getSchema().contains("I")) {
                         availableFields.add(SolrField.of(field));
                     }
                 }

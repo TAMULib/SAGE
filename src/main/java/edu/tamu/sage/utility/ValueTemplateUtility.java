@@ -11,12 +11,19 @@ public class ValueTemplateUtility {
     
     public static String compileTemplate(String template, SolrDocument solrDoc) {
         
-        StringBuilder strBldr = new StringBuilder();
+        StringBuilder strBldr = new StringBuilder(template);
         
         extractKeysFromtemplate(template).forEach(key->{
-            strBldr
-                .append(solrDoc.getFieldValue(key))
-                .append(" ");
+            Object value = solrDoc.getFieldValue(key);
+            if(value != null) {
+                String toReplace = "{{"+key+"}}";
+                int start = strBldr.indexOf(toReplace);
+                int end = strBldr.indexOf(toReplace) + toReplace.length();
+                strBldr
+                    .replace(start, end, solrDoc.getFieldValue(key).toString());
+            } else {
+                strBldr.replace(0, template.length(), "unavailable");
+            }
         });
         
         return strBldr.toString();
