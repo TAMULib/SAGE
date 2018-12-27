@@ -20,7 +20,7 @@ public class ValueTemplateUtility {
                 int start = strBldr.indexOf(toReplace);
                 int end = strBldr.indexOf(toReplace) + toReplace.length();
                 strBldr
-                    .replace(start, end, solrDoc.getFieldValue(key).toString());
+                    .replace(start, end, value.toString());
             } else {
                 strBldr.replace(0, template.length(), "unavailable");
             }

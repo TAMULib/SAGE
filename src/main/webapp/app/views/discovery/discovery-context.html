@@ -76,12 +76,12 @@
         <div class="col-xs-12 results" ng-class="{'hide-results': searching}">
           <div class="media dc-result" ng-repeat="result in discoveryContext.results">
             <div class="media-left media-middle">
-              <a href="discovery-context/{{discoveryContext.name}}/{{result.uniqueIdentifier}}">
+              <a href="discovery-context/{{discoveryContext.slug}}/{{result.uniqueIdentifier}}">
                 <img class="media-object" default-src="defaultThumbnailURI" ng-src="{{result.resourceLocationUriKey | removeBrackets}}" alt="picture of: {{result.title}}">
               </a>
             </div>
             <div class="media-body">
-              <h4 class="media-heading"><a href="discovery-context/{{discoveryContext.name}}/{{result.uniqueIdentifier}}">{{result.title | removeBrackets}}</a></h4>
+              <h4 class="media-heading"><a href="discovery-context/{{discoveryContext.slug}}/{{result.uniqueIdentifier}}">{{result.title | removeBrackets}}</a></h4>
               <dl class="dl-horizontal dc-result-metadata">
                 <span class="dc-field" ng-repeat="resultField in result.fields" ng-if="resultField.inList">
                   <dt><span class="dc-field-key"><small>{{resultField.label}}:</small></span></dt>

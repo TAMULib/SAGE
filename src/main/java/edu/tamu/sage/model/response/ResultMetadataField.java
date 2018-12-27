@@ -14,7 +14,7 @@ public class ResultMetadataField {
     
     private boolean inGrid;
     
-    private boolean initem;
+    private boolean inSingleResult;
     
     public ResultMetadataField() {}
 
@@ -58,12 +58,12 @@ public class ResultMetadataField {
         this.inGrid = inGrid;
     }
 
-    public boolean isInitem() {
-        return initem;
+    public boolean isInSingleResult() {
+        return inSingleResult;
     }
 
-    public void setInitem(boolean initem) {
-        this.initem = initem;
+    public void setInSingleResult(boolean inSingleResult) {
+        this.inSingleResult = inSingleResult;
     }
     
 
@@ -76,8 +76,8 @@ public class ResultMetadataField {
         
         rmf.setInList(mf.isInList());
         rmf.setInGrid(mf.isInGrid());
+        rmf.setInSingleResult(mf.isInSingleResult());
         
-        //mf.getLabel() !=null ? mf.getLabel() : "unavailable", value != null ? value.toString() : "unavailable"
         return rmf;
     }
     

@@ -31,6 +31,7 @@ import edu.tamu.sage.model.response.FacetFilter;
 import edu.tamu.sage.model.response.Filter;
 import edu.tamu.sage.model.response.Result;
 import edu.tamu.sage.model.response.Search;
+import edu.tamu.sage.model.response.SingleResultContext;
 import edu.tamu.sage.model.response.SolrField;
 import edu.tamu.sage.utility.ValueTemplateUtility;
 
@@ -189,7 +190,6 @@ public class SolrDiscoveryService {
                     String q = String.format("%s AND %s:*", discoveryView.getFilter(), field.getKey());
                     query.setQuery(q);
                     QueryResponse qr = solr.query(query);
-                    System.out.println(q +" | "+ qr.getResults().size() + " | " + field.getValue().getSchema());
                     if (qr.getResults().size() > 0 || !field.getValue().getSchema().contains("I")) {
                         availableFields.add(SolrField.of(field));
                     }
@@ -203,7 +203,7 @@ public class SolrDiscoveryService {
     }
 
     public ResultSet querySolrCore(DiscoveryView discoveryView, Search search, String sort) {
-        logger.info("Using Reader: " + discoveryView.getName() + " to read from SOLR Core: " + discoveryView.getSource().getName() + " - " + discoveryView.getSource().getUri());
+        logger.info("Using Discovery View: " + discoveryView.getName() + " to read from SOLR Core: " + discoveryView.getSource().getName() + " - " + discoveryView.getSource().getUri());
 
         List<Result> results = new ArrayList<Result>();
         List<FacetFilter> facetFilters = new ArrayList<FacetFilter>();
@@ -234,7 +234,6 @@ public class SolrDiscoveryService {
 
             query.setQuery(q);
 
-            System.out.println(sort);
             query.addSort(sort, ORDER.asc);
 
             discoveryView.getResultMetadataFields().forEach(metadataField -> {
@@ -293,6 +292,29 @@ public class SolrDiscoveryService {
         }
 
         return new ResultSet(results, facetFilters);
+    }
+
+    public SingleResultContext getSinlgeResult(DiscoveryView discoveryView, String resultId) throws DiscoveryContextBuildException {
+        
+        SingleResultContext sinlgeResultContext = null;
+        
+        try (SolrClient solr = new HttpSolrClient(discoveryView.getSource().getUri())) {
+            SolrQuery query = new SolrQuery();
+            
+            query.setQuery(discoveryView.getUniqueIdentifierKey()+":"+resultId);
+            query.setRows(1);
+            
+            QueryResponse qr = solr.query(query);
+            
+            if (qr.getResults().size() > 0) {
+                sinlgeResultContext = SingleResultContext.of(discoveryView, qr.getResults().get(0));
+            }
+            
+        } catch (Exception e) {
+            throw new DiscoveryContextBuildException("Could not find singe result", e);
+        }
+        
+        return sinlgeResultContext;
     }
 
 }

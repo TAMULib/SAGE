@@ -91,7 +91,7 @@ public class Result {
     public static Result of(SolrDocument doc, DiscoveryView discoveryView) {
         Result result = new Result();
         
-        result.setUniqueIdentifier(discoveryView.getUniqueIdentifierKey());
+        result.setUniqueIdentifier(compileTemplate("{{"+discoveryView.getUniqueIdentifierKey()+"}}", doc));
         result.setTitle(compileTemplate(discoveryView.getTitleKey(), doc));
         result.setResourceLocationUriKey(compileTemplate(discoveryView.getResourceLocationUriKey(), doc));
         result.setResourceThumbnailUriKey(compileTemplate(discoveryView.getResourceThumbnailUriKey(), doc));

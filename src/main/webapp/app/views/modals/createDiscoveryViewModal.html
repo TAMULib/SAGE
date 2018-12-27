@@ -160,7 +160,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-xs-2 col-sm-offset-1" ng-init="discoveryViewToCreate.resultMetadataFields[0]={searchable:true,sortable:true,inList:true,inGrid:true,singleItem:true}">
+            <div class="col-xs-2 col-sm-offset-1" ng-init="discoveryViewToCreate.resultMetadataFields[0]={searchable:true,sortable:true,inList:true,inGrid:true,inSingleResult:true}">
               <div class="form-group">
                 <label for="key">Key</label>
                 <select name="key" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[0].key" ng-options="option['name'] as option['name'] for option in fields" ng-change="discoveryViewToCreate.resultMetadataFields[0].sortable=!findFieldByKey(discoveryViewToCreate.resultMetadataFields[0].key).multivalued"></select>
@@ -199,12 +199,12 @@
             <div class="col-xs-1">
               <div class="form-group">
                 <label for="item">Item</label>
-                <input name="item" type="checkbox" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[0].singleItem">
+                <input name="item" type="checkbox" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[0].inSingleResult">
               </div>
             </div>
             <div class="col-xs-2">
               <div class="form-group add-field-group">
-                <button type="button" class="btn btn-success" ng-click="discoveryViewToCreate.resultMetadataFields.push({searchable:true,sortable:true,inList:true,inGrid:true,singleItem:true})"><span class="glyphicon glyphicon-plus"></span></button>
+                <button type="button" class="btn btn-success" ng-click="discoveryViewToCreate.resultMetadataFields.push({searchable:true,sortable:true,inList:true,inGrid:true,inSingleResult:true})"><span class="glyphicon glyphicon-plus"></span></button>
               </div>
             </div>
           </div>
@@ -248,7 +248,7 @@
             <div class="col-xs-1">
               <div class="form-group">
                 <label for="item">Item</label>
-                <input name="item" type="checkbox" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[$index].singleItem">
+                <input name="item" type="checkbox" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[$index].inSingleResult">
               </div>
             </div>
             <div class="col-xs-2">

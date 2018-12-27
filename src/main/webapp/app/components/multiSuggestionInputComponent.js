@@ -88,12 +88,14 @@ sage.component("multiSuggestionInput", {
     var typing = function($event) {
       var elem = $element.find(".input").get(0);
       var cursorPos = getCursorPosition();
-      console.log($ctrl.model[$attrs.property]);
-      var nextChar = angular.copy($ctrl.model[$attrs.property]).slice(cursorPos, cursorPos+1);
+      
+      var m = $scope.$ctrl.model[$scope.$ctrl.property];
+
+      var nextChar = angular.copy(m.slice(cursorPos, cursorPos+1));
 
       if($scope.open) {
-        $scope.curentValue =  angular.copy($ctrl.model[$attrs.property]).slice(curentValueStartPos, cursorPos);
-        $scope.selectedIndex=0
+        $scope.curentValue =  angular.copy(m.slice(curentValueStartPos, cursorPos));
+        $scope.selectedIndex=0;
       } else {
         curentValueStartPos=cursorPos;
       }
@@ -116,8 +118,9 @@ sage.component("multiSuggestionInput", {
     var shouldOpen = function() {
       var cursorPos = getCursorPosition();
       var elem = $element.find(".input").get(0);
-      var lastTwoChars = angular.copy($ctrl.model[$attrs.property]).slice(cursorPos-2-$scope.curentValue.length,cursorPos-$scope.curentValue.length);
-      var nextChar = angular.copy($ctrl.model[$attrs.property]).slice(cursorPos, cursorPos+1);
+      var m = $scope.$ctrl.model[$scope.$ctrl.property];
+      var lastTwoChars = angular.copy(m.slice(cursorPos-2-$scope.curentValue.length,cursorPos-$scope.curentValue.length));
+      var nextChar = angular.copy(m.slice(cursorPos, cursorPos+1));
       return lastTwoChars==="{{" && (nextChar === '' || nextChar === " " || nextChar === "}");
     };
 
@@ -152,8 +155,8 @@ sage.component("multiSuggestionInput", {
 
     var addValue = function(value) {
       var cursorPos = getCursorPosition();
-      console.log($attrs);
-      $ctrl.model[$attrs.property] = $ctrl.model[$attrs.property].slice(0, cursorPos - $scope.curentValue.length) + value + $ctrl.model[$attrs.property].slice(cursorPos,$ctrl.model[$attrs.property].length);
+      var m = $scope.$ctrl.model[$scope.$ctrl.property];
+      $scope.$ctrl.model[$scope.$ctrl.property] = m.slice(0, cursorPos - $scope.curentValue.length) + value + m.slice(cursorPos,m.length);
     };
 
     var getCursorPosition = function() {

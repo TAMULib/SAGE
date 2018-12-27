@@ -205,6 +205,24 @@ var apiMapping = {
       'method': ':slug'
     }
   },
+  SingleResultContext: {
+    channel: '/channel/discovery-view/context',
+    validations: false,
+    method: "",
+    lazy: false,
+    load: {
+      'endpoint': '/private/queue',
+      'httpMethod': 'GET',
+      'controller': 'discovery-view/context',
+      'method': ':slug/:resultId'
+    },
+    instantiate: {
+      'endpoint': '/private/queue',
+      'httpMethod': 'GET',
+      'controller': 'discovery-view/context',
+      'method': ':slug/:resultId'
+    }
+  },
   Result: {
     validations: false,
     lazy: true

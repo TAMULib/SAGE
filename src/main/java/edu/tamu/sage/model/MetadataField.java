@@ -19,7 +19,7 @@ public class MetadataField {
     
     private boolean inGrid;
     
-    private boolean singleItem;
+    private boolean inSingleResult;
     
     public MetadataField() {
         super();
@@ -81,12 +81,12 @@ public class MetadataField {
         this.inGrid = inGrid;
     }
 
-    public boolean isSingleItem() {
-        return singleItem;
+    public boolean isInSingleResult() {
+        return inSingleResult;
     }
 
-    public void setSingleItem(boolean singleItem) {
-        this.singleItem = singleItem;
+    public void setInSingleResult(boolean inSingleResult) {
+        this.inSingleResult = inSingleResult;
     }
 
 }
