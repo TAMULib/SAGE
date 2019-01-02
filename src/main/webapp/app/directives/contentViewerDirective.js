@@ -14,8 +14,10 @@ sage.directive("contentviewer", function($filter) {
               typeLoop:
               for (var type in viewerMap) {
                   for (var supportedType in viewerMap[type]) {
+                    console.log($scope.contentType);
                       if ($scope.contentType === viewerMap[type][supportedType]) {
                           viewerTemplate = type;
+                          console.log(viewerTemplate);
                           break typeLoop;
                       }
                   }

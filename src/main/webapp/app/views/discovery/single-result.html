@@ -1,12 +1,5 @@
 <h1>{{singleResultContext.title | removeBrackets}}</h1>
 
-<div class="jumbotron">
-  <div class="container">
-      <contentviewer content-type="getContentType(singleResultContext.resourceLocationUri| removeBrackets)" resource="singleResultContext.resourceLocationUri | removeBrackets"></contentviewer>
-      <!-- <img class="media-object" default-src="defaultThumbnailURI" ng-src="{{singleResultContext.resourceLocationUri | removeBrackets}}" alt="picture of: {{result.title}}"> -->
-  </div>
-</div>
-
 <div class="row">
   <div class="col-xs-9 col-xs-offset-1">
     <dl class="dl-horizontal dc-result-metadata">

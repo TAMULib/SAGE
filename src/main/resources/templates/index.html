@@ -30,30 +30,42 @@
     <tamuheader title="Sage"></tamuheader>
 
     <alerts types="WARNING,ERROR"></alerts>
+    
+    <div class="container-fluid">
+        <div class="container">
+          <div class="col-md-12" ng-controller="ManagementController">
+            <div class="row">
+              <br>
+              <nav class="pull-right">
+                <div class="dropdown">
+                  <span class="glyphicon glyphicon-user"></span>
+
+                  <a class="dropdown-toggle clickable" data-toggle="dropdown" aria-expanded="false">
+                    <username></username> <span class="caret"></span>
+                  </a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="users">Manage Users</a></li>
+                    <li ng-if="isAdmin() || isAssuming() == 'true'" role="presentation" class="divider"></li>
+                    <li ng-if="isAdmin() || isAssuming() == 'true'" role="presentation" class="dropdown-header">Admin Actions header</li>
+                    <li ng-if="isAdmin() || isAssuming() == 'true'">
+                      <a href ng-if="isAssuming() == 'false'" data-toggle="modal" ng-click="openModal('#assumeUserModal')">{{assumedControl.button}}</a>
+                      <a href ng-if="isAssuming() == 'true'" ng-click="assumeUser(assume)">{{assumedControl.button}}</a>
+                    </li>
+                  </ul>
+                </div>
+              </nav>
+              <br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <single-result-viewer></single-result-viewer>
 
     <div class="container-fluid">
       <div class="container">
         <div class="col-md-12" ng-controller="ManagementController">
-          <div class="row">
-            <nav class="pull-right">
-              <div class="dropdown">
-                <span class="glyphicon glyphicon-user"></span>
-
-                <a class="dropdown-toggle clickable" data-toggle="dropdown" aria-expanded="false">
-                  <username></username> <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a href="users">Manage Users</a></li>
-                  <li ng-if="isAdmin() || isAssuming() == 'true'" role="presentation" class="divider"></li>
-                  <li ng-if="isAdmin() || isAssuming() == 'true'" role="presentation" class="dropdown-header">Admin Actions header</li>
-                  <li ng-if="isAdmin() || isAssuming() == 'true'">
-                    <a href ng-if="isAssuming() == 'false'" data-toggle="modal" ng-click="openModal('#assumeUserModal')">{{assumedControl.button}}</a>
-                    <a href ng-if="isAssuming() == 'true'" ng-click="assumeUser(assume)">{{assumedControl.button}}</a>
-                  </li>
-                </ul>
-              </div>
-            </nav>
-          </div>
           <div class="row">
             <div ng-view class="view"></div>
           </div>
@@ -201,6 +213,7 @@
 
   <!-- Components -->
   <script src="components/multiSuggestionInputComponent.js"></script>
+  <script src="components/singleResultViewerComponent.js"></script>
 
   <!-- Directives -->
   <script src="directives/contentEditableDirective.js"></script>

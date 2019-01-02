@@ -1,4 +1,4 @@
-sage.model("SingleResultContext", function ($q, $location, $routeParams, WsApi, Result, Field, Search) {
+sage.model("SingleResultContext", function ($q, $location, $routeParams, WsApi, SingleResultContextService) {
   return function SingleResultContext() {
 
     var singleResultContext = this;
@@ -12,6 +12,7 @@ sage.model("SingleResultContext", function ($q, $location, $routeParams, WsApi, 
       }).then(function(res) {
         var rc = angular.fromJson(res.body).payload.SingleResultContext;
         angular.extend(singleResultContext, rc);
+        SingleResultContextService.setSingleResult(singleResultContext);
       });
     });
 
