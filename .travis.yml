@@ -1,18 +1,29 @@
+# Send final notification to coveralls after all jobs have been completed.
+notifications:
+  webhooks: https://coveralls.io/webhook
+
 matrix:
   include:
-  - language: java
+  - name: "Java Tests"
+    language: java
     jdk: oraclejdk8
+    before_script:
+      - export COVERALLS_PARALLEL=true
     install:
       - mvn test-compile -DskipTests=true -Dmaven.javadoc.skip=true -B -V
     after_success:
-      - mvn clean test cobertura:cobertura jacoco:report coveralls:report
+      - mvn clean test cobertura:cobertura jacoco:report coveralls:report -DserviceName="travis-ci" -DserviceBuildNumber=$TRAVIS_BUILD_NUMBER
 
-  - language: node_js
+  - name: "Node/Javascript Tests"
+    language: node_js
     node_js: "6"
     addons:
       - chrome: stable
     before_script:
       - export DISPLAY=:99.0
+      - export COVERALLS_PARALLEL=true
+      - export CI_NAME="travis-ci"
+      - export CI_BUILD_NUMBER=$TRAVIS_BUILD_NUMBER
       - sh -e /etc/init.d/xvfb start
       - npm start > /dev/null &
       - npm run update-webdriver
