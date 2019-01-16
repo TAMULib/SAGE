@@ -8,13 +8,13 @@ sage.controller('UsersController', function ($controller, $location, $injector, 
 
         $scope.assignableRoles = function(userRole) {
             if($scope.isAdmin()) {
-                return ['ROLE_ADMIN','ROLE_MANAGER','ROLE_ANNOTATOR','ROLE_USER'];
+                return ['ROLE_ADMIN','ROLE_MANAGER','ROLE_USER'];
             }
             else if($scope.isManager()) {
                 if(userRole == 'ROLE_ADMIN') {
                     return ['ROLE_ADMIN'];
                 }
-                return ['ROLE_MANAGER','ROLE_ANNOTATOR','ROLE_USER'];
+                return ['ROLE_MANAGER','ROLE_USER'];
             }
             else {
                 return [userRole];
@@ -58,10 +58,7 @@ sage.controller('UsersController', function ($controller, $location, $injector, 
                 user.save();
 
                 if($scope.user.username == user.username) {
-                    if(user.role == 'ROLE_ANNOTATOR') {
-                        $location.path('/assignments');
-                    }
-                    else if(user.role == 'ROLE_USER') {
+                    if(user.role == 'ROLE_USER') {
                         $location.path('/myview');
                     }
                     else {}
