@@ -1,0 +1,54 @@
+<br/>
+<div class="row" ng-controller="UsersController">
+
+    <!-- ADMINS AND MANAGERS ONLY -->
+    <div ng-if="!isManager() && !isAdmin()" class="row" ng-include src="'views/restrictedAccess.html'" ></div>
+
+    <div ng-if="isManager() || isAdmin()" class="col-12">
+        <div class="panel panel-default users-container">
+            <div class="panel-heading">
+                <h3 class="panel-title">Users</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover table-condensed">
+                    <thead>
+                        <tr>
+                            <th>UIN</th>
+                            <th>FirstName</th>
+                            <th>LastName</th>
+                            <th>Role</th>
+                            <th>Change Role To</th>
+                            <th ng-if="(isAdmin() || isManager())">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="thisUser in users track by thisUser.username">
+                            <td>{{thisUser.username}}</td>
+                            <td>{{thisUser.firstName}}</td>
+                            <td>{{thisUser.lastName}}</td>
+                            <td>{{thisUser.role}}</td>
+                            <td>
+                                <select ng-if="(isAdmin() || isManager())" ng-model="thisUser.role" ng-change="updateRole(thisUser)" class="form-control">
+                                    <option ng-repeat="role in assignableRoles(thisUser.role)">{{role}}</option>
+                                </select>
+                            </td>
+                            <td ng-if="!((isAdmin() || isManager()) && (thisUser.role == 'ROLE_MANAGER' || thisUser.role == 'ROLE_ADMIN'))"></td>
+                            <td ng-if="(isAdmin() || isManager()) && canDelete(thisUser)">
+
+                                <modal modal-id="ConfirmDeleteUserModal{{$index}}"
+                                       modal-view="views/modals/confirmDeleteUserModal.html"
+                                       modal-btn-classes="btn btn-danger"
+                                       modal-header-class="modal-header-primary">
+                                       Delete
+                                </modal>
+
+                            </td>
+                            <td ng-if="!((isAdmin() || isManager()) && canDelete(thisUser))"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
