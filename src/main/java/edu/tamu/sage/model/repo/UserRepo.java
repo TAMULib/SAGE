@@ -1,11 +1,11 @@
-/* 
- * AppUserRepo.java 
- * 
- * Version: 
- *     $Id$ 
- * 
- * Revisions: 
- *     $Log$ 
+/*
+ * AppUserRepo.java
+ *
+ * Version:
+ *     $Id$
+ *
+ * Revisions:
+ *     $Log$
  */
 package edu.tamu.sage.model.repo;
 
@@ -17,11 +17,11 @@ import edu.tamu.weaver.auth.model.repo.AbstractWeaverUserRepo;
 
 /**
  * User repository.
- * 
+ *
  * @author
  *
  */
 @Repository
 public interface UserRepo extends AbstractWeaverUserRepo<User>, UserRepoCustom {
-
+    public User findByEmail(String email);
 }

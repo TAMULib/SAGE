@@ -25,7 +25,7 @@ public class AppUserCredentialsServiceTest {
 
     private static final Credentials TEST_CREDENTIALS_1 = new Credentials();
     static {
-        TEST_CREDENTIALS_1.setUin("123456789");
+        TEST_CREDENTIALS_1.setEmail("123456789");
         TEST_CREDENTIALS_1.setFirstName("Aggie");
         TEST_CREDENTIALS_1.setLastName("Jack");
         TEST_CREDENTIALS_1.setRole("ROLE_USER");
@@ -33,7 +33,7 @@ public class AppUserCredentialsServiceTest {
 
     private static final Credentials TEST_CREDENTIALS_2 = new Credentials();
     static {
-        TEST_CREDENTIALS_2.setUin("987654321");
+        TEST_CREDENTIALS_2.setEmail("987654321");
         TEST_CREDENTIALS_2.setFirstName("Aggie");
         TEST_CREDENTIALS_2.setLastName("Jack");
         TEST_CREDENTIALS_2.setRole("ROLE_USER");
@@ -41,21 +41,21 @@ public class AppUserCredentialsServiceTest {
 
     private static final Credentials TEST_NULL_CREDENTIALS = new Credentials();
     static {
-        TEST_NULL_CREDENTIALS.setUin("987654321");
+        TEST_NULL_CREDENTIALS.setEmail("987654321");
         TEST_NULL_CREDENTIALS.setFirstName("Aggie");
         TEST_NULL_CREDENTIALS.setLastName("Jack");
     }
 
     private static final Credentials TEST_CHANGED_CREDENTIALS = new Credentials();
     static {
-        TEST_CHANGED_CREDENTIALS.setUin("111111111");
+        TEST_CHANGED_CREDENTIALS.setEmail("111111111");
         TEST_CHANGED_CREDENTIALS.setFirstName("John");
         TEST_CHANGED_CREDENTIALS.setLastName("Smith");
         TEST_CHANGED_CREDENTIALS.setRole("ROLE_ADMIN");
     }
 
-    private User testUser1 = new User(TEST_CREDENTIALS_1.getUin(), TEST_CREDENTIALS_1.getFirstName(), TEST_CREDENTIALS_1.getLastName(), TEST_CREDENTIALS_1.getRole());
-    private User testUser2 = new User(TEST_CREDENTIALS_2.getUin(), TEST_CREDENTIALS_2.getFirstName(), TEST_CREDENTIALS_2.getLastName(), TEST_CREDENTIALS_2.getRole());
+    private User testUser1 = new User(TEST_CREDENTIALS_1.getEmail(), TEST_CREDENTIALS_1.getFirstName(), TEST_CREDENTIALS_1.getLastName(), TEST_CREDENTIALS_1.getRole());
+    private User testUser2 = new User(TEST_CREDENTIALS_2.getEmail(), TEST_CREDENTIALS_2.getFirstName(), TEST_CREDENTIALS_2.getLastName(), TEST_CREDENTIALS_2.getRole());
 
     private static final String[] testAdmins = { "123456789", "987654321" };
 
@@ -63,10 +63,10 @@ public class AppUserCredentialsServiceTest {
 
     @Mock
     private UserRepo userRepo;
-    
+
     @InjectMocks
     private AppUserCredentialsService credentialsService;
-    
+
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
@@ -98,7 +98,7 @@ public class AppUserCredentialsServiceTest {
         User nullUser = credentialsService.updateUserByCredentials(TEST_NULL_CREDENTIALS);
         assertEquals("Null Role not updated", TEST_CREDENTIALS_1.getRole(), nullUser.getRole().toString());
     }
-    
+
     @Test
     public void testChangedUser() {
         User changedUser = credentialsService.updateUserByCredentials(TEST_CHANGED_CREDENTIALS);
