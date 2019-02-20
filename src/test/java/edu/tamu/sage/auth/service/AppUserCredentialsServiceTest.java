@@ -70,9 +70,9 @@ public class AppUserCredentialsServiceTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        when(userRepo.findByUsername(TEST_CREDENTIALS_1.getUin())).thenReturn(optionalUser1);
-        when(userRepo.findByUsername(TEST_CREDENTIALS_2.getUin())).thenReturn(Optional.empty());
-        when(userRepo.findByUsername(TEST_CHANGED_CREDENTIALS.getUin())).thenReturn(optionalUser1);
+        when(userRepo.findByUsername(TEST_CREDENTIALS_1.getEmail())).thenReturn(optionalUser1);
+        when(userRepo.findByUsername(TEST_CREDENTIALS_2.getEmail())).thenReturn(Optional.empty());
+        when(userRepo.findByUsername(TEST_CHANGED_CREDENTIALS.getEmail())).thenReturn(optionalUser1);
         when(userRepo.create(any(String.class))).thenReturn(testUser2);
         when(userRepo.save(any(User.class))).thenReturn(testUser1);
     }
@@ -103,7 +103,7 @@ public class AppUserCredentialsServiceTest {
     public void testChangedUser() {
         User changedUser = credentialsService.updateUserByCredentials(TEST_CHANGED_CREDENTIALS);
         assertEquals("is present", changedUser, optionalUser1.get());
-        assertEquals("Username was not updated", TEST_CHANGED_CREDENTIALS.getUin(), changedUser.getUsername());
+        assertEquals("Username was not updated", TEST_CHANGED_CREDENTIALS.getEmail(), changedUser.getUsername());
         assertEquals("First name was not updated", TEST_CHANGED_CREDENTIALS.getFirstName(), changedUser.getFirstName());
         assertEquals("Last name was not updated", TEST_CHANGED_CREDENTIALS.getLastName(), changedUser.getLastName());
         assertEquals("Role was not updated", TEST_CHANGED_CREDENTIALS.getRole(), changedUser.getRole().toString());

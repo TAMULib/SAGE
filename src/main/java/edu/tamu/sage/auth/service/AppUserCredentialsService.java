@@ -1,11 +1,7 @@
 package edu.tamu.sage.auth.service;
 
-import java.util.List;
 import java.util.Optional;
 
-import javax.annotation.PostConstruct;
-
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import edu.tamu.sage.model.Role;
@@ -16,108 +12,79 @@ import edu.tamu.weaver.auth.service.UserCredentialsService;
 
 @Service
 public class AppUserCredentialsService extends UserCredentialsService<User, UserRepo> {
-    private final static String EXTERNAL_AUTH_KEY = "weaverAuth";
 
-    @Value("#{'${authenticationStrategies}'.split(',')}")
-    private List<String> authenticationStrategies;
+    @Override
+    public synchronized User updateUserByCredentials(Credentials credentials) {
 
-    private boolean externalAuthEnabled = false;
-
-	@Override
-	public synchronized User updateUserByCredentials(Credentials credentials) {
         Optional<User> optionalUser = userRepo.findByUsername(credentials.getEmail());
 
         User user = null;
 
-        if (optionalUser.isPresent()) {
+        if (!optionalUser.isPresent()) {
+
+            user = userRepo.create(credentials.getEmail());
+            user.setUsername(credentials.getEmail());
+            user.setRole(getDefaultRole(user.getUsername()));
+            user.setFirstName(credentials.getFirstName());
+            user.setLastName(credentials.getLastName());
+            user = userRepo.save(user);
+
+        } else {
             user = optionalUser.get();
 
             boolean changed = false;
 
-            if (credentials.getEmail() != user.getUsername()) {
+            if(credentials.getEmail() != user.getUsername()) {
                 user.setUsername(credentials.getEmail());
-                changed = true;
+                changed=true;
             }
 
-            if (credentials.getFirstName() != user.getFirstName()) {
+            if(credentials.getFirstName() != user.getFirstName()) {
                 user.setFirstName(credentials.getFirstName());
-                changed = true;
+                changed=true;
             }
 
-            if (credentials.getLastName() != user.getLastName()) {
+            if(credentials.getLastName() != user.getLastName()) {
                 user.setLastName(credentials.getLastName());
-                changed = true;
+                changed=true;
             }
 
-            if (credentials.getRole() == null) {
-                user.setRole(getDefaultRole(credentials));
-                changed = true;
+            if(credentials.getRole() != credentials.getRole().toString()) {
+                user.setRole(Role.valueOf(credentials.getRole()));
+                changed=true;
             }
 
-            if (changed) {
+            if(changed) {
                 user = userRepo.save(user);
             }
-        } else {
-            if (isExternalAuthEnabled()) {
-                user = userRepo.create(credentials.getEmail(), credentials.getFirstName(), credentials.getLastName(), getDefaultRole(credentials).toString());
-            }
+
         }
 
         credentials.setRole(user.getRole().toString());
-        credentials.setUin(user.getUsername());
+        credentials.setEmail(user.getUsername());
 
         return user;
 
-	}
-
+    }
 
     public User createUserFromRegistration(String email, String firstName, String lastName, String password) {
-        Role role = Role.ROLE_USER;
-        for (String adminEmail : admins) {
-            if (adminEmail.equals(email)) {
-                role = Role.ROLE_ADMIN;
-                break;
-            }
-        }
-        return userRepo.create(email, firstName, lastName, role.toString(), password);
+        return userRepo.create(email, firstName, lastName, getDefaultRole(email).toString(), password);
     }
 
-	@Override
-	public String getAnonymousRole() {
-		return Role.ROLE_ANONYMOUS.toString();
-	}
+    @Override
+    public String getAnonymousRole() {
+        return Role.ROLE_ANONYMOUS.toString();
+    }
 
-    private synchronized Role getDefaultRole(Credentials credentials) {
-        Role role = Role.ROLE_USER;
-
-        if (credentials.getRole() == null) {
-            credentials.setRole(role.toString());
-        }
-
-        String userIdentifier = credentials.getEmail();
-
+    private synchronized Role getDefaultRole(String userIdentifier) {
+        boolean isAdmin = false;
         for (String candidateIdentifier : admins) {
             if (candidateIdentifier.equals(userIdentifier)) {
-                role = Role.ROLE_ADMIN;
-                credentials.setRole(role.toString());
-            }
-        }
-
-        return role;
-    }
-
-    protected boolean isExternalAuthEnabled() {
-        return externalAuthEnabled;
-    }
-
-    @PostConstruct
-    protected void setExternalAuthEnabled() {
-        for (String strategy:authenticationStrategies) {
-            if (strategy.equals(EXTERNAL_AUTH_KEY)) {
-                externalAuthEnabled = true;
+                isAdmin = true;
                 break;
             }
         }
-    }
 
+        return (isAdmin) ? Role.ROLE_ADMIN:Role.ROLE_USER;
+    }
 }

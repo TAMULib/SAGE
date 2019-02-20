@@ -23,14 +23,14 @@ public class AppUserDetailsServiceTest {
         TEST_CREDENTIALS_1.setRole("ROLE_USER");
     }
 
-    private User testUser1 = new User(TEST_CREDENTIALS_1.getUin(), TEST_CREDENTIALS_1.getFirstName(), TEST_CREDENTIALS_1.getLastName(), TEST_CREDENTIALS_1.getRole());
-    
+    private User testUser1 = new User(TEST_CREDENTIALS_1.getEmail(), TEST_CREDENTIALS_1.getFirstName(), TEST_CREDENTIALS_1.getLastName(), TEST_CREDENTIALS_1.getRole());
+
     @InjectMocks
     private AppUserDetailsService appUserDetailsService;
-    
+
     @Test
     public void testBuildUserDetails() {
         UserDetails details = appUserDetailsService.buildUserDetails(testUser1);
-        assertEquals("User details not built correctly", TEST_CREDENTIALS_1.getUin(), details.getUsername());
+        assertEquals("User details not built correctly", TEST_CREDENTIALS_1.getEmail(), details.getUsername());
     }
 }
