@@ -7,7 +7,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
-import edu.tamu.app.auth.service.UserDetailsService;
+import edu.tamu.sage.auth.service.AppUserDetailsService;
 import edu.tamu.sage.model.Role;
 import edu.tamu.sage.model.User;
 import edu.tamu.sage.model.repo.UserRepo;
@@ -16,7 +16,7 @@ import edu.tamu.weaver.auth.config.AuthWebSecurityConfig;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
-public class AppWebSecurityConfig extends AuthWebSecurityConfig<User, UserRepo, UserDetailsService> {
+public class AppWebSecurityConfig extends AuthWebSecurityConfig<User, UserRepo, AppUserDetailsService> {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

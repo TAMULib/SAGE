@@ -16,7 +16,7 @@ import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.params.CursorMarkParams;
-import org.codehaus.plexus.util.Base64;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +27,8 @@ import edu.tamu.sage.model.Job;
 import edu.tamu.sage.model.Reader;
 import edu.tamu.sage.model.Writer;
 import edu.tamu.sage.model.repo.JobRepo;
+
+import org.apache.commons.codec.binary.Base64;
 
 @Service
 public class SimpleProcessorService implements ProcessorService {
