@@ -13,78 +13,78 @@ import edu.tamu.weaver.auth.service.UserCredentialsService;
 @Service
 public class AppUserCredentialsService extends UserCredentialsService<User, UserRepo> {
 
-	@Override
-	public synchronized User updateUserByCredentials(Credentials credentials) {
+    @Override
+    public synchronized User updateUserByCredentials(Credentials credentials) {
 
-		Optional<User> optionalUser = userRepo.findByUsername(credentials.getUin());
+        Optional<User> optionalUser = userRepo.findByUsername(credentials.getEmail());
 
-		User user = null;
+        User user = null;
 
-		if (!optionalUser.isPresent()) {
+        if (!optionalUser.isPresent()) {
 
-			Role role = Role.ROLE_USER;
+            user = userRepo.create(credentials.getEmail());
+            user.setUsername(credentials.getEmail());
+            user.setRole(getDefaultRole(user.getUsername()));
+            user.setFirstName(credentials.getFirstName());
+            user.setLastName(credentials.getLastName());
+            user = userRepo.save(user);
 
-			if (credentials.getRole() == null) {
-				credentials.setRole(role.toString());
-			}
+        } else {
+            user = optionalUser.get();
 
-			String shibUin = credentials.getUin();
+            boolean changed = false;
 
-			for (String uin : admins) {
-				if (uin.equals(shibUin)) {
-					role = Role.ROLE_ADMIN;
-					credentials.setRole(role.toString());
-				}
-			}
+            if(credentials.getEmail() != user.getUsername()) {
+                user.setUsername(credentials.getEmail());
+                changed=true;
+            }
 
-			user = userRepo.create(credentials.getUin());
-			user.setUsername(credentials.getUin());
-			user.setRole(role);
-			user.setFirstName(credentials.getFirstName());
-			user.setLastName(credentials.getLastName());
-			user = userRepo.save(user);
+            if(credentials.getFirstName() != user.getFirstName()) {
+                user.setFirstName(credentials.getFirstName());
+                changed=true;
+            }
 
-		} else {
-			user = optionalUser.get();
-			
-			boolean changed = false;
-			
-			if(credentials.getUin() != user.getUsername()) {
-				user.setUsername(credentials.getUin());
-				changed=true;
-			}
-			
-			if(credentials.getFirstName() != user.getFirstName()) {
-				user.setFirstName(credentials.getFirstName());
-				changed=true;
-			}
-			
-			if(credentials.getLastName() != user.getLastName()) {
-				user.setLastName(credentials.getLastName());
-				changed=true;
-			}
-			
-			if(credentials.getRole() != credentials.getRole().toString()) {
-				user.setRole(Role.valueOf(credentials.getRole()));
-				changed=true;
-			}
-			
-			if(changed) {
-				user = userRepo.save(user);
-			}
-			
-		}
+            if(credentials.getLastName() != user.getLastName()) {
+                user.setLastName(credentials.getLastName());
+                changed=true;
+            }
 
-		credentials.setRole(user.getRole().toString());
-		credentials.setUin(user.getUsername());
+            if(credentials.getRole() != credentials.getRole().toString()) {
+                user.setRole(Role.valueOf(credentials.getRole()));
+                changed=true;
+            }
 
-		return user;
+            if(changed) {
+                user = userRepo.save(user);
+            }
 
-	}
+        }
 
-	@Override
-	public String getAnonymousRole() {
-		return Role.ROLE_ANONYMOUS.toString();
-	}
+        credentials.setRole(user.getRole().toString());
+        credentials.setEmail(user.getUsername());
 
+        return user;
+
+    }
+
+    public User createUserFromRegistration(String email, String firstName, String lastName, String password) {
+        return userRepo.create(email, firstName, lastName, getDefaultRole(email).toString(), password);
+    }
+
+    @Override
+    public String getAnonymousRole() {
+        return Role.ROLE_ANONYMOUS.toString();
+    }
+
+    private synchronized Role getDefaultRole(String userIdentifier) {
+        boolean isAdmin = false;
+        for (String candidateIdentifier : admins) {
+            if (candidateIdentifier.equals(userIdentifier)) {
+                isAdmin = true;
+                break;
+            }
+        }
+
+        return (isAdmin) ? Role.ROLE_ADMIN:Role.ROLE_USER;
+    }
 }

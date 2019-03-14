@@ -1,11 +1,11 @@
-/* 
- * AppUser.java 
- * 
- * Version: 
- *     $Id$ 
- * 
- * Revisions: 
- *     $Log$ 
+/*
+ * AppUser.java
+ *
+ * Version:
+ *     $Id$
+ *
+ * Revisions:
+ *     $Log$
  */
 package edu.tamu.sage.model;
 
@@ -19,16 +19,18 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import edu.tamu.weaver.user.model.IRole;
 
 import edu.tamu.weaver.auth.model.AbstractWeaverUserDetails;
+import edu.tamu.weaver.response.ApiView;
 
 /**
  * Application User entity.
- * 
+ *
  * @author
  *
  */
@@ -46,9 +48,17 @@ public class User extends AbstractWeaverUserDetails {
     @Column(name = "last_name")
     private String lastName;
 
+    @JsonView(ApiView.Partial.class)
+    @Column(nullable = true, unique = true)
+    private String email;
+
+    @Column
+    @JsonIgnore
+    private String password = null;
+
     /**
      * Constructor for the application user
-     * 
+     *
      */
     public User() {
         super();
@@ -56,26 +66,36 @@ public class User extends AbstractWeaverUserDetails {
 
     /**
      * Constructor for the application user
-     * 
+     *
      */
-    public User(String uin) {
-        setUsername(uin);
+    public User(String email) {
+        setUsername(email);
     }
 
     /**
-     * Constructor for application user with uin passed.
-     * 
+     * Constructor for application user with external auth.
+     *
      * @param uin
      *            Long
-     * 
+     *
      */
-    public User(String uin, String firstName, String lastName, String role) {
-        this(uin);
+    public User(String email, String firstName, String lastName, String role) {
+        this(email);
+        setEmail(email);
         setFirstName(firstName);
         setLastName(lastName);
         setRole(Role.valueOf(role));
     }
-    
+
+    public User(String email, String firstName, String lastName, String role, String password) {
+        this(email);
+        setEmail(email);
+        setFirstName(firstName);
+        setLastName(lastName);
+        setRole(Role.valueOf(role));
+        setPassword(password);
+    }
+
     public User(User user) {
     	this(user.getUsername());
     	setFirstName(user.getFirstName());
@@ -86,6 +106,7 @@ public class User extends AbstractWeaverUserDetails {
     /**
      * @return the role
      */
+    @Override
     @JsonDeserialize(as = Role.class)
     public IRole getRole() {
         return role;
@@ -95,15 +116,16 @@ public class User extends AbstractWeaverUserDetails {
      * @param role
      *            the role to set
      */
+    @Override
     @JsonSerialize(as = Role.class)
     public void setRole(IRole role) {
         this.role = (Role) role;
     }
 
     /**
-     * 
+     *
      * @return firstName
-     * 
+     *
      */
     public String getFirstName() {
         return firstName;
@@ -112,7 +134,7 @@ public class User extends AbstractWeaverUserDetails {
     /**
      * @param firstName
      *            String
-     * 
+     *
      */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
@@ -120,7 +142,7 @@ public class User extends AbstractWeaverUserDetails {
 
     /**
      * @return lastName
-     * 
+     *
      */
     public String getLastName() {
         return lastName;
@@ -129,10 +151,41 @@ public class User extends AbstractWeaverUserDetails {
     /**
      * @param lastName
      *            String
-     * 
+     *
      */
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    /**
+     * @return the email
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * @param email
+     *            the email to set
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    @JsonIgnore
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * Stores an encoded password
+     *
+     * @param password
+     *            the password to set
+     */
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
@@ -143,11 +196,5 @@ public class User extends AbstractWeaverUserDetails {
         authorities.add(authority);
         return authorities;
     }
-
-	@Override
-	@JsonIgnore
-	public String getPassword() {
-		return null;
-	}
 
 }

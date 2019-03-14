@@ -31,29 +31,46 @@
 
     <alerts types="WARNING,ERROR"></alerts>
 
+    <modal modal-id="verifyEmailModal" modal-view="views/modals/verifyEmailModal.html" modal-header-class="modal-header-primary" wvr-modal-backdrop="static"></modal>
+    <modal modal-id="loginModal" modal-view="views/modals/loginModal.html" modal-header-class="modal-header-primary" wvr-modal-backdrop="static"></modal>
+
     <div class="container-fluid">
       <div class="container">
-        <div class="col-md-12" ng-controller="ManagementController">
-          <div class="row">
-            <nav class="pull-right">
-              <div class="dropdown">
-                <span class="glyphicon glyphicon-user"></span>
-
-                <a class="dropdown-toggle clickable" data-toggle="dropdown" aria-expanded="false">
-                  <username></username> <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a href="users">Manage Users</a></li>
-                  <li ng-if="isAdmin() || isAssuming() == 'true'" role="presentation" class="divider"></li>
-                  <li ng-if="isAdmin() || isAssuming() == 'true'" role="presentation" class="dropdown-header">Admin Actions header</li>
-                  <li ng-if="isAdmin() || isAssuming() == 'true'">
-                    <a href ng-if="isAssuming() == 'false'" data-toggle="modal" ng-click="openModal('#assumeUserModal')">{{assumedControl.button}}</a>
-                    <a href ng-if="isAssuming() == 'true'" ng-click="assumeUser(assume)">{{assumedControl.button}}</a>
-                  </li>
-                </ul>
-              </div>
-            </nav>
+        <div class="col-md-12" ng-controller="AppLoginController">
+          <div ng-if="isAnonymous()" class="col-md-12">
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                <a href ng-click="openModal('#loginModal')">Login</a>
+              </li>
+              <li ng-if="isEmailEnabled()" class="dropdown">
+                <a href ng-click="openModal('#verifyEmailModal')">Register</a>
+              </li>
+            </ul>
           </div>
+          <div ng-if="!isAnonymous()" class="col-md-12" ng-controller="CoreAdminController">
+            <div class="row">
+              <nav class="pull-right">
+                <div class="dropdown">
+                  <span class="glyphicon glyphicon-user"></span>
+
+                  <a class="dropdown-toggle clickable" data-toggle="dropdown" aria-expanded="false">
+                    <username></username> <span class="caret"></span>
+                  </a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="users">Manage Users</a></li>
+                    <li ng-if="isAdmin() || isAssuming() == 'true'" role="presentation" class="divider"></li>
+                    <li ng-if="isAdmin() || isAssuming() == 'true'" role="presentation" class="dropdown-header">Admin Actions header</li>
+                    <li ng-if="isAdmin() || isAssuming() == 'true'">
+                      <a href ng-if="isAssuming() == 'false'" data-toggle="modal" ng-click="openModal('#assumeUserModal')">{{assumedControl.button}}</a>
+                      <a href ng-if="isAssuming() == 'true'" ng-click="assumeUser(assume)">{{assumedControl.button}}</a>
+                    </li>
+                  </ul>
+                </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12">
           <div class="row">
             <div ng-view class="view"></div>
           </div>
@@ -183,6 +200,7 @@
   <script src="repo/jobRepo.js"></script>
   <script src="repo/readerRepo.js"></script>
   <script src="repo/writerRepo.js"></script>
+  <script src="repo/userRepo.js"></script>
 
   <!-- Models -->
   <script src="model/abstractAppModel.js"></script>
@@ -199,7 +217,8 @@
   <script src="controllers/management/jobManagementController.js"></script>
   <script src="controllers/management/readerManagementController.js"></script>
   <script src="controllers/management/writerManagementController.js"></script>
-
+  <script src="controllers/usersController.js"></script>
+  <script src="controllers/appLoginController.js"></script>
   <!-- endbuild -->
 
 </body>

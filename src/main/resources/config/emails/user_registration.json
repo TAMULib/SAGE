@@ -1,0 +1,5 @@
+{
+  "name": "Sage Registration Email",
+  "subject": "Sage Account Registration",
+  "message": "To complete registration of your Sage account, please click the link below:\n\n{REGISTRATION_URL}"
+ }

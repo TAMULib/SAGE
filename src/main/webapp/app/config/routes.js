@@ -17,6 +17,12 @@ sage.config(function ($locationProvider, $routeProvider) {
         controller: 'ManagementController',
         access: ["ROLE_ADMIN", "ROLE_MANAGER"]
       }).
+      when('/users', {
+          templateUrl: 'views/users.html'
+      }).
+      when('/register', {
+        templateUrl: 'views/register.html'
+      }).
       // Error Routes
       when('/error/403', {
           templateUrl: 'views/errors/403.html',
