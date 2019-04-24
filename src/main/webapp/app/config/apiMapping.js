@@ -2,6 +2,7 @@
 var apiMapping = {
   User: {
     channel: '/channel/user',
+    lazy: true,
     instantiate: {
         'endpoint': '/private/queue',
         'controller': 'user',

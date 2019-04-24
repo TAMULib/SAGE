@@ -21,7 +21,7 @@ public class CustomUserDetailsTest {
         TEST_CREDENTIALS.setRole("ROLE_USER");
     }
 
-    private User testUser = new User(TEST_CREDENTIALS.getUin(), TEST_CREDENTIALS.getFirstName(), TEST_CREDENTIALS.getLastName(), TEST_CREDENTIALS.getRole());
+    private User testUser = new User(TEST_CREDENTIALS.getEmail(), TEST_CREDENTIALS.getFirstName(), TEST_CREDENTIALS.getLastName(), TEST_CREDENTIALS.getRole());
 
     @Test
     public void testConstructor() {

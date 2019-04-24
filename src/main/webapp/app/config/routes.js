@@ -28,6 +28,12 @@ sage.config(function ($locationProvider, $routeProvider) {
         reloadOnSearch: false
       }).
       
+      when('/users', {
+          templateUrl: 'views/users.html'
+      }).
+      when('/register', {
+        templateUrl: 'views/register.html'
+      }).
       // Error Routes
       when('/error/403', {
           templateUrl: 'views/errors/403.html',
