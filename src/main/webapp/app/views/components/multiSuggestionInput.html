@@ -1,0 +1,17 @@
+<div class="form-group">
+  <label for="{{$ctrl.name}}">{{$ctrl.label}}</label>
+  <input
+  ng-model="$ctrl.model[$ctrl.property]"
+  name="{{$ctrl.name}}"
+  type="text"
+  class="form-control input"
+  placeholder="{{$ctrl.placeholder}}"
+  ng-keydown="processKeyDown($event, filteredSuggestion)"
+  ng-keyup="processKeyUp($event, filteredSuggestion)"
+  autocomplete="off"/>
+  <div class="btn-group" uib-dropdown is-open="open">
+    <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+        <li role="menuitem" ng-repeat="suggestion in filteredSuggestion = ($ctrl.suggestions | filter:curentValue)" ng-click="addSelection(suggestion[$ctrl.optionproperty])" ng-class="{'active': selectedIndex===$index}"><a href="#" ng-bind-html="suggestion[$ctrl.displayproperty] || suggestion[$ctrl.optionproperty] | boldMatch:curentValue"></a></li>
+    </ul>
+  </div>
+</div>

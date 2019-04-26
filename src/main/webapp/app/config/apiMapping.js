@@ -153,5 +153,88 @@ var apiMapping = {
         'httpMethod': 'DELETE',
         'method': ''
     }
+  },
+  DiscoveryView: {
+    channel: '/channel/discovery-view',
+    validations: true,
+    all: {
+        'endpoint': '/private/queue',
+        'controller': 'discovery-view',
+        'httpMethod': 'GET',
+        'method': ''
+    },
+    create: {
+      'endpoint': '/private/queue',
+      'controller': 'discovery-view',
+      'httpMethod': 'POST',
+      'method': ''
+    },
+    update: {
+        'endpoint': '/private/queue',
+        'controller': 'discovery-view',
+        'httpMethod': 'PUT',
+        'method': ''
+    },
+    remove: {
+        'endpoint': '/private/queue',
+        'controller': 'discovery-view',
+        'httpMethod': 'DELETE',
+        'method': ''
+    },
+    getFields: {
+      'endpoint': '/private/queue',
+      'controller': 'discovery-view',
+      'httpMethod': 'POST',
+      'method': 'fields'
+    }
+  },
+  DiscoveryContext: {
+    channel: '/channel/discovery-view/context',
+    validations: false,
+    method: "",
+    lazy: false,
+    load: {
+      'endpoint': '/private/queue',
+      'httpMethod': 'GET',
+      'controller': 'discovery-view/context',
+      'method': ':slug'
+    },
+    instantiate: {
+      'endpoint': '/private/queue',
+      'httpMethod': 'GET',
+      'controller': 'discovery-view/context',
+      'method': ':slug'
+    }
+  },
+  SingleResultContext: {
+    channel: '/channel/discovery-view/context',
+    validations: false,
+    method: "",
+    lazy: false,
+    load: {
+      'endpoint': '/private/queue',
+      'httpMethod': 'GET',
+      'controller': 'discovery-view/context',
+      'method': ':slug/:resultId'
+    },
+    instantiate: {
+      'endpoint': '/private/queue',
+      'httpMethod': 'GET',
+      'controller': 'discovery-view/context',
+      'method': ':slug/:resultId'
+    }
+  },
+  Result: {
+    validations: false,
+    lazy: true
+  },
+  Field: {
+    validations: false,
+    lazy: true
+  },
+  Search: {
+    validations: false,
+    lazy: true
   }
+
 };

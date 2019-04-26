@@ -1,0 +1,339 @@
+<form name="discoveryViewForms.create" ng-submit="createDiscoveryView()" novalidate class="solr-source-forms-create">
+  <div class="modal-header {{attr.modalHeaderClass}}">
+    <button type="button" class="close modal-close" aria-label="Close" ng-click="cancelCreateDiscoveryView()"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Create Discovery View</h4>
+  </div>
+  <div class="modal-body">
+
+    <validationmessage results="discoveryViewForms.getResults()"></validationmessage>
+
+    <uib-tabset active="activeJustified" justified="true">
+      <uib-tab index="0" heading="General">
+        <div class="row">
+          <div class="col-sm-10 col-sm-offset-1">
+            <br>
+            <validatedinput
+              model="discoveryViewToCreate"
+              property="name"
+              label="Name"
+              placeholder="Name for the new Discovery View"
+              form="discoveryViewForms.create"
+              validations="discoveryViewForms.validations"
+              results="discoveryViewForms.getResults()"
+              autocomplete="off">
+            </validatedinput>
+    
+            <validatedselect
+              model="discoveryViewToCreate"
+              property="source"
+              options="sources"
+              optionproperty="name"
+              label="Source"
+              placeholder="Source for the new Writer"
+              form="discoveryViewForms.create"
+              validations="discoveryViewForms.validations"
+              results="discoveryViewForms.getResults()"
+              autocomplete="off">
+            </validatedselect>
+    
+            <validatedinput
+              model="discoveryViewToCreate"
+              property="filter"
+              label="Filter"
+              placeholder=""
+              form="discoveryViewForms.create"
+              validations="discoveryViewForms.validations"
+              results="discoveryViewForms.getResults()"
+              autocomplete="off">
+            </validatedinput>
+    
+            <validatedinput
+              model="discoveryViewToCreate"
+              property="slug"
+              label="Slug"
+              placeholder="The URI slug of this Discovery View"
+              form="discoveryViewForms.create"
+              validations="discoveryViewForms.validations"
+              results="discoveryViewForms.getResults()"
+              autocomplete="off">
+            </validatedinput>
+
+            <validatedinput
+              model="discoveryViewToCreate"
+              property="infoLinkText"
+              label="Info Link Text"
+              placeholder="e.g. 'About This Collection'"
+              form="discoveryViewForms.create"
+              validations="discoveryViewForms.validations"
+              results="discoveryViewForms.getResults()"
+              autocomplete="off">
+            </validatedinput>
+
+            <validatedinput
+              model="discoveryViewToCreate"
+              property="infoLinkUrl"
+              label="Info Link Url"
+              placeholder="The URL of the info link"
+              form="discoveryViewForms.create"
+              validations="discoveryViewForms.validations"
+              results="discoveryViewForms.getResults()"
+              autocomplete="off">
+            </validatedinput>
+
+            <validatedtextarea
+              model="discoveryViewToCreate"
+              property="infoText"
+              label="Info Text"
+              form="discoveryViewForms.create"
+              validations="discoveryViewForms.validations"
+              results="discoveryViewForms.getResults()"> 
+            </validatedtextarea>
+
+          </div>
+        </div>
+      </uib-tab>
+      <uib-tab index="1" heading="Results" disable="true">
+        <div class="row">
+
+          <div class="row">
+            <div class="col-sm-offset-1 co-xs-12">
+                <h4>Result Heading</h4>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-5 col-sm-offset-1">
+              <validatedselect
+                model="discoveryViewToCreate"
+                property="uniqueIdentifierKey"
+                options="fields"
+                optionproperty="name"
+                optionvalue="name"
+                label="Unique Identifier Key"
+                placeholder="A unique identifier key for the new Discovery View"
+                form="discoveryViewForms.create"
+                validations="discoveryViewForms.validations"
+                results="discoveryViewForms.getResults()">
+              </validatedselect>
+            </div>
+            <div class="col-sm-5">
+              <multi-suggestion-input 
+                model="discoveryViewToCreate"
+                property="titleKey"
+                optionproperty="name"
+                suggestions="fields"
+                name="titleKey"                
+                label="Title Key"
+                placeholder="'{{' to see Title Key suggesions">
+              </multi-suggestion-input>
+            </div>
+          </div>
+          <div class="row">
+              <div class="col-sm-5 col-sm-offset-1">
+                <multi-suggestion-input 
+                  model="discoveryViewToCreate"
+                  property="resourceThumbnailUriKey"
+                  optionproperty="name"
+                  suggestions="fields"
+                  name="resourceThumbnailUriKey"                
+                  label="Thumbnail Uri Key"
+                  placeholder="'{{' to see Thumbnail Uri Key suggesions">
+                </multi-suggestion-input>
+              </div>
+              <div class="col-sm-5">
+                <multi-suggestion-input 
+                  model="discoveryViewToCreate"
+                  property="resourceLocationUriKey"
+                  optionproperty="name"
+                  suggestions="fields"
+                  name="resourceUriKey"                
+                  label="Resource Key"
+                  placeholder="'{{' to see Resource Key suggesions">
+                </multi-suggestion-input>
+              </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row" ng-init="discoveryViewToCreate.resultMetadataFields=[]">
+          <div class="row">
+            <div class="col-sm-offset-1 co-xs-12">
+              <h4>Result Metadata</h4>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-2 col-sm-offset-1" ng-init="discoveryViewToCreate.resultMetadataFields[0]={searchable:true,sortable:true,inList:true,inGrid:true,inSingleResult:true}">
+              <div class="form-group">
+                <label for="key">Key</label>
+                <select name="key" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[0].key" ng-options="option['name'] as option['name'] for option in fields" ng-change="discoveryViewToCreate.resultMetadataFields[0].sortable=!findFieldByKey(discoveryViewToCreate.resultMetadataFields[0].key).multivalued"></select>
+              </div>
+            </div>
+            <div class="col-xs-2">
+              <div class="form-group">
+                <label for="label">Label</label>
+                <input name="label" placeholder="Display label of filter" type="text" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[0].label">
+              </div>
+            </div>
+            <div class="col-xs-1">
+              <div class="form-group">
+                <label for="searchable">Searchable</label>
+                <input name="searchable" type="checkbox" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[0].searchable">
+              </div>
+            </div>
+            <div class="col-xs-1">
+              <div class="form-group">
+                <label for="sortable">Sortable</label>
+                <input name="sortable" type="checkbox" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[0].sortable" ng-disabled="findFieldByKey(discoveryViewToCreate.resultMetadataFields[0].key).multivalued">
+              </div>
+            </div>
+            <div class="col-xs-1">
+              <div class="form-group">
+                <label for="list">List</label>
+                <input name="list" type="checkbox" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[0].inList">
+              </div>
+            </div>
+            <div class="col-xs-1">
+              <div class="form-group">
+                <label for="grid">Grid</label>
+                <input name="grid" type="checkbox" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[0].inGrid">
+              </div>
+            </div>
+            <div class="col-xs-1">
+              <div class="form-group">
+                <label for="item">Item</label>
+                <input name="item" type="checkbox" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[0].inSingleResult">
+              </div>
+            </div>
+            <div class="col-xs-2">
+              <div class="form-group add-field-group">
+                <button type="button" class="btn btn-success" ng-click="discoveryViewToCreate.resultMetadataFields.push({searchable:true,sortable:true,inList:true,inGrid:true,inSingleResult:true})"><span class="glyphicon glyphicon-plus"></span></button>
+              </div>
+            </div>
+          </div>
+          <div class="row" ng-repeat="resultMetadataField in discoveryViewToCreate.resultMetadataFields track by $index" ng-hide="$first">
+            <div class="col-xs-2 col-sm-offset-1">
+              <div class="form-group">
+                <label for="key">Key</label>
+                <select name="key" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[$index].key" ng-options="option['name'] as option['name'] for option in fields" ng-change="discoveryViewToCreate.resultMetadataFields[$index].sortable=!findFieldByKey(discoveryViewToCreate.resultMetadataFields[$index].key).multivalued"></select>
+              </div>
+            </div>
+            <div class="col-xs-2">
+              <div class="form-group">
+                <label for="label">Label</label>
+                <input name="label" placeholder="Display label of filter" type="text" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[$index].label">
+              </div>
+            </div>
+            <div class="col-xs-1">
+              <div class="form-group">
+                <label for="searchable">Searchable</label>
+                <input name="searchable" type="checkbox" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[$index].searchable">
+              </div>
+            </div>
+            <div class="col-xs-1">
+              <div class="form-group">
+                <label for="sortable">Sortable</label>
+                <input name="sortable" type="checkbox" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[$index].sortable" ng-disabled="findFieldByKey(discoveryViewToCreate.resultMetadataFields[$index].key).multivalued">
+              </div>
+            </div>
+            <div class="col-xs-1">
+              <div class="form-group">
+                <label for="list">List</label>
+                <input name="list" type="checkbox" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[$index].inList">
+              </div>
+            </div>
+            <div class="col-xs-1">
+              <div class="form-group">
+                <label for="grid">Grid</label>
+                <input name="grid" type="checkbox" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[$index].inGrid">
+              </div>
+            </div>
+            <div class="col-xs-1">
+              <div class="form-group">
+                <label for="item">Item</label>
+                <input name="item" type="checkbox" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[$index].inSingleResult">
+              </div>
+            </div>
+            <div class="col-xs-2">
+              <div class="form-group add-field-group">
+                  <button type="button" class="btn btn-danger" ng-click="discoveryViewToCreate.resultMetadataFields.splice($index,1)"><span class="glyphicon glyphicon-minus"></span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </uib-tab>
+      <uib-tab index="2" heading="Facets" disable="true">
+        <div class="row" ng-init="discoveryViewToCreate.facetFields=[]">
+          <div class="row">
+            <div class="col-sm-offset-1 co-xs-12">
+              <h4>Facet Fields</h4>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-2 col-sm-offset-1">
+              <div class="form-group">
+                <label for="key">Key</label>
+                <select name="key" class="form-control" ng-model="discoveryViewToCreate.facetFields[0].key" ng-options="option['name'] as option['name'] for option in fields"></select>
+              </div>
+            </div>
+            <div class="col-xs-5">
+              <div class="form-group">
+                <label for="name">Label</label>
+                <input name="name" placeholder="Display name of filter" type="text" class="form-control" ng-model="discoveryViewToCreate.facetFields[0].label">
+              </div>
+            </div>
+            <div class="col-xs-2">
+              <div class="form-group">
+                <label for="key">Widget</label>
+                <select name="key" class="form-control" ng-model="discoveryViewToCreate.facetFields[0].widget">
+                  <option>Link</option>
+                  <option>Search</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-xs-2">
+              <div class="form-group add-field-group">
+                <button type="button" class="btn btn-success" ng-click="discoveryViewToCreate.facetFields.push({})"><span class="glyphicon glyphicon-plus"></span></button>
+              </div>
+            </div>
+          </div>
+          <div class="row" ng-repeat="resultMetadataField in discoveryViewToCreate.facetFields track by $index" ng-hide="$first">
+            <div class="col-xs-2 col-sm-offset-1">
+              <div class="form-group">
+                <label for="key">Key</label>
+                <select name="key" class="form-control" ng-model="discoveryViewToCreate.facetFields[$index].key" ng-options="option['name'] as option['name'] for option in fields" ></select>
+              </div>
+            </div>
+            <div class="col-xs-5">
+              <div class="form-group">
+                <label for="label">Label</label>
+                <input name="label" placeholder="Display label of filter" type="text" class="form-control" ng-model="discoveryViewToCreate.facetFields[$index].label">
+              </div>
+            </div>
+            <div class="col-xs-2">
+              <div class="form-group">
+                <label for="widget">Widget</label>
+                <select name="widget" class="form-control" ng-model="discoveryViewToCreate.facetFields[$index].widget">
+                  <option>Link</option>
+                  <option>Text</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-xs-2">
+              <div class="form-group add-field-group">
+                  <button type="button" class="btn btn-danger" ng-click="discoveryViewToCreate.facetFields.splice($index,1)"><span class="glyphicon glyphicon-minus"></span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </uib-tab>
+    </uib-tabset>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="cancelCreateDiscoveryView()">Cancel</button>
+
+
+    <button ng-show="activeJustified == 0" ng-disabled="createDiscoveryViewGeneralIsInvalid()" type="button" class="btn btn-success" ng-click="activeJustified = 1; getFields(discoveryViewToCreate);">Next</button>
+    <button ng-show="activeJustified == 1" type="button" class="btn btn-success" ng-click="activeJustified = 0">Back</button>
+    <button ng-show="activeJustified == 1" ng-disabled="createDiscoveryViewResultsIsInvalid()" type="button" class="btn btn-success" ng-click="activeJustified = 2">Next</button>
+    <button ng-show="activeJustified == 2" type="button" class="btn btn-success" ng-click="activeJustified = 1">Back</button>
+    <button ng-show="activeJustified == 2" ng-disabled="discoveryViewForms.create.$invalid" type="submit" class="btn btn-success">Create</button>
+  </div>
+</form>

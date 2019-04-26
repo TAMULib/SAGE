@@ -32,7 +32,13 @@ var appConfig = {
 
     // Set this to 'admin' or 'user' if using mock AuthService
     // otherwise set to null or false
+    'mockRole': null,
 
-    'mockRole': null
+
+    'contentMap': {"image": ["image/jpeg","image/png","image/gif", "text/html;charset=UTF-8", "jpg"],"seadragon": ["image/jp2","image/tiff"]},
+
+    'cantaloupeBaseUrl': 'https://api-dev.library.tamu.edu/iiif/2/',
+
+    'defaultThumbnailURI': "resources/images/default-thumbnail.jpg"
 
 };

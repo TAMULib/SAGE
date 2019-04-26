@@ -30,6 +30,38 @@
     <tamuheader title="Sage"></tamuheader>
 
     <alerts types="WARNING,ERROR"></alerts>
+    
+    <div class="container-fluid">
+        <div class="container">
+          <div class="col-md-12" ng-controller="ManagementController">
+            <div class="row">
+              <br>
+              <nav class="pull-right">
+                <div class="dropdown">
+                  <span class="glyphicon glyphicon-user"></span>
+
+                  <a class="dropdown-toggle clickable" data-toggle="dropdown" aria-expanded="false">
+                    <username></username> <span class="caret"></span>
+                  </a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="users">Manage Users</a></li>
+                    <li ng-if="isAdmin() || isAssuming() == 'true'" role="presentation" class="divider"></li>
+                    <li ng-if="isAdmin() || isAssuming() == 'true'" role="presentation" class="dropdown-header">Admin Actions header</li>
+                    <li ng-if="isAdmin() || isAssuming() == 'true'">
+                      <a href ng-if="isAssuming() == 'false'" data-toggle="modal" ng-click="openModal('#assumeUserModal')">{{assumedControl.button}}</a>
+                      <a href ng-if="isAssuming() == 'true'" ng-click="assumeUser(assume)">{{assumedControl.button}}</a>
+                    </li>
+                  </ul>
+                </div>
+              </nav>
+              <br>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <single-result-viewer></single-result-viewer>
 
     <modal modal-id="verifyEmailModal" modal-view="views/modals/verifyEmailModal.html" modal-header-class="modal-header-primary" wvr-modal-backdrop="static"></modal>
     <modal modal-id="loginModal" modal-view="views/modals/loginModal.html" modal-header-class="modal-header-primary" wvr-modal-backdrop="static"></modal>
@@ -70,7 +102,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-12" ng-controller="ManagementController">
           <div class="row">
             <div ng-view class="view"></div>
           </div>
@@ -106,7 +138,8 @@
   <script src="node_modules/ng-file-upload/dist/ng-file-upload-shim.min.js"></script>
   <script src="node_modules/ng-file-upload/dist/ng-file-upload.min.js"></script>
 
-
+  <script src="node_modules/openseadragon/build/openseadragon/openseadragon.min.js"></script>
+  <script src="node_modules/ng-openseadragon/build/angular-openseadragon.js"></script>
   <!-- Core Libraries -->
 
   <!-- Core Configuration -->
@@ -200,6 +233,7 @@
   <script src="repo/jobRepo.js"></script>
   <script src="repo/readerRepo.js"></script>
   <script src="repo/writerRepo.js"></script>
+  <script src="repo/discoveryViewRepo.js"></script>
   <script src="repo/userRepo.js"></script>
 
   <!-- Models -->
@@ -208,8 +242,28 @@
   <script src="model/jobModel.js"></script>
   <script src="model/readerModel.js"></script>
   <script src="model/writerModel.js"></script>
+  <script src="model/discoveryViewModel.js"></script>
+  <script src="model/discoveryContextModel.js"></script>
+  <script src="model/singleResultContextModel.js"></script>
+  <script src="model/resultModel.js"></script>
+  <script src="model/fieldModel.js"></script>
+  <script src="model/searchModel.js"></script>
+
+  <!-- Components -->
+  <script src="components/multiSuggestionInputComponent.js"></script>
+  <script src="components/singleResultViewerComponent.js"></script>
 
   <!-- Directives -->
+  <script src="directives/contentEditableDirective.js"></script>
+  <script src="directives/defaultSrcDirective.js"></script>
+  <script src="directives/contentViewerDirective.js"></script>
+
+  <!-- filters -->
+  <script src="filters/boldMatchFilter.js"></script>
+  <script src="filters/convertBracketsToButtonsFilter.js"></script>
+  <script src="filters/cantaloupeUrlFilter.js"></script>
+  <script src="filters/removeBracketsFilter.js"></script>
+
 
   <!-- Controllers -->
   <script src="controllers/managementController.js"></script>
@@ -217,6 +271,9 @@
   <script src="controllers/management/jobManagementController.js"></script>
   <script src="controllers/management/readerManagementController.js"></script>
   <script src="controllers/management/writerManagementController.js"></script>
+  <script src="controllers/management/discoveryViewManagementController.js"></script>
+  <script src="controllers/discoveryContextController.js"></script>
+  <script src="controllers/singleResultController.js"></script>
   <script src="controllers/usersController.js"></script>
   <script src="controllers/appLoginController.js"></script>
   <!-- endbuild -->

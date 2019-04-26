@@ -17,6 +17,17 @@ sage.config(function ($locationProvider, $routeProvider) {
         controller: 'ManagementController',
         access: ["ROLE_ADMIN", "ROLE_MANAGER"]
       }).
+      when('/discovery-context/:slug', {
+        templateUrl: 'views/discovery/discovery-context.html',
+        controller: 'DiscoveryContextController',
+        reloadOnSearch: false
+      }).
+      when('/discovery-context/:slug/:resultId', {
+        templateUrl: 'views/discovery/single-result.html',
+        controller: 'SingleResultController',
+        reloadOnSearch: false
+      }).
+      
       when('/users', {
           templateUrl: 'views/users.html'
       }).

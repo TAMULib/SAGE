@@ -24,6 +24,8 @@
     "ng-csv": "0.3.6",
     "ng-file-upload": "12.2.13",
     "ng-table": "3.0.1",
+    "ng-openseadragon": "^1.3.5",
+    "openseadragon": "^2.4.0",
     "weaver-ui-core": "git+https://github.com/TAMULib/Weaver-UI-Core.git#v2.0.0"
   },
   "devDependencies": {

@@ -8,7 +8,7 @@ sage.controller('WriterManagementController', function ($controller, $scope, NgT
   $scope.sources = SourceRepo.getAll();
   $scope.metadataFields = [];
 
-  $scope.writerToCreate = ReaderRepo.getScaffold();
+  $scope.writerToCreate = WriterRepo.getScaffold();
   $scope.newWriterMappings = {};
   $scope.writerToUpdate = {};
   $scope.writerToDelete = {};
