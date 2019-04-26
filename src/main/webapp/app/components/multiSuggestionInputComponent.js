@@ -37,8 +37,6 @@ sage.component("multiSuggestionInput", {
     $scope.processKeyUp = function($event, filteredSuggestion) {
       switch($event.which) {
         case 13: //Enter
-          console.log($event.which, "Enter");
-          console.log(fs.length);
           addValue(fs[$scope.selectedIndex][$ctrl.optionproperty]);
           $timeout(function() {
             closeSuggestions();
@@ -46,11 +44,9 @@ sage.component("multiSuggestionInput", {
           $event.preventDefault();
           break;
         case 27: //ESC
-          console.log($event.which, "Esc");
           $event.preventDefault();
           break;
         case 37: //Left Arrow
-          console.log($event.which, "Left Arrow");
           if(shouldOpen()) {
             openSuggestions(); 
           } else {
@@ -59,12 +55,10 @@ sage.component("multiSuggestionInput", {
           $event.preventDefault();
           break;
         case 38: //Up Arrow
-          console.log($event.which, "Up Arrow");
           $scope.selectedIndex = $scope.selectedIndex === 0 ? filteredSuggestion.length - 1 : $scope.selectedIndex-1;
           $event.preventDefault();
           break;
         case 39: //Right Arrow
-          console.log($event.which, "Right Arrow");
           if(shouldOpen()) {
             openSuggestions(); 
           } else {
@@ -73,7 +67,6 @@ sage.component("multiSuggestionInput", {
           $event.preventDefault();
           break;
         case 40: //Down Arrow
-          console.log($event.which, "Down Arrow");
           $scope.selectedIndex = $scope.selectedIndex === filteredSuggestion.length - 1 ? 0: $scope.selectedIndex+1;
           $event.preventDefault();
           break;  

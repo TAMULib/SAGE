@@ -51,13 +51,10 @@ sage.component("singleResultViewer", {
       $scope.singleResultContext = sr;
 
       getContentType().then(function(ct) {
-        console.log(ct);
         $scope.contentType = ct;
         $scope.ready = true;
       });
       
-      console.log($scope.singleResultContext);
-
     });
 
   }
