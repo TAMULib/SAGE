@@ -3,7 +3,8 @@ sage.repo("SourceRepo", function(Source, WsApi) {
 
   sourceRepo.scaffold = new Source({
     name: "Local Solr",
-    uri: "http://localhost:8983/solr/collection1"
+    uri: "http://localhost:8983/solr/collection1",
+    readOnly: true
   });
 
   sourceRepo.getReadable = function() {
