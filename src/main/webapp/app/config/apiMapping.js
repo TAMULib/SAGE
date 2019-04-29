@@ -63,6 +63,16 @@ var apiMapping = {
       'httpMethod': 'POST',
       'method': 'test/authorization'
     },
+    readable: {
+        'endpoint': '/private/queue',
+        'controller': 'source/solr',
+        'method': 'readable'
+    },
+    writeable: {
+        'endpoint': '/private/queue',
+        'controller': 'source/solr',
+        'method': 'writeable'
+    }
   },
   Job: {
     channel: '/channel/job/solr',

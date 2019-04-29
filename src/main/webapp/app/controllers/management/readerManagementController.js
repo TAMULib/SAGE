@@ -5,7 +5,7 @@ sage.controller('ReaderManagementController', function ($controller, $scope, NgT
   }));
 
   $scope.readers = ReaderRepo.getAll();
-  $scope.sources = SourceRepo.getAll();
+  $scope.sources = SourceRepo.getReadable();
   $scope.metadataFields = [];
 
   $scope.readerToCreate = ReaderRepo.getScaffold();
