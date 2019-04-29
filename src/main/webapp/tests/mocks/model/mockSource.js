@@ -3,7 +3,8 @@ var mockSource1 = {
   "name": "Source 1",
   "uri": "cap.library.tamu.edu",
   "username": null,
-  "password": null
+  "password": null,
+  "readOnly": false
 };
 
 var mockSource2 = {
@@ -11,7 +12,8 @@ var mockSource2 = {
   "name": "Source 2",
   "uri": "cap.library.tamu.edu",
   "username": null,
-  "password": null
+  "password": null,
+  "readOnly": false
 };
 
 var mockSource3 = {
@@ -19,7 +21,8 @@ var mockSource3 = {
   "name": "Source 3",
   "uri": "cap.library.tamu.edu",
   "username": "4253938752821",
-  "password": "1425393875282"
+  "password": "1425393875282",
+  "readOnly": false
 };
 
 angular.module('mock.source', []).service('Source', function ($q) {
