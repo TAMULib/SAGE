@@ -31,15 +31,10 @@
               results="sourceForms.getResults()"
               autocomplete="off">
             </validatedinput>
-            <div>
+            <div class="input-group">
               <label>Read Only Source?</label>
+              <input class="form-control" type="text" name="sourceToUpdateReadOnly" ng-model="sourceToUpdate.readOnly" readonly>
             </div>
-            <label class="radio-inline">
-              <input type="radio" name="sourceToUpdateReadOnly" ng-model="sourceToUpdate.readOnly" ng-value="true"> Yes
-            </label>
-            <label class="radio-inline">
-              <input type="radio" name="sourceToUpdateNotReadOnly" ng-model="sourceToUpdate.readOnly" ng-value="false"> No
-            </label>
           </div>
         </div>
       </uib-tab>
