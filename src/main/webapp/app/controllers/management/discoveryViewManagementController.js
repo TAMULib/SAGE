@@ -1,4 +1,4 @@
-sage.controller('DiscoveryViewManagementController', function ($controller, $scope, $timeout, $element, NgTableParams, DiscoveryViewRepo, SourceRepo) {
+sage.controller('DiscoveryViewManagementController', function ($controller, $scope, NgTableParams, DiscoveryViewRepo, SourceRepo) {
 
   angular.extend(this, $controller('AbstractController', {
       $scope: $scope
@@ -35,7 +35,6 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
 
   $scope.createDiscoveryView = function() {
     DiscoveryViewRepo.create($scope.discoveryViewToCreate).then(function(res) {
-      console.log($scope.discoveryViewToCreate, angular.fromJson(res.body));
       if(angular.fromJson(res.body).meta.status === "SUCCESS") {
         $scope.cancelCreateDiscoveryView();
       }
@@ -81,7 +80,6 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
   };
 
   $scope.startUpdateDiscoveryView = function(dv) {
-    console.log(dv);
     $scope.discoveryViewToUpdate = dv;
     $scope.openModal("#updateDiscoveryViewModal");
   };
@@ -110,8 +108,7 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
   };
 
   $scope.getFields = function(discoveryView) {
-    $scope.fields = DiscoveryViewRepo.getFields(discoveryView);
-    console.log($scope.fields);
+    $scope.fields = SourceRepo.getFields(discoveryView.source.uri, discoveryView.filter);
   };
 
   $scope.findFieldByKey = function(key) {
@@ -124,17 +121,6 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
       }
     }
     return f;
-  };
-
-  $scope.onSelect = function($event) {
-    $timeout(function () {
-        console.log($event);
-        // var control = $element.find($event.currentTarget).controller('ngModel');
-        // control.$setViewValue(''); // Replicate an on change event
-        // control.$setViewValue("foooo");
-        // control.$render();
-    }, 0);
-    return false;
   };
 
   SourceRepo.ready().then(function() {

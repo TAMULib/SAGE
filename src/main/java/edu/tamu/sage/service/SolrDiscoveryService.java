@@ -2,27 +2,24 @@ package edu.tamu.sage.service;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
-import org.apache.solr.client.solrj.request.LukeRequest;
-import org.apache.solr.client.solrj.response.LukeResponse;
-import org.apache.solr.client.solrj.response.LukeResponse.FieldInfo;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.tamu.sage.exceptions.DiscoveryContextBuildException;
+import edu.tamu.sage.exceptions.SourceFieldsException;
 import edu.tamu.sage.model.DiscoveryView;
 import edu.tamu.sage.model.FacetFields;
 import edu.tamu.sage.model.MetadataField;
@@ -38,9 +35,12 @@ import edu.tamu.sage.utility.ValueTemplateUtility;
 @Service
 public class SolrDiscoveryService {
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
-    
-    private static final String ALL_FIELDS_KEY = "all_fields";
+    private final static Logger logger = LoggerFactory.getLogger(SolrDiscoveryService.class);
+
+    private final static String ALL_FIELDS_KEY = SolrSourceService.DEFAULT_FIELD_KEY;
+
+    @Autowired
+    private SolrSourceService solrSourceService;
 
     private class ResultSet {
         public List<Result> results;
@@ -151,7 +151,7 @@ public class SolrDiscoveryService {
         if (solrQuery.length() > 5) {
             solrQuery = "(" + solrQuery.substring(0, solrQuery.length() - 5) + ")";
         }
-        
+
         query += (query.length() > 0 ? "&" : "") + "start=" + start + "&rows=" + rows + "&sort=" + sort;
 
         System.out.println("URL query: " + query);
@@ -168,38 +168,13 @@ public class SolrDiscoveryService {
     }
 
     public List<SolrField> getAvailableFields(DiscoveryView discoveryView) throws DiscoveryContextBuildException {
-        ArrayList<SolrField> availableFields = new ArrayList<SolrField>();
-        SolrField defaultField = new SolrField();
-        // TODO: ensure type is actual Solr datatype for text
-        defaultField.setName(ALL_FIELDS_KEY);
-        defaultField.setType("text");
-        availableFields.add(defaultField);
-        try (SolrClient solr = new HttpSolrClient(discoveryView.getSource().getUri())) {
-
-            LukeRequest luke = new LukeRequest();
-            luke.setNumTerms(0);
-            LukeResponse lr = luke.process(solr);
-
-            Map<String, FieldInfo> map = lr.getFieldInfo();
-
-            SolrQuery query = new SolrQuery();
-            query.setRows(1);
-
-            for (Entry<String, FieldInfo> field : map.entrySet()) {
-                if (field != null) {
-                    String q = String.format("%s AND %s:*", discoveryView.getFilter(), field.getKey());
-                    query.setQuery(q);
-                    QueryResponse qr = solr.query(query);
-                    if (qr.getResults().size() > 0 || !field.getValue().getSchema().contains("I")) {
-                        availableFields.add(SolrField.of(field));
-                    }
-                }
-            }
-        } catch (Exception e) {
+        String uri = discoveryView.getSource().getUri();
+        String filter = discoveryView.getFilter();
+        try {
+            return solrSourceService.getFields(uri, filter);
+        } catch (SourceFieldsException e) {
             throw new DiscoveryContextBuildException("Could not populate fields", e);
         }
-
-        return availableFields;
     }
 
     public ResultSet querySolrCore(DiscoveryView discoveryView, Search search, String sort) {
@@ -237,34 +212,34 @@ public class SolrDiscoveryService {
             query.addSort(sort, ORDER.asc);
 
             discoveryView.getResultMetadataFields().forEach(metadataField -> {
-                if(metadataField.getKey().contains("{{")) {
-                    ValueTemplateUtility.extractKeysFromtemplate(metadataField.getKey()).forEach(key->{
+                if (metadataField.getKey().contains("{{")) {
+                    ValueTemplateUtility.extractKeysFromtemplate(metadataField.getKey()).forEach(key -> {
                         query.addField(key);
                     });
                 } else {
                     query.addField(metadataField.getKey());
                 }
             });
-            
+
             List<String> privellegedKeys = new ArrayList<>();
-            
+
             privellegedKeys.add(discoveryView.getTitleKey());
             privellegedKeys.add(discoveryView.getUniqueIdentifierKey());
             privellegedKeys.add(discoveryView.getResourceThumbnailUriKey());
             privellegedKeys.add(discoveryView.getResourceLocationUriKey());
-            
-            privellegedKeys.forEach(rawKey->{
-                if(rawKey.contains("{{")) {
-                    ValueTemplateUtility.extractKeysFromtemplate(rawKey).forEach(key->{
+
+            privellegedKeys.forEach(rawKey -> {
+                if (rawKey.contains("{{")) {
+                    ValueTemplateUtility.extractKeysFromtemplate(rawKey).forEach(key -> {
                         query.addField(key);
                     });
                 } else {
                     query.addField(rawKey);
                 }
             });
-            
+
             System.out.println(query);
-            
+
             QueryResponse rsp = solr.query(query);
 
             SolrDocumentList docs = rsp.getResults();
@@ -295,25 +270,25 @@ public class SolrDiscoveryService {
     }
 
     public SingleResultContext getSinlgeResult(DiscoveryView discoveryView, String resultId) throws DiscoveryContextBuildException {
-        
+
         SingleResultContext sinlgeResultContext = null;
-        
+
         try (SolrClient solr = new HttpSolrClient(discoveryView.getSource().getUri())) {
             SolrQuery query = new SolrQuery();
-            
-            query.setQuery(discoveryView.getUniqueIdentifierKey()+":"+resultId);
+
+            query.setQuery(discoveryView.getUniqueIdentifierKey() + ":" + resultId);
             query.setRows(1);
-            
+
             QueryResponse qr = solr.query(query);
-            
+
             if (qr.getResults().size() > 0) {
                 sinlgeResultContext = SingleResultContext.of(discoveryView, qr.getResults().get(0));
             }
-            
+
         } catch (Exception e) {
             throw new DiscoveryContextBuildException("Could not find singe result", e);
         }
-        
+
         return sinlgeResultContext;
     }
 

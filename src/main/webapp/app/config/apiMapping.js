@@ -63,6 +63,12 @@ var apiMapping = {
       'httpMethod': 'POST',
       'method': 'test/authorization'
     },
+    getFields: {
+      'endpoint': '/private/queue',
+      'controller': 'source/solr',
+      'httpMethod': 'GET',
+      'method': 'fields'
+    }
   },
   Job: {
     channel: '/channel/job/solr',
@@ -180,12 +186,6 @@ var apiMapping = {
         'controller': 'discovery-view',
         'httpMethod': 'DELETE',
         'method': ''
-    },
-    getFields: {
-      'endpoint': '/private/queue',
-      'controller': 'discovery-view',
-      'httpMethod': 'POST',
-      'method': 'fields'
     }
   },
   DiscoveryContext: {

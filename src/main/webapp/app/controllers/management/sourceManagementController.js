@@ -29,6 +29,10 @@ sage.controller('SourceManagementController', function ($controller, $scope, NgT
     $scope.openModal("#createSourceModal");
   };
 
+  $scope.getFields = function(uri, filter) {
+    $scope.fields = SourceRepo.getFields(uri, filter);
+  };
+
   $scope.createSource = function() {
     SourceRepo.create($scope.sourceToCreate).then(function(res) {
       if(angular.fromJson(res.body).meta.status === "SUCCESS") {
