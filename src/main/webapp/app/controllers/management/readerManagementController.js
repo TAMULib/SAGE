@@ -13,6 +13,7 @@ sage.controller('ReaderManagementController', function ($controller, $scope, NgT
   $scope.readerToUpdate = {};
   $scope.readerToDelete = {};
 
+  $scope.fields = [];
 
   $scope.readerForms = {
     validations: ReaderRepo.getValidations(),
@@ -33,6 +34,14 @@ sage.controller('ReaderManagementController', function ($controller, $scope, NgT
 
   $scope.startCreateReader = function() {
     $scope.openModal("#createReaderModal");
+  };
+
+  $scope.sourceChanged = function() {
+    $scope.getFields($scope.readerToCreate.source.uri, $scope.readerToCreate.filter);
+  };
+
+  $scope.getFields = function(uri, filter) {
+    $scope.fields = SourceRepo.getFields(uri, filter);
   };
 
   $scope.createReader = function() {
