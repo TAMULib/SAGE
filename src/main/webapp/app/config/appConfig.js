@@ -2,12 +2,12 @@ var appConfig = {
 
     'version': '1.0.x',
 
-    'allowAnonymous': true,
+    'allowAnonymous': false,
     'anonymousRole': 'ROLE_ANONYMOUS',
 
-    'authStrategies': ['emailRegistration'],
+    'authStrategies': ['weaverAuth'],
 
-    'authService': window.location.protocol + '//' + window.location.host + window.location.base + '/auth',
+    'authService': 'https://labs.library.tamu.edu/auth3',
     'webService': window.location.protocol + '//' + window.location.host + window.location.base,
 
     'storageType': 'session',

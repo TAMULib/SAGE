@@ -90,6 +90,18 @@ var apiMapping = {
         'controller': 'job/solr',
         'httpMethod': 'DELETE',
         'method': ''
+    },
+    runAll: {
+      'endpoint': '/private/queue',
+      'controller': 'job/solr',
+      'httpMethod': 'GET',
+      'method': 'run-all'
+    },
+    run: {
+      'endpoint': '/private/queue',
+      'controller': 'job/solr',
+      'httpMethod': 'GET',
+      'method': 'run/:id'
     }
   },
   Reader: {
