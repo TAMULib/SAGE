@@ -23,13 +23,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.tamu.sage.exceptions.SourceFieldsException;
 import edu.tamu.sage.model.Source;
 import edu.tamu.sage.model.User;
 import edu.tamu.sage.model.repo.SourceRepo;
+import edu.tamu.sage.service.SourceService;
 import edu.tamu.weaver.auth.annotation.WeaverUser;
 import edu.tamu.weaver.response.ApiResponse;
 import edu.tamu.weaver.validation.aspect.annotation.WeaverValidatedModel;
@@ -41,6 +45,12 @@ public class SourceController {
 
     @Autowired
     private SourceRepo sourceRepo;
+
+    // NOTE: there is currently only one implementation of SourceService
+    // this will have to be updated to know which service to use if and when multiple implentations exists
+    // would be practical for an argument resolver to provide the service based on the request
+    @Autowired
+    private SourceService sourceService;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -62,24 +72,21 @@ public class SourceController {
 
             Map<String, FieldInfo> fieldInfoMap = lukeResponse.getFieldInfo();
 
-
             SolrQuery query = new SolrQuery();
             query.set("q", "*");
 
             for (Entry<String, FieldInfo> entry : fieldInfoMap.entrySet()) {
                 String fieldName = entry.getKey();
-                //FieldInfo fieldInfo = entry.getValue();
-                query.addFilterQuery(fieldName+":*");
+                // FieldInfo fieldInfo = entry.getValue();
+                query.addFilterQuery(fieldName + ":*");
                 query.setFacet(true);
                 query.addFacetField(fieldName);
             }
 
-
             System.out.println(query);
             QueryResponse queryResponse = solr.query(query);
 
-
-            //List<FacetField> facetFields = queryResponse.getFacetFields();
+            // List<FacetField> facetFields = queryResponse.getFacetFields();
             FacetField cnameMainFacetField = queryResponse.getFacetField("name");
             for (Count cnameAndCount : cnameMainFacetField.getValues()) {
                 String cnameMain = cnameAndCount.getName();
@@ -94,7 +101,6 @@ public class SourceController {
         } finally {
             solr.close();
         }
-
 
         return response;
     }
@@ -134,6 +140,13 @@ public class SourceController {
         logger.info("Deleting Source: " + source.getName());
         sourceRepo.delete(source);
         return new ApiResponse(SUCCESS);
+    }
+
+    @GetMapping("fields")
+    @PreAuthorize("hasRole('USER')")
+    public ApiResponse getFields(@RequestParam String uri, @RequestParam String filter) throws SourceFieldsException {
+        logger.info(String.format("Getting fields for source %s with filter %s ", uri, filter));
+        return new ApiResponse(SUCCESS, sourceService.getFields(uri, filter));
     }
 
 }
