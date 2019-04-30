@@ -5,7 +5,7 @@ sage.controller('WriterManagementController', function ($controller, $scope, NgT
   }));
 
   $scope.writers = WriterRepo.getAll();
-  $scope.sources = SourceRepo.getAll();
+  $scope.sources = SourceRepo.getWriteable();
   $scope.metadataFields = [];
 
   $scope.writerToCreate = WriterRepo.getScaffold();
