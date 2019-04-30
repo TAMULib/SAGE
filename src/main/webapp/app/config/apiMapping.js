@@ -68,6 +68,7 @@ var apiMapping = {
       'controller': 'source/solr',
       'httpMethod': 'GET',
       'method': 'fields'
+    },
     readable: {
         'endpoint': '/private/queue',
         'controller': 'source/solr',
