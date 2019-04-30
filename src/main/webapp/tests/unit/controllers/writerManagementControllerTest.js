@@ -246,4 +246,15 @@ describe('controller: WriterManagementController', function () {
       });
     });
 
+      it('source candidates should not be readOnly', function () {
+        var foundReadOnlyCandidate = false;
+        for (var i in scope.sources) {
+          if (scope.sources[i].readOnly == true) {
+            foundReadOnlyCandidate = true;
+            break;
+          }
+        }
+        expect(foundReadOnlyCandidate).toEqual(false);
+      });
+
 });

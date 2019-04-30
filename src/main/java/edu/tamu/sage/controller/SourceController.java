@@ -117,6 +117,18 @@ public class SourceController {
         return new ApiResponse(SUCCESS, sourceRepo.findAll());
     }
 
+    @RequestMapping("/writeable")
+    @PreAuthorize("hasRole('USER')")
+    public ApiResponse getWriteable(@WeaverUser User user) {
+        return new ApiResponse(SUCCESS, sourceRepo.findByReadOnly(false));
+    }
+
+    @RequestMapping("/readable")
+    @PreAuthorize("hasRole('USER')")
+    public ApiResponse getReadable(@WeaverUser User user) {
+        return new ApiResponse(SUCCESS, sourceRepo.findByReadOnly(true));
+    }
+
     @RequestMapping(method = RequestMethod.POST)
     @PreAuthorize("hasRole('USER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = CREATE) })

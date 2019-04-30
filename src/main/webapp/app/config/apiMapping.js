@@ -68,6 +68,15 @@ var apiMapping = {
       'controller': 'source/solr',
       'httpMethod': 'GET',
       'method': 'fields'
+    readable: {
+        'endpoint': '/private/queue',
+        'controller': 'source/solr',
+        'method': 'readable'
+    },
+    writeable: {
+        'endpoint': '/private/queue',
+        'controller': 'source/solr',
+        'method': 'writeable'
     }
   },
   Job: {
