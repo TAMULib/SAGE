@@ -5,7 +5,7 @@ sage.controller('WriterManagementController', function ($controller, $scope, NgT
   }));
 
   $scope.writers = WriterRepo.getAll();
-  $scope.sources = SourceRepo.getAll();
+  $scope.sources = SourceRepo.getWriteable();
   $scope.metadataFields = [];
 
   $scope.writerToCreate = WriterRepo.getScaffold();
@@ -13,6 +13,7 @@ sage.controller('WriterManagementController', function ($controller, $scope, NgT
   $scope.writerToUpdate = {};
   $scope.writerToDelete = {};
 
+  $scope.fields = [];
 
   $scope.writerForms = {
     validations: WriterRepo.getValidations(),
@@ -33,6 +34,14 @@ sage.controller('WriterManagementController', function ($controller, $scope, NgT
 
   $scope.startCreateWriter = function() {
     $scope.openModal("#createWriterModal");
+  };
+
+  $scope.sourceChanged = function() {
+    $scope.getFields($scope.writerToCreate.source.uri, "*:*");
+  };
+
+  $scope.getFields = function(uri, filter) {
+    $scope.fields = SourceRepo.getFields(uri, filter);
   };
 
   $scope.createWriter = function() {

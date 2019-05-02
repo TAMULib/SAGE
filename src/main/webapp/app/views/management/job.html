@@ -1,10 +1,13 @@
 <div ng-controller="JobManagementController" class="jobs-management">
   <h1>Job Management</h1>
 
-  <div class="panel panel-default jobs-container">
-    <div class="panel-heading clearfix">
-      <button class="btn btn-success pull-right" ng-click="startCreateJob()">New</button>
+  <alerts channels="job/solr/run,job/solr/run-all" types="SUCCESS,INFO,WARNING,ERROR"></alerts>
 
+  <div class="panel panel-default jobs-container">
+
+    <div class="panel-heading clearfix">
+      <button class="btn btn-success" ng-click="runAllJobs()" ng-disabled="jobs.length === 0">Run All</button>
+      <button class="btn btn-success pull-right" ng-click="startCreateJob()">New</button>
     </div>
 
     <div class="panel-body">
@@ -26,6 +29,7 @@
             </td>
             <td data-title="'Actions'">
               <span class="glyphicon glyphicon-pencil clickable" ng-click="startUpdateJob(job)"></span>
+              <span class="glyphicon glyphicon-play-circle clickable" ng-click="runJob(job)"></span>
               <span class="glyphicon glyphicon-trash clickable" ng-click="confirmDeleteJob(job)"></span>
             </td>
           </tr>

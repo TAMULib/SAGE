@@ -1,4 +1,4 @@
-sage.repo("DiscoveryViewRepo", function(DiscoveryView, WsApi) {
+sage.repo("DiscoveryViewRepo", function(DiscoveryView) {
   var discoveryViewRepo = this;
 
   discoveryViewRepo.scaffold = new DiscoveryView({
@@ -9,20 +9,6 @@ sage.repo("DiscoveryViewRepo", function(DiscoveryView, WsApi) {
     infoLinkUrl: "",
     infoText: ""
   });
-
-  discoveryViewRepo.getFields = function(discoveryView) {
-    var fields = [];
-    var getFieldsPromise = WsApi.fetch(discoveryViewRepo.mapping.getFields, {
-      data: discoveryView
-    });
-    getFieldsPromise.then(function(response) {
-      var apiRes = angular.fromJson(response.body);
-      if(apiRes.meta.status === 'SUCCESS') {
-        angular.extend(fields, apiRes.payload['ArrayList<SolrField>']);
-      }
-    });
-    return fields;
-  };
 
   return discoveryViewRepo;
 });
