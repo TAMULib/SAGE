@@ -4,21 +4,32 @@ var mockSources = [
     "name": "Source 1",
     "uri": "cap.library.tamu.edu",
     "username": null,
-    "password": null
+    "password": null,
+    "readOnly": false
   },
   {
     "id": 2,
     "name": "Source 2",
     "uri": "cap.library.tamu.edu",
     "username": null,
-    "password": null
+    "password": null,
+    "readOnly": false
   },
   {
     "id": 3,
     "name": "Source 3",
     "uri": "cap.library.tamu.edu",
     "username": "4253938752821",
-    "password": "1425393875282"
+    "password": "1425393875282",
+    "readOnly": false
+  },
+  {
+    "id": 4,
+    "name": "Source 4",
+    "uri": "cap.library.tamu.edu",
+    "username": "4253938752821",
+    "password": "1425393875282",
+    "readOnly": true
   }
 ];
 
@@ -138,6 +149,26 @@ angular.module('mock.sourceRepo', []).service('SourceRepo', function ($q) {
     }
     payloadResponse(updatedSource);
     return defer.promise;
+  };
+
+  sourceRepo.getReadable = function() {
+    var readables = [];
+    for (var i in sourceRepo.list) {
+      if (sourceRepo.list[i].readOnly === true) {
+        readables.push(sourceRepo.list[i]);
+      }
+    }
+    return readables;
+  };
+
+  sourceRepo.getWriteable = function() {
+    var writeables = [];
+    for (var i in sourceRepo.list) {
+      if (sourceRepo.list[i].readOnly === false) {
+        writeables.push(sourceRepo.list[i]);
+      }
+    }
+    return writeables;
   };
 
   return sourceRepo;

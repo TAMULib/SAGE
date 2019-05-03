@@ -29,6 +29,7 @@
           form="readerForms.create"
           validations="readerForms.validations"
           results="readerForms.getResults()"
+          change="sourceChanged()"
           autocomplete="off">
         </validatedselect>
 
@@ -47,7 +48,7 @@
         <ul class="list-group">
           <li class="list-group-item" ng-repeat="field in metadataFields">
             <label>{{field}}</label>
-            <input class="form-control" type="text" name="fieldMapping" ng-model="newReaderFields[field].value" />
+            <input class="form-control" type="text" name="fieldMapping" ng-model="newReaderFields[field].value" uib-typeahead="f.name for f in fields | filter:$viewValue" />
           </li>
         </ul>
 
@@ -55,11 +56,11 @@
         <ul class="list-group">
           <li class="list-group-item">
             <label>Title</label>
-            <input class="form-control" type="text" name="sortTitle" ng-model="readerToCreate.sortTitle" />
+            <input class="form-control" type="text" name="sortTitle" ng-model="readerToCreate.sortTitle" uib-typeahead="f.name for f in fields | filter:$viewValue" />
           </li>
           <li class="list-group-item">
             <label>ID</label>
-            <input class="form-control" type="text" name="sortId" ng-model="readerToCreate.sortId" />
+            <input class="form-control" type="text" name="sortId" ng-model="readerToCreate.sortId" uib-typeahead="f.name for f in fields | filter:$viewValue" />
           </li>
         </ul>
       </div>

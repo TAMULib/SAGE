@@ -5,7 +5,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
@@ -16,31 +20,26 @@ import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.params.CursorMarkParams;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import edu.tamu.sage.model.Field;
 import edu.tamu.sage.model.Job;
 import edu.tamu.sage.model.Reader;
 import edu.tamu.sage.model.Writer;
-import edu.tamu.sage.model.repo.JobRepo;
-
-import org.apache.commons.codec.binary.Base64;
 
 @Service
 public class SimpleProcessorService implements ProcessorService {
-    @Autowired
-    private JobRepo jobRepo;
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final static Logger logger = LoggerFactory.getLogger(SimpleProcessorService.class);
 
-    private List<Map<String,String>> readSolrCore(Reader solrReader) {
-        logger.info("Using Reader: "+solrReader.getName()+" to read from SOLR Core: "+solrReader.getSource().getName()+" - "+solrReader.getSource().getUri());
+    private final static Map<Long, AtomicBoolean> processing = new ConcurrentHashMap<Long, AtomicBoolean>();
 
-        List<Map<String,String>> mappedResults = new ArrayList<Map<String,String>>();
+    private List<Map<String, String>> readSolrCore(Reader solrReader) {
+        logger.info("Using Reader: " + solrReader.getName() + " to read from SOLR Core: " + solrReader.getSource().getName() + " - " + solrReader.getSource().getUri());
+
+        List<Map<String, String>> mappedResults = new ArrayList<Map<String, String>>();
 
         SolrClient solr = new HttpSolrClient(solrReader.getSource().getUri());
 
@@ -51,13 +50,13 @@ public class SimpleProcessorService implements ProcessorService {
             query.set("q", solrReader.getFilter());
             query.set("rows", "500");
 
-            query.addSort(((solrReader.getSortTitle() != null) ? "sort="+solrReader.getSortTitle()+" asc, ":"")+solrReader.getSortId() , ORDER.asc);
+            query.addSort(((solrReader.getSortTitle() != null) ? "sort=" + solrReader.getSortTitle() + " asc, " : "") + solrReader.getSortId(), ORDER.asc);
 
             String cursorMark = CursorMarkParams.CURSOR_MARK_START;
             boolean readComplete = false;
 
             String titleField = null;
-            for (Field field:solrReader.getFields()) {
+            for (Field field : solrReader.getFields()) {
                 if (field.getSchemaMapping().equals("title")) {
                     titleField = field.getName();
                     break;
@@ -73,7 +72,7 @@ public class SimpleProcessorService implements ProcessorService {
                         continue;
                     }
 
-                    Map<String,String> resultsMap = new HashMap<String,String>();
+                    Map<String, String> resultsMap = new HashMap<String, String>();
 
                     solrReader.getFields().forEach(field -> {
                         if (doc.getFieldValues(field.getName()) != null) {
@@ -107,14 +106,13 @@ public class SimpleProcessorService implements ProcessorService {
             try {
                 solr.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
         return mappedResults;
     }
 
-    private void writeSolrCore(Writer writer, List<Map<String,String>> mappedResults) {
+    private void writeSolrCore(Writer writer, List<Map<String, String>> mappedResults) {
         int batchSize = 1000;
 
         SolrClient writeableSolr = new HttpSolrClient(writer.getSource().getUri());
@@ -122,7 +120,7 @@ public class SimpleProcessorService implements ProcessorService {
         try {
             writeableSolr.ping();
 
-            logger.info("Writing to Destination SOLR: "+writer.getName());
+            logger.info("Writing to Destination SOLR: " + writer.getName());
 
             List<SolrInputDocument> outputDocuments = new ArrayList<SolrInputDocument>();
             mappedResults.forEach(map -> {
@@ -130,13 +128,13 @@ public class SimpleProcessorService implements ProcessorService {
 
                 writer.getOutputMappings().forEach(outputMapping -> {
                     if (map.containsKey(outputMapping.getInputField())) {
-                        logger.debug("Writing field: "+outputMapping.getInputField());
+                        logger.debug("Writing field: " + outputMapping.getInputField());
                         outputMapping.getMappings().forEach(mapping -> {
-                                logger.debug("Indexing metatdata: "+outputMapping.getInputField()+" = '"+map.get(outputMapping.getInputField())+"' to field: "+mapping);
-                                document.addField(mapping, map.get(outputMapping.getInputField()));
+                            logger.debug("Indexing metatdata: " + outputMapping.getInputField() + " = '" + map.get(outputMapping.getInputField()) + "' to field: " + mapping);
+                            document.addField(mapping, map.get(outputMapping.getInputField()));
                         });
                     } else {
-                        logger.debug("Skipping field: "+outputMapping.getInputField());
+                        logger.debug("Skipping field: " + outputMapping.getInputField());
                     }
                 });
 
@@ -144,7 +142,7 @@ public class SimpleProcessorService implements ProcessorService {
 
                 if (outputDocuments.size() >= batchSize) {
                     try {
-                        logger.debug("Writing batch of "+batchSize);
+                        logger.debug("Writing batch of " + batchSize);
                         writeableSolr.add(outputDocuments);
                         outputDocuments.clear();
                     } catch (SolrServerException | IOException e) {
@@ -159,42 +157,60 @@ public class SimpleProcessorService implements ProcessorService {
                 outputDocuments.clear();
             }
 
-            logger.info("Wrote "+mappedResults.size()+" documents to "+writer.getName());
+            logger.info("Wrote " + mappedResults.size() + " documents to " + writer.getName());
             UpdateResponse ur = writeableSolr.commit();
             logger.debug("SOLR Commit response:");
             logger.debug(ur.getResponse().toString());
 
             writeableSolr.close();
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void process(Map<String,String> configuration) {
-        logger.info("Processing!");
-
-        List<Map<String,String>> mappedResults = new ArrayList<Map<String,String>>();
-
-        List<Job> jobs = new ArrayList<Job>();
-
-        if (configuration != null && configuration.containsKey("jobId")) {
-            jobs.add(jobRepo.findOne(Long.parseLong(configuration.get("jobId"))));
+    /**
+     * If job is not already processing, process job asynchronously.
+     * Returns true if job is started, false if job is already in process.
+     * 
+     * @param job   the job to process
+     * @return      whether the job has started or not
+     */
+    public boolean process(Job job) {
+        boolean processStarted = false;
+        AtomicBoolean processing;
+        if (SimpleProcessorService.processing.containsKey(job.getId())) {
+            processing = SimpleProcessorService.processing.get(job.getId());
         } else {
-            jobs.addAll(jobRepo.findAll());
+            processing = new AtomicBoolean(false);
+            SimpleProcessorService.processing.put(job.getId(), processing);
         }
-
-        jobs.forEach(job -> {
-            job.getReaders().forEach(reader -> {
-                mappedResults.addAll(readSolrCore(reader));
-            });
-
-            if (!mappedResults.isEmpty()) {
-                job.getWriters().forEach(writer -> {
-                    writeSolrCore(writer,mappedResults);
+        if (processing.compareAndSet(false, true)) {
+            CompletableFuture.runAsync(() -> {
+                List<Map<String, String>> mappedResults = new ArrayList<Map<String, String>>();
+                job.getReaders().forEach(reader -> {
+                    mappedResults.addAll(readSolrCore(reader));
                 });
-            } else {
-                logger.info("Writer results: There were no documents to write");
-            }
-        });
+                if (!mappedResults.isEmpty()) {
+                    job.getWriters().forEach(writer -> {
+                        writeSolrCore(writer, mappedResults);
+                    });
+                } else {
+                    logger.info("Writer results: There were no documents to write");
+                }
+                processing.set(false);
+            });
+            processStarted = true;
+        }
+        return processStarted;
     }
+
+    /**
+     * Process list of jobs.
+     * 
+     * @param jobs  list of jobs to process
+     */
+    public void process(List<Job> jobs) {
+        jobs.forEach(job -> process(job));
+    }
+
 }

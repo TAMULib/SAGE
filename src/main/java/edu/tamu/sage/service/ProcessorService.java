@@ -1,7 +1,13 @@
 package edu.tamu.sage.service;
 
-import java.util.Map;
+import java.util.List;
+
+import edu.tamu.sage.model.Job;
 
 public interface ProcessorService {
-    public void process(Map<String,String> configuration);
+
+    public boolean process(Job job);
+
+    public void process(List<Job> jobs);
+
 }

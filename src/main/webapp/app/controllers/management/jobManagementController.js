@@ -45,6 +45,14 @@ sage.controller('JobManagementController', function ($controller, $scope, NgTabl
     $scope.resetJobForms();
   };
 
+  $scope.runJob = function(job) {
+    JobRepo.run(job);
+  };
+
+  $scope.runAllJobs = function() {
+    JobRepo.runAll();
+  };
+
   $scope.updateJob = function() {
     $scope.updatingJob = true;
     $scope.jobToUpdate.dirty(true);

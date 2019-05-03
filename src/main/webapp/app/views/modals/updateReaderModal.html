@@ -27,6 +27,7 @@
           form="readerForms.update"
           validations="readerForms.validations"
           results="readerForms.getResults()"
+          change="sourceChanged()"
           autocomplete="off">
         </validatedselect>
 
@@ -45,7 +46,7 @@
         <ul class="list-group">
           <li class="list-group-item" ng-repeat="field in readerToUpdate.fields">
             <label>{{field.schemaMapping}}</label>
-            <input class="form-control" type="text" name="fieldMapping" ng-model="field.name" />
+            <input class="form-control" type="text" name="fieldMapping" ng-model="field.name" uib-typeahead="f.name for f in fields | filter:$viewValue" />
           </li>
         </ul>
 
@@ -53,11 +54,11 @@
         <ul class="list-group">
           <li class="list-group-item">
             <label>Title</label>
-            <input class="form-control" type="text" name="sortTitle" ng-model="readerToUpdate.sortTitle" />
+            <input class="form-control" type="text" name="sortTitle" ng-model="readerToUpdate.sortTitle" uib-typeahead="f.name for f in fields | filter:$viewValue" />
           </li>
           <li class="list-group-item">
             <label>ID</label>
-            <input class="form-control" type="text" name="sortId" ng-model="readerToUpdate.sortId" />
+            <input class="form-control" type="text" name="sortId" ng-model="readerToUpdate.sortId" uib-typeahead="f.name for f in fields | filter:$viewValue" />
           </li>
         </ul>
       </div>

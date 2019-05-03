@@ -24,6 +24,9 @@ public class Source extends ValidatingBaseEntity implements Sourcable {
     @JsonIgnore
     private String password;
 
+    @Column
+    private Boolean readOnly;
+
     public Source() {
         setModelValidator(new SourceValidator());
     }
@@ -74,5 +77,13 @@ public class Source extends ValidatingBaseEntity implements Sourcable {
     @Override
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Boolean getReadOnly() {
+        return readOnly;
+    }
+
+    public void setReadOnly(Boolean readOnly) {
+        this.readOnly = readOnly;
     }
 }

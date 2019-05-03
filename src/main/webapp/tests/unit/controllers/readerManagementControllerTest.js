@@ -242,6 +242,17 @@ describe('controller: ReaderManagementController', function () {
         expect(typeof scope.updatingReader).toEqual('boolean');
         expect(scope.resetReaderForms).toHaveBeenCalled();
       });
+
+      it('source candidates should be readOnly', function () {
+        var foundWriteableCandidate = false;
+        for (var i in scope.sources) {
+          if (scope.sources[i].readOnly == false) {
+            foundWriteableCandidate = true;
+            break;
+          }
+        }
+        expect(foundWriteableCandidate).toEqual(false);
+      });
     });
 
 });
