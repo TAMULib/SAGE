@@ -108,7 +108,7 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
   };
 
   $scope.getFields = function(discoveryView) {
-    $scope.fields = SourceRepo.getFields(discoveryView.source.uri, discoveryView.filter);
+    $scope.fields = SourceRepo.getAvailableFields(discoveryView.source.uri, discoveryView.filter);
   };
 
   $scope.findFieldByKey = function(key) {
