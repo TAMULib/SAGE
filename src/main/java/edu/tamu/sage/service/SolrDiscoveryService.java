@@ -1,5 +1,7 @@
 package edu.tamu.sage.service;
 
+import static edu.tamu.sage.service.SolrSourceService.ALL_FIELDS_KEY;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -36,8 +38,6 @@ import edu.tamu.sage.utility.ValueTemplateUtility;
 public class SolrDiscoveryService {
 
     private final static Logger logger = LoggerFactory.getLogger(SolrDiscoveryService.class);
-
-    private final static String ALL_FIELDS_KEY = SolrSourceService.DEFAULT_FIELD_KEY;
 
     @Autowired
     private SolrSourceService solrSourceService;
@@ -171,7 +171,7 @@ public class SolrDiscoveryService {
         String uri = discoveryView.getSource().getUri();
         String filter = discoveryView.getFilter();
         try {
-            return solrSourceService.getFields(uri, filter);
+            return solrSourceService.getAvailableFields(uri, filter);
         } catch (SourceFieldsException e) {
             throw new DiscoveryContextBuildException("Could not populate fields", e);
         }

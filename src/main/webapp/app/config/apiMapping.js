@@ -4,34 +4,34 @@ var apiMapping = {
     channel: '/channel/user',
     lazy: true,
     instantiate: {
-        'endpoint': '/private/queue',
-        'controller': 'user',
-        'method': 'credentials'
+      'endpoint': '/private/queue',
+      'controller': 'user',
+      'method': 'credentials'
     },
     all: {
-        'endpoint': '/private/queue',
-        'controller': 'user',
-        'method': 'all'
+      'endpoint': '/private/queue',
+      'controller': 'user',
+      'method': 'all'
     },
     update: {
-        'endpoint': '/private/queue',
-        'controller': 'user',
-        'method': 'update'
+      'endpoint': '/private/queue',
+      'controller': 'user',
+      'method': 'update'
     },
     remove: {
-        'endpoint': '/private/queue',
-        'controller': 'user',
-        'method': 'delete'
+      'endpoint': '/private/queue',
+      'controller': 'user',
+      'method': 'delete'
     }
   },
   Source: {
     channel: '/channel/source/solr',
     validations: true,
     all: {
-        'endpoint': '/private/queue',
-        'controller': 'source/solr',
-        'httpMethod': 'GET',
-        'method': ''
+      'endpoint': '/private/queue',
+      'controller': 'source/solr',
+      'httpMethod': 'GET',
+      'method': ''
     },
     create: {
       'endpoint': '/private/queue',
@@ -40,16 +40,16 @@ var apiMapping = {
       'method': ''
     },
     update: {
-        'endpoint': '/private/queue',
-        'controller': 'source/solr',
-        'httpMethod': 'PUT',
-        'method': ''
+      'endpoint': '/private/queue',
+      'controller': 'source/solr',
+      'httpMethod': 'PUT',
+      'method': ''
     },
     remove: {
-        'endpoint': '/private/queue',
-        'controller': 'source/solr',
-        'httpMethod': 'DELETE',
-        'method': ''
+      'endpoint': '/private/queue',
+      'controller': 'source/solr',
+      'httpMethod': 'DELETE',
+      'method': ''
     },
     testLocation: {
       'endpoint': '/private/queue',
@@ -63,31 +63,37 @@ var apiMapping = {
       'httpMethod': 'POST',
       'method': 'test/authorization'
     },
-    getFields: {
+    getAvailableFields: {
       'endpoint': '/private/queue',
       'controller': 'source/solr',
       'httpMethod': 'GET',
-      'method': 'fields'
+      'method': 'fields/available'
+    },
+    getIndexedFields: {
+      'endpoint': '/private/queue',
+      'controller': 'source/solr',
+      'httpMethod': 'GET',
+      'method': 'fields/indexed'
     },
     readable: {
-        'endpoint': '/private/queue',
-        'controller': 'source/solr',
-        'method': 'readable'
+      'endpoint': '/private/queue',
+      'controller': 'source/solr',
+      'method': 'readable'
     },
     writeable: {
-        'endpoint': '/private/queue',
-        'controller': 'source/solr',
-        'method': 'writeable'
+      'endpoint': '/private/queue',
+      'controller': 'source/solr',
+      'method': 'writeable'
     }
   },
   Job: {
     channel: '/channel/job/solr',
     validations: true,
     all: {
-        'endpoint': '/private/queue',
-        'controller': 'job/solr',
-        'httpMethod': 'GET',
-        'method': ''
+      'endpoint': '/private/queue',
+      'controller': 'job/solr',
+      'httpMethod': 'GET',
+      'method': ''
     },
     create: {
       'endpoint': '/private/queue',
@@ -96,16 +102,16 @@ var apiMapping = {
       'method': ''
     },
     update: {
-        'endpoint': '/private/queue',
-        'controller': 'job/solr',
-        'httpMethod': 'PUT',
-        'method': ''
+      'endpoint': '/private/queue',
+      'controller': 'job/solr',
+      'httpMethod': 'PUT',
+      'method': ''
     },
     remove: {
-        'endpoint': '/private/queue',
-        'controller': 'job/solr',
-        'httpMethod': 'DELETE',
-        'method': ''
+      'endpoint': '/private/queue',
+      'controller': 'job/solr',
+      'httpMethod': 'DELETE',
+      'method': ''
     },
     runAll: {
       'endpoint': '/private/queue',
@@ -124,10 +130,10 @@ var apiMapping = {
     channel: '/channel/reader/solr',
     validations: true,
     all: {
-        'endpoint': '/private/queue',
-        'controller': 'reader/solr',
-        'httpMethod': 'GET',
-        'method': ''
+      'endpoint': '/private/queue',
+      'controller': 'reader/solr',
+      'httpMethod': 'GET',
+      'method': ''
     },
     create: {
       'endpoint': '/private/queue',
@@ -136,32 +142,32 @@ var apiMapping = {
       'method': ''
     },
     update: {
-        'endpoint': '/private/queue',
-        'controller': 'reader/solr',
-        'httpMethod': 'PUT',
-        'method': ''
+      'endpoint': '/private/queue',
+      'controller': 'reader/solr',
+      'httpMethod': 'PUT',
+      'method': ''
     },
     remove: {
-        'endpoint': '/private/queue',
-        'controller': 'reader/solr',
-        'httpMethod': 'DELETE',
-        'method': ''
+      'endpoint': '/private/queue',
+      'controller': 'reader/solr',
+      'httpMethod': 'DELETE',
+      'method': ''
     },
     getMetadataFields: {
-        'endpoint': '/private/queue',
-        'controller': 'reader/solr',
-        'httpMethod': 'GET',
-        'method': 'metadata-fields'
+      'endpoint': '/private/queue',
+      'controller': 'reader/solr',
+      'httpMethod': 'GET',
+      'method': 'metadata-fields'
     }
   },
   Writer: {
     channel: '/channel/writer/solr',
     validations: true,
     all: {
-        'endpoint': '/private/queue',
-        'controller': 'writer/solr',
-        'httpMethod': 'GET',
-        'method': ''
+      'endpoint': '/private/queue',
+      'controller': 'writer/solr',
+      'httpMethod': 'GET',
+      'method': ''
     },
     create: {
       'endpoint': '/private/queue',
@@ -170,26 +176,26 @@ var apiMapping = {
       'method': ''
     },
     update: {
-        'endpoint': '/private/queue',
-        'controller': 'writer/solr',
-        'httpMethod': 'PUT',
-        'method': ''
+      'endpoint': '/private/queue',
+      'controller': 'writer/solr',
+      'httpMethod': 'PUT',
+      'method': ''
     },
     remove: {
-        'endpoint': '/private/queue',
-        'controller': 'writer/solr',
-        'httpMethod': 'DELETE',
-        'method': ''
+      'endpoint': '/private/queue',
+      'controller': 'writer/solr',
+      'httpMethod': 'DELETE',
+      'method': ''
     }
   },
   DiscoveryView: {
     channel: '/channel/discovery-view',
     validations: true,
     all: {
-        'endpoint': '/private/queue',
-        'controller': 'discovery-view',
-        'httpMethod': 'GET',
-        'method': ''
+      'endpoint': '/private/queue',
+      'controller': 'discovery-view',
+      'httpMethod': 'GET',
+      'method': ''
     },
     create: {
       'endpoint': '/private/queue',
@@ -198,16 +204,16 @@ var apiMapping = {
       'method': ''
     },
     update: {
-        'endpoint': '/private/queue',
-        'controller': 'discovery-view',
-        'httpMethod': 'PUT',
-        'method': ''
+      'endpoint': '/private/queue',
+      'controller': 'discovery-view',
+      'httpMethod': 'PUT',
+      'method': ''
     },
     remove: {
-        'endpoint': '/private/queue',
-        'controller': 'discovery-view',
-        'httpMethod': 'DELETE',
-        'method': ''
+      'endpoint': '/private/queue',
+      'controller': 'discovery-view',
+      'httpMethod': 'DELETE',
+      'method': ''
     }
   },
   DiscoveryContext: {

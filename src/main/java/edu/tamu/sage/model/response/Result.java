@@ -1,9 +1,7 @@
 package edu.tamu.sage.model.response;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.solr.common.SolrDocument;
 

@@ -4,8 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
-
 import edu.tamu.sage.model.DiscoveryView;
 
 public class DiscoveryContext implements Serializable {

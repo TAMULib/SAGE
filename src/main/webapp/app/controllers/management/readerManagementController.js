@@ -41,7 +41,7 @@ sage.controller('ReaderManagementController', function ($controller, $scope, NgT
   };
 
   $scope.getFields = function(uri, filter) {
-    $scope.fields = SourceRepo.getFields(uri, filter);
+    $scope.fields = SourceRepo.getIndexedFields(uri, filter);
   };
 
   $scope.createReader = function() {

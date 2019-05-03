@@ -1,7 +1,5 @@
 package edu.tamu.sage.model.response;
 
-import java.util.Map.Entry;
-
 import org.apache.solr.client.solrj.response.LukeResponse.FieldInfo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -83,14 +81,13 @@ public class SolrField {
         return distinct == 1;
     }
 
-    public static SolrField of(Entry<String, FieldInfo> field) {
-        SolrField solrField = new SolrField();
-        FieldInfo info = field.getValue();
-        solrField.setType(info.getType());
-        solrField.setSchema(info.getSchema());
-        solrField.setName(info.getName());
-        solrField.setDistinct(info.getDistinct());
-        return solrField;
+    public static SolrField of(FieldInfo info) {
+        SolrField field = new SolrField();
+        field.setType(info.getType());
+        field.setSchema(info.getSchema());
+        field.setName(info.getName());
+        field.setDistinct(info.getDistinct());
+        return field;
     }
 
 }
