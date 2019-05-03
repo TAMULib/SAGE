@@ -42,11 +42,11 @@ public class SolrSourceService implements SourceService {
             query.setRows(1);
 
             for (Entry<String, FieldInfo> field : map.entrySet()) {
-                if (field != null) {
+                if (field != null && field.getValue().getSchema().contains("I")) {
                     String q = String.format("%s AND %s:*", filter, field.getKey());
                     query.setQuery(q);
                     QueryResponse qr = solr.query(query);
-                    if (qr.getResults().size() > 0 || !field.getValue().getSchema().contains("I")) {
+                    if (qr.getResults().size() > 0) {
                         availableFields.add(SolrField.of(field));
                     }
                 }
