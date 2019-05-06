@@ -39,7 +39,7 @@ public class SolrSourceService implements SourceService {
             SolrQuery query = new SolrQuery();
             query.setRows(1);
             for (Entry<String, FieldInfo> field : map.entrySet()) {
-                if (field != null && isIndexed(field.getValue())) {
+                if (isIndexed(field.getValue())) {
                     String q = String.format("%s AND %s:*", filter, field.getKey());
                     query.setQuery(q);
                     QueryResponse qr = solr.query(query);

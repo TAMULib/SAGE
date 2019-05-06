@@ -16,12 +16,12 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
     $scope.rowOptions.push({ value: options[i], label: options[i] + " Per Page"});
   }
 
-  var discoveryContext = new DiscoveryContext({
+  $scope.discoveryContext = new DiscoveryContext({
     slug: $routeParams.slug,
   });
 
   var resetSearch = function() {
-    $scope.currentSearchFilter = discoveryContext.searchFilters[0];
+    $scope.currentSearchFilter = $scope.discoveryContext.searchFilters[0];
     $scope.currentSearchValue = '';
   };
 
@@ -44,9 +44,7 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
     $scope.executeSearch();
   };
 
-  discoveryContext.ready().then(function() {
-    $scope.discoveryContext = discoveryContext;
-    console.log($scope.discoveryContext);
+  $scope.discoveryContext.ready().then(function() {
     resetSearch();
     
     $scope.searchProcessKeyPress = function($event) {

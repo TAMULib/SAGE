@@ -143,7 +143,7 @@
                 .dc-field-value {
                   font-size:  1.1em;
                 }
-              }  
+              }
             }
           }
         }
@@ -156,4 +156,19 @@
 
 .single-item-viewer {
   font: initial;
+  .viewer-wrapper {
+    img {
+      height: 100%;
+      width: 100%;
+    }
+  }
+  margin-bottom: 10px;
 }
+
+.single-item-view {
+  .dc-field {
+    font-size: 20px;
+  }
+  margin-bottom: 10px;
+}
+
