@@ -63,7 +63,6 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
         }
         var reoloadPromise = $scope.discoveryContext.reload();
         reoloadPromise.then(function() {
-          console.log($scope.discoveryContext);
           $scope.searching = false;
           $location.search($scope.discoveryContext.search.query);
           resetSearch();
