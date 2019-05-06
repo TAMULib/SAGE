@@ -1,4 +1,4 @@
-sage.repo("ReaderRepo", function(Reader, WsApi) {
+sage.repo("ReaderRepo", function(WsApi) {
   var readerRepo = this;
 
   readerRepo.scaffold = {

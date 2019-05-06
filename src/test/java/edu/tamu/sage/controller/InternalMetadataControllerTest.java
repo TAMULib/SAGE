@@ -28,7 +28,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import edu.tamu.sage.model.InternalMetadatum;
+import edu.tamu.sage.model.InternalMetadata;
 import edu.tamu.sage.model.repo.InternalMetadataRepo;
 import edu.tamu.weaver.response.ApiResponse;
 import edu.tamu.weaver.response.ApiStatus;
@@ -96,9 +96,9 @@ public class InternalMetadataControllerTest {
                         fieldWithPath("meta.message").description("Message of the response."),
                         fieldWithPath("meta.status").description("Status of the response."),
                         fieldWithPath("payload").description("API response payload containing the Internal Metadatum."),
-                        fieldWithPath("payload.InternalMetadatum.id").description("The Internal Metadatum id."),
-                        fieldWithPath("payload.InternalMetadatum.gloss").description("The Internal Metadatum gloss."),
-                        fieldWithPath("payload.InternalMetadatum.field").description("The Internal Metadatum field.")
+                        fieldWithPath("payload.InternalMetadata.id").description("The Internal Metadatum id."),
+                        fieldWithPath("payload.InternalMetadata.gloss").description("The Internal Metadatum gloss."),
+                        fieldWithPath("payload.InternalMetadata.field").description("The Internal Metadatum field.")
                     )
                 )
             );
@@ -109,7 +109,7 @@ public class InternalMetadataControllerTest {
     @WithMockUser(roles = "ADMIN")
     public void testUpdateInternalMedadatum() throws JsonProcessingException, Exception {
         performCreateInternalMedadatum();
-        InternalMetadatum internalMetadatum = internalMetadataRepo.read(currentId);
+        InternalMetadata internalMetadatum = internalMetadataRepo.read(currentId);
 
         internalMetadatum.setGloss("Test Metadatum Updated");
         internalMetadatum.setField("test_metadatum_updated");
@@ -139,9 +139,9 @@ public class InternalMetadataControllerTest {
                         fieldWithPath("meta.message").description("Message of the response."),
                         fieldWithPath("meta.status").description("Status of the response."),
                         fieldWithPath("payload").description("API response payload containing the Internal Metadatum."),
-                        fieldWithPath("payload.InternalMetadatum.id").description("The Internal Metadatum id."),
-                        fieldWithPath("payload.InternalMetadatum.gloss").description("The Internal Metadatum gloss."),
-                        fieldWithPath("payload.InternalMetadatum.field").description("The Internal Metadatum field.")
+                        fieldWithPath("payload.InternalMetadata.id").description("The Internal Metadatum id."),
+                        fieldWithPath("payload.InternalMetadata.gloss").description("The Internal Metadatum gloss."),
+                        fieldWithPath("payload.InternalMetadata.field").description("The Internal Metadatum field.")
                     )
                 )
             );
@@ -153,7 +153,7 @@ public class InternalMetadataControllerTest {
     public void testDeleteInternalMedadatum() throws JsonProcessingException, Exception {
         performCreateInternalMedadatum();
 
-        InternalMetadatum internalMetadatum = internalMetadataRepo.read(currentId);
+        InternalMetadata internalMetadatum = internalMetadataRepo.read(currentId);
 
         // @formatter:off
         mockMvc.perform(
@@ -184,7 +184,7 @@ public class InternalMetadataControllerTest {
     }
 
     private ResultActions performCreateInternalMedadatum() throws JsonProcessingException, Exception {
-        InternalMetadatum internalMetadatum = getMockInternalMetadatum();
+        InternalMetadata internalMetadatum = getMockInternalMetadatum();
 
         String body = objectMapper.writeValueAsString(internalMetadatum);
 

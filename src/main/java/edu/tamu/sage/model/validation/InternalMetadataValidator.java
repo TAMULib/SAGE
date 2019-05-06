@@ -4,9 +4,9 @@ import edu.tamu.weaver.validation.model.InputValidationType;
 import edu.tamu.weaver.validation.validators.BaseModelValidator;
 import edu.tamu.weaver.validation.validators.InputValidator;
 
-public class InternalMetadatumValidator extends BaseModelValidator {
+public class InternalMetadataValidator extends BaseModelValidator {
 
-    public InternalMetadatumValidator() {
+    public InternalMetadataValidator() {
         String glossProperty = "gloss";
         this.addInputValidator(new InputValidator(InputValidationType.required, "A internal metadatum requires a gloss", glossProperty, true));
         this.addInputValidator(new InputValidator(InputValidationType.minlength, "A internal metadatum gloss must be at least 2 characters", glossProperty, 2));

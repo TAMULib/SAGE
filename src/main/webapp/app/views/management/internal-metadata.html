@@ -1,0 +1,52 @@
+<div ng-controller="InternalMetadataManagementController" class="internal-metadata-management">
+  <h1>Internal Metadata Management</h1>
+
+  <div class="panel panel-default internal-metadata-container">
+    <div class="panel-heading clearfix">
+      <button class="btn btn-success pull-right" ng-click="startCreateInternalMetadatum()">New</button>
+    </div>
+
+    <div class="panel-body">
+      <table ng-table="tableParams" class="table table-hover internal-metadata-table">
+        <tbody>
+          <tr ng-repeat="internalMetadatum in $data">
+            <td data-title="'Gloss'" sortable="'gloss'">
+              {{internalMetadatum.gloss}}
+            </td>
+            <td data-title="'Field'" sortable="'field'">
+              {{internalMetadatum.field}}
+            </td>
+            <td data-title="'Actions'">
+              <span class="glyphicon glyphicon-pencil clickable" ng-click="startUpdateInternalMetadatum(internalMetadatum)"></span>
+              <span class="glyphicon glyphicon-trash clickable" ng-click="confirmDeleteInternalMetadatum(internalMetadatum)"></span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <modal
+    modal-id="createInternalMetadatumModal"
+    modal-view="views/modals/createInternalMetadatumModal.html"
+    modal-header-class="modal-header-primary"
+    modal-fullscreen="true"
+    wvr-modal-backdrop="static">
+  </modal>
+
+  <modal
+    modal-id="confirmDeleteInternalMetadatumModal"
+    modal-view="views/modals/confirmDeleteInternalMetadatumModal.html"
+    modal-header-class="modal-header-danger"
+    wvr-modal-backdrop="static">
+  </modal>
+
+  <modal
+    modal-id="updateInternalMetadatumModal"
+    modal-view="views/modals/updateInternalMetadatumModal.html"
+    modal-header-class="modal-header-primary"
+    modal-fullscreen="true"
+    wvr-modal-backdrop="static">
+  </modal>
+
+</div>

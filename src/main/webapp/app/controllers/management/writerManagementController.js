@@ -20,7 +20,7 @@ sage.controller('WriterManagementController', function ($controller, $scope, NgT
     getResults: WriterRepo.getValidationResults
   };
 
-    ReaderRepo.getMetadataFields($scope.metadataFields);
+  ReaderRepo.getMetadataFields($scope.metadataFields);
 
   $scope.resetWriterForms = function() {
     WriterRepo.clearValidationResults();

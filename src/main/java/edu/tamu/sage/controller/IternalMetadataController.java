@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.tamu.sage.model.InternalMetadatum;
+import edu.tamu.sage.model.InternalMetadata;
 import edu.tamu.sage.model.repo.InternalMetadataRepo;
 import edu.tamu.weaver.response.ApiResponse;
 import edu.tamu.weaver.validation.aspect.annotation.WeaverValidatedModel;
@@ -40,7 +40,7 @@ public class IternalMetadataController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = CREATE) })
-    public ApiResponse createInternalMetadatum(@WeaverValidatedModel InternalMetadatum internalMetadatum) {
+    public ApiResponse createInternalMetadatum(@WeaverValidatedModel InternalMetadata internalMetadatum) {
         logger.info(String.format("Creating internal metadatum %s with field %s", internalMetadatum.getGloss(), internalMetadatum.getField()));
         return new ApiResponse(SUCCESS, internalMetadataRepo.create(internalMetadatum));
     }
@@ -48,7 +48,7 @@ public class IternalMetadataController {
     @PutMapping
     @PreAuthorize("hasRole('ADMIN')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = UPDATE) })
-    public ApiResponse updateInternalMetadatum(@WeaverValidatedModel InternalMetadatum internalMetadatum) {
+    public ApiResponse updateInternalMetadatum(@WeaverValidatedModel InternalMetadata internalMetadatum) {
         logger.info(String.format("Updating internal metadatum %s with field %s", internalMetadatum.getGloss(), internalMetadatum.getField()));
         return new ApiResponse(SUCCESS, internalMetadataRepo.update(internalMetadatum));
     }
@@ -56,7 +56,7 @@ public class IternalMetadataController {
     @DeleteMapping
     @PreAuthorize("hasRole('ADMIN')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = DELETE) })
-    public ApiResponse deleteInternalMetadatum(@WeaverValidatedModel InternalMetadatum internalMetadatum) {
+    public ApiResponse deleteInternalMetadatum(@WeaverValidatedModel InternalMetadata internalMetadatum) {
         logger.info(String.format("Deleting internal metadatum %s with field %s", internalMetadatum.getGloss(), internalMetadatum.getField()));
         internalMetadataRepo.delete(internalMetadatum);
         return new ApiResponse(SUCCESS);

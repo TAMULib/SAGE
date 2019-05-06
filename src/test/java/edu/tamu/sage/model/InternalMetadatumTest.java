@@ -13,7 +13,7 @@ public class InternalMetadatumTest {
 
     @Test
     public void testDefaultConstructor() {
-        InternalMetadatum internalMetadatum = new InternalMetadatum();
+        InternalMetadata internalMetadatum = new InternalMetadata();
         assertNotNull(internalMetadatum);
         assertNotNull(internalMetadatum.getModelValidator());
         assertNull(internalMetadatum.getGloss());
@@ -22,7 +22,7 @@ public class InternalMetadatumTest {
 
     @Test
     public void testGettersAndSetters() {
-        InternalMetadatum internalMetadatum = getMockInternalMetadatum();
+        InternalMetadata internalMetadatum = getMockInternalMetadatum();
         internalMetadatum.setId(1L);
 
         assertEquals(1L, internalMetadatum.getId(), 1);
@@ -37,8 +37,8 @@ public class InternalMetadatumTest {
         assertEquals("test_metadatum_updated", internalMetadatum.getField());
     }
 
-    public static InternalMetadatum getMockInternalMetadatum() {
-        InternalMetadatum internalMetadatum = new InternalMetadatum();
+    public static InternalMetadata getMockInternalMetadatum() {
+        InternalMetadata internalMetadatum = new InternalMetadata();
         internalMetadatum.setGloss("Test Metadatum");
         internalMetadatum.setField("test_metadatum");
         return internalMetadatum;

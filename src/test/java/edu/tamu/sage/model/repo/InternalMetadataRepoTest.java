@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import edu.tamu.sage.SageApplication;
-import edu.tamu.sage.model.InternalMetadatum;
+import edu.tamu.sage.model.InternalMetadata;
 
 // @DataJpaTest
 // NOTE: the above annotation is desirable for this test
@@ -30,7 +30,7 @@ public class InternalMetadataRepoTest {
     @Test
     public void testCreate() {
         assertEquals(0, internalMetadataRepo.count());
-        InternalMetadatum internalMetadatum = getMockInternalMetadatum();
+        InternalMetadata internalMetadatum = getMockInternalMetadatum();
         internalMetadatum = internalMetadataRepo.save(internalMetadatum);
         currentId = internalMetadatum.getId();
         assertEquals(1, internalMetadataRepo.count());
@@ -39,14 +39,14 @@ public class InternalMetadataRepoTest {
     @Test
     public void testRead() {
         testCreate();
-        InternalMetadatum internalMetadatum = internalMetadataRepo.read(currentId);
+        InternalMetadata internalMetadatum = internalMetadataRepo.read(currentId);
         assertNotNull(internalMetadatum);
     }
 
     @Test
     public void testUpdate() {
         testCreate();
-        InternalMetadatum internalMetadatum = internalMetadataRepo.read(currentId);
+        InternalMetadata internalMetadatum = internalMetadataRepo.read(currentId);
         internalMetadatum.setGloss("Test Metadatum Updated");
         internalMetadatum.setField("test_metadatum_updated");
 
@@ -64,7 +64,7 @@ public class InternalMetadataRepoTest {
     public void testDelete() {
         testCreate();
         assertEquals(1, internalMetadataRepo.count());
-        InternalMetadatum internalMetadatum = internalMetadataRepo.read(currentId);
+        InternalMetadata internalMetadatum = internalMetadataRepo.read(currentId);
         internalMetadataRepo.delete(internalMetadatum);
         assertEquals(0, internalMetadataRepo.count());
     }

@@ -126,6 +126,34 @@ var apiMapping = {
       'method': 'run/:id'
     }
   },
+  InternalMetadata: {
+    channel: '/channel/internal/metadata',
+    validations: true,
+    all: {
+      'endpoint': '/private/queue',
+      'controller': 'internal/metadata',
+      'httpMethod': 'GET',
+      'method': ''
+    },
+    create: {
+      'endpoint': '/private/queue',
+      'controller': 'internal/metadata',
+      'httpMethod': 'POST',
+      'method': ''
+    },
+    update: {
+      'endpoint': '/private/queue',
+      'controller': 'internal/metadata',
+      'httpMethod': 'PUT',
+      'method': ''
+    },
+    remove: {
+      'endpoint': '/private/queue',
+      'controller': 'internal/metadata',
+      'httpMethod': 'DELETE',
+      'method': ''
+    }
+  },
   Reader: {
     channel: '/channel/reader/solr',
     validations: true,
