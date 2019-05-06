@@ -35,8 +35,8 @@ import edu.tamu.weaver.response.ApiStatus;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@AutoConfigureRestDocs
 @ExtendWith(SpringExtension.class)
+@AutoConfigureRestDocs(outputDir = "target/generated-snippets")
 public class InternalMetadataControllerTest {
 
     @Autowired
@@ -62,7 +62,7 @@ public class InternalMetadataControllerTest {
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
             .andDo(
                 document(
-                    "internal/metadata/get",
+                    "internal/metadata/get-all",
                     responseFields(
                         fieldWithPath("meta").description("API response meta."),
                         fieldWithPath("meta.id").description("Id of the request."),
