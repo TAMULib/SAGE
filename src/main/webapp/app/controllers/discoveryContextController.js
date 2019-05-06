@@ -58,7 +58,7 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
       if(!$scope.searching) {
         $scope.searching = true;
         if(!maintainPage) {
-          discoveryContext.search.start = 0;
+          $scope.discoveryContext.search.start = 0;
           $location.search("start", 0);
         }
         var reoloadPromise = $scope.discoveryContext.reload();
@@ -102,17 +102,17 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
     };
 
     $scope.pageBack = function() {
-      if(discoveryContext.search.start > 0) {
-        discoveryContext.search.start -= discoveryContext.search.rows;
-        discoveryContext.search.start = discoveryContext.search.start < 0 ? 0 : discoveryContext.search.start;
+      if($scope.discoveryContext.search.start > 0) {
+        $scope.discoveryContext.search.start -= $scope.discoveryContext.search.rows;
+        $scope.discoveryContext.search.start = $scope.discoveryContext.search.start < 0 ? 0 : $scope.discoveryContext.search.start;
         $scope.executeSearch(true);
       }
     };
 
     $scope.pageForward = function() {
-      if(discoveryContext.search.start < discoveryContext.search.total - discoveryContext.search.rows) {
-        discoveryContext.search.start += discoveryContext.search.rows;
-        discoveryContext.search.start = discoveryContext.search.start > discoveryContext.search.total ? discoveryContext.search.total : discoveryContext.search.start;
+      if($scope.discoveryContext.search.start < $scope.discoveryContext.search.total - $scope.discoveryContext.search.rows) {
+        $scope.discoveryContext.search.start += $scope.discoveryContext.search.rows;
+        $scope.discoveryContext.search.start = $scope.discoveryContext.search.start > $scope.discoveryContext.search.total ? $scope.discoveryContext.search.total : $scope.discoveryContext.search.start;
         $scope.executeSearch(true);
       }
     };
