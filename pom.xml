@@ -147,6 +147,12 @@
       <artifactId>spring-test</artifactId>
       <scope>test</scope>
     </dependency>
+    
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-test</artifactId>
+      <scope>test</scope>
+    </dependency>
 
     <!-- Begin of Note: The following dependencies are candidates for removal after an upgrade to Spring Boot 2.x -->
 
