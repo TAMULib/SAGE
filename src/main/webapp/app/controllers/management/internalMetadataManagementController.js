@@ -57,7 +57,7 @@ sage.controller('InternalMetadataManagementController', function ($controller, $
     $scope.openModal("#updateInternalMetadatumModal");
   };
 
-  $scope.cancelUpdateInternalMetadatum = function(internalMetadatum) {
+  $scope.cancelUpdateInternalMetadatum = function() {
     $scope.internalMetadatumToUpdate.refresh();
     $scope.internalMetadatumToUpdate = {};
     $scope.resetInternalMetadatumForms();
@@ -68,7 +68,7 @@ sage.controller('InternalMetadataManagementController', function ($controller, $
     $scope.openModal("#confirmDeleteInternalMetadatumModal");
   };
 
-  $scope.cancelDeleteInternalMetadatum = function(internalMetadatum) {
+  $scope.cancelDeleteInternalMetadatum = function() {
     $scope.internalMetadatumToDelete = {};
     $scope.resetInternalMetadatumForms();
   };

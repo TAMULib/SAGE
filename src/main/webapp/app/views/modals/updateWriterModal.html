@@ -33,13 +33,12 @@
 
         <label>Field Mappings</label>
         <ul class="list-group">
-
-          <li class="list-group-item" ng-repeat="outputMapping in writerToUpdate.outputMappings">
-            <label>{{outputMapping.inputField}}</label>
-            <!--<input class="form-control" type="text" name="outputMapping" ng-model="mapping" ng-repeat="" />-->
-            <input class="form-control" ng-repeat="field in outputMapping.mappings track by $index" type="text" name="name" ng-model="writerToUpdate.outputMappings[$parent.$index].mappings[$index]" uib-typeahead="f.name for f in fields | filter:$viewValue" />
+          <li class="list-group-item" ng-repeat="metadatum in internalMetadata">
+            <label>{{metadatum.gloss}}</label>
+            <input class="form-control" type="text" name="writerMappings" ng-model="writerMappings[metadatum.field]" uib-typeahead="f.name for f in fields | filter:$viewValue" />
           </li>
         </ul>
+
       </div>
     </div>
   </div>

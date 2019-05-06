@@ -180,12 +180,6 @@ var apiMapping = {
       'controller': 'reader/solr',
       'httpMethod': 'DELETE',
       'method': ''
-    },
-    getMetadataFields: {
-      'endpoint': '/private/queue',
-      'controller': 'reader/solr',
-      'httpMethod': 'GET',
-      'method': 'metadata-fields'
     }
   },
   Writer: {

@@ -46,9 +46,9 @@
 
         <label>Field Mappings</label>
         <ul class="list-group">
-          <li class="list-group-item" ng-repeat="field in metadataFields">
-            <label>{{field}}</label>
-            <input class="form-control" type="text" name="fieldMapping" ng-model="newReaderFields[field].value" uib-typeahead="f.name for f in fields | filter:$viewValue" />
+          <li class="list-group-item" ng-repeat="metadatum in internalMetadata">
+            <label>{{metadatum.gloss}}</label>
+            <input class="form-control" type="text" name="fieldMapping" ng-model="readerFields[metadatum.field].value" uib-typeahead="f.name for f in fields | filter:$viewValue" />
           </li>
         </ul>
 

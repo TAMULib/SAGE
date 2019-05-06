@@ -1,4 +1,4 @@
-sage.controller('WriterManagementController', function ($controller, $scope, NgTableParams, WriterRepo, ReaderRepo, SourceRepo) {
+sage.controller('WriterManagementController', function ($controller, $scope, NgTableParams, WriterRepo, InternalMetadataRepo, SourceRepo) {
 
   angular.extend(this, $controller('AbstractController', {
       $scope: $scope
@@ -6,12 +6,13 @@ sage.controller('WriterManagementController', function ($controller, $scope, NgT
 
   $scope.writers = WriterRepo.getAll();
   $scope.sources = SourceRepo.getWriteable();
-  $scope.metadataFields = [];
 
   $scope.writerToCreate = WriterRepo.getScaffold();
-  $scope.newWriterMappings = {};
+  $scope.writerMappings = {};
   $scope.writerToUpdate = {};
   $scope.writerToDelete = {};
+
+  $scope.internalMetadata = InternalMetadataRepo.getAll();
 
   $scope.fields = [];
 
@@ -19,8 +20,6 @@ sage.controller('WriterManagementController', function ($controller, $scope, NgT
     validations: WriterRepo.getValidations(),
     getResults: WriterRepo.getValidationResults
   };
-
-  ReaderRepo.getMetadataFields($scope.metadataFields);
 
   $scope.resetWriterForms = function() {
     WriterRepo.clearValidationResults();
@@ -44,15 +43,16 @@ sage.controller('WriterManagementController', function ($controller, $scope, NgT
     $scope.fields = SourceRepo.getIndexedFields(uri, filter);
   };
 
-  $scope.createWriter = function() {
+  var applyMappings = function (writer) {
     var mappings = [];
-
-    angular.forEach($scope.newWriterMappings, function(v,k) {
+    angular.forEach($scope.writerMappings, function(v,k) {
       mappings.push({"inputField": k, "mappings": v.split(";")});
     }, mappings);
+    writer.outputMappings = mappings;
+  };
 
-    $scope.writerToCreate.outputMappings = mappings;
-
+  $scope.createWriter = function() {
+    applyMappings($scope.writerToCreate);
     WriterRepo.create($scope.writerToCreate).then(function(res) {
       if(angular.fromJson(res.body).meta.status === "SUCCESS") {
         $scope.cancelCreateWriter();
@@ -62,12 +62,13 @@ sage.controller('WriterManagementController', function ($controller, $scope, NgT
 
   $scope.cancelCreateWriter = function() {
     angular.extend($scope.writerToCreate, WriterRepo.getScaffold());
-    $scope.newWriterFields = {};
+    $scope.writerMappings = {};
     $scope.resetWriterForms();
   };
 
   $scope.updateWriter = function() {
     $scope.updatingWriter = true;
+    applyMappings($scope.writerToUpdate);
     $scope.writerToUpdate.dirty(true);
     $scope.writerToUpdate.save().then(function() {
       $scope.resetWriterForms();
@@ -75,22 +76,26 @@ sage.controller('WriterManagementController', function ($controller, $scope, NgT
     });
   };
 
-  $scope.startUpdateWriter = function(reader) {
-    $scope.writerToUpdate = reader;
+  $scope.startUpdateWriter = function(writer) {
+    $scope.writerToUpdate = writer;
+    angular.forEach($scope.writerToUpdate.outputMappings, function(mapping) {
+      $scope.writerMappings[mapping.inputField] = mapping.mappings.join(";");
+    });
     $scope.openModal("#updateWriterModal");
   };
 
-  $scope.cancelUpdateWriter = function(reader) {
+  $scope.cancelUpdateWriter = function() {
     $scope.writerToUpdate = {};
+    $scope.writerMappings = {};
     $scope.resetWriterForms();
   };
 
-  $scope.confirmDeleteWriter = function(reader) {
-    $scope.writerToDelete = reader;
+  $scope.confirmDeleteWriter = function(writer) {
+    $scope.writerToDelete = writer;
     $scope.openModal("#confirmDeleteWriterModal");
   };
 
-  $scope.cancelDeleteWriter = function(reader) {
+  $scope.cancelDeleteWriter = function() {
     $scope.writerToDelete = {};
     $scope.resetWriterForms();
   };
