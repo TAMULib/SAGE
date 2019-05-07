@@ -111,6 +111,15 @@ sage.controller('ReaderManagementController', function ($controller, $scope, NgT
     });
   };
 
+  $scope.disableSubmit = function(form) {
+    var invalidFields = $scope.internalMetadata.filter(function(metadatum) {
+      return metadatum.required;
+    }).filter(function(metadatum) {
+      return $scope.readerFields[metadatum.field] === undefined;
+    });
+    return form.$invalid || invalidFields.length > 0;
+  };
+
   ReaderRepo.ready().then(function() {
     $scope.setTable = function() {
       $scope.tableParams = new NgTableParams({
