@@ -66,6 +66,6 @@ public class ReaderController {
     @PreAuthorize("hasRole('USER')")
     public ApiResponse getMetadataFields() {
         //TODO We'll eventually want the Fields and schema mappings to be dynamically configurable, but this will work in the very short term
-        return new ApiResponse(SUCCESS, new ArrayList<String>(Arrays.asList("title","creator","created","subject","format","language","terms.identifier","isPartOf")));
+        return new ApiResponse(SUCCESS, new ArrayList<String>(Arrays.asList("id", "title","creator","created","subject","format","language","terms.identifier","isPartOf")));
     }
 }
