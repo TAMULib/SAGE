@@ -24,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import edu.tamu.sage.model.Field;
 import edu.tamu.sage.model.Job;
 import edu.tamu.sage.model.Reader;
 import edu.tamu.sage.model.Writer;
@@ -55,6 +56,14 @@ public class SimpleProcessorService implements ProcessorService {
 
             query.setStart(start);
 
+            String titleField = null;
+            for (Field field : solrReader.getFields()) {
+                if (field.getSchemaMapping().equals("title")) {
+                    titleField = field.getName();
+                    break;
+                }
+            }
+
             QueryResponse response = solr.query(query);
             SolrDocumentList rs = response.getResults();
             long numFound = rs.getNumFound();
@@ -65,6 +74,10 @@ public class SimpleProcessorService implements ProcessorService {
                 while (iter.hasNext()) {
                     current++;
                     SolrDocument doc = iter.next();
+
+                    if (titleField != null && doc.getFieldValues(titleField) == null) {
+                        continue;
+                    }
 
                     Map<String, String> resultsMap = new HashMap<String, String>();
 
