@@ -32,7 +32,7 @@ import edu.tamu.weaver.validation.resolver.WeaverValidatedModelMethodProcessor;
 @EnableJpaRepositories(basePackages = { "edu.tamu.sage.model.repo" })
 public class AppWebMvcConfig extends WebMvcConfigurerAdapter {
 
-	@Value("${app.ui.path}")
+    @Value("${app.ui.path}")
     private String path;
 
     @Value("#{new Boolean('${info.build.production:false}')}")

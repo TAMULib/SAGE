@@ -10,7 +10,7 @@ sage.config(function ($locationProvider, $routeProvider) {
         redirectTo: '/',
       }).
       when('/management', {
-        redirectTo: '/management/sources',
+        redirectTo: '/management/internal-metadata',
       }).
       when('/management/:tab', {
         templateUrl: 'views/management.html',

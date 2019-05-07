@@ -46,9 +46,10 @@
 
         <label>Field Mappings</label>
         <ul class="list-group">
-          <li class="list-group-item" ng-repeat="field in metadataFields">
-            <label>{{field}}</label>
-            <input class="form-control" type="text" name="fieldMapping" ng-model="newReaderFields[field].value" uib-typeahead="f.name for f in fields | filter:$viewValue" />
+          <li class="list-group-item" ng-repeat="metadatum in internalMetadata">
+            <label>{{metadatum.gloss}}</label>
+            <input class="form-control" type="text" name="fieldMapping" ng-model="readerFields[metadatum.field].value" uib-typeahead="f.name for f in fields | filter:$viewValue" />
+            <small ng-if="metadatum.required" class="form-text text-muted">This field is required.</small>
           </li>
         </ul>
 
@@ -68,6 +69,6 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" ng-click="cancelCreateReader()">Cancel</button>
-    <button ng-disabled="readerForms.create.$invalid" type="submit" class="btn btn-success">Create</button>
+    <button ng-disabled="disableSubmit(readerForms.create)" type="submit" class="btn btn-success">Create</button>
   </div>
 </form>

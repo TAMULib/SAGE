@@ -25,8 +25,7 @@ public class SageApplication extends SpringBootServletInitializer {
     /**
      * Entry point to the application from within servlet.
      *
-     * @param args
-     *            String[]
+     * @param args String[]
      *
      */
     public static void main(String[] args) {
@@ -36,8 +35,7 @@ public class SageApplication extends SpringBootServletInitializer {
     /**
      * Entry point to the application if run using spring-boot:run.
      *
-     * @param application
-     *            SpringApplicationBuilder
+     * @param application SpringApplicationBuilder
      *
      * @return SpringApplicationBuilder
      *
@@ -56,4 +54,5 @@ public class SageApplication extends SpringBootServletInitializer {
     public static String getRootPath() {
         return rootPath;
     }
+
 }

@@ -1,10 +1,12 @@
 describe('controller: WriterManagementController', function () {
 
-    var controller, scope, Writer, WriterRepo;
+    var controller, scope, Writer, WriterRepo, InternalMetadataRepo;
 
     beforeEach(function() {
       module('core');
       module('sage');
+      module('mock.internalMetadata');
+      module('mock.internalMetadataRepo');
       module('mock.reader');
       module('mock.readerRepo');
       module('mock.source');
@@ -14,7 +16,7 @@ describe('controller: WriterManagementController', function () {
       module('mock.writer');
       module('mock.writerRepo');
 
-      inject(function ($controller, $rootScope, _Reader_, _ReaderRepo_, _Source_, _SourceRepo_, _User_, _UserService_, _Writer_, _WriterRepo_) {
+      inject(function ($controller, $rootScope, _InternalMetadata_, _InternalMetadataRepo_, _Reader_, _ReaderRepo_, _Source_, _SourceRepo_, _User_, _UserService_, _Writer_, _WriterRepo_) {
         installPromiseMatchers();
         scope = $rootScope.$new();
 
@@ -27,11 +29,13 @@ describe('controller: WriterManagementController', function () {
           User: _User_,
           UserService: _UserService_,
           Writer: _Writer_,
-          WriterRepo: _WriterRepo_
+          WriterRepo: _WriterRepo_,
+          InternalMetadataRepo: _InternalMetadataRepo_,
         });
 
         Writer = _Writer_;
         WriterRepo = _WriterRepo_;
+        InternalMetadataRepo = _InternalMetadataRepo_;
 
         // ensure that the isReady() is called.
         scope.$digest();
@@ -103,7 +107,7 @@ describe('controller: WriterManagementController', function () {
 
     describe('Are the scope methods working as expected', function () {
       it('cancelCreateWriter should cancel creating a writer', function () {
-        scope.newWriterFields = null;
+        scope.writerMappings = null;
 
         spyOn(scope, 'resetWriterForms');
 
@@ -111,7 +115,7 @@ describe('controller: WriterManagementController', function () {
 
         expect(typeof scope.writerToCreate).toEqual("object");
         expect(scope.resetWriterForms).toHaveBeenCalled();
-        expect(scope.newWriterFields).not.toBe(null);
+        expect(scope.writerMappings).not.toBe(null);
       });
 
       it('cancelDeleteWriter should cancel deleting a writer', function () {
