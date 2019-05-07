@@ -15,15 +15,24 @@ public class InternalMetadata extends ValidatingBaseEntity {
     @Column(nullable = false)
     private String field;
 
+    @Column(nullable = false)
+    private boolean required;
+
     public InternalMetadata() {
         super();
         setModelValidator(new InternalMetadataValidator());
+        setRequired(false);
     }
 
     public InternalMetadata(String gloss, String field) {
         this();
         setGloss(gloss);
         setField(field);
+    }
+
+    public InternalMetadata(String gloss, String field, boolean required) {
+        this(gloss, field);
+        setRequired(required);
     }
 
     public String getGloss() {
@@ -40,6 +49,14 @@ public class InternalMetadata extends ValidatingBaseEntity {
 
     public void setField(String field) {
         this.field = field;
+    }
+
+    public boolean isRequired() {
+        return required;
+    }
+
+    public void setRequired(boolean required) {
+        this.required = required;
     }
 
 }

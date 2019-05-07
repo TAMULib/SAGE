@@ -16,6 +16,9 @@ public class InternalMetadataValidator extends BaseModelValidator {
         this.addInputValidator(new InputValidator(InputValidationType.required, "A internal metadatum requires a field", fieldProperty, true));
         this.addInputValidator(new InputValidator(InputValidationType.minlength, "A internal metadatum field must be at least 2 characters", fieldProperty, 2));
         this.addInputValidator(new InputValidator(InputValidationType.maxlength, "A internal metadatum field must be no more than 25 characters", fieldProperty, 25));
+
+        String requiredProperty = "required";
+        this.addInputValidator(new InputValidator(InputValidationType.required, "A internal metadatum requires a required flag", requiredProperty, true));
     }
 
 }

@@ -87,7 +87,8 @@ public class InternalMetadataControllerTest {
                     requestFields(
                         fieldWithPath("id").description("The Internal Metadatum id."),
                         fieldWithPath("gloss").description("The Internal Metadatum gloss."),
-                        fieldWithPath("field").description("The Internal Metadatum field.")
+                        fieldWithPath("field").description("The Internal Metadatum field."),
+                        fieldWithPath("required").description("The Internal Metadatum required flag.")
                     ),
                     responseFields(
                         fieldWithPath("meta").description("API response meta."),
@@ -98,7 +99,8 @@ public class InternalMetadataControllerTest {
                         fieldWithPath("payload").description("API response payload containing the Internal Metadatum."),
                         fieldWithPath("payload.InternalMetadata.id").description("The Internal Metadatum id."),
                         fieldWithPath("payload.InternalMetadata.gloss").description("The Internal Metadatum gloss."),
-                        fieldWithPath("payload.InternalMetadata.field").description("The Internal Metadatum field.")
+                        fieldWithPath("payload.InternalMetadata.field").description("The Internal Metadatum field."),
+                        fieldWithPath("payload.InternalMetadata.required").description("The Internal Metadatum required flag.")
                     )
                 )
             );
@@ -130,7 +132,8 @@ public class InternalMetadataControllerTest {
                     requestFields(
                         fieldWithPath("id").description("The Internal Metadatum id."),
                         fieldWithPath("gloss").description("The Internal Metadatum gloss."),
-                        fieldWithPath("field").description("The Internal Metadatum field.")
+                        fieldWithPath("field").description("The Internal Metadatum field."),
+                        fieldWithPath("required").description("The Internal Metadatum required flag.")
                     ),
                     responseFields(
                         fieldWithPath("meta").description("API response meta."),
@@ -141,7 +144,8 @@ public class InternalMetadataControllerTest {
                         fieldWithPath("payload").description("API response payload containing the Internal Metadatum."),
                         fieldWithPath("payload.InternalMetadata.id").description("The Internal Metadatum id."),
                         fieldWithPath("payload.InternalMetadata.gloss").description("The Internal Metadatum gloss."),
-                        fieldWithPath("payload.InternalMetadata.field").description("The Internal Metadatum field.")
+                        fieldWithPath("payload.InternalMetadata.field").description("The Internal Metadatum field."),
+                        fieldWithPath("payload.InternalMetadata.required").description("The Internal Metadatum required flag.")
                     )
                 )
             );
@@ -168,7 +172,8 @@ public class InternalMetadataControllerTest {
                     requestFields(
                         fieldWithPath("id").description("The Internal Metadatum id."),
                         fieldWithPath("gloss").description("The Internal Metadatum gloss."),
-                        fieldWithPath("field").description("The Internal Metadatum field.")
+                        fieldWithPath("field").description("The Internal Metadatum field."),
+                        fieldWithPath("required").description("The Internal Metadatum required flag.")
                     ),
                     responseFields(
                         fieldWithPath("meta").description("API response meta."),

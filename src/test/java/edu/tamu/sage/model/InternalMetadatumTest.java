@@ -1,6 +1,8 @@
 package edu.tamu.sage.model;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -18,6 +20,7 @@ public class InternalMetadatumTest {
         assertNotNull(internalMetadatum.getModelValidator());
         assertNull(internalMetadatum.getGloss());
         assertNull(internalMetadatum.getField());
+        assertFalse(internalMetadatum.isRequired());
     }
 
     @Test
@@ -29,12 +32,15 @@ public class InternalMetadatumTest {
 
         assertEquals("Test Metadatum", internalMetadatum.getGloss());
         assertEquals("test_metadatum", internalMetadatum.getField());
+        assertFalse(internalMetadatum.isRequired());
 
         internalMetadatum.setGloss("Test Metadatum Updated");
         internalMetadatum.setField("test_metadatum_updated");
+        internalMetadatum.setRequired(true);
 
         assertEquals("Test Metadatum Updated", internalMetadatum.getGloss());
         assertEquals("test_metadatum_updated", internalMetadatum.getField());
+        assertTrue(internalMetadatum.isRequired());
     }
 
     public static InternalMetadata getMockInternalMetadatum() {

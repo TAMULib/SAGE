@@ -1,19 +1,29 @@
 var mockInternalMetadatum1 = {
   "id": 1,
-  "gloss": "Title",
-  "field": "title"
+  "gloss": "Id",
+  "field": "id",
+  "required": true
 };
 
 var mockInternalMetadatum2 = {
   "id": 2,
-  "gloss": "Description",
-  "field": "description"
+  "gloss": "Title",
+  "field": "title",
+  "required": true
 };
 
 var mockInternalMetadatum3 = {
   "id": 3,
+  "gloss": "Description",
+  "field": "description",
+  "required": false
+};
+
+var mockInternalMetadatum4 = {
+  "id": 4,
   "gloss": "Language",
-  "field": "language"
+  "field": "language",
+  "required": false
 };
 
 angular.module('mock.internalMetadata', []).service('InternalMetadata', function ($q) {

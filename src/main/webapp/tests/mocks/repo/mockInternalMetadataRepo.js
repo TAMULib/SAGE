@@ -1,18 +1,27 @@
 var mockInternalMetadata = [
   {
     "id": 1,
-    "gloss": "Title",
-    "field": "title"
+    "gloss": "Id",
+    "field": "id",
+    "required": true
   },
   {
     "id": 2,
-    "gloss": "Description",
-    "field": "description"
+    "gloss": "Title",
+    "field": "title",
+    "required": true
   },
   {
     "id": 3,
+    "gloss": "Description",
+    "field": "description",
+    "required": false
+  },
+  {
+    "id": 4,
     "gloss": "Language",
-    "field": "language"
+    "field": "language",
+    "required": false
   }
 ];
 

@@ -21,7 +21,17 @@
           model="internalMetadatumToUpdate"
           property="field"
           label="Field"
-          placeholder=""
+          form="internalMetadatumForms.update"
+          validations="internalMetadatumForms.validations"
+          results="internalMetadatumForms.getResults()"
+          autocomplete="off">
+        </validatedinput>
+
+        <validatedinput
+          type="checkbox"
+          model="internalMetadatumToUpdate"
+          property="required"
+          label="Is Required"
           form="internalMetadatumForms.update"
           validations="internalMetadatumForms.validations"
           results="internalMetadatumForms.getResults()"
