@@ -1,5 +1,3 @@
-<div class="jumbotron single-result-viewer"  ng-if="singleResultMode()">
-    <div class="container">
-        <contentviewer ng-if="ready" content-type="contentType" resource="singleResultContext.resourceLocationUri | removeBrackets"></contentviewer>
-    </div>
+<div class="single-item-viewer">
+  <contentviewer ng-if="ready" content-type="contentType" resource="singleResultContext.resourceLocationUri | removeBrackets"></contentviewer>
 </div>
