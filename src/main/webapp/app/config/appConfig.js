@@ -5,7 +5,7 @@ var appConfig = {
     'allowAnonymous': false,
     'anonymousRole': 'ROLE_ANONYMOUS',
 
-    'authStrategies': ['weaverAuth'],
+    'authStrategies': ['emailRegistration'],
 
     'authService': window.location.protocol + '//' + window.location.host + window.location.base + '/mock/auth',
     'webService': window.location.protocol + '//' + window.location.host + window.location.base,
@@ -32,12 +32,9 @@ var appConfig = {
 
     // Set this to 'admin' or 'user' if using mock AuthService
     // otherwise set to null or false
-    'mockRole': "admin",
-
+    'mockRole': "null",
 
     'contentMap': {"image": ["image/png","image/gif", "text/html;charset=UTF-8"],"seadragon": ["image/jp2","image/tiff", "image/jpeg", "jpg"]},
-
-    'cantaloupeBaseUrl': 'https://api-dev.library.tamu.edu/iiif/2/',
 
     'defaultThumbnailURI': "resources/images/default-thumbnail.jpg"
 

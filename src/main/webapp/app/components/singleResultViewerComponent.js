@@ -48,6 +48,7 @@ sage.component("singleResultViewer", {
       $scope.singleResultContext = $scope.$ctrl.context;
       $scope.singleResultContext.ready().then(function() {
         var resourceUri = $filter("removeBrackets")($scope.singleResultContext.resourceLocationUri);
+
         getContentType(resourceUri).then(function(ct) {
           $scope.contentType = ct;
           $scope.ready = true;

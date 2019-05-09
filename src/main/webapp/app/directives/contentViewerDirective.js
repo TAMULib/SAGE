@@ -1,4 +1,4 @@
-sage.directive("contentviewer", function($filter) {
+sage.directive("contentviewer", function() {
   var viewerMap = appConfig.contentMap;
   return {
     templateUrl: "views/directives/viewers/viewerWrapper.html",
@@ -8,7 +8,7 @@ sage.directive("contentviewer", function($filter) {
     },
     link: function($scope) {
       var viewerTemplate = "default";
-
+    
       typeLoop:
       for (var type in viewerMap) {
         for (var supportedType in viewerMap[type]) {
@@ -18,11 +18,12 @@ sage.directive("contentviewer", function($filter) {
           }
         }
       }
-
+      
       if (viewerTemplate === 'seadragon') {
+        var modifiedResource = $scope.resource.replace("/full/full/0/default.jpg", "/info.json");
         $scope.options = {};
         $scope.options.prefixUrl = 'resources/images/';
-        $scope.options.tileSources = [$filter("cantaloupeUrl")($scope.resource)];
+        $scope.options.tileSources = [modifiedResource];
       }
       $scope.includeTemplateUrl = "views/directives/viewers/"+viewerTemplate+"Viewer.html";
     },
