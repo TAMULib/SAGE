@@ -8,7 +8,6 @@ sage.directive("contentviewer", function() {
     },
     link: function($scope) {
       var viewerTemplate = "default";
-    
       typeLoop:
       for (var type in viewerMap) {
         for (var supportedType in viewerMap[type]) {
@@ -18,12 +17,10 @@ sage.directive("contentviewer", function() {
           }
         }
       }
-      
       if (viewerTemplate === 'seadragon') {
-        var modifiedResource = $scope.resource.replace("/full/full/0/default.jpg", "/info.json");
         $scope.options = {};
         $scope.options.prefixUrl = 'resources/images/';
-        $scope.options.tileSources = [modifiedResource];
+        $scope.options.tileSources = [$scope.resource];
       }
       $scope.includeTemplateUrl = "views/directives/viewers/"+viewerTemplate+"Viewer.html";
     },
