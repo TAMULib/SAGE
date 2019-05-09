@@ -1,18 +1,20 @@
-sage.model("SingleResultContext", function (WsApi) {
+sage.model("SingleResultContext", function ($q, WsApi) {
   return function SingleResultContext() {
 
     var singleResultContext = this;
-
+    
     singleResultContext.before(function() {
-      WsApi.fetch(singleResultContext.getMapping().load, {
+      var loadedPromise = WsApi.fetch(singleResultContext.getMapping().load, {
         pathValues: {
           slug: singleResultContext.slug,
           resultId: singleResultContext.resultId
         }
-      }).then(function(res) {
+      });
+      loadedPromise.then(function(res) {
         var rc = angular.fromJson(res.body).payload.SingleResultContext;
         angular.extend(singleResultContext, rc);
       });
+      return loadedPromise;
     });
 
     return singleResultContext;
