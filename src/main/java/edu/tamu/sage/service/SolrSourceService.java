@@ -42,7 +42,7 @@ public class SolrSourceService implements SourceService {
                 String q = String.format("%s AND %s:*", filter, field.getKey());
                 query.setQuery(q);
                 QueryResponse qr = solr.query(query);
-                if (qr.getResults().size() > 0) {
+                if (qr.getResults().size() > 0 || !isIndexed(field.getValue())) {
                     availableFields.add(SolrField.of(field.getValue()));
                 }
             }
