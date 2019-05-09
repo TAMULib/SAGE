@@ -3,7 +3,7 @@ sage.component("singleResultViewer", {
   bindings: {
     context: "="
   },
-  controller: function($scope, $routeParams, $q) {
+  controller: function($scope, $routeParams, $q, $timeout, $filter) {
 
     $scope.ready = false;
 
@@ -21,7 +21,7 @@ sage.component("singleResultViewer", {
         var ct = "default";
         var keys = Object.keys(appConfig.contentMap);
         for(var i in keys) {
-          var key = keys[i]
+          var key = keys[i];
           var types = appConfig.contentMap[key];
           var index = types.indexOf(extension);
           if(index !== -1) {
@@ -44,12 +44,15 @@ sage.component("singleResultViewer", {
       return defer.promise;
     };
 
-    setTimeout(function() {
+    $timeout(function() {
       $scope.singleResultContext = $scope.$ctrl.context;
+      $scope.singleResultContext.ready().then(function() {
+        var resourceUri = $filter("removeBrackets")($scope.singleResultContext.resourceLocationUri);
 
-      getContentType().then(function(ct) {
-        $scope.contentType = ct;
-        $scope.ready = true;
+        getContentType(resourceUri).then(function(ct) {
+          $scope.contentType = ct;
+          $scope.ready = true;
+        });
       });
 
     });
