@@ -33,13 +33,13 @@
 
         <label>Field Mappings</label>
         <ul class="list-group">
-
-          <li class="list-group-item" ng-repeat="outputMapping in writerToUpdate.outputMappings">
-            <label>{{outputMapping.inputField}}</label>
-            <!--<input class="form-control" type="text" name="outputMapping" ng-model="mapping" ng-repeat="" />-->
-            <input class="form-control" ng-repeat="field in outputMapping.mappings track by $index" type="text" name="name" ng-model="writerToUpdate.outputMappings[$parent.$index].mappings[$index]" uib-typeahead="f.name for f in fields | filter:$viewValue" />
+          <li class="list-group-item" ng-repeat="metadatum in internalMetadata">
+            <label>{{metadatum.gloss}}</label>
+            <input class="form-control" type="text" name="writerMappings" ng-model="writerMappings[metadatum.field]" uib-typeahead="f.name for f in fields | filter:$viewValue" />
+            <small ng-if="metadatum.required" class="form-text text-muted">This field is required.</small>
           </li>
         </ul>
+
       </div>
     </div>
   </div>
@@ -48,6 +48,6 @@
     <span ng-show="updatingWriter">
       <span class="glyphicon glyphicon-refresh spinning"></span>
     </span>
-    <button ng-hide="updatingWriter" ng-disabled="writerForms.update.$invalid" type="submit" class="btn btn-success">Update</button>
+    <button ng-hide="updatingWriter" ng-disabled="disableSubmit(writerForms.update)" type="submit" class="btn btn-success">Update</button>
   </div>
 </form>

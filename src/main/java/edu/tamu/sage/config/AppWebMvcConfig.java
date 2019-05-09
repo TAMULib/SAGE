@@ -28,11 +28,11 @@ import edu.tamu.weaver.validation.resolver.WeaverValidatedModelMethodProcessor;
 
 @EnableWebMvc
 @Configuration
-@EntityScan(basePackages = { "edu.tamu.sage.model", "edu.tamu.weaver.wro.model" })
-@EnableJpaRepositories(basePackages = { "edu.tamu.sage.model.repo", "edu.tamu.weaver.wro.model.repo" })
+@EntityScan(basePackages = { "edu.tamu.sage.model" })
+@EnableJpaRepositories(basePackages = { "edu.tamu.sage.model.repo" })
 public class AppWebMvcConfig extends WebMvcConfigurerAdapter {
 
-	@Value("${app.ui.path}")
+    @Value("${app.ui.path}")
     private String path;
 
     @Value("#{new Boolean('${info.build.production:false}')}")
