@@ -2,12 +2,12 @@ var appConfig = {
 
     'version': '1.0.x',
 
-    'allowAnonymous': false,
+    'allowAnonymous': true,
     'anonymousRole': 'ROLE_ANONYMOUS',
 
     'authStrategies': ['emailRegistration'],
 
-    'authService': window.location.protocol + '//' + window.location.host + window.location.base + '/mock/auth',
+    'authService': window.location.protocol + '//' + window.location.host + window.location.base + '/auth',
     'webService': window.location.protocol + '//' + window.location.host + window.location.base,
 
     'storageType': 'session',
@@ -32,9 +32,9 @@ var appConfig = {
 
     // Set this to 'admin' or 'user' if using mock AuthService
     // otherwise set to null or false
-    'mockRole': "null",
+    'mockRole': null,
 
-    'contentMap': {"image": ["image/png","image/gif", "text/html;charset=UTF-8"],"seadragon": ["image/jp2","image/tiff", "image/jpeg", "jpg"]},
+    'contentMap': {"image": ["image/png","image/gif", "text/html;charset=UTF-8"],"seadragon": ["image/jp2","image/tiff", "application/json;charset=UTF-8", "json"]},
 
     'defaultThumbnailURI': "resources/images/default-thumbnail.jpg"
 
