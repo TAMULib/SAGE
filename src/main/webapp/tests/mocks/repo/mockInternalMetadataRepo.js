@@ -26,7 +26,7 @@ var mockInternalMetadata = [
 ];
 
 angular.module('mock.internalMetadataRepo', []).service('InternalMetadataRepo', function ($q) {
-  var internalMetadataRepa = this;
+  var internalMetadataRepo = this;
   var defer;
   var validations = {};
   var validationResults = {};
@@ -55,24 +55,24 @@ angular.module('mock.internalMetadataRepo', []).service('InternalMetadataRepo', 
     });
   };
 
-  internalMetadataRepa.list = mockInternalMetadata;
+  internalMetadataRepo.list = mockInternalMetadata;
 
-  internalMetadataRepa.clearValidationResults = function () {
+  internalMetadataRepo.clearValidationResults = function () {
     validationResults = {};
   };
 
-  internalMetadataRepa.create = function (internalMetadatum) {
+  internalMetadataRepo.create = function (internalMetadatum) {
       defer = $q.defer();
-      internalMetadatum.id = internalMetadataRepa.list.length + 1;
-      internalMetadataRepa.list.push(angular.copy(internalMetadatum));
+      internalMetadatum.id = internalMetadataRepo.list.length + 1;
+      internalMetadataRepo.list.push(angular.copy(internalMetadatum));
       payloadResponse(internalMetadatum);
       return defer.promise;
   };
 
-  internalMetadataRepa.contains = function (internalMetadatum) {
+  internalMetadataRepo.contains = function (internalMetadatum) {
     var found = false;
-    for (var i in internalMetadataRepa.list) {
-      if (internalMetadataRepa.list[i].id === internalMetadatum.id) {
+    for (var i in internalMetadataRepo.list) {
+      if (internalMetadataRepo.list[i].id === internalMetadatum.id) {
         found = true;
         break;
       }
@@ -80,11 +80,11 @@ angular.module('mock.internalMetadataRepo', []).service('InternalMetadataRepo', 
     return found;
   };
 
-  internalMetadataRepa.delete = function (internalMetadatum) {
+  internalMetadataRepo.delete = function (internalMetadatum) {
     defer = $q.defer();
-    for (var i in internalMetadataRepa.list) {
-      if (internalMetadataRepa.list[i].id === internalMetadatum.id) {
-        internalMetadataRepa.list.splice(i, 1);
+    for (var i in internalMetadataRepo.list) {
+      if (internalMetadataRepo.list[i].id === internalMetadatum.id) {
+        internalMetadataRepo.list.splice(i, 1);
         break;
       }
     }
@@ -92,32 +92,32 @@ angular.module('mock.internalMetadataRepo', []).service('InternalMetadataRepo', 
     return defer.promise;
   };
 
-  internalMetadataRepa.getAll = function () {
-    return angular.copy(internalMetadataRepa.list);
+  internalMetadataRepo.getAll = function () {
+    return angular.copy(internalMetadataRepo.list);
   };
 
-  internalMetadataRepa.getMetadataFields = function(fields) {
+  internalMetadataRepo.getMetadataFields = function(fields) {
     defer = $q.defer();
     payloadResponse(angular.extend(fields, angular.copy(metadataFields)));
     return defer.promise;
   };
 
-  internalMetadataRepa.getScaffold = function(defaults) {
+  internalMetadataRepo.getScaffold = function(defaults) {
     var updatedScaffold = scaffold;
     if (!defaults) defaults = {};
     angular.extend(updatedScaffold, defaults);
     return updatedScaffold;
   };
 
-  internalMetadataRepa.getValidations = function () {
+  internalMetadataRepo.getValidations = function () {
     return angular.copy(validations);
   };
 
-  internalMetadataRepa.getValidationResults = function () {
+  internalMetadataRepo.getValidationResults = function () {
     return angular.copy(validationResults);
   };
 
-  internalMetadataRepa.isInScaffold = function(property) {
+  internalMetadataRepo.isInScaffold = function(property) {
     var propertyFound = false;
     var scaffoldKeys = Object.keys(scaffold);
     for(var i in scaffoldKeys) {
@@ -130,18 +130,18 @@ angular.module('mock.internalMetadataRepo', []).service('InternalMetadataRepo', 
     return propertyFound;
   };
 
-  internalMetadataRepa.ready = function () {
+  internalMetadataRepo.ready = function () {
     defer = $q.defer();
     payloadResponse();
     return defer.promise;
   };
 
-  internalMetadataRepa.update = function (internalMetadatum) {
+  internalMetadataRepo.update = function (internalMetadatum) {
     defer = $q.defer();
     var updatedInternalMetadatum;
-    for (var i in internalMetadataRepa.list) {
-      if (internalMetadataRepa.list[i].id === internalMetadatum.id) {
-        updatedInternalMetadatum = angular.copy(internalMetadataRepa.list[i]);
+    for (var i in internalMetadataRepo.list) {
+      if (internalMetadataRepo.list[i].id === internalMetadatum.id) {
+        updatedInternalMetadatum = angular.copy(internalMetadataRepo.list[i]);
         angular.extend(updatedInternalMetadatum, internalMetadatum);
         break;
       }
@@ -150,5 +150,5 @@ angular.module('mock.internalMetadataRepo', []).service('InternalMetadataRepo', 
     return defer.promise;
   };
 
-  return internalMetadataRepa;
+  return internalMetadataRepo;
 });

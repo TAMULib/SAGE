@@ -15,8 +15,9 @@ describe('controller: JobManagementController', function () {
       module('mock.userService');
       module('mock.writer');
       module('mock.writerRepo');
+      module('mock.operatorRepo');
 
-      inject(function ($controller, $rootScope, _Job_, _JobRepo_, _Reader_, _ReaderRepo_, _Source_, _SourceRepo_, _User_, _UserService_, _Writer_, _WriterRepo_) {
+      inject(function ($controller, $rootScope, _Job_, _JobRepo_, _Reader_, _ReaderRepo_, _Source_, _SourceRepo_, _User_, _UserService_, _Writer_, _WriterRepo_, _OperatorRepo_) {
         installPromiseMatchers();
         scope = $rootScope.$new();
 
@@ -31,7 +32,8 @@ describe('controller: JobManagementController', function () {
           User: _User_,
           UserService: _UserService_,
           Writer: _Writer_,
-          WriterRepo: _WriterRepo_
+          WriterRepo: _WriterRepo_,
+          OperatorRepo: _OperatorRepo_
         });
 
         Job = _Job_;
