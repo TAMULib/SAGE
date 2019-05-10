@@ -5,9 +5,13 @@ import static edu.tamu.weaver.validation.model.BusinessValidationType.CREATE;
 import static edu.tamu.weaver.validation.model.BusinessValidationType.DELETE;
 import static edu.tamu.weaver.validation.model.BusinessValidationType.UPDATE;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +19,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 
 import edu.tamu.sage.model.BaseOp;
 import edu.tamu.sage.model.repo.OperatorRepo;
@@ -35,6 +42,17 @@ public class OperatorController {
     @PreAuthorize("hasRole('ADMIN')")
     public ApiResponse getAll() {
         return new ApiResponse(SUCCESS, operatorRepo.findAll());
+    }
+
+    @GetMapping("/types")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ApiResponse getTypes() {
+        JsonSubTypes jsonSubTypes = AnnotationUtils.getAnnotation(BaseOp.class, JsonSubTypes.class);
+        List<String> types = new ArrayList<String>();
+        for (Type type : jsonSubTypes.value()) {
+            types.add(type.name());
+        }
+        return new ApiResponse(SUCCESS, types);
     }
 
     @PostMapping

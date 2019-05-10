@@ -78,6 +78,31 @@ public class OperatorControllerTest {
 
     @Test
     @WithMockUser(roles = "ADMIN")
+    public void testGetOperatorTypes() throws JsonProcessingException, Exception {
+        // @formatter:off
+        mockMvc.perform(
+            get("/operator/types")
+                .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+            .andDo(
+                document(
+                    "operator/get-types",
+                    responseFields(
+                        fieldWithPath("meta").description("API response meta."),
+                        fieldWithPath("meta.id").description("Id of the request."),
+                        fieldWithPath("meta.action").description("Action of the request."),
+                        fieldWithPath("meta.message").description("Message of the response."),
+                        fieldWithPath("meta.status").description("Status of the response."),
+                        fieldWithPath("payload").description("API response payload containing the List of Operator Types.")
+                    )
+                )
+            );
+       // @formatter:on
+    }
+
+    @Test
+    @WithMockUser(roles = "ADMIN")
     public void testCreateOperator() throws JsonProcessingException, Exception {
         // @formatter:off
         performCreateOperator()
