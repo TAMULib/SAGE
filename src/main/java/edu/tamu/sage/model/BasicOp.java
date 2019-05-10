@@ -19,12 +19,6 @@ public abstract class BasicOp extends BaseOp {
         setModelValidator(new BasicOpValidator());
     }
 
-    public BasicOp(String field, String value) {
-        this();
-        setField(field);
-        setValue(value);
-    }
-
     public String getField() {
         return field;
     }

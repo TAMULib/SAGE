@@ -44,10 +44,7 @@ public class InternalMetadatumTest {
     }
 
     public static InternalMetadata getMockInternalMetadatum() {
-        InternalMetadata internalMetadatum = new InternalMetadata();
-        internalMetadatum.setGloss("Test Metadatum");
-        internalMetadatum.setField("test_metadatum");
-        return internalMetadatum;
+        return new InternalMetadata("Test Metadatum", "test_metadatum", false);
     }
 
 }

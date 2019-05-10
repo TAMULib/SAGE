@@ -24,9 +24,9 @@ import edu.tamu.weaver.validation.aspect.annotation.WeaverValidation;
 
 @RestController
 @RequestMapping("/operator")
-public class OperatorMetadataController {
+public class OperatorController {
 
-    private final static Logger logger = LoggerFactory.getLogger(OperatorMetadataController.class);
+    private final static Logger logger = LoggerFactory.getLogger(OperatorController.class);
 
     @Autowired
     private OperatorRepo operatorRepo;
