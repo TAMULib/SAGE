@@ -19,13 +19,13 @@ include::../../../target/generated-snippets/operator/get-all/curl-request.adoc[]
 A `GET` to the `/operator/types` endpoint which will return a list all Operator types in SAGE.
 
 ==== Sample Request
-include::../../../target/generated-snippets/operator/types/http-request.adoc[]
+include::../../../target/generated-snippets/operator/get-types/http-request.adoc[]
 
 ==== Sample Response
-include::../../../target/generated-snippets/operator/types/http-response.adoc[]
+include::../../../target/generated-snippets/operator/get-types/http-response.adoc[]
 
 ==== Example Curl Request
-include::../../../target/generated-snippets/operator/types/curl-request.adoc[]
+include::../../../target/generated-snippets/operator/get-types/curl-request.adoc[]
 
 === Create Operator
 

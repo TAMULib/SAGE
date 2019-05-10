@@ -1,6 +1,7 @@
 package edu.tamu.sage.controller;
 
 import static edu.tamu.sage.model.ConstantOpTest.getMockConstantOp;
+import static edu.tamu.sage.model.DefaultOpTest.getMockDefaultOp;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
@@ -28,6 +29,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import edu.tamu.sage.model.BaseOp;
 import edu.tamu.sage.model.ConstantOp;
 import edu.tamu.sage.model.repo.OperatorRepo;
 import edu.tamu.weaver.response.ApiResponse;
@@ -53,7 +55,8 @@ public class OperatorControllerTest {
     @Test
     @WithMockUser(roles = "ADMIN")
     public void testReadOperator() throws JsonProcessingException, Exception {
-        performCreateOperator();
+        performCreateOperator(getMockConstantOp());
+        performCreateOperator(getMockDefaultOp());
         // @formatter:off
         mockMvc.perform(
             get("/operator")
@@ -105,7 +108,7 @@ public class OperatorControllerTest {
     @WithMockUser(roles = "ADMIN")
     public void testCreateOperator() throws JsonProcessingException, Exception {
         // @formatter:off
-        performCreateOperator()
+        performCreateOperator(getMockConstantOp())
             .andDo(
                 document(
                     "operator/create",
@@ -136,7 +139,7 @@ public class OperatorControllerTest {
     @Test
     @WithMockUser(roles = "ADMIN")
     public void testUpdateOperator() throws JsonProcessingException, Exception {
-        performCreateOperator();
+        performCreateOperator(getMockConstantOp());
         ConstantOp operator = (ConstantOp) operatorRepo.read(currentId);
 
         operator.setName("Test Constant Op Updated");
@@ -183,7 +186,7 @@ public class OperatorControllerTest {
     @Test
     @WithMockUser(roles = "ADMIN")
     public void testDeleteOperator() throws JsonProcessingException, Exception {
-        performCreateOperator();
+        performCreateOperator(getMockConstantOp());
 
         ConstantOp operator = (ConstantOp) operatorRepo.read(currentId);
 
@@ -217,9 +220,7 @@ public class OperatorControllerTest {
        // @formatter:on
     }
 
-    private ResultActions performCreateOperator() throws JsonProcessingException, Exception {
-        ConstantOp operator = getMockConstantOp();
-
+    private ResultActions performCreateOperator(BaseOp operator) throws JsonProcessingException, Exception {
         String body = objectMapper.writeValueAsString(operator);
 
         operator.setId(++currentId);
