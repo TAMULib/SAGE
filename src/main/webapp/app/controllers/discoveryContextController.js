@@ -16,12 +16,12 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
     $scope.rowOptions.push({ value: options[i], label: options[i] + " Per Page"});
   }
 
-  var discoveryContext = new DiscoveryContext({
+  $scope.discoveryContext = new DiscoveryContext({
     slug: $routeParams.slug,
   });
 
   var resetSearch = function() {
-    $scope.currentSearchFilter = discoveryContext.searchFilters[0];
+    $scope.currentSearchFilter = $scope.discoveryContext.searchFilters[0];
     $scope.currentSearchValue = '';
   };
 
@@ -44,9 +44,7 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
     $scope.executeSearch();
   };
 
-  discoveryContext.ready().then(function() {
-    $scope.discoveryContext = discoveryContext;
-    console.log($scope.discoveryContext);
+  $scope.discoveryContext.ready().then(function() {
     resetSearch();
     
     $scope.searchProcessKeyPress = function($event) {
@@ -60,12 +58,11 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
       if(!$scope.searching) {
         $scope.searching = true;
         if(!maintainPage) {
-          discoveryContext.search.start = 0;
+          $scope.discoveryContext.search.start = 0;
           $location.search("start", 0);
         }
         var reoloadPromise = $scope.discoveryContext.reload();
         reoloadPromise.then(function() {
-          console.log($scope.discoveryContext);
           $scope.searching = false;
           $location.search($scope.discoveryContext.search.query);
           resetSearch();
@@ -104,17 +101,17 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
     };
 
     $scope.pageBack = function() {
-      if(discoveryContext.search.start > 0) {
-        discoveryContext.search.start -= discoveryContext.search.rows;
-        discoveryContext.search.start = discoveryContext.search.start < 0 ? 0 : discoveryContext.search.start;
+      if($scope.discoveryContext.search.start > 0) {
+        $scope.discoveryContext.search.start -= $scope.discoveryContext.search.rows;
+        $scope.discoveryContext.search.start = $scope.discoveryContext.search.start < 0 ? 0 : $scope.discoveryContext.search.start;
         $scope.executeSearch(true);
       }
     };
 
     $scope.pageForward = function() {
-      if(discoveryContext.search.start < discoveryContext.search.total - discoveryContext.search.rows) {
-        discoveryContext.search.start += discoveryContext.search.rows;
-        discoveryContext.search.start = discoveryContext.search.start > discoveryContext.search.total ? discoveryContext.search.total : discoveryContext.search.start;
+      if($scope.discoveryContext.search.start < $scope.discoveryContext.search.total - $scope.discoveryContext.search.rows) {
+        $scope.discoveryContext.search.start += $scope.discoveryContext.search.rows;
+        $scope.discoveryContext.search.start = $scope.discoveryContext.search.start > $scope.discoveryContext.search.total ? $scope.discoveryContext.search.total : $scope.discoveryContext.search.start;
         $scope.executeSearch(true);
       }
     };

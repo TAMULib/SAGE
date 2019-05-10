@@ -76,7 +76,10 @@ module.exports = function (grunt) {
 
                       'node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js',
 
-                      'node_modules/file-saver/FileSaver.min.js'
+                      'node_modules/file-saver/FileSaver.min.js',
+
+                      'node_modules/openseadragon/build/openseadragon/openseadragon.min.js',
+                      'node_modules/ng-openseadragon/build/angular-openseadragon.js'
                   ],
                   dest: '<%= build.app %>/resources/scripts/vendor_concat.js'
               },
