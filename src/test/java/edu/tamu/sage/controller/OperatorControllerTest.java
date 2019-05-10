@@ -59,13 +59,13 @@ public class OperatorControllerTest {
         performCreateOperator(getMockDefaultOp());
         // @formatter:off
         mockMvc.perform(
-            get("/operator")
+            get("/operators")
                 .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
             .andDo(
                 document(
-                    "operator/get-all",
+                    "operators/get-all",
                     responseFields(
                         fieldWithPath("meta").description("API response meta."),
                         fieldWithPath("meta.id").description("Id of the request."),
@@ -84,13 +84,13 @@ public class OperatorControllerTest {
     public void testGetOperatorTypes() throws JsonProcessingException, Exception {
         // @formatter:off
         mockMvc.perform(
-            get("/operator/types")
+            get("/operators/types")
                 .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
             .andDo(
                 document(
-                    "operator/get-types",
+                    "operators/get-types",
                     responseFields(
                         fieldWithPath("meta").description("API response meta."),
                         fieldWithPath("meta.id").description("Id of the request."),
@@ -111,7 +111,7 @@ public class OperatorControllerTest {
         performCreateOperator(getMockConstantOp())
             .andDo(
                 document(
-                    "operator/create",
+                    "operators/create",
                     requestFields(
                         fieldWithPath("id").description("The Operator id."),
                         fieldWithPath("name").description("The Operator name."),
@@ -150,7 +150,7 @@ public class OperatorControllerTest {
 
         // @formatter:off
         mockMvc.perform(
-            put("/operator")
+            put("/operators")
                 .content(objectMapper.writeValueAsString(operator))
                 .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
@@ -158,7 +158,7 @@ public class OperatorControllerTest {
                     .andExpect(content().json(objectMapper.writeValueAsString(expectedResponse))
             ).andDo(
                 document(
-                    "operator/update",
+                    "operators/update",
                     requestFields(
                         fieldWithPath("id").description("The Operator id."),
                         fieldWithPath("name").description("The Operator name."),
@@ -192,14 +192,14 @@ public class OperatorControllerTest {
 
         // @formatter:off
         mockMvc.perform(
-            delete("/operator")
+            delete("/operators")
                 .content(objectMapper.writeValueAsString(operator))
                 .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
             .andDo(
                 document(
-                    "operator/delete",
+                    "operators/delete",
                     requestFields(
                         fieldWithPath("id").description("The Operator id."),
                         fieldWithPath("name").description("The Operator name."),
@@ -229,7 +229,7 @@ public class OperatorControllerTest {
 
         // @formatter:off
         return mockMvc.perform(
-            post("/operator")
+            post("/operators")
                 .content(body)
                 .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())

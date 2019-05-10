@@ -1,10 +1,11 @@
-sage.controller('JobManagementController', function ($controller, $scope, NgTableParams, JobRepo, ReaderRepo, WriterRepo) {
+sage.controller('JobManagementController', function ($controller, $scope, NgTableParams, JobRepo, OperatorRepo, ReaderRepo, WriterRepo) {
 
   angular.extend(this, $controller('AbstractController', {
       $scope: $scope
   }));
 
   $scope.jobs = JobRepo.getAll();
+  $scope.operators = OperatorRepo.getAll();
   $scope.readers = ReaderRepo.getAll();
   $scope.writers = WriterRepo.getAll();
 

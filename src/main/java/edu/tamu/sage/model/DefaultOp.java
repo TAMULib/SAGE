@@ -9,8 +9,11 @@ import javax.persistence.Entity;
 @DiscriminatorValue("Default")
 public class DefaultOp extends BasicOp {
 
+    public final static String TYPE = "DEFAULT_OP";
+
     public DefaultOp() {
         super();
+        setType(TYPE);
     }
 
     public DefaultOp(String field, String value) {
@@ -29,6 +32,11 @@ public class DefaultOp extends BasicOp {
         if (!sageDoc.containsKey(getField())) {
             sageDoc.put(getField(), getValue());
         }
+    }
+
+    @Override
+    public String getType() {
+        return TYPE;
     }
 
 }

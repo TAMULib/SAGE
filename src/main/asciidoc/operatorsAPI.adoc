@@ -1,0 +1,67 @@
+== Operators API
+A Collection of CRUD API endpoints used for interacting with SAGE's Operator resource.
+
+=== Get All Operators
+
+A `GET` to the `/operators` endpoint which will return a list all Operators in SAGE.
+
+==== Sample Request
+include::../../../target/generated-snippets/operators/get-all/http-request.adoc[]
+
+==== Sample Response
+include::../../../target/generated-snippets/operators/get-all/http-response.adoc[]
+
+==== Example Curl Request
+include::../../../target/generated-snippets/operators/get-all/curl-request.adoc[]
+
+=== Get Operator Types
+
+A `GET` to the `/operators/types` endpoint which will return a list all Operator types in SAGE.
+
+==== Sample Request
+include::../../../target/generated-snippets/operators/get-types/http-request.adoc[]
+
+==== Sample Response
+include::../../../target/generated-snippets/operators/get-types/http-response.adoc[]
+
+==== Example Curl Request
+include::../../../target/generated-snippets/operators/get-types/curl-request.adoc[]
+
+=== Create Operator
+
+A `POST` to the `/operators` endpoint which will result in the creation of a new Operator in SAGE.
+
+==== Sample Request
+include::../../../target/generated-snippets/operators/create/http-request.adoc[]
+
+==== Sample Response
+include::../../../target/generated-snippets/operators/create/http-response.adoc[]
+
+==== Example Curl Request
+include::../../../target/generated-snippets/operators/create/curl-request.adoc[]
+
+=== Update Operator
+
+A `PUT` request to the `/operators` endpoint which will result in the updating of the specified Operator resource in SAGE.
+
+==== Sample Request
+include::../../../target/generated-snippets/operators/update/http-request.adoc[]
+
+==== Sample Response
+include::../../../target/generated-snippets/operators/update/http-response.adoc[]
+
+==== Example Curl Request
+include::../../../target/generated-snippets/operators/update/curl-request.adoc[]
+
+=== Delete Operator
+
+A `DELETE` request to the `/operators` endpoint which will result in the deletion of the specified Operator resource in SAGE.
+
+==== Sample Request
+include::../../../target/generated-snippets/operators/delete/http-request.adoc[]
+
+==== Sample Response
+include::../../../target/generated-snippets/operators/delete/http-response.adoc[]
+
+==== Example Curl Request
+include::../../../target/generated-snippets/operators/delete/curl-request.adoc[]

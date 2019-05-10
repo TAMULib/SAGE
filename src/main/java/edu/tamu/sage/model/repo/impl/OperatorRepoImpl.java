@@ -9,6 +9,6 @@ public class OperatorRepoImpl extends AbstractWeaverRepoImpl<BaseOp, OperatorRep
 
     @Override
     protected String getChannel() {
-        return "/channel/operator/solr";
+        return "/channel/operators";
     }
 }

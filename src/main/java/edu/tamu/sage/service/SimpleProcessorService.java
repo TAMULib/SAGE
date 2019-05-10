@@ -24,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import edu.tamu.sage.model.BaseOp;
 import edu.tamu.sage.model.Field;
 import edu.tamu.sage.model.Job;
 import edu.tamu.sage.model.Reader;
@@ -122,6 +123,12 @@ public class SimpleProcessorService implements ProcessorService {
         return mappedResults;
     }
 
+    private void processOperator(BaseOp operator, List<Map<String, String>> mappedResults) {
+        mappedResults.forEach(map -> {
+            operator.process(map);
+        });
+    }
+
     private void writeSolrCore(Writer writer, List<Map<String, String>> mappedResults) {
         int batchSize = 1000;
 
@@ -196,13 +203,10 @@ public class SimpleProcessorService implements ProcessorService {
         if (processing.compareAndSet(false, true)) {
             CompletableFuture.runAsync(() -> {
                 List<Map<String, String>> mappedResults = new ArrayList<Map<String, String>>();
-                job.getReaders().forEach(reader -> {
-                    mappedResults.addAll(readSolrCore(reader));
-                });
+                job.getReaders().forEach(reader -> mappedResults.addAll(readSolrCore(reader)));
                 if (!mappedResults.isEmpty()) {
-                    job.getWriters().forEach(writer -> {
-                        writeSolrCore(writer, mappedResults);
-                    });
+                    job.getOperators().forEach(operator -> processOperator(operator, mappedResults));
+                    job.getWriters().forEach(writer -> writeSolrCore(writer, mappedResults));
                 } else {
                     logger.info("Writer results: There were no documents to write");
                 }

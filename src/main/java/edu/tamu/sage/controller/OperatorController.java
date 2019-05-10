@@ -30,7 +30,7 @@ import edu.tamu.weaver.validation.aspect.annotation.WeaverValidatedModel;
 import edu.tamu.weaver.validation.aspect.annotation.WeaverValidation;
 
 @RestController
-@RequestMapping("/operator")
+@RequestMapping("/operators")
 public class OperatorController {
 
     private final static Logger logger = LoggerFactory.getLogger(OperatorController.class);
@@ -48,9 +48,9 @@ public class OperatorController {
     @PreAuthorize("hasRole('ADMIN')")
     public ApiResponse getTypes() {
         JsonSubTypes jsonSubTypes = AnnotationUtils.getAnnotation(BaseOp.class, JsonSubTypes.class);
-        List<String> types = new ArrayList<String>();
+        List<OperatorType> types = new ArrayList<OperatorType>();
         for (Type type : jsonSubTypes.value()) {
-            types.add(type.name());
+            types.add(new OperatorType(type.name(), type.value().getSimpleName()));
         }
         return new ApiResponse(SUCCESS, types);
     }
@@ -59,7 +59,7 @@ public class OperatorController {
     @PreAuthorize("hasRole('ADMIN')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = CREATE) })
     public ApiResponse createInternalMetadatum(@WeaverValidatedModel BaseOp operator) {
-        logger.info(String.format("Creating operator %s with id %s", operator.getName(), operator.getId()));
+        logger.info(String.format("Creating operator %s of type %s", operator.getName(), operator.getType()));
         return new ApiResponse(SUCCESS, operatorRepo.create(operator));
     }
 
@@ -67,7 +67,7 @@ public class OperatorController {
     @PreAuthorize("hasRole('ADMIN')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = UPDATE) })
     public ApiResponse updateInternalMetadatum(@WeaverValidatedModel BaseOp operator) {
-        logger.info(String.format("Updating operator %s with id %s", operator.getName(), operator.getId()));
+        logger.info(String.format("Updating operator %s of type %s", operator.getName(), operator.getType()));
         return new ApiResponse(SUCCESS, operatorRepo.update(operator));
     }
 
@@ -75,9 +75,30 @@ public class OperatorController {
     @PreAuthorize("hasRole('ADMIN')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = DELETE) })
     public ApiResponse deleteInternalMetadatum(@WeaverValidatedModel BaseOp operator) {
-        logger.info(String.format("Deleting operator %s with id %s", operator.getName(), operator.getId()));
+        logger.info(String.format("Deleting operator %s of type %s", operator.getName(), operator.getType()));
         operatorRepo.delete(operator);
         return new ApiResponse(SUCCESS);
+    }
+
+    class OperatorType {
+
+        private final String name;
+
+        private final String entity;
+
+        public OperatorType(String name, String entity) {
+            this.name = name;
+            this.entity = entity;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getEntity() {
+            return entity;
+        }
+
     }
 
 }

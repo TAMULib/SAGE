@@ -154,6 +154,40 @@ var apiMapping = {
       'method': ''
     }
   },
+  Operator: {
+    channel: '/channel/operators',
+    validations: false,
+    all: {
+      'endpoint': '/private/queue',
+      'controller': 'operators',
+      'httpMethod': 'GET',
+      'method': ''
+    }, 
+    types: {
+      'endpoint': '/private/queue',
+      'controller': 'operators',
+      'httpMethod': 'GET',
+      'method': 'types'
+    },
+    create: {
+      'endpoint': '/private/queue',
+      'controller': 'operators',
+      'httpMethod': 'POST',
+      'method': ''
+    },
+    update: {
+      'endpoint': '/private/queue',
+      'controller': 'operators',
+      'httpMethod': 'PUT',
+      'method': ''
+    },
+    remove: {
+      'endpoint': '/private/queue',
+      'controller': 'operators',
+      'httpMethod': 'DELETE',
+      'method': ''
+    }
+  },
   Reader: {
     channel: '/channel/reader/solr',
     validations: true,

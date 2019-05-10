@@ -1,6 +1,6 @@
 package edu.tamu.sage.model;
 
-import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.PROPERTY;
+import static com.fasterxml.jackson.annotation.JsonTypeInfo.As.EXISTING_PROPERTY;
 import static com.fasterxml.jackson.annotation.JsonTypeInfo.Id.NAME;
 import static javax.persistence.InheritanceType.SINGLE_TABLE;
 
@@ -9,6 +9,7 @@ import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
@@ -21,9 +22,12 @@ import edu.tamu.weaver.validation.model.ValidatingBaseEntity;
 @Table(name = "OPERATOR")
 @DiscriminatorColumn(name = "TYPE")
 @Inheritance(strategy = SINGLE_TABLE)
-@JsonTypeInfo(use = NAME, include = PROPERTY, property = "type")
-@JsonSubTypes({ @Type(value = DefaultOp.class, name = "DEFAULT_OP"), @Type(value = ConstantOp.class, name = "CONSTANT_OP") })
+@JsonTypeInfo(use = NAME, include = EXISTING_PROPERTY, property = "type")
+@JsonSubTypes({ @Type(value = DefaultOp.class, name = DefaultOp.TYPE), @Type(value = ConstantOp.class, name = ConstantOp.TYPE) })
 public abstract class BaseOp extends ValidatingBaseEntity implements Operator {
+
+    @Transient
+    private String type;
 
     @Column(nullable = false, unique = true)
     private String name;
@@ -37,6 +41,12 @@ public abstract class BaseOp extends ValidatingBaseEntity implements Operator {
         this();
         setName(name);
     }
+
+    public abstract String getType();
+
+    public void setType(String type) {
+        this.type = type;
+    };
 
     public String getName() {
         return name;

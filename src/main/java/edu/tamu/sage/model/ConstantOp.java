@@ -9,8 +9,11 @@ import javax.persistence.Entity;
 @DiscriminatorValue("Constant")
 public class ConstantOp extends BasicOp {
 
+    public final static String TYPE = "CONSTANT_OP";
+
     public ConstantOp() {
         super();
+        setType(TYPE);
     }
 
     public ConstantOp(String field, String value) {
@@ -27,6 +30,11 @@ public class ConstantOp extends BasicOp {
     @Override
     public void process(Map<String, String> sageDoc) {
         sageDoc.put(getField(), getValue());
+    }
+
+    @Override
+    public String getType() {
+        return TYPE;
     }
 
 }
