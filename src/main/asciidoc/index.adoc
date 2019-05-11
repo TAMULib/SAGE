@@ -10,3 +10,5 @@
 :source-highlighter: highlightjs
 
 include::./internalMetadataAPI.adoc[]
+
+include::./operatorsAPI.adoc[]

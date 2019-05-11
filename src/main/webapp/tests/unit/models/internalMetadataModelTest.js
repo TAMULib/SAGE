@@ -20,7 +20,7 @@ describe('model: InternalMetadata', function () {
   });
 
   describe('Initialization should return InternalMetadata', function() {
-    it('the Reader was returned', function() {
+    it('the InternalMetadata was returned', function() {
       var model = new InternalMetadata();
       expect(typeof model).toEqual("object");
     });

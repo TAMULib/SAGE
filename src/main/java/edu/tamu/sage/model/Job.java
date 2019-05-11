@@ -18,66 +18,31 @@ import edu.tamu.weaver.validation.model.ValidatingBaseEntity;
 @Entity
 public class Job extends ValidatingBaseEntity {
 
+    @Column(nullable = false, unique = true)
+    private String name;
+
     @ManyToMany(fetch = EAGER)
     @Fetch(FetchMode.SELECT)
     private List<Reader> readers;
 
     @ManyToMany(fetch = EAGER)
     @Fetch(FetchMode.SELECT)
-    private List<Writer> writers;
+    private List<BaseOp> operators;
 
-    @Column(nullable = false)
-    private String name;
+    @ManyToMany(fetch = EAGER)
+    @Fetch(FetchMode.SELECT)
+    private List<Writer> writers;
 
     public Job() {
         setModelValidator(new JobValidator());
-
-        readers = new ArrayList<Reader>();
-        writers = new ArrayList<Writer>();
-        name = "";
+        setReaders(new ArrayList<Reader>());
+        setOperators(new ArrayList<BaseOp>());
+        setWriters(new ArrayList<Writer>());
     }
 
     public Job(String name) {
-        this.name = name;
-    }
-
-    public List<Reader> getReaders() {
-        return readers;
-    }
-
-    public void setReaders(List<Reader> readers) {
-        this.readers.clear();
-        this.readers.addAll(readers);
-
-    }
-
-    public void addReader(Reader reader) {
-        if (!readers.contains(reader)) {
-            readers.add(reader);
-        }
-    }
-
-    public void removeReader(Reader reader) {
-        readers.remove(reader);
-    }
-
-    public List<Writer> getWriters() {
-        return writers;
-    }
-
-    public void setWriters(List<Writer> writers) {
-        this.writers.clear();
-        this.writers.addAll(writers);
-    }
-
-    public void addWriter(Writer writer) {
-        if (!writers.contains(writer)) {
-            writers.add(writer);
-        }
-    }
-
-    public void removeWriter(Writer writer) {
-        writers.remove(writer);
+        this();
+        setName(name);
     }
 
     public String getName() {
@@ -87,4 +52,29 @@ public class Job extends ValidatingBaseEntity {
     public void setName(String name) {
         this.name = name;
     }
+
+    public List<Reader> getReaders() {
+        return readers;
+    }
+
+    public void setReaders(List<Reader> readers) {
+        this.readers = readers;
+    }
+
+    public List<BaseOp> getOperators() {
+        return operators;
+    }
+
+    public void setOperators(List<BaseOp> operators) {
+        this.operators = operators;
+    }
+
+    public List<Writer> getWriters() {
+        return writers;
+    }
+
+    public void setWriters(List<Writer> writers) {
+        this.writers = writers;
+    }
+
 }

@@ -22,6 +22,9 @@
         <label for="readersSelect">Readers</label>
         <select name="readersSelect" class="form-control" ng-options="reader as reader.name for reader in readers track by reader.id" ng-model="jobToUpdate.readers" multiple required></select>
 
+        <label for="operatorsSelect">Operators</label>
+        <select name="operatorsSelect" class="form-control" ng-options="operator as operator.name for operator in operators track by operator.id" ng-model="jobToUpdate.operators" multiple></select>
+
         <label for="writersSelect">Writers</label>
         <select name="writersSelect" class="form-control" ng-options="writer as writer.name for writer in writers track by writer.id" ng-model="jobToUpdate.writers" multiple required></select>
     </div>
