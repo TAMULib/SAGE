@@ -62,10 +62,12 @@ sage.controller('OperatorManagementController', function ($controller, $scope, N
   };
 
   $scope.createOperator = function() {
+    $scope.creatingOperator = true;
     OperatorRepo.create($scope.operatorToCreate).then(function(res) {
-      if(angular.fromJson(res.body).meta.status === "SUCCESS") {
+      if (angular.fromJson(res.body).meta.status === "SUCCESS") {
         $scope.cancelCreateOperator();
       }
+      $scope.creatingOperator = false;
     });
   };
 
@@ -78,25 +80,12 @@ sage.controller('OperatorManagementController', function ($controller, $scope, N
   $scope.updateOperator = function() {
     $scope.updatingOperator = true;
     $scope.operatorToUpdate.dirty(true);
-    var operatorShadow = $scope.operatorToUpdate.getShadow();
-    if(operatorShadow.type !== $scope.operatorToUpdate.type) {
-      OperatorRepo.delete(operatorShadow).then(function(delRes) {
-        if(angular.fromJson(delRes.body).meta.status === "SUCCESS") {
-          delete $scope.operatorToUpdate.id;
-          OperatorRepo.create($scope.operatorToUpdate).then(function(createRes) {
-            if(angular.fromJson(createRes.body).meta.status === "SUCCESS") {
-              $scope.resetOperatorForms();
-              $scope.updatingOperator = false;
-            }
-          });
-        }
-      });
-    } else {
-      $scope.operatorToUpdate.save().then(function() {
+    $scope.operatorToUpdate.save().then(function(res) {
+      if (angular.fromJson(res.body).meta.status === "SUCCESS") {
         $scope.resetOperatorForms();
-        $scope.updatingOperator = false;
-      });
-    }
+      }
+      $scope.updatingOperator = false;
+    });
   };
 
   $scope.startUpdateOperator = function(operator) {
@@ -109,7 +98,6 @@ sage.controller('OperatorManagementController', function ($controller, $scope, N
     $scope.operatorToUpdate.refresh();
     $scope.operatorToUpdate = {};
     $scope.resetOperatorForms();
-    existingOperatorTypeChanged = false;
   };
 
   $scope.confirmDeleteOperator = function(operator) {
@@ -124,9 +112,11 @@ sage.controller('OperatorManagementController', function ($controller, $scope, N
 
   $scope.deleteOperator = function() {
     $scope.deletingOperator = true;
-    OperatorRepo.delete($scope.operatorToDelete).then(function() {
+    OperatorRepo.delete($scope.operatorToDelete).then(function(res) {
+      if (angular.fromJson(res.body).meta.status === "SUCCESS") {
+        $scope.resetOperatorForms();
+      }
       $scope.deletingOperator = false;
-      $scope.resetOperatorForms();
     });
   };
 

@@ -24,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 
 import edu.tamu.sage.model.BaseOp;
+import edu.tamu.sage.model.Job;
 import edu.tamu.sage.model.repo.OperatorRepo;
 import edu.tamu.weaver.response.ApiResponse;
 import edu.tamu.weaver.validation.aspect.annotation.WeaverValidatedModel;
@@ -73,7 +74,7 @@ public class OperatorController {
 
     @DeleteMapping
     @PreAuthorize("hasRole('ADMIN')")
-    @WeaverValidation(business = { @WeaverValidation.Business(value = DELETE) })
+    @WeaverValidation(business = { @WeaverValidation.Business(value = DELETE, joins = Job.class, path = "operators") })
     public ApiResponse deleteInternalMetadatum(@WeaverValidatedModel BaseOp operator) {
         logger.info(String.format("Deleting operator %s of type %s", operator.getName(), operator.getType()));
         operatorRepo.delete(operator);
