@@ -8,6 +8,7 @@
     <div class="row">
       <div class="col-sm-10 col-sm-offset-1">
         <validatedinput
+          id="operatorToCreateName"
           model="operatorToCreate"
           property="name"
           label="Name"
@@ -18,6 +19,7 @@
         </validatedinput>
 
         <validatedselect
+          id="operatorToCreateType"
           options="operatorTypes"
           optionproperty="entity"
           optionvalue="name"
@@ -32,6 +34,7 @@
 
         <validatedselect
           ng-if="enableFieldInput(operatorToCreate.type)"
+          id="operatorToCreateField"
           options="internalMetadata"
           optionproperty="gloss"
           optionvalue="field"
@@ -45,6 +48,7 @@
 
         <validatedinput
           ng-if="enableValueInput(operatorToCreate.type)"
+          id="operatorToCreateValue"
           model="operatorToCreate"
           property="value"
           label="Value"
@@ -58,9 +62,11 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" ng-click="cancelCreateOperator()">Cancel</button>
-    <span ng-show="updatingOperator">
-      <span class="glyphicon glyphicon-refresh spinning"></span>
-    </span>
-    <button ng-hide="updatingOperator" ng-disabled="operatorForms.create.$invalid" type="submit" class="btn btn-success">Create</button>
+    <button ng-disabled="operatorForms.create.$invalid || creatingOperator" type="submit" class="btn btn-success">
+      <span ng-hide="creatingOperator">Create</span>
+      <span ng-show="creatingOperator">
+        <span class="glyphicon glyphicon-refresh spinning"></span>
+      </span>
+    </button>
   </div>
 </form>

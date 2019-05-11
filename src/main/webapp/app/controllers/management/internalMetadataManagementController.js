@@ -30,10 +30,12 @@ sage.controller('InternalMetadataManagementController', function ($controller, $
   };
 
   $scope.createInternalMetadatum = function() {
+    $scope.creatingInternalMetadatum = true;
     InternalMetadataRepo.create($scope.internalMetadatumToCreate).then(function(res) {
-      if(angular.fromJson(res.body).meta.status === "SUCCESS") {
+      if (angular.fromJson(res.body).meta.status === "SUCCESS") {
         $scope.cancelCreateInternalMetadatum();
       }
+      $scope.creatingInternalMetadatum = false;
     });
   };
 
@@ -46,8 +48,10 @@ sage.controller('InternalMetadataManagementController', function ($controller, $
   $scope.updateInternalMetadatum = function() {
     $scope.updatingInternalMetadatum = true;
     $scope.internalMetadatumToUpdate.dirty(true);
-    $scope.internalMetadatumToUpdate.save().then(function() {
-      $scope.resetInternalMetadatumForms();
+    $scope.internalMetadatumToUpdate.save().then(function(res) {
+      if (angular.fromJson(res.body).meta.status === "SUCCESS") {
+        $scope.resetInternalMetadatumForms();
+      }
       $scope.updatingInternalMetadatum = false;
     });
   };
@@ -75,9 +79,11 @@ sage.controller('InternalMetadataManagementController', function ($controller, $
 
   $scope.deleteInternalMetadatum = function() {
     $scope.deletingInternalMetadatum = true;
-    InternalMetadataRepo.delete($scope.internalMetadatumToDelete).then(function() {
+    InternalMetadataRepo.delete($scope.internalMetadatumToDelete).then(function(res) {
+      if (angular.fromJson(res.body).meta.status === "SUCCESS") {
+        $scope.resetInternalMetadatumForms();
+      }
       $scope.deletingInternalMetadatum = false;
-      $scope.resetInternalMetadatumForms();
     });
   };
 
