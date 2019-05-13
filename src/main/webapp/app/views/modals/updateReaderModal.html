@@ -44,23 +44,13 @@
 
         <label>Field Mappings</label>
         <ul class="list-group">
-          <li class="list-group-item" ng-repeat="field in readerToUpdate.fields">
-            <label>{{field.schemaMapping}}</label>
-            <input class="form-control" type="text" name="fieldMapping" ng-model="field.name" uib-typeahead="f.name for f in fields | filter:$viewValue" />
+          <li class="list-group-item" ng-repeat="metadatum in internalMetadata">
+            <label>{{metadatum.gloss}}</label>
+            <input class="form-control" type="text" name="fieldMapping" ng-model="readerFields[metadatum.field].value" uib-typeahead="f.name for f in fields | filter:$viewValue" />
+            <small ng-if="metadatum.required" class="form-text text-muted">This field is required.</small>
           </li>
         </ul>
 
-        <label>Sort Fields</label>
-        <ul class="list-group">
-          <li class="list-group-item">
-            <label>Title</label>
-            <input class="form-control" type="text" name="sortTitle" ng-model="readerToUpdate.sortTitle" uib-typeahead="f.name for f in fields | filter:$viewValue" />
-          </li>
-          <li class="list-group-item">
-            <label>ID</label>
-            <input class="form-control" type="text" name="sortId" ng-model="readerToUpdate.sortId" uib-typeahead="f.name for f in fields | filter:$viewValue" />
-          </li>
-        </ul>
       </div>
     </div>
   </div>
@@ -69,6 +59,6 @@
     <span ng-show="updatingReader">
       <span class="glyphicon glyphicon-refresh spinning"></span>
     </span>
-    <button ng-hide="updatingReader" ng-disabled="readerForms.update.$invalid" type="submit" class="btn btn-success">Update</button>
+    <button ng-hide="updatingReader" ng-disabled="disableSubmit(readerForms.update)" type="submit" class="btn btn-success">Update</button>
   </div>
 </form>

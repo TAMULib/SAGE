@@ -39,11 +39,11 @@ public class SolrSourceService implements SourceService {
             SolrQuery query = new SolrQuery();
             query.setRows(1);
             for (Entry<String, FieldInfo> field : map.entrySet()) {
-                if (field != null && isIndexed(field.getValue())) {
+                if (isStored(field.getValue())) {
                     String q = String.format("%s AND %s:*", filter, field.getKey());
                     query.setQuery(q);
                     QueryResponse qr = solr.query(query);
-                    if (qr.getResults().size() > 0) {
+                    if (qr.getResults().size() > 0 || !isIndexed(field.getValue())) {
                         availableFields.add(SolrField.of(field.getValue()));
                     }
                 }
@@ -70,6 +70,10 @@ public class SolrSourceService implements SourceService {
 
     private boolean isIndexed(FieldInfo info) {
         return info.getSchema().contains("I");
+    }
+
+    private boolean isStored(FieldInfo info) {
+        return info.getSchema().contains("S");
     }
 
 }

@@ -1,6 +1,6 @@
 describe('controller: ReaderManagementController', function () {
 
-    var controller, scope, Reader, ReaderRepo;
+    var controller, scope, Reader, ReaderRepo, InternalMetadataRepo;
 
     beforeEach(function() {
       module('core');
@@ -9,17 +9,18 @@ describe('controller: ReaderManagementController', function () {
       module('mock.readerRepo');
       module('mock.source');
       module('mock.sourceRepo');
-      module('mock.user');
-      module('mock.userService');
+      module('mock.internalMetadata');
+      module('mock.internalMetadataRepo');
       module('mock.user');
       module('mock.userService');
 
-      inject(function ($controller, $rootScope, _Reader_, _ReaderRepo_, _Source_, _SourceRepo_, _User_, _UserService_) {
+      inject(function ($controller, $rootScope, _InternalMetadata_, _InternalMetadataRepo_, _Reader_, _ReaderRepo_, _Source_, _SourceRepo_, _User_, _UserService_) {
         installPromiseMatchers();
         scope = $rootScope.$new();
 
         controller = $controller('ReaderManagementController', {
           $scope: scope,
+          InternalMetadataRepo: _InternalMetadataRepo_,
           Reader: _Reader_,
           ReaderRepo: _ReaderRepo_,
           Source: _Source_,
@@ -28,6 +29,7 @@ describe('controller: ReaderManagementController', function () {
           UserService: _UserService_
         });
 
+        InternalMetadataRepo = _InternalMetadataRepo_;
         Reader = _Reader_;
         ReaderRepo = _ReaderRepo_;
 
@@ -101,7 +103,7 @@ describe('controller: ReaderManagementController', function () {
 
     describe('Are the scope methods working as expected', function () {
       it('cancelCreateReader should cancel creating a reader', function () {
-        scope.newReaderFields = null;
+        scope.readerFields = null;
 
         spyOn(scope, 'resetReaderForms');
 
@@ -109,7 +111,7 @@ describe('controller: ReaderManagementController', function () {
 
         expect(typeof scope.readerToCreate).toEqual("object");
         expect(scope.resetReaderForms).toHaveBeenCalled();
-        expect(scope.newReaderFields).not.toBe(null);
+        expect(scope.readerFields).not.toBe(null);
       });
 
       it('cancelDeleteReader should cancel deleting a reader', function () {
