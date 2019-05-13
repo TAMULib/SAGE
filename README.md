@@ -5,7 +5,7 @@
 
 SAGE is the Search Aggregation Engine developed and maintained by [Texas A&M University Libraries](http://library.tamu.edu). 
 
-SAGE is an open source application that has been designed to provide a common user interface (UI) and application programing interface (API) for multiple discovery indexes participating within a Digital Asset Management Ecosystem (DAME.)
+SAGE’s feature set includes both the ability aggregate disparate searchable sources into a common solr index, as well as the ability expose Solr indicis through a dynamic user interface.
 
 ### User Documentation
 
