@@ -4,7 +4,7 @@ Though SAGE is developed and maintained by Texas A&M University Libraries, we we
 
 #### Using SAGE: 
 
-Deploying cap and trying it out at your own institution is itself a way of contributing to the development process. For more information on deployment strategies please see the [relevant documentation](https://github.com/TAMULib/Sage/blob/master/README.md).
+Deploying SAGE and trying it out at your own institution is itself a way of contributing to the development process. For more information on deployment strategies please see the [relevant documentation](https://github.com/TAMULib/Sage/blob/master/README.md).
   
 #### Filing Issues: 
 
