@@ -42,4 +42,4 @@ deploy:
   github_token: "$GITHUB_TOKEN"
   local_dir: "./target/generated-docs"
   on:
-    branch: sprint-tcdl-2-b03906-initial-documentation
+    branch: sprint-tcdl-2-staging
