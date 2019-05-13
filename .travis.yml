@@ -1,8 +1,3 @@
-# Send final notification to coveralls after all jobs have been completed.
-notifications:
-  webhooks: 
-    - https://coveralls.io/webhook
-
 matrix:
   include:
   - name: "Java Tests"
@@ -34,6 +29,7 @@ matrix:
       - npm run test-ci
       - grunt coverage
 
+# Deploy Github pages after success of Java Tests.
 deploy:
   provider: pages
   skip_cleanup: true
@@ -42,4 +38,11 @@ deploy:
   github_token: "$GITHUB_TOKEN"
   local_dir: "./target/generated-docs"
   on:
-    branch: sprint-tcdl-2-staging
+    branch: sprint-tcdl-2-b03906-initial-documentation
+    condition: $TRAVIS_JOB_NAME = "Java Tests"
+
+# Send final notification to coveralls after all jobs have been completed.
+notifications:
+  webhooks:
+    urls:
+      - https://coveralls.io/webhook
