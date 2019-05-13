@@ -1,6 +1,7 @@
 # Send final notification to coveralls after all jobs have been completed.
 notifications:
-  webhooks: https://coveralls.io/webhook
+  webhooks: 
+    - https://coveralls.io/webhook
 
 matrix:
   include:
