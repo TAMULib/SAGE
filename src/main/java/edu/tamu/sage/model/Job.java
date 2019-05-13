@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 
@@ -28,6 +29,9 @@ public class Job extends ValidatingBaseEntity {
 
     @Column(nullable = false)
     private String name;
+
+    @Embedded
+    private Schedule schedule;
 
     public Job() {
         setModelValidator(new JobValidator());
@@ -86,5 +90,13 @@ public class Job extends ValidatingBaseEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Schedule getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
     }
 }

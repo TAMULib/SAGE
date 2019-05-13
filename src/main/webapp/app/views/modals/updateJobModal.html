@@ -7,7 +7,7 @@
   <div class="modal-body">
     <validationmessage results="jobForms.getResults()"></validationmessage>
 
-    <div class="row">
+    <div class="row form-group">
       <div class="col-sm-10 col-sm-offset-1">
         <validatedinput
           model="jobToUpdate"
@@ -24,6 +24,53 @@
 
         <label for="writersSelect">Writers</label>
         <select name="writersSelect" class="form-control" ng-options="writer as writer.name for writer in writers track by writer.id" ng-model="jobToUpdate.writers" multiple required></select>
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-sm-10 col-sm-offset-1">
+      <div>
+        <label>Active?</label>
+      </div>
+      <label class="radio-inline">
+        <input type="radio" name="activeSchedule" ng-model="jobToUpdate.schedule.active" ng-value="true"> Yes
+      </label>
+      <label class="radio-inline">
+        <input type="radio" name="activeSchedule" ng-model="jobToUpdate.schedule.active" ng-value="false"> No
+      </label>
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-sm-10 col-sm-offset-1">
+      <label for="scheduleFRequency">Frequency</label>
+      <select name="scheduleFequency" class="form-control" ng-model="jobToUpdate.schedule.frequency" ng-change="clearExistingSchedule()">
+        <option value="">Select Frequency</option>
+        <option value="ONCE">Once</option>
+        <option value="HOURLY">Hourly</option>
+        <option value="DAILY">Daily</option>
+        <option value="WEEKLY">Weekly</option>
+        <option value="MONTHLY">Monthly</option>
+      </select>
+    </div>
+  </div>
+  <div class="row form-group" ng-if="showScheduleOption('jobToUpdate','days')">
+    <div class="col-sm-11 col-sm-offset-1">
+      <span class="btn btn-default btn-weekday" ng-repeat="(dayNumber, dayName) in weekDays" ng-click="toggleDay('jobToUpdate', dayNumber)" ng-class="{active: hasDay('jobToUpdate', dayNumber)}">{{dayName}}</span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-5 col-sm-offset-1" ng-if="showScheduleOption('jobToUpdate','date')">
+      <label>Start </label>
+      <p class="input-group">
+        <input type="text" class="form-control" uib-datepicker-popup ng-model="jobToUpdate.schedule.scheduleData.date" is-open="popupStart.opened" datepicker-options="dateOptions" close-text="Close" date-as-timestamp/>
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="openStart($event)">
+            <i class="glyphicon glyphicon-calendar"></i>
+          </button>
+        </span>
+      </p>
+    </div>
+    <div class="col-sm-5 col-sm-offset-1" ng-if="showScheduleOption('jobToUpdate','time')">
+      <div uib-timepicker ng-model="jobToUpdate.schedule.scheduleData.startTime" hour-step="1" minute-step="15" show-meridian="true"></div>
     </div>
   </div>
 
