@@ -18,7 +18,7 @@ matrix:
     language: node_js
     node_js: "8"
     addons:
-      - chrome: stable
+      chrome: stable
     before_script:
       - export DISPLAY=:99.0
       - export COVERALLS_PARALLEL=true
@@ -32,3 +32,13 @@ matrix:
     script:
       - npm run test-ci
       - grunt coverage
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  keep-history: false
+  target-branch: gh-pages
+  github_token: "$GITHUB_TOKEN"
+  local_dir: "./target/generated-docs"
+  on:
+    branch: sprint-tcdl-2-b03906-initial-documentation
