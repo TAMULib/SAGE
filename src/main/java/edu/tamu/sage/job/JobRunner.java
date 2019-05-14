@@ -36,7 +36,7 @@ public class JobRunner {
     private static final String DAYS_KEY = "days";
     private static final String MONTHS_KEY = "months";
 
-    @Scheduled(cron = "0 * * * * ?")
+    @Scheduled(cron = "0 0/30 * * * ?")
     private void runJobs() {
         logger.debug("Checking "+jobRepo.findByScheduleActiveTrue().size()+" Active Jobs");
         LocalDateTime schedulerStarted = java.time.LocalDateTime.now(ZoneId.of("UTC"));
