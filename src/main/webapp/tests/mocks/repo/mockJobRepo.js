@@ -104,7 +104,12 @@ var mockJobs = [{
         },
         "outputMappings": mockJobOutputMappings
       }
-    ]
+    ],
+    "schedule":
+      {
+        "active": false,
+        "scheduleData": {}
+      }
   },
   {
     "id": 2,
@@ -136,7 +141,12 @@ var mockJobs = [{
         },
         "outputMappings": mockJobOutputMappings
       }
-    ]
+    ],
+    "schedule":
+      {
+        "active": false,
+        "scheduleData": {}
+      }
   },
   {
     "id": 3,
@@ -192,7 +202,12 @@ var mockJobs = [{
         },
         "outputMappings": mockJobOutputMappings
       }
-    ]
+    ],
+    "schedule":
+      {
+        "active": false,
+        "scheduleData": {}
+      }
   }
 ];
 
