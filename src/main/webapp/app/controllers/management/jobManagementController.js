@@ -34,6 +34,8 @@ sage.controller('JobManagementController', function ($controller, $scope, NgTabl
   };
 
   $scope.startCreateJob = function() {
+    var now = new Date();
+    $scope.jobToCreate.schedule.scheduleData.startTime = new Date(now.getFullYear()+"-"+now.getMonth()+"-"+now.getDay()+"T"+"12:00:00Z");
     $scope.openModal("#createJobModal");
   };
 
