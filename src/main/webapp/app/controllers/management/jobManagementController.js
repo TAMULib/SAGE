@@ -13,6 +13,7 @@ sage.controller('JobManagementController', function ($controller, $scope, NgTabl
   $scope.jobToDelete = {};
 
   $scope.weekDays = {1:"Monday",2:"Tuesday",3:"Wednesday",4:"Thursday",5:"Friday",6:"Saturday",7:"Sunday"};
+  $scope.months = {1:"January",2:"February",3:"March",4:"April",5:"May",6:"June",7:"July",8:"August",9:"September",10:"October",11:"November",12:"December"};
 
   $scope.popupStart = {
     opened: false
@@ -106,7 +107,9 @@ sage.controller('JobManagementController', function ($controller, $scope, NgTabl
       } else if (type == 'date') {
         return ($scope[activeModel].schedule.frequency == 'ONCE');
       } else if (type == "time") {
-        return ($scope[activeModel].schedule.frequency == 'ONCE' || $scope[activeModel].schedule.frequency == 'DAILY'  || $scope[activeModel].schedule.frequency == 'WEEKLY');
+        return ($scope[activeModel].schedule.frequency == 'ONCE' || $scope[activeModel].schedule.frequency == 'MONTHLY' || $scope[activeModel].schedule.frequency == 'DAILY'  || $scope[activeModel].schedule.frequency == 'WEEKLY');
+      } else if (type == "month") {
+        return ($scope[activeModel].schedule.frequency == 'MONTHLY');
       }
     } else {
       return false;
@@ -128,7 +131,6 @@ sage.controller('JobManagementController', function ($controller, $scope, NgTabl
     } else {
       activeDays.push(day);
     }
-    console.log(activeDays.toString());
     $scope[activeModel].schedule.scheduleData.days = activeDays.toString();
   };
 
@@ -139,6 +141,33 @@ sage.controller('JobManagementController', function ($controller, $scope, NgTabl
       foundDay = true;
     }
     return foundDay;
+  };
+
+  var prepMonths = function(months) {
+    var activeMonths = [];
+    if (months !== undefined) {
+      activeMonths = months.split(",");
+    }
+    return activeMonths;
+  };
+
+  $scope.toggleMonth = function(activeModel, month) {
+    var activeMonths = prepMonths($scope[activeModel].schedule.scheduleData.months);
+    if ($scope.hasMonth(activeModel, month)) {
+      activeMonths.splice(activeMonths.indexOf(month),1);
+    } else {
+      activeMonths.push(month);
+    }
+    $scope[activeModel].schedule.scheduleData.months = activeMonths.toString();
+  };
+
+  $scope.hasMonth = function(activeModel, month) {
+    var foundMonth = false;
+    var activeMonths = prepMonths($scope[activeModel].schedule.scheduleData.months);
+    if (activeMonths.indexOf(month.toString()) > -1) {
+      foundMonth = true;
+    }
+    return foundMonth;
   };
 
   $scope.clearExistingSchedule = function() {

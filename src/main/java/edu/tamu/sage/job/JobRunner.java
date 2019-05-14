@@ -34,6 +34,7 @@ public class JobRunner {
     private static final String START_TIME_KEY = "startTime";
     private static final String DATE_KEY = "date";
     private static final String DAYS_KEY = "days";
+    private static final String MONTHS_KEY = "months";
 
     @Scheduled(cron = "0 * * * * ?")
     private void runJobs() {
@@ -67,6 +68,12 @@ public class JobRunner {
                     }
                 break;
                 case MONTHLY:
+                    LocalTime monthlyStartTime = buildJobStartTime(j.getSchedule().getScheduleData().get(START_TIME_KEY));
+                    List<Integer> monthsToRun = buildDaysToRun(j.getSchedule().getScheduleData().get(MONTHS_KEY));
+
+                    if (monthsToRun.contains(schedulerStarted.getMonth().getValue()) && schedulerStarted.getDayOfMonth() == 1 && monthlyStartTime.getHour() == schedulerStarted.getHour() && monthlyStartTime.getMinute() == schedulerStarted.getMinute()) {
+                        startJob(j);
+                    }
                 break;
             }
         });
