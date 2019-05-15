@@ -1,0 +1,14 @@
+
+= SAGE APIs
+{project-version}
+:doctype: book
+:toc: left
+:toclevels: 2
+:sectanchors:
+:sectlinks:
+:linkattrs:
+:source-highlighter: highlightjs
+
+include::./internalMetadataAPI.adoc[]
+
+include::./operatorsAPI.adoc[]

@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.mail.javamail.ConfigurableMimeFileTypeMap;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -28,11 +29,12 @@ import edu.tamu.weaver.validation.resolver.WeaverValidatedModelMethodProcessor;
 
 @EnableWebMvc
 @Configuration
-@EntityScan(basePackages = { "edu.tamu.sage.model", "edu.tamu.weaver.wro.model" })
-@EnableJpaRepositories(basePackages = { "edu.tamu.sage.model.repo", "edu.tamu.weaver.wro.model.repo" })
+@EntityScan(basePackages = { "edu.tamu.sage.model" })
+@EnableJpaRepositories(basePackages = { "edu.tamu.sage.model.repo" })
+@EnableScheduling
 public class AppWebMvcConfig extends WebMvcConfigurerAdapter {
 
-	@Value("${app.ui.path}")
+    @Value("${app.ui.path}")
     private String path;
 
     @Value("#{new Boolean('${info.build.production:false}')}")

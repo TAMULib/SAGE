@@ -19,7 +19,7 @@ setUpApp(function (connected) {
       try {
           // If the app is already bootstrapped then an error will be thrown
           // caution: if module is not found app will result in blank page with no stack trace!!!
-          angular.bootstrap(document, ['core', 'sage', 'ngMessages', 'ui.bootstrap', 'ngFileUpload']);
+          angular.bootstrap(document, ['core', 'sage', 'ngMessages', 'ui.bootstrap', 'ngFileUpload', 'ui.openseadragon']);
       } catch (e) {
           console.error(e);
           /*

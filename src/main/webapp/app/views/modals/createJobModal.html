@@ -23,9 +23,62 @@
         <label for="readersSelect">Readers</label>
         <select name="readersSelect" class="form-control" ng-options="reader as reader.name for reader in readers track by reader.id" ng-model="jobToCreate.readers" multiple required></select>
 
+        <label for="operatorsSelect">Operators</label>
+        <select name="operatorsSelect" class="form-control" ng-options="operator as operator.name for operator in operators track by operator.id" ng-model="jobToCreate.operators" multiple></select>
+
         <label for="writersSelect">Writers</label>
         <select name="writersSelect" class="form-control" ng-options="writer as writer.name for writer in writers track by writer.id" ng-model="jobToCreate.writers" multiple required></select>
       </div>
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-sm-10 col-sm-offset-1">
+      <div>
+        <label>Active?</label>
+      </div>
+      <label class="radio-inline">
+        <input type="radio" name="activeSchedule" ng-model="jobToCreate.schedule.active" ng-value="true"> Yes
+      </label>
+      <label class="radio-inline">
+        <input type="radio" name="activeSchedule" ng-model="jobToCreate.schedule.active" ng-value="false"> No
+      </label>
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-sm-10 col-sm-offset-1">
+      <label for="scheduleFRequency">Frequency</label>
+      <select name="scheduleFequency" class="form-control" ng-model="jobToCreate.schedule.frequency">
+        <option value="">Select Frequency</option>
+        <option value="ONCE">Once</option>
+        <option value="HOURLY">Hourly</option>
+        <option value="DAILY">Daily</option>
+        <option value="WEEKLY">Weekly</option>
+        <option value="MONTHLY">Monthly</option>
+      </select>
+    </div>
+  </div>
+  <div class="row form-group" ng-if="showScheduleOption('jobToCreate','days')">
+    <div class="col-sm-11 col-sm-offset-1">
+      <span class="btn btn-default btn-weekday" ng-repeat="(dayNumber, dayName) in weekDays" ng-click="toggleDay('jobToCreate', dayNumber)" ng-class="{active: hasDay('jobToCreate', dayNumber)}">{{dayName}}</span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-5 col-sm-offset-1" ng-if="showScheduleOption('jobToCreate','date')">
+      <label>Start </label>
+      <p class="input-group">
+        <input type="text" class="form-control" uib-datepicker-popup ng-model="jobToCreate.schedule.scheduleData.date" is-open="popupStart.opened" datepicker-options="dateOptions" close-text="Close" date-as-timestamp/>
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="openStart($event)">
+            <i class="glyphicon glyphicon-calendar"></i>
+          </button>
+        </span>
+      </p>
+    </div>
+    <div class="col-sm-5 col-sm-offset-1 scheduler-monthly" ng-if="showScheduleOption('jobToCreate','month')">
+      <span class="btn btn-default btn-month" ng-repeat="(monthNumber, monthName) in months" ng-click="toggleMonth('jobToCreate', monthNumber)" ng-class="{active: hasMonth('jobToCreate', monthNumber)}">{{monthName}}</span>
+    </div>
+    <div class="col-sm-5 col-sm-offset-1" ng-if="showScheduleOption('jobToCreate','time')">
+      <div uib-timepicker ng-model="jobToCreate.schedule.scheduleData.startTime" hour-step="1" minute-step="30" show-meridian="true" readonly-input="true"></div>
     </div>
   </div>
 

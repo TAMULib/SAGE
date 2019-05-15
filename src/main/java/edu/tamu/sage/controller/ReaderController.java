@@ -5,9 +5,6 @@ import static edu.tamu.weaver.validation.model.BusinessValidationType.CREATE;
 import static edu.tamu.weaver.validation.model.BusinessValidationType.DELETE;
 import static edu.tamu.weaver.validation.model.BusinessValidationType.UPDATE;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,10 +59,4 @@ public class ReaderController {
         return new ApiResponse(SUCCESS);
     }
 
-    @RequestMapping("/metadata-fields")
-    @PreAuthorize("hasRole('USER')")
-    public ApiResponse getMetadataFields() {
-        //TODO We'll eventually want the Fields and schema mappings to be dynamically configurable, but this will work in the very short term
-        return new ApiResponse(SUCCESS, new ArrayList<String>(Arrays.asList("title","creator","created","subject","format","language","terms.identifier","isPartOf")));
-    }
 }

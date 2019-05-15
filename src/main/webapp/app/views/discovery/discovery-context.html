@@ -65,7 +65,7 @@
           <div class="media dc-result" ng-repeat="result in discoveryContext.results">
             <div class="media-left media-middle">
               <a href="discovery-context/{{discoveryContext.slug}}/{{result.uniqueIdentifier}}">
-                <img class="media-object" default-src="defaultThumbnailURI" ng-src="{{result.resourceLocationUriKey | removeBrackets}}" alt="picture of: {{result.title}}">
+                <img class="media-object" default-src="defaultThumbnailURI" ng-src="{{result.resourceThumbnailUriKey | removeBrackets}}" alt="picture of: {{result.title}}">
               </a>
             </div>
             <div class="media-body">
