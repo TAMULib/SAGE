@@ -96,20 +96,22 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
     };
 
     discoveryContext.executeSearch = function(maintainPage) {
-      if(!searching) {
-        searching = true;
-        if(!maintainPage) {
-          discoveryContext.search.start = 0;
-          $location.search("start", 0);
+      return $q(function(resolve) {
+        if(!searching) {
+          searching = true;
+          if(!maintainPage) {
+            discoveryContext.search.start = 0;
+            $location.search("start", 0);
+          }
+          discoveryContext.reload().then(function() {
+            searching = false;
+            $location.search(discoveryContext.search.query);
+            resolve();
+          });
+        } else {
+          resolve();
         }
-        var reoloadPromise = discoveryContext.reload();
-        reoloadPromise.then(function() {
-          searching = false;
-          $location.search(discoveryContext.search.query);
-          //resetSearch();
-        });
-        return reoloadPromise;
-      }
+      });
     };
 
     discoveryContext.isSearching = function() {

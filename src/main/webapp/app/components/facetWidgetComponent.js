@@ -31,5 +31,14 @@ sage.component("facetWidget", {
       return filter;
     };
 
+    $scope.getFacetCountKeys = function(viewValue) {
+      var keys = [];
+      if($scope.$ctrl.facet) {
+        keys = Object.keys($scope.$ctrl.facet.counts);
+      }
+      return keys.filter(function(facet) {
+        return facet.startsWith(viewValue);
+      });
+    };
   }
 });

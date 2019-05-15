@@ -16,7 +16,7 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
     $scope.rowOptions.push({ value: options[i], label: options[i] + " Per Page"});
   }
 
-  var discoveryContext = new DiscoveryContext({
+  $scope.discoveryContext = new DiscoveryContext({
     slug: $routeParams.slug,
   });
 
