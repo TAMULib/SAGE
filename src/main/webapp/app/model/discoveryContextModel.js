@@ -78,6 +78,7 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
         value: value
       };
       discoveryContext.search.filters.push(filter);
+      return discoveryContext.executeSearch();
     };
 
     discoveryContext.removeFilter = function(filter) {
@@ -87,7 +88,7 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
           discoveryContext.search.filters.splice(i, 1);
         }
       }
-      discoveryContext.executeSearch();
+      return discoveryContext.executeSearch();
     };
 
     discoveryContext.clearFilters = function() {

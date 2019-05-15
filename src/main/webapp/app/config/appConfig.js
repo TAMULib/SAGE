@@ -2,12 +2,12 @@ var appConfig = {
 
   'version': '1.0.x',
 
-  'allowAnonymous': true,
+  'allowAnonymous': false,
   'anonymousRole': 'ROLE_ANONYMOUS',
 
-  'authStrategies': ['emailRegistration'],
+  'authStrategies': ['weaverAuth'],
 
-  'authService': window.location.protocol + '//' + window.location.host + window.location.base + '/auth',
+  'authService': window.location.protocol + '//' + window.location.host + window.location.base + '/mock/auth',
   'webService': window.location.protocol + '//' + window.location.host + window.location.base,
 
   'storageType': 'session',
@@ -32,7 +32,7 @@ var appConfig = {
 
   // Set this to 'admin' or 'user' if using mock AuthService
   // otherwise set to null or false
-  'mockRole': null,
+  'mockRole': 'admin',
 
   'contentMap': {"image": ["image/png","image/gif", "text/html;charset=UTF-8"],"seadragon": ["image/jp2","image/tiff", "application/json;charset=UTF-8", "json"]},
 

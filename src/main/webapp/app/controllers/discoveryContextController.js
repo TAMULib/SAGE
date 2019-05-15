@@ -23,13 +23,20 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
   $scope.discoveryContext.ready().then(function() {
 
     $scope.resetSearch = function() {
+        console.log("Reset");
       if($scope.discoveryContext.searchFilters) {
         $scope.currentSearchFilter = $scope.discoveryContext.searchFilters[0];
-      }
+      } 
       $scope.currentSearchValue = '';
     };
 
     $scope.resetSearch();
+
+    $scope.removeFilter = function(filter) {
+      $scope.discoveryContext.removeFilter(filter).then(function() {
+        $scope.resetSearch();
+      });
+    };
 
     $scope.clearFilters = function() {
       $scope.discoveryContext.clearFilters().then(function() {
@@ -39,8 +46,7 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
     
     $scope.searchProcessKeyPress = function($event) {
       if(event.keyCode === 13 && $scope.currentSearchFilter) {
-        $scope.discoveryContext.addFilter($scope.currentSearchFilter.label, $scope.currentSearchFilter.key, $scope.currentSearchValue);
-        $scope.discoveryContext.executeSearch().then(function() {
+        $scope.discoveryContext.addFilter($scope.currentSearchFilter.label, $scope.currentSearchFilter.key, $scope.currentSearchValue).then(function() {
           $scope.resetSearch();
         });
       }
