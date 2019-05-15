@@ -1,0 +1,57 @@
+<form ng-submit="saveSchedule()" name="jobForms.updateSchedule" novalidate>
+  <div class="modal-header {{attr.modalHeaderClass}}">
+    <button type="button" class="close modal-close" aria-label="Close" ng-click="cancelUpdateJobSchedule()"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Update Job Schedule</h4>
+  </div>
+
+  <div class="modal-body">
+
+    <div class="row form-group">
+      <div class="col-xs-6">
+        <label for="scheduleFRequency">Frequency</label>
+        <select name="scheduleFequency" class="form-control" ng-model="jobToUpdate.schedule.scheduleData.frequency">
+          <option value="">Select Frequency</option>
+          <option value="ONCE">Once</option>
+          <option value="HOURLY">Hourly</option>
+          <option value="DAILY">Daily</option>
+          <option value="WEEKLY">Weekly</option>
+          <option value="MONTHLY">Monthly</option>
+        </select>
+      </div>
+    </div>
+    <div class="row form-group" ng-if="showScheduleOption('days')">
+      <div class="col-xs-12">
+        <button ng-repeat="(dayNumber, dayName) in weekDays" ng-click="addDay(dayNumber)">{{dayName}}</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="set-schedule" ng-class="{'display': schedule.editing}">
+        <div class="col-xs-6" ng-if="showScheduleOption('date')">
+          <label>Start </label>
+          <p class="input-group">
+            <input type="text" class="form-control" uib-datepicker-popup ng-model="jobToUpdate.schedule.scheduleData.date" is-open="popupStart.opened" datepicker-options="dateOptions" close-text="Close" date-as-timestamp/>
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default" ng-click="openStart($event)">
+                <i class="glyphicon glyphicon-calendar"></i>
+              </button>
+            </span>
+          </p>
+        </div>
+        <div class="col-xs-6" ng-if="showScheduleOption('time')">
+          <div uib-timepicker ng-model="jobToUpdate.schedule.scheduleData.startTime" hour-step="1" minute-step="15" show-meridian="true"></div>
+        </div>
+      </div>
+    </div>
+
+    <div ng-if="message" class="col-xs-11 col-xs-offset-1">
+      <br/>
+      <span class="text-warning">{{message}}</span>
+    </div>
+
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="cancelUpdateJobSchedule()">Cancel</button>
+    <button type="submit" class="btn btn-primary">Save</button>
+  </div>
+</form>
