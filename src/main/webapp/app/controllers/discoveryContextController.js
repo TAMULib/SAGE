@@ -22,20 +22,26 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
 
   $scope.discoveryContext.ready().then(function() {
 
-    var resetSearch = function() {
+    $scope.resetSearch = function() {
       if($scope.discoveryContext.searchFilters) {
         $scope.currentSearchFilter = $scope.discoveryContext.searchFilters[0];
       }
       $scope.currentSearchValue = '';
     };
 
-    resetSearch();
+    $scope.resetSearch();
+
+    $scope.clearFilters = function() {
+      $scope.discoveryContext.clearFilters().then(function() {
+        $scope.resetSearch();
+      });
+    };
     
     $scope.searchProcessKeyPress = function($event) {
       if(event.keyCode === 13 && $scope.currentSearchFilter) {
-        addFilter($scope.currentSearchFilter.label, $scope.currentSearchFilter.key, $scope.currentSearchValue);
+        $scope.discoveryContext.addFilter($scope.currentSearchFilter.label, $scope.currentSearchFilter.key, $scope.currentSearchValue);
         $scope.discoveryContext.executeSearch().then(function() {
-          resetSearch();
+          $scope.resetSearch();
         });
       }
     };
@@ -45,7 +51,7 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
         $scope.discoveryContext.search.start -= $scope.discoveryContext.search.rows;
         $scope.discoveryContext.search.start = $scope.discoveryContext.search.start < 0 ? 0 : $scope.discoveryContext.search.start;
         $scope.discoveryContext.executeSearch(true).then(function() {
-          resetSearch();
+          $scope.resetSearch();
         });
       }
     };
@@ -55,7 +61,7 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
         $scope.discoveryContext.search.start += $scope.discoveryContext.search.rows;
         $scope.discoveryContext.search.start = $scope.discoveryContext.search.start > $scope.discoveryContext.search.total ? $scope.discoveryContext.search.total : $scope.discoveryContext.search.start;
         $scope.discoveryContext.executeSearch(true).then(function() {
-          resetSearch();
+          $scope.resetSearch();
         });
       }
     };

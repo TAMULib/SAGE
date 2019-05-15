@@ -92,7 +92,7 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
 
     discoveryContext.clearFilters = function() {
       discoveryContext.search.filters.length = 0;
-      discoveryContext.executeSearch();
+      return discoveryContext.executeSearch();
     };
 
     discoveryContext.executeSearch = function(maintainPage) {
