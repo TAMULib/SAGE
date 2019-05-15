@@ -1,7 +1,9 @@
 sage.component("singleResultViewer", {
   templateUrl: "views/components/singleResultViewer.html",
-  bindings: {},
-  controller: function($scope, $routeParams, SingleResultContextService, $q) {
+  bindings: {
+    context: "="
+  },
+  controller: function($scope, $routeParams, $q, $timeout, $filter) {
 
     $scope.ready = false;
 
@@ -15,11 +17,11 @@ sage.component("singleResultViewer", {
         extension = url.split('.').pop(); 
       }
       
-      if(extension) {
+      if (extension) {
         var ct = "default";
         var keys = Object.keys(appConfig.contentMap);
         for(var i in keys) {
-          var key = keys[i]
+          var key = keys[i];
           var types = appConfig.contentMap[key];
           var index = types.indexOf(extension);
           if(index !== -1) {
@@ -31,10 +33,10 @@ sage.component("singleResultViewer", {
         var xhttp = new XMLHttpRequest();
         xhttp.open('HEAD', url);
         xhttp.onreadystatechange = function () {
-            if (this.readyState == this.DONE) {
-                var ct = this.getResponseHeader("Content-Type");
-                defer.resolve(ct);
-            }
+          if (this.readyState == this.DONE) {
+            var ct = this.getResponseHeader("Content-Type");
+            defer.resolve(ct);
+          }
         };
         xhttp.send();
       }
@@ -42,48 +44,21 @@ sage.component("singleResultViewer", {
       return defer.promise;
     };
 
+    $timeout(function() {
+      $scope.singleResultContext = $scope.$ctrl.context;
+      $scope.singleResultContext.ready().then(function() {
+        var resourceUri = $filter("removeBrackets")($scope.singleResultContext.resourceLocationUri);
+
+        getContentType(resourceUri).then(function(ct) {
+          $scope.contentType = ct;
+          $scope.ready = true;
+        });
+      });
+
+    });
+
     $scope.singleResultMode = function() {
       return $routeParams.resultId != null;
     };
-
-    SingleResultContextService.getSingleResult().then(function(sr) {
-      
-      $scope.singleResultContext = sr;
-
-      getContentType().then(function(ct) {
-        $scope.contentType = ct;
-        $scope.ready = true;
-      });
-      
-    });
-
   }
-});
-
-sage.service("SingleResultContextService", function($q) {
-
-    var singleResultContextService = this;
-    
-    var defer;
-
-    var singleResult;
-
-    singleResultContextService.getSingleResult = function() {
-
-      defer = $q.defer();
-
-      if(singleResult) {
-        defer.resolve(singleResult);
-      }
- 
-      return defer.promise;
-    };
-
-    singleResultContextService.setSingleResult = function(sr, trigger) {
-      trigger = false;
-      singleResult = sr;
-      if(defer) defer.resolve(singleResult);
-      trigger = true;
-    };
-
 });

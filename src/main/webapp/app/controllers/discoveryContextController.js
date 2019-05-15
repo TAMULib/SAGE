@@ -16,39 +16,43 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
     $scope.rowOptions.push({ value: options[i], label: options[i] + " Per Page"});
   }
 
-  var discoveryContext = new DiscoveryContext({
+  $scope.discoveryContext = new DiscoveryContext({
     slug: $routeParams.slug,
   });
 
-  var resetSearch = function() {
-    $scope.currentSearchFilter = discoveryContext.searchFilters[0];
-    $scope.currentSearchValue = '';
-  };
+  $scope.discoveryContext.ready().then(function() {
 
-  discoveryContext.ready().then(function() {
-    $scope.discoveryContext = discoveryContext;
+    console.log($scope.discoveryContext);
+
+    var resetSearch = function() {
+      if($scope.discoveryContext.searchFilters) {
+        $scope.currentSearchFilter = $scope.discoveryContext.searchFilters[0];
+      }
+      $scope.currentSearchValue = '';
+    };
+
     resetSearch();
     
     $scope.searchProcessKeyPress = function($event) {
       if(event.keyCode === 13 && $scope.currentSearchFilter) {
-        discoveryContext.addFilter($scope.currentSearchFilter.label, $scope.currentSearchFilter.key, $scope.currentSearchValue);
+        addFilter($scope.currentSearchFilter.label, $scope.currentSearchFilter.key, $scope.currentSearchValue);
         $scope.discoveryContext.executeSearch();
       }
     };
 
     $scope.pageBack = function() {
-      if(discoveryContext.search.start > 0) {
-        discoveryContext.search.start -= discoveryContext.search.rows;
-        discoveryContext.search.start = discoveryContext.search.start < 0 ? 0 : discoveryContext.search.start;
-        $scope.executeSearch(true);
+      if($scope.discoveryContext.search.start > 0) {
+        $scope.discoveryContext.search.start -= $scope.discoveryContext.search.rows;
+        $scope.discoveryContext.search.start = $scope.discoveryContext.search.start < 0 ? 0 : $scope.discoveryContext.search.start;
+        $scope.discoveryContext.executeSearch(true);
       }
     };
 
     $scope.pageForward = function() {
-      if(discoveryContext.search.start < discoveryContext.search.total - discoveryContext.search.rows) {
-        discoveryContext.search.start += discoveryContext.search.rows;
-        discoveryContext.search.start = discoveryContext.search.start > discoveryContext.search.total ? discoveryContext.search.total : discoveryContext.search.start;
-        $scope.executeSearch(true);
+      if($scope.discoveryContext.search.start < $scope.discoveryContext.search.total - $scope.discoveryContext.search.rows) {
+        $scope.discoveryContext.search.start += $scope.discoveryContext.search.rows;
+        $scope.discoveryContext.search.start = $scope.discoveryContext.search.start > $scope.discoveryContext.search.total ? $scope.discoveryContext.search.total : $scope.discoveryContext.search.start;
+        $scope.discoveryContext.executeSearch(true);
       }
     };
 

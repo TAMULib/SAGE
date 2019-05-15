@@ -1,7 +1,7 @@
 <form name="sourceForms.update" ng-submit="updateSource()" novalidate class="solr-source-forms-update">
   <div class="modal-header {{attr.modalHeaderClass}}">
     <button type="button" class="close modal-close" aria-label="Close" ng-click="cancelUpdateSource()"><span aria-hidden="true">&times;</span></button>
-    <h4 class="modal-title">update Solr Source</h4>
+    <h4 class="modal-title">Update Core</h4>
   </div>
   <div class="modal-body">
     <validationmessage results="sourceForms.getResults()"></validationmessage>
@@ -32,8 +32,8 @@
               autocomplete="off">
             </validatedinput>
             <div class="input-group">
-              <label>Read Only Source?</label>
-              <input class="form-control" type="text" name="sourceToUpdateReadOnly" ng-model="sourceToUpdate.readOnly" readonly>
+              <label>Type</label>
+              <input class="form-control" type="text" name="sourceToUpdateReadOnly" value="{{sourceToUpdate.readOnly ? 'Source':'Destination'}}" readonly>
             </div>
           </div>
         </div>

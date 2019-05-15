@@ -106,7 +106,6 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
         reoloadPromise.then(function() {
           searching = false;
           $location.search(discoveryContext.search.query);
-          //resetSearch();
         });
         return reoloadPromise;
       }

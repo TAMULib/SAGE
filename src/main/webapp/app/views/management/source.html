@@ -1,5 +1,5 @@
 <div ng-controller="SourceManagementController" class="solr-source-management">
-  <h1>Source Management</h1>
+  <h1>Core Management</h1>
 
   <div class="panel panel-default solr-source-container">
     <div class="panel-heading clearfix">
@@ -16,8 +16,8 @@
             <td data-title="'URI'" sortable="'uri'">
               <a href="{{source.uri}}">{{source.uri}}</a>
             </td>
-            <td data-title="'Read Only'" sortable="'readOnly'">
-              {{source.readOnly}}
+            <td data-title="'Type'" sortable="'readOnly'">
+              {{source.readOnly ? 'Source':'Destination'}}
             </td>
             <td data-title="'Actions'">
               <span class="glyphicon glyphicon-pencil clickable" ng-click="startUpdateSource(source)"></span>

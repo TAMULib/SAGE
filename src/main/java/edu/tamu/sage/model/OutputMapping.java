@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 
 import edu.tamu.weaver.data.model.BaseEntity;
 
@@ -13,14 +14,14 @@ public class OutputMapping extends BaseEntity {
 
     @Column
     private String inputField;
-    
-    @ElementCollection
+
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<String> mappings;
-    
+
     public String getInputField() {
         return inputField;
     }
-    
+
     public void setInputField(String inputField) {
         this.inputField = inputField;
     }
@@ -32,6 +33,5 @@ public class OutputMapping extends BaseEntity {
     public void setMappings(List<String> mappings) {
         this.mappings = mappings;
     }
-    
 
 }

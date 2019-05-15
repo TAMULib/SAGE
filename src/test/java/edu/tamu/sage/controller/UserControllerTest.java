@@ -19,6 +19,7 @@ import org.mockito.Mock;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import edu.tamu.sage.controller.UserController;
 import edu.tamu.sage.model.User;
 import edu.tamu.sage.model.repo.UserRepo;
 import edu.tamu.weaver.auth.model.Credentials;

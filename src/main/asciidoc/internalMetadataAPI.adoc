@@ -1,0 +1,54 @@
+== Internal Metadata API
+A Collection of CRUD API endpoints used for interacting with SAGE's Internal Metdatum resource.
+
+=== Get All Internal Metadata
+
+A `GET` to the `/internal/metadata` endpoint which will return a list all Internal Metadata in SAGE.
+
+==== Sample Request
+include::../../../target/generated-snippets/internal/metadata/get-all/http-request.adoc[]
+
+==== Sample Response
+include::../../../target/generated-snippets/internal/metadata/get-all/http-response.adoc[]
+
+==== Example Curl Request
+include::../../../target/generated-snippets/internal/metadata/get-all/curl-request.adoc[]
+
+=== Create Internal Metadatum
+
+A `POST` to the `/internal/metadata` endpoint which will result in the creation of a new Internal Metadatum in SAGE.
+
+==== Sample Request
+include::../../../target/generated-snippets/internal/metadata/create/http-request.adoc[]
+
+==== Sample Response
+include::../../../target/generated-snippets/internal/metadata/create/http-response.adoc[]
+
+==== Example Curl Request
+include::../../../target/generated-snippets/internal/metadata/create/curl-request.adoc[]
+
+=== Update Internal Metadatum
+
+A `PUT` request to the `/internal/metadata` endpoint which will result in the updating of the specified Internal Metadatum resource in SAGE.
+
+==== Sample Request
+include::../../../target/generated-snippets/internal/metadata/update/http-request.adoc[]
+
+==== Sample Response
+include::../../../target/generated-snippets/internal/metadata/update/http-response.adoc[]
+
+==== Example Curl Request
+include::../../../target/generated-snippets/internal/metadata/update/curl-request.adoc[]
+
+=== Delete Internal Metadatum
+
+A `DELETE` request to the `/internal/metadata` endpoint which will result in the deletion of the specified Internal Metadatum resource in SAGE.
+
+==== Sample Request
+include::../../../target/generated-snippets/internal/metadata/delete/http-request.adoc[]
+
+==== Sample Response
+include::../../../target/generated-snippets/internal/metadata/delete/http-response.adoc[]
+
+==== Example Curl Request
+include::../../../target/generated-snippets/internal/metadata/delete/curl-request.adoc[]

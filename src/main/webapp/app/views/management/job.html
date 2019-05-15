@@ -22,6 +22,11 @@
                 <li ng-repeat="reader in job.readers">{{reader.name}}</li>
               </ul>
             </td>
+            <td data-title="'Operators'" class="jobs-table-row-operator">
+              <ul ng-if="job.operators && job.operators.length">
+                <li ng-repeat="operator in job.operators">{{operator.name}}</li>
+              </ul>
+            </td>
             <td data-title="'Writers'" class="jobs-table-row-writer">
               <ul ng-if="job.writers && job.writers.length">
                 <li ng-repeat="writer in job.writers">{{writer.name}}</li>
@@ -62,4 +67,11 @@
     wvr-modal-backdrop="static">
   </modal>
 
+  <modal
+    modal-id="updateJobScheduleModal"
+    modal-view="views/modals/updateJobScheduleModal.html"
+    modal-header-class="modal-header-primary"
+    modal-fullscreen="true"
+    wvr-modal-backdrop="static">
+  </modal>
 </div>
