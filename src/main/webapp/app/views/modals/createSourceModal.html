@@ -1,7 +1,7 @@
 <form name="sourceForms.create" ng-submit="createSource()" novalidate class="solr-source-forms-create">
   <div class="modal-header {{attr.modalHeaderClass}}">
     <button type="button" class="close modal-close" aria-label="Close" ng-click="cancelCreateSource()"><span aria-hidden="true">&times;</span></button>
-    <h4 class="modal-title">Create Source</h4>
+    <h4 class="modal-title">Create Core</h4>
   </div>
   <div class="modal-body">
 
@@ -15,7 +15,7 @@
               model="sourceToCreate"
               property="name"
               label="Name"
-              placeholder="URI for the new Source"
+              placeholder="URI for the new Core"
               form="sourceForms.create"
               validations="sourceForms.validations"
               results="sourceForms.getResults()"
@@ -26,20 +26,20 @@
               model="sourceToCreate"
               property="uri"
               label="URI"
-              placeholder="URI for the new Source"
+              placeholder="URI for the new Core"
               form="sourceForms.create"
               validations="sourceForms.validations"
               results="sourceForms.getResults()"
               autocomplete="off">
             </validatedinput>
             <div>
-              <label>Read Only Source?</label>
+              <label>Type</label>
             </div>
             <label class="radio-inline">
-              <input type="radio" name="sourceToCreateReadOnly" ng-model="sourceToCreate.readOnly" ng-value="true"> Yes
+              <input type="radio" name="sourceToCreateReadOnly" ng-model="sourceToCreate.readOnly" ng-value="true"> Source
             </label>
             <label class="radio-inline">
-              <input type="radio" name="sourceToCreateReadOnly" ng-model="sourceToCreate.readOnly" ng-value="false"> No
+              <input type="radio" name="sourceToCreateReadOnly" ng-model="sourceToCreate.readOnly" ng-value="false"> Destination
             </label>
           </div>
         </div>
