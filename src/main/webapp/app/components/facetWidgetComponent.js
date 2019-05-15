@@ -2,7 +2,8 @@ sage.component("facetWidget", {
   templateUrl: "views/components/facetWidget.html",
   bindings: {
     facet: '=',
-    discoveryContext: "="
+    discoveryContext: "=",
+    resetSearch: "="
   },
   controller: function($scope) {
     
@@ -13,7 +14,9 @@ sage.component("facetWidget", {
       } else {
         $scope.$ctrl.discoveryContext.addFilter(facet.label, facet.key, value);
       }
-      $scope.$ctrl.discoveryContext.executeSearch();
+      $scope.$ctrl.discoveryContext.executeSearch().then(function() {
+        $scope.$ctrl.resetSearch();
+      });
     };
 
     $scope.findFilterByFacet = function(facetLabel, facetName) {

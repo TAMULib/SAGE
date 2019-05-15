@@ -17,7 +17,7 @@
       </div>
       <hr>
       <h3>Faceted Discovery</h3>
-      <facet-widget facet="facet" discovery-context="discoveryContext" ng-repeat="facet in discoveryContext.facetFilters"></facet-widget>
+      <facet-widget facet="facet" discovery-context="discoveryContext" ng-repeat="facet in discoveryContext.facetFilters" reset-search="resetSearch"></facet-widget>
     </div>
     <div class="col-md-9 dc-main">
       <div class="row dc-search">
@@ -36,7 +36,7 @@
       <div class="row dc-active-filters" ng-if="discoveryContext.search.filters.length > 0">
         <div class="col-xs-12">
           <ul class="list list-inline">
-            <li style="min-width:37px" class="btn btn-primary dc-active-filter" ng-if="discoveryContext.search.filters.length" ng-click="discoveryContext.clearFilters()"><span class="glyphicon glyphicon-home"></span></li>
+            <li style="min-width:37px" class="btn btn-primary dc-active-filter" ng-if="discoveryContext.search.filters.length" ng-click="clearFilters()"><span class="glyphicon glyphicon-home"></span></li>
             <li role="presentation" ng-repeat="filter in discoveryContext.search.filters" class="btn btn-primary dc-active-filter" ng-click="discoveryContext.removeFilter(filter)">{{filter.label}} <span ng-if="filter.key">:</span> {{filter.value}} <span class="glyphicon glyphicon-remove"></span></li>
           </ul>
         </div>
