@@ -1,0 +1,13 @@
+<div class="panel panel-default dc-facet">
+    <div class="panel-heading">{{$ctrl.facet.label}}</span></div>
+    <ul class="list-group dc-facet-counts-in-use">
+      <li class="list-group-item dc-facet-count-in-use clickable clearfix" ng-class="{'list-group-item-success': !hover, 'list-group-item-warning': hover}" ng-mouseover="hover=true" ng-mouseleave="hover=false" ng-repeat="(facetName, facetCount) in $ctrl.facet.counts track by $index" ng-click="addRemoveFacetFilter($ctrl.facet, facetName)" ng-if="findFilterByFacet($ctrl.facet.label, facetName)">
+        {{facetName}} <span class="badge pull-right" ng-hide="hover">{{facetCount}}</span> <span class="glyphicon glyphicon-remove pull-right" ng-show="hover"></span>
+      </li>
+    </ul>
+    <ul class="list-group dc-facet-counts-in-use">
+      <li class="list-group-item dc-facet-count-in-use clickable clearfix">
+          <input ng-model="selectedFacet" type="text" class="form-control" placeholder="Begin typing..." typeahead-editable="false" uib-typeahead="value for value in getFacetCountKeys($viewValue)" typeahead-on-select="addRemoveFacetFilter($ctrl.facet, $item)"  />
+      </li>
+    </ul>
+</div>

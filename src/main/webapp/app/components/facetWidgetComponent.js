@@ -10,13 +10,14 @@ sage.component("facetWidget", {
     $scope.addRemoveFacetFilter = function(facet, value) {
       var filter = $scope.findFilterByFacet(facet.label, value);
       if(filter) {
-        $scope.$ctrl.discoveryContext.removeFilter(filter);
+        $scope.$ctrl.discoveryContext.removeFilter(filter).then(function() {
+          $scope.$ctrl.resetSearch();
+        });
       } else {
-        $scope.$ctrl.discoveryContext.addFilter(facet.label, facet.key, value);
+        $scope.$ctrl.discoveryContext.addFilter(facet.label, facet.key, value).then(function() {
+          $scope.$ctrl.resetSearch();
+        });
       }
-      $scope.$ctrl.discoveryContext.executeSearch().then(function() {
-        $scope.$ctrl.resetSearch();
-      });
     };
 
     $scope.findFilterByFacet = function(facetLabel, facetName) {
@@ -31,5 +32,14 @@ sage.component("facetWidget", {
       return filter;
     };
 
+    $scope.getFacetCountKeys = function(viewValue) {
+      var keys = [];
+      if($scope.$ctrl.facet) {
+        keys = Object.keys($scope.$ctrl.facet.counts);
+      }
+      return keys.filter(function(facet) {
+        return facet.startsWith(viewValue);
+      });
+    }
   }
 });

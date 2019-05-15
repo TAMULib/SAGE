@@ -78,6 +78,7 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
         value: value
       };
       discoveryContext.search.filters.push(filter);
+      return discoveryContext.executeSearch();
     };
 
     discoveryContext.removeFilter = function(filter) {
@@ -87,7 +88,7 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
           discoveryContext.search.filters.splice(i, 1);
         }
       }
-      discoveryContext.executeSearch();
+      return discoveryContext.executeSearch();
     };
 
     discoveryContext.clearFilters = function() {
@@ -96,19 +97,22 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
     };
 
     discoveryContext.executeSearch = function(maintainPage) {
-      if(!searching) {
-        searching = true;
-        if(!maintainPage) {
-          discoveryContext.search.start = 0;
-          $location.search("start", 0);
+      return $q(function(resolve) {
+        if(!searching) {
+          searching = true;
+          if(!maintainPage) {
+            discoveryContext.search.start = 0;
+            $location.search("start", 0);
+          }
+          discoveryContext.reload().then(function() {
+            searching = false;
+            $location.search(discoveryContext.search.query);
+            resolve();
+          });
+        } else {
+          resolve();
         }
-        var reoloadPromise = discoveryContext.reload();
-        reoloadPromise.then(function() {
-          searching = false;
-          $location.search(discoveryContext.search.query);
-        });
-        return reoloadPromise;
-      }
+      });
     };
 
     discoveryContext.isSearching = function() {
