@@ -22,8 +22,6 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
 
   $scope.discoveryContext.ready().then(function() {
 
-    console.log($scope.discoveryContext);
-
     var resetSearch = function() {
       if($scope.discoveryContext.searchFilters) {
         $scope.currentSearchFilter = $scope.discoveryContext.searchFilters[0];
@@ -36,7 +34,9 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
     $scope.searchProcessKeyPress = function($event) {
       if(event.keyCode === 13 && $scope.currentSearchFilter) {
         addFilter($scope.currentSearchFilter.label, $scope.currentSearchFilter.key, $scope.currentSearchValue);
-        $scope.discoveryContext.executeSearch();
+        $scope.discoveryContext.executeSearch().then(function() {
+          resetSearch();
+        });
       }
     };
 
@@ -44,7 +44,9 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
       if($scope.discoveryContext.search.start > 0) {
         $scope.discoveryContext.search.start -= $scope.discoveryContext.search.rows;
         $scope.discoveryContext.search.start = $scope.discoveryContext.search.start < 0 ? 0 : $scope.discoveryContext.search.start;
-        $scope.discoveryContext.executeSearch(true);
+        $scope.discoveryContext.executeSearch(true).then(function() {
+          resetSearch();
+        });
       }
     };
 
@@ -52,7 +54,9 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
       if($scope.discoveryContext.search.start < $scope.discoveryContext.search.total - $scope.discoveryContext.search.rows) {
         $scope.discoveryContext.search.start += $scope.discoveryContext.search.rows;
         $scope.discoveryContext.search.start = $scope.discoveryContext.search.start > $scope.discoveryContext.search.total ? $scope.discoveryContext.search.total : $scope.discoveryContext.search.start;
-        $scope.discoveryContext.executeSearch(true);
+        $scope.discoveryContext.executeSearch(true).then(function() {
+          resetSearch();
+        });
       }
     };
 
