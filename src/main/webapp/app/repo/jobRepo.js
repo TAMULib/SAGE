@@ -2,7 +2,11 @@ sage.repo("JobRepo", function(Job, WsApi) {
   var jobRepo = this;
 
   jobRepo.scaffold = new Job({
-    name: "Job"
+    name: "Job",
+    schedule: {
+                active: false,
+                scheduleData: {}
+              }
   });
 
   jobRepo.run = function(job) {
