@@ -23,7 +23,6 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
   $scope.discoveryContext.ready().then(function() {
 
     $scope.resetSearch = function() {
-        console.log("Reset");
       if($scope.discoveryContext.searchFilters) {
         $scope.currentSearchFilter = $scope.discoveryContext.searchFilters[0];
       } 
