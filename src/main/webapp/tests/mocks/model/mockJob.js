@@ -104,7 +104,12 @@ var mockJob1 = {
       },
       "outputMappings": mockJobOutputMappings1
     }
-  ]
+  ],
+  "schedule":
+    {
+      "active": false,
+      "scheduleData": {}
+    }
 };
 
 var mockJob2 = {
@@ -137,7 +142,12 @@ var mockJob2 = {
       },
       "outputMappings": mockJobOutputMappings1
     }
-  ]
+  ],
+  "schedule":
+    {
+      "active": false,
+      "scheduleData": {}
+    }
 };
 
 var mockJob3 = {
@@ -194,7 +204,12 @@ var mockJob3 = {
       },
       "outputMappings": mockJobOutputMappings1
     }
-  ]
+  ],
+  "schedule":
+    {
+      "active": false,
+      "scheduleData": {}
+    }
 };
 
 angular.module('mock.job', []).service('Job', function ($q) {
@@ -218,6 +233,7 @@ angular.module('mock.job', []).service('Job', function ($q) {
       this.name = toMock.name;
       this.readers = toMock.readers;
       this.writers = toMock.writers;
+      this.schedule = toMock.schedule;
     };
 
     this.save = function() {

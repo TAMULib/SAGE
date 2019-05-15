@@ -229,7 +229,7 @@ describe('controller: JobManagementController', function () {
 
         scope.startUpdateJob(job);
 
-        expect(scope.jobToUpdate).toEqual(job);
+        expect(scope.jobToUpdate.id).toEqual(job.id);
         expect(scope.openModal).toHaveBeenCalled();
       });
 
