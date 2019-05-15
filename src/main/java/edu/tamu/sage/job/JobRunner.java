@@ -38,9 +38,10 @@ public class JobRunner {
 
     @Scheduled(cron = "0 0/30 * * * ?")
     private void runJobs() {
-        logger.debug("Checking "+jobRepo.findByScheduleActiveTrue().size()+" Active Jobs");
+        List<Job> activeJobs = jobRepo.findByScheduleActiveTrue();
+        logger.debug("Checking "+activeJobs.size()+" Active Jobs");
         LocalDateTime schedulerStarted = java.time.LocalDateTime.now(ZoneId.of("UTC"));
-        jobRepo.findByScheduleActiveTrue().forEach(j -> {
+        activeJobs.forEach(j -> {
             switch (j.getSchedule().getFrequency()) {
                 case ONCE:
                     LocalTime jobStartTime = buildJobStartTime(j.getSchedule().getScheduleData().get(START_TIME_KEY));
