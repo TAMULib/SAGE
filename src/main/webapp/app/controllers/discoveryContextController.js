@@ -36,11 +36,6 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
       }
     };
 
-    $scope.clearFilters = function() {
-      $scope.discoveryContext.search.filters.length = 0;
-      $scope.discoveryContext.executeSearch();
-    };
-
     $scope.pageBack = function() {
       if(discoveryContext.search.start > 0) {
         discoveryContext.search.start -= discoveryContext.search.rows;
