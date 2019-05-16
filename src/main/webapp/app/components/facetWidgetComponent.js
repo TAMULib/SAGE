@@ -40,6 +40,6 @@ sage.component("facetWidget", {
       return keys.filter(function(facet) {
         return facet.startsWith(viewValue);
       });
-    }
+    };
   }
 });

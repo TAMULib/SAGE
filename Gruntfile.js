@@ -32,11 +32,9 @@ module.exports = function (grunt) {
                   'Gruntfile.js',
                   '<%= build.app %>/**/*.js',
                   'node_modules/weaver-ui-core/**/*',
-                  'node_modules/weaver-ui-core/components/**/*',
                   'node_modules/weaver-ui-core/resources/**/*',
                   '!node_modules/**/*',
                   '!<%= build.app %>/node_modules/**/*',
-                  '!<%= build.app %>/components/**/*',
                   '!<%= build.app %>/resources/**/*'
               ]
           },
@@ -156,7 +154,6 @@ module.exports = function (grunt) {
                       '!<%= build.app %>/config/appConfig.js',
                       '!<%= build.app %>/config/apiMapping.js',
                       '!<%= build.app %>/resources/**/*',
-                      '!<%= build.app %>/components/**/*',
                       '!<%= build.app %>/node_modules/**/*'
                   ],
                   dest: '<%= build.app %>/resources/scripts/app_concat.js'
