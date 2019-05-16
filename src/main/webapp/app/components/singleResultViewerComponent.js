@@ -10,37 +10,41 @@ sage.component("singleResultViewer", {
     var getContentType = function(url) {
 
       var defer = $q.defer();
-    
+
       var extension;
-    
+      var ct = null;
+
       if(url) {
-        extension = url.split('.').pop(); 
+        extension = url.split('.').pop();
       }
-      
+
       if (extension) {
-        var ct = "default";
+
         var keys = Object.keys(appConfig.contentMap);
         for(var i in keys) {
           var key = keys[i];
           var types = appConfig.contentMap[key];
           var index = types.indexOf(extension);
           if(index !== -1) {
-            defer.resolve(types[index] || ct);
+            ct = types[index];
             break;
           }
         }
-      } else {
+      }
+
+      if (ct == null) {
         var xhttp = new XMLHttpRequest();
         xhttp.open('HEAD', url);
         xhttp.onreadystatechange = function () {
           if (this.readyState == this.DONE) {
-            var ct = this.getResponseHeader("Content-Type");
-            defer.resolve(ct);
+            ct = this.getResponseHeader("Content-Type");
           }
         };
         xhttp.send();
       }
-      
+
+      defer.resolve(ct);
+
       return defer.promise;
     };
 
