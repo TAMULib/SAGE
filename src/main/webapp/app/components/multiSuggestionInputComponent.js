@@ -32,7 +32,7 @@ sage.component("multiSuggestionInput", {
           $event.preventDefault();
           break;
       }
-    }
+    };
 
     $scope.processKeyUp = function($event, filteredSuggestion) {
       switch($event.which) {
