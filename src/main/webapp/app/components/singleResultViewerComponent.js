@@ -26,7 +26,7 @@ sage.component("singleResultViewer", {
           var types = appConfig.contentMap[key];
           var index = types.indexOf(extension);
           if(index !== -1) {
-            ct =  types[index];
+            ct = types[index];
             break;
           }
         }
@@ -37,12 +37,13 @@ sage.component("singleResultViewer", {
         xhttp.open('HEAD', url);
         xhttp.onreadystatechange = function () {
           if (this.readyState == this.DONE) {
-            var ct = this.getResponseHeader("Content-Type");
-            defer.resolve(ct);
+            ct = this.getResponseHeader("Content-Type");
           }
         };
         xhttp.send();
       }
+
+      defer.resolve(ct);
 
       return defer.promise;
     };
