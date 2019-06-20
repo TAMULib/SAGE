@@ -1,7 +1,7 @@
 <form name="discoveryViewForms.update" ng-submit="updateDiscoveryView()" novalidate class="discpvery-view-forms-update">
   <div class="modal-header {{attr.modalHeaderClass}}">
     <button type="button" class="close modal-close" aria-label="Close" ng-click="cancelUpdateDiscoveryView()"><span aria-hidden="true">&times;</span></button>
-    <h4 class="modal-title">Create Discovery View</h4>
+    <h4 class="modal-title">Edit Discovery View</h4>
   </div>
   <div class="modal-body">
 
@@ -284,7 +284,7 @@
                 <label for="key">Widget</label>
                 <select name="key" class="form-control" ng-model="discoveryViewToUpdate.facetFields[0].widget">
                   <option>Link</option>
-                  <option>Search</option>
+                  <option>Typeahead</option>
                 </select>
               </div>
             </div>
@@ -312,7 +312,7 @@
                 <label for="widget">Widget</label>
                 <select name="widget" class="form-control" ng-model="discoveryViewToUpdate.facetFields[$index].widget">
                   <option>Link</option>
-                  <option>Text</option>
+                  <option>Typeahead</option>
                 </select>
               </div>
             </div>

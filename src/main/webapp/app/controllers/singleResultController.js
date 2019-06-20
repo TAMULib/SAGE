@@ -4,11 +4,9 @@ sage.controller('SingleResultController', function ($controller, $scope, $routeP
         $scope: $scope
     }));
 
-    var singleResultContext = new SingleResultContext({
+    $scope.singleResultContext = new SingleResultContext({
       slug: $routeParams.slug,
       resultId: $routeParams.resultId,
     });
-
-    $scope.singleResultContext = singleResultContext;
 
 });

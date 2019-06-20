@@ -192,6 +192,7 @@ public class SolrDiscoveryService {
             SolrQuery query = new SolrQuery();
 
             query.setFacet(true);
+            query.setFacetLimit(Integer.MAX_VALUE);
 
             discoveryView.getFacetFields().forEach(facetField -> {
                 query.addFacetField(facetField.getKey());

@@ -24,7 +24,7 @@
           property="source"
           options="sources"
           optionproperty="name"
-          label="Source"
+          label="Destination"
           placeholder="Source for the new Writer"
           form="writerForms.create"
           validations="writerForms.validations"
@@ -35,9 +35,10 @@
 
         <label>Field Mappings</label>
         <ul class="list-group">
-          <li class="list-group-item" ng-repeat="field in metadataFields">
-            <label>{{field}}</label>
-            <input class="form-control" type="text" name="newWriterMappings" ng-model="newWriterMappings[field]" uib-typeahead="f.name for f in fields | filter:$viewValue" />
+          <li class="list-group-item" ng-repeat="metadatum in internalMetadata">
+            <label>{{metadatum.gloss}}</label>
+            <input class="form-control" type="text" name="writerMappings" ng-model="writerMappings[metadatum.field]" uib-typeahead="f.name for f in fields | filter:$viewValue" />
+            <small ng-if="metadatum.required" class="form-text text-muted">This field is required.</small>
           </li>
         </ul>
       </div>
@@ -45,6 +46,6 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" ng-click="cancelCreateWriter()">Cancel</button>
-    <button ng-disabled="writerForms.create.$invalid" type="submit" class="btn btn-success">Create</button>
+    <button ng-disabled="disableSubmit(writerForms.create)" type="submit" class="btn btn-success">Create</button>
   </div>
 </form>

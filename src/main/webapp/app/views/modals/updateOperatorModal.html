@@ -1,0 +1,74 @@
+<form name="operatorForms.update" ng-submit="updateOperator()" novalidate class="internal-metadata-forms-update">
+  <div class="modal-header {{attr.modalHeaderClass}}">
+    <button type="button" class="close modal-close" aria-label="Close" ng-click="cancelUpdateOperator()"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Update Operator</h4>
+  </div>
+  <div class="modal-body">
+    <validationmessage results="operatorForms.getResults()"></validationmessage>
+    <div class="row">
+      <div class="col-sm-10 col-sm-offset-1">
+        <validatedinput
+          id="operatorToUpdateName"
+          model="operatorToUpdate"
+          property="name"
+          label="Name"
+          form="operatorForms.update"
+          validations="operatorForms.validations"
+          results="operatorForms.getResults()"
+          autocomplete="off">
+        </validatedinput>
+
+        <validatedselect
+          id="operatorToUpdateType"
+          options="operatorTypes"
+          optionproperty="entity"
+          optionvalue="name"
+          model="operatorToUpdate"
+          property="type"
+          label="Type"
+          disabled="'true'"
+          form="operatorForms.update"
+          change="typeChanged(operatorToUpdate)"
+          validations="operatorForms.validations"
+          results="operatorForms.getResults()"
+          hint="'Operator type can not be modified after created.'">
+        </validatedselect>
+
+        <validatedselect
+          ng-if="enableFieldInput(operatorToUpdate.type)"
+          id="operatorToUpdateField"
+          options="internalMetadata"
+          optionproperty="gloss"
+          optionvalue="field"
+          model="operatorToUpdate"
+          property="field"
+          label="Field"
+          form="operatorForms.update"
+          validations="operatorForms.validations"
+          results="operatorForms.getResults()">
+        </validatedselect>
+
+        <validatedinput
+          ng-if="enableValueInput(operatorToUpdate.type)"
+          id="operatorToUpdateValue"
+          model="operatorToUpdate"
+          property="value"
+          label="Value"
+          form="operatorForms.update"
+          validations="operatorForms.validations"
+          results="operatorForms.getResults()"
+          autocomplete="off">
+        </validatedinput>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="cancelUpdateOperator()">Cancel</button>
+    <button ng-disabled="operatorForms.update.$invalid || updatingOperator" type="submit" class="btn btn-success">
+      <span ng-hide="updatingOperator">Update</span>
+      <span ng-show="updatingOperator">
+        <span class="glyphicon glyphicon-refresh spinning"></span>
+      </span>
+    </button>
+  </div>
+</form>

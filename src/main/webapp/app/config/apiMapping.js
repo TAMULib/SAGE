@@ -126,6 +126,68 @@ var apiMapping = {
       'method': 'run/:id'
     }
   },
+  InternalMetadata: {
+    channel: '/channel/internal/metadata',
+    validations: true,
+    all: {
+      'endpoint': '/private/queue',
+      'controller': 'internal/metadata',
+      'httpMethod': 'GET',
+      'method': ''
+    },
+    create: {
+      'endpoint': '/private/queue',
+      'controller': 'internal/metadata',
+      'httpMethod': 'POST',
+      'method': ''
+    },
+    update: {
+      'endpoint': '/private/queue',
+      'controller': 'internal/metadata',
+      'httpMethod': 'PUT',
+      'method': ''
+    },
+    remove: {
+      'endpoint': '/private/queue',
+      'controller': 'internal/metadata',
+      'httpMethod': 'DELETE',
+      'method': ''
+    }
+  },
+  Operator: {
+    channel: '/channel/operators',
+    validations: false,
+    all: {
+      'endpoint': '/private/queue',
+      'controller': 'operators',
+      'httpMethod': 'GET',
+      'method': ''
+    }, 
+    types: {
+      'endpoint': '/private/queue',
+      'controller': 'operators',
+      'httpMethod': 'GET',
+      'method': 'types'
+    },
+    create: {
+      'endpoint': '/private/queue',
+      'controller': 'operators',
+      'httpMethod': 'POST',
+      'method': ''
+    },
+    update: {
+      'endpoint': '/private/queue',
+      'controller': 'operators',
+      'httpMethod': 'PUT',
+      'method': ''
+    },
+    remove: {
+      'endpoint': '/private/queue',
+      'controller': 'operators',
+      'httpMethod': 'DELETE',
+      'method': ''
+    }
+  },
   Reader: {
     channel: '/channel/reader/solr',
     validations: true,
@@ -152,12 +214,6 @@ var apiMapping = {
       'controller': 'reader/solr',
       'httpMethod': 'DELETE',
       'method': ''
-    },
-    getMetadataFields: {
-      'endpoint': '/private/queue',
-      'controller': 'reader/solr',
-      'httpMethod': 'GET',
-      'method': 'metadata-fields'
     }
   },
   Writer: {

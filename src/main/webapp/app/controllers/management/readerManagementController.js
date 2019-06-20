@@ -1,4 +1,4 @@
-sage.controller('ReaderManagementController', function ($controller, $scope, NgTableParams, ReaderRepo, SourceRepo) {
+sage.controller('ReaderManagementController', function ($controller, $scope, NgTableParams, InternalMetadataRepo, ReaderRepo, SourceRepo) {
 
   angular.extend(this, $controller('AbstractController', {
       $scope: $scope
@@ -6,12 +6,13 @@ sage.controller('ReaderManagementController', function ($controller, $scope, NgT
 
   $scope.readers = ReaderRepo.getAll();
   $scope.sources = SourceRepo.getReadable();
-  $scope.metadataFields = [];
 
   $scope.readerToCreate = ReaderRepo.getScaffold();
-  $scope.newReaderFields = {};
+  $scope.readerFields = {};
   $scope.readerToUpdate = {};
   $scope.readerToDelete = {};
+
+  $scope.internalMetadata = InternalMetadataRepo.getAll();
 
   $scope.fields = [];
 
@@ -19,8 +20,6 @@ sage.controller('ReaderManagementController', function ($controller, $scope, NgT
     validations: ReaderRepo.getValidations(),
     getResults: ReaderRepo.getValidationResults
   };
-
-  ReaderRepo.getMetadataFields($scope.metadataFields);
 
   $scope.resetReaderForms = function() {
     ReaderRepo.clearValidationResults();
@@ -44,12 +43,16 @@ sage.controller('ReaderManagementController', function ($controller, $scope, NgT
     $scope.fields = SourceRepo.getIndexedFields(uri, filter);
   };
 
-  $scope.createReader = function() {
+  var applyFields = function (reader) {
     var fields = [];
-    angular.forEach($scope.newReaderFields, function(valueObj,key) {
+    angular.forEach($scope.readerFields, function(valueObj,key) {
         this.push({"name":valueObj.value,"schemaMapping": key});
-    },fields);
-    $scope.readerToCreate.fields = fields;
+    }, fields);
+    reader.fields = fields;
+  };
+
+  $scope.createReader = function() {
+    applyFields($scope.readerToCreate);
 
     ReaderRepo.create($scope.readerToCreate).then(function(res) {
       if(angular.fromJson(res.body).meta.status === "SUCCESS") {
@@ -60,12 +63,13 @@ sage.controller('ReaderManagementController', function ($controller, $scope, NgT
 
   $scope.cancelCreateReader = function() {
     angular.extend($scope.readerToCreate, ReaderRepo.getScaffold());
-    $scope.newReaderFields = {};
+    $scope.readerFields = {};
     $scope.resetReaderForms();
   };
 
   $scope.updateReader = function() {
     $scope.updatingReader = true;
+    applyFields($scope.readerToUpdate);
     $scope.readerToUpdate.dirty(true);
     $scope.readerToUpdate.save().then(function() {
       $scope.resetReaderForms();
@@ -75,11 +79,17 @@ sage.controller('ReaderManagementController', function ($controller, $scope, NgT
 
   $scope.startUpdateReader = function(reader) {
     $scope.readerToUpdate = reader;
+    angular.forEach($scope.readerToUpdate.fields, function(field) {
+      $scope.readerFields[field.schemaMapping] = {
+        value: field.name
+      };
+    });
     $scope.openModal("#updateReaderModal");
   };
 
-  $scope.cancelUpdateReader = function(reader) {
+  $scope.cancelUpdateReader = function() {
     $scope.readerToUpdate = {};
+    $scope.readerFields = {};
     $scope.resetReaderForms();
   };
 
@@ -88,7 +98,7 @@ sage.controller('ReaderManagementController', function ($controller, $scope, NgT
     $scope.openModal("#confirmDeleteReaderModal");
   };
 
-  $scope.cancelDeleteReader = function(reader) {
+  $scope.cancelDeleteReader = function() {
     $scope.readerToDelete = {};
     $scope.resetReaderForms();
   };
@@ -99,6 +109,15 @@ sage.controller('ReaderManagementController', function ($controller, $scope, NgT
       $scope.deletingReader = false;
       $scope.resetReaderForms();
     });
+  };
+
+  $scope.disableSubmit = function(form) {
+    var invalidFields = $scope.internalMetadata.filter(function(metadatum) {
+      return metadatum.required;
+    }).filter(function(metadatum) {
+      return $scope.readerFields[metadatum.field] === undefined;
+    });
+    return form.$invalid || invalidFields.length > 0;
   };
 
   ReaderRepo.ready().then(function() {

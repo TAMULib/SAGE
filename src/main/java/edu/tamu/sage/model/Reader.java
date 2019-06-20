@@ -28,13 +28,7 @@ public class Reader extends ValidatingBaseEntity implements Readable {
     @Fetch(FetchMode.SELECT)
     List<Field> fields;
 
-    @Column
-    private String sortTitle;
-
-    @Column
-    private String sortId;
-
-    @Column(length=10000)
+    @Column(length = 10000)
     private String filter;
 
     public Reader() {
@@ -78,29 +72,11 @@ public class Reader extends ValidatingBaseEntity implements Readable {
 
     @Override
     public void removeField(Field field) {
-        fields.forEach(f->{
-            if(f.getId().equals(field.getId())) {
+        fields.forEach(f -> {
+            if (f.getId().equals(field.getId())) {
                 fields.remove(f);
             }
         });
-    }
-
-    @Override
-    public String getSortTitle() {
-        return sortTitle;
-    }
-
-    public void setSortTitle(String sortTitle) {
-        this.sortTitle = sortTitle;
-    }
-
-    @Override
-    public String getSortId() {
-        return sortId;
-    }
-
-    public void setSortId(String sortId) {
-        this.sortId = sortId;
     }
 
     public String getFilter() {
