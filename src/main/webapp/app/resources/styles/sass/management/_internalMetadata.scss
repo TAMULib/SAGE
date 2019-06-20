@@ -1,0 +1,9 @@
+.internal-metadata-management {
+  .internal-metadata-forms-create,
+  .internal-metadata-forms-update {
+    input[type='checkbox'] {
+      height: 20px;
+      width: 20px;
+    }
+  }
+}
