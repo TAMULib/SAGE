@@ -2,6 +2,7 @@ package edu.tamu.sage.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -11,20 +12,25 @@ import edu.tamu.weaver.validation.model.ValidatingBaseEntity;
 @Entity
 public class Source extends ValidatingBaseEntity implements Sourcable {
     //TODO Query the SOLR Core for its fields to provide Readers/Writers with a list of fields to choose from for mapping to the internal metadata fields
-    @Column(unique = true)
+    @NotNull
+    @Column(unique = true, nullable = false)
     private String name;
 
-    @Column
+    @NotNull
+    @Column(nullable = false)
     private String uri;
 
-    @Column
+    @NotNull
+    @Column(nullable = false)
     private String username;
 
+    // @JsonIgnore prevents @NotNull and nullable = false from being used here.
     @Column
     @JsonIgnore
     private String password;
 
-    @Column
+    @NotNull
+    @Column(nullable = false)
     private Boolean readOnly;
 
     public Source() {

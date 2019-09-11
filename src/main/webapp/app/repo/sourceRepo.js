@@ -4,7 +4,9 @@ sage.repo("SourceRepo", function (Source, WsApi) {
   sourceRepo.scaffold = new Source({
     name: "Local Solr",
     uri: "http://localhost:8983/solr/collection1",
-    readOnly: true
+    readOnly: true,
+    username: "",
+    password: ""
   });
 
   sourceRepo.getAvailableFields = function (uri, filter) {
