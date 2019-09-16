@@ -6,13 +6,15 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.validation.constraints.NotNull;
 
 import edu.tamu.weaver.data.model.BaseEntity;
 
 @Entity
 public class OutputMapping extends BaseEntity {
 
-    @Column
+    @NotNull
+    @Column(nullable = false)
     private String inputField;
 
     @ElementCollection(fetch = FetchType.EAGER)

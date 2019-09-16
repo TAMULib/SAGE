@@ -3,11 +3,16 @@ sage.repo("DiscoveryViewRepo", function(DiscoveryView) {
 
   discoveryViewRepo.scaffold = new DiscoveryView({
     name: "",
+    source: "",
     filter: "*:*",
+    resourceLocationUriKey: "",
+    resourceThumbnailUriKey: "",
     slug: "",
+    titleKey: "",
     infoLinkText: "",
     infoLinkUrl: "",
-    infoText: ""
+    infoText: "",
+    uniqueIdentifierKey: ""
   });
 
   return discoveryViewRepo;

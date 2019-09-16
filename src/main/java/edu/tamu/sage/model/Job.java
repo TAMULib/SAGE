@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -19,11 +20,14 @@ import edu.tamu.weaver.validation.model.ValidatingBaseEntity;
 @Entity
 public class Job extends ValidatingBaseEntity {
 
+    @NotNull
     @Column(nullable = false, unique = true)
     private String name;
 
+    @NotNull
     @ManyToMany(fetch = EAGER)
     @Fetch(FetchMode.SELECT)
+    @Column(nullable = false)
     private List<Reader> readers;
 
     @ManyToMany(fetch = EAGER)
@@ -32,6 +36,7 @@ public class Job extends ValidatingBaseEntity {
 
     @ManyToMany(fetch = EAGER)
     @Fetch(FetchMode.SELECT)
+    @Column(nullable = false)
     private List<Writer> writers;
 
     @Embedded
