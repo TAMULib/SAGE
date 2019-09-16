@@ -111,10 +111,12 @@ sage.controller('JobManagementController', function ($controller, $scope, NgTabl
         return ($scope[activeModel].schedule.frequency == 'ONCE' || $scope[activeModel].schedule.frequency == 'MONTHLY' || $scope[activeModel].schedule.frequency == 'DAILY'  || $scope[activeModel].schedule.frequency == 'WEEKLY');
       } else if (type == "month") {
         return ($scope[activeModel].schedule.frequency == 'MONTHLY');
+      } else if (type == "ondemand") {
+        return ($scope[activeModel].schedule.frequency == 'ONDEMAND');
       }
-    } else {
-      return false;
     }
+
+    return false;
   };
 
   var prepDays = function(days) {

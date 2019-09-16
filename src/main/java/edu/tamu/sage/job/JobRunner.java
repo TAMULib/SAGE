@@ -43,6 +43,9 @@ public class JobRunner {
         LocalDateTime schedulerStarted = java.time.LocalDateTime.now(ZoneId.of("UTC"));
         activeJobs.forEach(j -> {
             switch (j.getSchedule().getFrequency()) {
+                case ONDEMAND:
+                    // This is not to be run on a schedule.
+                    break;
                 case ONCE:
                     LocalTime jobStartTime = buildJobStartTime(j.getSchedule().getScheduleData().get(START_TIME_KEY));
                     LocalDateTime jobDate = LocalDateTime.parse(j.getSchedule().getScheduleData().get(DATE_KEY), getDateTimeFormatter());
@@ -76,6 +79,8 @@ public class JobRunner {
                         startJob(j);
                     }
                 break;
+                default:
+                    break;
             }
         });
     }
