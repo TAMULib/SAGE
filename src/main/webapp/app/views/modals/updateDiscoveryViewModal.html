@@ -4,7 +4,7 @@
     <h4 class="modal-title">Edit Discovery View</h4>
   </div>
   <div class="modal-body">
-
+    <alerts seconds="30" channels="source/solr/fields" types="WARNING,ERROR" exclusive></alerts>
     <validationmessage results="discoveryViewForms.getResults()"></validationmessage>
 
     <uib-tabset active="activeJustified" justified="true">
@@ -22,7 +22,7 @@
               results="discoveryViewForms.getResults()"
               autocomplete="off">
             </validatedinput>
-    
+
             <validatedselect
               model="discoveryViewToUpdate"
               property="source"
@@ -35,7 +35,7 @@
               results="discoveryViewForms.getResults()"
               autocomplete="off">
             </validatedselect>
-    
+
             <validatedinput
               model="discoveryViewToUpdate"
               property="filter"
@@ -46,7 +46,7 @@
               results="discoveryViewForms.getResults()"
               autocomplete="off">
             </validatedinput>
-    
+
             <validatedinput
               model="discoveryViewToUpdate"
               property="slug"
@@ -86,7 +86,7 @@
               label="Info Text"
               form="discoveryViewForms.update"
               validations="discoveryViewForms.validations"
-              results="discoveryViewForms.getResults()"> 
+              results="discoveryViewForms.getResults()">
             </validatedtextarea>
 
           </div>
@@ -116,12 +116,12 @@
               </validatedselect>
             </div>
             <div class="col-sm-5">
-              <multi-suggestion-input 
+              <multi-suggestion-input
                 model="discoveryViewToUpdate"
                 property="titleKey"
                 optionproperty="name"
                 suggestions="fields"
-                name="titleKey"                
+                name="titleKey"
                 label="Title Key"
                 placeholder="'{{' to see Title Key suggesions">
               </multi-suggestion-input>
@@ -129,23 +129,23 @@
           </div>
           <div class="row">
               <div class="col-sm-5 col-sm-offset-1">
-                <multi-suggestion-input 
+                <multi-suggestion-input
                   model="discoveryViewToUpdate"
                   property="resourceThumbnailUriKey"
                   optionproperty="name"
                   suggestions="fields"
-                  name="resourceThumbnailUriKey"                
+                  name="resourceThumbnailUriKey"
                   label="Thumbnail Uri Key"
                   placeholder="'{{' to see Thumbnail Uri Key suggesions">
                 </multi-suggestion-input>
               </div>
               <div class="col-sm-5">
-                <multi-suggestion-input 
+                <multi-suggestion-input
                   model="discoveryViewToUpdate"
                   property="resourceLocationUriKey"
                   optionproperty="name"
                   suggestions="fields"
-                  name="resourceUriKey"                
+                  name="resourceUriKey"
                   label="Resource Key"
                   placeholder="'{{' to see Resource Key suggesions">
                 </multi-suggestion-input>
