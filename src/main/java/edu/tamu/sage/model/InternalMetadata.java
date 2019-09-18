@@ -2,6 +2,7 @@ package edu.tamu.sage.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
 
 import edu.tamu.sage.model.validation.InternalMetadataValidator;
 import edu.tamu.weaver.validation.model.ValidatingBaseEntity;
@@ -9,12 +10,15 @@ import edu.tamu.weaver.validation.model.ValidatingBaseEntity;
 @Entity
 public class InternalMetadata extends ValidatingBaseEntity {
 
+    @NotNull
     @Column(nullable = false)
     private String gloss;
 
-    @Column(nullable = false)
+    @NotNull
+    @Column(nullable = false, unique = true)
     private String field;
 
+    @NotNull
     @Column(nullable = false)
     private boolean required;
 
