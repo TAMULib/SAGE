@@ -7,6 +7,8 @@ import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
+import javax.persistence.OrderBy;
+import javax.persistence.OrderColumn;
 
 import edu.tamu.sage.model.validation.DiscoveryViewValidator;
 import edu.tamu.weaver.validation.model.ValidatingBaseEntity;
@@ -50,6 +52,7 @@ public class DiscoveryView extends ValidatingBaseEntity {
     private String infoText;
 
     @NotNull
+    @OrderBy(value = "search_fields_order ASC")
     @Column(nullable = false)
     private String infoLinkText;
 
@@ -62,6 +65,10 @@ public class DiscoveryView extends ValidatingBaseEntity {
 
     @ElementCollection
     private List<FacetFields> facetFields;
+
+    @OrderColumn
+    @ElementCollection
+    private List<SearchField> searchFields;
 
     public DiscoveryView() {
         setModelValidator(new DiscoveryViewValidator());
@@ -185,12 +192,31 @@ public class DiscoveryView extends ValidatingBaseEntity {
         return f;
     }
 
+    public SearchField findSearchFieldByKey(String key) {
+        SearchField searchField = null;
+        for (SearchField sf : searchFields) {
+            if (sf.getKey().equals(key)) {
+                searchField = sf;
+                break;
+            }
+        }
+        return searchField;
+    }
+
     public List<FacetFields> getFacetFields() {
         return facetFields;
     }
 
     public void setFacetFields(List<FacetFields> facetFields) {
         this.facetFields = facetFields;
+    }
+
+    public List<SearchField> getSearchFields() {
+        return searchFields;
+    }
+
+    public void setSearchFields(List<SearchField> searchFields) {
+        this.searchFields = searchFields;
     }
 
 }

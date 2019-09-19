@@ -9,10 +9,8 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
   $scope.metadataFields = [];
 
   $scope.discoveryViewToCreate = DiscoveryViewRepo.getScaffold();
-  $scope.newDiscoveryViewMappings = {};
   $scope.discoveryViewToUpdate = {};
   $scope.discoveryViewToDelete = {};
-
 
   $scope.discoveryViewForms = {
     validations: DiscoveryViewRepo.getValidations(),
@@ -27,6 +25,14 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
       }
     }
     $scope.closeModal();
+  };
+
+  $scope.appendSearchFieldItem = function() {
+    if (!angular.isDefined($scope.discoveryViewToUpdate.searchFields)) {
+      $scope.discoveryViewToUpdate.searchFields = [];
+    }
+
+    $scope.discoveryViewToUpdate.searchFields.push(DiscoveryViewRepo.scaffoldSearchField);
   };
 
   $scope.startCreateDiscoveryView = function() {
@@ -47,27 +53,33 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
     $scope.resetDiscoveryViewForms();
   };
 
-  $scope.createDiscoveryViewGeneralIsInvalid = function() {
+  $scope.isDiscoveryViewGeneralInvalid = function(key) {
+    var name = $scope.discoveryViewForms[key].name;
+    var source = $scope.discoveryViewForms[key].source;
+    var filter = $scope.discoveryViewForms[key].filter;
+    var slug = $scope.discoveryViewForms[key].slug;
 
-    var createName = $scope.discoveryViewForms.create.name;
-    var createSource = $scope.discoveryViewForms.create.source;
-    var createFilter = $scope.discoveryViewForms.create.filter;
-    var createSlug = $scope.discoveryViewForms.create.slug;
-
-    return  (createName && createName.$invalid) ||
-            (createSource && createSource.$invalid) ||
-            (createFilter && createFilter.$invalid) ||
-            (createSlug && createSlug.$invalid);
+    return (name && name.$invalid) ||
+           (source && source.$invalid) ||
+           (filter && filter.$invalid) ||
+           (slug && slug.$invalid);
   };
 
-  $scope.createDiscoveryViewResultsIsInvalid = function() {
+  $scope.isDiscoveryViewResultsInvalid = function(key) {
+    var primaryKey = $scope.discoveryViewForms[key].primaryKey;
+    var primaryURI = $scope.discoveryViewForms[key].primaryURIKey;
 
-    var createPrimaryKey = $scope.discoveryViewForms.create.primaryKey;
-    var createPrimaryURI = $scope.discoveryViewForms.create.primaryURIKey;
+    return (primaryKey && primaryKey.$invalid) ||
+           (primaryURI && primaryURI.$invalid);
+  };
 
-    return  (createPrimaryKey && createPrimaryKey.$invalid) ||
-            (createPrimaryURI && createPrimaryURI.$invalid);
-            
+  $scope.isDiscoveryViewFacetsInvalid = function(key) {
+    return false;
+  };
+
+  $scope.isDiscoveryViewSearchInvalid = function(key) {
+    var searchFields = $scope.discoveryViewToUpdate.searchFields;
+    return (searchFields && (searchFields.$invalid || searchFields.length == 0));
   };
 
   $scope.updateDiscoveryView = function() {
@@ -81,20 +93,21 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
 
   $scope.startUpdateDiscoveryView = function(dv) {
     $scope.discoveryViewToUpdate = dv;
+    $scope.getFields(dv);
     $scope.openModal("#updateDiscoveryViewModal");
   };
 
-  $scope.cancelUpdateDiscoveryView = function(reader) {
+  $scope.cancelUpdateDiscoveryView = function() {
     $scope.discoveryViewToUpdate = {};
     $scope.resetDiscoveryViewForms();
   };
 
-  $scope.confirmDeleteDiscoveryView = function(reader) {
-    $scope.discoveryViewToDelete = reader;
+  $scope.confirmDeleteDiscoveryView = function(dv) {
+    $scope.discoveryViewToDelete = dv;
     $scope.openModal("#confirmDeleteDiscoveryViewModal");
   };
 
-  $scope.cancelDeleteDiscoveryView = function(reader) {
+  $scope.cancelDeleteDiscoveryView = function() {
     $scope.discoveryViewToDelete = {};
     $scope.resetDiscoveryViewForms();
   };
@@ -107,8 +120,10 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
     });
   };
 
-  $scope.getFields = function(discoveryView) {
-    $scope.fields = SourceRepo.getAvailableFields(discoveryView.source.uri, discoveryView.filter);
+  $scope.getFields = function(dv) {
+    if (angular.isDefined(dv)) {
+      $scope.fields = SourceRepo.getAvailableFields(dv.source.uri, dv.filter);
+    }
   };
 
   $scope.findFieldByKey = function(key) {

@@ -162,7 +162,7 @@ var apiMapping = {
       'controller': 'operators',
       'httpMethod': 'GET',
       'method': ''
-    }, 
+    },
     types: {
       'endpoint': '/private/queue',
       'controller': 'operators',
@@ -317,6 +317,10 @@ var apiMapping = {
     lazy: true
   },
   Search: {
+    validations: false,
+    lazy: true
+  },
+  SearchField: {
     validations: false,
     lazy: true
   }
