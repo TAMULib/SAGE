@@ -75,6 +75,10 @@ describe("controller: DiscoveryViewManagementController", function () {
     });
 
     describe("Are the scope methods defined", function () {
+        it("appendFacetFieldItem should be defined", function () {
+            expect(scope.appendFacetFieldItem).toBeDefined();
+            expect(typeof scope.appendFacetFieldItem).toEqual("function");
+        });
         it("appendSearchFieldItem should be defined", function () {
             expect(scope.appendSearchFieldItem).toBeDefined();
             expect(typeof scope.appendSearchFieldItem).toEqual("function");
@@ -146,10 +150,18 @@ describe("controller: DiscoveryViewManagementController", function () {
     });
 
     describe("Do the scope methods work as expected", function () {
+        it("appendFacetFieldItem should work", function () {
+            var result;
+            var dv = new mockDiscoveryView(q);
+
+            result = scope.appendFacetFieldItem(dv);
+            // @todo
+        });
         it("appendSearchFieldItem should work", function () {
             var result;
+            var dv = new mockDiscoveryView(q);
 
-            result = scope.appendSearchFieldItem();
+            result = scope.appendSearchFieldItem(dv);
             // @todo
         });
         it("cancelCreateDiscoveryView should work", function () {

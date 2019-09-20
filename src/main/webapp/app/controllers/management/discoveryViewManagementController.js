@@ -27,12 +27,20 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
     $scope.closeModal();
   };
 
-  $scope.appendSearchFieldItem = function() {
-    if (!angular.isDefined($scope.discoveryViewToUpdate.searchFields)) {
-      $scope.discoveryViewToUpdate.searchFields = [];
+  $scope.appendFacetFieldItem = function(dv) {
+    if (!angular.isDefined(dv.facetFields)) {
+      dv.facetFields = [];
     }
 
-    $scope.discoveryViewToUpdate.searchFields.push(DiscoveryViewRepo.scaffoldSearchField);
+    dv.facetFields.push({});
+  };
+
+  $scope.appendSearchFieldItem = function(dv) {
+    if (!angular.isDefined(dv.searchFields)) {
+      dv.searchFields = [];
+    }
+
+    dv.searchFields.push(DiscoveryViewRepo.scaffoldSearchField);
   };
 
   $scope.startCreateDiscoveryView = function() {
