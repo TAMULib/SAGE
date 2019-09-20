@@ -18,18 +18,12 @@ angular.module("mock.discoveryViewRepo", []).service("DiscoveryViewRepo", functi
         infoLinkText: "",
         infoLinkUrl: "",
         infoText: "",
-        uniqueIdentifierKey: "",
-        dirty: function(boolean) {
-          this.isDirty = boolean;
-        }
+        uniqueIdentifierKey: ""
     };
 
     repo.scaffoldSearchField = {
         key: "",
-        label: "",
-        dirty: function(boolean) {
-          this.isDirty = boolean;
-        }
+        label: ""
     };
 
     repo.getScaffold = function() {

@@ -17,17 +17,6 @@ describe("controller: DiscoveryViewManagementController", function () {
             sessionStorage.role = settings && settings.role ? settings.role : "ROLE_ADMIN";
             sessionStorage.token = settings && settings.token ? settings.token : "faketoken";
 
-            if (settings) {
-              if (settings.discoveryViewForms) {
-                scope.discoveryViewForms = settings.discoveryViewForms;
-              } else {
-                scope.discoveryViewForms = {
-                  create: new mockDiscoveryView(q),
-                  update: new mockDiscoveryView(q)
-                };
-              }
-            }
-
             controller = $controller("DiscoveryViewManagementController", {
                 $scope: scope,
                 DiscoveryViewRepo: _DiscoveryViewRepo_,
@@ -211,7 +200,7 @@ describe("controller: DiscoveryViewManagementController", function () {
 
             result = scope.getFields();
             // @todo
-        });/*
+        });
         it("isDiscoveryViewFacetsInvalid should work", function () {
             var result;
 
@@ -220,12 +209,16 @@ describe("controller: DiscoveryViewManagementController", function () {
         });
         it("isDiscoveryViewGeneralInvalid should work", function () {
             var result;
+            scope.discoveryViewForms = {};
+            scope.discoveryViewForms.create = new mockDiscoveryView(q);
 
             result = scope.isDiscoveryViewGeneralInvalid("create");
             // @todo
         });
         it("isDiscoveryViewResultsInvalid should work", function () {
             var result;
+            scope.discoveryViewForms = {};
+            scope.discoveryViewForms.create = new mockDiscoveryView(q);
 
             result = scope.isDiscoveryViewResultsInvalid("create");
             // @todo
@@ -235,7 +228,7 @@ describe("controller: DiscoveryViewManagementController", function () {
 
             result = scope.isDiscoveryViewSearchInvalid("create");
             // @todo
-        });*/
+        });
         it("resetDiscoveryViewForms should work", function () {
             var result;
 
@@ -255,14 +248,13 @@ describe("controller: DiscoveryViewManagementController", function () {
             result = scope.startUpdateDiscoveryView(dv);
             // @todo
         });
-        /*
         it("updateDiscoveryView should work", function () {
             var result;
+            scope.discoveryViewToUpdate = new mockDiscoveryView(q);
 
             result = scope.updateDiscoveryView();
             // @todo
         });
-        */
     });
 
 });

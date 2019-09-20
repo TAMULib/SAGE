@@ -1,7 +1,7 @@
-sage.repo("DiscoveryViewRepo", function(DiscoveryView, SearchField) {
+sage.repo("DiscoveryViewRepo", function() {
   var discoveryViewRepo = this;
 
-  discoveryViewRepo.scaffold = new DiscoveryView({
+  discoveryViewRepo.scaffold = {
     name: "",
     source: "",
     facetFields: [],
@@ -9,22 +9,22 @@ sage.repo("DiscoveryViewRepo", function(DiscoveryView, SearchField) {
     resourceLocationUriKey: "",
     resourceThumbnailUriKey: "",
     resultMetadataFields: [],
-    searchFields: [ new SearchField({
+    searchFields: [ {
       key: "all_fields",
       label: "Everything"
-    })],
+    }],
     slug: "",
     titleKey: "",
     infoLinkText: "",
     infoLinkUrl: "",
     infoText: "",
     uniqueIdentifierKey: ""
-  });
+  };
 
-  discoveryViewRepo.scaffoldSearchField = new SearchField({
+  discoveryViewRepo.scaffoldSearchField = {
     key: "",
     label: ""
-  });
+  };
 
   return discoveryViewRepo;
 });
