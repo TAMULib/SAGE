@@ -15,8 +15,6 @@
             <p ng-if="!discoveryContext.infoLinkUrl">{{discoveryContext.infoLinkText}}</p>
           </div>
       </div>
-      <hr>
-      <h3>Faceted Discovery</h3>
       <facet-widget facet="facet" discovery-context="discoveryContext" ng-repeat="facet in discoveryContext.facetFilters" reset-search="resetSearch"></facet-widget>
     </div>
     <div class="col-md-9 dc-main">
