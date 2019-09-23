@@ -22,7 +22,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import edu.tamu.sage.exceptions.DiscoveryContextBuildException;
-import edu.tamu.sage.exceptions.SourceFieldsException;
 import edu.tamu.sage.exceptions.SourceServiceException;
 import edu.tamu.sage.model.DiscoveryView;
 import edu.tamu.sage.model.response.DiscoveryContext;
@@ -76,6 +75,7 @@ public class SolrDiscoveryService {
                 if (filterMap.containsKey(filterKey)) {
                     Filter filter = new Filter();
                     filter.setKey(facetField.getKey());
+                    filter.setLabel(facetField.getLabel());
                     filter.setValue(filterMap.get(filterKey));
                     filters.add(filter);
                     solrQuery.addFilterQuery(facetField.getKey() + ":" + filterMap.get(filterKey));
