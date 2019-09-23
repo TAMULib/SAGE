@@ -4,23 +4,21 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 public class MetadataField {
-    
+
     private String key;
-    
+
     private String label;
-    
+
     private String type;
 
-    private boolean searchable;
-
     private boolean sortable;
-    
+
     private boolean inList;
-    
+
     private boolean inGrid;
-    
+
     private boolean inSingleResult;
-    
+
     public MetadataField() {
         super();
     }
@@ -47,14 +45,6 @@ public class MetadataField {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public boolean isSearchable() {
-        return searchable;
-    }
-
-    public void setSearchable(boolean searchable) {
-        this.searchable = searchable;
     }
 
     public boolean isSortable() {

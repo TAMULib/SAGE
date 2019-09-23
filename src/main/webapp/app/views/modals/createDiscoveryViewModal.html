@@ -100,7 +100,119 @@
           </div>
         </div>
       </uib-tab>
-      <uib-tab index="1" heading="Results" disable="true">
+      <uib-tab index="1" heading="Facets" disable="true">
+        <div class="row">
+          <div class="row">
+            <div class="col-sm-offset-1 co-xs-12">
+              <h4>Facet Fields</h4>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-2 col-sm-offset-1">
+              <div class="form-group">
+                <label for="key">Key</label>
+                <select name="key" class="form-control" ng-model="discoveryViewToCreate.facetFields[0].key" ng-options="option['name'] as option['name'] for option in fields"></select>
+              </div>
+            </div>
+            <div class="col-xs-5">
+              <div class="form-group">
+                <label for="name">Label</label>
+                <input name="name" placeholder="Display name of filter" type="text" class="form-control" ng-model="discoveryViewToCreate.facetFields[0].label">
+              </div>
+            </div>
+            <div class="col-xs-2">
+              <div class="form-group">
+                <label for="key">Widget</label>
+                <select name="key" class="form-control" ng-model="discoveryViewToCreate.facetFields[0].widget">
+                  <option>Link</option>
+                  <option>Typeahead</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-xs-2">
+              <div class="form-group add-field-group">
+                <button type="button" class="btn btn-success" ng-click="appendFacetFieldItem(discoveryViewToCreate)"><span class="glyphicon glyphicon-plus"></span></button>
+              </div>
+            </div>
+          </div>
+          <div class="row" ng-repeat="facetField in discoveryViewToCreate.facetFields track by $index" ng-hide="$first">
+            <div class="col-xs-2 col-sm-offset-1">
+              <div class="form-group">
+                <label for="key">Key</label>
+                <select name="key" class="form-control" ng-model="discoveryViewToCreate.facetFields[$index].key" ng-options="option['name'] as option['name'] for option in fields" ></select>
+              </div>
+            </div>
+            <div class="col-xs-5">
+              <div class="form-group">
+                <label for="label">Label</label>
+                <input name="label" placeholder="Display label of filter" type="text" class="form-control" ng-model="discoveryViewToCreate.facetFields[$index].label">
+              </div>
+            </div>
+            <div class="col-xs-2">
+              <div class="form-group">
+                <label for="widget">Widget</label>
+                <select name="widget" class="form-control" ng-model="discoveryViewToCreate.facetFields[$index].widget">
+                  <option>Link</option>
+                  <option>Typeahead</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-xs-2">
+              <div class="form-group add-field-group">
+                  <button type="button" class="btn btn-danger" ng-click="discoveryViewToCreate.facetFields.splice($index,1)"><span class="glyphicon glyphicon-minus"></span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </uib-tab>
+      <uib-tab index="2" heading="Search" disable="true">
+        <div class="row">
+          <div class="row">
+            <div class="col-sm-offset-1 co-xs-12">
+              <h4>Search Fields</h4>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-2 col-sm-offset-1">
+              <div class="form-group">
+                <label for="key">Key</label>
+                <select name="key" class="form-control" ng-model="discoveryViewToCreate.searchFields[0].key" ng-options="option['name'] as option['name'] for option in fields"></select>
+              </div>
+            </div>
+            <div class="col-xs-7">
+              <div class="form-group">
+                <label for="name">Label</label>
+                <input name="name" placeholder="Display name of search" type="text" class="form-control" ng-model="discoveryViewToCreate.searchFields[0].label">
+              </div>
+            </div>
+            <div class="col-xs-2">
+              <div class="form-group add-field-group">
+                <button type="button" class="btn btn-success" ng-click="appendSearchFieldItem(discoveryViewToCreate)"><span class="glyphicon glyphicon-plus"></span></button>
+              </div>
+            </div>
+          </div>
+          <div class="row" ng-repeat="searchField in discoveryViewToCreate.searchFields track by $index" ng-hide="$first">
+            <div class="col-xs-2 col-sm-offset-1">
+              <div class="form-group">
+                <label for="key">Key</label>
+                <select name="key" class="form-control" ng-model="discoveryViewToCreate.searchFields[$index].key" ng-options="option['name'] as option['name'] for option in fields" ></select>
+              </div>
+            </div>
+            <div class="col-xs-7">
+              <div class="form-group">
+                <label for="label">Label</label>
+                <input name="label" placeholder="Display label of search" type="text" class="form-control" ng-model="discoveryViewToCreate.searchFields[$index].label">
+              </div>
+            </div>
+            <div class="col-xs-2">
+              <div class="form-group add-field-group">
+                  <button type="button" class="btn btn-danger" ng-click="discoveryViewToCreate.searchFields.splice($index,1)"><span class="glyphicon glyphicon-minus"></span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </uib-tab>
+      <uib-tab index="3" heading="Results" disable="true">
         <div class="row">
 
           <div class="row">
@@ -172,7 +284,7 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-xs-2 col-sm-offset-1" ng-init="discoveryViewToCreate.resultMetadataFields[0]={searchable:true,sortable:true,inList:true,inGrid:true,inSingleResult:true}">
+            <div class="col-xs-3 col-sm-offset-1" ng-init="discoveryViewToCreate.resultMetadataFields[0]={searchable:true,sortable:true,inList:true,inGrid:true,inSingleResult:true}">
               <div class="form-group">
                 <label for="key">Key</label>
                 <select name="key" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[0].key" ng-options="option['name'] as option['name'] for option in fields" ng-change="discoveryViewToCreate.resultMetadataFields[0].sortable=!findFieldByKey(discoveryViewToCreate.resultMetadataFields[0].key).multivalued"></select>
@@ -182,12 +294,6 @@
               <div class="form-group">
                 <label for="label">Label</label>
                 <input name="label" placeholder="Display label of filter" type="text" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[0].label">
-              </div>
-            </div>
-            <div class="col-xs-1">
-              <div class="form-group">
-                <label for="searchable">Searchable</label>
-                <input name="searchable" type="checkbox" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[0].searchable">
               </div>
             </div>
             <div class="col-xs-1">
@@ -221,7 +327,7 @@
             </div>
           </div>
           <div class="row" ng-repeat="resultMetadataField in discoveryViewToCreate.resultMetadataFields track by $index" ng-hide="$first">
-            <div class="col-xs-2 col-sm-offset-1">
+            <div class="col-xs-3 col-sm-offset-1">
               <div class="form-group">
                 <label for="key">Key</label>
                 <select name="key" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[$index].key" ng-options="option['name'] as option['name'] for option in fields" ng-change="discoveryViewToCreate.resultMetadataFields[$index].sortable=!findFieldByKey(discoveryViewToCreate.resultMetadataFields[$index].key).multivalued"></select>
@@ -231,12 +337,6 @@
               <div class="form-group">
                 <label for="label">Label</label>
                 <input name="label" placeholder="Display label of filter" type="text" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[$index].label">
-              </div>
-            </div>
-            <div class="col-xs-1">
-              <div class="form-group">
-                <label for="searchable">Searchable</label>
-                <input name="searchable" type="checkbox" class="form-control" ng-model="discoveryViewToCreate.resultMetadataFields[$index].searchable">
               </div>
             </div>
             <div class="col-xs-1">
@@ -266,118 +366,6 @@
             <div class="col-xs-2">
               <div class="form-group add-field-group">
                   <button type="button" class="btn btn-danger" ng-click="discoveryViewToCreate.resultMetadataFields.splice($index,1)"><span class="glyphicon glyphicon-minus"></span></button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </uib-tab>
-      <uib-tab index="2" heading="Facets" disable="true">
-        <div class="row">
-          <div class="row">
-            <div class="col-sm-offset-1 co-xs-12">
-              <h4>Facet Fields</h4>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-2 col-sm-offset-1">
-              <div class="form-group">
-                <label for="key">Key</label>
-                <select name="key" class="form-control" ng-model="discoveryViewToCreate.facetFields[0].key" ng-options="option['name'] as option['name'] for option in fields"></select>
-              </div>
-            </div>
-            <div class="col-xs-5">
-              <div class="form-group">
-                <label for="name">Label</label>
-                <input name="name" placeholder="Display name of filter" type="text" class="form-control" ng-model="discoveryViewToCreate.facetFields[0].label">
-              </div>
-            </div>
-            <div class="col-xs-2">
-              <div class="form-group">
-                <label for="key">Widget</label>
-                <select name="key" class="form-control" ng-model="discoveryViewToCreate.facetFields[0].widget">
-                  <option>Link</option>
-                  <option>Typeahead</option>
-                </select>
-              </div>
-            </div>
-            <div class="col-xs-2">
-              <div class="form-group add-field-group">
-                <button type="button" class="btn btn-success" ng-click="appendFacetFieldItem(discoveryViewToCreate)"><span class="glyphicon glyphicon-plus"></span></button>
-              </div>
-            </div>
-          </div>
-          <div class="row" ng-repeat="facetField in discoveryViewToCreate.facetFields track by $index" ng-hide="$first">
-            <div class="col-xs-2 col-sm-offset-1">
-              <div class="form-group">
-                <label for="key">Key</label>
-                <select name="key" class="form-control" ng-model="discoveryViewToCreate.facetFields[$index].key" ng-options="option['name'] as option['name'] for option in fields" ></select>
-              </div>
-            </div>
-            <div class="col-xs-5">
-              <div class="form-group">
-                <label for="label">Label</label>
-                <input name="label" placeholder="Display label of filter" type="text" class="form-control" ng-model="discoveryViewToCreate.facetFields[$index].label">
-              </div>
-            </div>
-            <div class="col-xs-2">
-              <div class="form-group">
-                <label for="widget">Widget</label>
-                <select name="widget" class="form-control" ng-model="discoveryViewToCreate.facetFields[$index].widget">
-                  <option>Link</option>
-                  <option>Typeahead</option>
-                </select>
-              </div>
-            </div>
-            <div class="col-xs-2">
-              <div class="form-group add-field-group">
-                  <button type="button" class="btn btn-danger" ng-click="discoveryViewToCreate.facetFields.splice($index,1)"><span class="glyphicon glyphicon-minus"></span></button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </uib-tab>
-      <uib-tab index="3" heading="Search" disable="true">
-        <div class="row">
-          <div class="row">
-            <div class="col-sm-offset-1 co-xs-12">
-              <h4>Search Fields</h4>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-2 col-sm-offset-1">
-              <div class="form-group">
-                <label for="key">Key</label>
-                <select name="key" class="form-control" ng-model="discoveryViewToCreate.searchFields[0].key" ng-options="option['name'] as option['name'] for option in fields"></select>
-              </div>
-            </div>
-            <div class="col-xs-7">
-              <div class="form-group">
-                <label for="name">Label</label>
-                <input name="name" placeholder="Display name of search" type="text" class="form-control" ng-model="discoveryViewToCreate.searchFields[0].label">
-              </div>
-            </div>
-            <div class="col-xs-2">
-              <div class="form-group add-field-group">
-                <button type="button" class="btn btn-success" ng-click="appendSearchFieldItem(discoveryViewToCreate)"><span class="glyphicon glyphicon-plus"></span></button>
-              </div>
-            </div>
-          </div>
-          <div class="row" ng-repeat="searchField in discoveryViewToCreate.searchFields track by $index" ng-hide="$first">
-            <div class="col-xs-2 col-sm-offset-1">
-              <div class="form-group">
-                <label for="key">Key</label>
-                <select name="key" class="form-control" ng-model="discoveryViewToCreate.searchFields[$index].key" ng-options="option['name'] as option['name'] for option in fields" ></select>
-              </div>
-            </div>
-            <div class="col-xs-7">
-              <div class="form-group">
-                <label for="label">Label</label>
-                <input name="label" placeholder="Display label of search" type="text" class="form-control" ng-model="discoveryViewToCreate.searchFields[$index].label">
-              </div>
-            </div>
-            <div class="col-xs-2">
-              <div class="form-group add-field-group">
-                  <button type="button" class="btn btn-danger" ng-click="discoveryViewToCreate.searchFields.splice($index,1)"><span class="glyphicon glyphicon-minus"></span></button>
               </div>
             </div>
           </div>
