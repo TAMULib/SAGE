@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import edu.tamu.sage.exceptions.DiscoveryContextBuildException;
 import edu.tamu.sage.exceptions.SourceFieldsException;
+import edu.tamu.sage.exceptions.SourceServiceException;
 import edu.tamu.sage.model.DiscoveryView;
 import edu.tamu.sage.model.response.DiscoveryContext;
 import edu.tamu.sage.model.response.FacetFilter;
@@ -114,8 +115,8 @@ public class SolrDiscoveryService {
         String filter = discoveryView.getFilter();
         try {
             return solrSourceService.getAvailableFields(uri, filter);
-        } catch (SourceFieldsException e) {
-            throw new DiscoveryContextBuildException("Could not populate fields", e);
+        } catch (SourceServiceException e) {
+            throw new DiscoveryContextBuildException("Could not populate fields, uri: " + uri, e);
         }
     }
 
