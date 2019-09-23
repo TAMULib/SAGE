@@ -131,7 +131,9 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
     };
 
     $scope.updateSort = function() {
-      $scope.discoveryContext.executeSearch(true);
+      $scope.discoveryContext.executeSearch(true).then(function() {
+        $scope.resetSearch();
+      });
     };
 
     $scope.searchProcessKeyPress = function($event) {
