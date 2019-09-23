@@ -6,9 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
-import javax.persistence.OrderBy;
 import javax.persistence.OrderColumn;
+import javax.validation.constraints.NotNull;
 
 import edu.tamu.sage.model.validation.DiscoveryViewValidator;
 import edu.tamu.weaver.validation.model.ValidatingBaseEntity;
