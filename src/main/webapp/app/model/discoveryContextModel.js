@@ -110,7 +110,7 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
       }
 
       discoveryContext.search.filters.push(filter);
-      return discoveryContext.executeSearch(true);
+      return discoveryContext.executeSearch();
     };
 
     discoveryContext.removeFilter = function(filter) {
@@ -120,12 +120,12 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
           discoveryContext.search.filters.splice(i, 1);
         }
       }
-      return discoveryContext.executeSearch(true);
+      return discoveryContext.executeSearch();
     };
 
     discoveryContext.clearFilters = function() {
       discoveryContext.search.filters.length = 0;
-      return discoveryContext.executeSearch(true);
+      return discoveryContext.executeSearch();
     };
 
     discoveryContext.executeSearch = function(maintainPage) {
