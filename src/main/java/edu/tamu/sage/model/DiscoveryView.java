@@ -52,7 +52,6 @@ public class DiscoveryView extends ValidatingBaseEntity {
     private String infoText;
 
     @NotNull
-    @OrderBy(value = "search_fields_order ASC")
     @Column(nullable = false)
     private String infoLinkText;
 
