@@ -1,11 +1,12 @@
 describe("controller: DiscoveryViewManagementController", function () {
-    var controller, q, scope, NgTableParams, WsApi;
+    var controller, q, scope, NgTableParams, SearchField, WsApi;
 
     var initializeVariables = function(settings) {
         inject(function ($q, _WsApi_) {
             q = $q;
 
             NgTableParams = mockNgTableParams;
+            SearchField = mockSearchField;
             WsApi = _WsApi_;
         });
     };
@@ -21,6 +22,7 @@ describe("controller: DiscoveryViewManagementController", function () {
                 $scope: scope,
                 DiscoveryViewRepo: _DiscoveryViewRepo_,
                 NgTableParams: mockNgTableParams,
+                SearchField: SearchField,
                 SourceRepo: _SourceRepo_,
                 WsApi: WsApi
             });
@@ -37,6 +39,7 @@ describe("controller: DiscoveryViewManagementController", function () {
         module("sage");
         module("mock.discoveryView");
         module("mock.discoveryViewRepo");
+        module("mock.searchField");
         module("mock.sourceRepo");
         module("mock.wsApi");
 

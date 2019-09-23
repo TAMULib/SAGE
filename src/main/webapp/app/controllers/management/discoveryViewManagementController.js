@@ -1,4 +1,4 @@
-sage.controller('DiscoveryViewManagementController', function ($controller, $scope, NgTableParams, DiscoveryViewRepo, SourceRepo) {
+sage.controller('DiscoveryViewManagementController', function ($controller, $scope, NgTableParams, DiscoveryViewRepo, SearchField, SourceRepo) {
 
   angular.extend(this, $controller('AbstractController', {
       $scope: $scope
@@ -40,7 +40,9 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
       dv.searchFields = [];
     }
 
-    dv.searchFields.push(DiscoveryViewRepo.scaffoldSearchField);
+    var searchField = new SearchField();
+    angular.extend(searchField, DiscoveryViewRepo.scaffoldSearchField);
+    dv.searchFields.push(searchField);
   };
 
   $scope.startCreateDiscoveryView = function() {
