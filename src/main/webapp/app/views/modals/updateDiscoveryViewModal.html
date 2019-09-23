@@ -13,6 +13,7 @@
           <div class="col-sm-10 col-sm-offset-1">
             <br>
             <validatedinput
+              id="updateName"
               model="discoveryViewToUpdate"
               property="name"
               label="Name"
@@ -24,6 +25,7 @@
             </validatedinput>
 
             <validatedselect
+              id="updateSource"
               model="discoveryViewToUpdate"
               property="source"
               options="sources"
@@ -33,10 +35,12 @@
               form="discoveryViewForms.update"
               validations="discoveryViewForms.validations"
               results="discoveryViewForms.getResults()"
-              autocomplete="off">
+              autocomplete="off"
+              change="getFields(discoveryViewToUpdate)">
             </validatedselect>
 
             <validatedinput
+              id="updateFilter"
               model="discoveryViewToUpdate"
               property="filter"
               label="Filter"
@@ -48,6 +52,7 @@
             </validatedinput>
 
             <validatedinput
+              id="updateSlug"
               model="discoveryViewToUpdate"
               property="slug"
               label="Slug"
@@ -59,6 +64,7 @@
             </validatedinput>
 
             <validatedinput
+              id="updateInfoLinkText"
               model="discoveryViewToUpdate"
               property="infoLinkText"
               label="Info Link Text"
@@ -70,6 +76,7 @@
             </validatedinput>
 
             <validatedinput
+              id="updateInfoLinkUrl"
               model="discoveryViewToUpdate"
               property="infoLinkUrl"
               label="Info Link Url"
@@ -81,6 +88,7 @@
             </validatedinput>
 
             <validatedtextarea
+              id="updateInfoText"
               model="discoveryViewToUpdate"
               property="infoText"
               label="Info Text"
@@ -103,6 +111,7 @@
           <div class="row">
             <div class="col-sm-5 col-sm-offset-1">
               <validatedselect
+                id="updateUniqueIdentifierKey"
                 model="discoveryViewToUpdate"
                 property="uniqueIdentifierKey"
                 options="fields"
@@ -117,6 +126,7 @@
             </div>
             <div class="col-sm-5">
               <multi-suggestion-input
+                id="updateTitleKey"
                 model="discoveryViewToUpdate"
                 property="titleKey"
                 optionproperty="name"
@@ -130,6 +140,7 @@
           <div class="row">
               <div class="col-sm-5 col-sm-offset-1">
                 <multi-suggestion-input
+                  id="updateResourceThumbnailUriKey"
                   model="discoveryViewToUpdate"
                   property="resourceThumbnailUriKey"
                   optionproperty="name"
@@ -141,6 +152,7 @@
               </div>
               <div class="col-sm-5">
                 <multi-suggestion-input
+                  id="updateResourceLocationUriKey"
                   model="discoveryViewToUpdate"
                   property="resourceLocationUriKey"
                   optionproperty="name"
@@ -153,7 +165,7 @@
             </div>
         </div>
         <hr>
-        <div class="row" ng-init="discoveryViewToUpdate.resultMetadataFields=[]">
+        <div class="row">
           <div class="row">
             <div class="col-sm-offset-1 co-xs-12">
               <h4>Result Metadata</h4>
@@ -260,7 +272,7 @@
         </div>
       </uib-tab>
       <uib-tab index="2" heading="Facets" disable="true">
-        <div class="row" ng-init="discoveryViewToUpdate.facetFields=[]">
+        <div class="row">
           <div class="row">
             <div class="col-sm-offset-1 co-xs-12">
               <h4>Facet Fields</h4>
@@ -290,11 +302,11 @@
             </div>
             <div class="col-xs-2">
               <div class="form-group add-field-group">
-                <button type="button" class="btn btn-success" ng-click="discoveryViewToUpdate.facetFields.push({})"><span class="glyphicon glyphicon-plus"></span></button>
+                <button type="button" class="btn btn-success" ng-click="appendFacetFieldItem(discoveryViewToUpdate)"><span class="glyphicon glyphicon-plus"></span></button>
               </div>
             </div>
           </div>
-          <div class="row" ng-repeat="resultMetadataField in discoveryViewToUpdate.facetFields track by $index" ng-hide="$first">
+          <div class="row" ng-repeat="facetField in discoveryViewToUpdate.facetFields track by $index" ng-hide="$first">
             <div class="col-xs-2 col-sm-offset-1">
               <div class="form-group">
                 <label for="key">Key</label>
@@ -324,16 +336,63 @@
           </div>
         </div>
       </uib-tab>
+      <uib-tab index="3" heading="Search" disable="true">
+        <div class="row">
+          <div class="row">
+            <div class="col-sm-offset-1 co-xs-12">
+              <h4>Search Fields</h4>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-2 col-sm-offset-1">
+              <div class="form-group">
+                <label for="key">Key</label>
+                <select name="key" class="form-control" ng-model="discoveryViewToUpdate.searchFields[0].key" ng-options="option['name'] as option['name'] for option in fields"></select>
+              </div>
+            </div>
+            <div class="col-xs-7">
+              <div class="form-group">
+                <label for="name">Label</label>
+                <input name="name" placeholder="Display name of filter" type="text" class="form-control" ng-model="discoveryViewToUpdate.searchFields[0].label">
+              </div>
+            </div>
+            <div class="col-xs-2">
+              <div class="form-group add-field-group">
+                <button type="button" class="btn btn-success" ng-click="appendSearchFieldItem(discoveryViewToUpdate)"><span class="glyphicon glyphicon-plus"></span></button>
+              </div>
+            </div>
+          </div>
+          <div class="row" ng-repeat="searchField in discoveryViewToUpdate.searchFields track by $index" ng-hide="$first">
+            <div class="col-xs-2 col-sm-offset-1">
+              <div class="form-group">
+                <label for="key">Key</label>
+                <select name="key" class="form-control" ng-model="discoveryViewToUpdate.searchFields[$index].key" ng-options="option['name'] as option['name'] for option in fields" ></select>
+              </div>
+            </div>
+            <div class="col-xs-7">
+              <div class="form-group">
+                <label for="label">Label</label>
+                <input name="label" placeholder="Display label of filter" type="text" class="form-control" ng-model="discoveryViewToUpdate.searchFields[$index].label">
+              </div>
+            </div>
+            <div class="col-xs-2">
+              <div class="form-group add-field-group">
+                  <button type="button" class="btn btn-danger" ng-click="discoveryViewToUpdate.searchFields.splice($index,1)"><span class="glyphicon glyphicon-minus"></span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </uib-tab>
     </uib-tabset>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" ng-click="cancelUpdateDiscoveryView()">Cancel</button>
-
-
-    <button ng-show="activeJustified == 0" ng-disabled="updateDiscoveryViewGeneralIsInvalid()" type="button" class="btn btn-success" ng-click="activeJustified = 1; getFields(discoveryViewToUpdate);">Next</button>
+    <button ng-show="activeJustified == 0" ng-disabled="isDiscoveryViewGeneralInvalid('update')" type="button" class="btn btn-success" ng-click="activeJustified = 1; getFields(discoveryViewToUpdate)">Next</button>
     <button ng-show="activeJustified == 1" type="button" class="btn btn-success" ng-click="activeJustified = 0">Back</button>
-    <button ng-show="activeJustified == 1" ng-disabled="updateDiscoveryViewResultsIsInvalid()" type="button" class="btn btn-success" ng-click="activeJustified = 2">Next</button>
+    <button ng-show="activeJustified == 1" ng-disabled="isDiscoveryViewResultsInvalid('update')" type="button" class="btn btn-success" ng-click="activeJustified = 2">Next</button>
     <button ng-show="activeJustified == 2" type="button" class="btn btn-success" ng-click="activeJustified = 1">Back</button>
-    <button ng-show="activeJustified == 2" ng-disabled="discoveryViewForms.update.$invalid" type="submit" class="btn btn-success">Update</button>
+    <button ng-show="activeJustified == 2" ng-disabled="isDiscoveryViewFiltersInvalid('update')" type="button" class="btn btn-success" ng-click="activeJustified = 3">Next</button>
+    <button ng-show="activeJustified == 3" type="button" class="btn btn-success" ng-click="activeJustified = 2">Back</button>
+    <button ng-show="activeJustified == 3" ng-disabled="isDiscoveryViewSearchInvalid('update') || discoveryViewForms.update.$invalid" type="submit" class="btn btn-success">Update</button>
   </div>
 </form>

@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OrderColumn;
 import javax.validation.constraints.NotNull;
 
 import edu.tamu.sage.model.validation.DiscoveryViewValidator;
@@ -62,6 +63,10 @@ public class DiscoveryView extends ValidatingBaseEntity {
 
     @ElementCollection
     private List<FacetFields> facetFields;
+
+    @OrderColumn
+    @ElementCollection
+    private List<SearchField> searchFields;
 
     public DiscoveryView() {
         setModelValidator(new DiscoveryViewValidator());
@@ -185,12 +190,31 @@ public class DiscoveryView extends ValidatingBaseEntity {
         return f;
     }
 
+    public SearchField findSearchFieldByKey(String key) {
+        SearchField searchField = null;
+        for (SearchField sf : searchFields) {
+            if (sf.getKey().equals(key)) {
+                searchField = sf;
+                break;
+            }
+        }
+        return searchField;
+    }
+
     public List<FacetFields> getFacetFields() {
         return facetFields;
     }
 
     public void setFacetFields(List<FacetFields> facetFields) {
         this.facetFields = facetFields;
+    }
+
+    public List<SearchField> getSearchFields() {
+        return searchFields;
+    }
+
+    public void setSearchFields(List<SearchField> searchFields) {
+        this.searchFields = searchFields;
     }
 
 }

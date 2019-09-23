@@ -103,6 +103,11 @@ angular.module('mock.sourceRepo', []).service('SourceRepo', function ($q) {
     return angular.copy(sourceRepo.list);
   };
 
+  sourceRepo.getAvailableFields = function() {
+    // @todo
+    return [];
+  };
+
   sourceRepo.getScaffold = function(defaults) {
     var updatedScaffold = scaffold;
     if (!defaults) defaults = {};
