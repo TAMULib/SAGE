@@ -12,13 +12,16 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapKeyColumn;
+import javax.validation.constraints.NotNull;
 
 @Embeddable
 public class Schedule {
 
-    @Column
+    @NotNull
+    @Column(nullable = false)
     private Boolean active;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Frequency frequency;

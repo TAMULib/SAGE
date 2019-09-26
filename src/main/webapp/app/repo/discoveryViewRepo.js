@@ -1,14 +1,30 @@
-sage.repo("DiscoveryViewRepo", function(DiscoveryView) {
+sage.repo("DiscoveryViewRepo", function() {
   var discoveryViewRepo = this;
 
-  discoveryViewRepo.scaffold = new DiscoveryView({
+  discoveryViewRepo.scaffold = {
     name: "",
+    source: "",
+    facetFields: [],
     filter: "*:*",
+    resourceLocationUriKey: "",
+    resourceThumbnailUriKey: "",
+    resultMetadataFields: [],
+    searchFields: [ {
+      key: "all_fields",
+      label: "Everything"
+    }],
     slug: "",
+    titleKey: "",
     infoLinkText: "",
     infoLinkUrl: "",
-    infoText: ""
-  });
+    infoText: "",
+    uniqueIdentifierKey: ""
+  };
+
+  discoveryViewRepo.scaffoldSearchField = {
+    key: "",
+    label: ""
+  };
 
   return discoveryViewRepo;
 });

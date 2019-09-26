@@ -18,13 +18,12 @@ import org.apache.solr.common.SolrDocumentList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import edu.tamu.sage.exceptions.DiscoveryContextBuildException;
-import edu.tamu.sage.exceptions.SourceFieldsException;
+import edu.tamu.sage.exceptions.SourceServiceException;
 import edu.tamu.sage.model.DiscoveryView;
-import edu.tamu.sage.model.FacetFields;
-import edu.tamu.sage.model.MetadataField;
 import edu.tamu.sage.model.response.DiscoveryContext;
 import edu.tamu.sage.model.response.FacetFilter;
 import edu.tamu.sage.model.response.Filter;
@@ -52,119 +51,63 @@ public class SolrDiscoveryService {
         }
     }
 
-    public DiscoveryContext buildDiscoveryContext(DiscoveryView discoveryView, Map<String, String> filterMap, int rows, int start, String sort) throws DiscoveryContextBuildException, UnsupportedEncodingException {
-
+    public DiscoveryContext buildDiscoveryContext(DiscoveryView discoveryView, String field, String value, Pageable page, int offset, Map<String, String> filterMap) throws DiscoveryContextBuildException, UnsupportedEncodingException {
         DiscoveryContext discoveryContext = DiscoveryContext.of(discoveryView);
-
-        Search search = buildSearch(filterMap, discoveryView, rows, start, sort);
-
-        ResultSet resultSet = querySolrCore(discoveryView, search, sort);
-        List<Result> results = resultSet.results;
-        List<FacetFilter> facetFilter = resultSet.facetFilters;
-
-        discoveryContext.setResults(results);
-        discoveryContext.setSearch(search);
-        discoveryContext.setFacetFilters(facetFilter);
-
-        return discoveryContext;
-    }
-
-    private Search buildSearch(Map<String, String> filterMap, DiscoveryView discoveryView, int rows, int start, String sort) throws DiscoveryContextBuildException, UnsupportedEncodingException {
-
-        // TODO: REDO!!!
-
         Search search = new Search();
 
-        List<SolrField> availableFields = getAvailableFields(discoveryView);
+        search.setField(field.equalsIgnoreCase(ALL_FIELDS_KEY) ? "" : field);
 
+        String query = "*:*";
+        if (!(field.isEmpty() || value.isEmpty())) {
+            query = search.getField();
+            query += ":" + (value.isEmpty() ? "*" : value);
+        }
+
+        SolrQuery solrQuery = new SolrQuery(query);
+
+        // Only filter against designated facet fields.
         List<Filter> filters = new ArrayList<Filter>();
+        if (!discoveryView.getFacetFields().isEmpty()) {
+            discoveryView.getFacetFields().forEach(facetField -> {
+                solrQuery.addFacetField(facetField.getKey());
 
-        String query = "";
-        String solrQuery = "";
-
-        for (Map.Entry<String, String> entry : filterMap.entrySet()) {
-            String key = entry.getKey();
-            String vs = entry.getValue();
-
-            query += key + "=";
-            solrQuery += "(";
-
-            String[] values = vs.split(",");
-            for (int i = 0; i < values.length; i++) {
-
-                String label = key;
-
-                if (discoveryView.getTitleKey().equals(key)) {
-                    label = "Name";
-                } else if (ALL_FIELDS_KEY.equals(key)) {
-                    label = "All Fields";
-                } else {
-                    MetadataField m = discoveryView.findMetadataFieldByKey(key);
-                    if (m != null) {
-                        label = m.getLabel();
-                    } else {
-                        FacetFields ff = discoveryView.findFacetFieldByKey(key);
-                        label = ff != null ? ff.getLabel() : label;
-                    }
+                String filterKey = "f." + facetField.getKey();
+                if (filterMap.containsKey(filterKey)) {
+                    Filter filter = new Filter();
+                    filter.setKey(facetField.getKey());
+                    filter.setLabel(facetField.getLabel());
+                    filter.setValue(filterMap.get(filterKey));
+                    filters.add(filter);
+                    solrQuery.addFilterQuery(facetField.getKey() + ":" + filterMap.get(filterKey));
                 }
+            });
 
-                filters.add(new Filter(key, label, values[i]));
-
-                if (key.equals(ALL_FIELDS_KEY)) {
-                    if (solrQuery.endsWith(" AND (")) {
-                        solrQuery = solrQuery.substring(0, solrQuery.length() - 6) + " OR (";
-                    }
-                    for (int j = 0; j < availableFields.size(); j++) {
-                        SolrField field = availableFields.get(j);
-                        if (!field.getName().equals(ALL_FIELDS_KEY)) {
-                            solrQuery += field.getName() + ":\"" + values[i] + "\"";
-                            if (j < availableFields.size()) {
-                                solrQuery += " OR ";
-                            }
-                        }
-                    }
-                } else {
-                    solrQuery += key + ":\"" + values[i] + "\"";
-                    if (i < values.length) {
-                        solrQuery += " OR ";
-                    }
-                }
-                query += values[i];
-                if (i < values.length - 1) {
-                    query += ",";
-                }
-            }
-
-            query += "&";
-            if (key.equals(ALL_FIELDS_KEY)) {
-                solrQuery = solrQuery.substring(0, solrQuery.length() - 4) + ")) OR ";
-            } else {
-                solrQuery = solrQuery.substring(0, solrQuery.length() - 4) + ") AND ";
-            }
+            solrQuery.setFacet(true);
+            solrQuery.setFacetLimit(Integer.MAX_VALUE);
         }
 
         search.setFilters(filters);
 
-        if (query.length() > 1) {
-            query = query.substring(0, query.length() - 1);
+        solrQuery.setRows(page.getPageSize());
+        solrQuery.setStart((page.getPageNumber() * page.getPageSize()) + offset);
+
+        if (page.getSort() != null) {
+            page.getSort().forEach(order->{
+                solrQuery.addSort(order.getProperty(), order.getDirection().isDescending() ? ORDER.desc : ORDER.asc);
+            });
         }
-        if (solrQuery.length() > 5) {
-            solrQuery = "(" + solrQuery.substring(0, solrQuery.length() - 5) + ")";
-        }
 
-        query += (query.length() > 0 ? "&" : "") + "start=" + start + "&rows=" + rows + "&sort=" + sort;
+        ResultSet resultSet = querySolrCore(discoveryView, solrQuery, search);
+        search.setStart((page.getPageNumber() * page.getPageSize()) + offset);
 
-        System.out.println("URL query: " + query);
-        System.out.println("Solr query: " + solrQuery);
+        List<Result> results = resultSet.results;
+        List<FacetFilter> facetFilter = resultSet.facetFilters;
 
-        search.setQuery(query);
-        search.setSolrQuery(solrQuery);
+        discoveryContext.setSearch(search);
+        discoveryContext.setResults(results);
+        discoveryContext.setFacetFilters(facetFilter);
 
-        search.setRows(rows);
-        search.setStart(start);
-        search.setSort(sort);
-
-        return search;
+        return discoveryContext;
     }
 
     public List<SolrField> getAvailableFields(DiscoveryView discoveryView) throws DiscoveryContextBuildException {
@@ -172,12 +115,35 @@ public class SolrDiscoveryService {
         String filter = discoveryView.getFilter();
         try {
             return solrSourceService.getAvailableFields(uri, filter);
-        } catch (SourceFieldsException e) {
-            throw new DiscoveryContextBuildException("Could not populate fields", e);
+        } catch (SourceServiceException e) {
+            throw new DiscoveryContextBuildException("Could not populate fields, uri: " + uri, e);
         }
     }
 
-    public ResultSet querySolrCore(DiscoveryView discoveryView, Search search, String sort) {
+    public SingleResultContext getSingleResult(DiscoveryView discoveryView, String resultId) throws DiscoveryContextBuildException {
+
+        SingleResultContext sinlgeResultContext = null;
+
+        try (SolrClient solr = new HttpSolrClient(discoveryView.getSource().getUri())) {
+            SolrQuery query = new SolrQuery();
+
+            query.setQuery(discoveryView.getUniqueIdentifierKey() + ":" + resultId);
+            query.setRows(1);
+
+            QueryResponse qr = solr.query(query);
+
+            if (qr.getResults().size() > 0) {
+                sinlgeResultContext = SingleResultContext.of(discoveryView, qr.getResults().get(0));
+            }
+
+        } catch (Exception e) {
+            throw new DiscoveryContextBuildException("Could not find singe result", e);
+        }
+
+        return sinlgeResultContext;
+    }
+
+    private ResultSet querySolrCore(DiscoveryView discoveryView, SolrQuery query, Search search) {
         logger.info("Using Discovery View: " + discoveryView.getName() + " to read from SOLR Core: " + discoveryView.getSource().getName() + " - " + discoveryView.getSource().getUri());
 
         List<Result> results = new ArrayList<Result>();
@@ -185,32 +151,10 @@ public class SolrDiscoveryService {
 
         SolrClient solr = new HttpSolrClient(discoveryView.getSource().getUri());
 
+        search.setTotal(0);
+
         try {
-
             solr.ping();
-
-            SolrQuery query = new SolrQuery();
-
-            query.setFacet(true);
-            query.setFacetLimit(Integer.MAX_VALUE);
-
-            discoveryView.getFacetFields().forEach(facetField -> {
-                query.addFacetField(facetField.getKey());
-            });
-
-            String q = discoveryView.getFilter();
-
-            if (search.getSolrQuery().length() > 0) {
-                q += " AND " + search.getSolrQuery();
-            }
-
-            query.setRows(search.getRows());
-
-            query.setStart(search.getStart());
-
-            query.setQuery(q);
-
-            query.addSort(sort, ORDER.asc);
 
             discoveryView.getResultMetadataFields().forEach(metadataField -> {
                 if (metadataField.getKey().contains("{{")) {
@@ -268,29 +212,6 @@ public class SolrDiscoveryService {
         }
 
         return new ResultSet(results, facetFilters);
-    }
-
-    public SingleResultContext getSinlgeResult(DiscoveryView discoveryView, String resultId) throws DiscoveryContextBuildException {
-
-        SingleResultContext sinlgeResultContext = null;
-
-        try (SolrClient solr = new HttpSolrClient(discoveryView.getSource().getUri())) {
-            SolrQuery query = new SolrQuery();
-
-            query.setQuery(discoveryView.getUniqueIdentifierKey() + ":" + resultId);
-            query.setRows(1);
-
-            QueryResponse qr = solr.query(query);
-
-            if (qr.getResults().size() > 0) {
-                sinlgeResultContext = SingleResultContext.of(discoveryView, qr.getResults().get(0));
-            }
-
-        } catch (Exception e) {
-            throw new DiscoveryContextBuildException("Could not find singe result", e);
-        }
-
-        return sinlgeResultContext;
     }
 
 }

@@ -3,10 +3,13 @@ sage.repo("JobRepo", function(Job, WsApi) {
 
   jobRepo.scaffold = new Job({
     name: "Job",
+    operators: [],
+    readers: [],
     schedule: {
-                active: false,
-                scheduleData: {}
-              }
+      active: false,
+      scheduleData: {}
+    },
+    writers: []
   });
 
   jobRepo.run = function(job) {

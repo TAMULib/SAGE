@@ -5,31 +5,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.tamu.sage.model.DiscoveryView;
+import edu.tamu.sage.model.SearchField;
 
 public class DiscoveryContext implements Serializable {
 
     private static final long serialVersionUID = 6808155032067806535L;
-    
+
     private String name;
-    
+
     private String titleKey;
 
     private String uniqueIdentifierKey;
-    
+
     private String resourceThumbnailUriKey;
-    
+
     private String resourceLocationUriKey;
-    
+
     private Search search;
-    
+
     private List<Result> results;
-    
+
     private List<SortField> sortFields;
-    
+
+    private List<SearchField> searchFields;
+
     private List<SearchFilter> searchFilters;
-    
+
     private List<FacetFilter> facetFilters;
-    
+
     private String infoText;
 
     private String infoLinkText;
@@ -38,6 +41,7 @@ public class DiscoveryContext implements Serializable {
 
     public DiscoveryContext() {
         super();
+        searchFields = new  ArrayList<SearchField>();
         searchFilters = new  ArrayList<SearchFilter>();
         sortFields = new  ArrayList<SortField>();
     }
@@ -49,7 +53,7 @@ public class DiscoveryContext implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    
+
     public String getTitleKey() {
         return titleKey;
     }
@@ -57,7 +61,7 @@ public class DiscoveryContext implements Serializable {
     public void setTitleKey(String titleKey) {
         this.titleKey = titleKey;
     }
-    
+
     public String getUniqueIdentifierKey() {
         return uniqueIdentifierKey;
     }
@@ -101,13 +105,21 @@ public class DiscoveryContext implements Serializable {
     public void setResults(List<Result> results) {
         this.results = results;
     }
-    
+
     public List<SortField> getSortFields() {
         return sortFields;
     }
 
     public void setSortFields(List<SortField> sortFields) {
         this.sortFields = sortFields;
+    }
+
+    public List<SearchField> getSearchFields() {
+        return searchFields;
+    }
+
+    public void setSearchFields(List<SearchField> searchFields) {
+        this.searchFields = searchFields;
     }
 
     public List<SearchFilter> getSearchFilters() {
@@ -152,7 +164,7 @@ public class DiscoveryContext implements Serializable {
 
     public static DiscoveryContext of(DiscoveryView dv) {
         DiscoveryContext dc = new DiscoveryContext();
-        
+
         dc.setName(dv.getName());
         dc.setTitleKey(dv.getTitleKey());
         dc.setUniqueIdentifierKey(dv.getUniqueIdentifierKey());
@@ -165,6 +177,7 @@ public class DiscoveryContext implements Serializable {
         SearchFilter defaultSearchFilter = new SearchFilter();
         defaultSearchFilter.setKey("all_fields");
         defaultSearchFilter.setLabel("All Fields");
+        dc.searchFields = dv.getSearchFields();
         dc.searchFilters.add(defaultSearchFilter);
 
 //        SearchFilter titleSearchFilter = new SearchFilter();
@@ -176,16 +189,13 @@ public class DiscoveryContext implements Serializable {
         identifierSortField.setKey(dc.getUniqueIdentifierKey());
         identifierSortField.setLabel("ID");
         dc.sortFields.add(identifierSortField);
-        
+
         dv.getResultMetadataFields().forEach(metadataField->{
-            if(metadataField.isSearchable()) {
-                dc.searchFilters.add(SearchFilter.of(metadataField));
-            }
             if(metadataField.isSortable()) {
                 dc.sortFields.add(SortField.of(metadataField));
             }
         });
-        
+
         return dc;
     }
 }

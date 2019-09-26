@@ -3,7 +3,8 @@ sage.repo("InternalMetadataRepo", function() {
 
   internalMetadataRepo.scaffold = {
     gloss: "",
-    field: ""
+    field: "",
+    required: true
   };
 
   return internalMetadataRepo;

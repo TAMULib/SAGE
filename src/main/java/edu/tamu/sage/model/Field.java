@@ -2,16 +2,19 @@ package edu.tamu.sage.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
 
 import edu.tamu.weaver.validation.model.ValidatingBaseEntity;
 
 @Entity
 public class Field extends ValidatingBaseEntity {
 
-    @Column
+    @NotNull
+    @Column(nullable = false)
     private String name;
 
-    @Column
+    @NotNull
+    @Column(nullable = false)
     private String schemaMapping;
 
     public Field() {}

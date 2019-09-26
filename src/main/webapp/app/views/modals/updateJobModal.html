@@ -3,7 +3,6 @@
     <button type="button" class="close modal-close" aria-label="Close" ng-click="cancelUpdateJob()"><span aria-hidden="true">&times;</span></button>
     <h4 class="modal-title">Update Job</h4>
   </div>
-
   <div class="modal-body">
     <validationmessage results="jobForms.getResults()"></validationmessage>
 
@@ -44,9 +43,10 @@
   </div>
   <div class="row form-group">
     <div class="col-sm-10 col-sm-offset-1">
-      <label for="scheduleFRequency">Frequency</label>
-      <select name="scheduleFequency" class="form-control" ng-model="jobToUpdate.schedule.frequency" ng-change="clearExistingSchedule()">
+      <label for="scheduleFrequency">Frequency</label>
+      <select name="scheduleFequency" class="form-control" ng-model="jobToUpdate.schedule.frequency" ng-change="clearExistingSchedule()" required>
         <option value="">Select Frequency</option>
+        <option value="ONDEMAND">On Demand</option>
         <option value="ONCE">Once</option>
         <option value="HOURLY">Hourly</option>
         <option value="DAILY">Daily</option>

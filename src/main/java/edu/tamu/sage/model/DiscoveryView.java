@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OrderColumn;
+import javax.validation.constraints.NotNull;
 
 import edu.tamu.sage.model.validation.DiscoveryViewValidator;
 import edu.tamu.weaver.validation.model.ValidatingBaseEntity;
@@ -13,37 +15,47 @@ import edu.tamu.weaver.validation.model.ValidatingBaseEntity;
 @Entity
 public class DiscoveryView extends ValidatingBaseEntity {
 
-    @Column
+    @NotNull
+    @Column(nullable = false)
     private String name;
 
     @ManyToOne
     private Source source;
 
-    @Column
+    @NotNull
+    @Column(nullable = false)
     private String filter;
 
-    @Column
+    @NotNull
+    @Column(nullable = false)
     private String titleKey;
-    
-    @Column
+
+    @NotNull
+    @Column(nullable = false)
     private String resourceThumbnailUriKey;
-    
-    @Column
+
+    @NotNull
+    @Column(nullable = false)
     private String resourceLocationUriKey;
 
-    @Column
+    @NotNull
+    @Column(nullable = false)
     private String uniqueIdentifierKey;
 
-    @Column(unique = true)
+    @NotNull
+    @Column(unique = true, nullable = false)
     private String slug;
 
-    @Column(length = 4096)
+    @NotNull
+    @Column(length = 4096, nullable = false)
     private String infoText;
 
-    @Column
+    @NotNull
+    @Column(nullable = false)
     private String infoLinkText;
 
-    @Column
+    @NotNull
+    @Column(nullable = false)
     private String infoLinkUrl;
 
     @ElementCollection
@@ -51,6 +63,10 @@ public class DiscoveryView extends ValidatingBaseEntity {
 
     @ElementCollection
     private List<FacetFields> facetFields;
+
+    @OrderColumn
+    @ElementCollection
+    private List<SearchField> searchFields;
 
     public DiscoveryView() {
         setModelValidator(new DiscoveryViewValidator());
@@ -174,12 +190,31 @@ public class DiscoveryView extends ValidatingBaseEntity {
         return f;
     }
 
+    public SearchField findSearchFieldByKey(String key) {
+        SearchField searchField = null;
+        for (SearchField sf : searchFields) {
+            if (sf.getKey().equals(key)) {
+                searchField = sf;
+                break;
+            }
+        }
+        return searchField;
+    }
+
     public List<FacetFields> getFacetFields() {
         return facetFields;
     }
 
     public void setFacetFields(List<FacetFields> facetFields) {
         this.facetFields = facetFields;
+    }
+
+    public List<SearchField> getSearchFields() {
+        return searchFields;
+    }
+
+    public void setSearchFields(List<SearchField> searchFields) {
+        this.searchFields = searchFields;
     }
 
 }

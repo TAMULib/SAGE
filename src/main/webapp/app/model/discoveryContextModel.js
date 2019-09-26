@@ -3,53 +3,61 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
 
     var discoveryContext = this;
     var searching;
+    var defaultPageSize = 10;
+    var defaultPageSort = "id"; // @fixme: needs to be determined from DiscoveryView.
 
     var fetchContext = function () {
-
-      var q = {};
-
-      angular.forEach(discoveryContext.search.filters, function(filter) {
-        if(!q[filter.key]) {
-          q[filter.key] = [];  
-        }
-        q[filter.key].push(filter.value);
-      });
-
-      var rows = $routeParams.rows ? $routeParams.rows : 10;
-      var start = $routeParams.start ? $routeParams.start : 0;
-      var sort = $routeParams.sort ? $routeParams.sort : "id";
-
-      q.rows = discoveryContext.search.rows !== undefined ? discoveryContext.search.rows : rows;
-      q.start = discoveryContext.search.start !== undefined ? discoveryContext.search.start : start;
-      q.sort = discoveryContext.search.sort !== undefined ? discoveryContext.search.sort : sort;
-      
-      return WsApi.fetch(discoveryContext.getMapping().load, {
+      var parameters = {
         pathValues: {
           slug: discoveryContext.slug
         },
-        query: q
+        query: {
+          field: angular.isDefined(discoveryContext.search.field) ? discoveryContext.search.field : "",
+          value: angular.isDefined(discoveryContext.search.value) ? discoveryContext.search.value : "",
+          sort: angular.isDefined(discoveryContext.search.page.sort) ? discoveryContext.search.page.sort : defaultPageSort,
+          page: angular.isDefined(discoveryContext.search.page.number) ? discoveryContext.search.page.number : 0,
+          size: angular.isDefined(discoveryContext.search.page.size) ? discoveryContext.search.page.size : defaultPageSize,
+          offset: angular.isDefined(discoveryContext.search.page.offset) ? discoveryContext.search.page.offset : 0
+        }
+      };
+
+      angular.forEach(discoveryContext.search.filters, function(filter) {
+        var filterKey = "f." + filter.key;
+        if (!angular.isDefined(parameters.query[filterKey])) {
+          parameters.query[filterKey] = [];
+        }
+        parameters.query[filterKey].push(filter.value);
       });
+
+      return WsApi.fetch(discoveryContext.getMapping().load, parameters);
     };
 
     var populateProperty = function(pname, ctor) {
-      for(var i in discoveryContext[pname]) {
+      for (var i in discoveryContext[pname]) {
         discoveryContext[pname][i] = new ctor(discoveryContext[pname][i]);
       }
     };
 
     discoveryContext.before(function () {
-
       var filters = [];
-      angular.forEach($location.search(), function(v,k) {
-        var filter = {
-          key: k,
-          value: v
-        };
-        filters.push(filter);
-      });
+
+      if ($routeParams.filters) {
+        angular.forEach($routeParams.filters, function(v, k) {
+          var filter = {
+            key: k,
+            value: v
+          };
+          filters.push(filter);
+        });
+      }
+
       discoveryContext.search = new Search({
+        field: angular.isDefined($routeParams.field) ? $routeParams.field : "",
+        value: angular.isDefined($routeParams.value) ? $routeParams.value : "",
         filters: filters,
-        query: $location.search()
+        start: 0,
+        total: 0,
+        page: discoveryContext.buildPage()
       });
 
       return discoveryContext.reload();
@@ -57,18 +65,37 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
 
     discoveryContext.reload = function() {
       var defer = $q.defer();
-      fetchContext().then(function (res) {
-        var dc = angular.fromJson(res.body).payload.DiscoveryContext;
 
-        angular.extend(discoveryContext, dc);
+      fetchContext().then(function (res) {
+        var payload = angular.fromJson(res.body).payload.DiscoveryContext;
+        var search = payload.search;
+
+        // do not override local search settings, only these search properties are needed.
+        var page = Number(search.page);
+        if (!isNaN(page)) {
+          discoveryContext.search.page.number = page;
+          $location.search("page", discoveryContext.search.page.number);
+        }
+        discoveryContext.search.field = search.field;
+        discoveryContext.search.filters = search.filters ? search.filters : [];
+        discoveryContext.search.start = search.start;
+        discoveryContext.search.total = search.total;
+        delete payload.search;
+
+        angular.extend(discoveryContext, payload);
 
         populateProperty("results", Result);
-
         populateProperty("fields", Field);
 
         defer.resolve(discoveryContext);
       });
+
       return defer.promise;
+    };
+
+    discoveryContext.setSearchField = function(key, value) {
+      discoveryContext.search.field = key;
+      discoveryContext.search.value = value;
     };
 
     discoveryContext.addFilter = function(label, key, value) {
@@ -77,14 +104,19 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
         key: key,
         value: value
       };
+
+      if (!discoveryContext.search.filters) {
+        discoveryContext.search.filters = [];
+      }
+
       discoveryContext.search.filters.push(filter);
       return discoveryContext.executeSearch();
     };
 
     discoveryContext.removeFilter = function(filter) {
-      for(var i = 0; i < discoveryContext.search.filters.length; i++) {
+      for (var i = 0; i < discoveryContext.search.filters.length; i++) {
         var f = discoveryContext.search.filters[i];
-        if(f.key === filter.key && f.value === filter.value) {
+        if (f.key === filter.key && f.value === filter.value) {
           discoveryContext.search.filters.splice(i, 1);
         }
       }
@@ -98,15 +130,30 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
 
     discoveryContext.executeSearch = function(maintainPage) {
       return $q(function(resolve) {
-        if(!searching) {
+        if (!searching) {
           searching = true;
-          if(!maintainPage) {
+
+          if (!maintainPage) {
             discoveryContext.search.start = 0;
-            $location.search("start", 0);
+            discoveryContext.search.total = 0;
+            discoveryContext.search.page.number = 0;
+            $location.search("field", null);
+            $location.search("value", null);
+            $location.search("page", null);
+            $location.search("sort", null);
+            $location.search("size", null);
+            $location.search("offset", null);
+            $location.search("filters", null);
           }
+
           discoveryContext.reload().then(function() {
             searching = false;
-            $location.search(discoveryContext.search.query);
+            $location.search("field", discoveryContext.search.field === "" ? null : discoveryContext.search.field);
+            $location.search("value", discoveryContext.search.value === "" ? null : discoveryContext.search.value);
+            $location.search("page", discoveryContext.search.page.number === 0 ? null : discoveryContext.search.page.number);
+            $location.search("sort", discoveryContext.search.page.sort === defaultPageSort ? null : discoveryContext.search.page.sort);
+            $location.search("size", discoveryContext.search.page.size === defaultPageSize ? null : discoveryContext.search.page.size);
+            $location.search("offset", discoveryContext.search.page.offset === 0 ? null : discoveryContext.search.page.offset);
             resolve();
           });
         } else {
@@ -119,7 +166,43 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
       return searching;
     };
 
-    return this;
+    discoveryContext.buildPage = function() {
+      var page = {
+        number: 0,
+        size: defaultPageSize,
+        sort: defaultPageSort,
+        offset: 0
+      };
+      var number;
 
+      if ($routeParams.page) {
+        number = Number($routeParams.page);
+        if (!isNaN(number)) {
+          page.number = number;
+        }
+      }
+
+      if ($routeParams.size) {
+        number = Number($routeParams.size);
+        if (!isNaN(number)) {
+          page.size = number;
+        }
+      }
+
+      if ($routeParams.offset) {
+        number = Number($routeParams.offset);
+        if (!isNaN(number)) {
+          page.offset = number;
+        }
+      }
+
+      if ($routeParams.sort) {
+        page.sort = $routeParams.sort;
+      }
+
+      return page;
+    };
+
+    return this;
   };
 });

@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
@@ -29,6 +30,7 @@ public abstract class BaseOp extends ValidatingBaseEntity implements Operator {
     @Transient
     private String type;
 
+    @NotNull
     @Column(nullable = false, unique = true)
     private String name;
 
