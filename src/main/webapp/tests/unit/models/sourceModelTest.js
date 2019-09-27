@@ -1,31 +1,34 @@
 describe('model: Source', function () {
-  var rootScope, scope, q, WsApi, Source, model;
+  var model, rootScope, scope, WsApi;
+
+  var initializeVariables = function(settings) {
+    inject(function ($rootScope, _WsApi_) {
+      rootScope = $rootScope;
+
+      WsApi = _WsApi_;
+    });
+  };
+
+  var initializeModel = function(settings) {
+    inject(function (Source) {
+      scope = rootScope.$new();
+
+      model = angular.extend(new Source());
+    });
+  };
 
   beforeEach(function() {
     module('core');
     module('sage');
     module('mock.wsApi');
 
-    inject(function ($rootScope, $q, _WsApi_, HttpMethodVerbs, _Source_) {
-      rootScope = $rootScope;
-      scope = $rootScope.$new();
-      q = $q;
-      WsApi = _WsApi_;
-
-      Source = _Source_;
-      model = new Source();
-    });
+    initializeVariables();
+    initializeModel();
   });
 
   describe('Is the model defined', function () {
     it('should be defined', function () {
-      expect(Source).toBeDefined();
-    });
-  });
-
-  describe('Initialization should return Source', function() {
-    it('the Source was returned', function() {
-      expect(typeof model).toEqual("object");
+      expect(model).toBeDefined();
     });
   });
 
@@ -42,6 +45,6 @@ describe('model: Source', function () {
   });
 
   describe('Are the model methods working as expected', function () {
+    // @todo
   });
-
 });

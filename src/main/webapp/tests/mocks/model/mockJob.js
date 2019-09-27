@@ -1,263 +1,179 @@
-var mockJobFields1 = [
-  {
-    "id": 1,
-    "name": "title",
-    "schemaMapping":"title"
-  },
-  {
-    "id": 2,
-    "name": "creator",
-    "schemaMapping": "creator"
-  },
-  {
-    "id": 3,
-    "name": "created",
-    "schemaMapping":"created"
-  },
-  {
-    "id": 4,
-    "name": "subject",
-    "schemaMapping": "subject"
-  },
-  {
-    "id": 5,
-    "name": "format",
-    "schemaMapping": "format"
-  },
-  {
-    "id": 6,
-    "name": "language",
-    "schemaMapping": "language"
-  },
-  {
-    "id": 7,
-    "name": "id",
-    "schemaMapping": "terms.identifier"
-  }
-];
-
-var mockJobOutputMappings1 = [
-  {
-    "id": 1,
-    "inputField": "title",
-    "mappings": ["title"]
-  },
-  {
-    "id": 2,
-    "inputField": "creator",
-    "mappings": ["creator"]
-  },
-  {
-    "id": 3,
-    "inputField": "created",
-    "mappings": ["created"]
-  },
-  {
-    "id": 4,
-    "inputField": "subject",
-    "mappings": ["subject"]
-  },
-  {
-    "id": 5,
-    "inputField": "format",
-    "mappings": ["format"]
-  },
-  {
-    "id":6,
-    "inputField": "language",
-    "mappings": ["language"]
-  },
-  {
-    "id":7,
-    "inputField": "terms.identifier",
-    "mappings": ["id"]
-  }
-];
-
-var mockJob1 = {
-  "id": 1,
-  "name": "Job 1",
-  "readers":[
+var dataJob1 = {
+  id: 1,
+  name: "Job 1",
+  readers: [
     {
-      "id": 1,
-      "name": "Reader 1",
-      "source": {
-        "id": 1,
-        "name": "Source 1",
-        "uri": "http://localhost:8983/solr/collection1",
-        "username": null
+      id: 1,
+      name: "Reader 1",
+      source: {
+        id: 1,
+        name: "Source 1",
+        uri: "http://localhost:8983/solr/collection1",
+        username: null
       },
-      "fields": mockJobFields1,
-      "sortTitle": "title",
-      "sortId": "id"
+      fields: [],
+      sortTitle: "title",
+      sortId: "id"
     }
   ],
-  "writers":[
+  writers: [
     {
-      "id": 1,
-      "name": "Writer 1",
-      "source": {
-        "id": 1,
-        "name": "Source 1",
-        "uri": "http://localhost:8983/solr/collection1",
-        "username": null
+      id: 1,
+      name: "Writer 1",
+      source: {
+        id: 1,
+        name: "Source 1",
+        uri: "http://localhost:8983/solr/collection1",
+        username: null
       },
-      "outputMappings": mockJobOutputMappings1
+      outputMappings: [
+        {
+          id: 1,
+          inputField: "title",
+          mappings: ["title"]
+        },
+        {
+          id: 2,
+          inputField: "creator",
+          mappings: ["creator"]
+        },
+        {
+          id: 3,
+          inputField: "created",
+          mappings: ["created"]
+        },
+        {
+          id: 4,
+          inputField: "subject",
+          mappings: ["subject"]
+        },
+        {
+          id: 5,
+          inputField: "format",
+          mappings: ["format"]
+        },
+        {
+          id: 6,
+          inputField: "language",
+          mappings: ["language"]
+        },
+        {
+          id: 7,
+          inputField: "terms.identifier",
+          mappings: ["id"]
+        }
+      ]
     }
   ],
-  "schedule":
+  schedule: {
+    active: false,
+    scheduleData: {}
+  }
+};
+
+var dataJob2 = {
+  id: 2,
+  name: "Job 2",
+  readers: [
     {
-      "active": false,
-      "scheduleData": {}
+      id: 1,
+      name: "Reader 1",
+      source: {
+        id: 1,
+        name: "Source 1",
+        uri: "http://localhost:8983/solr/collection1",
+        username: null
+      },
+      fields: [],
+      sortTitle: "title",
+      sortId: "id"
+    }
+  ],
+  writers: [
+    {
+      id: 1,
+      name: "Writer 1",
+      source: {
+        id: 1,
+        name: "Source 1",
+        uri: "http://localhost:8983/solr/collection1",
+        username: null
+      },
+      outputMappings: dataJob1.writers.outputMappings
+    }
+  ],
+  schedule:
+    {
+      active: false,
+      scheduleData: {}
     }
 };
 
-var mockJob2 = {
-  "id": 2,
-  "name": "Job 2",
-  "readers":[
+var dataJob3 = {
+  id: 3,
+  name: "Job 3",
+  readers: [
     {
-      "id": 1,
-      "name": "Reader 1",
-      "source": {
-        "id": 1,
-        "name": "Source 1",
-        "uri": "http://localhost:8983/solr/collection1",
-        "username": null
+      id: 1,
+      name: "Reader 1",
+      source: {
+        id: 1,
+        name: "Source 1",
+        uri: "http://localhost:8983/solr/collection1",
+        username: null
       },
-      "fields": mockJobFields1,
-      "sortTitle": "title",
-      "sortId": "id"
-    }
-  ],
-  "writers":[
-    {
-      "id": 1,
-      "name": "Writer 1",
-      "source": {
-        "id": 1,
-        "name": "Source 1",
-        "uri": "http://localhost:8983/solr/collection1",
-        "username": null
-      },
-      "outputMappings": mockJobOutputMappings1
-    }
-  ],
-  "schedule":
-    {
-      "active": false,
-      "scheduleData": {}
-    }
-};
-
-var mockJob3 = {
-  "id": 3,
-  "name": "Job 3",
-  "readers":[
-    {
-      "id": 1,
-      "name": "Reader 1",
-      "source": {
-        "id": 1,
-        "name": "Source 1",
-        "uri": "http://localhost:8983/solr/collection1",
-        "username": null
-      },
-      "fields": mockJobFields1,
-      "sortTitle": "title",
-      "sortId": "id"
+      fields: [],
+      sortTitle: "title",
+      sortId: "id"
     },
     {
-      "id": 2,
-      "name": "Reader 2",
-      "source": {
-        "id": 2,
-        "name": "Source 2",
-        "uri": "http://localhost:8983/solr/collection2",
-        "username": null
+      id: 2,
+      name: "Reader 2",
+      source: {
+        id: 2,
+        name: "Source 2",
+        uri: "http://localhost:8983/solr/collection2",
+        username: null
       },
-      "fields": mockJobFields1,
-      "sortTitle": "title",
-      "sortId": "id"
+      fields: [],
+      sortTitle: "title",
+      sortId: "id"
     }
   ],
-  "writers":[
+  writers: [
     {
-      "id": 1,
-      "name": "Writer 1",
-      "source": {
-        "id": 1,
-        "name": "Source 1",
-        "uri": "http://localhost:8983/solr/collection1",
-        "username": null
+      id: 1,
+      name: "Writer 1",
+      source: {
+        id: 1,
+        name: "Source 1",
+        uri: "http://localhost:8983/solr/collection1",
+        username: null
       },
-      "outputMappings": mockJobOutputMappings1
+      outputMappings: []
     },
     {
-      "id": 2,
-      "name": "Writer 2",
-      "source": {
-        "id": 2,
-        "name": "Source 2",
-        "uri": "http://localhost:8983/solr/collection2",
-        "username": null
+      id: 2,
+      name: "Writer 2",
+      source: {
+        id: 2,
+        name: "Source 2",
+        uri: "http://localhost:8983/solr/collection2",
+        username: null
       },
-      "outputMappings": mockJobOutputMappings1
+      outputMappings: []
     }
   ],
-  "schedule":
-    {
-      "active": false,
-      "scheduleData": {}
-    }
+  schedule: {
+    active: false,
+    scheduleData: {}
+  }
 };
 
-angular.module('mock.job', []).service('Job', function ($q) {
-  return function () {
-    var defer;
-    var payloadResponse = function (payload) {
-      return defer.resolve({
-        body: angular.toJson({
-          meta: {
-            status: 'SUCCESS'
-          },
-          payload: payload
-        })
-      });
-    };
+var mockJob = function($q) {
+  var model = mockModel("Job", $q, dataJob1);
 
-    this.isDirty = false;
+  return model;
+};
 
-    this.mock = function(toMock) {
-      this.id = toMock.id;
-      this.name = toMock.name;
-      this.readers = toMock.readers;
-      this.writers = toMock.writers;
-      this.schedule = toMock.schedule;
-    };
-
-    this.save = function() {
-      defer = $q.defer();
-      payloadResponse();
-      return defer.promise;
-    };
-
-    this.delete = function() {
-      defer = $q.defer();
-      payloadResponse();
-      return defer.promise;
-    };
-
-    this.dirty = function(boolean) {
-      this.isDirty = boolean;
-    };
-
-    this.reload = function() {
-    };
-
-    this.clearValidationResults = function() {
-    };
-
-    return this;
-  };
-});
+angular.module("mock.job", []).service("Job", mockJob);

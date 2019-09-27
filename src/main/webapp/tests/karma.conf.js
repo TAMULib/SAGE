@@ -3,7 +3,7 @@ module.exports = function(config){
 
     preprocessors: {
       "app/!(node_modules)/**/*.js": "coverage",
-      '**/*.html': ['ng-html2js']
+      '**/!(node_modules)/*.html': ['ng-html2js']
     },
 
     reporters: ['progress', 'coverage'],
@@ -58,7 +58,13 @@ module.exports = function(config){
 
       'app/controllers/**/*.js',
 
+      'app/directives/**/*.js',
+
       'app/model/**/*.js',
+
+      'app/repo/**/*.js',
+
+      'app/services/**/*.js',
 
       'tests/core/**/*.js',
 
