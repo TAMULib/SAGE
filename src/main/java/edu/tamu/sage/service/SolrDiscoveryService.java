@@ -73,12 +73,16 @@ public class SolrDiscoveryService {
 
                 String filterKey = "f." + facetField.getKey();
                 if (filterMap.containsKey(filterKey)) {
-                    Filter filter = new Filter();
-                    filter.setKey(facetField.getKey());
-                    filter.setLabel(facetField.getLabel());
-                    filter.setValue(filterMap.get(filterKey));
-                    filters.add(filter);
-                    solrQuery.addFilterQuery(facetField.getKey() + ":" + filterMap.get(filterKey));
+                    String[] filterValues = filterMap.get(filterKey).split(",", -1);
+
+                    for (int i = 0; i < filterValues.length; i++) {
+                        Filter filter = new Filter();
+                        filter.setKey(facetField.getKey());
+                        filter.setLabel(facetField.getLabel());
+                        filter.setValue(filterValues[i]);
+                        filters.add(filter);
+                        solrQuery.addFilterQuery(facetField.getKey() + ":" + filterValues[i]);
+                    }
                 }
             });
 
