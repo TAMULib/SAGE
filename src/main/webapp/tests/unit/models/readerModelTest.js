@@ -1,31 +1,34 @@
 describe('model: Reader', function () {
-  var rootScope, scope, WsApi, Reader;
+  var model, rootScope, scope, WsApi;
+
+  var initializeVariables = function(settings) {
+    inject(function ($rootScope, _WsApi_) {
+      rootScope = $rootScope;
+
+      WsApi = _WsApi_;
+    });
+  };
+
+  var initializeModel = function(settings) {
+    inject(function (Reader) {
+      scope = rootScope.$new();
+
+      model = angular.extend(new Reader());
+    });
+  };
 
   beforeEach(function() {
     module('core');
     module('sage');
     module('mock.wsApi');
 
-    inject(function ($rootScope, _WsApi_, HttpMethodVerbs, _Reader_) {
-      rootScope = $rootScope;
-      scope = $rootScope.$new();
-      WsApi = _WsApi_;
-
-      Reader = _Reader_;
-    });
+    initializeVariables();
+    initializeModel();
   });
 
   describe('Is the model defined', function () {
     it('should be defined', function () {
-      expect(Reader).toBeDefined();
+      expect(model).toBeDefined();
     });
   });
-
-  describe('Initialization should return Reader', function() {
-    it('the Reader was returned', function() {
-      var model = new Reader();
-      expect(typeof model).toEqual("object");
-    });
-  });
-
 });

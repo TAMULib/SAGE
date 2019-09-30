@@ -1,29 +1,34 @@
 describe('model: InternalMetadata', function () {
-  var InternalMetadata;
+  var model, rootScope, scope, WsApi;
+
+  var initializeVariables = function(settings) {
+    inject(function ($rootScope, _WsApi_) {
+      rootScope = $rootScope;
+
+      WsApi = _WsApi_;
+    });
+  };
+
+  var initializeModel = function(settings) {
+    inject(function (InternalMetadata) {
+      scope = rootScope.$new();
+
+      model = angular.extend(new InternalMetadata());
+    });
+  };
 
   beforeEach(function() {
     module('core');
     module('sage');
+    module('mock.wsApi');
 
-    inject(function ($rootScope, _InternalMetadata_) {
-      rootScope = $rootScope;
-      scope = $rootScope.$new();
-
-      InternalMetadata = _InternalMetadata_;
-    });
+    initializeVariables();
+    initializeModel();
   });
 
   describe('Is the model defined', function () {
     it('should be defined', function () {
-      expect(InternalMetadata).toBeDefined();
+      expect(model).toBeDefined();
     });
   });
-
-  describe('Initialization should return InternalMetadata', function() {
-    it('the InternalMetadata was returned', function() {
-      var model = new InternalMetadata();
-      expect(typeof model).toEqual("object");
-    });
-  });
-
 });

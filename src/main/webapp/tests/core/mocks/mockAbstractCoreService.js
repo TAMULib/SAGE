@@ -1,15 +1,15 @@
 var mockService = function ($q, mockModelCtor) {
-    var service = {};
+  var service = {};
 
-    service.mockModel = function(toMock) {
-        if (typeof mockModelCtor === "function") {
-            var mocked = new mockModelCtor($q);
-            mocked.mock(toMock);
-            return mocked;
-        }
+  service.mockModel = function(toMock) {
+    if (typeof mockModelCtor === "function") {
+      var mocked = new mockModelCtor($q);
+      mocked.mock(toMock);
+      return mocked;
+    }
 
-        return toMock;
-    };
+    return toMock;
+  };
 
-    return service;
+  return service;
 };

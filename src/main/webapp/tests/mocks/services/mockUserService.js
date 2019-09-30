@@ -1,100 +1,46 @@
 angular.module('mock.userService', []).service('UserService', function ($q) {
-  var defer;
+  var service = mockService($q, mockUser);
+  var currentUser;
 
-  var payloadResponse = function (payload) {
-    return defer.resolve({
-      body: angular.toJson({
-        meta: {
-          status: 'SUCCESS'
-        },
-        payload: payload
-      })
-    });
-  };
+  service.mockCurrentUser = function(toMock) {
+    delete sessionStorage.role;
 
-  var messageResponse = function (message) {
-    return defer.resolve({
-      body: angular.toJson({
-        meta: {
-          status: 'SUCCESS',
-          message: message
-        }
-      })
-    });
-  };
-
-  this.currentUser = {
-    ready: function() {
-      return true;
+    if (toMock === undefined || toMock === null) {
+      currentUser = null;
+    }
+    else {
+      currentUser = service.mockModel(toMock);
+      sessionStorage.role = toMock.role;
     }
   };
 
-  this.storage = {
-    'session': {},
-    'local': {}
+  service.mockCurrentUser(dataUser1);
+
+  service.fetchUser = function () {
+    delete sessionStorage.role;
+    sessionStorage.role = currentUser.role;
+    return payloadPromise($q.defer(), currentUser);
   };
 
-  this.keys = {
-    'session': {},
-    'local': {}
+  service.getCurrentUser = function () {
+    return currentUser;
   };
 
-  this.set = function (key, value, type) {
-    type = (type !== undefined) ? type : appConfig.storageType;
-    if (this.keys[type][key] === undefined) {
-      this.keys[type][key] = $q.defer();
-    }
-    this.storage[type][key] = value;
-    this.keys[type][key].notify(this.storage[type][key]);
+  service.setCurrentUser = function (user) {
+    currentUser = mockModel(user);
+
+    sessionStorage.role = toMock.role;
   };
 
-  this.get = function (key, type) {
-    type = (type !== undefined) ? type : appConfig.storageType;
-    return this.storage[type][key];
+  service.userEvents = function () {
+    var defer = $q.defer();
+    defer.notify("RECEIVED");
+    return payloadPromise(defer);
   };
 
-  this.listen = function (key, type) {
-    type = (type !== undefined) ? type : appConfig.storageType;
-    if (this.keys[type][key] === undefined) {
-      this.keys[type][key] = $q.defer();
-    }
-    var data = {};
-    this.keys[type][key].promise.then(null, null, function (promisedData) {
-      angular.extend(data, promisedData);
-    });
-    return data;
+  service.userReady = function () {
+    return payloadPromise($q.defer(), currentUser);
   };
 
-  this.delete = function (key, type) {
-    type = (type !== undefined) ? type : appConfig.storageType;
-    if (this.keys[type][key] !== undefined) {
-      this.keys[type][key].notify(null);
-    }
-    delete this.keys[type][key];
-    delete this.storage[type][key];
-  };
-
-  this.getCurrentUser = function () {
-    return {
-      clearValidationResults: function () {
-      }
-    };
-  };
-
-  this.userReady = function () {
-    return $q(function (resolve) {
-    });
-  };
-
-  this.getCurrentUser = function () {
-    return angular.copy(this.currentUser);
-  };
-
-  for (var type in {'session': '0', 'local': '1'}) {
-    for (var key in this.storage[type]) {
-      this.keys[type][key] = $q.defer();
-      this.keys[type][key].notify(this.storage[type][key]);
-      this.set(key, this.storage[type][key], type);
-    }
-  }
+  return service;
 });

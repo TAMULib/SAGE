@@ -1,81 +1,58 @@
 angular.module('mock.storageService', []).service('StorageService', function ($q) {
-  var defer;
+  var service = mockService($q);
 
-  var payloadResponse = function (payload) {
-    return defer.resolve({
-      body: angular.toJson({
-        meta: {
-          status: 'SUCCESS'
-        },
-        payload: payload
-      })
-    });
+  service.storage = {
+    "session": {},
+    "local": {}
   };
 
-  var messageResponse = function (message) {
-    return defer.resolve({
-      body: angular.toJson({
-        meta: {
-          status: 'SUCCESS',
-          message: message
-        }
-      })
-    });
+  service.keys = {
+    "session": {},
+    "local": {}
   };
 
-  this.storage = {
-    'session': {},
-    'local': {}
-  };
-
-  this.keys = {
-    'session': {},
-    'local': {}
-  };
-
-  this.set = function (key, value, type) {
+  service.set = function (key, value, type) {
     type = (type !== undefined) ? type : appConfig.storageType;
-    if (this.keys[type][key] === undefined) {
-      this.keys[type][key] = $q.defer();
+    if (service.keys[type][key] === undefined) {
+      service.keys[type][key] = $q.defer();
     }
-    this.storage[type][key] = value;
-    this.keys[type][key].notify(this.storage[type][key]);
+    service.storage[type][key] = value;
+    service.keys[type][key].notify(service.storage[type][key]);
   };
 
-  this.get = function (key, type) {
+  service.get = function (key, type) {
     type = (type !== undefined) ? type : appConfig.storageType;
-    return this.storage[type][key];
+    return service.storage[type][key];
   };
 
-  this.listen = function (key, type) {
+  service.listen = function (key, type) {
     type = (type !== undefined) ? type : appConfig.storageType;
-    if (this.keys[type][key] === undefined) {
-      this.keys[type][key] = $q.defer();
+    if (service.keys[type][key] === undefined) {
+      service.keys[type][key] = $q.defer();
     }
     var data = {};
-    this.keys[type][key].promise.then(null, null, function (promisedData) {
+    service.keys[type][key].promise.then(null, null, function (promisedData) {
       angular.extend(data, promisedData);
     });
     return data;
   };
 
-  this.delete = function (key, type) {
+  service.delete = function (key, type) {
     type = (type !== undefined) ? type : appConfig.storageType;
-    if (this.keys[type][key] !== undefined) {
-      this.keys[type][key].notify(null);
+    if (service.keys[type][key] !== undefined) {
+        service.keys[type][key].notify(null);
     }
-    delete this.keys[type][key];
-    delete this.storage[type][key];
+    delete service.keys[type][key];
+    delete service.storage[type][key];
   };
 
-  for (var type in {
-      'session': '0',
-      'local': '1'
-    }) {
-    for (var key in this.storage[type]) {
-      this.keys[type][key] = $q.defer();
-      this.keys[type][key].notify(this.storage[type][key]);
-      this.set(key, this.storage[type][key], type);
+  for (var type in { "session": "0", "local": "1" }) {
+    for (var key in service.storage[type]) {
+      service.keys[type][key] = $q.defer();
+      service.keys[type][key].notify(service.storage[type][key]);
+      service.set(key, service.storage[type][key], type);
     }
   }
+
+  return service;
 });
