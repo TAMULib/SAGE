@@ -1,4 +1,4 @@
-sage.controller('DiscoveryViewManagementController', function ($controller, $scope, NgTableParams, DiscoveryViewRepo, SearchField, SourceRepo) {
+sage.controller('DiscoveryViewManagementController', function ($controller, $scope, $timeout, NgTableParams, DiscoveryView, DiscoveryViewRepo, SearchField, SourceRepo) {
 
   angular.extend(this, $controller('AbstractController', {
       $scope: $scope
@@ -8,13 +8,25 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
   $scope.sources = SourceRepo.getAll();
   $scope.metadataFields = [];
 
-  $scope.discoveryViewToCreate = DiscoveryViewRepo.getScaffold();
-  $scope.discoveryViewToUpdate = {};
-  $scope.discoveryViewToDelete = {};
+  $scope.active = {
+    tab: 0
+  };
 
   $scope.discoveryViewForms = {
     validations: DiscoveryViewRepo.getValidations(),
     getResults: DiscoveryViewRepo.getValidationResults
+  };
+
+  $scope.back = function() {
+    if ($scope.active.tab > 0) {
+      $scope.active.tab--;
+    }
+  };
+
+  $scope.next = function() {
+    if ($scope.active.tab < 3) {
+      $scope.active.tab++;
+    }
   };
 
   $scope.resetDiscoveryViewForms = function() {
@@ -25,6 +37,9 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
       }
     }
     $scope.closeModal();
+    $timeout(function() {
+      angular.extend($scope.active, { tab: 0 });
+    }, 250);
   };
 
   $scope.appendFacetFieldItem = function(dv) {
@@ -46,11 +61,14 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
   };
 
   $scope.startCreateDiscoveryView = function() {
+    $scope.discoveryView = new DiscoveryView(DiscoveryViewRepo.getScaffold());
+    $scope.populateSources($scope.discoveryView);
+    $scope.getFields($scope.discoveryView);
     $scope.openModal("#createDiscoveryViewModal");
   };
 
   $scope.createDiscoveryView = function() {
-    DiscoveryViewRepo.create($scope.discoveryViewToCreate).then(function(res) {
+    DiscoveryViewRepo.create($scope.discoveryView).then(function(res) {
       if(angular.fromJson(res.body).meta.status === "SUCCESS") {
         $scope.cancelCreateDiscoveryView();
       }
@@ -58,7 +76,6 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
   };
 
   $scope.cancelCreateDiscoveryView = function() {
-    angular.extend($scope.discoveryViewToCreate, DiscoveryViewRepo.getScaffold());
     $scope.newDiscoveryViewFields = {};
     $scope.resetDiscoveryViewForms();
   };
@@ -88,59 +105,62 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
   };
 
   $scope.isDiscoveryViewSearchInvalid = function(key) {
-    var searchFields = $scope.discoveryViewToUpdate.searchFields;
-    return (searchFields && (searchFields.$invalid || searchFields.length == 0));
+    if (angular.isDefined($scope.discoveryView)) {
+      var searchFields = $scope.discoveryView.searchFields;
+      return (searchFields && (searchFields.$invalid || searchFields.length == 0));
+    }
+    return false;
+  };
+
+  $scope.startUpdateDiscoveryView = function(dv) {
+    $scope.discoveryView = new DiscoveryView(angular.copy(dv));
+    $scope.populateSources($scope.discoveryView);
+    $scope.getFields($scope.discoveryView);
+    $scope.openModal("#updateDiscoveryViewModal");
   };
 
   $scope.updateDiscoveryView = function() {
     $scope.updatingDiscoveryView = true;
-    $scope.discoveryViewToUpdate.dirty(true);
-    $scope.discoveryViewToUpdate.save().then(function() {
+    $scope.discoveryView.dirty(true);
+    $scope.discoveryView.save().then(function() {
       $scope.resetDiscoveryViewForms();
       $scope.updatingDiscoveryView = false;
     });
   };
 
-  $scope.startUpdateDiscoveryView = function(dv) {
-    $scope.discoveryViewToUpdate = dv;
-    $scope.getFields(dv);
-    $scope.openModal("#updateDiscoveryViewModal");
-  };
-
   $scope.cancelUpdateDiscoveryView = function() {
-    $scope.discoveryViewToUpdate = {};
     $scope.resetDiscoveryViewForms();
   };
 
   $scope.confirmDeleteDiscoveryView = function(dv) {
-    $scope.discoveryViewToDelete = dv;
+    $scope.discoveryView = new DiscoveryView(dv);
     $scope.openModal("#confirmDeleteDiscoveryViewModal");
   };
 
   $scope.cancelDeleteDiscoveryView = function() {
-    $scope.discoveryViewToDelete = {};
     $scope.resetDiscoveryViewForms();
   };
 
   $scope.deleteDiscoveryView = function() {
     $scope.deletingDiscoveryView = true;
-    DiscoveryViewRepo.delete($scope.discoveryViewToDelete).then(function() {
+    $scope.discoveryView.dirty(true);
+    $scope.discoveryView.delete().then(function() {
       $scope.deletingDiscoveryView = false;
       $scope.resetDiscoveryViewForms();
     });
   };
 
   $scope.getFields = function(dv) {
-    if (angular.isDefined(dv)) {
+    if (angular.isDefined(dv) && angular.isDefined(dv.source) && angular.isDefined(dv.source.uri) && angular.isDefined(dv.filter)) {
       $scope.fields = SourceRepo.getAvailableFields(dv.source.uri, dv.filter);
     }
   };
 
   $scope.findFieldByKey = function(key) {
     var f = null;
-    for(var i in $scope.fields) {
+    for (var i in $scope.fields) {
       var pf = $scope.fields[i];
-      if(pf.name===key) {
+      if (pf.name === key) {
         f = pf;
         break;
       }
@@ -148,12 +168,11 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
     return f;
   };
 
-  SourceRepo.ready().then(function() {
-    if($scope.sources.length > 0) {
-      $scope.discoveryViewToCreate.source = $scope.sources[0];
-      $scope.discoveryViewToUpdate.source = $scope.sources[0];
+  $scope.populateSources = function(dv) {
+    if (angular.isDefined($scope.sources) && $scope.sources.length > 0) {
+      angular.extend(dv, { source: angular.copy($scope.sources[0]) });
     }
-  });
+  };
 
   DiscoveryViewRepo.ready().then(function() {
     $scope.setTable = function() {
