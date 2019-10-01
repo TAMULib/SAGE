@@ -14,4 +14,6 @@ public interface Sourcable {
     public String getPassword();
     public void setPassword(String password);
 
+    public Boolean getRequiresFilter();
+    public void setRequiresFilter(Boolean requiresFilter);
 }

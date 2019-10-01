@@ -36,6 +36,8 @@ import edu.tamu.sage.utility.ValueTemplateUtility;
 @Service
 public class SolrDiscoveryService {
 
+    private final static String FILTER_WILDCARD = "*:*";
+
     private final static Logger logger = LoggerFactory.getLogger(SolrDiscoveryService.class);
 
     @Autowired
@@ -57,7 +59,7 @@ public class SolrDiscoveryService {
 
         search.setField(field.equalsIgnoreCase(ALL_FIELDS_KEY) ? "" : field);
 
-        String query = "*:*";
+        String query = FILTER_WILDCARD;
         if (!(field.isEmpty() || value.isEmpty())) {
             query = search.getField();
             query += ":" + (value.isEmpty() ? "*" : value);
@@ -117,6 +119,9 @@ public class SolrDiscoveryService {
     public List<SolrField> getAvailableFields(DiscoveryView discoveryView) throws DiscoveryContextBuildException {
         String uri = discoveryView.getSource().getUri();
         String filter = discoveryView.getFilter();
+        if (discoveryView.getSource().getRequiresFilter() && filter.isEmpty()) {
+            filter = FILTER_WILDCARD;
+        }
         try {
             return solrSourceService.getAvailableFields(uri, filter);
         } catch (SourceServiceException e) {
