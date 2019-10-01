@@ -9,8 +9,8 @@ describe("controller: AppLoginController", function () {
     });
   };
 
-  var initializeController = function(settings, _UserService_) {
-    inject(function ($controller, $rootScope) {
+  var initializeController = function(settings) {
+    inject(function ($controller, $rootScope, _UserService_) {
       scope = $rootScope.$new();
 
       sessionStorage.role = settings && settings.role ? settings.role : "ROLE_ADMIN";

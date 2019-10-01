@@ -136,7 +136,7 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
       });
     };
 
-    $scope.searchProcessKeyPress = function($event) {
+    $scope.searchProcessKeyPress = function(event) {
       if (event.keyCode === 13 && $scope.currentSearchField) {
         $scope.discoveryContext.setSearchField($scope.currentSearchField.key, $scope.currentSearchValue);
         $scope.discoveryContext.executeSearch().then(function() {
