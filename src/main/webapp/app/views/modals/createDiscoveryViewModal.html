@@ -13,7 +13,7 @@
           <div class="col-sm-10 col-sm-offset-1">
             <br>
             <validatedinput
-              id="createName"
+              id="discoveryViewToCreateName"
               model="discoveryViewToCreate"
               property="name"
               label="Name"
@@ -25,7 +25,7 @@
             </validatedinput>
 
             <validatedselect
-              id="createSource"
+              id="discoveryViewToCreateSource"
               model="discoveryViewToCreate"
               property="source"
               options="sources"
@@ -40,7 +40,7 @@
             </validatedselect>
 
             <validatedinput
-              id="createFilter"
+              id="discoveryViewToCreateFilter"
               model="discoveryViewToCreate"
               property="filter"
               label="Filter"
@@ -52,7 +52,7 @@
             </validatedinput>
 
             <validatedinput
-              id="createSlug"
+              id="discoveryViewToCreateSlug"
               model="discoveryViewToCreate"
               property="slug"
               label="Slug"
@@ -64,7 +64,7 @@
             </validatedinput>
 
             <validatedinput
-              id="createInfoLinkText"
+              id="discoveryViewToCreateInfoLinkText"
               model="discoveryViewToCreate"
               property="infoLinkText"
               label="Info Link Text"
@@ -76,7 +76,7 @@
             </validatedinput>
 
             <validatedinput
-              id="createInfoLinkUrl"
+              id="discoveryViewToCreateInfoLinkUrl"
               model="discoveryViewToCreate"
               property="infoLinkUrl"
               label="Info Link Url"
@@ -88,9 +88,9 @@
             </validatedinput>
 
             <validatedtextarea
-              property="idInfoText"
-              model="discoveryViewToCreate"
+              id="discoveryViewToCreateInfoText"
               property="infoText"
+              model="discoveryViewToCreate"
               label="Info Text"
               form="discoveryViewForms.create"
               validations="discoveryViewForms.validations"
@@ -223,7 +223,7 @@
           <div class="row">
             <div class="col-sm-5 col-sm-offset-1">
               <validatedselect
-                id="createUniqueIdentifierKey"
+                id="discoveryViewToCreateUniqueIdentifierKey"
                 model="discoveryViewToCreate"
                 property="uniqueIdentifierKey"
                 options="fields"
@@ -238,7 +238,7 @@
             </div>
             <div class="col-sm-5">
               <multi-suggestion-input
-                id="createTitleKey"
+                id="discoveryViewToCreateTitleKey"
                 model="discoveryViewToCreate"
                 property="titleKey"
                 optionproperty="name"
@@ -252,7 +252,7 @@
           <div class="row">
               <div class="col-sm-5 col-sm-offset-1">
                 <multi-suggestion-input
-                  id="createResourceThumbnailUriKey"
+                  id="discoveryViewToCreateThumbnailUriKey"
                   model="discoveryViewToCreate"
                   property="resourceThumbnailUriKey"
                   optionproperty="name"
@@ -264,7 +264,7 @@
               </div>
               <div class="col-sm-5">
                 <multi-suggestion-input
-                  id="createDiscoveryViewToCreate"
+                  id="discoveryViewToCreateResourceKey"
                   model="discoveryViewToCreate"
                   property="resourceLocationUriKey"
                   optionproperty="name"

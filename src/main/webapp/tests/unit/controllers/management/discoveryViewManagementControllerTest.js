@@ -1,17 +1,21 @@
 describe("controller: DiscoveryViewManagementController", function () {
-  var controller, q, scope, NgTableParams, SearchField;
+  var controller, q, scope, DiscoveryViewRepo, NgTableParams, SearchField;
 
   var initializeVariables = function(settings) {
-    inject(function ($q, _WsApi_) {
+    inject(function ($q, _DiscoveryViewRepo_, _WsApi_) {
       q = $q;
 
+      DiscoveryViewRepo = _DiscoveryViewRepo_;
       NgTableParams = mockNgTableParams;
-      SearchField = mockSearchField;
+
+      SearchField = function() {
+        return new mockSearchField(q);
+      };
     });
   };
 
   var initializeController = function(settings) {
-    inject(function ($controller, $rootScope, _DiscoveryViewRepo_, _Source_, _SourceRepo_) {
+    inject(function ($controller, $rootScope, _Source_, _SourceRepo_) {
       scope = $rootScope.$new();
 
       sessionStorage.role = settings && settings.role ? settings.role : "ROLE_ADMIN";
@@ -19,7 +23,7 @@ describe("controller: DiscoveryViewManagementController", function () {
 
       controller = $controller("DiscoveryViewManagementController", {
         $scope: scope,
-        DiscoveryViewRepo: _DiscoveryViewRepo_,
+        DiscoveryViewRepo: DiscoveryViewRepo,
         NgTableParams: NgTableParams,
         SearchField: SearchField,
         Source: _Source_,
@@ -184,8 +188,16 @@ describe("controller: DiscoveryViewManagementController", function () {
     it("createDiscoveryView should work", function () {
       var result;
 
+      scope.discoveryViewToCreate = DiscoveryViewRepo.getScaffold();
+
+      spyOn(DiscoveryViewRepo, "create").and.callThrough();
+      spyOn(scope, "cancelCreateDiscoveryView");
+
       result = scope.createDiscoveryView();
-      // @todo
+      scope.$digest();
+
+      expect(DiscoveryViewRepo.create).toHaveBeenCalled();
+      expect(scope.cancelCreateDiscoveryView).toHaveBeenCalled();
     });
     it("deleteDiscoveryView should work", function () {
       var result;
