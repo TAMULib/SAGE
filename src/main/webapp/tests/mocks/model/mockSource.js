@@ -4,7 +4,8 @@ var dataSource1 = {
   uri: "cap.library.tamu.edu",
   username: null,
   password: null,
-  readOnly: false
+  readOnly: true,
+  requiresFilter: true
 };
 
 var dataSource2 = {
@@ -13,7 +14,8 @@ var dataSource2 = {
   uri: "cap.library.tamu.edu",
   username: null,
   password: null,
-  readOnly: false
+  readOnly: true,
+  requiresFilter: false
 };
 
 var dataSource3 = {
@@ -22,7 +24,8 @@ var dataSource3 = {
   uri: "cap.library.tamu.edu",
   username: "4253938752821",
   password: "1425393875282",
-  readOnly: false
+  readOnly: false,
+  requiresFilter: true
 };
 
 var mockSource = function($q) {

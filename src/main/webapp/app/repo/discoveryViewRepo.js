@@ -5,7 +5,7 @@ sage.repo("DiscoveryViewRepo", function() {
     name: "",
     source: "",
     facetFields: [],
-    filter: "*:*",
+    filter: "",
     resourceLocationUriKey: "",
     resourceThumbnailUriKey: "",
     resultMetadataFields: [],

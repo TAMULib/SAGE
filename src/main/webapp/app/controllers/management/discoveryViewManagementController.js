@@ -132,7 +132,8 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
 
   $scope.getFields = function(dv) {
     if (angular.isDefined(dv)) {
-      $scope.fields = SourceRepo.getAvailableFields(dv.source.uri, dv.filter);
+      var filter = dv.filter.length == 0 && dv.source.requiresFilter ? "*.*" : dv.filter;
+      $scope.fields = SourceRepo.getAvailableFields(dv.source.uri, filter);
     }
   };
 

@@ -1,3 +1,4 @@
+// This managers "Cores", to represent a "Source", the readOnly property of a "Core" needs to be set to TRUE.
 sage.controller('SourceManagementController', function ($controller, $scope, NgTableParams, SourceRepo) {
 
   angular.extend(this, $controller('AbstractController', {
