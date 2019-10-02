@@ -272,9 +272,16 @@ describe("controller: DiscoveryViewManagementController", function () {
 
       scope.discoveryView = discoveryView;
 
+      scope.discoveryViewToCreate = DiscoveryViewRepo.getScaffold();
+
+      spyOn(DiscoveryViewRepo, "create").and.callThrough();
+      spyOn(scope, "cancelCreateDiscoveryView");
+
       result = scope.createDiscoveryView();
       scope.$digest();
-      // @todo
+
+      expect(DiscoveryViewRepo.create).toHaveBeenCalled();
+      expect(scope.cancelCreateDiscoveryView).toHaveBeenCalled();
     });
 
     it("deleteDiscoveryView should work", function () {

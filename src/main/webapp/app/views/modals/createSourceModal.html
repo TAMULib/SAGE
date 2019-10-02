@@ -11,6 +11,7 @@
         <div class="row">
           <div class="col-sm-10 col-sm-offset-1">
             <validatedinput
+              id="sourceToCreateName"
               model="sourceToCreate"
               property="name"
               label="Name"
@@ -22,6 +23,7 @@
             </validatedinput>
 
             <validatedinput
+              id="sourceToCreateUri"
               model="sourceToCreate"
               property="uri"
               label="URI"
@@ -31,15 +33,30 @@
               results="sourceForms.getResults()"
               autocomplete="off">
             </validatedinput>
-            <div>
-              <label>Type</label>
+
+            <div class="form-group">
+              <div>
+                <label id="sourceToCreateReadOnlyLabel">Type</label>
+              </div>
+              <label class="radio-inline" role="group" aria-labelledby="sourceToCreateReadOnlyLabel">
+                <input type="radio" name="sourceToCreateReadOnly" ng-model="sourceToCreate.readOnly" ng-value="true"> Source
+              </label>
+              <label class="radio-inline" role="group" aria-labelledby="sourceToCreateReadOnlyLabel">
+                <input type="radio" name="sourceToCreateReadOnly" ng-model="sourceToCreate.readOnly" ng-value="false"> Destination
+              </label>
             </div>
-            <label class="radio-inline">
-              <input type="radio" name="sourceToCreateReadOnly" ng-model="sourceToCreate.readOnly" ng-value="true"> Source
-            </label>
-            <label class="radio-inline">
-              <input type="radio" name="sourceToCreateReadOnly" ng-model="sourceToCreate.readOnly" ng-value="false"> Destination
-            </label>
+
+            <validatedinput
+              id="sourceToCreateRequiresFilter"
+              type="checkbox"
+              model="sourceToCreate"
+              property="requiresFilter"
+              label="Requires Filter"
+              form="sourceForms.create"
+              validations="sourceForms.validations"
+              results="sourceForms.getResults()"
+              autocomplete="off">
+            </validatedinput>
           </div>
         </div>
       </uib-tab>
@@ -56,7 +73,6 @@
                 results="sourceForms.getResults()"
                 autocomplete="off">
               </validatedinput>
-
 
               <validatedinput
                 model="sourceToCreate"

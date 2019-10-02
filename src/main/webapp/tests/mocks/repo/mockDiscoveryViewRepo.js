@@ -23,7 +23,7 @@ angular.module("mock.discoveryViewRepo", []).service("DiscoveryViewRepo", functi
     name: "",
     source: "",
     facetFields: [],
-    filter: "*:*",
+    filter: "",
     resourceLocationUriKey: "",
     resourceThumbnailUriKey: "",
     resultMetadataFields: [],
