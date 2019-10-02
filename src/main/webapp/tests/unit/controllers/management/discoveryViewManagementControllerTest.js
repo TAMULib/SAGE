@@ -177,6 +177,11 @@ describe("controller: DiscoveryViewManagementController", function () {
       expect(typeof scope.next).toEqual("function");
     });
 
+    it("refreshSource should be defined", function () {
+      expect(scope.refreshSource).toBeDefined();
+      expect(typeof scope.refreshSource).toEqual("function");
+    });
+
     it("resetDiscoveryViewForms should be defined", function () {
       expect(scope.resetDiscoveryViewForms).toBeDefined();
       expect(typeof scope.resetDiscoveryViewForms).toEqual("function");
@@ -350,6 +355,24 @@ describe("controller: DiscoveryViewManagementController", function () {
       scope.tabs.active = scope.tabs.length;
       scope.next();
       expect(scope.tabs.active).toBe(scope.tabs.length - 1);
+    });
+
+    it("refreshSource should work", function () {
+      var dv = new mockDiscoveryView(q);
+
+      spyOn(scope, 'getFields');
+
+      scope.tabs.active = 0;
+      scope.refreshSource(dv);
+      expect(scope.getFields).not.toHaveBeenCalled();
+
+      scope.tabs.active = 1;
+      scope.refreshSource(dv);
+      expect(scope.getFields).not.toHaveBeenCalled();
+
+      scope.originalSourceName = "differentName";
+      scope.refreshSource(dv);
+      expect(scope.getFields).toHaveBeenCalled();
     });
 
     it("resetDiscoveryViewForms should work", function () {

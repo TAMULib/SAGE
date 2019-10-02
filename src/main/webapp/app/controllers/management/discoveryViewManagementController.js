@@ -33,6 +33,11 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
       if ($scope.tabs.active < 0) {
         $scope.tabs.active = 0;
       } else {
+        if ($scope.tabs.active === 0 && angular.isDefined($scope.originalSourceName) && $scope.discoveryView.source.name !== $scope.originalSourceName) {
+          $scope.getFields($scope.discoveryView);
+          $scope.originalSourceName = $scope.discoveryView.source.name;
+        }
+
         $scope.tabs.active++;
       }
     } else {
@@ -83,6 +88,12 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
     dv.resultMetadataFields.push(metadataField);
   };
 
+  $scope.refreshSource = function(dv) {
+    if (dv.source.name !== $scope.originalSourceName && $scope.tabs.active !== 0) {
+      $scope.getFields(dv);
+    }
+  };
+
   $scope.startCreateDiscoveryView = function() {
     $scope.discoveryView = new DiscoveryView(DiscoveryViewRepo.getScaffold());
 
@@ -94,6 +105,8 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
 
     if (angular.isDefined($scope.sources) && $scope.sources.length > 0) {
       angular.extend($scope.discoveryView, { source: angular.copy($scope.sources[0]) });
+
+      $scope.originalSourceName = $scope.sources[0].name;
 
       $scope.getFields($scope.discoveryView);
     }
@@ -148,6 +161,7 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
 
   $scope.startUpdateDiscoveryView = function(dv) {
     $scope.discoveryView = new DiscoveryView(angular.copy(dv));
+    $scope.originalSourceName = $scope.discoveryView.source.name;
 
     if (dv.facetFields.length == 0) $scope.appendFacetFieldItem($scope.discoveryView);
     if (dv.searchFields.length == 0) $scope.appendSearchFieldItem($scope.discoveryView);
