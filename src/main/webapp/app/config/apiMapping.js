@@ -323,6 +323,14 @@ var apiMapping = {
   SearchField: {
     validations: false,
     lazy: true
+  },
+  MetadataField: {
+    validations: false,
+    lazy: true
+  },
+  FacetField: {
+    validations: false,
+    lazy: true
   }
 
 };
