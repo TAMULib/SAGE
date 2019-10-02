@@ -62,7 +62,7 @@ public class DiscoveryView extends ValidatingBaseEntity {
     private List<MetadataField> resultMetadataFields;
 
     @ElementCollection
-    private List<FacetFields> facetFields;
+    private List<FacetField> facetFields;
 
     @OrderColumn
     @ElementCollection
@@ -179,9 +179,9 @@ public class DiscoveryView extends ValidatingBaseEntity {
         return m;
     }
 
-    public FacetFields findFacetFieldByKey(String key) {
-        FacetFields f = null;
-        for (FacetFields ff : facetFields) {
+    public FacetField findFacetFieldByKey(String key) {
+        FacetField f = null;
+        for (FacetField ff : facetFields) {
             if (ff.getKey().equals(key)) {
                 f = ff;
                 break;
@@ -201,11 +201,11 @@ public class DiscoveryView extends ValidatingBaseEntity {
         return searchField;
     }
 
-    public List<FacetFields> getFacetFields() {
+    public List<FacetField> getFacetFields() {
         return facetFields;
     }
 
-    public void setFacetFields(List<FacetFields> facetFields) {
+    public void setFacetFields(List<FacetField> facetFields) {
         this.facetFields = facetFields;
     }
 

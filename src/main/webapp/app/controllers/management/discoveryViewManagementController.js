@@ -1,4 +1,4 @@
-sage.controller('DiscoveryViewManagementController', function ($controller, $scope, $timeout, NgTableParams, DiscoveryView, DiscoveryViewRepo, SearchField, SourceRepo) {
+sage.controller('DiscoveryViewManagementController', function ($controller, $scope, $timeout, DiscoveryView, DiscoveryViewRepo, FacetField, MetadataField, NgTableParams, SearchField, SourceRepo) {
 
   angular.extend(this, $controller('AbstractController', {
       $scope: $scope
@@ -6,10 +6,9 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
 
   $scope.discoveryViews = DiscoveryViewRepo.getAll();
   $scope.sources = SourceRepo.getAll();
-  $scope.metadataFields = [];
-
-  $scope.active = {
-    tab: 0
+  $scope.tabs = {
+    active: 0,
+    length: 4
   };
 
   $scope.discoveryViewForms = {
@@ -18,14 +17,26 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
   };
 
   $scope.back = function() {
-    if ($scope.active.tab > 0) {
-      $scope.active.tab--;
+    if ($scope.tabs.active > 0) {
+      if ($scope.tabs.active > $scope.tabs.length) {
+        $scope.tabs.active = $scope.tabs.length - 1;
+      } else {
+        $scope.tabs.active--;
+      }
+    } else {
+      $scope.tabs.active = 0;
     }
   };
 
   $scope.next = function() {
-    if ($scope.active.tab < 3) {
-      $scope.active.tab++;
+    if ($scope.tabs.active < $scope.tabs.length) {
+      if ($scope.tabs.active < 0) {
+        $scope.tabs.active = 0;
+      } else {
+        $scope.tabs.active++;
+      }
+    } else {
+      $scope.tabs.active = $scope.tabs.length - 1;
     }
   };
 
@@ -38,7 +49,7 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
     }
     $scope.closeModal();
     $timeout(function() {
-      angular.extend($scope.active, { tab: 0 });
+      angular.extend($scope.tabs, { active: 0 });
     }, 250);
   };
 
@@ -47,7 +58,9 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
       dv.facetFields = [];
     }
 
-    dv.facetFields.push({});
+    var facetField = new FacetField();
+    angular.extend(facetField, DiscoveryViewRepo.scaffoldFacetField);
+    dv.facetFields.push(facetField);
   };
 
   $scope.appendSearchFieldItem = function(dv) {
@@ -60,10 +73,31 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
     dv.searchFields.push(searchField);
   };
 
+  $scope.appendResultMetadataFieldItem = function(dv) {
+    if (!angular.isDefined(dv.resultMetadataFields)) {
+      dv.resultMetadataFields = [];
+    }
+
+    var metadataField = new MetadataField();
+    angular.extend(metadataField, DiscoveryViewRepo.scaffoldMetadataField);
+    dv.resultMetadataFields.push(metadataField);
+  };
+
   $scope.startCreateDiscoveryView = function() {
     $scope.discoveryView = new DiscoveryView(DiscoveryViewRepo.getScaffold());
-    $scope.populateSources($scope.discoveryView);
-    $scope.getFields($scope.discoveryView);
+
+    $scope.appendFacetFieldItem($scope.discoveryView);
+    $scope.appendSearchFieldItem($scope.discoveryView);
+    $scope.appendResultMetadataFieldItem($scope.discoveryView);
+
+    angular.extend($scope.discoveryView.searchFields[0], { key: "all_fields", label: "Everything" });
+
+    if (angular.isDefined($scope.sources) && $scope.sources.length > 0) {
+      angular.extend($scope.discoveryView, { source: angular.copy($scope.sources[0]) });
+
+      $scope.getFields($scope.discoveryView);
+    }
+
     $scope.openModal("#createDiscoveryViewModal");
   };
 
@@ -114,7 +148,11 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
 
   $scope.startUpdateDiscoveryView = function(dv) {
     $scope.discoveryView = new DiscoveryView(angular.copy(dv));
-    $scope.populateSources($scope.discoveryView);
+
+    if (dv.facetFields.length == 0) $scope.appendFacetFieldItem($scope.discoveryView);
+    if (dv.searchFields.length == 0) $scope.appendSearchFieldItem($scope.discoveryView);
+    if (dv.resultMetadataFields.length == 0) $scope.appendResultMetadataFieldItem($scope.discoveryView);
+
     $scope.getFields($scope.discoveryView);
     $scope.openModal("#updateDiscoveryViewModal");
   };
@@ -166,12 +204,6 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
       }
     }
     return f;
-  };
-
-  $scope.populateSources = function(dv) {
-    if (angular.isDefined($scope.sources) && $scope.sources.length > 0) {
-      angular.extend(dv, { source: angular.copy($scope.sources[0]) });
-    }
   };
 
   DiscoveryViewRepo.ready().then(function() {

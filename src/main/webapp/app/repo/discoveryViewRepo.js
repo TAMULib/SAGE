@@ -9,10 +9,7 @@ sage.repo("DiscoveryViewRepo", function() {
     resourceLocationUriKey: "",
     resourceThumbnailUriKey: "",
     resultMetadataFields: [],
-    searchFields: [ {
-      key: "all_fields",
-      label: "Everything"
-    }],
+    searchFields: [],
     slug: "",
     titleKey: "",
     infoLinkText: "",
@@ -21,9 +18,26 @@ sage.repo("DiscoveryViewRepo", function() {
     uniqueIdentifierKey: ""
   };
 
+  discoveryViewRepo.scaffoldFacetField = {
+    key: "",
+    label: "",
+    type: "",
+    widget: ""
+  };
+
   discoveryViewRepo.scaffoldSearchField = {
     key: "",
     label: ""
+  };
+
+  discoveryViewRepo.scaffoldMetadataField = {
+    inGrid: true,
+    inList: true,
+    inSingleResult: true,
+    key: "",
+    label: "",
+    sortable: true,
+    type: ""
   };
 
   return discoveryViewRepo;
