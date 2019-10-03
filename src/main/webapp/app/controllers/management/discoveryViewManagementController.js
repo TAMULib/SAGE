@@ -55,6 +55,7 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
     $scope.closeModal();
     $timeout(function() {
       angular.extend($scope.tabs, { active: 0 });
+      delete $scope.discoveryView;
     }, 250);
   };
 
