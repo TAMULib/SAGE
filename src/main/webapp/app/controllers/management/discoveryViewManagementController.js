@@ -55,6 +55,7 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
     $scope.closeModal();
     $timeout(function() {
       angular.extend($scope.tabs, { active: 0 });
+      delete $scope.discoveryView;
     }, 250);
   };
 
@@ -115,6 +116,16 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
   };
 
   $scope.createDiscoveryView = function() {
+
+    // The first field cannot be deleted but if it is empty, consider it deleted.
+    if ($scope.discoveryView.facetFields.length === 1 && $scope.discoveryView.facetFields[0].key === "") {
+      $scope.discoveryView.facetFields.length = 0;
+    }
+
+    if ($scope.discoveryView.resultMetadataFields.length === 1 && $scope.discoveryView.resultMetadataFields[0].key === "") {
+      $scope.discoveryView.resultMetadataFields.length = 0;
+    }
+
     DiscoveryViewRepo.create($scope.discoveryView).then(function(res) {
       if(angular.fromJson(res.body).meta.status === "SUCCESS") {
         $scope.cancelCreateDiscoveryView();
@@ -173,6 +184,16 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
 
   $scope.updateDiscoveryView = function() {
     $scope.updatingDiscoveryView = true;
+
+    // The first field cannot be deleted but if it is empty, consider it deleted.
+    if ($scope.discoveryView.facetFields.length === 1 && $scope.discoveryView.facetFields[0].key === "") {
+      $scope.discoveryView.facetFields.length = 0;
+    }
+
+    if ($scope.discoveryView.resultMetadataFields.length === 1 && $scope.discoveryView.resultMetadataFields[0].key === "") {
+      $scope.discoveryView.resultMetadataFields.length = 0;
+    }
+
     $scope.discoveryView.dirty(true);
     $scope.discoveryView.save().then(function() {
       $scope.resetDiscoveryViewForms();
