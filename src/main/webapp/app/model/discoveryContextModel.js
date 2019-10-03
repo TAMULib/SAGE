@@ -54,6 +54,7 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
       discoveryContext.search = new Search({
         field: angular.isDefined($routeParams.field) ? $routeParams.field : "",
         value: angular.isDefined($routeParams.value) ? $routeParams.value : "",
+        label: "",
         filters: filters,
         start: 0,
         total: 0,
@@ -77,6 +78,8 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
           $location.search("page", discoveryContext.search.page.number);
         }
         discoveryContext.search.field = search.field;
+        discoveryContext.search.label = search.label;
+        discoveryContext.search.value = search.value;
         discoveryContext.search.filters = search.filters ? search.filters : [];
         discoveryContext.search.start = search.start;
         discoveryContext.search.total = search.total;
@@ -93,9 +96,10 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
       return defer.promise;
     };
 
-    discoveryContext.setSearchField = function(key, value) {
+    discoveryContext.setSearchField = function(key, value, label) {
       discoveryContext.search.field = key;
       discoveryContext.search.value = value;
+      discoveryContext.search.label = label;
     };
 
     discoveryContext.addFilter = function(label, key, value) {
@@ -123,8 +127,24 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
       return discoveryContext.executeSearch();
     };
 
-    discoveryContext.clearFilters = function() {
+    discoveryContext.clearBadges = function() {
       discoveryContext.search.filters.length = 0;
+      discoveryContext.search.field = "";
+      discoveryContext.search.value = "";
+      discoveryContext.search.label = "";
+
+      $location.search("field", null);
+      $location.search("value", null);
+      return discoveryContext.executeSearch();
+    };
+
+    discoveryContext.clearSearch = function() {
+      discoveryContext.search.field = "";
+      discoveryContext.search.value = "";
+      discoveryContext.search.label = "";
+
+      $location.search("field", null);
+      $location.search("value", null);
       return discoveryContext.executeSearch();
     };
 

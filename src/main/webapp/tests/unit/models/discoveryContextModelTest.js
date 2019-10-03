@@ -35,9 +35,14 @@ describe('model: DiscoveryContext', function () {
   });
 
   describe('Are the model methods defined', function () {
-    it('clearFilters should be defined', function () {
-      expect(model.clearFilters).toBeDefined();
-      expect(typeof model.clearFilters).toEqual("function");
+    it('clearBadges should be defined', function () {
+      expect(model.clearBadges).toBeDefined();
+      expect(typeof model.clearBadges).toEqual("function");
+    });
+
+    it('clearSearch should be defined', function () {
+      expect(model.clearSearch).toBeDefined();
+      expect(typeof model.clearSearch).toEqual("function");
     });
 
     it('executeSearch should be defined', function () {
@@ -67,7 +72,7 @@ describe('model: DiscoveryContext', function () {
   });
 
   describe('Are the model methods working as expected', function () {
-    it('clearFilters should work', function () {
+    it('clearBadges should work', function () {
       var payload = {
         payload: {
           DiscoveryContext: {}
@@ -80,7 +85,26 @@ describe('model: DiscoveryContext', function () {
 
       spyOn(model, 'executeSearch');
 
-      //model.clearFilters();
+      //model.clearBadges();
+      //scope.$digest();
+
+      //expect(model.executeSearch).toHaveBeenCalled();
+    });
+
+    it('clearSearch should work', function () {
+      var payload = {
+        payload: {
+          DiscoveryContext: {}
+        }
+      };
+
+      WsApi.fetch = function() {
+        return payloadPromise(q.defer(), payload);
+      };
+
+      spyOn(model, 'executeSearch');
+
+      //model.clearSearch();
       //scope.$digest();
 
       //expect(model.executeSearch).toHaveBeenCalled();

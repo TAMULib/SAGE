@@ -86,9 +86,29 @@ describe("controller: DiscoveryContextController", function () {
   });
 
   describe("Are the scope methods defined", function () {
-    it("clearFilters should be defined", function () {
-      expect(scope.clearFilters).toBeDefined();
-      expect(typeof scope.clearFilters).toEqual("function");
+    it("clearBadges should be defined", function () {
+      expect(scope.clearBadges).toBeDefined();
+      expect(typeof scope.clearBadges).toEqual("function");
+    });
+
+    it("clearSearch should be defined", function () {
+      expect(scope.clearSearch).toBeDefined();
+      expect(typeof scope.clearSearch).toEqual("function");
+    });
+
+    it("findSearchFieldLabel should be defined", function () {
+      expect(scope.findSearchFieldLabel).toBeDefined();
+      expect(typeof scope.findSearchFieldLabel).toEqual("function");
+    });
+
+    it("hasActiveFilters should be defined", function () {
+      expect(scope.hasActiveFilters).toBeDefined();
+      expect(typeof scope.hasActiveFilters).toEqual("function");
+    });
+
+    it("hasSearch should be defined", function () {
+      expect(scope.hasSearch).toBeDefined();
+      expect(typeof scope.hasSearch).toEqual("function");
     });
 
     it("pageBack should be defined", function () {
@@ -128,11 +148,63 @@ describe("controller: DiscoveryContextController", function () {
   });
 
   describe("Do the scope methods work as expected", function () {
-    it("clearFilters should work", function () {
+    it("clearBadges should work", function () {
+      scope.discoveryContext = new mockDiscoveryContext(q);
+
+      spyOn(scope, 'resetSearch');
+
+      scope.clearBadges();
+      scope.$digest();
+
+      expect(scope.resetSearch).toHaveBeenCalled();
+    });
+
+    it("clearSearch should work", function () {
+      scope.discoveryContext = new mockDiscoveryContext(q);
+
+      spyOn(scope, 'resetSearch');
+
+      scope.clearSearch();
+      scope.$digest();
+
+      expect(scope.resetSearch).toHaveBeenCalled();
+    });
+
+    it("findSearchFieldLabel should work", function () {
       var result;
 
-      result = scope.clearFilters();
-      // @todo
+      result = scope.findSearchFieldLabel("should not be found");
+      expect(result).toBe("");
+
+      scope.discoveryContext.searchFields = [ new mockSearchField(q), new mockSearchField(q) ];
+      scope.discoveryContext.searchFields[1].mock(dataSearchField2);
+
+      result = scope.findSearchFieldLabel(scope.discoveryContext.searchFields[1].key);
+      expect(result).toBe(scope.discoveryContext.searchFields[1].label);
+    });
+
+    it("hasActiveFilters should work", function () {
+      var result;
+
+      result = scope.hasActiveFilters();
+      expect(result).toBe(false);
+
+      // @todo: implement a mockFacetField and use that here.
+      scope.discoveryContext.search.filters = [ {} ];
+
+      result = scope.hasActiveFilters();
+      expect(result).toBe(true);
+    });
+
+    it("hasSearch should work", function () {
+      var result;
+
+      result = scope.hasSearch();
+      expect(result).toBe(false);
+
+      scope.discoveryContext.search.value = "all_fields";
+      result = scope.hasSearch();
+      expect(result).toBe(true);
     });
 
     it("pageBack should work", function () {
@@ -150,9 +222,10 @@ describe("controller: DiscoveryContextController", function () {
     });
 
     it("removeFilter should work", function () {
-      var result;
-
-      result = scope.removeFilter();
+      // @todo: implement a mockFacetField and use that here.
+      var filter = {};
+      scope.discoveryContext.search.filters = [ filter ];
+      scope.removeFilter(filter);
       // @todo
     });
 

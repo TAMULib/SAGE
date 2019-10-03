@@ -97,8 +97,18 @@ var mockDiscoveryContext = function($q) {
     return model.executeSearch();
   };
 
-  model.clearFilters = function() {
+  model.clearBadges = function() {
     model.search.filters.length = 0;
+    model.search.field = "";
+    model.search.value = "";
+    model.search.label = "";
+    return model.executeSearch();
+  };
+
+  model.clearSearch = function() {
+    model.search.field = "";
+    model.search.value = "";
+    model.search.label = "";
     return model.executeSearch();
   };
 
