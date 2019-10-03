@@ -4,7 +4,7 @@
     <h4 class="modal-title">Edit Discovery View</h4>
   </div>
   <div class="modal-body" ng-if="discoveryView">
-    <alerts seconds="30" channels="source/solr/fields" types="WARNING,ERROR" exclusive></alerts>
+    <alerts seconds="30" channels="source/solr/fields,discovery-view" types="WARNING,ERROR" exclusive></alerts>
     <validationmessage results="discoveryViewForms.getResults()"></validationmessage>
 
     <uib-tabset active="tabs.active" justified="true">
