@@ -1,5 +1,5 @@
 describe("controller: DiscoveryViewManagementController", function () {
-  var controller, q, scope, DiscoveryView, DiscoveryViewRepo, FacetField, MetadataField, NgTableParams, SearchField;
+  var controller, q, scope, timeout, DiscoveryView, DiscoveryViewRepo, FacetField, MetadataField, NgTableParams, SearchField;
 
   var initializeVariables = function(settings) {
     inject(function ($q, _DiscoveryViewRepo_, _WsApi_) {
@@ -27,8 +27,9 @@ describe("controller: DiscoveryViewManagementController", function () {
   };
 
   var initializeController = function(settings) {
-    inject(function ($controller, $rootScope, _Source_, _SourceRepo_) {
+    inject(function ($controller, $rootScope, $timeout, _Source_, _SourceRepo_) {
       scope = $rootScope.$new();
+      timeout = $timeout;
 
       sessionStorage.role = settings && settings.role ? settings.role : "ROLE_ADMIN";
       sessionStorage.token = settings && settings.token ? settings.token : "faketoken";
@@ -205,27 +206,36 @@ describe("controller: DiscoveryViewManagementController", function () {
 
   describe("Do the scope methods work as expected", function () {
     it("appendFacetFieldItem should work", function () {
-      var dv = new mockDiscoveryView(q);
-      var length = dv.facetFields.length;
+      var discoveryView = new mockDiscoveryView(q);
+      delete discoveryView.facetFields;
 
-      scope.appendFacetFieldItem(dv);
-      expect(dv.facetFields.length).toBe(length + 1);
+      scope.appendFacetFieldItem(discoveryView);
+      expect(discoveryView.facetFields.length).toBe(1);
+
+      scope.appendFacetFieldItem(discoveryView);
+      expect(discoveryView.facetFields.length).toBe(2);
     });
 
     it("appendResultMetadataFieldItem should work", function () {
-      var dv = new mockDiscoveryView(q);
-      var length = dv.resultMetadataFields.length;
+      var discoveryView = new mockDiscoveryView(q);
+      delete discoveryView.resultMetadataFields;
 
-      scope.appendResultMetadataFieldItem(dv);
-      expect(dv.resultMetadataFields.length).toBe(length + 1);
+      scope.appendResultMetadataFieldItem(discoveryView);
+      expect(discoveryView.resultMetadataFields.length).toBe(1);
+
+      scope.appendResultMetadataFieldItem(discoveryView);
+      expect(discoveryView.resultMetadataFields.length).toBe(2);
     });
 
     it("appendSearchFieldItem should work", function () {
-      var dv = new mockDiscoveryView(q);
-      var length = dv.searchFields.length;
+      var discoveryView = new mockDiscoveryView(q);
+      delete discoveryView.searchFields;
 
-      result = scope.appendSearchFieldItem(dv);
-      expect(dv.searchFields.length).toBe(length + 1);
+      result = scope.appendSearchFieldItem(discoveryView);
+      expect(discoveryView.searchFields.length).toBe(1);
+
+      result = scope.appendSearchFieldItem(discoveryView);
+      expect(discoveryView.searchFields.length).toBe(2);
     });
 
     it("back should work", function () {
@@ -267,9 +277,7 @@ describe("controller: DiscoveryViewManagementController", function () {
     });
 
     it("createDiscoveryView should work", function () {
-      var result;
       var discoveryView = new mockDiscoveryView(q);
-
       scope.discoveryView = discoveryView;
 
       scope.discoveryViewToCreate = DiscoveryViewRepo.getScaffold();
@@ -277,11 +285,23 @@ describe("controller: DiscoveryViewManagementController", function () {
       spyOn(DiscoveryViewRepo, "create").and.callThrough();
       spyOn(scope, "cancelCreateDiscoveryView");
 
-      result = scope.createDiscoveryView();
+      scope.createDiscoveryView();
       scope.$digest();
 
       expect(DiscoveryViewRepo.create).toHaveBeenCalled();
       expect(scope.cancelCreateDiscoveryView).toHaveBeenCalled();
+
+      scope.discoveryView = discoveryView;
+      scope.discoveryView.facetFields = [new mockFacetField(q)];
+      scope.discoveryView.facetFields[0].key = "";
+      scope.discoveryView.resultMetadataFields = [new mockMetadataField(q)];
+      scope.discoveryView.resultMetadataFields[0].key = "";
+      scope.createDiscoveryView();
+      scope.$digest();
+
+      expect(DiscoveryViewRepo.create).toHaveBeenCalled();
+      expect(scope.discoveryView.facetFields.length).toBe(0);
+      expect(scope.discoveryView.resultMetadataFields.length).toBe(0);
     });
 
     it("deleteDiscoveryView should work", function () {
@@ -348,6 +368,8 @@ describe("controller: DiscoveryViewManagementController", function () {
     });
 
     it("next should work", function () {
+      scope.discoveryView = new mockDiscoveryView(q);
+
       scope.tabs.active = -2;
       scope.next();
       expect(scope.tabs.active).toBe(0);
@@ -362,6 +384,11 @@ describe("controller: DiscoveryViewManagementController", function () {
       scope.tabs.active = scope.tabs.length;
       scope.next();
       expect(scope.tabs.active).toBe(scope.tabs.length - 1);
+
+      scope.tabs.active = 0;
+      scope.originalSourceName = "different name";
+      scope.next();
+      expect(scope.tabs.active).toBe(1);
     });
 
     it("refreshSource should work", function () {
@@ -383,10 +410,24 @@ describe("controller: DiscoveryViewManagementController", function () {
     });
 
     it("resetDiscoveryViewForms should work", function () {
-      var result;
+      scope.discoveryView = new mockDiscoveryView(q);
 
-      result = scope.resetDiscoveryViewForms();
-      // @todo
+      scope.resetDiscoveryViewForms();
+      timeout.flush();
+
+      expect(scope.discoveryView).not.toBeDefined();
+
+      scope.discoveryView = new mockDiscoveryView(q);
+      scope.discoveryViewForms.create = {
+        $pristine: false,
+        $setPristine: function () { this.$pristine = true; }
+      };
+
+      scope.resetDiscoveryViewForms();
+      timeout.flush();
+
+      expect(scope.discoveryViewForms.create.$pristine).toBe(true);
+      expect(scope.discoveryView).not.toBeDefined();
     });
 
     it("startCreateDiscoveryView should work", function () {
@@ -405,13 +446,28 @@ describe("controller: DiscoveryViewManagementController", function () {
     });
 
     it("updateDiscoveryView should work", function () {
-      var result;
       var discoveryView = new mockDiscoveryView(q);
+      scope.discoveryView = discoveryView;
+      scope.discoveryView.resultMetadataFields = [new mockMetadataField(q), new mockMetadataField(q)];
+
+      spyOn(discoveryView, "save").and.callThrough();
+
+      scope.updateDiscoveryView();
+      scope.$digest();
+
+      expect(discoveryView.save).toHaveBeenCalled();
 
       scope.discoveryView = discoveryView;
+      scope.discoveryView.facetFields = [new mockFacetField(q)];
+      scope.discoveryView.facetFields[0].key = "";
+      scope.discoveryView.resultMetadataFields = [new mockMetadataField(q)];
+      scope.discoveryView.resultMetadataFields[0].key = "";
+      scope.updateDiscoveryView();
+      scope.$digest();
 
-      result = scope.updateDiscoveryView();
-      // @todo
+      expect(discoveryView.save).toHaveBeenCalled();
+      expect(scope.discoveryView.facetFields.length).toBe(0);
+      expect(scope.discoveryView.resultMetadataFields.length).toBe(0);
     });
   });
 
