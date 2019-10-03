@@ -59,13 +59,21 @@ public class SolrDiscoveryService {
 
         search.setField(field.equalsIgnoreCase(ALL_FIELDS_KEY) ? "" : field);
 
-        String query = FILTER_WILDCARD;
+        String query = "";
         if (!(field.isEmpty() || value.isEmpty())) {
             query = search.getField();
             query += ":" + (value.isEmpty() ? "*" : value);
         }
 
         SolrQuery solrQuery = new SolrQuery(query);
+
+        if (discoveryView.getFilter().isEmpty()) {
+            if (discoveryView.getSource().getRequiresFilter()) {
+                solrQuery.addFilterQuery(FILTER_WILDCARD);
+            }
+        } else {
+            solrQuery.addFilterQuery(discoveryView.getFilter());
+        }
 
         // Only filter against designated facet fields.
         List<Filter> filters = new ArrayList<Filter>();
