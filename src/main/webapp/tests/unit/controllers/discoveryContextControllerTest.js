@@ -1,5 +1,5 @@
 describe("controller: DiscoveryContextController", function () {
-  var controller, location, q, scope, appConfig, routeParams, _DiscoveryContext_, MockedDiscoveryContext, WsApi;
+  var controller, location, q, scope, appConfig, routeParams, MockedDiscoveryContext, WsApi;
 
   var initializeVariables = function(settings) {
     inject(function ($location, $q, $routeParams, _WsApi_) {
@@ -18,7 +18,7 @@ describe("controller: DiscoveryContextController", function () {
     });
   };
 
-  var initializeController = function(settings, _DiscoveryContext_, _UserService_) {
+  var initializeController = function(settings) {
     inject(function ($controller, $rootScope) {
       scope = $rootScope.$new();
 
@@ -84,7 +84,7 @@ describe("controller: DiscoveryContextController", function () {
       expect(controller).toBeDefined();
     });
   });
-/*
+
   describe("Are the scope methods defined", function () {
     it("clearFilters should be defined", function () {
       expect(scope.clearFilters).toBeDefined();
@@ -165,8 +165,14 @@ describe("controller: DiscoveryContextController", function () {
 
     it("searchProcessKeyPress should work", function () {
       var result;
+      var event = {
+          which: 13,
+          target: {
+              blur: function() {}
+          }
+      };
 
-      result = scope.searchProcessKeyPress();
+      result = scope.searchProcessKeyPress(event);
       // @todo
     });
 
@@ -184,5 +190,4 @@ describe("controller: DiscoveryContextController", function () {
       // @todo
     });
   });
-  */
 });

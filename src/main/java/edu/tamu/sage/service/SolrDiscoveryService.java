@@ -36,6 +36,8 @@ import edu.tamu.sage.utility.ValueTemplateUtility;
 @Service
 public class SolrDiscoveryService {
 
+    private final static String FILTER_WILDCARD = "*:*";
+
     private final static Logger logger = LoggerFactory.getLogger(SolrDiscoveryService.class);
 
     @Autowired
@@ -57,13 +59,21 @@ public class SolrDiscoveryService {
 
         search.setField(field.equalsIgnoreCase(ALL_FIELDS_KEY) ? "" : field);
 
-        String query = "*:*";
+        String query = "";
         if (!(field.isEmpty() || value.isEmpty())) {
             query = search.getField();
             query += ":" + (value.isEmpty() ? "*" : value);
         }
 
         SolrQuery solrQuery = new SolrQuery(query);
+
+        if (discoveryView.getFilter().isEmpty()) {
+            if (discoveryView.getSource().getRequiresFilter()) {
+                solrQuery.addFilterQuery(FILTER_WILDCARD);
+            }
+        } else {
+            solrQuery.addFilterQuery(discoveryView.getFilter());
+        }
 
         // Only filter against designated facet fields.
         List<Filter> filters = new ArrayList<Filter>();
@@ -73,12 +83,16 @@ public class SolrDiscoveryService {
 
                 String filterKey = "f." + facetField.getKey();
                 if (filterMap.containsKey(filterKey)) {
-                    Filter filter = new Filter();
-                    filter.setKey(facetField.getKey());
-                    filter.setLabel(facetField.getLabel());
-                    filter.setValue(filterMap.get(filterKey));
-                    filters.add(filter);
-                    solrQuery.addFilterQuery(facetField.getKey() + ":" + filterMap.get(filterKey));
+                    String[] filterValues = filterMap.get(filterKey).split(",", -1);
+
+                    for (int i = 0; i < filterValues.length; i++) {
+                        Filter filter = new Filter();
+                        filter.setKey(facetField.getKey());
+                        filter.setLabel(facetField.getLabel());
+                        filter.setValue(filterValues[i]);
+                        filters.add(filter);
+                        solrQuery.addFilterQuery(facetField.getKey() + ":" + filterValues[i]);
+                    }
                 }
             });
 
@@ -113,6 +127,9 @@ public class SolrDiscoveryService {
     public List<SolrField> getAvailableFields(DiscoveryView discoveryView) throws DiscoveryContextBuildException {
         String uri = discoveryView.getSource().getUri();
         String filter = discoveryView.getFilter();
+        if (discoveryView.getSource().getRequiresFilter() && filter.isEmpty()) {
+            filter = FILTER_WILDCARD;
+        }
         try {
             return solrSourceService.getAvailableFields(uri, filter);
         } catch (SourceServiceException e) {

@@ -23,6 +23,7 @@ angular.module("mock.sourceRepo", []).service("SourceRepo", function($q) {
     name: "Local Solr",
     uri: "http://localhost:8983/solr/collection1",
     readOnly: true,
+    requiresFilter: true,
     username: "",
     password: ""
   };

@@ -6,18 +6,15 @@
   <div class="modal-body">
     <alerts seconds="30" channels="discovery-view" types="WARNING,ERROR" exclusive></alerts>
     <validationmessage results="discoveryViewForms.getResults()"></validationmessage>
-
-      <h3>Are you sure you want to remove:</h3>
-      <p>{{discoveryViewToDelete.name}}</p>
-
-
+    <h3>Are you sure you want to remove:</h3>
+    <p>{{discoveryView.name}}</p>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" ng-click="cancelDeleteDiscoveryView()">Cancel</button>
     <button type="submit" class="btn btn-danger">
-        <span ng-show="deletingDiscoveryView">
-          <span class="glyphicon glyphicon-refresh spinning"></span>
-        </span>
+      <span ng-show="deletingDiscoveryView">
+        <span class="glyphicon glyphicon-refresh spinning"></span>
+      </span>
       <span ng-hide="deletingDiscoveryView">Confirm</span>
     </button>
   </div>

@@ -23,14 +23,11 @@ angular.module("mock.discoveryViewRepo", []).service("DiscoveryViewRepo", functi
     name: "",
     source: "",
     facetFields: [],
-    filter: "*:*",
+    filter: "",
     resourceLocationUriKey: "",
     resourceThumbnailUriKey: "",
     resultMetadataFields: [],
-    searchFields: [ {
-        key: "all_fields",
-        label: "Everything"
-    }],
+    searchFields: [],
     slug: "",
     titleKey: "",
     infoLinkText: "",
@@ -42,6 +39,16 @@ angular.module("mock.discoveryViewRepo", []).service("DiscoveryViewRepo", functi
   repo.scaffoldSearchField = {
     key: "",
     label: ""
+  };
+
+  repo.scaffoldMetadataField = {
+    inGrid: true,
+    inList: true,
+    inSingleResult: true,
+    key: "",
+    label: "",
+    sortable: true,
+    type: ""
   };
 
   return repo;
