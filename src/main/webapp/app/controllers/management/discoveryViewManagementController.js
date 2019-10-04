@@ -33,9 +33,14 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
       if ($scope.tabs.active < 0) {
         $scope.tabs.active = 0;
       } else {
-        if ($scope.tabs.active === 0 && angular.isDefined($scope.originalSourceName) && $scope.discoveryView.source.name !== $scope.originalSourceName) {
-          $scope.getFields($scope.discoveryView);
-          $scope.originalSourceName = $scope.discoveryView.source.name;
+        if ($scope.tabs.active === 0) {
+          if (angular.isDefined($scope.originalSourceName) && $scope.discoveryView.source.name !== $scope.originalSourceName) {
+            $scope.getFields($scope.discoveryView);
+            $scope.originalSourceName = $scope.discoveryView.source.name;
+          } else if (angular.isDefined($scope.originalFilter) && $scope.discoveryView.filter !== $scope.originalFilter) {
+            $scope.getFields($scope.discoveryView);
+            $scope.originalFilter = $scope.discoveryView.filter;
+          }
         }
 
         $scope.tabs.active++;
@@ -56,6 +61,8 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
     $timeout(function() {
       angular.extend($scope.tabs, { active: 0 });
       delete $scope.discoveryView;
+      delete $scope.originalSourceName;
+      delete $scope.originalFilter;
     }, 250);
   };
 
@@ -90,8 +97,13 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
   };
 
   $scope.refreshSource = function(dv) {
-    if (dv.source.name !== $scope.originalSourceName && $scope.tabs.active !== 0) {
-      $scope.getFields(dv);
+    if ($scope.tabs.active === 0) {
+      $scope.pingSource(dv);
+    }
+    else {
+      if ((angular.isDefined($scope.originalSourceName) && dv.source.name !== $scope.originalSourceName) || (angular.isDefined($scope.originalFilter) && dv.filter !== $scope.originalFilter)) {
+        $scope.getFields(dv);
+      }
     }
   };
 
@@ -108,6 +120,7 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
       angular.extend($scope.discoveryView, { source: angular.copy($scope.sources[0]) });
 
       $scope.originalSourceName = $scope.sources[0].name;
+      $scope.originalFilter = $scope.filter;
 
       $scope.getFields($scope.discoveryView);
     }
@@ -173,6 +186,7 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
   $scope.startUpdateDiscoveryView = function(dv) {
     $scope.discoveryView = new DiscoveryView(angular.copy(dv));
     $scope.originalSourceName = $scope.discoveryView.source.name;
+    $scope.originalFilter = $scope.discoveryView.filter;
 
     if (dv.facetFields.length == 0) $scope.appendFacetFieldItem($scope.discoveryView);
     if (dv.searchFields.length == 0) $scope.appendSearchFieldItem($scope.discoveryView);
@@ -224,8 +238,13 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
   };
 
   $scope.getFields = function(dv) {
-    if (angular.isDefined(dv) && angular.isDefined(dv.source) && angular.isDefined(dv.source.uri) && angular.isDefined(dv.filter)) {
-      var filter = dv.filter.length == 0 && dv.source.requiresFilter ? "*.*" : dv.filter;
+    if (angular.isDefined(dv) && angular.isDefined(dv.source) && angular.isDefined(dv.source.uri)) {
+      var filter = angular.isDefined(dv.filter) && dv.filter.length > 0 ? dv.filter : "";
+
+      if (dv.source.requiresFilter && filter.length == 0) {
+        filter = "*.*";
+      }
+
       $scope.fields = SourceRepo.getAvailableFields(dv.source.uri, filter);
     }
   };
@@ -240,6 +259,12 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
       }
     }
     return f;
+  };
+
+  $scope.pingSource = function(dv) {
+    if (angular.isDefined(dv.source)) {
+      dv.source.testPing();
+    }
   };
 
   DiscoveryViewRepo.ready().then(function() {

@@ -31,6 +31,24 @@ var dataSource3 = {
 var mockSource = function($q) {
   var model = mockModel("Source", $q, dataSource1);
 
+  model.testPing = function() {
+    return $q(function(resolve) {
+      resolve();
+    });
+  };
+
+  model.testLocation = function() {
+    return $q(function(resolve) {
+      resolve();
+    });
+  };
+
+  model.testAuthorization = function() {
+    return $q(function(resolve) {
+      resolve();
+    });
+  };
+
   return model;
 };
 

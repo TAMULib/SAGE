@@ -1,5 +1,5 @@
 describe('model: Source', function () {
-  var model, rootScope, scope, WsApi;
+  var q, model, rootScope, scope, WsApi;
 
   var initializeVariables = function(settings) {
     inject(function ($rootScope, _WsApi_) {
@@ -10,7 +10,8 @@ describe('model: Source', function () {
   };
 
   var initializeModel = function(settings) {
-    inject(function (Source) {
+    inject(function ($q, Source) {
+      q = $q;
       scope = rootScope.$new();
 
       model = angular.extend(new Source());
@@ -33,6 +34,11 @@ describe('model: Source', function () {
   });
 
   describe('Are the model methods defined', function () {
+    it('testPing should be defined', function () {
+      expect(model.testPing).toBeDefined();
+      expect(typeof model.testPing).toEqual("function");
+    });
+
     it('testLocation should be defined', function () {
       expect(model.testLocation).toBeDefined();
       expect(typeof model.testLocation).toEqual("function");
@@ -45,6 +51,30 @@ describe('model: Source', function () {
   });
 
   describe('Are the model methods working as expected', function () {
-    // @todo
+    it('testPing should work', function () {
+      var passedPath;
+
+      WsApi.fetch = function(path, data) {
+        passedPath = path;
+      };
+
+      spyOn(WsApi, "fetch").and.callThrough();
+
+      model.testPing();
+      scope.$digest();
+
+      expect(WsApi.fetch).toHaveBeenCalled();
+      expect(passedPath.method).toBe("test/ping");
+    });
+
+    it('testLocation should work', function () {
+      model.testLocation();
+      scope.$digest();
+    });
+
+    it('testAuthorization should work', function () {
+      model.testAuthorization();
+      scope.$digest();
+    });
   });
 });

@@ -1,21 +1,27 @@
 // This relates to a "Core", to represent a "Source", the readOnly property of a "Core" needs to be set to TRUE.
-sage.model("Source", function(WsApi, HttpMethodVerbs) {
+sage.model("Source", function($q, WsApi, HttpMethodVerbs) {
   return function Source() {
-    var core = this;
+    var model = this;
 
-    core.testLocation = function(core) {
-      var testLocationPromise = WsApi.fetch(core.getMapping().testLocation, {
-        data: core
+    model.testPing = function() {
+      var promise = WsApi.fetch(model.getMapping().testPing, {
+        data: model
       });
-      return testLocationPromise;
+      return promise;
     };
 
-    core.testAuthorization = function() {
+    model.testLocation = function() {
       return $q(function(resolve) {
         resolve();
       });
     };
 
-    return core;
+    model.testAuthorization = function() {
+      return $q(function(resolve) {
+        resolve();
+      });
+    };
+
+    return model;
   };
 });
