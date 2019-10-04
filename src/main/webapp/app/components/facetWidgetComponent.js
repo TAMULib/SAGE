@@ -6,7 +6,7 @@ sage.component("facetWidget", {
     resetSearch: "="
   },
   controller: function($scope) {
-    
+
     $scope.addRemoveFacetFilter = function(facet, value) {
       var filter = $scope.findFilterByFacet(facet.label, value);
       if(filter) {
@@ -38,7 +38,7 @@ sage.component("facetWidget", {
         keys = Object.keys($scope.$ctrl.facet.counts);
       }
       return keys.filter(function(facet) {
-        return facet.startsWith(viewValue);
+        return facet.toLowerCase().startsWith(viewValue.toLowerCase());
       });
     };
   }

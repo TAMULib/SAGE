@@ -25,7 +25,7 @@ angular.module('mock.wsApi', []).service('WsApi', function ($q) {
     }
   };
 
-  service.fetch = function (apiReq) {
+  service.fetch = function (apiReq, parameters) {
     var payload = {};
 
     if (fetchResponse) {
