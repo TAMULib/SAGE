@@ -58,6 +58,18 @@ public class SolrDiscoveryService {
         Search search = new Search();
 
         search.setField(field.equalsIgnoreCase(ALL_FIELDS_KEY) ? "" : field);
+        search.setValue(value);
+        search.setLabel("");
+
+        if (!search.getValue().isEmpty()) {
+            String matchField = field.isEmpty() ? ALL_FIELDS_KEY : field;
+
+            discoveryView.getSearchFields().forEach(searchField -> {
+                if (searchField.getKey().equalsIgnoreCase(matchField)) {
+                    search.setLabel(searchField.getLabel());
+                }
+            });
+        }
 
         String query = "";
         if (!(field.isEmpty() || value.isEmpty())) {
@@ -86,11 +98,11 @@ public class SolrDiscoveryService {
                     String[] filterValues = filterMap.get(filterKey).split(",", -1);
 
                     for (int i = 0; i < filterValues.length; i++) {
-                        Filter filter = new Filter();
-                        filter.setKey(facetField.getKey());
-                        filter.setLabel(facetField.getLabel());
+                    Filter filter = new Filter();
+                    filter.setKey(facetField.getKey());
+                    filter.setLabel(facetField.getLabel());
                         filter.setValue(filterValues[i]);
-                        filters.add(filter);
+                    filters.add(filter);
                         solrQuery.addFilterQuery(facetField.getKey() + ":" + filterValues[i]);
                     }
                 }

@@ -78,9 +78,14 @@ describe('model: DiscoveryContext', function () {
       expect(typeof model.buildUrlFilterKeyValues).toEqual("function");
     });
 
-    it('clearFilters should be defined', function () {
-      expect(model.clearFilters).toBeDefined();
-      expect(typeof model.clearFilters).toEqual("function");
+    it('clearBadges should be defined', function () {
+      expect(model.clearBadges).toBeDefined();
+      expect(typeof model.clearBadges).toEqual("function");
+    });
+
+    it('clearSearch should be defined', function () {
+      expect(model.clearSearch).toBeDefined();
+      expect(typeof model.clearSearch).toEqual("function");
     });
 
     it('executeSearch should be defined', function () {
@@ -175,7 +180,7 @@ describe('model: DiscoveryContext', function () {
       expect(urlFilters["f." + mockFilter1.key].length).toBe(2);
     });
 
-    it('clearFilters should work', function () {
+    it('clearBadges should work', function () {
       var mockFilter1 = new mockFilter(q);
       var mockFilter2 = new mockFilter(q);
       mockFilter2.mock(dataFilter2);
@@ -184,10 +189,25 @@ describe('model: DiscoveryContext', function () {
       model.search.filters = [ mockFilter1, mockFilter2 ];
       location.search("f.mock", "mockedValue");
 
-      model.clearFilters();
+      model.clearBadges();
       scope.$digest();
 
       expect(model.search.filters.length).toBe(0);
+      expect(model.executeSearch).toHaveBeenCalled();
+    });
+
+    it('clearSearch should work', function () {
+      spyOn(model, 'executeSearch');
+      model.search.field = "mock_field";
+      model.search.value = "mockedValue";
+      location.search("field", model.search.field);
+      location.search("value", model.search.value);
+
+      model.clearSearch();
+      scope.$digest();
+
+      expect(model.search.field).toBe("");
+      expect(model.search.value).toBe("");
       expect(model.executeSearch).toHaveBeenCalled();
     });
 

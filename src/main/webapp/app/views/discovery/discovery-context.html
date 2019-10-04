@@ -30,12 +30,12 @@
           </form>
         </div>
       </div>
-
-      <div class="row dc-active-filters" ng-if="discoveryContext.search.filters.length > 0">
+      <div class="row dc-active-filters" ng-if="hasActiveFilters() || hasSearch()">
         <div class="col-xs-12">
           <ul class="list list-inline">
-            <li style="min-width:37px" class="btn btn-primary dc-active-filter" ng-if="discoveryContext.search.filters.length" ng-click="clearFilters()"><span class="glyphicon glyphicon-home"></span></li>
-            <li role="presentation" ng-repeat="filter in discoveryContext.search.filters" class="btn btn-primary dc-active-filter" ng-click="removeFilter(filter)">{{filter.label}} <span ng-if="filter.key">:</span> {{filter.value}} <span class="glyphicon glyphicon-remove"></span></li>
+            <li style="min-width:37px" class="btn btn-primary dc-active-filter" ng-click="clearBadges()"><span class="glyphicon glyphicon-home"></span></li>
+            <li role="presentation" ng-if="hasActiveFilters()" ng-repeat="filter in discoveryContext.search.filters" class="btn btn-primary dc-active-filter" ng-click="removeFilter(filter)"><span class="glyphicon glyphicon-filter"></span>{{filter.label}} <span ng-if="filter.key">:</span> {{filter.value}} <span class="glyphicon glyphicon-remove"></span></li>
+            <li role="presentation" ng-if="hasSearch()" class="btn btn-primary dc-active-filter" ng-click="clearSearch()"><span class="glyphicon glyphicon-search"></span> <span ng-if="discoveryContext.search.label">{{discoveryContext.search.label}} :</span> </span>{{discoveryContext.search.value}} <span class="glyphicon glyphicon-remove"></span></li>
           </ul>
         </div>
       </div>

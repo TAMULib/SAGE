@@ -52,47 +52,13 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
         if ($scope.discoveryContext.search.page.offset === 0) {
           $location.search("offset", null);
         }
-
-        $scope.currentSearchField = "";
-        if (angular.isDefined($scope.discoveryContext.searchFields)) {
-          $scope.currentSearchField = $scope.discoveryContext.searchFields[0];
-
-          if (angular.isDefined($routeParams.field)) {
-            for (i = 0; i < $scope.discoveryContext.searchFields.length; i++) {
-              if ($scope.discoveryContext.searchFields[i].key === $routeParams.field) {
-                $scope.currentSearchField = $scope.discoveryContext.searchFields[i];
-                break;
-              }
-            }
-          }
-        }
-
-        $scope.currentSearchValue = "";
-        if (angular.isDefined($routeParams.value)) {
-          $scope.currentSearchValue = $routeParams.value;
-        } else if (angular.isDefined($scope.discoveryContext.search.value)) {
-          $scope.currentSearchValue = $scope.discoveryContext.search.value;
-        }
       }
-      else {
-        $scope.currentSearchField = "";
-        if (angular.isDefined($scope.discoveryContext.searchFields)) {
-          $scope.currentSearchField = $scope.discoveryContext.searchFields[0];
 
-          if (angular.isDefined($scope.discoveryContext.search.field)) {
-            for (i = 0; i < $scope.discoveryContext.searchFields.length; i++) {
-              if ($scope.discoveryContext.searchFields[i].key === $scope.discoveryContext.search.field) {
-                $scope.currentSearchField = $scope.discoveryContext.searchFields[i];
-                break;
-              }
-            }
-          }
-        }
+      $scope.currentSearchField = "";
+      $scope.currentSearchValue = "";
 
-        $scope.currentSearchValue = "";
-        if (angular.isDefined($scope.discoveryContext.search.value)) {
-          $scope.currentSearchValue = $scope.discoveryContext.search.value;
-        }
+      if (angular.isDefined($scope.discoveryContext.searchFields)) {
+        $scope.currentSearchField = $scope.discoveryContext.searchFields[0];
       }
     };
 
@@ -104,8 +70,14 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
       });
     };
 
-    $scope.clearFilters = function() {
-      $scope.discoveryContext.clearFilters().then(function() {
+    $scope.clearBadges = function() {
+      $scope.discoveryContext.clearBadges().then(function() {
+        $scope.resetSearch();
+      });
+    };
+
+    $scope.clearSearch = function() {
+      $scope.discoveryContext.clearSearch().then(function() {
         $scope.resetSearch();
       });
     };
@@ -138,11 +110,26 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
 
     $scope.searchProcessKeyPress = function(event) {
       if (event.keyCode === 13 && $scope.currentSearchField) {
-        $scope.discoveryContext.setSearchField($scope.currentSearchField.key, $scope.currentSearchValue);
+        $scope.discoveryContext.setSearchField($scope.currentSearchField.key, $scope.currentSearchValue, $scope.findSearchFieldLabel($scope.currentSearchField.key));
         $scope.discoveryContext.executeSearch().then(function() {
           $scope.resetSearch();
         });
       }
+    };
+
+    $scope.findSearchFieldLabel = function(field) {
+      var label = "";
+
+      if (angular.isDefined($scope.discoveryContext.searchFields)) {
+        for (var i = 0; i < $scope.discoveryContext.searchFields.length; i++) {
+          if ($scope.discoveryContext.searchFields[i].key === field) {
+            label = $scope.discoveryContext.searchFields[i].label;
+            break;
+          }
+        }
+      }
+
+      return label;
     };
 
     $scope.pageBack = function() {
@@ -168,6 +155,14 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
           $scope.resetSearch();
         });
       }
+    };
+
+    $scope.hasActiveFilters = function() {
+      return $scope.discoveryContext.search.filters.length > 0;
+    };
+
+    $scope.hasSearch = function() {
+      return typeof $scope.discoveryContext.search.value === "string" && $scope.discoveryContext.search.value !== "";
     };
   });
 

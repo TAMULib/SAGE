@@ -8,6 +8,10 @@ public class Search {
 
     private String field;
 
+    private String value;
+
+    private String label;
+
     private long start;
 
     private long total;
@@ -20,6 +24,7 @@ public class Search {
     public Search() {
         super();
         field = "";
+        value = "";
         start = 0;
         total = 0;
     }
@@ -38,6 +43,22 @@ public class Search {
 
     public void setField(String field) {
         this.field = field;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     public long getStart() {
