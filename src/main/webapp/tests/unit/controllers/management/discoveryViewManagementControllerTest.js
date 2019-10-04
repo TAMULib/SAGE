@@ -1,12 +1,13 @@
 describe("controller: DiscoveryViewManagementController", function () {
-  var controller, q, scope, timeout, DiscoveryView, DiscoveryViewRepo, FacetField, MetadataField, NgTableParams, SearchField;
+  var controller, q, scope, timeout, DiscoveryView, DiscoveryViewRepo, FacetField, MetadataField, NgTableParams, SearchField, SourceRepo;
 
   var initializeVariables = function(settings) {
-    inject(function ($q, _DiscoveryViewRepo_, _WsApi_) {
+    inject(function ($q, _DiscoveryViewRepo_, _WsApi_, _SourceRepo_) {
       q = $q;
 
       DiscoveryViewRepo = _DiscoveryViewRepo_;
       NgTableParams = mockNgTableParams;
+      SourceRepo = _SourceRepo_;
 
       DiscoveryView = function() {
         return new mockDiscoveryView(q);
@@ -27,7 +28,7 @@ describe("controller: DiscoveryViewManagementController", function () {
   };
 
   var initializeController = function(settings) {
-    inject(function ($controller, $rootScope, $timeout, _Source_, _SourceRepo_) {
+    inject(function ($controller, $rootScope, $timeout, _Source_) {
       scope = $rootScope.$new();
       timeout = $timeout;
 
@@ -43,7 +44,7 @@ describe("controller: DiscoveryViewManagementController", function () {
         NgTableParams: NgTableParams,
         SearchField: SearchField,
         Source: _Source_,
-        SourceRepo: _SourceRepo_
+        SourceRepo: SourceRepo
       });
 
       // ensure that the isReady() is called.
@@ -176,6 +177,11 @@ describe("controller: DiscoveryViewManagementController", function () {
     it("next should be defined", function () {
       expect(scope.next).toBeDefined();
       expect(typeof scope.next).toEqual("function");
+    });
+
+    it("pingSource should be defined", function () {
+      expect(scope.pingSource).toBeDefined();
+      expect(typeof scope.pingSource).toEqual("function");
     });
 
     it("refreshSource should be defined", function () {
@@ -311,6 +317,7 @@ describe("controller: DiscoveryViewManagementController", function () {
       scope.discoveryView = discoveryView;
 
       result = scope.deleteDiscoveryView();
+      scope.$digest();
       // @todo
     });
 
@@ -329,10 +336,34 @@ describe("controller: DiscoveryViewManagementController", function () {
     });
 
     it("getFields should work", function () {
-      var result;
+      var discoveryView = new mockDiscoveryView(q);
+      var receivedUri;
+      var receivedFilter;
 
-      result = scope.getFields();
-      // @todo
+      discoveryView.source = [];
+      discoveryView.source.requiresFilter = false;
+
+      SourceRepo.getAvailableFields = function(uri, filter) {
+        receivedUri = uri;
+        receivedFilter = filter;
+      };
+
+      spyOn(SourceRepo, "getAvailableFields").and.callThrough();
+
+      scope.getFields(discoveryView);
+      expect(SourceRepo.getAvailableFields).not.toHaveBeenCalled();
+
+      discoveryView.source = new mockSource(q);
+      scope.getFields(discoveryView);
+      expect(SourceRepo.getAvailableFields).toHaveBeenCalled();
+      expect(receivedUri).toBe(discoveryView.source.uri);
+      expect(receivedFilter).toBe(discoveryView.filter);
+
+      discoveryView.filter = "";
+      discoveryView.source.requiresFilter = true;
+      scope.getFields(discoveryView);
+      expect(receivedUri).toBe(discoveryView.source.uri);
+      expect(receivedFilter).toBe("*.*");
     });
 
     it("isDiscoveryViewFacetsInvalid should work", function () {
@@ -387,25 +418,69 @@ describe("controller: DiscoveryViewManagementController", function () {
 
       scope.tabs.active = 0;
       scope.originalSourceName = "different name";
+      spyOn(scope, "getFields");
+
       scope.next();
       expect(scope.tabs.active).toBe(1);
+      expect(scope.getFields).toHaveBeenCalled();
+
+      scope.originalSourceName = scope.discoveryView.source.name;
+      scope.originalFilter = scope.discoveryView.filter;
+      scope.getFields = function() {};
+      spyOn(scope, "getFields");
+
+      scope.tabs.active = 0;
+      scope.next();
+      expect(scope.getFields).not.toHaveBeenCalled();
+
+      scope.originalFilter = "different filter";
+      scope.tabs.active = 0;
+      scope.next();
+      expect(scope.getFields).toHaveBeenCalled();
+    });
+
+    it("pingSource should work", function () {
+      var discoveryView = new mockDiscoveryView(q);
+      discoveryView.source = new mockSource(q);
+
+      spyOn(discoveryView.source, "testPing");
+
+      scope.pingSource(discoveryView);
+
+      expect(discoveryView.source.testPing).toHaveBeenCalled();
     });
 
     it("refreshSource should work", function () {
-      var dv = new mockDiscoveryView(q);
+      var discoveryView = new mockDiscoveryView(q);
+      discoveryView.source = new mockSource(q);
 
       spyOn(scope, 'getFields');
 
+      scope.originalSourceName = discoveryView.source.name;
+      scope.originalFilter = discoveryView.filter;
+
       scope.tabs.active = 0;
-      scope.refreshSource(dv);
+      scope.refreshSource(discoveryView);
       expect(scope.getFields).not.toHaveBeenCalled();
 
       scope.tabs.active = 1;
-      scope.refreshSource(dv);
+      scope.refreshSource(discoveryView);
       expect(scope.getFields).not.toHaveBeenCalled();
 
       scope.originalSourceName = "differentName";
-      scope.refreshSource(dv);
+      scope.refreshSource(discoveryView);
+      expect(scope.getFields).toHaveBeenCalled();
+
+      scope.originalSourceName = discoveryView.source.name;
+      scope.tabs.active = 1;
+      scope.getFields = function() {};
+      spyOn(scope, 'getFields');
+
+      scope.refreshSource(discoveryView);
+      expect(scope.getFields).not.toHaveBeenCalled();
+
+      scope.originalFilter = "different filter";
+      scope.refreshSource(discoveryView);
       expect(scope.getFields).toHaveBeenCalled();
     });
 
