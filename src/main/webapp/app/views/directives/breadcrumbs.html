@@ -1,0 +1,14 @@
+<nav ng-if="contexts" ng-init="getBreadcrumbs()" aria-label="Breadcrumbs" class="breadcrumbs">
+  <ol class="breadcrumb">
+    <li ng-if="home" class="home">
+      <span ng-if="home.active" class="active"><span class="glyphicon glyphicon-home"></span> {{home.label}}</span>
+      <a ng-if="!home.active" href="{{home.path}}"><span class="glyphicon glyphicon-home"></span> {{home.label}}</a>
+    </li>
+    <li ng-repeat="breadcrumb in breadcrumbs track by $index">
+      <a href="{{breadcrumb.path}}">{{breadcrumb.label}}</a>
+    </li>
+    <li ng-if="current" class="active">
+      <a class="link-like" ng-click="reload()" aria-current="page"><span class="breadcrumb-active glyphicon glyphicon-share-alt"></span> {{current.label}}</a>
+    </li>
+  </ol>
+</nav>

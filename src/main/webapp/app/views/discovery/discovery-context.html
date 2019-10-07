@@ -1,10 +1,10 @@
-<div class="discovery-context">
-
-  <div class="row dc-heading">
-    <h1>{{discoveryContext.name}}</h1>
-    <hr>
+<div class="discovery-context row">
+  <div class="dc-heading">
+    <h2>{{discoveryContext.name}}</h2>
   </div>
-  <div class="row dc-content">
+  <div class="dc-content">
+    <breadcrumbs contexts="breadcrumbContexts" reload="resetPage" home=""></breadcrumbs>
+
     <div class="col-md-3 dc-side-panel">
       <div ng-if="discoveryContext.infoLinkText || discoveryContext.infoText" class="panel panel-default information-box">
           <div ng-if="discoveryContext.infoText" class="panel-body">
@@ -15,7 +15,7 @@
             <p ng-if="!discoveryContext.infoLinkUrl">{{discoveryContext.infoLinkText}}</p>
           </div>
       </div>
-      <facet-widget facet="facet" discovery-context="discoveryContext" ng-repeat="facet in discoveryContext.facetFilters" reset-search="resetSearch"></facet-widget>
+      <facet-widget facet="facet" discovery-context="discoveryContext" ng-repeat="facet in discoveryContext.facetFilters" reset-search="prepareSearch"></facet-widget>
     </div>
     <div class="col-md-9 dc-main">
       <div class="row dc-search">
@@ -33,9 +33,9 @@
       <div class="row dc-active-filters" ng-if="hasActiveFilters() || hasSearch()">
         <div class="col-xs-12">
           <ul class="list list-inline">
-            <li style="min-width:37px" class="btn btn-primary dc-active-filter" ng-click="clearBadges()"><span class="glyphicon glyphicon-home"></span></li>
+            <li style="min-width:37px" class="btn btn-primary dc-active-filter" ng-click="resetBadges()"><span class="glyphicon glyphicon-home"></span></li>
             <li role="presentation" ng-if="hasActiveFilters()" ng-repeat="filter in discoveryContext.search.filters" class="btn btn-primary dc-active-filter" ng-click="removeFilter(filter)"><span class="glyphicon glyphicon-filter"></span>{{filter.label}} <span ng-if="filter.key">:</span> {{filter.value}} <span class="glyphicon glyphicon-remove"></span></li>
-            <li role="presentation" ng-if="hasSearch()" class="btn btn-primary dc-active-filter" ng-click="clearSearch()"><span class="glyphicon glyphicon-search"></span> <span ng-if="discoveryContext.search.label">{{discoveryContext.search.label}} :</span> </span>{{discoveryContext.search.value}} <span class="glyphicon glyphicon-remove"></span></li>
+            <li role="presentation" ng-if="hasSearch()" class="btn btn-primary dc-active-filter" ng-click="resetSearch()"><span class="glyphicon glyphicon-search"></span> <span ng-if="discoveryContext.search.label">{{discoveryContext.search.label}} :</span> </span>{{discoveryContext.search.value}} <span class="glyphicon glyphicon-remove"></span></li>
           </ul>
         </div>
       </div>

@@ -21,8 +21,11 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
   });
 
   $scope.discoveryContext.ready().then(function() {
+    $scope.breadcrumbContexts = [
+      $scope.discoveryContext
+    ];
 
-    $scope.resetSearch = function(useQueryParams) {
+    $scope.prepareSearch = function(useQueryParams) {
       var i;
 
       if (useQueryParams) {
@@ -62,23 +65,29 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
       }
     };
 
-    $scope.resetSearch(true);
+    $scope.prepareSearch(true);
+
+    $scope.resetPage = function() {
+      $scope.discoveryContext.resetPage().then(function() {
+        $scope.prepareSearch();
+      });
+    };
 
     $scope.removeFilter = function(filter) {
       $scope.discoveryContext.removeFilter(filter).then(function() {
-        $scope.resetSearch();
+        $scope.prepareSearch();
       });
     };
 
-    $scope.clearBadges = function() {
-      $scope.discoveryContext.clearBadges().then(function() {
-        $scope.resetSearch();
+    $scope.resetBadges = function() {
+      $scope.discoveryContext.resetBadges().then(function() {
+        $scope.prepareSearch();
       });
     };
 
-    $scope.clearSearch = function() {
-      $scope.discoveryContext.clearSearch().then(function() {
-        $scope.resetSearch();
+    $scope.resetSearch = function() {
+      $scope.discoveryContext.resetSearch().then(function() {
+        $scope.prepareSearch();
       });
     };
 
@@ -98,13 +107,13 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
       }
 
       $scope.discoveryContext.executeSearch(true).then(function() {
-        $scope.resetSearch();
+        $scope.prepareSearch();
       });
     };
 
     $scope.updateSort = function() {
       $scope.discoveryContext.executeSearch(true).then(function() {
-        $scope.resetSearch();
+        $scope.prepareSearch();
       });
     };
 
@@ -112,7 +121,7 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
       if (event.keyCode === 13 && $scope.currentSearchField) {
         $scope.discoveryContext.setSearchField($scope.currentSearchField.key, $scope.currentSearchValue, $scope.findSearchFieldLabel($scope.currentSearchField.key));
         $scope.discoveryContext.executeSearch().then(function() {
-          $scope.resetSearch();
+          $scope.prepareSearch();
         });
       }
     };
@@ -143,7 +152,7 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
         }
 
         $scope.discoveryContext.executeSearch(true).then(function() {
-          $scope.resetSearch();
+          $scope.prepareSearch();
         });
       }
     };
@@ -152,7 +161,7 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
       if ($scope.discoveryContext.search.start < $scope.discoveryContext.search.total - $scope.discoveryContext.search.page.size) {
         $scope.discoveryContext.search.page.number++;
         $scope.discoveryContext.executeSearch(true).then(function() {
-          $scope.resetSearch();
+          $scope.prepareSearch();
         });
       }
     };
