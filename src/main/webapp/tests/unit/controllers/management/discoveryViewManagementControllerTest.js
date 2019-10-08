@@ -189,6 +189,11 @@ describe("controller: DiscoveryViewManagementController", function () {
       expect(typeof scope.isDiscoveryViewSearchInvalid).toEqual("function");
     });
 
+    it("isTransitionDenied should be defined", function () {
+      expect(scope.isTransitionDenied).toBeDefined();
+      expect(typeof scope.isTransitionDenied).toEqual("function");
+    });
+
     it("next should be defined", function () {
       expect(scope.next).toBeDefined();
       expect(typeof scope.next).toEqual("function");
@@ -411,6 +416,338 @@ describe("controller: DiscoveryViewManagementController", function () {
 
       result = scope.isDiscoveryViewSearchInvalid("create");
       // @todo
+    });
+
+    it("isTransitionDenied should transition per completed state for create", function () {
+      var result;
+
+      scope.discoveryViewForms.create = {
+        $pristine: false,
+        $setPristine: function () { this.$pristine = true; }
+      };
+
+      scope.tabs.inCreate = true;
+      scope.tabs.inUpdate = false;
+      scope.tabs.completed = 3;
+      result = scope.isTransitionDenied(0);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(1);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(2);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(3);
+      expect(result).toBe(false);
+
+      scope.tabs.completed = 2;
+      result = scope.isTransitionDenied(0);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(1);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(2);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(3);
+      expect(result).toBe(true);
+
+      scope.tabs.completed = 1;
+      result = scope.isTransitionDenied(0);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(1);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(2);
+      expect(result).toBe(true);
+
+      result = scope.isTransitionDenied(3);
+      expect(result).toBe(true);
+
+      scope.tabs.completed = 0;
+      result = scope.isTransitionDenied(0);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(1);
+      expect(result).toBe(true);
+
+      result = scope.isTransitionDenied(2);
+      expect(result).toBe(true);
+
+      result = scope.isTransitionDenied(3);
+      expect(result).toBe(true);
+    });
+
+    it("isTransitionDenied should transition per completed state for update", function () {
+      var result;
+
+      scope.discoveryViewForms.update = {
+        $pristine: false,
+        $setPristine: function () { this.$pristine = true; }
+      };
+
+      scope.tabs.inCreate = false;
+      scope.tabs.inUpdate = true;
+      scope.tabs.completed = 3;
+      result = scope.isTransitionDenied(0);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(1);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(2);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(3);
+      expect(result).toBe(false);
+
+      scope.tabs.completed = 2;
+      result = scope.isTransitionDenied(0);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(1);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(2);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(3);
+      expect(result).toBe(true);
+
+      scope.tabs.completed = 1;
+      result = scope.isTransitionDenied(0);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(1);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(2);
+      expect(result).toBe(true);
+
+      result = scope.isTransitionDenied(3);
+      expect(result).toBe(true);
+
+      scope.tabs.completed = 0;
+      result = scope.isTransitionDenied(0);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(1);
+      expect(result).toBe(true);
+
+      result = scope.isTransitionDenied(2);
+      expect(result).toBe(true);
+
+      result = scope.isTransitionDenied(3);
+      expect(result).toBe(true);
+    });
+
+    it("isTransitionDenied should transition per tab valid state, for create", function () {
+      var result;
+      var mockInvalidGeneralTab = false;
+      var mockInvalidFacetsTab = false;
+      var mockInvalidSearchTab = false;
+      var mockInvalidResultsTab = false;
+
+      scope.discoveryViewForms.create = {
+        $pristine: false,
+        $setPristine: function () { this.$pristine = true; }
+      };
+
+      scope.tabs.inCreate = true;
+      scope.tabs.inUpdate = false;
+      scope.isDiscoveryViewGeneralInvalid = function() {
+        return mockInvalidGeneralTab;
+      };
+
+      scope.isDiscoveryViewFacetsInvalid = function() {
+        return mockInvalidFacetsTab;
+      };
+
+      scope.isDiscoveryViewSearchInvalid = function() {
+        return mockInvalidSearchTab;
+      };
+
+      scope.isDiscoveryViewResultsInvalid = function() {
+        return mockInvalidResultsTab;
+      };
+
+      scope.tabs.completed = 4;
+      mockInvalidResultsTab = true;
+      result = scope.isTransitionDenied(0);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(1);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(2);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(3);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(4);
+      expect(result).toBe(true);
+
+      scope.tabs.completed = 3;
+      result = scope.isTransitionDenied(0);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(1);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(2);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(3);
+      expect(result).toBe(false);
+
+      mockInvalidResultsTab = false;
+      mockInvalidSearchTab = true;
+      result = scope.isTransitionDenied(0);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(1);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(2);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(3);
+      expect(result).toBe(true);
+
+      mockInvalidSearchTab = false;
+      mockInvalidFacetsTab = true;
+      result = scope.isTransitionDenied(0);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(1);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(2);
+      expect(result).toBe(true);
+
+      result = scope.isTransitionDenied(3);
+      expect(result).toBe(true);
+
+      mockInvalidFacetsTab = false;
+      mockInvalidGeneralTab = true;
+      result = scope.isTransitionDenied(0);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(1);
+      expect(result).toBe(true);
+
+      result = scope.isTransitionDenied(2);
+      expect(result).toBe(true);
+
+      result = scope.isTransitionDenied(3);
+      expect(result).toBe(true);
+    });
+
+    it("isTransitionDenied should transition per tab valid state, for update", function () {
+      var result;
+      var mockInvalidGeneralTab = false;
+      var mockInvalidFacetsTab = false;
+      var mockInvalidSearchTab = false;
+      var mockInvalidResultsTab = false;
+
+      scope.discoveryViewForms.update = {
+        $pristine: false,
+        $setPristine: function () { this.$pristine = true; }
+      };
+
+      scope.tabs.inCreate = false;
+      scope.tabs.inUpdate = true;
+      scope.isDiscoveryViewGeneralInvalid = function() {
+        return mockInvalidGeneralTab;
+      };
+
+      scope.isDiscoveryViewFacetsInvalid = function() {
+        return mockInvalidFacetsTab;
+      };
+
+      scope.isDiscoveryViewSearchInvalid = function() {
+        return mockInvalidSearchTab;
+      };
+
+      scope.isDiscoveryViewResultsInvalid = function() {
+        return mockInvalidResultsTab;
+      };
+
+      scope.tabs.completed = 4;
+      mockInvalidResultsTab = true;
+      result = scope.isTransitionDenied(0);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(1);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(2);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(3);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(4);
+      expect(result).toBe(true);
+
+      scope.tabs.completed = 3;
+      result = scope.isTransitionDenied(0);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(1);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(2);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(3);
+      expect(result).toBe(false);
+
+      mockInvalidResultsTab = false;
+      mockInvalidSearchTab = true;
+      result = scope.isTransitionDenied(0);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(1);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(2);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(3);
+      expect(result).toBe(true);
+
+      mockInvalidSearchTab = false;
+      mockInvalidFacetsTab = true;
+      result = scope.isTransitionDenied(0);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(1);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(2);
+      expect(result).toBe(true);
+
+      result = scope.isTransitionDenied(3);
+      expect(result).toBe(true);
+
+      mockInvalidFacetsTab = false;
+      mockInvalidGeneralTab = true;
+      result = scope.isTransitionDenied(0);
+      expect(result).toBe(false);
+
+      result = scope.isTransitionDenied(1);
+      expect(result).toBe(true);
+
+      result = scope.isTransitionDenied(2);
+      expect(result).toBe(true);
+
+      result = scope.isTransitionDenied(3);
+      expect(result).toBe(true);
     });
 
     it("next should work", function () {

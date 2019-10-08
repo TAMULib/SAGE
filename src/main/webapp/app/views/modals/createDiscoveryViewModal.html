@@ -7,8 +7,8 @@
     <alerts seconds="30" channels="source/solr/fields,source/solr/test,discovery-view" types="WARNING,ERROR" exclusive></alerts>
     <validationmessage results="discoveryViewForms.getResults()"></validationmessage>
 
-    <uib-tabset active="tabs.active" justified="true">
-      <uib-tab index="0" heading="General">
+    <uib-tabset ng-if="tabs.inCreate" active="tabs.active" justified="true">
+      <uib-tab index="0" heading="General" select="stepTransitionRefresh(tabs.active)">
         <div class="row">
           <div class="col-sm-10 col-sm-offset-1">
             <br>
@@ -101,7 +101,7 @@
           </div>
         </div>
       </uib-tab>
-      <uib-tab index="1" heading="Facets" disable="true">
+      <uib-tab index="1" heading="Facets" disable="isTransitionDenied(1)" select="stepTransitionRefresh(tabs.active)">
         <div class="row">
           <div class="row">
             <div class="col-sm-offset-1 co-xs-12">
@@ -139,7 +139,7 @@
           </div>
         </div>
       </uib-tab>
-      <uib-tab index="2" heading="Search" disable="true">
+      <uib-tab index="2" heading="Search" disable="isTransitionDenied(2)" select="stepTransitionRefresh(tabs.active)">
         <div class="row">
           <div class="row">
             <div class="col-sm-offset-1 co-xs-12">
@@ -168,7 +168,7 @@
           </div>
         </div>
       </uib-tab>
-      <uib-tab index="3" heading="Results" disable="true">
+      <uib-tab index="3" heading="Results" disable="isTransitionDenied(3)" select="stepTransitionRefresh(tabs.active)">
         <div class="row">
 
           <div class="row">
@@ -291,10 +291,10 @@
     <button type="button" class="btn btn-default" ng-click="cancelCreateDiscoveryView()">Cancel</button>
     <button ng-show="tabs.active === 0" ng-disabled="isDiscoveryViewGeneralInvalid('create')" type="button" class="btn btn-success" ng-click="next()">Next</button>
     <button ng-show="tabs.active === 1" type="button" class="btn btn-success" ng-click="back()">Back</button>
-    <button ng-show="tabs.active === 1" ng-disabled="isDiscoveryViewResultsInvalid('create')" type="button" class="btn btn-success" ng-click="next()">Next</button>
+    <button ng-show="tabs.active === 1" ng-disabled="isDiscoveryViewFacetsInvalid('create')" type="button" class="btn btn-success" ng-click="next()">Next</button>
     <button ng-show="tabs.active === 2" type="button" class="btn btn-success" ng-click="back()">Back</button>
-    <button ng-show="tabs.active === 2" ng-disabled="isDiscoveryViewFacetsInvalid('create')" type="button" class="btn btn-success" ng-click="next()">Next</button>
+    <button ng-show="tabs.active === 2" ng-disabled="isDiscoveryViewSearchInvalid('create')" type="button" class="btn btn-success" ng-click="next()">Next</button>
     <button ng-show="tabs.active === 3" type="button" class="btn btn-success" ng-click="back()">Back</button>
-    <button ng-show="tabs.active === 3" ng-disabled="isDiscoveryViewSearchInvalid('create') || discoveryViewForms.create.$invalid" type="submit" class="btn btn-success">Create</button>
+    <button ng-show="tabs.active === 3" ng-disabled="isDiscoveryViewResultsInvalid('create') || discoveryViewForms.create.$invalid" type="submit" class="btn btn-success">Create</button>
   </div>
 </form>
