@@ -16,9 +16,6 @@ sage.directive("breadcrumbs", function() {
           $scope.breadcrumbs[i].active = false;
         }
 
-        console.log("DEBUG: reloadAction = ");
-        console.log($scope.reload);
-/*
         if (!$scope.home && $scope.breadcrumbs.length > 0) {
           $scope.home = $scope.breadcrumbs.shift();
 
@@ -26,7 +23,7 @@ sage.directive("breadcrumbs", function() {
             $scope.home.active = true;
           }
         }
-*/
+
         if ($scope.breadcrumbs.length > 0) {
           $scope.current = $scope.breadcrumbs[$scope.breadcrumbs.length - 1];
           $scope.current.active = true;
