@@ -1,11 +1,12 @@
 describe("service: jobRepo", function () {
-  var q, repo, rootScope, mockedRepo, scope, WsApi;
+  var q, repo, rootScope, scope, WsApi;
 
   var initializeVariables = function(settings) {
     inject(function ($q, $rootScope, _WsApi_) {
       q = $q;
       rootScope = $rootScope;
 
+      MockedJob = new mockJob(q);
       WsApi = _WsApi_;
     });
   };
@@ -22,11 +23,10 @@ describe("service: jobRepo", function () {
     module("core");
     module("sage");
     module("mock.job", function($provide) {
-        MockedJob = new mockJob(q);
-        Job = function() {
-          return MockedJob;
-        };
-        $provide.value("Job", Job);
+      var Job = function() {
+        return MockedJob;
+      };
+      $provide.value("Job", Job);
     });
     module("mock.wsApi");
 

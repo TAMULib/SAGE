@@ -1,11 +1,12 @@
 describe("service: internalMetadataRepo", function () {
-  var q, repo, rootScope, mockedRepo, scope, WsApi;
+  var q, repo, rootScope, scope, MockedInternalMetadata, WsApi;
 
   var initializeVariables = function(settings) {
     inject(function ($q, $rootScope, _WsApi_) {
       q = $q;
       rootScope = $rootScope;
 
+      MockedInternalMetadata = new mockInternalMetadata(q);
       WsApi = _WsApi_;
     });
   };
@@ -21,6 +22,12 @@ describe("service: internalMetadataRepo", function () {
   beforeEach(function() {
     module("core");
     module("sage");
+    module("mock.internalMetadata", function($provide) {
+      var InternalMetadata = function() {
+        return MockedInternalMetadata;
+      };
+      $provide.value("InternalMetadata", InternalMetadata);
+    });
     module("mock.wsApi");
 
     initializeVariables();

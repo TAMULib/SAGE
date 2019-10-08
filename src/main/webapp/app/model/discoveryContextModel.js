@@ -48,7 +48,7 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
             value: value
           };
           filters.push(filter);
-      }
+        }
       });
 
       discoveryContext.search = new Search({
@@ -145,7 +145,7 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
       return discoveryContext.executeSearch();
     };
 
-    discoveryContext.clearBadges = function() {
+    discoveryContext.clearCommon = function() {
       discoveryContext.search.filters.length = 0;
       discoveryContext.search.field = "";
       discoveryContext.search.value = "";
@@ -153,6 +153,22 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
 
       $location.search("field", null);
       $location.search("value", null);
+    };
+
+    discoveryContext.resetPage = function() {
+      discoveryContext.search.filters.length = 0;
+      discoveryContext.clearCommon();
+
+      angular.forEach($location.search(), function(value, key) {
+        $location.search(key, null);
+      });
+
+      return discoveryContext.executeSearch();
+    };
+
+    discoveryContext.resetBadges = function() {
+      discoveryContext.search.filters.length = 0;
+      discoveryContext.clearCommon();
 
       angular.forEach($location.search(), function(value, key) {
         if (key.match(/^f\./i)) $location.search(key, null);
@@ -161,13 +177,12 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
       return discoveryContext.executeSearch();
     };
 
-    discoveryContext.clearSearch = function() {
-      discoveryContext.search.field = "";
-      discoveryContext.search.value = "";
-      discoveryContext.search.label = "";
+    discoveryContext.resetSearch = function() {
+      discoveryContext.clearCommon();
 
       $location.search("field", null);
       $location.search("value", null);
+
       return discoveryContext.executeSearch();
     };
 
@@ -270,6 +285,13 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
       }
 
       return page;
+    };
+
+    discoveryContext.getBreadcrumb = function() {
+      return {
+        label: discoveryContext.name,
+        path: "discovery-context/" + discoveryContext.slug
+      };
     };
 
     return this;

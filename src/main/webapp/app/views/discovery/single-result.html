@@ -1,13 +1,18 @@
-<div class="single-item-view row">
-  <hr/>
-  <div class="col-xs-9 col-xs-offset-1">
-    <div class="title">{{singleResultContext.title | removeBrackets}}</div>
-    <single-result-viewer context="singleResultContext"></single-result-viewer>
-    <dl class="dl-horizontal dc-result-metadata">
-      <span class="dc-field" ng-repeat="metadataField in singleResultContext.resultMetadataFields" ng-if="metadataField.inSingleResult">
-        <dt><span class="dc-field-key"><small>{{metadataField.label}}:</small></span></dt>
-        <dd><span class="dc-field-value">{{metadataField.value | removeBrackets}}</span></dd>
-      </span>
-    </dl>
+<div class="single-result row">
+  <div class="dc-heading">
+    <h2>{{discoveryContext.name}}</h2>
+  </div>
+  <div class="dc-content">
+    <breadcrumbs contexts="breadcrumbContexts" reload="" home=""></breadcrumbs>
+    <div class="col-xs-9 col-xs-offset-1">
+      <div class="title"><h3>{{singleResultContext.title | removeBrackets}}</h3></div>
+      <single-result-viewer context="singleResultContext"></single-result-viewer>
+      <dl class="dl-horizontal dc-result-metadata">
+        <span class="dc-field" ng-repeat="metadataField in singleResultContext.resultMetadataFields" ng-if="metadataField.inSingleResult">
+          <dt><span class="dc-field-key"><small>{{metadataField.label}}:</small></span></dt>
+          <dd><span class="dc-field-value">{{metadataField.value | removeBrackets}}</span></dd>
+        </span>
+      </dl>
+    </div>
   </div>
 </div>

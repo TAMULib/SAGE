@@ -1,11 +1,9 @@
-angular.module('mock.assumedControl', []).service('AssumedControl', function ($q) {
+angular.module("mock.assumedControl", []).service("AssumedControl", function ($q) {
   var service = mockService($q);
 
   service.mockedCallbacks = [];
-  service.mockedPromise;
-
-  service.mockedData;
-
+  service.mockedPromise = undefined;
+  service.mockedData = undefined;
   service.mockedAssumed = false;
   service.mockedAssuming = false;
 

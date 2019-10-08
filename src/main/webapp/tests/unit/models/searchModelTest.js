@@ -14,13 +14,18 @@ describe('model: Search', function () {
       scope = rootScope.$new();
 
       model = angular.extend(new Search());
+
+      // ensure that all pre-processing is called.
+      if (!scope.$$phase) {
+        scope.$digest();
+      }
     });
   };
 
   beforeEach(function() {
-    module('core');
-    module('sage');
-    module('mock.wsApi');
+    module("core");
+    module("sage");
+    module("mock.wsApi");
 
     initializeVariables();
     initializeModel();

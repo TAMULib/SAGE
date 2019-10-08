@@ -1,9 +1,15 @@
 describe('controller: WriterManagementController', function () {
-  var controller, q, scope, WriterRepo;
+  var controller, q, scope, MockedInternalMetadata, MockedReader, MockedSource, MockedUser, MockedWriter, WriterRepo;
 
   var initializeVariables = function(settings) {
     inject(function ($q, _WriterRepo_) {
       q = $q;
+
+      MockedInternalMetadata = new mockInternalMetadata(q);
+      MockedReader = new mockReader(q);
+      MockedSource = new mockSource(q);
+      MockedUser = new mockUser(q);
+      MockedWriter = new mockWriter(q);
 
       WriterRepo = _WriterRepo_;
     });
@@ -40,16 +46,41 @@ describe('controller: WriterManagementController', function () {
   beforeEach(function() {
     module("core");
     module("sage");
-    module('mock.internalMetadata');
-    module('mock.internalMetadataRepo');
-    module('mock.reader');
-    module('mock.readerRepo');
-    module('mock.source');
-    module('mock.sourceRepo');
-    module('mock.user');
-    module('mock.userService');
-    module('mock.writer');
-    module('mock.writerRepo');
+    module("mock.internalMetadata", function($provide) {
+      var InternalMetadata = function() {
+        return MockedInternalMetadata;
+      };
+      $provide.value("InternalMetadata", InternalMetadata);
+    });
+    module("mock.internalMetadataRepo");
+    module("mock.reader", function($provide) {
+      var Reader = function() {
+        return MockedReader;
+      };
+      $provide.value("Reader", Reader);
+    });
+    module("mock.readerRepo");
+    module("mock.source", function($provide) {
+      var Source = function() {
+        return MockedSource;
+      };
+      $provide.value("Source", Source);
+    });
+    module("mock.sourceRepo");
+    module("mock.user", function($provide) {
+      var User = function() {
+        return MockedUser;
+      };
+      $provide.value("User", User);
+    });
+    module("mock.userService");
+    module("mock.writer", function($provide) {
+      var Writer = function() {
+        return MockedWriter;
+      };
+      $provide.value("Writer", Writer);
+    });
+    module("mock.writerRepo");
 
     installPromiseMatchers();
     initializeVariables();

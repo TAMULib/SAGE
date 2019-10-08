@@ -1,9 +1,14 @@
 describe('controller: ReaderManagementController', function () {
-  var controller, q, scope, ReaderRepo;
+  var controller, q, scope, MockedReader, MockedSource, MockedInternalMetadata, MockedUser, ReaderRepo;
 
   var initializeVariables = function(settings) {
     inject(function ($q, _ReaderRepo_) {
       q = $q;
+
+      MockedReader = new mockReader(q);
+      MockedSource = new mockSource(q);
+      MockedInternalMetadata = new mockInternalMetadata(q);
+      MockedUser = new mockUser(q);
 
       ReaderRepo = _ReaderRepo_;
     });
@@ -38,14 +43,34 @@ describe('controller: ReaderManagementController', function () {
   beforeEach(function() {
     module("core");
     module("sage");
-    module('mock.reader');
-    module('mock.readerRepo');
-    module('mock.source');
-    module('mock.sourceRepo');
-    module('mock.internalMetadata');
-    module('mock.internalMetadataRepo');
-    module('mock.user');
-    module('mock.userService');
+    module("mock.reader", function($provide) {
+      var Reader = function() {
+        return MockedReader;
+      };
+      $provide.value("Reader", Reader);
+    });
+    module("mock.readerRepo");
+    module("mock.source", function($provide) {
+      var Source = function() {
+        return MockedSource;
+      };
+      $provide.value("Source", Source);
+    });
+    module("mock.sourceRepo");
+    module("mock.internalMetadata", function($provide) {
+      var InternalMetadata = function() {
+        return MockedInternalMetadata;
+      };
+      $provide.value("InternalMetadata", InternalMetadata);
+    });
+    module("mock.internalMetadataRepo");
+    module("mock.user", function($provide) {
+      var User = function() {
+        return MockedUser;
+      };
+      $provide.value("User", User);
+    });
+    module("mock.userService");
 
     installPromiseMatchers();
     initializeVariables();
@@ -156,7 +181,7 @@ describe('controller: ReaderManagementController', function () {
     });
 
     it('cancelDeleteReader should cancel deleting a reader', function () {
-      var reader = new mockReader(q)
+      var reader = new mockReader(q);
       scope.readerToDelete = reader;
 
       spyOn(scope, 'resetReaderForms');

@@ -1,11 +1,12 @@
 describe("service: discoveryViewRepo", function () {
-  var q, repo, rootScope, mockedRepo, scope, WsApi;
+  var q, repo, rootScope, scope, MockedDiscoveryView, WsApi;
 
   var initializeVariables = function(settings) {
     inject(function ($q, $rootScope, _WsApi_) {
       q = $q;
       rootScope = $rootScope;
 
+      MockedDiscoveryView = new mockDiscoveryView(q);
       WsApi = _WsApi_;
     });
   };
@@ -21,6 +22,12 @@ describe("service: discoveryViewRepo", function () {
   beforeEach(function() {
     module("core");
     module("sage");
+    module("mock.discoveryView", function($provide) {
+      var DiscoveryView = function() {
+        return MockedDiscoveryView;
+      };
+      $provide.value("DiscoveryView", DiscoveryView);
+    });
     module("mock.wsApi");
 
     initializeVariables();

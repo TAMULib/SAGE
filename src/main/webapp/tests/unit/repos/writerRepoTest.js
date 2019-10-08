@@ -1,11 +1,12 @@
 describe("service: writerRepo", function () {
-  var q, repo, rootScope, mockedRepo, scope, WsApi;
+  var q, repo, rootScope, scope, MockedWriter, WsApi;
 
   var initializeVariables = function(settings) {
     inject(function ($q, $rootScope, _WsApi_) {
       q = $q;
       rootScope = $rootScope;
 
+      MockedWriter = new mockWriter(q);
       WsApi = _WsApi_;
     });
   };
@@ -21,6 +22,12 @@ describe("service: writerRepo", function () {
   beforeEach(function() {
     module("core");
     module("sage");
+    module("mock.writer", function($provide) {
+      var Writer = function() {
+        return MockedWriter;
+      };
+      $provide.value("Writer", Writer);
+    });
     module("mock.wsApi");
 
     initializeVariables();

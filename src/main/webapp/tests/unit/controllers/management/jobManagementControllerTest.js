@@ -1,5 +1,5 @@
 describe('controller: JobManagementController', function () {
-  var controller, event, q, scope, JobRepo;
+  var controller, event, q, scope, JobRepo, MockedJob, MockedOperator, MockedReader, MockedSource, MockedUser, MockedWriter;
 
   var initializeVariables = function(settings) {
     inject(function ($q, _JobRepo_) {
@@ -12,6 +12,12 @@ describe('controller: JobManagementController', function () {
       };
 
       JobRepo = _JobRepo_;
+      MockedJob = new mockJob(q);
+      MockedOperator = new mockOperator(q);
+      MockedReader = new mockReader(q);
+      MockedSource = new mockSource(q);
+      MockedUser = new mockUser(q);
+      MockedWriter = new mockWriter(q);
     });
   };
 
@@ -47,16 +53,47 @@ describe('controller: JobManagementController', function () {
   beforeEach(function() {
     module("core");
     module("sage");
-    module("mock.job");
+    module("mock.job", function($provide) {
+      var Job = function() {
+        return MockedJob;
+      };
+      $provide.value("Job", Job);
+    });
     module("mock.jobRepo");
+    module("mock.operator", function($provide) {
+      var Operator = function() {
+        return MockedOperator;
+      };
+      $provide.value("Operator", Operator);
+    });
     module("mock.operatorRepo");
-    module("mock.reader");
+    module("mock.reader", function($provide) {
+      var Reader = function() {
+        return MockedReader;
+      };
+      $provide.value("Reader", Reader);
+    });
     module("mock.readerRepo");
-    module("mock.source");
+    module("mock.source", function($provide) {
+      var Source = function() {
+        return MockedSource;
+      };
+      $provide.value("Source", Source);
+    });
     module("mock.sourceRepo");
-    module("mock.user");
+    module("mock.user", function($provide) {
+      var User = function() {
+        return MockedUser;
+      };
+      $provide.value("User", User);
+    });
     module("mock.userService");
-    module("mock.writer");
+    module("mock.writer", function($provide) {
+      var Writer = function() {
+        return MockedWriter;
+      };
+      $provide.value("Writer", Writer);
+    });
     module("mock.writerRepo");
     module("mock.wsApi");
 

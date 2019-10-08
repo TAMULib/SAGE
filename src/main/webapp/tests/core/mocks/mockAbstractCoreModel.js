@@ -77,10 +77,19 @@ var mockModel = function (modelName, $q, mockDataObj) {
   model.listen = function() {
   };
 
+  model.ready = function() {
+    var defer = $q.defer();
+    defer.resolve();
+    return defer.promise;
+  };
+
   model.refresh = function() {
   };
 
   model.reload = function() {
+    var defer = $q.defer();
+    defer.resolve(model);
+    return defer.promise;
   };
 
   model.save = function() {

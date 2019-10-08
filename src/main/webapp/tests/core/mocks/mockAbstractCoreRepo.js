@@ -215,7 +215,7 @@ var mockRepo = function (repoName, $q, mockModelCtor, mockDataArray) {
     return payloadPromise($q.defer());
   };
 
-  repo.ready = function () {
+  repo.ready = function() {
     return payloadPromise($q.defer(), mockDataArray);
   };
 
