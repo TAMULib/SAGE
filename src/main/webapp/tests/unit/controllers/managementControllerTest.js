@@ -1,10 +1,11 @@
 describe("controller: ManagementController", function () {
-  var controller, q, scope, WsApi;
+  var controller, q, scope, MockedUser, WsApi;
 
   var initializeVariables = function(settings) {
     inject(function ($q, _WsApi_) {
       q = $q;
 
+      MockedUser = new mockUser(q);
       WsApi = _WsApi_;
     });
   };
@@ -31,8 +32,13 @@ describe("controller: ManagementController", function () {
   beforeEach(function() {
     module("core");
     module("sage");
-    module('mock.user');
-    module('mock.userService');
+    module("mock.user", function($provide) {
+      var User = function() {
+        return MockedUser;
+      };
+      $provide.value("User", User);
+    });
+    module("mock.userService");
     module("mock.wsApi");
 
     installPromiseMatchers();

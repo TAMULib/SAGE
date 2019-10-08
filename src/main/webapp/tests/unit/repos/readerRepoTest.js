@@ -1,11 +1,12 @@
 describe("service: readerRepo", function () {
-  var q, repo, rootScope, mockedRepo, scope, WsApi;
+  var q, repo, rootScope, scope, MockedReader, WsApi;
 
   var initializeVariables = function(settings) {
     inject(function ($q, $rootScope, _WsApi_) {
       q = $q;
       rootScope = $rootScope;
 
+      MockedReader = new mockReader(q);
       WsApi = _WsApi_;
     });
   };
@@ -21,6 +22,12 @@ describe("service: readerRepo", function () {
   beforeEach(function() {
     module("core");
     module("sage");
+    module("mock.reader", function($provide) {
+      var Reader = function() {
+        return MockedReader;
+      };
+      $provide.value("Reader", Reader);
+    });
     module("mock.wsApi");
 
     initializeVariables();

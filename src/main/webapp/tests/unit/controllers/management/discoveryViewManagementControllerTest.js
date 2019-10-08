@@ -1,5 +1,5 @@
 describe("controller: DiscoveryViewManagementController", function () {
-  var controller, q, scope, timeout, DiscoveryView, DiscoveryViewRepo, FacetField, MetadataField, NgTableParams, SearchField, SourceRepo;
+  var controller, q, scope, timeout, DiscoveryViewRepo, MockedDiscoveryView, MockedFacetField, MockedMetadataField, MockedSearchField, MockedSource, NgTableParams, SourceRepo;
 
   var initializeVariables = function(settings) {
     inject(function ($q, _DiscoveryViewRepo_, _WsApi_, _SourceRepo_) {
@@ -9,26 +9,16 @@ describe("controller: DiscoveryViewManagementController", function () {
       NgTableParams = mockNgTableParams;
       SourceRepo = _SourceRepo_;
 
-      DiscoveryView = function() {
-        return new mockDiscoveryView(q);
-      };
-
-      FacetField = function() {
-        return new mockFacetField(q);
-      };
-
-      MetadataField = function() {
-        return new mockMetadataField(q);
-      };
-
-      SearchField = function() {
-        return new mockSearchField(q);
-      };
+      MockedDiscoveryView = new mockDiscoveryView(q);
+      MockedFacetField = new mockFacetField(q);
+      MockedMetadataField = new mockMetadataField(q);
+      MockedSearchField = new mockSearchField(q);
+      MockedSource = new mockSource(q);
     });
   };
 
   var initializeController = function(settings) {
-    inject(function ($controller, $rootScope, $timeout, _Source_) {
+    inject(function ($controller, $rootScope, $timeout, _DiscoveryView_, _FacetField_, _MetadataField_, _SearchField_, _Source_) {
       scope = $rootScope.$new();
       timeout = $timeout;
 
@@ -37,12 +27,12 @@ describe("controller: DiscoveryViewManagementController", function () {
 
       controller = $controller("DiscoveryViewManagementController", {
         $scope: scope,
-        DiscoveryView: DiscoveryView,
+        DiscoveryView: _DiscoveryView_,
         DiscoveryViewRepo: DiscoveryViewRepo,
-        FacetField: FacetField,
-        MetadataField: MetadataField,
+        FacetField: _FacetField_,
+        MetadataField: _MetadataField_,
         NgTableParams: NgTableParams,
-        SearchField: SearchField,
+        SearchField: _SearchField_,
         Source: _Source_,
         SourceRepo: SourceRepo
       });
@@ -57,13 +47,38 @@ describe("controller: DiscoveryViewManagementController", function () {
   beforeEach(function() {
     module("core");
     module("sage");
-    module("mock.discoveryView");
+    module("mock.discoveryView", function($provide) {
+      var DiscoveryView = function() {
+        return MockedDiscoveryView;
+      };
+      $provide.value("DiscoveryView", DiscoveryView);
+    });
     module("mock.discoveryViewRepo");
-    module("mock.facetField");
-    module("mock.metadataField");
+    module("mock.facetField", function($provide) {
+      var FacetField = function() {
+        return MockedFacetField;
+      };
+      $provide.value("FacetField", FacetField);
+    });
+    module("mock.metadataField", function($provide) {
+      var MetadataField = function() {
+        return MockedMetadataField;
+      };
+      $provide.value("MetadataField", MetadataField);
+    });
     module("mock.ngTableParams");
-    module("mock.searchField");
-    module("mock.source");
+    module("mock.searchField", function($provide) {
+      var SearchField = function() {
+        return MockedSearchField;
+      };
+      $provide.value("SearchField", SearchField);
+    });
+    module("mock.source", function($provide) {
+      var Source = function() {
+        return MockedSource;
+      };
+      $provide.value("Source", Source);
+    });
     module("mock.sourceRepo");
     module("mock.wsApi");
 

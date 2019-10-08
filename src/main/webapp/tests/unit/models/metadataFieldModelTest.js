@@ -18,9 +18,9 @@ describe('model: MetadataField', function () {
   };
 
   beforeEach(function() {
-    module('core');
-    module('sage');
-    module('mock.wsApi');
+    module("core");
+    module("sage");
+    module("mock.wsApi");
 
     initializeVariables();
     initializeModel();

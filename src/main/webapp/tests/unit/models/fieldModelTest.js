@@ -15,13 +15,18 @@ describe('model: Field', function () {
       scope = rootScope.$new();
 
       model = angular.extend(new Field(), dataField1);
+
+      // ensure that all pre-processing is called.
+      if (!scope.$$phase) {
+        scope.$digest();
+      }
     });
   };
 
   beforeEach(function() {
-    module('core');
-    module('sage');
-    module('mock.wsApi');
+    module("core");
+    module("sage");
+    module("mock.wsApi");
 
     initializeVariables();
     initializeModel();

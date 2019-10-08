@@ -10,17 +10,17 @@ describe('model: MetadataField', function () {
   };
 
   var initializeModel = function(settings) {
-    inject(function (MetadataField) {
+    inject(function (FacetField) {
       scope = rootScope.$new();
 
-      model = angular.extend(new MetadataField());
+      model = angular.extend(new FacetField());
     });
   };
 
   beforeEach(function() {
-    module('core');
-    module('sage');
-    module('mock.wsApi');
+    module("core");
+    module("sage");
+    module("mock.wsApi");
 
     initializeVariables();
     initializeModel();

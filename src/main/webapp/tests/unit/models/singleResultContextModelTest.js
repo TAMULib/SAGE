@@ -15,13 +15,18 @@ describe('model: SingleResultContext', function () {
       scope = rootScope.$new();
 
       model = angular.extend(new SingleResultContext(), dataSingleResultContext1);
+
+      // ensure that all pre-processing is called.
+      if (!scope.$$phase) {
+        scope.$digest();
+      }
     });
   };
 
   beforeEach(function() {
-    module('core');
-    module('sage');
-    module('mock.wsApi');
+    module("core");
+    module("sage");
+    module("mock.wsApi");
 
     initializeVariables();
     initializeModel();
@@ -30,6 +35,22 @@ describe('model: SingleResultContext', function () {
   describe('Is the model defined', function () {
     it('should be defined', function () {
       expect(model).toBeDefined();
+    });
+  });
+
+  describe('Are the model methods defined', function () {
+    it('getBreadcrumb should be defined', function () {
+      expect(model.getBreadcrumb).toBeDefined();
+      expect(typeof model.getBreadcrumb).toEqual("function");
+    });
+  });
+
+  describe('Are the model methods working as expected', function () {
+    it('getBreadcrumb should work', function () {
+      var result;
+
+      result = model.getBreadcrumb();
+      expect(result.label).toBe(model.title);
     });
   });
 });

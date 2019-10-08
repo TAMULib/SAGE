@@ -1,19 +1,19 @@
 describe("controller: DiscoveryContextController", function () {
-  var controller, location, q, scope, appConfig, routeParams, MockedDiscoveryContext, WsApi;
+  var controller, location, q, scope, appConfig, routeParams, DiscoveryContext, MockedDiscoveryContext, MockedUser, WsApi;
 
   var initializeVariables = function(settings) {
-    inject(function ($location, $q, $routeParams, _WsApi_) {
+    inject(function ($location, $q, _WsApi_) {
       location = $location;
       q = $q;
 
-      routeParams = settings && settings.routeParams ? settings.routeParams : $routeParams;
+      if (settings && settings.routeParams) {
+        angular.extend(routeParams, settings.routeParams);
+      }
+
       appConfig = settings && settings.appConfig ? settings.appConfig : { defaultThumbnailURI: "thumbnail.png" };
 
       MockedDiscoveryContext = new mockDiscoveryContext(q);
-      DiscoveryContext = function() {
-        return MockedDiscoveryContext;
-      };
-
+      MockedUser = new mockUser(q);
       WsApi = _WsApi_;
     });
   };
@@ -24,6 +24,7 @@ describe("controller: DiscoveryContextController", function () {
 
       sessionStorage.role = settings && settings.role ? settings.role : "ROLE_ADMIN";
       sessionStorage.token = settings && settings.token ? settings.token : "faketoken";
+      routeParams = settings && settings.routeParams ? settings.routeParams : {};
 
       if (settings) {
         if (settings.appConfig) {
@@ -31,12 +32,13 @@ describe("controller: DiscoveryContextController", function () {
         }
 
         if (settings.routeParams) {
-          routeParams = settings.routeParams;
+          angular.extend(routeParams, settings.routeParams);
         }
       }
 
       controller = $controller("DiscoveryContextController", {
         $location: location,
+        $q: q,
         $routeParams: routeParams,
         $scope: scope,
         appConfig: appConfig,
@@ -52,10 +54,23 @@ describe("controller: DiscoveryContextController", function () {
   };
 
   beforeEach(function() {
-    module("core");
+    module("core", function($provide) {
+      routeParams = {};
+      $provide.value("$routeParams", routeParams);
+    });
     module("sage");
-    module("mock.discoveryContext");
-    module("mock.user");
+    module("mock.discoveryContext", function($provide) {
+      DiscoveryContext = function() {
+        return MockedDiscoveryContext;
+      };
+      $provide.value("DiscoveryContext", DiscoveryContext);
+    });
+    module("mock.user", function($provide) {
+      var User = function() {
+        return MockedUser;
+      };
+      $provide.value("User", User);
+    });
     module("mock.userService");
     module("mock.wsApi");
 
@@ -86,16 +101,6 @@ describe("controller: DiscoveryContextController", function () {
   });
 
   describe("Are the scope methods defined", function () {
-    it("clearBadges should be defined", function () {
-      expect(scope.clearBadges).toBeDefined();
-      expect(typeof scope.clearBadges).toEqual("function");
-    });
-
-    it("clearSearch should be defined", function () {
-      expect(scope.clearSearch).toBeDefined();
-      expect(typeof scope.clearSearch).toEqual("function");
-    });
-
     it("findSearchFieldLabel should be defined", function () {
       expect(scope.findSearchFieldLabel).toBeDefined();
       expect(typeof scope.findSearchFieldLabel).toEqual("function");
@@ -126,6 +131,21 @@ describe("controller: DiscoveryContextController", function () {
       expect(typeof scope.removeFilter).toEqual("function");
     });
 
+    it("prepareSearch should be defined", function () {
+      expect(scope.prepareSearch).toBeDefined();
+      expect(typeof scope.prepareSearch).toEqual("function");
+    });
+
+    it("resetBadges should be defined", function () {
+      expect(scope.resetBadges).toBeDefined();
+      expect(typeof scope.resetBadges).toEqual("function");
+    });
+
+    it("resetPage should be defined", function () {
+      expect(scope.resetPage).toBeDefined();
+      expect(typeof scope.resetPage).toEqual("function");
+    });
+
     it("resetSearch should be defined", function () {
       expect(scope.resetSearch).toBeDefined();
       expect(typeof scope.resetSearch).toEqual("function");
@@ -148,28 +168,6 @@ describe("controller: DiscoveryContextController", function () {
   });
 
   describe("Do the scope methods work as expected", function () {
-    it("clearBadges should work", function () {
-      scope.discoveryContext = new mockDiscoveryContext(q);
-
-      spyOn(scope, 'resetSearch');
-
-      scope.clearBadges();
-      scope.$digest();
-
-      expect(scope.resetSearch).toHaveBeenCalled();
-    });
-
-    it("clearSearch should work", function () {
-      scope.discoveryContext = new mockDiscoveryContext(q);
-
-      spyOn(scope, 'resetSearch');
-
-      scope.clearSearch();
-      scope.$digest();
-
-      expect(scope.resetSearch).toHaveBeenCalled();
-    });
-
     it("findSearchFieldLabel should work", function () {
       var result;
 
@@ -226,13 +224,48 @@ describe("controller: DiscoveryContextController", function () {
       var filter = {};
       scope.discoveryContext.search.filters = [ filter ];
       scope.removeFilter(filter);
+      scope.$digest();
       // @todo
     });
 
+    it("resetBadges should work", function () {
+      scope.discoveryContext = new mockDiscoveryContext(q);
+
+      spyOn(scope, 'prepareSearch');
+
+      scope.resetBadges();
+      scope.$digest();
+
+      expect(scope.prepareSearch).toHaveBeenCalled();
+    });
+
+    it("resetPage should work", function () {
+      scope.discoveryContext = new mockDiscoveryContext(q);
+
+      spyOn(scope, 'prepareSearch');
+
+      scope.resetPage();
+      scope.$digest();
+
+      expect(scope.prepareSearch).toHaveBeenCalled();
+    });
+
     it("resetSearch should work", function () {
+      scope.discoveryContext = new mockDiscoveryContext(q);
+
+      spyOn(scope, 'prepareSearch');
+
+      scope.resetSearch();
+      scope.$digest();
+
+      expect(scope.prepareSearch).toHaveBeenCalled();
+    });
+
+    it("prepareSearch should work", function () {
       var result;
 
-      result = scope.resetSearch();
+      result = scope.prepareSearch();
+      scope.$digest();
       // @todo
     });
 
@@ -253,6 +286,7 @@ describe("controller: DiscoveryContextController", function () {
       var result;
 
       result = scope.updateLimit();
+      scope.$digest();
       // @todo
     });
 
@@ -260,6 +294,7 @@ describe("controller: DiscoveryContextController", function () {
       var result;
 
       result = scope.updateSort();
+      scope.$digest();
       // @todo
     });
   });

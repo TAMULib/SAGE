@@ -1,12 +1,13 @@
 describe('controller: InternalMetadataManagementController', function () {
 
-  var controller, q, scope, InternalMetadataRepo, NgTableParams;
+  var controller, q, scope, MockedInternalMetadata, NgTableParams;
 
   var initializeVariables = function(settings) {
     inject(function ($q, _InternalMetadataRepo_) {
       q = $q;
 
       InternalMetadataRepo = _InternalMetadataRepo_;
+      MockedInternalMetadata = new mockInternalMetadata(q);
       NgTableParams = mockNgTableParams;
     });
   };
@@ -34,7 +35,12 @@ describe('controller: InternalMetadataManagementController', function () {
   beforeEach(function() {
     module("core");
     module("sage");
-    module("mock.internalMetadata");
+    module("mock.internalMetadata", function($provide) {
+      var InternalMetadata = function() {
+        return MockedInternalMetadata;
+      };
+      $provide.value("InternalMetadata", InternalMetadata);
+    });
     module("mock.internalMetadataRepo");
     module("mock.ngTableParams");
     module("mock.wsApi");

@@ -55,23 +55,6 @@ var mockDiscoveryContext = function($q) {
   model.mockRouteParams = {};
   model.mockSearching = false;
 
-  model.ready = function() {
-    var defer = $q.defer();
-    defer.resolve();
-    return defer.promise;
-  };
-
-  model.reload = function() {
-    var defer = $q.defer();
-    defer.resolve(model);
-    return defer.promise;
-  };
-
-  model.setSearchField = function(key, value) {
-    model.search.field = key;
-    model.search.value = value;
-  };
-
   model.addFilter = function(label, key, value) {
     var filter = {
       label: label,
@@ -87,6 +70,27 @@ var mockDiscoveryContext = function($q) {
     return model.executeSearch();
   };
 
+  model.buildPage = function() {
+    var page = {
+      number: 0,
+      size: 10,
+      sort: "id",
+      offset: 0
+    };
+
+    return page;
+  };
+
+  model.executeSearch = function(maintainPage) {
+    return $q(function(resolve) {
+      resolve();
+    });
+  };
+
+  model.isSearching = function() {
+    return model.mockSearching;
+  };
+
   model.removeFilter = function(filter) {
     for (var i = 0; i < model.search.filters.length; i++) {
       var f = model.search.filters[i];
@@ -97,7 +101,7 @@ var mockDiscoveryContext = function($q) {
     return model.executeSearch();
   };
 
-  model.clearBadges = function() {
+  model.resetBadges = function() {
     model.search.filters.length = 0;
     model.search.field = "";
     model.search.value = "";
@@ -105,32 +109,24 @@ var mockDiscoveryContext = function($q) {
     return model.executeSearch();
   };
 
-  model.clearSearch = function() {
+  model.resetPage = function() {
+    model.search.filters.length = 0;
     model.search.field = "";
     model.search.value = "";
     model.search.label = "";
     return model.executeSearch();
   };
 
-  model.executeSearch = function(maintainPage) {
-    return $q(function(resolve) {
-      resolve();
-    });
+  model.resetSearch = function() {
+    model.search.field = "";
+    model.search.value = "";
+    model.search.label = "";
+    return model.executeSearch();
   };
 
-  model.isSearching = function() {
-    return mockSearching;
-  };
-
-  model.buildPage = function() {
-    var page = {
-      number: 0,
-      size: 10,
-      sort: "id",
-      offset: 0
-    };
-
-    return page;
+  model.setSearchField = function(key, value) {
+    model.search.field = key;
+    model.search.value = value;
   };
 
   return model;

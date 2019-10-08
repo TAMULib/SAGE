@@ -1,11 +1,12 @@
 describe("service: sourceRepo", function () {
-  var q, repo, rootScope, mockedRepo, scope, WsApi;
+  var q, repo, rootScope, scope, MockedSource, WsApi;
 
   var initializeVariables = function(settings) {
     inject(function ($q, $rootScope, _WsApi_) {
       q = $q;
       rootScope = $rootScope;
 
+      MockedSource = new mockSource(q);
       WsApi = _WsApi_;
     });
   };
@@ -21,6 +22,12 @@ describe("service: sourceRepo", function () {
   beforeEach(function() {
     module("core");
     module("sage");
+    module("mock.source", function($provide) {
+      var Source = function() {
+        return MockedSource;
+      };
+      $provide.value("Source", Source);
+    });
     module("mock.wsApi");
 
     initializeVariables();
