@@ -1,5 +1,5 @@
 sage.repo("UserRepo", function UserRepo() {
+  var repo = this;
 
-    return this;
-
+  return repo;
 });

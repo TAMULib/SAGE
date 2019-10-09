@@ -1,7 +1,7 @@
 sage.repo("DiscoveryViewRepo", function() {
-  var discoveryViewRepo = this;
+  var repo = this;
 
-  discoveryViewRepo.scaffold = {
+  repo.scaffold = {
     name: "",
     source: "",
     facetFields: [],
@@ -20,19 +20,19 @@ sage.repo("DiscoveryViewRepo", function() {
     uniqueIdentifierKey: ""
   };
 
-  discoveryViewRepo.scaffoldFacetField = {
+  repo.scaffoldFacetField = {
     key: "",
     label: "",
     type: "",
     widget: ""
   };
 
-  discoveryViewRepo.scaffoldSearchField = {
+  repo.scaffoldSearchField = {
     key: "",
     label: ""
   };
 
-  discoveryViewRepo.scaffoldMetadataField = {
+  repo.scaffoldMetadataField = {
     inGrid: true,
     inList: true,
     inSingleResult: true,
@@ -42,5 +42,5 @@ sage.repo("DiscoveryViewRepo", function() {
     type: ""
   };
 
-  return discoveryViewRepo;
+  return repo;
 });

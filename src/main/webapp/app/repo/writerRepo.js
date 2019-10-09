@@ -1,9 +1,9 @@
-sage.repo("WriterRepo", function(Writer, WsApi) {
-  var writerRepo = this;
+sage.repo("WriterRepo", function() {
+  var repo = this;
 
-  writerRepo.scaffold = {
+  repo.scaffold = {
     name: ""
   };
 
-  return writerRepo;
+  return repo;
 });

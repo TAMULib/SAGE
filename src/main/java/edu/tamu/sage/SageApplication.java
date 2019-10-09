@@ -12,11 +12,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.ComponentScan.Filter;
+import org.springframework.context.annotation.FilterType;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "edu.tamu.*",excludeFilters = {@Filter(type = FilterType.REGEX, pattern = "edu.tamu.weaver.wro.model.*"),@Filter(type = FilterType.REGEX, pattern = "edu.tamu.weaver.wro.service.*")})
+@ComponentScan(basePackages = "edu.tamu.*", excludeFilters = { @Filter(type = FilterType.REGEX, pattern = "edu.tamu.weaver.wro.model.*"), @Filter(type = FilterType.REGEX, pattern = "edu.tamu.weaver.wro.service.*") })
 public class SageApplication extends SpringBootServletInitializer {
 
     // the root of the app, i.e. where node_modules is

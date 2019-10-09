@@ -19,7 +19,6 @@ import org.mockito.Mock;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import edu.tamu.sage.controller.UserController;
 import edu.tamu.sage.model.User;
 import edu.tamu.sage.model.repo.UserRepo;
 import edu.tamu.weaver.auth.model.Credentials;
@@ -93,7 +92,7 @@ public class UserControllerTest {
         apiResponse = userController.update(testUser1);
         assertEquals("User was not successfully updated", SUCCESS, apiResponse.getMeta().getStatus());
     }
-    
+
     @Test
     public void testDeleteUser() throws Exception {
         apiResponse = userController.delete(testUser1);

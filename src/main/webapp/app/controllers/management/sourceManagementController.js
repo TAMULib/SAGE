@@ -32,7 +32,7 @@ sage.controller('SourceManagementController', function ($controller, $scope, NgT
 
   $scope.createSource = function() {
     SourceRepo.create($scope.sourceToCreate).then(function(res) {
-      if(angular.fromJson(res.body).meta.status === "SUCCESS") {
+      if (angular.fromJson(res.body).meta.status === "SUCCESS") {
         $scope.cancelCreateSource();
       }
     });

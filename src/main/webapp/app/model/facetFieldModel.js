@@ -1,7 +1,7 @@
 sage.model("FacetField", function () {
   return function FacetField() {
-    var facetField = this;
+    var model = this;
 
-    return facetField;
+    return model;
   };
 });

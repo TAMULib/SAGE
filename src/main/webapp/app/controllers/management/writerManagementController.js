@@ -1,7 +1,7 @@
 sage.controller('WriterManagementController', function ($controller, $scope, NgTableParams, WriterRepo, InternalMetadataRepo, SourceRepo) {
 
   angular.extend(this, $controller('AbstractController', {
-      $scope: $scope
+    $scope: $scope
   }));
 
   $scope.writers = WriterRepo.getAll();
@@ -54,7 +54,7 @@ sage.controller('WriterManagementController', function ($controller, $scope, NgT
   $scope.createWriter = function() {
     applyMappings($scope.writerToCreate);
     WriterRepo.create($scope.writerToCreate).then(function(res) {
-      if(angular.fromJson(res.body).meta.status === "SUCCESS") {
+      if (angular.fromJson(res.body).meta.status === "SUCCESS") {
         $scope.cancelCreateWriter();
       }
     });

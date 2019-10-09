@@ -1,4 +1,4 @@
-<form name="internalMetadatumForms.delete" ng-submit="deleteInternalMetadatum()" novalidate>
+<form name="internalMetadatumForms.delete" ng-submit="deleteInternalMetadatum()" novalidate class="internal-metadata-forms-delete">
   <div class="modal-header {{attr.modalHeaderClass}}">
     <button type="button" class="close modal-close" aria-label="Close" ng-click="cancelDeleteInternalMetadatum()"><span aria-hidden="true">&times;</span></button>
     <h4 class="modal-title">Confirm Internal Metadatum Removal?</h4>
@@ -11,9 +11,9 @@
   <div class="modal-footer">
     <button type="button" class="btn btn-default" ng-click="cancelDeleteInternalMetadatum()">Cancel</button>
     <button type="submit" class="btn btn-danger">
-        <span ng-show="deletingInternalMetadatum">
-          <span class="glyphicon glyphicon-refresh spinning"></span>
-        </span>
+      <span ng-show="deletingInternalMetadatum">
+        <span class="glyphicon glyphicon-refresh spinning"></span>
+      </span>
       <span ng-hide="deletingInternalMetadatum">Confirm</span>
     </button>
   </div>

@@ -1,7 +1,7 @@
 sage.model("Field", function () {
   return function Field() {
-    var field = this;
+    var model = this;
 
-    return field;
+    return model;
   };
 });

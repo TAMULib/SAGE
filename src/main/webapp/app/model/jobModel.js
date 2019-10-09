@@ -1,7 +1,7 @@
-sage.model("Job", function(WsApi, HttpMethodVerbs) {
+sage.model("Job", function() {
   return function Job() {
-    var job = this;
+    var model = this;
 
-    return job;
+    return model;
   };
 });

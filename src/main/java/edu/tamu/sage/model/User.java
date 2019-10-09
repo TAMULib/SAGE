@@ -23,10 +23,9 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import edu.tamu.weaver.user.model.IRole;
-
 import edu.tamu.weaver.auth.model.AbstractWeaverUserDetails;
 import edu.tamu.weaver.response.ApiView;
+import edu.tamu.weaver.user.model.IRole;
 
 /**
  * Application User entity.
@@ -97,8 +96,8 @@ public class User extends AbstractWeaverUserDetails {
     }
 
     public User(User user) {
-    	this(user.getUsername());
-    	setFirstName(user.getFirstName());
+        this(user.getUsername());
+        setFirstName(user.getFirstName());
         setLastName(user.getLastName());
         setRole(user.getRole());
     }
@@ -192,7 +191,7 @@ public class User extends AbstractWeaverUserDetails {
     @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(this.getRole().toString());
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(getRole().toString());
         authorities.add(authority);
         return authorities;
     }

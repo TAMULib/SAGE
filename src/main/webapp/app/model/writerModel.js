@@ -1,7 +1,7 @@
-sage.model("Writer", function(WsApi, HttpMethodVerbs) {
+sage.model("Writer", function() {
   return function Writer() {
-    var writer = this;
+    var model = this;
 
-    return writer;
+    return model;
   };
 });

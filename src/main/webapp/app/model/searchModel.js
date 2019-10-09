@@ -1,7 +1,7 @@
 sage.model("Search", function () {
   return function Search() {
-    var search = this;
+    var model = this;
 
-    return search;
+    return model;
   };
 });

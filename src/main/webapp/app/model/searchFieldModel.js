@@ -1,7 +1,7 @@
 sage.model("SearchField", function () {
   return function SearchField() {
-    var searchField = this;
+    var model = this;
 
-    return searchField;
+    return model;
   };
 });

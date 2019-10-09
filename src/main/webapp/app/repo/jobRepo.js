@@ -1,7 +1,7 @@
 sage.repo("JobRepo", function(Job, WsApi) {
-  var jobRepo = this;
+  var repo = this;
 
-  jobRepo.scaffold = new Job({
+  repo.scaffold = new Job({
     name: "Job",
     operators: [],
     readers: [],
@@ -12,8 +12,8 @@ sage.repo("JobRepo", function(Job, WsApi) {
     writers: []
   });
 
-  jobRepo.run = function(job) {
-    var runPromise = WsApi.fetch(jobRepo.mapping.run, {
+  repo.run = function(job) {
+    var runPromise = WsApi.fetch(repo.mapping.run, {
       pathValues: {
         id: job.id
       }
@@ -21,10 +21,10 @@ sage.repo("JobRepo", function(Job, WsApi) {
     return runPromise;
   };
 
-  jobRepo.runAll = function() {
-    var runAllPromise = WsApi.fetch(jobRepo.mapping.runAll);
+  repo.runAll = function() {
+    var runAllPromise = WsApi.fetch(repo.mapping.runAll);
     return runAllPromise;
   };
 
-  return jobRepo;
+  return repo;
 });

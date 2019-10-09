@@ -1,7 +1,7 @@
 sage.controller('OperatorManagementController', function ($controller, $scope, NgTableParams, InternalMetadataRepo, OperatorRepo, ValidationStore) {
 
   angular.extend(this, $controller('AbstractController', {
-      $scope: $scope
+    $scope: $scope
   }));
 
   $scope.internalMetadata = InternalMetadataRepo.getAll();
@@ -44,9 +44,9 @@ sage.controller('OperatorManagementController', function ($controller, $scope, N
     if (!$scope.enableValueInput(operator.type)) {
       operator.value = "";
     }
-    for(var i = 0; i < $scope.operatorTypes.length; i++) {
-      if($scope.operatorTypes.hasOwnProperty(i)) {
-        if($scope.operatorTypes[i].name === operator.type) {
+    for (var i = 0; i < $scope.operatorTypes.length; i++) {
+      if ($scope.operatorTypes.hasOwnProperty(i)) {
+        if ($scope.operatorTypes[i].name === operator.type) {
           angular.extend($scope.operatorForms, {
             validations: ValidationStore.getValidations($scope.operatorTypes[i].entity)
           });

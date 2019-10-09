@@ -1,29 +1,28 @@
-sage.model("SingleResultContext", function ($q, WsApi) {
+sage.model("SingleResultContext", function (WsApi) {
   return function SingleResultContext() {
+    var model = this;
 
-    var singleResultContext = this;
-
-    singleResultContext.before(function() {
-      var loadedPromise = WsApi.fetch(singleResultContext.getMapping().load, {
+    model.before(function() {
+      var loadedPromise = WsApi.fetch(model.getMapping().load, {
         pathValues: {
-          slug: singleResultContext.slug,
-          resultId: singleResultContext.resultId
+          slug: model.slug,
+          resultId: model.resultId
         }
       });
       loadedPromise.then(function(res) {
         var rc = angular.fromJson(res.body).payload.SingleResultContext;
-        angular.extend(singleResultContext, rc);
+        angular.extend(model, rc);
       });
       return loadedPromise;
     });
 
-    singleResultContext.getBreadcrumb = function() {
+    model.getBreadcrumb = function() {
       return {
-        label: singleResultContext.title.replace(/^\[(.*)]$/i, "$1"),
-        path: "discovery-context/" + singleResultContext.slug + "/" + singleResultContext.resultId
+        label: model.title.replace(/^\[(.*)]$/i, "$1"),
+        path: "discovery-context/" + model.slug + "/" + model.resultId
       };
     };
 
-    return singleResultContext;
+    return model;
   };
 });

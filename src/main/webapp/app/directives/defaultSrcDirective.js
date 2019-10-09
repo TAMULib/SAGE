@@ -1,4 +1,4 @@
-sage.directive('defaultSrc', function($http) {
+sage.directive('defaultSrc', function() {
   return {
     restrict: 'A',
     scope: {

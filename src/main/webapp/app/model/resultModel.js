@@ -1,13 +1,11 @@
 sage.model("Result", function () {
   return function Result() {
+    var model = this;
 
-    var result = this;
-
-    result.getValue = function(key) {
-      return result.fields[key];
+    model.getValue = function(key) {
+      return model.fields[key];
     };
 
     return this;
-
   };
 });

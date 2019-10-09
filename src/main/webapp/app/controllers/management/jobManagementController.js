@@ -1,7 +1,7 @@
 sage.controller('JobManagementController', function ($controller, $scope, NgTableParams, JobRepo, OperatorRepo, ReaderRepo, WriterRepo) {
 
   angular.extend(this, $controller('AbstractController', {
-      $scope: $scope
+    $scope: $scope
   }));
 
   $scope.jobs = JobRepo.getAll();
@@ -43,7 +43,7 @@ sage.controller('JobManagementController', function ($controller, $scope, NgTabl
 
   $scope.createJob = function() {
     JobRepo.create($scope.jobToCreate).then(function(res) {
-      if(angular.fromJson(res.body).meta.status === "SUCCESS") {
+      if (angular.fromJson(res.body).meta.status === "SUCCESS") {
         $scope.cancelCreateJob();
       }
     });
@@ -178,15 +178,15 @@ sage.controller('JobManagementController', function ($controller, $scope, NgTabl
   };
 
   $scope.openStart = function ($event) {
-      $event.preventDefault();
-      $event.stopPropagation();
-      $scope.popupStart.opened = true;
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.popupStart.opened = true;
   };
 
   $scope.openEnd = function ($event) {
-      $event.preventDefault();
-      $event.stopPropagation();
-      $scope.popupEnd.opened = true;
+    $event.preventDefault();
+    $event.stopPropagation();
+    $scope.popupEnd.opened = true;
   };
 
   JobRepo.ready().then(function() {

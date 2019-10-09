@@ -1,12 +1,12 @@
 sage.repo("ReaderRepo", function(WsApi) {
-  var readerRepo = this;
+  var repo = this;
 
-  readerRepo.scaffold = {
+  repo.scaffold = {
     fields: [],
     filter: "*:*",
     name: "",
     source: {}
   };
 
-  return readerRepo;
+  return repo;
 });

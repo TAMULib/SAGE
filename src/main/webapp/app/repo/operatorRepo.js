@@ -1,16 +1,16 @@
 sage.repo("OperatorRepo", function(WsApi) {
-  var operatorRepo = this;
+  var repo = this;
 
-  operatorRepo.scaffold = {
+  repo.scaffold = {
     name: "",
     type: "DEFAULT_OP",
     field: "",
     value: ""
   };
 
-  operatorRepo.getTypes = function () {
+  repo.getTypes = function () {
     var types = [];
-    var typesPromise = WsApi.fetch(operatorRepo.mapping.types);
+    var typesPromise = WsApi.fetch(repo.mapping.types);
     typesPromise.then(function (response) {
       var apiRes = angular.fromJson(response.body);
       if (apiRes.meta.status === 'SUCCESS') {
@@ -20,5 +20,5 @@ sage.repo("OperatorRepo", function(WsApi) {
     return types;
   };
 
-  return operatorRepo;
+  return repo;
 });

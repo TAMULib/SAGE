@@ -20,7 +20,7 @@ var dataDiscoveryView1 = {
 
 var dataDiscoveryView2 = {
   id: 2,
-  defaultOperand: "AND"
+  defaultOperand: "AND",
   filter: "filter",
   infoLinkText: "infoLinkText",
   infoLinkUrl: "http://example.com/",

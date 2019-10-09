@@ -1,4 +1,4 @@
-<form ng-submit="saveSchedule()" name="jobForms.updateSchedule" novalidate>
+<form ng-submit="saveSchedule()" name="jobForms.updateSchedule" novalidateclass="job-schedule-forms-update">
   <div class="modal-header {{attr.modalHeaderClass}}">
     <button type="button" class="close modal-close" aria-label="Close" ng-click="cancelUpdateJobSchedule()"><span aria-hidden="true">&times;</span></button>
     <h4 class="modal-title">Update Job Schedule</h4>
@@ -44,7 +44,7 @@
     </div>
 
     <div ng-if="message" class="col-xs-11 col-xs-offset-1">
-      <br/>
+      <br>
       <span class="text-warning">{{message}}</span>
     </div>
 
