@@ -146,7 +146,6 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
     };
 
     discoveryContext.clearCommon = function() {
-      discoveryContext.search.filters.length = 0;
       discoveryContext.search.field = "";
       discoveryContext.search.value = "";
       discoveryContext.search.label = "";
@@ -156,8 +155,13 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
     };
 
     discoveryContext.resetPage = function() {
-      discoveryContext.search.filters.length = 0;
       discoveryContext.clearCommon();
+
+      discoveryContext.search.filters.length = 0;
+      discoveryContext.search.page.number = 0;
+      discoveryContext.search.page.size = defaultPageSize;
+      discoveryContext.search.page.sort = defaultPageSort;
+      discoveryContext.search.page.offset = 0;
 
       angular.forEach($location.search(), function(value, key) {
         $location.search(key, null);
@@ -167,8 +171,9 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
     };
 
     discoveryContext.resetBadges = function() {
-      discoveryContext.search.filters.length = 0;
       discoveryContext.clearCommon();
+
+      discoveryContext.search.filters.length = 0;
 
       angular.forEach($location.search(), function(value, key) {
         if (key.match(/^f\./i)) $location.search(key, null);
@@ -179,9 +184,6 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
 
     discoveryContext.resetSearch = function() {
       discoveryContext.clearCommon();
-
-      $location.search("field", null);
-      $location.search("value", null);
 
       return discoveryContext.executeSearch();
     };
