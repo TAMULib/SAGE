@@ -98,6 +98,31 @@
               results="discoveryViewForms.getResults()">
             </validatedtextarea>
 
+            <validatedselect
+              id="discoveryViewToCreateQueryParser"
+              model="discoveryView"
+              property="queryParser"
+              options="queryParsers"
+              label="Query Parser"
+              placeholder="Optionally specify a query parser"
+              form="discoveryViewForms.create"
+              validations="discoveryViewForms.validations"
+              results="discoveryViewForms.getResults()"
+              autocomplete="off">
+            </validatedselect>
+
+            <validatedselect
+              id="discoveryViewToCreateDefaultOperand"
+              model="discoveryView"
+              property="defaultOperand"
+              options="queryOperands"
+              label="Default Operand"
+              placeholder="Optionally Specify a default operand"
+              form="discoveryViewForms.create"
+              validations="discoveryViewForms.validations"
+              results="discoveryViewForms.getResults()"
+              autocomplete="off">
+            </validatedselect>
           </div>
         </div>
       </uib-tab>

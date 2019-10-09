@@ -21,6 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import edu.tamu.sage.enums.QueryParserType;
+import edu.tamu.sage.enums.QueryOperandType;
 import edu.tamu.sage.exceptions.DiscoveryContextBuildException;
 import edu.tamu.sage.exceptions.SourceServiceException;
 import edu.tamu.sage.model.DiscoveryView;
@@ -113,6 +115,20 @@ public class SolrDiscoveryService {
         }
 
         search.setFilters(filters);
+
+        String queryParser = discoveryView.getQueryParser();
+        if (queryParser != null) {
+            if (queryParser.equalsIgnoreCase(QueryParserType.EDISMAX.toString()) || queryParser.equalsIgnoreCase(QueryParserType.DISMAX.toString())) {
+                solrQuery.setParam("defType", queryParser.toLowerCase());
+            }
+        }
+
+        String defaultOperand = discoveryView.getDefaultOperand();
+        if (defaultOperand != null) {
+            if (defaultOperand.equalsIgnoreCase(QueryOperandType.AND.toString()) || defaultOperand.equalsIgnoreCase(QueryOperandType.OR.toString())) {
+                solrQuery.setParam("q.op", defaultOperand);
+            }
+        }
 
         solrQuery.setRows(page.getPageSize());
         solrQuery.setStart((page.getPageNumber() * page.getPageSize()) + offset);

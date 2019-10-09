@@ -33,6 +33,8 @@ angular.module("mock.discoveryViewRepo", []).service("DiscoveryViewRepo", functi
     infoLinkText: "",
     infoLinkUrl: "",
     infoText: "",
+    queryParser: "",
+    defaultOperand: "",
     uniqueIdentifierKey: ""
   };
 
