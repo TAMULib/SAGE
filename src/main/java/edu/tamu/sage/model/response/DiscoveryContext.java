@@ -39,6 +39,10 @@ public class DiscoveryContext implements Serializable {
 
     private String infoLinkUrl;
 
+    private String queryParser;
+
+    private String defaultOperand;
+
     public DiscoveryContext() {
         super();
         searchFields = new  ArrayList<SearchField>();
@@ -162,6 +166,22 @@ public class DiscoveryContext implements Serializable {
         this.infoLinkUrl = infoLinkUrl;
     }
 
+    public String getQueryParser() {
+        return queryParser;
+    }
+
+    public void setQueryParser(String queryParser) {
+        this.queryParser = queryParser;
+    }
+
+    public String getDefaultOperand() {
+        return defaultOperand;
+    }
+
+    public void setDefaultOperand(String defaultOperand) {
+        this.defaultOperand = defaultOperand;
+    }
+
     public static DiscoveryContext of(DiscoveryView dv) {
         DiscoveryContext dc = new DiscoveryContext();
 
@@ -173,6 +193,8 @@ public class DiscoveryContext implements Serializable {
         dc.setInfoText(dv.getInfoText());
         dc.setInfoLinkUrl(dv.getInfoLinkUrl());
         dc.setInfoLinkText(dv.getInfoLinkText());
+        dc.setQueryParser(dv.getQueryParser());
+        dc.setDefaultOperand(dv.getDefaultOperand());
 
         SearchFilter defaultSearchFilter = new SearchFilter();
         defaultSearchFilter.setKey("all_fields");

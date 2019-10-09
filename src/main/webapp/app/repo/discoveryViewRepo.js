@@ -15,6 +15,8 @@ sage.repo("DiscoveryViewRepo", function() {
     infoLinkText: "",
     infoLinkUrl: "",
     infoText: "",
+    queryParser: "",
+    defaultOperand: "",
     uniqueIdentifierKey: ""
   };
 

@@ -14,6 +14,9 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
     inUpdate: false
   };
 
+  $scope.queryParsers = [ "", "EDISMAX", "DISMAX" ];
+  $scope.queryOperands = [ "", "AND", "OR" ];
+
   $scope.discoveryViewForms = {
     validations: DiscoveryViewRepo.getValidations(),
     getResults: DiscoveryViewRepo.getValidationResults

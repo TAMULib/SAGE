@@ -1,11 +1,13 @@
 var dataDiscoveryView1 = {
   id: 1,
+  defaultOperand: "",
   facetFields: [],
   filter: "filter",
   infoLinkText: "infoLinkText",
   infoLinkUrl: "http://example.com/",
   infoText: "infoText",
   name: "Discovery View 1",
+  queryParser: "",
   resourceThumbnailUriKey: "resourceThumbnailUriKey",
   resourceLocationUriKey: "resourceLocationUriKey",
   resultMetadataFields: [],
@@ -18,12 +20,13 @@ var dataDiscoveryView1 = {
 
 var dataDiscoveryView2 = {
   id: 2,
-  facetFields: [],
+  defaultOperand: "AND"
   filter: "filter",
   infoLinkText: "infoLinkText",
   infoLinkUrl: "http://example.com/",
   infoText: "infoText",
   name: "Discovery View 2",
+  queryParser: "dismax",
   resourceThumbnailUriKey: "resourceThumbnailUriKey",
   resourceLocationUriKey: "resourceLocationUriKey",
   resultMetadataFields: [],
@@ -36,12 +39,14 @@ var dataDiscoveryView2 = {
 
 var dataDiscoveryView3 = {
   id: 3,
+  defaultOperand: "OR",
   facetFields: [],
   filter: "filter",
   infoLinkText: "infoLinkText",
   infoLinkUrl: "http://example.com/",
   infoText: "infoText",
   name: "Discovery View 3",
+  queryParser: "edismax",
   resourceThumbnailUriKey: "resourceThumbnailUriKey",
   resourceLocationUriKey: "resourceLocationUriKey",
   resultMetadataFields: [],

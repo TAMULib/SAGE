@@ -58,6 +58,10 @@ public class DiscoveryView extends ValidatingBaseEntity {
     @Column(nullable = false)
     private String infoLinkUrl;
 
+    private String queryParser;
+
+    private String defaultOperand;
+
     @ElementCollection
     private List<MetadataField> resultMetadataFields;
 
@@ -158,6 +162,22 @@ public class DiscoveryView extends ValidatingBaseEntity {
 
     public void setInfoLinkUrl(String infoLinkUrl) {
         this.infoLinkUrl = infoLinkUrl;
+    }
+
+    public String getQueryParser() {
+        return queryParser;
+    }
+
+    public void setQueryParser(String queryParser) {
+        this.queryParser = queryParser;
+    }
+
+    public String getDefaultOperand() {
+        return defaultOperand;
+    }
+
+    public void setDefaultOperand(String defaultOperand) {
+        this.defaultOperand = defaultOperand;
     }
 
     public List<MetadataField> getResultMetadataFields() {

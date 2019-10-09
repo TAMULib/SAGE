@@ -1,5 +1,16 @@
 var dataDiscoveryContext1 = {
   id: 1,
+  defaultOperand: "",
+  facetFields: [],
+  filter: "filter",
+  infoLinkText: "infoLinkText",
+  infoLinkUrl: "http://example.com/",
+  infoText: "infoText",
+  name: "Discovery View 1",
+  queryParser: "",
+  resourceThumbnailUriKey: "resourceThumbnailUriKey",
+  resourceLocationUriKey: "resourceLocationUriKey",
+  resultMetadataFields: [],
   search: {
     field: "all_fields",
     value: "",
@@ -12,11 +23,27 @@ var dataDiscoveryContext1 = {
       sort: "id",
       offset: 0
     }
-  }
+  },
+  searchFields: [],
+  slug: "slug",
+  source: "source",
+  titleKey: "titleKey",
+  uniqueIdentifierKey: "uniqueIdentifierKey"
 };
 
 var dataDiscoveryContext2 = {
   id: 2,
+  defaultOperand: "AND",
+  facetFields: [],
+  filter: "filter",
+  infoLinkText: "infoLinkText",
+  infoLinkUrl: "http://example.com/",
+  infoText: "infoText",
+  name: "Discovery View 2",
+  queryParser: "dismax",
+  resourceThumbnailUriKey: "resourceThumbnailUriKey",
+  resourceLocationUriKey: "resourceLocationUriKey",
+  resultMetadataFields: [],
   search: {
     field: "",
     value: "",
@@ -29,11 +56,27 @@ var dataDiscoveryContext2 = {
       sort: "id",
       offset: 0
     }
-  }
+  },
+  searchFields: [],
+  slug: "slug",
+  source: "source",
+  titleKey: "titleKey",
+  uniqueIdentifierKey: "uniqueIdentifierKey"
 };
 
 var dataDiscoveryContext3 = {
   id: 3,
+  defaultOperand: "OR",
+  facetFields: [],
+  filter: "filter",
+  infoLinkText: "infoLinkText",
+  infoLinkUrl: "http://example.com/",
+  infoText: "infoText",
+  name: "Discovery View 3",
+  queryParser: "edismax",
+  resourceThumbnailUriKey: "resourceThumbnailUriKey",
+  resourceLocationUriKey: "resourceLocationUriKey",
+  resultMetadataFields: [],
   search: {
     field: "",
     value: "",
@@ -46,7 +89,12 @@ var dataDiscoveryContext3 = {
       sort: "",
       offset: 0
     }
-  }
+  },
+  searchFields: [],
+  slug: "slug",
+  source: "source",
+  titleKey: "titleKey",
+  uniqueIdentifierKey: "uniqueIdentifierKey"
 };
 
 var mockDiscoveryContext = function($q) {
