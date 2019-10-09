@@ -1,7 +1,7 @@
 sage.model("InternalMetadata", function() {
   return function InternalMetadata() {
-    var model = this;
+    var internalMetadata = this;
 
-    return model;
+    return internalMetadata;
   };
 });

@@ -1,11 +1,11 @@
 sage.repo("InternalMetadataRepo", function() {
-  var repo = this;
+  var internalMetadataRepo = this;
 
-  repo.scaffold = {
+  internalMetadataRepo.scaffold = {
     gloss: "",
     field: "",
     required: true
   };
 
-  return repo;
+  return internalMetadataRepo;
 });

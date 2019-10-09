@@ -1,7 +1,7 @@
 sage.model("Job", function() {
   return function Job() {
-    var model = this;
+    var job = this;
 
-    return model;
+    return job;
   };
 });

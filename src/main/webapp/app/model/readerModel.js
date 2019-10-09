@@ -1,7 +1,7 @@
 sage.model("Reader", function() {
   return function Reader() {
-    var model = this;
+    var reader = this;
 
-    return model;
+    return reader;
   };
 });

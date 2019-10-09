@@ -1,9 +1,9 @@
 sage.model("Result", function () {
   return function Result() {
-    var model = this;
+    var result = this;
 
-    model.getValue = function(key) {
-      return model.fields[key];
+    result.getValue = function(key) {
+      return result.fields[key];
     };
 
     return this;

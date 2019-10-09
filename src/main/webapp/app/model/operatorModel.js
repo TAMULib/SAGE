@@ -1,7 +1,7 @@
 sage.model("Operator", function() {
   return function Operator() {
-    var model = this;
+    var operator = this;
 
-    return model;
+    return operator;
   };
 });

@@ -1,7 +1,7 @@
 sage.model("MetadataField", function () {
   return function MetadataField() {
-    var model = this;
+    var metadataField = this;
 
-    return model;
+    return metadataField;
   };
 });

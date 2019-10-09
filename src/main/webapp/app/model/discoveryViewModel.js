@@ -1,7 +1,7 @@
 sage.model("DiscoveryView", function() {
   return function DiscoveryView() {
-    var model = this;
+    var discoveryView = this;
 
-    return model;
+    return discoveryView;
   };
 });

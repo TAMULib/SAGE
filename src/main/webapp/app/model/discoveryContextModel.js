@@ -1,7 +1,7 @@
 sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Result, Field, Search) {
   return function DiscoveryContext() {
 
-    var model = this;
+    var discoveryContext = this;
     var searching;
     var defaultPageSize = 10;
     var defaultPageSort = "id"; // @fixme: needs to be determined from DiscoveryView.
@@ -9,19 +9,19 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
     var fetchContext = function () {
       var parameters = {
         pathValues: {
-          slug: model.slug
+          slug: discoveryContext.slug
         },
         query: {
-          field: angular.isDefined(model.search.field) ? model.search.field : "",
-          value: angular.isDefined(model.search.value) ? model.search.value : "",
-          sort: angular.isDefined(model.search.page.sort) ? model.search.page.sort : defaultPageSort,
-          page: angular.isDefined(model.search.page.number) ? model.search.page.number : 0,
-          size: angular.isDefined(model.search.page.size) ? model.search.page.size : defaultPageSize,
-          offset: angular.isDefined(model.search.page.offset) ? model.search.page.offset : 0
+          field: angular.isDefined(discoveryContext.search.field) ? discoveryContext.search.field : "",
+          value: angular.isDefined(discoveryContext.search.value) ? discoveryContext.search.value : "",
+          sort: angular.isDefined(discoveryContext.search.page.sort) ? discoveryContext.search.page.sort : defaultPageSort,
+          page: angular.isDefined(discoveryContext.search.page.number) ? discoveryContext.search.page.number : 0,
+          size: angular.isDefined(discoveryContext.search.page.size) ? discoveryContext.search.page.size : defaultPageSize,
+          offset: angular.isDefined(discoveryContext.search.page.offset) ? discoveryContext.search.page.offset : 0
         }
       };
 
-      angular.forEach(model.search.filters, function(filter) {
+      angular.forEach(discoveryContext.search.filters, function(filter) {
         var filterKey = "f." + filter.key;
         if (!angular.isDefined(parameters.query[filterKey])) {
           parameters.query[filterKey] = [];
@@ -29,16 +29,16 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
         parameters.query[filterKey].push(filter.value);
       });
 
-      return WsApi.fetch(model.getMapping().load, parameters);
+      return WsApi.fetch(discoveryContext.getMapping().load, parameters);
     };
 
     var populateProperty = function(pname, ctor) {
-      for (var i in model[pname]) {
-        model[pname][i] = new ctor(model[pname][i]);
+      for (var i in discoveryContext[pname]) {
+        discoveryContext[pname][i] = new ctor(discoveryContext[pname][i]);
       }
     };
 
-    model.before(function () {
+    discoveryContext.before(function () {
       var filters = [];
 
       angular.forEach($routeParams, function(value, key) {
@@ -51,20 +51,20 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
         }
       });
 
-      model.search = new Search({
+      discoveryContext.search = new Search({
         field: angular.isDefined($routeParams.field) ? $routeParams.field : "",
         value: angular.isDefined($routeParams.value) ? $routeParams.value : "",
         label: "",
         filters: filters,
         start: 0,
         total: 0,
-        page: model.buildPage()
+        page: discoveryContext.buildPage()
       });
 
-      return model.reload();
+      return discoveryContext.reload();
     });
 
-    model.reload = function() {
+    discoveryContext.reload = function() {
       var defer = $q.defer();
 
       fetchContext().then(function (res) {
@@ -74,63 +74,63 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
         // do not override local search settings, only these search properties are needed.
         var page = Number(search.page);
         if (!isNaN(page)) {
-          model.search.page.number = page;
-          $location.search("page", model.search.page.number);
+          discoveryContext.search.page.number = page;
+          $location.search("page", discoveryContext.search.page.number);
         }
 
-        model.search.field = search.field;
-        model.search.label = search.label;
-        model.search.value = search.value;
-        model.search.filters = search.filters ? search.filters : [];
-        model.search.start = search.start;
-        model.search.total = search.total;
+        discoveryContext.search.field = search.field;
+        discoveryContext.search.label = search.label;
+        discoveryContext.search.value = search.value;
+        discoveryContext.search.filters = search.filters ? search.filters : [];
+        discoveryContext.search.start = search.start;
+        discoveryContext.search.total = search.total;
         delete payload.search;
 
-        angular.extend(model, payload);
+        angular.extend(discoveryContext, payload);
 
         populateProperty("results", Result);
         populateProperty("fields", Field);
 
-        defer.resolve(model);
+        defer.resolve(discoveryContext);
       });
 
       return defer.promise;
     };
 
-    model.setSearchField = function(key, value, label) {
-      model.search.field = key;
-      model.search.value = value;
-      model.search.label = label;
+    discoveryContext.setSearchField = function(key, value, label) {
+      discoveryContext.search.field = key;
+      discoveryContext.search.value = value;
+      discoveryContext.search.label = label;
     };
 
-    model.addFilter = function(label, key, value) {
+    discoveryContext.addFilter = function(label, key, value) {
       var filter = {
         label: label,
         key: key,
         value: value
       };
 
-      if (!model.search.filters) {
-        model.search.filters = [];
+      if (!discoveryContext.search.filters) {
+        discoveryContext.search.filters = [];
       }
 
-      model.search.filters.push(filter);
+      discoveryContext.search.filters.push(filter);
 
       var urlKey = "f." + filter.key;
-      var existingValues = model.buildUrlFilterKeyValues();
+      var existingValues = discoveryContext.buildUrlFilterKeyValues();
 
       $location.search(urlKey, existingValues[urlKey]);
-      return model.executeSearch();
+      return discoveryContext.executeSearch();
     };
 
-    model.removeFilter = function(filter) {
-      for (var i = 0; i < model.search.filters.length; i++) {
-        var f = model.search.filters[i];
+    discoveryContext.removeFilter = function(filter) {
+      for (var i = 0; i < discoveryContext.search.filters.length; i++) {
+        var f = discoveryContext.search.filters[i];
         if (f.key === filter.key && f.value === filter.value) {
-          model.search.filters.splice(i, 1);
+          discoveryContext.search.filters.splice(i, 1);
 
           var urlKey = "f." + filter.key;
-          var existingValues = model.buildUrlFilterKeyValues();
+          var existingValues = discoveryContext.buildUrlFilterKeyValues();
 
           if (existingValues && angular.isDefined(existingValues[urlKey])) {
             $location.search(urlKey, existingValues[urlKey]);
@@ -142,59 +142,59 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
         }
       }
 
-      return model.executeSearch();
+      return discoveryContext.executeSearch();
     };
 
-    model.clearCommon = function() {
-      model.search.filters.length = 0;
-      model.search.field = "";
-      model.search.value = "";
-      model.search.label = "";
+    discoveryContext.clearCommon = function() {
+      discoveryContext.search.filters.length = 0;
+      discoveryContext.search.field = "";
+      discoveryContext.search.value = "";
+      discoveryContext.search.label = "";
 
       $location.search("field", null);
       $location.search("value", null);
     };
 
-    model.resetPage = function() {
-      model.search.filters.length = 0;
-      model.clearCommon();
+    discoveryContext.resetPage = function() {
+      discoveryContext.search.filters.length = 0;
+      discoveryContext.clearCommon();
 
       angular.forEach($location.search(), function(value, key) {
         $location.search(key, null);
       });
 
-      return model.executeSearch();
+      return discoveryContext.executeSearch();
     };
 
-    model.resetBadges = function() {
-      model.search.filters.length = 0;
-      model.clearCommon();
+    discoveryContext.resetBadges = function() {
+      discoveryContext.search.filters.length = 0;
+      discoveryContext.clearCommon();
 
       angular.forEach($location.search(), function(value, key) {
         if (key.match(/^f\./i)) $location.search(key, null);
       });
 
-      return model.executeSearch();
+      return discoveryContext.executeSearch();
     };
 
-    model.resetSearch = function() {
-      model.clearCommon();
+    discoveryContext.resetSearch = function() {
+      discoveryContext.clearCommon();
 
       $location.search("field", null);
       $location.search("value", null);
 
-      return model.executeSearch();
+      return discoveryContext.executeSearch();
     };
 
-    model.executeSearch = function(maintainPage) {
+    discoveryContext.executeSearch = function(maintainPage) {
       return $q(function(resolve) {
         if (!searching) {
           searching = true;
 
           if (!maintainPage) {
-            model.search.start = 0;
-            model.search.total = 0;
-            model.search.page.number = 0;
+            discoveryContext.search.start = 0;
+            discoveryContext.search.total = 0;
+            discoveryContext.search.page.number = 0;
             $location.search("field", null);
             $location.search("value", null);
             $location.search("page", null);
@@ -203,17 +203,17 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
             $location.search("offset", null);
           }
 
-          model.reload().then(function() {
+          discoveryContext.reload().then(function() {
             searching = false;
-            $location.search("field", model.search.field === "" ? null : model.search.field);
-            $location.search("value", model.search.value === "" ? null : model.search.value);
-            $location.search("page", model.search.page.number === 0 ? null : model.search.page.number);
-            $location.search("sort", model.search.page.sort === defaultPageSort ? null : model.search.page.sort);
-            $location.search("size", model.search.page.size === defaultPageSize ? null : model.search.page.size);
-            $location.search("offset", model.search.page.offset === 0 ? null : model.search.page.offset);
+            $location.search("field", discoveryContext.search.field === "" ? null : discoveryContext.search.field);
+            $location.search("value", discoveryContext.search.value === "" ? null : discoveryContext.search.value);
+            $location.search("page", discoveryContext.search.page.number === 0 ? null : discoveryContext.search.page.number);
+            $location.search("sort", discoveryContext.search.page.sort === defaultPageSort ? null : discoveryContext.search.page.sort);
+            $location.search("size", discoveryContext.search.page.size === defaultPageSize ? null : discoveryContext.search.page.size);
+            $location.search("offset", discoveryContext.search.page.offset === 0 ? null : discoveryContext.search.page.offset);
 
-            if (model.search.filters) {
-              angular.forEach(model.buildUrlFilterKeyValues(), function(value, key) {
+            if (discoveryContext.search.filters) {
+              angular.forEach(discoveryContext.buildUrlFilterKeyValues(), function(value, key) {
                 $location.search(key, value);
               });
             }
@@ -226,13 +226,13 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
       });
     };
 
-    model.buildUrlFilterKeyValues = function() {
+    discoveryContext.buildUrlFilterKeyValues = function() {
       var filtersByKey;
 
-      if (model.search.filters.length > 0) {
+      if (discoveryContext.search.filters.length > 0) {
         filtersByKey = {};
 
-        angular.forEach(model.search.filters, function(filter) {
+        angular.forEach(discoveryContext.search.filters, function(filter) {
           var urlKey = "f." + filter.key;
 
           if (!angular.isDefined(filtersByKey[urlKey])) {
@@ -246,11 +246,11 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
       return filtersByKey;
     };
 
-    model.isSearching = function() {
+    discoveryContext.isSearching = function() {
       return searching;
     };
 
-    model.buildPage = function() {
+    discoveryContext.buildPage = function() {
       var page = {
         number: 0,
         size: defaultPageSize,
@@ -287,10 +287,10 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
       return page;
     };
 
-    model.getBreadcrumb = function() {
+    discoveryContext.getBreadcrumb = function() {
       return {
-        label: model.name,
-        path: "discovery-context/" + model.slug
+        label: discoveryContext.name,
+        path: "discovery-context/" + discoveryContext.slug
       };
     };
 

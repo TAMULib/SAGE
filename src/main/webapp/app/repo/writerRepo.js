@@ -1,9 +1,9 @@
 sage.repo("WriterRepo", function() {
-  var repo = this;
+  var writer = this;
 
-  repo.scaffold = {
+  writer.scaffold = {
     name: ""
   };
 
-  return repo;
+  return writer;
 });
