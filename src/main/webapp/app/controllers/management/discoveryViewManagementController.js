@@ -1,7 +1,7 @@
 sage.controller('DiscoveryViewManagementController', function ($controller, $scope, $timeout, DiscoveryView, DiscoveryViewRepo, FacetField, MetadataField, NgTableParams, SearchField, SourceRepo) {
 
   angular.extend(this, $controller('AbstractController', {
-      $scope: $scope
+    $scope: $scope
   }));
 
   $scope.discoveryViews = DiscoveryViewRepo.getAll();

@@ -1,7 +1,7 @@
 sage.controller('DiscoveryContextController', function ($controller, $scope, $routeParams, $location, DiscoveryContext, appConfig) {
 
   angular.extend(this, $controller('CoreAdminController', {
-      $scope: $scope
+    $scope: $scope
   }));
 
   $scope._keys = Object.keys;

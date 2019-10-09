@@ -1,6 +1,5 @@
-sage.model("SingleResultContext", function ($q, WsApi) {
+sage.model("SingleResultContext", function (WsApi) {
   return function SingleResultContext() {
-
     var singleResultContext = this;
 
     singleResultContext.before(function() {

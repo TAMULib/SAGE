@@ -4,28 +4,27 @@
   </div>
   <div class="dc-content">
     <breadcrumbs contexts="breadcrumbContexts" reload="resetPage" home=""></breadcrumbs>
-
     <div class="col-md-3 dc-side-panel">
       <div ng-if="discoveryContext.infoLinkText || discoveryContext.infoText" class="panel panel-default information-box">
-          <div ng-if="discoveryContext.infoText" class="panel-body">
-            {{discoveryContext.infoText}}
-          </div>
-          <div ng-if="discoveryContext.infoLinkText" class="panel-footer">
-            <a ng-if="discoveryContext.infoLinkUrl" href="{{discoveryContext.infoLinkUrl}}">{{discoveryContext.infoLinkText}}</a>
-            <p ng-if="!discoveryContext.infoLinkUrl">{{discoveryContext.infoLinkText}}</p>
-          </div>
+        <div ng-if="discoveryContext.infoText" class="panel-body">
+          {{discoveryContext.infoText}}
+        </div>
+        <div ng-if="discoveryContext.infoLinkText" class="panel-footer">
+          <a ng-if="discoveryContext.infoLinkUrl" href="{{discoveryContext.infoLinkUrl}}">{{discoveryContext.infoLinkText}}</a>
+          <p ng-if="!discoveryContext.infoLinkUrl">{{discoveryContext.infoLinkText}}</p>
+        </div>
       </div>
       <facet-widget facet="facet" discovery-context="discoveryContext" ng-repeat="facet in discoveryContext.facetFilters" reset-search="prepareSearch"></facet-widget>
     </div>
     <div class="col-md-9 dc-main">
       <div class="row dc-search">
         <div class="col-xs-12">
-            <form class="form-group">
+          <form class="form-group">
             <div class="input-group">
-                <div class="input-group-btn">
-                  <select class="form-control dc-filter-select" ng-model="currentSearchField" ng-options="searchField.label for searchField in discoveryContext.searchFields"></select>
-                </div>
-                <input type="text" class="form-control dc-search-input" ng-model="currentSearchValue" ng-keypress="searchProcessKeyPress($event)">
+              <div class="input-group-btn">
+                <select class="form-control dc-filter-select" ng-model="currentSearchField" ng-options="searchField.label for searchField in discoveryContext.searchFields"></select>
+              </div>
+              <input type="text" class="form-control dc-search-input" ng-model="currentSearchValue" ng-keypress="searchProcessKeyPress($event)">
             </div>
           </form>
         </div>
@@ -56,7 +55,7 @@
         </div>
       </div>
 
-      <hr class="dc-results-hr" />
+      <hr class="dc-results-hr">
 
       <div class="row dc-results">
         <div class="col-xs-12 results" ng-class="{'hide-results': discoveryContext.isSearching()}">

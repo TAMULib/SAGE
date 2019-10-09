@@ -1,7 +1,7 @@
 // provide common helper methods to be used by mocks.
 
 var messagePromise = function (defer, message, messageStatus, httpStatus) {
-   defer.resolve({
+  defer.resolve({
     body: angular.toJson({
       meta: {
         status: messageStatus ? messageStatus : "SUCCESS",

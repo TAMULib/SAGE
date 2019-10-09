@@ -4,15 +4,15 @@ import javax.persistence.Embeddable;
 
 @Embeddable
 public class FacetField {
-    
+
     private String key;
-    
+
     private String label;
-    
+
     private String type;
-    
+
     private String widget;
-    
+
     public FacetField() {
         super();
     }
@@ -40,7 +40,7 @@ public class FacetField {
     public void setType(String type) {
         this.type = type;
     }
-    
+
     public String getWidget() {
         return widget;
     }

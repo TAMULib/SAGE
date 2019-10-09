@@ -7,8 +7,8 @@ import edu.tamu.sage.model.response.SolrField;
 
 public interface SourceService {
 
-	public List<SolrField> getAvailableFields(String uri, String filter) throws SourceServiceException;
+    public List<SolrField> getAvailableFields(String uri, String filter) throws SourceServiceException;
 
-	public List<SolrField> getIndexedFields(String uri, String filter) throws SourceServiceException;
+    public List<SolrField> getIndexedFields(String uri, String filter) throws SourceServiceException;
 
 }

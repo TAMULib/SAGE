@@ -1,8 +1,8 @@
 package edu.tamu.sage.controller;
 
 import static edu.tamu.weaver.response.ApiStatus.ERROR;
-import static edu.tamu.weaver.response.ApiStatus.WARNING;
 import static edu.tamu.weaver.response.ApiStatus.SUCCESS;
+import static edu.tamu.weaver.response.ApiStatus.WARNING;
 import static edu.tamu.weaver.validation.model.BusinessValidationType.CREATE;
 import static edu.tamu.weaver.validation.model.BusinessValidationType.DELETE;
 import static edu.tamu.weaver.validation.model.BusinessValidationType.UPDATE;

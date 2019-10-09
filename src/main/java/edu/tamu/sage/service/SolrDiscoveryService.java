@@ -21,8 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import edu.tamu.sage.enums.QueryParserType;
 import edu.tamu.sage.enums.QueryOperandType;
+import edu.tamu.sage.enums.QueryParserType;
 import edu.tamu.sage.exceptions.DiscoveryContextBuildException;
 import edu.tamu.sage.exceptions.SourceServiceException;
 import edu.tamu.sage.model.DiscoveryView;
@@ -100,11 +100,11 @@ public class SolrDiscoveryService {
                     String[] filterValues = filterMap.get(filterKey).split(",", -1);
 
                     for (int i = 0; i < filterValues.length; i++) {
-                    Filter filter = new Filter();
-                    filter.setKey(facetField.getKey());
-                    filter.setLabel(facetField.getLabel());
+                        Filter filter = new Filter();
+                        filter.setKey(facetField.getKey());
+                        filter.setLabel(facetField.getLabel());
                         filter.setValue(filterValues[i]);
-                    filters.add(filter);
+                        filters.add(filter);
                         solrQuery.addFilterQuery(facetField.getKey() + ":" + filterValues[i]);
                     }
                 }
@@ -134,7 +134,7 @@ public class SolrDiscoveryService {
         solrQuery.setStart((page.getPageNumber() * page.getPageSize()) + offset);
 
         if (page.getSort() != null) {
-            page.getSort().forEach(order->{
+            page.getSort().forEach(order -> {
                 solrQuery.addSort(order.getProperty(), order.getDirection().isDescending() ? ORDER.desc : ORDER.asc);
             });
         }

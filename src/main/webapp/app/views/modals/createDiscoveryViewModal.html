@@ -1,4 +1,4 @@
-<form name="discoveryViewForms.create" ng-submit="createDiscoveryView()" novalidate class="solr-source-forms-create">
+<form name="discoveryViewForms.create" ng-submit="createDiscoveryView()" novalidate class="discovery-view-forms-create">
   <div class="modal-header {{attr.modalHeaderClass}}">
     <button type="button" class="close modal-close" aria-label="Close" ng-click="cancelCreateDiscoveryView()"><span aria-hidden="true">&times;</span></button>
     <h4 class="modal-title">Create Discovery View</h4>
@@ -231,31 +231,31 @@
             </div>
           </div>
           <div class="row">
-              <div class="col-sm-5 col-sm-offset-1">
-                <multi-suggestion-input
-                  id="discoveryViewToCreateThumbnailUriKey"
-                  model="discoveryView"
-                  property="resourceThumbnailUriKey"
-                  optionproperty="name"
-                  suggestions="fields"
-                  name="resourceThumbnailUriKey"
-                  label="Thumbnail Uri Key"
-                  placeholder="'{{' to see Thumbnail Uri Key suggesions">
-                </multi-suggestion-input>
-              </div>
-              <div class="col-sm-5">
-                <multi-suggestion-input
-                  id="discoveryViewToCreateResourceKey"
-                  model="discoveryView"
-                  property="resourceLocationUriKey"
-                  optionproperty="name"
-                  suggestions="fields"
-                  name="resourceUriKey"
-                  label="Resource Key"
-                  placeholder="'{{' to see Resource Key suggesions">
-                </multi-suggestion-input>
-              </div>
+            <div class="col-sm-5 col-sm-offset-1">
+              <multi-suggestion-input
+                id="discoveryViewToCreateThumbnailUriKey"
+                model="discoveryView"
+                property="resourceThumbnailUriKey"
+                optionproperty="name"
+                suggestions="fields"
+                name="resourceThumbnailUriKey"
+                label="Thumbnail Uri Key"
+                placeholder="'{{' to see Thumbnail Uri Key suggesions">
+              </multi-suggestion-input>
             </div>
+            <div class="col-sm-5">
+              <multi-suggestion-input
+                id="discoveryViewToCreateResourceKey"
+                model="discoveryView"
+                property="resourceLocationUriKey"
+                optionproperty="name"
+                suggestions="fields"
+                name="resourceUriKey"
+                label="Resource Key"
+                placeholder="'{{' to see Resource Key suggesions">
+              </multi-suggestion-input>
+            </div>
+          </div>
         </div>
         <hr>
         <div class="row">
