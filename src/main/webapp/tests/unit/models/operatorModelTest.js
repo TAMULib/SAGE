@@ -1,9 +1,9 @@
-describe('model: Operator', function () {
-  var model, rootScope, scope, WsApi;
+describe("model: Operator", function () {
+  var $rootScope, $scope, WsApi, model;
 
   var initializeVariables = function(settings) {
-    inject(function ($rootScope, _WsApi_) {
-      rootScope = $rootScope;
+    inject(function (_$rootScope_, _WsApi_) {
+      $rootScope = _$rootScope_;
 
       WsApi = _WsApi_;
     });
@@ -11,13 +11,13 @@ describe('model: Operator', function () {
 
   var initializeModel = function(settings) {
     inject(function (Operator) {
-      scope = rootScope.$new();
+      $scope = $rootScope.$new();
 
       model = angular.extend(new Operator());
 
       // ensure that all pre-processing is called.
-      if (!scope.$$phase) {
-        scope.$digest();
+      if (!$scope.$$phase) {
+        $scope.$digest();
       }
     });
   };
@@ -31,8 +31,8 @@ describe('model: Operator', function () {
     initializeModel();
   });
 
-  describe('Is the model defined', function () {
-    it('should be defined', function () {
+  describe("Is the model defined", function () {
+    it("should be defined", function () {
       expect(model).toBeDefined();
     });
   });

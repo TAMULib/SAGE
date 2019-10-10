@@ -1,14 +1,14 @@
 describe("filter: removeBrackets", function () {
-  var filter, scope;
+  var $scope, filter;
 
   var initializeVariables = function() {
   };
 
   var initializeFilter = function(settings) {
-    inject(function ($filter, $rootScope) {
-      scope = $rootScope.$new();
+    inject(function (_$filter_, _$rootScope_) {
+      $scope = _$rootScope_.$new();
 
-      filter = $filter('removeBrackets');
+      filter = _$filter_('removeBrackets');
     });
   };
 

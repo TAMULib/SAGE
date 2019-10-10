@@ -1,28 +1,28 @@
 describe("controller: SingleResultController", function () {
-  var controller, q, scope, MockedDiscoveryContext, MockedSingleResultContext, MockedUser, WsApi;
+  var $q, $scope, MockedDiscoveryContext, MockedSingleResultContext, MockedUser, WsApi, controller;
 
   var initializeVariables = function(settings) {
-    inject(function ($q, _WsApi_) {
-      q = $q;
+    inject(function (_$q_, _WsApi_) {
+      $q = _$q_;
 
-      MockedUser = new mockUser(q);
-      MockedDiscoveryContext = new mockDiscoveryContext(q);
-      MockedSingleResultContext = new mockSingleResultContext(q);
+      MockedUser = new mockUser($q);
+      MockedDiscoveryContext = new mockDiscoveryContext($q);
+      MockedSingleResultContext = new mockSingleResultContext($q);
 
       WsApi = _WsApi_;
     });
   };
 
   var initializeController = function(settings) {
-    inject(function ($controller, $rootScope, _DiscoveryContext_, _SingleResultContext_, _UserService_) {
-      scope = $rootScope.$new();
+    inject(function (_$controller_, _$rootScope_, _DiscoveryContext_, _SingleResultContext_, _UserService_) {
+      $scope = _$rootScope_.$new();
 
       sessionStorage.role = settings && settings.role ? settings.role : "ROLE_ADMIN";
       sessionStorage.token = settings && settings.token ? settings.token : "faketoken";
 
-      controller = $controller("SingleResultController", {
-        $q: q,
-        $scope: scope,
+      controller = _$controller_("SingleResultController", {
+        $q: $q,
+        $scope: $scope,
         DiscoveryContext: _DiscoveryContext_,
         SingleResultContext: _SingleResultContext_,
         UserService: _UserService_,
@@ -30,8 +30,8 @@ describe("controller: SingleResultController", function () {
       });
 
       // ensure that the isReady() is called.
-      if (!scope.$$phase) {
-        scope.$digest();
+      if (!$scope.$$phase) {
+        $scope.$digest();
       }
     });
   };

@@ -1,10 +1,10 @@
-describe('model: DiscoveryView', function () {
-  var model, rootScope, routeParams, scope, location, WsApi;
+describe("model: DiscoveryView", function () {
+  var $rootScope, $scope, $location, WsApi, model, routeParams;
 
   var initializeVariables = function(settings) {
-    inject(function ($location, $rootScope, _WsApi_) {
-      location = $location;
-      rootScope = $rootScope;
+    inject(function (_$location_, _$rootScope_, _WsApi_) {
+      $location = _$location_;
+      $rootScope = _$rootScope_;
 
       if (settings && settings.routeParams) {
         angular.extend(routeParams, settings.routeParams);
@@ -16,7 +16,7 @@ describe('model: DiscoveryView', function () {
 
   var initializeModel = function(settings) {
     inject(function (DiscoveryView) {
-      scope = rootScope.$new();
+      $scope = $rootScope.$new();
 
       if (settings) {
         if (settings.routeParams) {
@@ -27,8 +27,8 @@ describe('model: DiscoveryView', function () {
       model = angular.extend(new DiscoveryView(), dataDiscoveryView1);
 
       // ensure that all pre-processing is called.
-      if (!scope.$$phase) {
-        scope.$digest();
+      if (!$scope.$$phase) {
+        $scope.$digest();
       }
     });
   };
@@ -45,8 +45,8 @@ describe('model: DiscoveryView', function () {
     initializeModel();
   });
 
-  describe('Is the model defined', function () {
-    it('should be defined', function () {
+  describe("Is the model defined", function () {
+    it("should be defined", function () {
       expect(model).toBeDefined();
     });
   });

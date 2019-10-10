@@ -1,17 +1,17 @@
-describe('model: DiscoveryContext', function () {
-  var model, rootScope, routeParams, scope, location, wsResponse, MockedDiscoveryContext, WsApi;
+describe("model: DiscoveryContext", function () {
+  var $rootScope, $scope, $location, MockedDiscoveryContext, WsApi, routeParams, model, wsResponse;
 
   var initializeVariables = function(settings) {
-    inject(function ($q, $location, $rootScope, _WsApi_) {
-      location = $location;
-      q = $q;
-      rootScope = $rootScope;
+    inject(function (_$q_, _$location_, _$rootScope_, _WsApi_) {
+      $location = _$location_;
+      $q = _$q_;
+      $rootScope = _$rootScope_;
 
       if (settings && settings.routeParams) {
         angular.extend(routeParams, settings.routeParams);
       }
 
-      MockedDiscoveryContext = new mockDiscoveryContext(q);
+      MockedDiscoveryContext = new mockDiscoveryContext($q);
       WsApi = _WsApi_;
 
       wsResponse = {
@@ -38,7 +38,7 @@ describe('model: DiscoveryContext', function () {
 
   var initializeModel = function(settings) {
     inject(function (DiscoveryContext) {
-      scope = rootScope.$new();
+      $scope = $rootScope.$new();
 
       if (settings) {
         if (settings.routeParams) {
@@ -49,8 +49,8 @@ describe('model: DiscoveryContext', function () {
       model = angular.extend(new DiscoveryContext(), dataDiscoveryContext1);
 
       // ensure that all pre-processing is called.
-      if (!scope.$$phase) {
-        scope.$digest();
+      if (!$scope.$$phase) {
+        $scope.$digest();
       }
     });
   };
@@ -68,74 +68,74 @@ describe('model: DiscoveryContext', function () {
     initializeModel();
   });
 
-  describe('Is the model defined', function () {
-    it('should be defined', function () {
+  describe("Is the model defined", function () {
+    it("should be defined", function () {
       expect(model).toBeDefined();
     });
   });
 
-  describe('Are the model methods defined', function () {
-    it('addFilter should be defined', function () {
+  describe("Are the model methods defined", function () {
+    it("addFilter should be defined", function () {
       expect(model.addFilter).toBeDefined();
       expect(typeof model.addFilter).toEqual("function");
     });
 
-    it('buildPage should be defined', function () {
+    it("buildPage should be defined", function () {
       expect(model.buildPage).toBeDefined();
       expect(typeof model.buildPage).toEqual("function");
     });
 
-    it('buildUrlFilterKeyValues should be defined', function () {
+    it("buildUrlFilterKeyValues should be defined", function () {
       expect(model.buildUrlFilterKeyValues).toBeDefined();
       expect(typeof model.buildUrlFilterKeyValues).toEqual("function");
     });
 
-    it('executeSearch should be defined', function () {
+    it("executeSearch should be defined", function () {
       expect(model.executeSearch).toBeDefined();
       expect(typeof model.executeSearch).toEqual("function");
     });
 
-    it('getBreadcrumb should be defined', function () {
+    it("getBreadcrumb should be defined", function () {
       expect(model.getBreadcrumb).toBeDefined();
       expect(typeof model.getBreadcrumb).toEqual("function");
     });
 
-    it('isSearching should be defined', function () {
+    it("isSearching should be defined", function () {
       expect(model.isSearching).toBeDefined();
       expect(typeof model.isSearching).toEqual("function");
     });
 
-    it('reload should be defined', function () {
+    it("reload should be defined", function () {
       expect(model.reload).toBeDefined();
       expect(typeof model.reload).toEqual("function");
     });
 
-    it('removeFilter should be defined', function () {
+    it("removeFilter should be defined", function () {
       expect(model.removeFilter).toBeDefined();
       expect(typeof model.removeFilter).toEqual("function");
     });
 
-    it('resetBadges should be defined', function () {
+    it("resetBadges should be defined", function () {
       expect(model.resetBadges).toBeDefined();
       expect(typeof model.resetBadges).toEqual("function");
     });
 
-    it('resetSearch should be defined', function () {
+    it("resetSearch should be defined", function () {
       expect(model.resetSearch).toBeDefined();
       expect(typeof model.resetSearch).toEqual("function");
     });
 
-    it('setSearchField should be defined', function () {
+    it("setSearchField should be defined", function () {
       expect(model.setSearchField).toBeDefined();
       expect(typeof model.setSearchField).toEqual("function");
     });
   });
 
-  describe('Are the model methods working as expected', function () {
-    it('addFilter should work', function () {
-      var mockFilter1 = new mockFilter(q);
-      var mockFilter2 = new mockFilter(q);
-      var mockFilter3 = new mockFilter(q);
+  describe("Are the model methods working as expected", function () {
+    it("addFilter should work", function () {
+      var mockFilter1 = new mockFilter($q);
+      var mockFilter2 = new mockFilter($q);
+      var mockFilter3 = new mockFilter($q);
       mockFilter2.mock(dataFilter2);
       mockFilter3.mock(dataFilter3);
 
@@ -143,21 +143,21 @@ describe('model: DiscoveryContext', function () {
       delete model.search.filters;
 
       model.addFilter(mockFilter1.label, mockFilter1.key, mockFilter1.value);
-      scope.$digest();
+      $scope.$digest();
 
       expect(model.search.filters.length).toBe(1);
       expect(model.executeSearch).toHaveBeenCalled();
 
       model.addFilter(mockFilter2.label, mockFilter2.key, mockFilter2.value);
-      scope.$digest();
+      $scope.$digest();
       expect(model.search.filters.length).toBe(2);
 
       model.addFilter(mockFilter3.label, mockFilter3.key, mockFilter3.value);
-      scope.$digest();
+      $scope.$digest();
       expect(model.search.filters.length).toBe(3);
     });
 
-    it('buildPage should work', function () {
+    it("buildPage should work", function () {
       var page;
 
       page = model.buildPage();
@@ -185,11 +185,11 @@ describe('model: DiscoveryContext', function () {
       expect(page.offset).toBe(settings.routeParams.offset);
     });
 
-    it('buildUrlFilterKeyValues should work', function () {
+    it("buildUrlFilterKeyValues should work", function () {
       var urlFilters;
-      var mockFilter1 = new mockFilter(q);
-      var mockFilter2 = new mockFilter(q);
-      var mockFilter3 = new mockFilter(q);
+      var mockFilter1 = new mockFilter($q);
+      var mockFilter2 = new mockFilter($q);
+      var mockFilter3 = new mockFilter($q);
       mockFilter2.mock(dataFilter2);
       mockFilter3.mock(dataFilter3);
 
@@ -215,14 +215,14 @@ describe('model: DiscoveryContext', function () {
       expect(urlFilters["f." + mockFilter1.key].length).toBe(2);
     });
 
-    it('executeSearch should work', function () {
-      var originalSearch = location.search;
-      spyOn(location, 'search').and.callThrough();
+    it("executeSearch should work", function () {
+      var originalSearch = $location.search;
+      spyOn($location, 'search').and.callThrough();
 
       model.executeSearch(false);
-      scope.$digest();
+      $scope.$digest();
 
-      expect(location.search).toHaveBeenCalled();
+      expect($location.search).toHaveBeenCalled();
 
       wsResponse.payload.DiscoveryContext.search.field = "mockField";
       wsResponse.payload.DiscoveryContext.search.value = "mockValue";
@@ -231,37 +231,37 @@ describe('model: DiscoveryContext', function () {
       wsResponse.payload.DiscoveryContext.search.page.size = -1;
       wsResponse.payload.DiscoveryContext.search.page.offset = -1;
       wsResponse.payload.DiscoveryContext.search.filters = [ "f.mock1", "f.mock2" ];
-      location.search = originalSearch;
-      spyOn(location, 'search').and.callThrough();
+      $location.search = originalSearch;
+      spyOn($location, 'search').and.callThrough();
 
       model.executeSearch(true);
-      scope.$digest();
+      $scope.$digest();
 
-      expect(location.search).toHaveBeenCalled();
+      expect($location.search).toHaveBeenCalled();
 
       // searching cannot be directly assigned, but it gets assigned when executeSearch() is called.
       // because $digest() has likely not yet happened, the second call will likely trigger the "!searching" case.
       model.executeSearch();
       model.executeSearch();
-      scope.$digest();
+      $scope.$digest();
     });
 
-    it('getBreadcrumb should work', function () {
+    it("getBreadcrumb should work", function () {
       var result;
 
       result = model.getBreadcrumb();
       expect(result.label).toBe(model.name);
     });
 
-    it('isSearching should work', function () {
+    it("isSearching should work", function () {
       model.executeSearch();
       expect(model.isSearching()).toBe(true);
-      scope.$digest();
+      $scope.$digest();
 
       expect(model.isSearching()).toBe(false);
     });
 
-    it('reload should work', function () {
+    it("reload should work", function () {
       wsResponse.payload.DiscoveryContext.search.field = "mock";
       wsResponse.payload.DiscoveryContext.search.filters = {
         "f.mock1": "value1",
@@ -269,20 +269,20 @@ describe('model: DiscoveryContext', function () {
       };
 
       model.reload();
-      scope.$digest();
+      $scope.$digest();
       expect(model.search.field).toBe("mock");
 
       wsResponse.payload.DiscoveryContext.search.page = 1;
       model.reload();
-      scope.$digest();
+      $scope.$digest();
 
       expect(model.search.page.number).toBe(1);
     });
 
-    it('removeFilter should work', function () {
-      var mockFilter1 = new mockFilter(q);
-      var mockFilter2 = new mockFilter(q);
-      var mockFilter3 = new mockFilter(q);
+    it("removeFilter should work", function () {
+      var mockFilter1 = new mockFilter($q);
+      var mockFilter2 = new mockFilter($q);
+      var mockFilter3 = new mockFilter($q);
       mockFilter2.mock(dataFilter2);
       mockFilter3.mock(dataFilter3);
 
@@ -290,53 +290,53 @@ describe('model: DiscoveryContext', function () {
       model.search.filters = [ mockFilter1, mockFilter2, mockFilter3 ];
 
       model.removeFilter(mockFilter2);
-      scope.$digest();
+      $scope.$digest();
 
       expect(model.search.filters.length).toBe(2);
       expect(model.executeSearch).toHaveBeenCalled();
 
       model.removeFilter(mockFilter1);
-      scope.$digest();
+      $scope.$digest();
       expect(model.search.filters.length).toBe(1);
 
       model.removeFilter(mockFilter3);
-      scope.$digest();
+      $scope.$digest();
       expect(model.search.filters.length).toBe(0);
     });
 
-    it('resetBadges should work', function () {
-      var mockFilter1 = new mockFilter(q);
-      var mockFilter2 = new mockFilter(q);
+    it("resetBadges should work", function () {
+      var mockFilter1 = new mockFilter($q);
+      var mockFilter2 = new mockFilter($q);
       mockFilter2.mock(dataFilter2);
 
       spyOn(model, 'executeSearch');
       model.search.filters = [ mockFilter1, mockFilter2 ];
-      location.search("f.mock", "mockedValue");
+      $location.search("f.mock", "mockedValue");
 
       model.resetBadges();
-      scope.$digest();
+      $scope.$digest();
 
       expect(model.search.filters.length).toBe(0);
       expect(model.executeSearch).toHaveBeenCalled();
     });
 
-    it('resetSearch should work', function () {
+    it("resetSearch should work", function () {
       spyOn(model, 'executeSearch');
       model.search.field = "mock_field";
       model.search.value = "mockedValue";
-      location.search("field", model.search.field);
-      location.search("value", model.search.value);
+      $location.search("field", model.search.field);
+      $location.search("value", model.search.value);
 
       model.resetSearch();
-      scope.$digest();
+      $scope.$digest();
 
       expect(model.search.field).toBe("");
       expect(model.search.value).toBe("");
       expect(model.executeSearch).toHaveBeenCalled();
     });
 
-    it('setSearchField should work', function () {
-      var searchField = new mockSearchField(q);
+    it("setSearchField should work", function () {
+      var searchField = new mockSearchField($q);
       model.search.field = "";
       model.search.value = "";
 
@@ -347,7 +347,7 @@ describe('model: DiscoveryContext', function () {
     });
   });
 
-  describe("Does the scope initialize as expected", function () {
+  describe("Does the $scope initialize as expected", function () {
     it("EmailTemplateRepo.before() should work", function () {
       var settings = {
         routeParams: {

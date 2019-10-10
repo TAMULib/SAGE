@@ -1,24 +1,24 @@
 describe("directive: defaultSrc", function () {
-  var compile, directive, element, scope, defaultSrc;
+  var $compile, $scope, directive, element, defaultSrc;
 
   var initializeVariables = function(settings) {
-    inject(function ($compile) {
-      compile = $compile;
+    inject(function (_$compile_) {
+      $compile = _$compile_;
 
       defaultSrc = "";
     });
   };
 
   var initializeDirective = function() {
-    inject(function ($rootScope) {
-      scope = $rootScope.$new();
+    inject(function (_$rootScope_) {
+      $scope = _$rootScope_.$new();
 
       element = angular.element("<default-src default-src=\"defaultSrc\"></default-src>");
-      directive = compile(element)(scope);
+      directive = $compile(element)($scope);
 
-      scope.defaultSrc = defaultSrc;
+      $scope.defaultSrc = defaultSrc;
 
-      scope.$digest();
+      $scope.$digest();
     });
   };
 

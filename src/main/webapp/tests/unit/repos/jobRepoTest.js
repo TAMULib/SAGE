@@ -1,19 +1,19 @@
 describe("service: jobRepo", function () {
-  var q, repo, rootScope, scope, WsApi;
+  var $q, $rootScope, $scope, WsApi, repo;
 
   var initializeVariables = function(settings) {
-    inject(function ($q, $rootScope, _WsApi_) {
-      q = $q;
-      rootScope = $rootScope;
+    inject(function (_$q_, _$rootScope_, _WsApi_) {
+      $q = _$q_;
+      $rootScope = _$rootScope_;
 
-      MockedJob = new mockJob(q);
+      MockedJob = new mockJob($q);
       WsApi = _WsApi_;
     });
   };
 
   var initializeRepo = function(settings) {
     inject(function ($injector, JobRepo) {
-      scope = rootScope.$new();
+      $scope = $rootScope.$new();
 
       repo = JobRepo;
     });
@@ -54,15 +54,15 @@ describe("service: jobRepo", function () {
 
   describe("Do the repo methods work as expected", function () {
     it("run should work", function () {
-      repo.run(new mockJob(q));
-      scope.$digest();
+      repo.run(new mockJob($q));
+      $scope.$digest();
 
       // TODO
     });
 
     it("runAll should work", function () {
       repo.runAll("todo");
-      scope.$digest();
+      $scope.$digest();
 
       // TODO
     });

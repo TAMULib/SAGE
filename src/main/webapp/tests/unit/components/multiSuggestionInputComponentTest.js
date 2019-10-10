@@ -1,9 +1,9 @@
 describe("component: multiSuggestionInput", function () {
-  var compile, component, controller, element, scope, suggestions, model, property, optionproperty, displayproperty, name, label, placeholder;
+  var $compile, $scope, component, element, suggestions, model, property, optionproperty, displayproperty, name, label, placeholder;
 
   var initializeVariables = function() {
-    inject(function ($compile) {
-      compile = $compile;
+    inject(function (_$compile_) {
+      $compile = _$compile_;
 
       suggestions = "";
       model = {};
@@ -17,21 +17,21 @@ describe("component: multiSuggestionInput", function () {
   };
 
   var initializeComponent = function() {
-    inject(function ($rootScope) {
-      scope = $rootScope.$new();
+    inject(function (_$rootScope_) {
+      $scope = _$rootScope_.$new();
 
       element = angular.element("<multi-suggestion-input suggestions=\"suggestions\" model=\"model\" property=\"property\" optionproperty=\"optionproperty\" displayproperty=\"displayproperty\" name=\"name\" label=\"label\" placeholder=\"placeholder\"></multi-suggestion-input>");
-      component = compile(element)(scope);
+      component = $compile(element)($scope);
 
-      scope.suggestions = suggestions;
-      scope.model = model;
-      scope.property = property;
-      scope.optionproperty = optionproperty;
-      scope.name = name;
-      scope.label = label;
-      scope.placeholder = placeholder;
+      $scope.suggestions = suggestions;
+      $scope.model = model;
+      $scope.property = property;
+      $scope.optionproperty = optionproperty;
+      $scope.name = name;
+      $scope.label = label;
+      $scope.placeholder = placeholder;
 
-      scope.$digest();
+      $scope.$digest();
 
       // @todo find a way to unit test controller methods, the angularjs documentation uses a Spy, which prevents actual unit testing.
     });

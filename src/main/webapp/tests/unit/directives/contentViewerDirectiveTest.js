@@ -1,9 +1,9 @@
 describe("directive: contentviewer", function () {
-  var appConfig, compile, directive, element, scope, contentType, resource;
+  var $compile, $scope, appConfig, directive, element, contentType, resource;
 
   var initializeVariables = function() {
-    inject(function ($compile, _appConfig_) {
-      compile = $compile;
+    inject(function (_$compile_, _appConfig_) {
+      $compile = _$compile_;
       appConfig = _appConfig_;
 
       contentType = "";
@@ -12,16 +12,16 @@ describe("directive: contentviewer", function () {
   };
 
   var initializeDirective = function() {
-    inject(function ($rootScope) {
-      scope = $rootScope.$new();
+    inject(function (_$rootScope_) {
+      $scope = _$rootScope_.$new();
 
       element = angular.element("<contentviewer resource=\"resource\" content-type=\"contentType\"></contentviewer>");
-      directive = compile(element)(scope);
+      directive = $compile(element)($scope);
 
-      scope.contentType = contentType;
-      scope.resource = resource;
+      $scope.contentType = contentType;
+      $scope.resource = resource;
 
-      scope.$digest();
+      $scope.$digest();
     });
   };
 

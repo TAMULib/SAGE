@@ -1,33 +1,33 @@
-describe('controller: InternalMetadataManagementController', function () {
+describe("controller: InternalMetadataManagementController", function () {
 
-  var controller, q, scope, MockedInternalMetadata, NgTableParams;
+  var $q, $scope, MockedInternalMetadata, NgTableParams, controller;
 
   var initializeVariables = function(settings) {
-    inject(function ($q, _InternalMetadataRepo_) {
-      q = $q;
+    inject(function (_$q_, _InternalMetadataRepo_) {
+      $q = _$q_;
 
       InternalMetadataRepo = _InternalMetadataRepo_;
-      MockedInternalMetadata = new mockInternalMetadata(q);
+      MockedInternalMetadata = new mockInternalMetadata($q);
       NgTableParams = mockNgTableParams;
     });
   };
 
   var initializeController = function(settings) {
-    inject(function ($controller, $rootScope) {
-      scope = $rootScope.$new();
+    inject(function (_$controller_, _$rootScope_) {
+      $scope = _$rootScope_.$new();
 
       sessionStorage.role = settings && settings.role ? settings.role : "ROLE_ADMIN";
       sessionStorage.token = settings && settings.token ? settings.token : "faketoken";
 
-      controller = $controller("InternalMetadataManagementController", {
-        $scope: scope,
+      controller = _$controller_("InternalMetadataManagementController", {
+        $scope: $scope,
         InternalMetadataRepo: InternalMetadataRepo,
         NgTableParams: NgTableParams
       });
 
       // ensure that the isReady() is called.
-      if (!scope.$$phase) {
-        scope.$digest();
+      if (!$scope.$$phase) {
+        $scope.$digest();
       }
     });
   };
@@ -68,207 +68,207 @@ describe('controller: InternalMetadataManagementController', function () {
     });
   });
 
-  describe('Are the scope methods defined', function () {
-    it('cancelCreateInternalMetadatum should be defined', function () {
-      expect(scope.cancelCreateInternalMetadatum).toBeDefined();
-      expect(typeof scope.cancelCreateInternalMetadatum).toEqual("function");
+  describe("Are the scope methods defined", function () {
+    it("cancelCreateInternalMetadatum should be defined", function () {
+      expect($scope.cancelCreateInternalMetadatum).toBeDefined();
+      expect(typeof $scope.cancelCreateInternalMetadatum).toEqual("function");
     });
 
-    it('cancelDeleteInternalMetadatum should be defined', function () {
-      expect(scope.cancelDeleteInternalMetadatum).toBeDefined();
-      expect(typeof scope.cancelDeleteInternalMetadatum).toEqual("function");
+    it("cancelDeleteInternalMetadatum should be defined", function () {
+      expect($scope.cancelDeleteInternalMetadatum).toBeDefined();
+      expect(typeof $scope.cancelDeleteInternalMetadatum).toEqual("function");
     });
 
-    it('cancelUpdateInternalMetadatum should be defined', function () {
-      expect(scope.cancelUpdateInternalMetadatum).toBeDefined();
-      expect(typeof scope.cancelUpdateInternalMetadatum).toEqual("function");
+    it("cancelUpdateInternalMetadatum should be defined", function () {
+      expect($scope.cancelUpdateInternalMetadatum).toBeDefined();
+      expect(typeof $scope.cancelUpdateInternalMetadatum).toEqual("function");
     });
 
-    it('confirmDeleteInternalMetadatum should be defined', function () {
-      expect(scope.confirmDeleteInternalMetadatum).toBeDefined();
-      expect(typeof scope.confirmDeleteInternalMetadatum).toEqual("function");
+    it("confirmDeleteInternalMetadatum should be defined", function () {
+      expect($scope.confirmDeleteInternalMetadatum).toBeDefined();
+      expect(typeof $scope.confirmDeleteInternalMetadatum).toEqual("function");
     });
 
-    it('createInternalMetadatum should be defined', function () {
-      expect(scope.createInternalMetadatum).toBeDefined();
-      expect(typeof scope.createInternalMetadatum).toEqual("function");
+    it("createInternalMetadatum should be defined", function () {
+      expect($scope.createInternalMetadatum).toBeDefined();
+      expect(typeof $scope.createInternalMetadatum).toEqual("function");
     });
 
-    it('deleteInternalMetadatum should be defined', function () {
-      expect(scope.deleteInternalMetadatum).toBeDefined();
-      expect(typeof scope.deleteInternalMetadatum).toEqual("function");
+    it("deleteInternalMetadatum should be defined", function () {
+      expect($scope.deleteInternalMetadatum).toBeDefined();
+      expect(typeof $scope.deleteInternalMetadatum).toEqual("function");
     });
 
-    it('resetInternalMetadatumForms should be defined', function () {
-      expect(scope.resetInternalMetadatumForms).toBeDefined();
-      expect(typeof scope.resetInternalMetadatumForms).toEqual("function");
+    it("resetInternalMetadatumForms should be defined", function () {
+      expect($scope.resetInternalMetadatumForms).toBeDefined();
+      expect(typeof $scope.resetInternalMetadatumForms).toEqual("function");
     });
 
-    it('setTable should be defined', function () {
-      expect(scope.setTable).toBeDefined();
-      expect(typeof scope.setTable).toEqual("function");
+    it("setTable should be defined", function () {
+      expect($scope.setTable).toBeDefined();
+      expect(typeof $scope.setTable).toEqual("function");
     });
 
-    it('startCreateInternalMetadatum should be defined', function () {
-      expect(scope.startCreateInternalMetadatum).toBeDefined();
-      expect(typeof scope.startCreateInternalMetadatum).toEqual("function");
+    it("startCreateInternalMetadatum should be defined", function () {
+      expect($scope.startCreateInternalMetadatum).toBeDefined();
+      expect(typeof $scope.startCreateInternalMetadatum).toEqual("function");
     });
 
-    it('startUpdateInternalMetadatum should be defined', function () {
-      expect(scope.startUpdateInternalMetadatum).toBeDefined();
-      expect(typeof scope.startUpdateInternalMetadatum).toEqual("function");
+    it("startUpdateInternalMetadatum should be defined", function () {
+      expect($scope.startUpdateInternalMetadatum).toBeDefined();
+      expect(typeof $scope.startUpdateInternalMetadatum).toEqual("function");
     });
 
-    it('updateInternalMetadatum should be defined', function () {
-      expect(scope.updateInternalMetadatum).toBeDefined();
-      expect(typeof scope.updateInternalMetadatum).toEqual("function");
+    it("updateInternalMetadatum should be defined", function () {
+      expect($scope.updateInternalMetadatum).toBeDefined();
+      expect(typeof $scope.updateInternalMetadatum).toEqual("function");
     });
   });
 
-  describe('Are the scope methods working as expected', function () {
-    it('cancelCreateInternalMetadatum should cancel creating a internalMetadata', function () {
-      spyOn(scope, 'resetInternalMetadatumForms');
+  describe("Are the $scope methods working as expected", function () {
+    it("cancelCreateInternalMetadatum should cancel creating a internalMetadata", function () {
+      spyOn($scope, 'resetInternalMetadatumForms');
 
-      scope.cancelCreateInternalMetadatum();
-      scope.$digest();
+      $scope.cancelCreateInternalMetadatum();
+      $scope.$digest();
 
-      expect(typeof scope.internalMetadatumToCreate).toEqual("object");
-      expect(scope.resetInternalMetadatumForms).toHaveBeenCalled();
+      expect(typeof $scope.internalMetadatumToCreate).toEqual("object");
+      expect($scope.resetInternalMetadatumForms).toHaveBeenCalled();
     });
 
-    it('cancelDeleteInternalMetadatum should cancel deleting a internalMetadata', function () {
-      var internalMetadata = new mockInternalMetadata(q);
-      scope.internalMetadatumToDelete = internalMetadata;
+    it("cancelDeleteInternalMetadatum should cancel deleting a internalMetadata", function () {
+      var internalMetadata = new mockInternalMetadata($q);
+      $scope.internalMetadatumToDelete = internalMetadata;
 
-      spyOn(scope, 'resetInternalMetadatumForms');
+      spyOn($scope, 'resetInternalMetadatumForms');
 
-      scope.cancelDeleteInternalMetadatum(internalMetadata);
+      $scope.cancelDeleteInternalMetadatum(internalMetadata);
 
-      expect(scope.internalMetadatumToDelete).not.toEqual(internalMetadata);
-      expect(scope.resetInternalMetadatumForms).toHaveBeenCalled();
+      expect($scope.internalMetadatumToDelete).not.toEqual(internalMetadata);
+      expect($scope.resetInternalMetadatumForms).toHaveBeenCalled();
     });
 
-    it('cancelUpdateInternalMetadatum should cancel updating a internalMetadata', function () {
-      var internalMetadata = new mockInternalMetadata(q);
-      scope.internalMetadatumToUpdate = internalMetadata;
+    it("cancelUpdateInternalMetadatum should cancel updating a internalMetadata", function () {
+      var internalMetadata = new mockInternalMetadata($q);
+      $scope.internalMetadatumToUpdate = internalMetadata;
 
-      spyOn(scope, 'resetInternalMetadatumForms');
+      spyOn($scope, 'resetInternalMetadatumForms');
 
-      scope.cancelUpdateInternalMetadatum(internalMetadata);
+      $scope.cancelUpdateInternalMetadatum(internalMetadata);
 
-      expect(scope.internalMetadatumToUpdate).not.toEqual(internalMetadata);
-      expect(scope.resetInternalMetadatumForms).toHaveBeenCalled();
+      expect($scope.internalMetadatumToUpdate).not.toEqual(internalMetadata);
+      expect($scope.resetInternalMetadatumForms).toHaveBeenCalled();
     });
 
-    it('confirmDeleteInternalMetadatum should confirm deleting a internalMetadata', function () {
-      var internalMetadata = new mockInternalMetadata(q);
+    it("confirmDeleteInternalMetadatum should confirm deleting a internalMetadata", function () {
+      var internalMetadata = new mockInternalMetadata($q);
 
-      scope.internalMetadatumToDelete = null;
-      scope.openModal = function(name) { };
+      $scope.internalMetadatumToDelete = null;
+      $scope.openModal = function(name) { };
 
-      spyOn(scope, 'openModal');
+      spyOn($scope, 'openModal');
 
-      scope.confirmDeleteInternalMetadatum(internalMetadata);
+      $scope.confirmDeleteInternalMetadatum(internalMetadata);
 
-      expect(scope.internalMetadatumToDelete).toEqual(internalMetadata);
-      expect(scope.openModal).toHaveBeenCalled();
+      expect($scope.internalMetadatumToDelete).toEqual(internalMetadata);
+      expect($scope.openModal).toHaveBeenCalled();
     });
 
-    it('createInternalMetadatum should create a internalMetadata', function () {
-      var newInternalMetadatum = new mockInternalMetadata(q);
+    it("createInternalMetadatum should create a internalMetadata", function () {
+      var newInternalMetadatum = new mockInternalMetadata($q);
       delete newInternalMetadatum.id;
 
-      spyOn(scope, 'cancelCreateInternalMetadatum');
+      spyOn($scope, 'cancelCreateInternalMetadatum');
 
-      scope.createInternalMetadatum(newInternalMetadatum);
-      scope.$digest();
+      $scope.createInternalMetadatum(newInternalMetadatum);
+      $scope.$digest();
 
-      expect(scope.cancelCreateInternalMetadatum).toHaveBeenCalled();
+      expect($scope.cancelCreateInternalMetadatum).toHaveBeenCalled();
     });
 
-    it('deleteInternalMetadatum should delete a internalMetadata', function () {
-      scope.deletingInternalMetadatum = null;
-      scope.internalMetadatumToDelete = new mockInternalMetadata(q);
+    it("deleteInternalMetadatum should delete a internalMetadata", function () {
+      $scope.deletingInternalMetadatum = null;
+      $scope.internalMetadatumToDelete = new mockInternalMetadata($q);
 
-      spyOn(scope, 'resetInternalMetadatumForms');
+      spyOn($scope, 'resetInternalMetadatumForms');
 
-      scope.deleteInternalMetadatum();
-      scope.$digest();
+      $scope.deleteInternalMetadatum();
+      $scope.$digest();
 
-      expect(typeof scope.deletingInternalMetadatum).toEqual('boolean');
-      expect(scope.resetInternalMetadatumForms).toHaveBeenCalled();
+      expect(typeof $scope.deletingInternalMetadatum).toEqual('boolean');
+      expect($scope.resetInternalMetadatumForms).toHaveBeenCalled();
     });
 
-    it('resetInternalMetadatumForms should reset internalMetadata form', function () {
-      scope.closeModal = function() { };
+    it("resetInternalMetadatumForms should reset internalMetadata form", function () {
+      $scope.closeModal = function() { };
 
       spyOn(InternalMetadataRepo, 'clearValidationResults');
-      spyOn(scope, 'closeModal');
+      spyOn($scope, 'closeModal');
 
       var key;
-      for (key in scope.internalMetadataForms) {
-        scope.internalMetadataForms[key].$setPristine = function() { };
-        spyOn(scope.internalMetadataForms[key], '$setPristine');
+      for (key in $scope.internalMetadataForms) {
+        $scope.internalMetadataForms[key].$setPristine = function() { };
+        spyOn($scope.internalMetadataForms[key], '$setPristine');
       }
 
-      scope.resetInternalMetadatumForms();
-      scope.$digest();
+      $scope.resetInternalMetadatumForms();
+      $scope.$digest();
 
       expect(InternalMetadataRepo.clearValidationResults).toHaveBeenCalled();
-      expect(scope.closeModal).toHaveBeenCalled();
+      expect($scope.closeModal).toHaveBeenCalled();
 
-      for (key in scope.internalMetadataForms) {
-        expect(scope.internalMetadataForms[key].$setPristine).toHaveBeenCalled();
+      for (key in $scope.internalMetadataForms) {
+        expect($scope.internalMetadataForms[key].$setPristine).toHaveBeenCalled();
       }
     });
 
-    it('setTable should setup the table settings', function () {
-      scope.internalMetadata = new mockInternalMetadata(q);
-      scope.setTable();
-      scope.$digest();
+    it("setTable should setup the table settings", function () {
+      $scope.internalMetadata = new mockInternalMetadata($q);
+      $scope.setTable();
+      $scope.$digest();
 
-      expect(scope.tableParams).toBeDefined();
+      expect($scope.tableParams).toBeDefined();
     });
 
-    it('startCreateInternalMetadatum should start creating a internalMetadata', function () {
-      scope.openModal = function(name) { };
+    it("startCreateInternalMetadatum should start creating a internalMetadata", function () {
+      $scope.openModal = function(name) { };
 
-      spyOn(scope, 'openModal');
+      spyOn($scope, 'openModal');
 
-      scope.startCreateInternalMetadatum();
+      $scope.startCreateInternalMetadatum();
 
-      expect(scope.openModal).toHaveBeenCalled();
+      expect($scope.openModal).toHaveBeenCalled();
     });
 
-    it('startUpdateInternalMetadatum should start updating a internalMetadata', function () {
-      scope.internalMetadatumToUpdate = null;
-      scope.openModal = function(name) { };
+    it("startUpdateInternalMetadatum should start updating a internalMetadata", function () {
+      $scope.internalMetadatumToUpdate = null;
+      $scope.openModal = function(name) { };
 
-      spyOn(scope, 'openModal');
+      spyOn($scope, 'openModal');
 
-      scope.startUpdateInternalMetadatum(dataInternalMetadata1);
+      $scope.startUpdateInternalMetadatum(dataInternalMetadata1);
 
-      expect(scope.internalMetadatumToUpdate).toEqual(dataInternalMetadata1);
-      expect(scope.openModal).toHaveBeenCalled();
+      expect($scope.internalMetadatumToUpdate).toEqual(dataInternalMetadata1);
+      expect($scope.openModal).toHaveBeenCalled();
     });
 
-    it('updateInternalMetadatum should update a internalMetadata', function () {
-      scope.internalMetadatumToUpdate = new mockInternalMetadata(q);
-      scope.updatingInternalMetadatum = null;
+    it("updateInternalMetadatum should update a internalMetadata", function () {
+      $scope.internalMetadatumToUpdate = new mockInternalMetadata($q);
+      $scope.updatingInternalMetadatum = null;
 
-      spyOn(scope, 'resetInternalMetadatumForms');
+      spyOn($scope, 'resetInternalMetadatumForms');
 
-      scope.updateInternalMetadatum();
-      scope.$digest();
+      $scope.updateInternalMetadatum();
+      $scope.$digest();
 
-      expect(typeof scope.updatingInternalMetadatum).toEqual('boolean');
-      expect(scope.resetInternalMetadatumForms).toHaveBeenCalled();
+      expect(typeof $scope.updatingInternalMetadatum).toEqual('boolean');
+      expect($scope.resetInternalMetadatumForms).toHaveBeenCalled();
     });
 
-    it('source candidates should be readOnly', function () {
+    it("source candidates should be readOnly", function () {
       var foundWriteableCandidate = false;
-      for (var i in scope.sources) {
-        if (scope.sources[i].readOnly == false) {
+      for (var i in $scope.sources) {
+        if ($scope.sources[i].readOnly == false) {
           foundWriteableCandidate = true;
           break;
         }

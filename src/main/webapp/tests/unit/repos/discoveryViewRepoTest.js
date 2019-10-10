@@ -1,19 +1,19 @@
 describe("service: discoveryViewRepo", function () {
-  var q, repo, rootScope, scope, MockedDiscoveryView, WsApi;
+  var $q, $rootScope, $scope, MockedDiscoveryView, WsApi, repo;
 
   var initializeVariables = function(settings) {
-    inject(function ($q, $rootScope, _WsApi_) {
-      q = $q;
-      rootScope = $rootScope;
+    inject(function (_$q_, _$rootScope_, _WsApi_) {
+      $q = _$q_;
+      $rootScope = _$rootScope_;
 
-      MockedDiscoveryView = new mockDiscoveryView(q);
+      MockedDiscoveryView = new mockDiscoveryView($q);
       WsApi = _WsApi_;
     });
   };
 
   var initializeRepo = function(settings) {
     inject(function ($injector, DiscoveryViewRepo) {
-      scope = rootScope.$new();
+      $scope = $rootScope.$new();
 
       repo = DiscoveryViewRepo;
     });

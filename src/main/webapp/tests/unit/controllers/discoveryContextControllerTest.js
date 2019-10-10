@@ -1,10 +1,10 @@
 describe("controller: DiscoveryContextController", function () {
-  var controller, location, q, scope, appConfig, routeParams, DiscoveryContext, MockedDiscoveryContext, MockedUser, WsApi;
+  var $location, $q, $scope, DiscoveryContext, MockedDiscoveryContext, MockedUser, WsApi, appConfig, controller, routeParams;
 
   var initializeVariables = function(settings) {
-    inject(function ($location, $q, _WsApi_) {
-      location = $location;
-      q = $q;
+    inject(function (_$location_, _$q_, _WsApi_) {
+      $location = _$location_;
+      $q = _$q_;
 
       if (settings && settings.routeParams) {
         angular.extend(routeParams, settings.routeParams);
@@ -12,15 +12,15 @@ describe("controller: DiscoveryContextController", function () {
 
       appConfig = settings && settings.appConfig ? settings.appConfig : { defaultThumbnailURI: "thumbnail.png" };
 
-      MockedDiscoveryContext = new mockDiscoveryContext(q);
-      MockedUser = new mockUser(q);
+      MockedDiscoveryContext = new mockDiscoveryContext($q);
+      MockedUser = new mockUser($q);
       WsApi = _WsApi_;
     });
   };
 
   var initializeController = function(settings) {
-    inject(function ($controller, $rootScope) {
-      scope = $rootScope.$new();
+    inject(function (_$controller_, _$rootScope_) {
+      $scope = _$rootScope_.$new();
 
       sessionStorage.role = settings && settings.role ? settings.role : "ROLE_ADMIN";
       sessionStorage.token = settings && settings.token ? settings.token : "faketoken";
@@ -36,19 +36,19 @@ describe("controller: DiscoveryContextController", function () {
         }
       }
 
-      controller = $controller("DiscoveryContextController", {
-        $location: location,
-        $q: q,
+      controller = _$controller_("DiscoveryContextController", {
+        $location: $location,
+        $q: $q,
         $routeParams: routeParams,
-        $scope: scope,
+        $scope: $scope,
         appConfig: appConfig,
         DiscoveryContext: DiscoveryContext,
         WsApi: WsApi
       });
 
       // ensure that the isReady() is called.
-      if (!scope.$$phase) {
-        scope.$digest();
+      if (!$scope.$$phase) {
+        $scope.$digest();
       }
     });
   };
@@ -102,170 +102,170 @@ describe("controller: DiscoveryContextController", function () {
 
   describe("Are the scope methods defined", function () {
     it("findSearchFieldLabel should be defined", function () {
-      expect(scope.findSearchFieldLabel).toBeDefined();
-      expect(typeof scope.findSearchFieldLabel).toEqual("function");
+      expect($scope.findSearchFieldLabel).toBeDefined();
+      expect(typeof $scope.findSearchFieldLabel).toEqual("function");
     });
 
     it("hasActiveFilters should be defined", function () {
-      expect(scope.hasActiveFilters).toBeDefined();
-      expect(typeof scope.hasActiveFilters).toEqual("function");
+      expect($scope.hasActiveFilters).toBeDefined();
+      expect(typeof $scope.hasActiveFilters).toEqual("function");
     });
 
     it("hasSearch should be defined", function () {
-      expect(scope.hasSearch).toBeDefined();
-      expect(typeof scope.hasSearch).toEqual("function");
+      expect($scope.hasSearch).toBeDefined();
+      expect(typeof $scope.hasSearch).toEqual("function");
     });
 
     it("pageBack should be defined", function () {
-      expect(scope.pageBack).toBeDefined();
-      expect(typeof scope.pageBack).toEqual("function");
+      expect($scope.pageBack).toBeDefined();
+      expect(typeof $scope.pageBack).toEqual("function");
     });
 
     it("pageForward should be defined", function () {
-      expect(scope.pageForward).toBeDefined();
-      expect(typeof scope.pageForward).toEqual("function");
+      expect($scope.pageForward).toBeDefined();
+      expect(typeof $scope.pageForward).toEqual("function");
     });
 
     it("removeFilter should be defined", function () {
-      expect(scope.removeFilter).toBeDefined();
-      expect(typeof scope.removeFilter).toEqual("function");
+      expect($scope.removeFilter).toBeDefined();
+      expect(typeof $scope.removeFilter).toEqual("function");
     });
 
     it("prepareSearch should be defined", function () {
-      expect(scope.prepareSearch).toBeDefined();
-      expect(typeof scope.prepareSearch).toEqual("function");
+      expect($scope.prepareSearch).toBeDefined();
+      expect(typeof $scope.prepareSearch).toEqual("function");
     });
 
     it("resetBadges should be defined", function () {
-      expect(scope.resetBadges).toBeDefined();
-      expect(typeof scope.resetBadges).toEqual("function");
+      expect($scope.resetBadges).toBeDefined();
+      expect(typeof $scope.resetBadges).toEqual("function");
     });
 
     it("resetPage should be defined", function () {
-      expect(scope.resetPage).toBeDefined();
-      expect(typeof scope.resetPage).toEqual("function");
+      expect($scope.resetPage).toBeDefined();
+      expect(typeof $scope.resetPage).toEqual("function");
     });
 
     it("resetSearch should be defined", function () {
-      expect(scope.resetSearch).toBeDefined();
-      expect(typeof scope.resetSearch).toEqual("function");
+      expect($scope.resetSearch).toBeDefined();
+      expect(typeof $scope.resetSearch).toEqual("function");
     });
 
     it("searchProcessKeyPress should be defined", function () {
-      expect(scope.searchProcessKeyPress).toBeDefined();
-      expect(typeof scope.searchProcessKeyPress).toEqual("function");
+      expect($scope.searchProcessKeyPress).toBeDefined();
+      expect(typeof $scope.searchProcessKeyPress).toEqual("function");
     });
 
     it("updateLimit should be defined", function () {
-      expect(scope.updateLimit).toBeDefined();
-      expect(typeof scope.updateLimit).toEqual("function");
+      expect($scope.updateLimit).toBeDefined();
+      expect(typeof $scope.updateLimit).toEqual("function");
     });
 
     it("updateSort should be defined", function () {
-      expect(scope.updateSort).toBeDefined();
-      expect(typeof scope.updateSort).toEqual("function");
+      expect($scope.updateSort).toBeDefined();
+      expect(typeof $scope.updateSort).toEqual("function");
     });
   });
 
-  describe("Do the scope methods work as expected", function () {
+  describe("Do the $scope methods work as expected", function () {
     it("findSearchFieldLabel should work", function () {
       var result;
 
-      result = scope.findSearchFieldLabel("should not be found");
+      result = $scope.findSearchFieldLabel("should not be found");
       expect(result).toBe("");
 
-      scope.discoveryContext.searchFields = [ new mockSearchField(q), new mockSearchField(q) ];
-      scope.discoveryContext.searchFields[1].mock(dataSearchField2);
+      $scope.discoveryContext.searchFields = [ new mockSearchField($q), new mockSearchField($q) ];
+      $scope.discoveryContext.searchFields[1].mock(dataSearchField2);
 
-      result = scope.findSearchFieldLabel(scope.discoveryContext.searchFields[1].key);
-      expect(result).toBe(scope.discoveryContext.searchFields[1].label);
+      result = $scope.findSearchFieldLabel($scope.discoveryContext.searchFields[1].key);
+      expect(result).toBe($scope.discoveryContext.searchFields[1].label);
     });
 
     it("hasActiveFilters should work", function () {
       var result;
 
-      result = scope.hasActiveFilters();
+      result = $scope.hasActiveFilters();
       expect(result).toBe(false);
 
       // @todo: implement a mockFacetField and use that here.
-      scope.discoveryContext.search.filters = [ {} ];
+      $scope.discoveryContext.search.filters = [ {} ];
 
-      result = scope.hasActiveFilters();
+      result = $scope.hasActiveFilters();
       expect(result).toBe(true);
     });
 
     it("hasSearch should work", function () {
       var result;
 
-      result = scope.hasSearch();
+      result = $scope.hasSearch();
       expect(result).toBe(false);
 
-      scope.discoveryContext.search.value = "all_fields";
-      result = scope.hasSearch();
+      $scope.discoveryContext.search.value = "all_fields";
+      result = $scope.hasSearch();
       expect(result).toBe(true);
     });
 
     it("pageBack should work", function () {
       var result;
 
-      result = scope.pageBack();
+      result = $scope.pageBack();
       // @todo
     });
 
     it("pageForward should work", function () {
       var result;
 
-      result = scope.pageForward();
+      result = $scope.pageForward();
       // @todo
     });
 
     it("removeFilter should work", function () {
       // @todo: implement a mockFacetField and use that here.
       var filter = {};
-      scope.discoveryContext.search.filters = [ filter ];
-      scope.removeFilter(filter);
-      scope.$digest();
+      $scope.discoveryContext.search.filters = [ filter ];
+      $scope.removeFilter(filter);
+      $scope.$digest();
       // @todo
     });
 
     it("resetBadges should work", function () {
-      scope.discoveryContext = new mockDiscoveryContext(q);
+      $scope.discoveryContext = new mockDiscoveryContext($q);
 
-      spyOn(scope, 'prepareSearch');
+      spyOn($scope, 'prepareSearch');
 
-      scope.resetBadges();
-      scope.$digest();
+      $scope.resetBadges();
+      $scope.$digest();
 
-      expect(scope.prepareSearch).toHaveBeenCalled();
+      expect($scope.prepareSearch).toHaveBeenCalled();
     });
 
     it("resetPage should work", function () {
-      scope.discoveryContext = new mockDiscoveryContext(q);
+      $scope.discoveryContext = new mockDiscoveryContext($q);
 
-      spyOn(scope, 'prepareSearch');
+      spyOn($scope, 'prepareSearch');
 
-      scope.resetPage();
-      scope.$digest();
+      $scope.resetPage();
+      $scope.$digest();
 
-      expect(scope.prepareSearch).toHaveBeenCalled();
+      expect($scope.prepareSearch).toHaveBeenCalled();
     });
 
     it("resetSearch should work", function () {
-      scope.discoveryContext = new mockDiscoveryContext(q);
+      $scope.discoveryContext = new mockDiscoveryContext($q);
 
-      spyOn(scope, 'prepareSearch');
+      spyOn($scope, 'prepareSearch');
 
-      scope.resetSearch();
-      scope.$digest();
+      $scope.resetSearch();
+      $scope.$digest();
 
-      expect(scope.prepareSearch).toHaveBeenCalled();
+      expect($scope.prepareSearch).toHaveBeenCalled();
     });
 
     it("prepareSearch should work", function () {
       var result;
 
-      result = scope.prepareSearch();
-      scope.$digest();
+      result = $scope.prepareSearch();
+      $scope.$digest();
       // @todo
     });
 
@@ -278,23 +278,23 @@ describe("controller: DiscoveryContextController", function () {
           }
       };
 
-      result = scope.searchProcessKeyPress(event);
+      result = $scope.searchProcessKeyPress(event);
       // @todo
     });
 
     it("updateLimit should work", function () {
       var result;
 
-      result = scope.updateLimit();
-      scope.$digest();
+      result = $scope.updateLimit();
+      $scope.$digest();
       // @todo
     });
 
     it("updateSort should work", function () {
       var result;
 
-      result = scope.updateSort();
-      scope.$digest();
+      result = $scope.updateSort();
+      $scope.$digest();
       // @todo
     });
   });

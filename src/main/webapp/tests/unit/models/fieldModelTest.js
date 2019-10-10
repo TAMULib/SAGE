@@ -1,10 +1,10 @@
-describe('model: Field', function () {
-  var model, rootScope, scope, location, WsApi;
+describe("model: Field", function () {
+  var $rootScope, $scope, $location, WsApi, model;
 
   var initializeVariables = function(settings) {
-    inject(function ($location, $rootScope, _WsApi_) {
-      location = $location;
-      rootScope = $rootScope;
+    inject(function (_$location_, _$rootScope_, _WsApi_) {
+      $location = _$location_;
+      $rootScope = _$rootScope_;
 
       WsApi = _WsApi_;
     });
@@ -12,13 +12,13 @@ describe('model: Field', function () {
 
   var initializeModel = function(settings) {
     inject(function (Field) {
-      scope = rootScope.$new();
+      $scope = $rootScope.$new();
 
       model = angular.extend(new Field(), dataField1);
 
       // ensure that all pre-processing is called.
-      if (!scope.$$phase) {
-        scope.$digest();
+      if (!$scope.$$phase) {
+        $scope.$digest();
       }
     });
   };
@@ -32,8 +32,8 @@ describe('model: Field', function () {
     initializeModel();
   });
 
-  describe('Is the model defined', function () {
-    it('should be defined', function () {
+  describe("Is the model defined", function () {
+    it("should be defined", function () {
       expect(model).toBeDefined();
     });
   });

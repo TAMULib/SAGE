@@ -1,9 +1,9 @@
-describe('model: AbstractAppModel', function () {
-  var model, rootScope, scope, WsApi;
+describe("model: AbstractAppModel", function () {
+  var $rootScope, $scope, WsApi, model;
 
   var initializeVariables = function(settings) {
-    inject(function ($rootScope, _WsApi_) {
-      rootScope = $rootScope;
+    inject(function (_$rootScope_, _WsApi_) {
+      $rootScope = _$rootScope_;
 
       WsApi = _WsApi_;
     });
@@ -11,7 +11,7 @@ describe('model: AbstractAppModel', function () {
 
   var initializeModel = function(settings) {
     inject(function (AbstractAppModel) {
-      scope = rootScope.$new();
+      $scope = $rootScope.$new();
 
       model = angular.extend(new AbstractAppModel());
     });
@@ -26,8 +26,8 @@ describe('model: AbstractAppModel', function () {
     initializeModel();
   });
 
-  describe('Is the model defined', function () {
-    it('should be defined', function () {
+  describe("Is the model defined", function () {
+    it("should be defined", function () {
       expect(model).toBeDefined();
     });
   });

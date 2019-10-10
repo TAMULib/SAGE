@@ -1,28 +1,28 @@
 describe("component: solrCoreTest", function () {
-  var compile, component, controller, element, q, scope, MockedSource, source;
+  var $compile, $q, $scope, MockedSource, component, element, source;
 
   var initializeVariables = function() {
-    inject(function ($compile, $q) {
-      compile = $compile;
-      q = $q;
+    inject(function (_$compile_, _$q_) {
+      $compile = _$compile_;
+      $q = _$q_;
 
-      MockedSource = new mockSource(q);
+      MockedSource = new mockSource($q);
 
       source = "";
     });
   };
 
   var initializeComponent = function(settings) {
-    inject(function ($rootScope) {
-      scope = $rootScope.$new();
+    inject(function (_$rootScope_) {
+      $scope = _$rootScope_.$new();
 
       // note: a "SolrCore" is a "Source".
       element = angular.element("<solr-core-test solr-core=\"source\"></solr-core-test>");
-      component = compile(element)(scope);
+      component = $compile(element)($scope);
 
-      scope.source = source;
+      $scope.source = source;
 
-      scope.$digest();
+      $scope.$digest();
 
       // @todo find a way to unit test controller methods, the angularjs documentation uses a Spy, which prevents actual unit testing.
     });

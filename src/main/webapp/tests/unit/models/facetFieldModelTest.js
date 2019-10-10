@@ -1,9 +1,9 @@
-describe('model: MetadataField', function () {
-  var model, rootScope, scope, WsApi;
+describe("model: MetadataField", function () {
+  var $rootScope, $scope, WsApi, model;
 
   var initializeVariables = function(settings) {
-    inject(function ($rootScope, _WsApi_) {
-      rootScope = $rootScope;
+    inject(function (_$rootScope_, _WsApi_) {
+      $rootScope = _$rootScope_;
 
       WsApi = _WsApi_;
     });
@@ -11,7 +11,7 @@ describe('model: MetadataField', function () {
 
   var initializeModel = function(settings) {
     inject(function (FacetField) {
-      scope = rootScope.$new();
+      $scope = $rootScope.$new();
 
       model = angular.extend(new FacetField());
     });
@@ -26,8 +26,8 @@ describe('model: MetadataField', function () {
     initializeModel();
   });
 
-  describe('Is the model defined', function () {
-    it('should be defined', function () {
+  describe("Is the model defined", function () {
+    it("should be defined", function () {
       expect(model).toBeDefined();
     });
   });
