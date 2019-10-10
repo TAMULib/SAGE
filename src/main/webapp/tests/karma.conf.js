@@ -3,7 +3,7 @@ module.exports = function(config){
 
     preprocessors: {
       "app/!(node_modules)/**/*.js": "coverage",
-      '**/!(node_modules)/*.html': ['ng-html2js']
+      'app/views/**/*.html': ['ng-html2js']
     },
 
     reporters: ['progress', 'coverage'],
@@ -60,11 +60,15 @@ module.exports = function(config){
 
       'app/directives/**/*.js',
 
+      'app/filters/**/*.js',
+
       'app/model/**/*.js',
 
       'app/repo/**/*.js',
 
       'app/services/**/*.js',
+
+      'app/views/**/*.html',
 
       'tests/core/**/*.js',
 
@@ -99,6 +103,11 @@ module.exports = function(config){
     junitReporter : {
       outputFile: 'test_out/unit.xml',
       suite: 'unit'
+    },
+
+    ngHtml2JsPreprocessor: {
+      stripPrefix: 'app/',
+      moduleName: 'templates'
     },
 
     coverageReporter: {

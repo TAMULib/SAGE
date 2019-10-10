@@ -1,0 +1,69 @@
+describe("component: singleResultViewer", function () {
+  var compile, component, controller, element, q, scope, timeout, MockedSingleResultContext, context;
+
+  var initializeVariables = function() {
+    inject(function ($compile, $q, $timeout) {
+      compile = $compile;
+      q = $q;
+      timeout = $timeout;
+
+      MockedSingleResultContext = new mockSingleResultContext(q);
+
+      context = "";
+    });
+  };
+
+  var initializeComponent = function() {
+    inject(function ($rootScope) {
+      scope = $rootScope.$new();
+
+      element = angular.element("<single-result-viewer context=\"context\"></single-result-viewer>");
+      component = compile(element)(scope);
+
+      scope.context = context;
+
+      scope.$digest();
+
+      // @todo find a way to unit test controller methods, the angularjs documentation uses a Spy, which prevents actual unit testing.
+    });
+  };
+
+  beforeEach(function() {
+    module("core");
+    module("sage");
+    module('templates');
+    module("mock.singleResultContext", function($provide) {
+      var SingleResultContext = function() {
+        return MockedSingleResultContext;
+      };
+      $provide.value("SingleResultContext", SingleResultContext);
+    });
+
+    installPromiseMatchers();
+    initializeVariables();
+  });
+
+  describe("Is the component defined", function () {
+    it("should be defined", function () {
+      initializeComponent();
+      expect(component).toBeDefined();
+    });
+  });
+
+  describe("Does the component initialize properly", function () {
+    it("should assign ready after a timeout", function () {
+      context = new mockSingleResultContext(q);
+
+      initializeComponent();
+
+      //expect(scope.ready).toBe(false);
+
+      timeout.flush();
+      //expect(scope.ready).toBe(false);
+
+      scope.$digest();
+      //expect(scope.ready).toBe(true);
+    });
+  });
+
+});

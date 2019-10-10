@@ -177,6 +177,13 @@ var mockDiscoveryContext = function($q) {
     model.search.value = value;
   };
 
+  model.getBreadcrumb = function() {
+    return {
+      label: model.name,
+      path: "discovery-context/" + model.slug
+    };
+  };
+
   return model;
 };
 
