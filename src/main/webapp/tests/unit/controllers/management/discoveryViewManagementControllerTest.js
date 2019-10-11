@@ -806,7 +806,7 @@ describe("controller: DiscoveryViewManagementController", function () {
       var discoveryView = new mockDiscoveryView($q);
       discoveryView.source = new mockSource($q);
 
-      spyOn($scope, 'getFields');
+      spyOn($scope, "getFields");
 
       $scope.originalSourceName = discoveryView.source.name;
       $scope.originalFilter = discoveryView.filter;
@@ -826,7 +826,7 @@ describe("controller: DiscoveryViewManagementController", function () {
       $scope.originalSourceName = discoveryView.source.name;
       $scope.tabs.active = 1;
       $scope.getFields = function() {};
-      spyOn($scope, 'getFields');
+      spyOn($scope, "getFields");
 
       $scope.refreshSource(discoveryView);
       expect($scope.getFields).not.toHaveBeenCalled();

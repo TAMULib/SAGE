@@ -181,7 +181,7 @@ describe("controller: WriterManagementController", function () {
     it("cancelCreateWriter should cancel creating a writer", function () {
       $scope.writerMappings = null;
 
-      spyOn($scope, 'resetWriterForms');
+      spyOn($scope, "resetWriterForms");
 
       $scope.cancelCreateWriter();
 
@@ -194,7 +194,7 @@ describe("controller: WriterManagementController", function () {
       var writer = new mockWriter($q);
       $scope.writerToDelete = writer;
 
-      spyOn($scope, 'resetWriterForms');
+      spyOn($scope, "resetWriterForms");
 
       $scope.cancelDeleteWriter();
 
@@ -206,7 +206,7 @@ describe("controller: WriterManagementController", function () {
       var writer = new mockWriter($q);
       $scope.writerToUpdate = writer;
 
-      spyOn($scope, 'resetWriterForms');
+      spyOn($scope, "resetWriterForms");
 
       $scope.cancelUpdateWriter();
 
@@ -220,7 +220,7 @@ describe("controller: WriterManagementController", function () {
       $scope.writerToDelete = null;
       $scope.openModal = function(name) { };
 
-      spyOn($scope, 'openModal');
+      spyOn($scope, "openModal");
 
       $scope.confirmDeleteWriter(writer);
 
@@ -233,7 +233,7 @@ describe("controller: WriterManagementController", function () {
       newWriter.name = "New Writer";
       delete newWriter.id;
 
-      spyOn($scope, 'cancelCreateWriter');
+      spyOn($scope, "cancelCreateWriter");
 
       $scope.createWriter(newWriter);
       $scope.$digest();
@@ -245,12 +245,12 @@ describe("controller: WriterManagementController", function () {
       $scope.deletingWriter = null;
       $scope.writerToDelete = new mockWriter($q);
 
-      spyOn($scope, 'resetWriterForms');
+      spyOn($scope, "resetWriterForms");
 
       $scope.deleteWriter();
       $scope.$digest();
 
-      expect(typeof $scope.deletingWriter).toEqual('boolean');
+      expect(typeof $scope.deletingWriter).toEqual("boolean");
       expect($scope.resetWriterForms).toHaveBeenCalled();
     });
 
@@ -268,13 +268,13 @@ describe("controller: WriterManagementController", function () {
     it("resetWriterForms should reset writer form", function () {
       $scope.closeModal = function() { };
 
-      spyOn(WriterRepo, 'clearValidationResults');
-      spyOn($scope, 'closeModal');
+      spyOn(WriterRepo, "clearValidationResults");
+      spyOn($scope, "closeModal");
 
       var key;
       for (key in $scope.writerForms) {
         $scope.writerForms[key].$setPristine = function() { };
-        spyOn($scope.writerForms[key], '$setPristine');
+        spyOn($scope.writerForms[key], "$setPristine");
       }
 
       $scope.resetWriterForms();
@@ -316,7 +316,7 @@ describe("controller: WriterManagementController", function () {
     it("startCreateWriter should start creating a writer", function () {
       $scope.openModal = function(name) { };
 
-      spyOn($scope, 'openModal');
+      spyOn($scope, "openModal");
 
       $scope.startCreateWriter();
 
@@ -328,7 +328,7 @@ describe("controller: WriterManagementController", function () {
       $scope.writerToUpdate = null;
       $scope.openModal = function(name) { };
 
-      spyOn($scope, 'openModal');
+      spyOn($scope, "openModal");
 
       $scope.startUpdateWriter(writer);
 
@@ -341,12 +341,12 @@ describe("controller: WriterManagementController", function () {
       $scope.writerToUpdate = new mockWriter($q);
       $scope.writerToUpdate.name = "Updated Writer 1";
 
-      spyOn($scope, 'resetWriterForms');
+      spyOn($scope, "resetWriterForms");
 
       $scope.updateWriter();
       $scope.$digest();
 
-      expect(typeof $scope.updatingWriter).toEqual('boolean');
+      expect(typeof $scope.updatingWriter).toEqual("boolean");
       expect($scope.resetWriterForms).toHaveBeenCalled();
     });
   });

@@ -6,7 +6,7 @@ describe("component: facetWidget", function () {
       $compile = _$compile_;
       $httpBackend = _$httpBackend_;
 
-      $httpBackend.whenGET('views/components/facetTypes/Facet.html').respond('<div></div>');
+      $httpBackend.whenGET("views/components/facetTypes/Facet.html").respond("<div></div>");
 
       facet = "";
       discoveryContext = undefined;
@@ -34,7 +34,7 @@ describe("component: facetWidget", function () {
   beforeEach(function() {
     module("core");
     module("sage");
-    module('templates');
+    module("templates");
 
     installPromiseMatchers();
     initializeVariables();

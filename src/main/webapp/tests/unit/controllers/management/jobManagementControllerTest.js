@@ -219,7 +219,7 @@ describe("controller: JobManagementController", function () {
 
   describe("Are the $scope methods working as expected", function () {
     it("cancelCreateJob should cancel creating a job", function () {
-      spyOn($scope, 'resetJobForms');
+      spyOn($scope, "resetJobForms");
 
       $scope.cancelCreateJob();
 
@@ -231,7 +231,7 @@ describe("controller: JobManagementController", function () {
       var job = new mockJob($q);
       $scope.jobToDelete = job;
 
-      spyOn($scope, 'resetJobForms');
+      spyOn($scope, "resetJobForms");
 
       $scope.cancelDeleteJob();
 
@@ -244,7 +244,7 @@ describe("controller: JobManagementController", function () {
       $scope.jobToUpdate = job;
       $scope.jobToUpdate.name = "updated job name";
 
-      spyOn($scope, 'resetJobForms');
+      spyOn($scope, "resetJobForms");
 
       $scope.cancelUpdateJob();
 
@@ -266,7 +266,7 @@ describe("controller: JobManagementController", function () {
       $scope.jobToDelete = null;
       $scope.openModal = function(name) { };
 
-      spyOn($scope, 'openModal');
+      spyOn($scope, "openModal");
 
       $scope.confirmDeleteJob(job);
 
@@ -279,7 +279,7 @@ describe("controller: JobManagementController", function () {
       newJob.name = "New Job";
       delete newJob.id;
 
-      spyOn($scope, 'cancelCreateJob');
+      spyOn($scope, "cancelCreateJob");
 
       $scope.createJob(newJob);
       $scope.$digest();
@@ -291,12 +291,12 @@ describe("controller: JobManagementController", function () {
       $scope.deletingJob = null;
       $scope.jobToDelete = new mockJob($q);
 
-      spyOn($scope, 'resetJobForms');
+      spyOn($scope, "resetJobForms");
 
       $scope.deleteJob();
       $scope.$digest();
 
-      expect(typeof $scope.deletingJob).toEqual('boolean');
+      expect(typeof $scope.deletingJob).toEqual("boolean");
       expect($scope.resetJobForms).toHaveBeenCalled();
     });
 
@@ -326,13 +326,13 @@ describe("controller: JobManagementController", function () {
     it("resetJobForms should reset job form", function () {
       $scope.closeModal = function() { };
 
-      spyOn(JobRepo, 'clearValidationResults');
-      spyOn($scope, 'closeModal');
+      spyOn(JobRepo, "clearValidationResults");
+      spyOn($scope, "closeModal");
 
       var key;
       for (key in $scope.jobForms) {
         $scope.jobForms[key].$setPristine = function() { };
-        spyOn($scope.jobForms[key], '$setPristine');
+        spyOn($scope.jobForms[key], "$setPristine");
       }
 
       $scope.resetJobForms();
@@ -361,7 +361,7 @@ describe("controller: JobManagementController", function () {
     it("startCreateJob should start creating a job", function () {
       $scope.openModal = function(name) { };
 
-      spyOn($scope, 'openModal');
+      spyOn($scope, "openModal");
 
       $scope.startCreateJob();
 
@@ -373,7 +373,7 @@ describe("controller: JobManagementController", function () {
       $scope.jobToUpdate = null;
       $scope.openModal = function(name) { };
 
-      spyOn($scope, 'openModal');
+      spyOn($scope, "openModal");
 
       $scope.startUpdateJob(job);
 
@@ -398,12 +398,12 @@ describe("controller: JobManagementController", function () {
       $scope.jobToUpdate = new mockJob($q);
       $scope.jobToUpdate.name = "Updated Job 1";
 
-      spyOn($scope, 'resetJobForms');
+      spyOn($scope, "resetJobForms");
 
       $scope.updateJob();
       $scope.$digest();
 
-      expect(typeof $scope.updatingJob).toEqual('boolean');
+      expect(typeof $scope.updatingJob).toEqual("boolean");
       expect($scope.resetJobForms).toHaveBeenCalled();
     });
   });

@@ -171,7 +171,7 @@ describe("controller: ReaderManagementController", function () {
     it("cancelCreateReader should cancel creating a reader", function () {
       $scope.readerFields = null;
 
-      spyOn($scope, 'resetReaderForms');
+      spyOn($scope, "resetReaderForms");
 
       $scope.cancelCreateReader();
 
@@ -184,7 +184,7 @@ describe("controller: ReaderManagementController", function () {
       var reader = new mockReader($q);
       $scope.readerToDelete = reader;
 
-      spyOn($scope, 'resetReaderForms');
+      spyOn($scope, "resetReaderForms");
 
       $scope.cancelDeleteReader();
 
@@ -196,7 +196,7 @@ describe("controller: ReaderManagementController", function () {
       var reader = new mockReader($q);
       $scope.readerToUpdate = reader;
 
-      spyOn($scope, 'resetReaderForms');
+      spyOn($scope, "resetReaderForms");
 
       $scope.cancelUpdateReader();
 
@@ -210,7 +210,7 @@ describe("controller: ReaderManagementController", function () {
       $scope.readerToDelete = null;
       $scope.openModal = function(name) { };
 
-      spyOn($scope, 'openModal');
+      spyOn($scope, "openModal");
 
       $scope.confirmDeleteReader(reader);
 
@@ -223,7 +223,7 @@ describe("controller: ReaderManagementController", function () {
       newReader.name = "New Reader";
       delete newReader.id;
 
-      spyOn($scope, 'cancelCreateReader');
+      spyOn($scope, "cancelCreateReader");
 
       $scope.createReader(newReader);
       $scope.$digest();
@@ -235,12 +235,12 @@ describe("controller: ReaderManagementController", function () {
       $scope.deletingReader = null;
       $scope.readerToDelete = new mockReader($q);
 
-      spyOn($scope, 'resetReaderForms');
+      spyOn($scope, "resetReaderForms");
 
       $scope.deleteReader();
       $scope.$digest();
 
-      expect(typeof $scope.deletingReader).toEqual('boolean');
+      expect(typeof $scope.deletingReader).toEqual("boolean");
       expect($scope.resetReaderForms).toHaveBeenCalled();
     });
 
@@ -258,13 +258,13 @@ describe("controller: ReaderManagementController", function () {
     it("resetReaderForms should reset reader form", function () {
       $scope.closeModal = function() { };
 
-      spyOn(ReaderRepo, 'clearValidationResults');
-      spyOn($scope, 'closeModal');
+      spyOn(ReaderRepo, "clearValidationResults");
+      spyOn($scope, "closeModal");
 
       var key;
       for (key in $scope.readerForms) {
         $scope.readerForms[key].$setPristine = function() { };
-        spyOn($scope.readerForms[key], '$setPristine');
+        spyOn($scope.readerForms[key], "$setPristine");
       }
 
       $scope.resetReaderForms();
@@ -292,7 +292,7 @@ describe("controller: ReaderManagementController", function () {
     it("startCreateReader should start creating a reader", function () {
       $scope.openModal = function(name) { };
 
-      spyOn($scope, 'openModal');
+      spyOn($scope, "openModal");
 
       $scope.startCreateReader();
 
@@ -304,7 +304,7 @@ describe("controller: ReaderManagementController", function () {
       $scope.readerToUpdate = null;
       $scope.openModal = function(name) { };
 
-      spyOn($scope, 'openModal');
+      spyOn($scope, "openModal");
 
       $scope.startUpdateReader(reader);
 
@@ -317,12 +317,12 @@ describe("controller: ReaderManagementController", function () {
       $scope.readerToUpdate = new mockReader($q);
       $scope.readerToUpdate.name = "Updated Reader 1";
 
-      spyOn($scope, 'resetReaderForms');
+      spyOn($scope, "resetReaderForms");
 
       $scope.updateReader();
       $scope.$digest();
 
-      expect(typeof $scope.updatingReader).toEqual('boolean');
+      expect(typeof $scope.updatingReader).toEqual("boolean");
       expect($scope.resetReaderForms).toHaveBeenCalled();
     });
 

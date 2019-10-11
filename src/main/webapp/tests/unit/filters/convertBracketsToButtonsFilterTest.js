@@ -8,7 +8,7 @@ describe("filter: convertBracketsToButtons", function () {
     inject(function (_$filter_, _$rootScope_) {
       $scope = _$rootScope_.$new();
 
-      filter = _$filter_('convertBracketsToButtons');
+      filter = _$filter_("convertBracketsToButtons");
     });
   };
 

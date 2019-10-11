@@ -228,7 +228,7 @@ describe("controller: DiscoveryContextController", function () {
     it("resetBadges should work", function () {
       $scope.discoveryContext = new mockDiscoveryContext($q);
 
-      spyOn($scope, 'prepareSearch');
+      spyOn($scope, "prepareSearch");
 
       $scope.resetBadges();
       $scope.$digest();
@@ -239,7 +239,7 @@ describe("controller: DiscoveryContextController", function () {
     it("resetPage should work", function () {
       $scope.discoveryContext = new mockDiscoveryContext($q);
 
-      spyOn($scope, 'prepareSearch');
+      spyOn($scope, "prepareSearch");
 
       $scope.resetPage();
       $scope.$digest();
@@ -250,7 +250,7 @@ describe("controller: DiscoveryContextController", function () {
     it("resetSearch should work", function () {
       $scope.discoveryContext = new mockDiscoveryContext($q);
 
-      spyOn($scope, 'prepareSearch');
+      spyOn($scope, "prepareSearch");
 
       $scope.resetSearch();
       $scope.$digest();

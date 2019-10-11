@@ -8,7 +8,7 @@ describe("filter: boldMatch", function () {
     inject(function (_$filter_, _$rootScope_) {
       $scope = _$rootScope_.$new();
 
-      filter = _$filter_('boldMatch');
+      filter = _$filter_("boldMatch");
     });
   };
 

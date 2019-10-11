@@ -33,7 +33,7 @@ describe("directive: breadcrumbs", function () {
   beforeEach(function() {
     module("core");
     module("sage");
-    module('templates');
+    module("templates");
     module("mock.discoveryContext", function($provide) {
       var DiscoveryContext = function() {
         return MockedDiscoveryContext;

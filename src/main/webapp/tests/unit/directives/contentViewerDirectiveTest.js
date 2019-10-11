@@ -28,7 +28,7 @@ describe("directive: contentviewer", function () {
   beforeEach(function() {
     module("core");
     module("sage");
-    module('templates');
+    module("templates");
 
     installPromiseMatchers();
     initializeVariables();

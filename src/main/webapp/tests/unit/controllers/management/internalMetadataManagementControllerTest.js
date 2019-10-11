@@ -127,7 +127,7 @@ describe("controller: InternalMetadataManagementController", function () {
 
   describe("Are the $scope methods working as expected", function () {
     it("cancelCreateInternalMetadatum should cancel creating a internalMetadata", function () {
-      spyOn($scope, 'resetInternalMetadatumForms');
+      spyOn($scope, "resetInternalMetadatumForms");
 
       $scope.cancelCreateInternalMetadatum();
       $scope.$digest();
@@ -140,7 +140,7 @@ describe("controller: InternalMetadataManagementController", function () {
       var internalMetadata = new mockInternalMetadata($q);
       $scope.internalMetadatumToDelete = internalMetadata;
 
-      spyOn($scope, 'resetInternalMetadatumForms');
+      spyOn($scope, "resetInternalMetadatumForms");
 
       $scope.cancelDeleteInternalMetadatum(internalMetadata);
 
@@ -152,7 +152,7 @@ describe("controller: InternalMetadataManagementController", function () {
       var internalMetadata = new mockInternalMetadata($q);
       $scope.internalMetadatumToUpdate = internalMetadata;
 
-      spyOn($scope, 'resetInternalMetadatumForms');
+      spyOn($scope, "resetInternalMetadatumForms");
 
       $scope.cancelUpdateInternalMetadatum(internalMetadata);
 
@@ -166,7 +166,7 @@ describe("controller: InternalMetadataManagementController", function () {
       $scope.internalMetadatumToDelete = null;
       $scope.openModal = function(name) { };
 
-      spyOn($scope, 'openModal');
+      spyOn($scope, "openModal");
 
       $scope.confirmDeleteInternalMetadatum(internalMetadata);
 
@@ -178,7 +178,7 @@ describe("controller: InternalMetadataManagementController", function () {
       var newInternalMetadatum = new mockInternalMetadata($q);
       delete newInternalMetadatum.id;
 
-      spyOn($scope, 'cancelCreateInternalMetadatum');
+      spyOn($scope, "cancelCreateInternalMetadatum");
 
       $scope.createInternalMetadatum(newInternalMetadatum);
       $scope.$digest();
@@ -190,25 +190,25 @@ describe("controller: InternalMetadataManagementController", function () {
       $scope.deletingInternalMetadatum = null;
       $scope.internalMetadatumToDelete = new mockInternalMetadata($q);
 
-      spyOn($scope, 'resetInternalMetadatumForms');
+      spyOn($scope, "resetInternalMetadatumForms");
 
       $scope.deleteInternalMetadatum();
       $scope.$digest();
 
-      expect(typeof $scope.deletingInternalMetadatum).toEqual('boolean');
+      expect(typeof $scope.deletingInternalMetadatum).toEqual("boolean");
       expect($scope.resetInternalMetadatumForms).toHaveBeenCalled();
     });
 
     it("resetInternalMetadatumForms should reset internalMetadata form", function () {
       $scope.closeModal = function() { };
 
-      spyOn(InternalMetadataRepo, 'clearValidationResults');
-      spyOn($scope, 'closeModal');
+      spyOn(InternalMetadataRepo, "clearValidationResults");
+      spyOn($scope, "closeModal");
 
       var key;
       for (key in $scope.internalMetadataForms) {
         $scope.internalMetadataForms[key].$setPristine = function() { };
-        spyOn($scope.internalMetadataForms[key], '$setPristine');
+        spyOn($scope.internalMetadataForms[key], "$setPristine");
       }
 
       $scope.resetInternalMetadatumForms();
@@ -233,7 +233,7 @@ describe("controller: InternalMetadataManagementController", function () {
     it("startCreateInternalMetadatum should start creating a internalMetadata", function () {
       $scope.openModal = function(name) { };
 
-      spyOn($scope, 'openModal');
+      spyOn($scope, "openModal");
 
       $scope.startCreateInternalMetadatum();
 
@@ -244,7 +244,7 @@ describe("controller: InternalMetadataManagementController", function () {
       $scope.internalMetadatumToUpdate = null;
       $scope.openModal = function(name) { };
 
-      spyOn($scope, 'openModal');
+      spyOn($scope, "openModal");
 
       $scope.startUpdateInternalMetadatum(dataInternalMetadata1);
 
@@ -256,12 +256,12 @@ describe("controller: InternalMetadataManagementController", function () {
       $scope.internalMetadatumToUpdate = new mockInternalMetadata($q);
       $scope.updatingInternalMetadatum = null;
 
-      spyOn($scope, 'resetInternalMetadatumForms');
+      spyOn($scope, "resetInternalMetadatumForms");
 
       $scope.updateInternalMetadatum();
       $scope.$digest();
 
-      expect(typeof $scope.updatingInternalMetadatum).toEqual('boolean');
+      expect(typeof $scope.updatingInternalMetadatum).toEqual("boolean");
       expect($scope.resetInternalMetadatumForms).toHaveBeenCalled();
     });
 

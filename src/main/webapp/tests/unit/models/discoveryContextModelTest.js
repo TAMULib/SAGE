@@ -138,7 +138,7 @@ describe("model: DiscoveryContext", function () {
       mockFilter2.mock(dataFilter2);
       mockFilter3.mock(dataFilter3);
 
-      spyOn(model, 'executeSearch');
+      spyOn(model, "executeSearch");
       delete model.search.filters;
 
       model.addFilter(mockFilter1.label, mockFilter1.key, mockFilter1.value);
@@ -216,7 +216,7 @@ describe("model: DiscoveryContext", function () {
 
     it("executeSearch should work", function () {
       var originalSearch = $location.search;
-      spyOn($location, 'search').and.callThrough();
+      spyOn($location, "search").and.callThrough();
 
       model.executeSearch(false);
       $scope.$digest();
@@ -231,7 +231,7 @@ describe("model: DiscoveryContext", function () {
       wsResponse.payload.DiscoveryContext.search.page.offset = -1;
       wsResponse.payload.DiscoveryContext.search.filters = [ "f.mock1", "f.mock2" ];
       $location.search = originalSearch;
-      spyOn($location, 'search').and.callThrough();
+      spyOn($location, "search").and.callThrough();
 
       model.executeSearch(true);
       $scope.$digest();
@@ -285,7 +285,7 @@ describe("model: DiscoveryContext", function () {
       mockFilter2.mock(dataFilter2);
       mockFilter3.mock(dataFilter3);
 
-      spyOn(model, 'executeSearch');
+      spyOn(model, "executeSearch");
       model.search.filters = [ mockFilter1, mockFilter2, mockFilter3 ];
 
       model.removeFilter(mockFilter2);
@@ -308,7 +308,7 @@ describe("model: DiscoveryContext", function () {
       var mockFilter2 = new mockFilter($q);
       mockFilter2.mock(dataFilter2);
 
-      spyOn(model, 'executeSearch');
+      spyOn(model, "executeSearch");
       model.search.filters = [ mockFilter1, mockFilter2 ];
       $location.search("f.mock", "mockedValue");
 
@@ -320,7 +320,7 @@ describe("model: DiscoveryContext", function () {
     });
 
     it("resetSearch should work", function () {
-      spyOn(model, 'executeSearch');
+      spyOn(model, "executeSearch");
       model.search.field = "mock_field";
       model.search.value = "mockedValue";
       $location.search("field", model.search.field);

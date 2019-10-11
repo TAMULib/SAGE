@@ -8,7 +8,7 @@ describe("filter: removeBrackets", function () {
     inject(function (_$filter_, _$rootScope_) {
       $scope = _$rootScope_.$new();
 
-      filter = _$filter_('removeBrackets');
+      filter = _$filter_("removeBrackets");
     });
   };
 

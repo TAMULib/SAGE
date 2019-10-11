@@ -137,7 +137,7 @@ describe("controller: OperatorManagementController", function () {
 
   describe("Are the $scope methods working as expected", function () {
     it("cancelCreateOperator should cancel creating a operator", function () {
-      spyOn($scope, 'resetOperatorForms');
+      spyOn($scope, "resetOperatorForms");
 
       $scope.cancelCreateOperator();
 
@@ -149,7 +149,7 @@ describe("controller: OperatorManagementController", function () {
       var operator = new mockOperator($q);
       $scope.operatorToDelete = operator;
 
-      spyOn($scope, 'resetOperatorForms');
+      spyOn($scope, "resetOperatorForms");
 
       $scope.cancelDeleteOperator();
 
@@ -161,7 +161,7 @@ describe("controller: OperatorManagementController", function () {
       var operator = new mockOperator($q);
       $scope.operatorToUpdate = operator;
 
-      spyOn($scope, 'resetOperatorForms');
+      spyOn($scope, "resetOperatorForms");
 
       $scope.cancelUpdateOperator(operator);
 
@@ -175,7 +175,7 @@ describe("controller: OperatorManagementController", function () {
       $scope.operatorToDelete = null;
       $scope.openModal = function(name) { };
 
-      spyOn($scope, 'openModal');
+      spyOn($scope, "openModal");
 
       $scope.confirmDeleteOperator(operator);
 
@@ -188,7 +188,7 @@ describe("controller: OperatorManagementController", function () {
       newOperator.name = "New Operator";
       delete newOperator.id;
 
-      spyOn($scope, 'cancelCreateOperator');
+      spyOn($scope, "cancelCreateOperator");
 
       $scope.createOperator(newOperator);
       $scope.$digest();
@@ -200,25 +200,25 @@ describe("controller: OperatorManagementController", function () {
       $scope.deletingOperator = null;
       $scope.operatorToDelete = new mockOperator($q);
 
-      spyOn($scope, 'resetOperatorForms');
+      spyOn($scope, "resetOperatorForms");
 
       $scope.deleteOperator();
       $scope.$digest();
 
-      expect(typeof $scope.deletingOperator).toEqual('boolean');
+      expect(typeof $scope.deletingOperator).toEqual("boolean");
       expect($scope.resetOperatorForms).toHaveBeenCalled();
     });
 
     it("resetOperatorForms should reset operator form", function () {
       $scope.closeModal = function() { };
 
-      spyOn(OperatorRepo, 'clearValidationResults');
-      spyOn($scope, 'closeModal');
+      spyOn(OperatorRepo, "clearValidationResults");
+      spyOn($scope, "closeModal");
 
       var key;
       for (key in $scope.operatorForms) {
         $scope.operatorForms[key].$setPristine = function() { };
-        spyOn($scope.operatorForms[key], '$setPristine');
+        spyOn($scope.operatorForms[key], "$setPristine");
       }
 
       $scope.resetOperatorForms();
@@ -243,7 +243,7 @@ describe("controller: OperatorManagementController", function () {
     it("startCreateOperator should start creating a operator", function () {
       $scope.openModal = function(name) { };
 
-      spyOn($scope, 'openModal');
+      spyOn($scope, "openModal");
 
       $scope.startCreateOperator();
 
@@ -255,7 +255,7 @@ describe("controller: OperatorManagementController", function () {
       $scope.operatorToUpdate = null;
       $scope.openModal = function(name) { };
 
-      spyOn($scope, 'openModal');
+      spyOn($scope, "openModal");
 
       $scope.startUpdateOperator(operator);
 
@@ -268,12 +268,12 @@ describe("controller: OperatorManagementController", function () {
       $scope.operatorToUpdate = new mockOperator($q);
       $scope.operatorToUpdate.name = "Updated Operator 1";
 
-      spyOn($scope, 'resetOperatorForms');
+      spyOn($scope, "resetOperatorForms");
 
       $scope.updateOperator();
       $scope.$digest();
 
-      expect(typeof $scope.updatingOperator).toEqual('boolean');
+      expect(typeof $scope.updatingOperator).toEqual("boolean");
       expect($scope.resetOperatorForms).toHaveBeenCalled();
     });
 

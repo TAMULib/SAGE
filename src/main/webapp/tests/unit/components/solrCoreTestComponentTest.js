@@ -31,7 +31,7 @@ describe("component: solrCoreTest", function () {
   beforeEach(function() {
     module("core");
     module("sage");
-    module('templates');
+    module("templates");
     module("mock.source", function($provide) {
       var Source = function() {
         return MockedSource;

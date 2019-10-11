@@ -150,7 +150,7 @@ describe("controller: SourceManagementController", function () {
 
   describe("Are the $scope methods working as expected", function () {
     it("cancelCreateSource should cancel creating a source", function () {
-      spyOn($scope, 'resetSourceForms');
+      spyOn($scope, "resetSourceForms");
 
       $scope.cancelCreateSource();
 
@@ -162,7 +162,7 @@ describe("controller: SourceManagementController", function () {
       var source = new mockSource($q);
       $scope.sourceToDelete = source;
 
-      spyOn($scope, 'resetSourceForms');
+      spyOn($scope, "resetSourceForms");
 
       $scope.cancelDeleteSource();
 
@@ -174,7 +174,7 @@ describe("controller: SourceManagementController", function () {
       var source = new mockSource($q);
       $scope.sourceToUpdate = source;
 
-      spyOn($scope, 'resetSourceForms');
+      spyOn($scope, "resetSourceForms");
 
       $scope.cancelUpdateSource();
 
@@ -188,7 +188,7 @@ describe("controller: SourceManagementController", function () {
       $scope.sourceToDelete = null;
       $scope.openModal = function(name) { };
 
-      spyOn($scope, 'openModal');
+      spyOn($scope, "openModal");
 
       $scope.confirmDeleteSource(source);
 
@@ -201,7 +201,7 @@ describe("controller: SourceManagementController", function () {
       newSource.name = "New Source";
       delete newSource.id;
 
-      spyOn($scope, 'cancelCreateSource');
+      spyOn($scope, "cancelCreateSource");
 
       $scope.createSource(newSource);
       $scope.$digest();
@@ -213,25 +213,25 @@ describe("controller: SourceManagementController", function () {
       $scope.deletingSource = null;
       $scope.sourceToDelete = new mockSource($q);
 
-      spyOn($scope, 'resetSourceForms');
+      spyOn($scope, "resetSourceForms");
 
       $scope.deleteSource();
       $scope.$digest();
 
-      expect(typeof $scope.deletingSource).toEqual('boolean');
+      expect(typeof $scope.deletingSource).toEqual("boolean");
       expect($scope.resetSourceForms).toHaveBeenCalled();
     });
 
     it("resetSourceForms should reset source form", function () {
       $scope.closeModal = function() { };
 
-      spyOn(SourceRepo, 'clearValidationResults');
-      spyOn($scope, 'closeModal');
+      spyOn(SourceRepo, "clearValidationResults");
+      spyOn($scope, "closeModal");
 
       var key;
       for (key in $scope.sourceForms) {
         $scope.sourceForms[key].$setPristine = function() { };
-        spyOn($scope.sourceForms[key], '$setPristine');
+        spyOn($scope.sourceForms[key], "$setPristine");
       }
 
       $scope.resetSourceForms();
@@ -254,7 +254,7 @@ describe("controller: SourceManagementController", function () {
     it("startCreateSource should start creating a source", function () {
       $scope.openModal = function(name) { };
 
-      spyOn($scope, 'openModal');
+      spyOn($scope, "openModal");
 
       $scope.startCreateSource();
 
@@ -266,7 +266,7 @@ describe("controller: SourceManagementController", function () {
       $scope.sourceToUpdate = null;
       $scope.openModal = function(name) { };
 
-      spyOn($scope, 'openModal');
+      spyOn($scope, "openModal");
 
       $scope.startUpdateSource(source);
 
@@ -279,12 +279,12 @@ describe("controller: SourceManagementController", function () {
       $scope.sourceToUpdate = new mockSource($q);
       $scope.sourceToUpdate.name = "Updated Source 1";
 
-      spyOn($scope, 'resetSourceForms');
+      spyOn($scope, "resetSourceForms");
 
       $scope.updateSource();
       $scope.$digest();
 
-      expect(typeof $scope.updatingSource).toEqual('boolean');
+      expect(typeof $scope.updatingSource).toEqual("boolean");
       expect($scope.resetSourceForms).toHaveBeenCalled();
     });
   });
