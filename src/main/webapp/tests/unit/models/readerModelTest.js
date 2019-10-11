@@ -1,9 +1,9 @@
-describe('model: Reader', function () {
-  var model, rootScope, scope, WsApi;
+describe("model: Reader", function () {
+  var $rootScope, $scope, WsApi, model;
 
   var initializeVariables = function(settings) {
-    inject(function ($rootScope, _WsApi_) {
-      rootScope = $rootScope;
+    inject(function (_$rootScope_, _WsApi_) {
+      $rootScope = _$rootScope_;
 
       WsApi = _WsApi_;
     });
@@ -11,13 +11,13 @@ describe('model: Reader', function () {
 
   var initializeModel = function(settings) {
     inject(function (Reader) {
-      scope = rootScope.$new();
+      $scope = $rootScope.$new();
 
-      model = angular.extend(new Reader());
+      model = angular.extend(new Reader(), dataReader1);
 
       // ensure that all pre-processing is called.
-      if (!scope.$$phase) {
-        scope.$digest();
+      if (!$scope.$$phase) {
+        $scope.$digest();
       }
     });
   };
@@ -31,8 +31,8 @@ describe('model: Reader', function () {
     initializeModel();
   });
 
-  describe('Is the model defined', function () {
-    it('should be defined', function () {
+  describe("Is the model defined", function () {
+    it("should be defined", function () {
       expect(model).toBeDefined();
     });
   });

@@ -1,19 +1,19 @@
 describe("service: sourceRepo", function () {
-  var q, repo, rootScope, scope, MockedSource, WsApi;
+  var $q, $rootScope, $scope, MockedSource, WsApi, repo;
 
   var initializeVariables = function(settings) {
-    inject(function ($q, $rootScope, _WsApi_) {
-      q = $q;
-      rootScope = $rootScope;
+    inject(function (_$q_, _$rootScope_, _WsApi_) {
+      $q = _$q_;
+      $rootScope = _$rootScope_;
 
-      MockedSource = new mockSource(q);
+      MockedSource = new mockSource($q);
       WsApi = _WsApi_;
     });
   };
 
   var initializeRepo = function(settings) {
     inject(function ($injector, SourceRepo) {
-      scope = rootScope.$new();
+      $scope = $rootScope.$new();
 
       repo = SourceRepo;
     });
@@ -65,28 +65,28 @@ describe("service: sourceRepo", function () {
   describe("Do the repo methods work as expected", function () {
     it("getAvailableFields should work", function () {
       repo.getAvailableFields("todo", "todo");
-      scope.$digest();
+      $scope.$digest();
 
       // TODO
     });
 
     it("getIndexedFields should work", function () {
       repo.getIndexedFields("todo", "todo");
-      scope.$digest();
+      $scope.$digest();
 
       // TODO
     });
 
     it("getReadable should work", function () {
       repo.getReadable();
-      scope.$digest();
+      $scope.$digest();
 
       // TODO
     });
 
     it("getWriteable should work", function () {
       repo.getWriteable();
-      scope.$digest();
+      $scope.$digest();
 
       // TODO
     });

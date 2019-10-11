@@ -1,10 +1,10 @@
 describe("service: abstractAppRepo", function () {
-  var q, repo, rootScope, mockedRepo, scope, WsApi;
+  var $q, $rootScope, $scope, WsApi, repo, mockedRepo;
 
   var initializeVariables = function(settings) {
-    inject(function ($q, $rootScope, _WsApi_) {
-      q = $q;
-      rootScope = $rootScope;
+    inject(function (_$q_, _$rootScope_, _WsApi_) {
+      $q = _$q_;
+      $rootScope = _$rootScope_;
 
       WsApi = _WsApi_;
     });
@@ -12,11 +12,11 @@ describe("service: abstractAppRepo", function () {
 
   var initializeRepo = function(settings) {
     inject(function ($injector) {
-      scope = rootScope.$new();
-      mockedRepo = new mockRepo("AbstractAppRepo", q);
+      $scope = $rootScope.$new();
+      mockedRepo = new mockRepo("AbstractAppRepo", $q);
       repo = $injector.get("AbstractAppRepo")();
 
-      // FIXME: find a way to get something like `angular.extend(new mockRepo("AbstractAppRepo", q), $injector.get("AbstractAppRepo")())` or `repo = AbstractAppRepo` to work.
+      // @fixme find a way to get something like `angular.extend(new mockRepo("AbstractAppRepo", $q), $injector.get("AbstractAppRepo")())` or `repo = AbstractAppRepo` to work.
       repo.getAll = mockedRepo.getAll;
       repo.listen = mockedRepo.listen;
       repo.ready = mockedRepo.ready;
@@ -53,14 +53,14 @@ describe("service: abstractAppRepo", function () {
   describe("Do the repo methods work as expected", function () {
     it("getScaffold should work", function () {
       repo.getScaffold();
-      scope.$digest();
+      $scope.$digest();
 
       // TODO
     });
 
     it("getScaffold should work", function () {
       repo.isInScaffold("todo");
-      scope.$digest();
+      $scope.$digest();
 
       // TODO
     });

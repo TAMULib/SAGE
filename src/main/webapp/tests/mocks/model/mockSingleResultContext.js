@@ -34,6 +34,13 @@ var dataSingleResultContext3 = {
 var mockSingleResultContext = function($q) {
   var model = mockModel("SingleResultContext", $q, dataSingleResultContext1);
 
+  model.getBreadcrumb = function() {
+    return {
+      label: model.title.replace(/^\[(.*)]$/i, "$1"),
+      path: "discovery-context/" + model.slug + "/" + model.resultId
+    };
+  };
+
   return model;
 };
 

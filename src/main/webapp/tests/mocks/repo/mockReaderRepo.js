@@ -29,12 +29,12 @@ angular.module("mock.readerRepo", []).service("ReaderRepo", function($q) {
   repo.getTypes = function () {
     return [
       {
-        name: 'DEFAULT_OP',
-        entity: 'DefaultOp'
+        name: "DEFAULT_OP",
+        entity: "DefaultOp"
       },
       {
-        name: 'CONSTANT_OP',
-        entity: 'ConstantOp'
+        name: "CONSTANT_OP",
+        entity: "ConstantOp"
       }
     ];
   };

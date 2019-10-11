@@ -1,4 +1,4 @@
-angular.module('mock.storageService', []).service('StorageService', function ($q) {
+angular.module("mock.storageService", []).service("StorageService", function ($q) {
   var service = mockService($q);
 
   service.storage = {

@@ -1,26 +1,26 @@
-describe('controller: OperatorManagementController', function () {
-  var controller, q, scope, MockedInternalMetadata, MockedOperator, NgTableParams, OperatorRepo;
+describe("controller: OperatorManagementController", function () {
+  var $q, $scope, MockedInternalMetadata, MockedOperator, NgTableParams, OperatorRepo, controller;
 
-  var initializeVariables = function(settings) {
-    inject(function ($q, _OperatorRepo_) {
-      q = $q;
+  var initializeVariables = function() {
+    inject(function (_$q_, _OperatorRepo_) {
+      $q = _$q_;
 
-      MockedInternalMetadata = new mockInternalMetadata(q);
-      MockedOperator = new mockOperator(q);
+      MockedInternalMetadata = new mockInternalMetadata($q);
+      MockedOperator = new mockOperator($q);
       NgTableParams = mockNgTableParams;
       OperatorRepo = _OperatorRepo_;
     });
   };
 
   var initializeController = function(settings) {
-    inject(function ($controller, $rootScope, _InternalMetadata_, _InternalMetadataRepo_, _Operator_, _ValidationStore_) {
-      scope = $rootScope.$new();
+    inject(function (_$controller_, _$rootScope_, _InternalMetadata_, _InternalMetadataRepo_, _Operator_, _ValidationStore_) {
+      $scope = _$rootScope_.$new();
 
       sessionStorage.role = settings && settings.role ? settings.role : "ROLE_ADMIN";
       sessionStorage.token = settings && settings.token ? settings.token : "faketoken";
 
-      controller = $controller("OperatorManagementController", {
-        $scope: scope,
+      controller = _$controller_("OperatorManagementController", {
+        $scope: $scope,
         InternalMetadata: _InternalMetadata_,
         InternalMetadataRepo: _InternalMetadataRepo_,
         NgTableParams: NgTableParams,
@@ -30,8 +30,8 @@ describe('controller: OperatorManagementController', function () {
       });
 
       // ensure that the isReady() is called.
-      if (!scope.$$phase) {
-        scope.$digest();
+      if (!$scope.$$phase) {
+        $scope.$digest();
       }
     });
   };
@@ -78,209 +78,209 @@ describe('controller: OperatorManagementController', function () {
     });
   });
 
-  describe('Are the scope methods defined', function () {
-    it('cancelCreateOperator should be defined', function () {
-      expect(scope.cancelCreateOperator).toBeDefined();
-      expect(typeof scope.cancelCreateOperator).toEqual("function");
+  describe("Are the scope methods defined", function () {
+    it("cancelCreateOperator should be defined", function () {
+      expect($scope.cancelCreateOperator).toBeDefined();
+      expect(typeof $scope.cancelCreateOperator).toEqual("function");
     });
 
-    it('cancelDeleteOperator should be defined', function () {
-      expect(scope.cancelDeleteOperator).toBeDefined();
-      expect(typeof scope.cancelDeleteOperator).toEqual("function");
+    it("cancelDeleteOperator should be defined", function () {
+      expect($scope.cancelDeleteOperator).toBeDefined();
+      expect(typeof $scope.cancelDeleteOperator).toEqual("function");
     });
 
-    it('cancelUpdateOperator should be defined', function () {
-      expect(scope.cancelUpdateOperator).toBeDefined();
-      expect(typeof scope.cancelUpdateOperator).toEqual("function");
+    it("cancelUpdateOperator should be defined", function () {
+      expect($scope.cancelUpdateOperator).toBeDefined();
+      expect(typeof $scope.cancelUpdateOperator).toEqual("function");
     });
 
-    it('confirmDeleteOperator should be defined', function () {
-      expect(scope.confirmDeleteOperator).toBeDefined();
-      expect(typeof scope.confirmDeleteOperator).toEqual("function");
+    it("confirmDeleteOperator should be defined", function () {
+      expect($scope.confirmDeleteOperator).toBeDefined();
+      expect(typeof $scope.confirmDeleteOperator).toEqual("function");
     });
 
-    it('createOperator should be defined', function () {
-      expect(scope.createOperator).toBeDefined();
-      expect(typeof scope.createOperator).toEqual("function");
+    it("createOperator should be defined", function () {
+      expect($scope.createOperator).toBeDefined();
+      expect(typeof $scope.createOperator).toEqual("function");
     });
 
-    it('deleteOperator should be defined', function () {
-      expect(scope.deleteOperator).toBeDefined();
-      expect(typeof scope.deleteOperator).toEqual("function");
+    it("deleteOperator should be defined", function () {
+      expect($scope.deleteOperator).toBeDefined();
+      expect(typeof $scope.deleteOperator).toEqual("function");
     });
 
-    it('resetOperatorForms should be defined', function () {
-      expect(scope.resetOperatorForms).toBeDefined();
-      expect(typeof scope.resetOperatorForms).toEqual("function");
+    it("resetOperatorForms should be defined", function () {
+      expect($scope.resetOperatorForms).toBeDefined();
+      expect(typeof $scope.resetOperatorForms).toEqual("function");
     });
 
-    it('setTable should be defined', function () {
-      expect(scope.setTable).toBeDefined();
-      expect(typeof scope.setTable).toEqual("function");
+    it("setTable should be defined", function () {
+      expect($scope.setTable).toBeDefined();
+      expect(typeof $scope.setTable).toEqual("function");
     });
 
-    it('startCreateOperator should be defined', function () {
-      expect(scope.startCreateOperator).toBeDefined();
-      expect(typeof scope.startCreateOperator).toEqual("function");
+    it("startCreateOperator should be defined", function () {
+      expect($scope.startCreateOperator).toBeDefined();
+      expect(typeof $scope.startCreateOperator).toEqual("function");
     });
 
-    it('startUpdateOperator should be defined', function () {
-      expect(scope.startUpdateOperator).toBeDefined();
-      expect(typeof scope.startUpdateOperator).toEqual("function");
+    it("startUpdateOperator should be defined", function () {
+      expect($scope.startUpdateOperator).toBeDefined();
+      expect(typeof $scope.startUpdateOperator).toEqual("function");
     });
 
-    it('updateOperator should be defined', function () {
-      expect(scope.updateOperator).toBeDefined();
-      expect(typeof scope.updateOperator).toEqual("function");
+    it("updateOperator should be defined", function () {
+      expect($scope.updateOperator).toBeDefined();
+      expect(typeof $scope.updateOperator).toEqual("function");
     });
   });
 
-  describe('Are the scope methods working as expected', function () {
-    it('cancelCreateOperator should cancel creating a operator', function () {
-      spyOn(scope, 'resetOperatorForms');
+  describe("Are the $scope methods working as expected", function () {
+    it("cancelCreateOperator should cancel creating a operator", function () {
+      spyOn($scope, "resetOperatorForms");
 
-      scope.cancelCreateOperator();
+      $scope.cancelCreateOperator();
 
-      expect(typeof scope.operatorToCreate).toEqual("object");
-      expect(scope.resetOperatorForms).toHaveBeenCalled();
+      expect(typeof $scope.operatorToCreate).toEqual("object");
+      expect($scope.resetOperatorForms).toHaveBeenCalled();
     });
 
-    it('cancelDeleteOperator should cancel deleting a operator', function () {
-      var operator = new mockOperator(q);
-      scope.operatorToDelete = operator;
+    it("cancelDeleteOperator should cancel deleting a operator", function () {
+      var operator = new mockOperator($q);
+      $scope.operatorToDelete = operator;
 
-      spyOn(scope, 'resetOperatorForms');
+      spyOn($scope, "resetOperatorForms");
 
-      scope.cancelDeleteOperator();
+      $scope.cancelDeleteOperator();
 
-      expect(scope.operatorToDelete).not.toEqual(operator);
-      expect(scope.resetOperatorForms).toHaveBeenCalled();
+      expect($scope.operatorToDelete).not.toEqual(operator);
+      expect($scope.resetOperatorForms).toHaveBeenCalled();
     });
 
-    it('cancelUpdateOperator should cancel updating a operator', function () {
-      var operator = new mockOperator(q);
-      scope.operatorToUpdate = operator;
+    it("cancelUpdateOperator should cancel updating a operator", function () {
+      var operator = new mockOperator($q);
+      $scope.operatorToUpdate = operator;
 
-      spyOn(scope, 'resetOperatorForms');
+      spyOn($scope, "resetOperatorForms");
 
-      scope.cancelUpdateOperator(operator);
+      $scope.cancelUpdateOperator(operator);
 
-      expect(scope.operatorToUpdate).not.toEqual(operator);
-      expect(scope.resetOperatorForms).toHaveBeenCalled();
+      expect($scope.operatorToUpdate).not.toEqual(operator);
+      expect($scope.resetOperatorForms).toHaveBeenCalled();
     });
 
-    it('confirmDeleteOperator should confirm deleting a operator', function () {
-      var operator = new mockOperator(q);
+    it("confirmDeleteOperator should confirm deleting a operator", function () {
+      var operator = new mockOperator($q);
 
-      scope.operatorToDelete = null;
-      scope.openModal = function(name) { };
+      $scope.operatorToDelete = null;
+      $scope.openModal = function(name) { };
 
-      spyOn(scope, 'openModal');
+      spyOn($scope, "openModal");
 
-      scope.confirmDeleteOperator(operator);
+      $scope.confirmDeleteOperator(operator);
 
-      expect(scope.operatorToDelete).toEqual(operator);
-      expect(scope.openModal).toHaveBeenCalled();
+      expect($scope.operatorToDelete).toEqual(operator);
+      expect($scope.openModal).toHaveBeenCalled();
     });
 
-    it('createOperator should create a operator', function () {
-      var newOperator = new mockOperator(q);
+    it("createOperator should create a operator", function () {
+      var newOperator = new mockOperator($q);
       newOperator.name = "New Operator";
       delete newOperator.id;
 
-      spyOn(scope, 'cancelCreateOperator');
+      spyOn($scope, "cancelCreateOperator");
 
-      scope.createOperator(newOperator);
-      scope.$digest();
+      $scope.createOperator(newOperator);
+      $scope.$digest();
 
-      expect(scope.cancelCreateOperator).toHaveBeenCalled();
+      expect($scope.cancelCreateOperator).toHaveBeenCalled();
     });
 
-    it('deleteOperator should delete a operator', function () {
-      scope.deletingOperator = null;
-      scope.operatorToDelete = new mockOperator(q);
+    it("deleteOperator should delete a operator", function () {
+      $scope.deletingOperator = null;
+      $scope.operatorToDelete = new mockOperator($q);
 
-      spyOn(scope, 'resetOperatorForms');
+      spyOn($scope, "resetOperatorForms");
 
-      scope.deleteOperator();
-      scope.$digest();
+      $scope.deleteOperator();
+      $scope.$digest();
 
-      expect(typeof scope.deletingOperator).toEqual('boolean');
-      expect(scope.resetOperatorForms).toHaveBeenCalled();
+      expect(typeof $scope.deletingOperator).toEqual("boolean");
+      expect($scope.resetOperatorForms).toHaveBeenCalled();
     });
 
-    it('resetOperatorForms should reset operator form', function () {
-      scope.closeModal = function() { };
+    it("resetOperatorForms should reset operator form", function () {
+      $scope.closeModal = function() { };
 
-      spyOn(OperatorRepo, 'clearValidationResults');
-      spyOn(scope, 'closeModal');
+      spyOn(OperatorRepo, "clearValidationResults");
+      spyOn($scope, "closeModal");
 
       var key;
-      for (key in scope.operatorForms) {
-        scope.operatorForms[key].$setPristine = function() { };
-        spyOn(scope.operatorForms[key], '$setPristine');
+      for (key in $scope.operatorForms) {
+        $scope.operatorForms[key].$setPristine = function() { };
+        spyOn($scope.operatorForms[key], "$setPristine");
       }
 
-      scope.resetOperatorForms();
-      scope.$digest();
+      $scope.resetOperatorForms();
+      $scope.$digest();
 
       expect(OperatorRepo.clearValidationResults).toHaveBeenCalled();
-      expect(scope.closeModal).toHaveBeenCalled();
+      expect($scope.closeModal).toHaveBeenCalled();
 
-      for (key in scope.operatorForms) {
-        expect(scope.operatorForms[key].$setPristine).toHaveBeenCalled();
+      for (key in $scope.operatorForms) {
+        expect($scope.operatorForms[key].$setPristine).toHaveBeenCalled();
       }
     });
 
-    it('setTable should start creating a operator', function () {
-      scope.operators = new mockInternalMetadata(q);
-      scope.setTable();
-      scope.$digest();
+    it("setTable should start creating a operator", function () {
+      $scope.operators = new mockInternalMetadata($q);
+      $scope.setTable();
+      $scope.$digest();
 
-      expect(scope.tableParams).toBeDefined();
+      expect($scope.tableParams).toBeDefined();
     });
 
-    it('startCreateOperator should start creating a operator', function () {
-      scope.openModal = function(name) { };
+    it("startCreateOperator should start creating a operator", function () {
+      $scope.openModal = function(name) { };
 
-      spyOn(scope, 'openModal');
+      spyOn($scope, "openModal");
 
-      scope.startCreateOperator();
+      $scope.startCreateOperator();
 
-      expect(scope.openModal).toHaveBeenCalled();
+      expect($scope.openModal).toHaveBeenCalled();
     });
 
-    it('startUpdateOperator should start updating a operator', function () {
-      var operator = new mockOperator(q);
-      scope.operatorToUpdate = null;
-      scope.openModal = function(name) { };
+    it("startUpdateOperator should start updating a operator", function () {
+      var operator = new mockOperator($q);
+      $scope.operatorToUpdate = null;
+      $scope.openModal = function(name) { };
 
-      spyOn(scope, 'openModal');
+      spyOn($scope, "openModal");
 
-      scope.startUpdateOperator(operator);
+      $scope.startUpdateOperator(operator);
 
-      expect(scope.operatorToUpdate).toEqual(operator);
-      expect(scope.openModal).toHaveBeenCalled();
+      expect($scope.operatorToUpdate).toEqual(operator);
+      expect($scope.openModal).toHaveBeenCalled();
     });
 
-    it('updateOperator should update a operator', function () {
-      scope.updatingOperator = null;
-      scope.operatorToUpdate = new mockOperator(q);
-      scope.operatorToUpdate.name = "Updated Operator 1";
+    it("updateOperator should update a operator", function () {
+      $scope.updatingOperator = null;
+      $scope.operatorToUpdate = new mockOperator($q);
+      $scope.operatorToUpdate.name = "Updated Operator 1";
 
-      spyOn(scope, 'resetOperatorForms');
+      spyOn($scope, "resetOperatorForms");
 
-      scope.updateOperator();
-      scope.$digest();
+      $scope.updateOperator();
+      $scope.$digest();
 
-      expect(typeof scope.updatingOperator).toEqual('boolean');
-      expect(scope.resetOperatorForms).toHaveBeenCalled();
+      expect(typeof $scope.updatingOperator).toEqual("boolean");
+      expect($scope.resetOperatorForms).toHaveBeenCalled();
     });
 
-    it('source candidates should be readOnly', function () {
+    it("source candidates should be readOnly", function () {
       var foundWriteableCandidate = false;
-      for (var i in scope.sources) {
-        if (scope.sources[i].readOnly == false) {
+      for (var i in $scope.sources) {
+        if ($scope.sources[i].readOnly == false) {
           foundWriteableCandidate = true;
           break;
         }

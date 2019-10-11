@@ -1,10 +1,10 @@
-describe('model: Result', function () {
-  var model, rootScope, scope, location, WsApi;
+describe("model: Result", function () {
+  var $rootScope, $scope, $location, WsApi, model;
 
   var initializeVariables = function(settings) {
-    inject(function ($location, $rootScope, _WsApi_) {
-      location = $location;
-      rootScope = $rootScope;
+    inject(function (_$location_, _$rootScope_, _WsApi_) {
+      $location = _$location_;
+      $rootScope = _$rootScope_;
 
       WsApi = _WsApi_;
     });
@@ -12,13 +12,13 @@ describe('model: Result', function () {
 
   var initializeModel = function(settings) {
     inject(function (Result) {
-      scope = rootScope.$new();
+      $scope = $rootScope.$new();
 
       model = angular.extend(new Result(), dataResult1);
 
       // ensure that all pre-processing is called.
-      if (!scope.$$phase) {
-        scope.$digest();
+      if (!$scope.$$phase) {
+        $scope.$digest();
       }
     });
   };
@@ -32,21 +32,21 @@ describe('model: Result', function () {
     initializeModel();
   });
 
-  describe('Is the model defined', function () {
-    it('should be defined', function () {
+  describe("Is the model defined", function () {
+    it("should be defined", function () {
       expect(model).toBeDefined();
     });
   });
 
-  describe('Are the model methods defined', function () {
-    it('getValue should be defined', function () {
+  describe("Are the model methods defined", function () {
+    it("getValue should be defined", function () {
       expect(model.getValue).toBeDefined();
       expect(typeof model.getValue).toEqual("function");
     });
   });
 
-  describe('Are the model methods working as expected', function () {
-    it('getValue should work', function () {
+  describe("Are the model methods working as expected", function () {
+    it("getValue should work", function () {
       var response;
 
       model.fields = { mockKey: "mock value" };

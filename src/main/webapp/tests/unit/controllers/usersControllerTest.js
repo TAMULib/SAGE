@@ -1,38 +1,38 @@
 describe("controller: UsersController", function () {
-  var controller, location, q, route, scope, MockedUser, WsApi;
+  var $injector, $location, $q, $route, $scope, MockedUser, WsApi, controller;
 
-  var initializeVariables = function(settings) {
-    inject(function ($injector, $location, $q, $route, _WsApi_) {
-      injector = $injector;
-      location = $location;
-      route = $route;
-      q = $q;
+  var initializeVariables = function() {
+    inject(function (_$injector_, _$location_, _$q_, _$route_, _WsApi_) {
+      $injector = _$injector_;
+      $location = _$location_;
+      $route = _$route_;
+      $q = _$q_;
 
-      MockedUser = new mockUser(q);
+      MockedUser = new mockUser($q);
       WsApi = _WsApi_;
     });
   };
 
   var initializeController = function(settings) {
-    inject(function ($controller, $location, $rootScope, _StorageService_, _UserService_) {
-      scope = $rootScope.$new();
+    inject(function (_$controller_, _$location_, _$rootScope_, _StorageService_, _UserService_) {
+      $scope = _$rootScope_.$new();
 
       sessionStorage.role = settings && settings.role ? settings.role : "ROLE_ADMIN";
       sessionStorage.token = settings && settings.token ? settings.token : "faketoken";
 
-      controller = $controller("UsersController", {
-        $injector: injector,
-        $location: location,
-        $route: route,
-        $scope: scope,
+      controller = _$controller_("UsersController", {
+        $injector: $injector,
+        $location: $location,
+        $route: $route,
+        $scope: $scope,
         StorageService: _StorageService_,
         UserService: _UserService_,
         WsApi: WsApi
       });
 
       // ensure that the isReady() is called.
-      if (!scope.$$phase) {
-        scope.$digest();
+      if (!$scope.$$phase) {
+        $scope.$digest();
       }
     });
   };
@@ -76,58 +76,58 @@ describe("controller: UsersController", function () {
 
   describe("Are the scope methods defined", function () {
     it("assignableRoles should be defined", function () {
-      expect(scope.assignableRoles).toBeDefined();
-      expect(typeof scope.assignableRoles).toEqual("function");
+      expect($scope.assignableRoles).toBeDefined();
+      expect(typeof $scope.assignableRoles).toEqual("function");
     });
     it("canDelete should be defined", function () {
-      expect(scope.canDelete).toBeDefined();
-      expect(typeof scope.canDelete).toEqual("function");
+      expect($scope.canDelete).toBeDefined();
+      expect(typeof $scope.canDelete).toEqual("function");
     });
     it("delete should be defined", function () {
-      expect(scope.delete).toBeDefined();
-      expect(typeof scope.delete).toEqual("function");
+      expect($scope.delete).toBeDefined();
+      expect(typeof $scope.delete).toEqual("function");
     });
     it("updateRole should be defined", function () {
-      expect(scope.updateRole).toBeDefined();
-      expect(typeof scope.updateRole).toEqual("function");
+      expect($scope.updateRole).toBeDefined();
+      expect(typeof $scope.updateRole).toEqual("function");
     });
   });
 
-  describe("Do the scope methods work as expected", function () {
+  describe("Do the $scope methods work as expected", function () {
     it("assignableRoles should work", function () {
       var result;
 
-      result = scope.assignableRoles("ROLE_ADMIN");
+      result = $scope.assignableRoles("ROLE_ADMIN");
       // @todo
 
-      result = scope.assignableRoles("ROLE_USER");
+      result = $scope.assignableRoles("ROLE_USER");
       // @todo
 
-      result = scope.assignableRoles("ROLE_ANONYMOUS");
+      result = $scope.assignableRoles("ROLE_ANONYMOUS");
       // @todo
 
-      result = scope.assignableRoles("Should not exist");
+      result = $scope.assignableRoles("Should not exist");
       // @todo
     });
     it("canDelete should work", function () {
-      var user = new mockUser(q);
+      var user = new mockUser($q);
       var result;
 
-      result = scope.canDelete(user);
+      result = $scope.canDelete(user);
       // @todo
     });
     it("delete should work", function () {
-      var user = new mockUser(q);
+      var user = new mockUser($q);
       var result;
 
-      result = scope.delete(user);
+      result = $scope.delete(user);
       // @todo
     });
     it("updateRole should work", function () {
-      var user = new mockUser(q);
+      var user = new mockUser($q);
       var result;
 
-      result = scope.updateRole(user);
+      result = $scope.updateRole(user);
       // @todo
     });
   });

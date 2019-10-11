@@ -1,19 +1,19 @@
 describe("service: writerRepo", function () {
-  var q, repo, rootScope, scope, MockedWriter, WsApi;
+  var $q, $rootScope, $scope, MockedWriter, WsApi, repo;
 
   var initializeVariables = function(settings) {
-    inject(function ($q, $rootScope, _WsApi_) {
-      q = $q;
-      rootScope = $rootScope;
+    inject(function (_$q_, _$rootScope_, _WsApi_) {
+      $q = _$q_;
+      $rootScope = _$rootScope_;
 
-      MockedWriter = new mockWriter(q);
+      MockedWriter = new mockWriter($q);
       WsApi = _WsApi_;
     });
   };
 
   var initializeRepo = function(settings) {
     inject(function ($injector, WriterRepo) {
-      scope = rootScope.$new();
+      $scope = $rootScope.$new();
 
       repo = WriterRepo;
     });

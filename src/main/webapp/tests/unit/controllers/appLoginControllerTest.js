@@ -1,31 +1,31 @@
 describe("controller: AppLoginController", function () {
-  var controller, q, scope, MockedUser, WsApi;
+  var $q, $scope, MockedUser, WsApi, controller;
 
-  var initializeVariables = function(settings) {
-    inject(function ($q, _WsApi_) {
-      q = $q;
+  var initializeVariables = function() {
+    inject(function (_$q_, _WsApi_) {
+      $q = _$q_;
 
-      MockedUser = new mockUser(q);
+      MockedUser = new mockUser($q);
       WsApi = _WsApi_;
     });
   };
 
   var initializeController = function(settings) {
-    inject(function ($controller, $rootScope, _UserService_) {
-      scope = $rootScope.$new();
+    inject(function (_$controller_, _$rootScope_, _UserService_) {
+      $scope = _$rootScope_.$new();
 
       sessionStorage.role = settings && settings.role ? settings.role : "ROLE_ADMIN";
       sessionStorage.token = settings && settings.token ? settings.token : "faketoken";
 
-      controller = $controller("AppLoginController", {
-        $scope: scope,
+      controller = _$controller_("AppLoginController", {
+        $scope: $scope,
         UserService: _UserService_,
         WsApi: WsApi
       });
 
       // ensure that the isReady() is called.
-      if (!scope.$$phase) {
-        scope.$digest();
+      if (!$scope.$$phase) {
+        $scope.$digest();
       }
     });
   };
@@ -70,43 +70,43 @@ describe("controller: AppLoginController", function () {
 
   describe("Are the scope methods defined", function () {
     it("checkAuthStrategy should be defined", function () {
-      expect(scope.checkAuthStrategy).toBeDefined();
-      expect(typeof scope.checkAuthStrategy).toEqual("function");
+      expect($scope.checkAuthStrategy).toBeDefined();
+      expect(typeof $scope.checkAuthStrategy).toEqual("function");
     });
 
     it("isEmailEnabled should be defined", function () {
-      expect(scope.isEmailEnabled).toBeDefined();
-      expect(typeof scope.isEmailEnabled).toEqual("function");
+      expect($scope.isEmailEnabled).toBeDefined();
+      expect(typeof $scope.isEmailEnabled).toEqual("function");
     });
 
     it("isExternalEnabled should be defined", function () {
-      expect(scope.isExternalEnabled).toBeDefined();
-      expect(typeof scope.isExternalEnabled).toEqual("function");
+      expect($scope.isExternalEnabled).toBeDefined();
+      expect(typeof $scope.isExternalEnabled).toEqual("function");
     });
   });
 
-  describe("Do the scope methods work as expected", function () {
+  describe("Do the $scope methods work as expected", function () {
     it("checkAuthStrategy should work", function () {
       var result;
 
-      result = scope.checkAuthStrategy("emailRegistration");
+      result = $scope.checkAuthStrategy("emailRegistration");
       // @todo
 
-      result = scope.checkAuthStrategy("Should Not Exist");
+      result = $scope.checkAuthStrategy("Should Not Exist");
       // @todo
     });
 
     it("isEmailEnabled should work", function () {
       var result;
 
-      result = scope.isEmailEnabled();
+      result = $scope.isEmailEnabled();
       // @todo
     });
 
     it("isExternalEnabled should work", function () {
       var result;
 
-      result = scope.isExternalEnabled();
+      result = $scope.isExternalEnabled();
       // @todo
     });
   });

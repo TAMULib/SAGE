@@ -1,30 +1,30 @@
 describe("controller: ManagementController", function () {
-  var controller, q, scope, MockedUser, WsApi;
+  var $q, $scope, MockedUser, WsApi, controller;
 
-  var initializeVariables = function(settings) {
-    inject(function ($q, _WsApi_) {
-      q = $q;
+  var initializeVariables = function() {
+    inject(function (_$q_, _WsApi_) {
+      $q = _$q_;
 
-      MockedUser = new mockUser(q);
+      MockedUser = new mockUser($q);
       WsApi = _WsApi_;
     });
   };
 
   var initializeController = function(settings) {
-    inject(function ($controller, $rootScope) {
-      scope = $rootScope.$new();
+    inject(function (_$controller_, _$rootScope_) {
+      $scope = _$rootScope_.$new();
 
       sessionStorage.role = settings && settings.role ? settings.role : "ROLE_ADMIN";
       sessionStorage.token = settings && settings.token ? settings.token : "faketoken";
 
-      controller = $controller("ManagementController", {
-        $scope: scope,
+      controller = _$controller_("ManagementController", {
+        $scope: $scope,
         WsApi: WsApi
       });
 
       // ensure that the isReady() is called.
-      if (!scope.$$phase) {
-        scope.$digest();
+      if (!$scope.$$phase) {
+        $scope.$digest();
       }
     });
   };

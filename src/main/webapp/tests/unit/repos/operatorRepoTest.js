@@ -1,19 +1,19 @@
 describe("service: operatorRepo", function () {
-  var q, repo, rootScope, scope, MockedOperator, WsApi;
+  var $q, $rootScope, $scope, MockedOperator, WsApi, repo;
 
   var initializeVariables = function(settings) {
-    inject(function ($q, $rootScope, _WsApi_) {
-      q = $q;
-      rootScope = $rootScope;
+    inject(function (_$q_, _$rootScope_, _WsApi_) {
+      $q = _$q_;
+      $rootScope = _$rootScope_;
 
-      MockedOperator = new mockOperator(q);
+      MockedOperator = new mockOperator($q);
       WsApi = _WsApi_;
     });
   };
 
   var initializeRepo = function(settings) {
     inject(function ($injector, OperatorRepo) {
-      scope = rootScope.$new();
+      $scope = $rootScope.$new();
 
       repo = OperatorRepo;
     });
@@ -50,7 +50,7 @@ describe("service: operatorRepo", function () {
   describe("Do the repo methods work as expected", function () {
     it("getTypes should work", function () {
       repo.getTypes();
-      scope.$digest();
+      $scope.$digest();
 
       // TODO
     });
