@@ -1,20 +1,17 @@
 describe("controller: DiscoveryContextController", function () {
   var $location, $q, $scope, DiscoveryContext, MockedDiscoveryContext, MockedUser, WsApi, appConfig, controller, routeParams;
 
-  var initializeVariables = function(settings) {
+  var initializeVariables = function() {
     inject(function (_$location_, _$q_, _WsApi_) {
       $location = _$location_;
       $q = _$q_;
 
-      if (settings && settings.routeParams) {
-        angular.extend(routeParams, settings.routeParams);
-      }
-
-      appConfig = settings && settings.appConfig ? settings.appConfig : { defaultThumbnailURI: "thumbnail.png" };
-
       MockedDiscoveryContext = new mockDiscoveryContext($q);
       MockedUser = new mockUser($q);
       WsApi = _WsApi_;
+
+      appConfig = { defaultThumbnailURI: "thumbnail.png" };
+      routeParams = {};
     });
   };
 

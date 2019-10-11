@@ -13,7 +13,7 @@ describe("model: Operator", function () {
     inject(function (Operator) {
       $scope = $rootScope.$new();
 
-      model = angular.extend(new Operator());
+      model = angular.extend(new Operator(), dataOperator1);
 
       // ensure that all pre-processing is called.
       if (!$scope.$$phase) {

@@ -1,7 +1,7 @@
 describe("controller: SingleResultController", function () {
   var $q, $scope, MockedDiscoveryContext, MockedSingleResultContext, MockedUser, WsApi, controller;
 
-  var initializeVariables = function(settings) {
+  var initializeVariables = function() {
     inject(function (_$q_, _WsApi_) {
       $q = _$q_;
 

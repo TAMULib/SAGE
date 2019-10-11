@@ -13,7 +13,7 @@ describe("model: Job", function () {
     inject(function (Job) {
       $scope = $rootScope.$new();
 
-      model = angular.extend(new Job());
+      model = angular.extend(new Job(), dataJob1);
 
       // ensure that all pre-processing is called.
       if (!$scope.$$phase) {

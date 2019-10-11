@@ -13,7 +13,7 @@ describe("model: InternalMetadata", function () {
     inject(function (InternalMetadata) {
       $scope = $rootScope.$new();
 
-      model = angular.extend(new InternalMetadata());
+      model = angular.extend(new InternalMetadata(), dataInternalMetadata1);
 
       // ensure that all pre-processing is called.
       if (!$scope.$$phase) {

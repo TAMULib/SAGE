@@ -1,7 +1,7 @@
 describe("controller: WriterManagementController", function () {
   var $q, $scope, MockedInternalMetadata, MockedReader, MockedSource, MockedUser, MockedWriter, WriterRepo, controller;
 
-  var initializeVariables = function(settings) {
+  var initializeVariables = function() {
     inject(function (_$q_, _WriterRepo_) {
       $q = _$q_;
 

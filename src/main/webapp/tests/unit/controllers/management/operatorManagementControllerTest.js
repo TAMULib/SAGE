@@ -1,7 +1,7 @@
 describe("controller: OperatorManagementController", function () {
   var $q, $scope, MockedInternalMetadata, MockedOperator, NgTableParams, OperatorRepo, controller;
 
-  var initializeVariables = function(settings) {
+  var initializeVariables = function() {
     inject(function (_$q_, _OperatorRepo_) {
       $q = _$q_;
 

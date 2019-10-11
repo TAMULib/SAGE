@@ -1,7 +1,7 @@
 describe("controller: DiscoveryViewManagementController", function () {
   var $q, $scope, $timeout, DiscoveryViewRepo, MockedDiscoveryView, MockedFacetField, MockedMetadataField, MockedSearchField, MockedSource, NgTableParams, SourceRepo, controller;
 
-  var initializeVariables = function(settings) {
+  var initializeVariables = function() {
     inject(function (_$q_, _DiscoveryViewRepo_, _WsApi_, _SourceRepo_) {
       $q = _$q_;
 

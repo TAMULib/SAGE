@@ -1,7 +1,7 @@
 describe("controller: AppLoginController", function () {
   var $q, $scope, MockedUser, WsApi, controller;
 
-  var initializeVariables = function(settings) {
+  var initializeVariables = function() {
     inject(function (_$q_, _WsApi_) {
       $q = _$q_;
 

@@ -13,7 +13,7 @@ describe("model: Reader", function () {
     inject(function (Reader) {
       $scope = $rootScope.$new();
 
-      model = angular.extend(new Reader());
+      model = angular.extend(new Reader(), dataReader1);
 
       // ensure that all pre-processing is called.
       if (!$scope.$$phase) {

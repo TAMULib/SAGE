@@ -14,7 +14,7 @@ describe("model: Source", function () {
       $q = _$q_;
       $scope = $rootScope.$new();
 
-      model = angular.extend(new Source());
+      model = angular.extend(new Source(), dataSource1);
 
       // ensure that all pre-processing is called.
       if (!$scope.$$phase) {

@@ -2,7 +2,7 @@ describe("controller: InternalMetadataManagementController", function () {
 
   var $q, $scope, MockedInternalMetadata, NgTableParams, controller;
 
-  var initializeVariables = function(settings) {
+  var initializeVariables = function() {
     inject(function (_$q_, _InternalMetadataRepo_) {
       $q = _$q_;
 

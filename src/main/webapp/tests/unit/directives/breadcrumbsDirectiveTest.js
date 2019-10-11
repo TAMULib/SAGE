@@ -1,5 +1,5 @@
 describe("directive: breadcrumbs", function () {
-  var $compile, $q, $scope, MockedDiscoveryContext, MockedSingleResultContext, contexts, directive, element, home, reload;
+  var $compile, $q, $scope, MockedDiscoveryContext, MockedSingleResultContext, directive, element, contexts, home, reload;
 
   var initializeVariables = function() {
     inject(function (_$q_, _$compile_) {
@@ -10,8 +10,8 @@ describe("directive: breadcrumbs", function () {
       MockedSingleResultContext = new mockSingleResultContext($q);
 
       contexts = [];
-      reload = "";
       home = "";
+      reload = "";
     });
   };
 
@@ -23,8 +23,8 @@ describe("directive: breadcrumbs", function () {
       directive = $compile(element)($scope);
 
       $scope.contexts = contexts;
-      $scope.reload = reload;
       $scope.home = home;
+      $scope.reload = reload;
 
       $scope.$digest();
     });

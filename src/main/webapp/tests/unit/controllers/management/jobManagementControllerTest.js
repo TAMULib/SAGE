@@ -1,7 +1,7 @@
 describe("controller: JobManagementController", function () {
   var $q, $scope, JobRepo, MockedJob, MockedOperator, MockedReader, MockedSource, MockedUser, MockedWriter, controller, event;
 
-  var initializeVariables = function(settings) {
+  var initializeVariables = function() {
     inject(function (_$q_, _JobRepo_) {
       $q = _$q_;
 

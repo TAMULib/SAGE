@@ -13,7 +13,7 @@ describe("model: Search", function () {
     inject(function (Search) {
       $scope = $rootScope.$new();
 
-      model = angular.extend(new Search());
+      model = angular.extend(new Search(), dataSearch1);
 
       // ensure that all pre-processing is called.
       if (!$scope.$$phase) {

@@ -1,5 +1,5 @@
 describe("model: DiscoveryContext", function () {
-  var $rootScope, $scope, $location, MockedDiscoveryContext, WsApi, routeParams, model, wsResponse;
+  var $rootScope, $scope, $location, WsApi, routeParams, model, wsResponse;
 
   var initializeVariables = function(settings) {
     inject(function (_$q_, _$location_, _$rootScope_, _WsApi_) {
@@ -11,7 +11,6 @@ describe("model: DiscoveryContext", function () {
         angular.extend(routeParams, settings.routeParams);
       }
 
-      MockedDiscoveryContext = new mockDiscoveryContext($q);
       WsApi = _WsApi_;
 
       wsResponse = {

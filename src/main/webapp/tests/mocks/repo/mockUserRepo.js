@@ -19,7 +19,16 @@ var dataUserRepo3 = [
 angular.module("mock.userRepo", []).service("UserRepo", function($q) {
   var repo = mockRepo("UserRepo", $q, mockUser, dataUserRepo1);
 
-  repo.scaffold = {};
+  repo.scaffold = {
+    anonymous: false,
+    email: "",
+    exp: "",
+    firstName: "",
+    lastName: "",
+    netId: "",
+    role: "",
+    uin: ""
+  };
 
   return repo;
 });

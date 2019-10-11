@@ -1,7 +1,7 @@
 describe("controller: SourceManagementController", function () {
   var $q, $scope, MockedReader, MockedSource, MockedInternalMetadata, MockedUser, SourceRepo, controller;
 
-  var initializeVariables = function(settings) {
+  var initializeVariables = function() {
     inject(function (_$q_, _SourceRepo_) {
       $q = _$q_;
 

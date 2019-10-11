@@ -1,7 +1,7 @@
 describe("controller: ReaderManagementController", function () {
   var $q, $scope, MockedReader, MockedSource, MockedInternalMetadata, MockedUser, ReaderRepo, controller;
 
-  var initializeVariables = function(settings) {
+  var initializeVariables = function() {
     inject(function (_$q_, _ReaderRepo_) {
       $q = _$q_;
 

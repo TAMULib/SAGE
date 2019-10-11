@@ -13,7 +13,7 @@ describe("model: MetadataField", function () {
     inject(function (MetadataField) {
       $scope = $rootScope.$new();
 
-      model = angular.extend(new MetadataField());
+      model = angular.extend(new MetadataField(), dataMetadataField1);
     });
   };
 

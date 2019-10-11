@@ -17,7 +17,7 @@ var dataAbstractAppModelRepo3 = [
 ];
 
 angular.module("mock.abstractAppRepo", []).service("AbstractAppRepo", function($q) {
-    var repo = mockRepo("AbstractAppRepo", $q);
+  var repo = mockRepo("AbstractAppRepo", $q);
 
-    return repo;
+  return repo;
 });

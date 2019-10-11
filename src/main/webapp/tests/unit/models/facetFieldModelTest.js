@@ -13,7 +13,7 @@ describe("model: MetadataField", function () {
     inject(function (FacetField) {
       $scope = $rootScope.$new();
 
-      model = angular.extend(new FacetField());
+      model = angular.extend(new FacetField(), dataFacetField1);
     });
   };
 

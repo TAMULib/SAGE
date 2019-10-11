@@ -13,7 +13,7 @@ describe("model: Writer", function () {
     inject(function (Writer) {
       $scope = $rootScope.$new();
 
-      model = angular.extend(new Writer());
+      model = angular.extend(new Writer(), dataWriter1);
 
       // ensure that all pre-processing is called.
       if (!$scope.$$phase) {

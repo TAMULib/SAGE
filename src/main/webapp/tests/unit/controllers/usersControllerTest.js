@@ -1,11 +1,11 @@
 describe("controller: UsersController", function () {
-  var $location, $q, route, $scope, MockedUser, WsApi, controller;
+  var $injector, $location, $q, $route, $scope, MockedUser, WsApi, controller;
 
-  var initializeVariables = function(settings) {
-    inject(function ($injector, _$location_, _$q_, $route, _WsApi_) {
-      injector = $injector;
+  var initializeVariables = function() {
+    inject(function (_$injector_, _$location_, _$q_, _$route_, _WsApi_) {
+      $injector = _$injector_;
       $location = _$location_;
-      route = $route;
+      $route = _$route_;
       $q = _$q_;
 
       MockedUser = new mockUser($q);
@@ -21,9 +21,9 @@ describe("controller: UsersController", function () {
       sessionStorage.token = settings && settings.token ? settings.token : "faketoken";
 
       controller = _$controller_("UsersController", {
-        $injector: injector,
+        $injector: $injector,
         $location: $location,
-        $route: route,
+        $route: $route,
         $scope: $scope,
         StorageService: _StorageService_,
         UserService: _UserService_,
