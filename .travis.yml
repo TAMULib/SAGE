@@ -43,6 +43,4 @@ deploy:
 
 # Send final notification to coveralls after all jobs have been completed.
 notifications:
-  webhooks:
-    urls:
-      - https://coveralls.io/webhook
+  webhooks: https://coveralls.io/webhook
