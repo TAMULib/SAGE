@@ -3,9 +3,7 @@ package edu.tamu.sage.model.response;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.solr.client.solrj.response.FacetField;
-
-import edu.tamu.sage.model.FacetFields;
+import edu.tamu.sage.model.FacetField;
 
 public class FacetFilter {
 
@@ -60,7 +58,7 @@ public class FacetFilter {
         this.counts = counts;
     }
 
-    public static FacetFilter of(FacetField solrFacetField, FacetFields facetField) {
+    public static FacetFilter of(org.apache.solr.client.solrj.response.FacetField solrFacetField, FacetField facetField) {
         FacetFilter facetFilter = new FacetFilter();
         facetFilter.label = facetField.getLabel();
         facetFilter.key = facetField.getKey();
@@ -73,7 +71,7 @@ public class FacetFilter {
 
         return facetFilter;
     }
-    
-    
+
+
 
 }

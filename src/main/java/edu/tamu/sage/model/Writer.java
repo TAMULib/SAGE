@@ -20,7 +20,7 @@ import edu.tamu.weaver.validation.model.ValidatingBaseEntity;
 @Entity
 public class Writer extends ValidatingBaseEntity implements Writable {
     @NotNull
-    @Column(unique=true, nullable=false)
+    @Column(unique = true, nullable = false)
     private String name;
 
     @ManyToOne
@@ -32,7 +32,7 @@ public class Writer extends ValidatingBaseEntity implements Writable {
 
     public Writer() {
         setModelValidator(new WriterValidator());
-        this.outputMappings = new ArrayList<OutputMapping>();
+        outputMappings = new ArrayList<OutputMapping>();
     }
 
     @Override

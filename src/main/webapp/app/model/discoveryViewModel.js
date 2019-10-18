@@ -1,4 +1,4 @@
-sage.model("DiscoveryView", function(WsApi, HttpMethodVerbs) {
+sage.model("DiscoveryView", function() {
   return function DiscoveryView() {
     var discoveryView = this;
 

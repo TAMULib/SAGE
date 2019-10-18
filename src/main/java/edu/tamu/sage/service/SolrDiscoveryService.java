@@ -21,6 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import edu.tamu.sage.enums.QueryOperandType;
+import edu.tamu.sage.enums.QueryParserType;
 import edu.tamu.sage.exceptions.DiscoveryContextBuildException;
 import edu.tamu.sage.exceptions.SourceServiceException;
 import edu.tamu.sage.model.DiscoveryView;
@@ -35,6 +37,8 @@ import edu.tamu.sage.utility.ValueTemplateUtility;
 
 @Service
 public class SolrDiscoveryService {
+
+    private final static String FILTER_WILDCARD = "*:*";
 
     private final static Logger logger = LoggerFactory.getLogger(SolrDiscoveryService.class);
 
@@ -56,14 +60,34 @@ public class SolrDiscoveryService {
         Search search = new Search();
 
         search.setField(field.equalsIgnoreCase(ALL_FIELDS_KEY) ? "" : field);
+        search.setValue(value);
+        search.setLabel("");
 
-        String query = "*:*";
+        if (!search.getValue().isEmpty()) {
+            String matchField = field.isEmpty() ? ALL_FIELDS_KEY : field;
+
+            discoveryView.getSearchFields().forEach(searchField -> {
+                if (searchField.getKey().equalsIgnoreCase(matchField)) {
+                    search.setLabel(searchField.getLabel());
+                }
+            });
+        }
+
+        String query = "";
         if (!(field.isEmpty() || value.isEmpty())) {
             query = search.getField();
             query += ":" + (value.isEmpty() ? "*" : value);
         }
 
         SolrQuery solrQuery = new SolrQuery(query);
+
+        if (discoveryView.getFilter().isEmpty()) {
+            if (discoveryView.getSource().getRequiresFilter()) {
+                solrQuery.addFilterQuery(FILTER_WILDCARD);
+            }
+        } else {
+            solrQuery.addFilterQuery(discoveryView.getFilter());
+        }
 
         // Only filter against designated facet fields.
         List<Filter> filters = new ArrayList<Filter>();
@@ -73,12 +97,16 @@ public class SolrDiscoveryService {
 
                 String filterKey = "f." + facetField.getKey();
                 if (filterMap.containsKey(filterKey)) {
-                    Filter filter = new Filter();
-                    filter.setKey(facetField.getKey());
-                    filter.setLabel(facetField.getLabel());
-                    filter.setValue(filterMap.get(filterKey));
-                    filters.add(filter);
-                    solrQuery.addFilterQuery(facetField.getKey() + ":" + filterMap.get(filterKey));
+                    String[] filterValues = filterMap.get(filterKey).split(",", -1);
+
+                    for (int i = 0; i < filterValues.length; i++) {
+                        Filter filter = new Filter();
+                        filter.setKey(facetField.getKey());
+                        filter.setLabel(facetField.getLabel());
+                        filter.setValue(filterValues[i]);
+                        filters.add(filter);
+                        solrQuery.addFilterQuery(facetField.getKey() + ":" + filterValues[i]);
+                    }
                 }
             });
 
@@ -88,11 +116,25 @@ public class SolrDiscoveryService {
 
         search.setFilters(filters);
 
+        String queryParser = discoveryView.getQueryParser();
+        if (queryParser != null) {
+            if (queryParser.equalsIgnoreCase(QueryParserType.EDISMAX.toString()) || queryParser.equalsIgnoreCase(QueryParserType.DISMAX.toString())) {
+                solrQuery.setParam("defType", queryParser.toLowerCase());
+            }
+        }
+
+        String defaultOperand = discoveryView.getDefaultOperand();
+        if (defaultOperand != null) {
+            if (defaultOperand.equalsIgnoreCase(QueryOperandType.AND.toString()) || defaultOperand.equalsIgnoreCase(QueryOperandType.OR.toString())) {
+                solrQuery.setParam("q.op", defaultOperand);
+            }
+        }
+
         solrQuery.setRows(page.getPageSize());
         solrQuery.setStart((page.getPageNumber() * page.getPageSize()) + offset);
 
         if (page.getSort() != null) {
-            page.getSort().forEach(order->{
+            page.getSort().forEach(order -> {
                 solrQuery.addSort(order.getProperty(), order.getDirection().isDescending() ? ORDER.desc : ORDER.asc);
             });
         }
@@ -113,6 +155,9 @@ public class SolrDiscoveryService {
     public List<SolrField> getAvailableFields(DiscoveryView discoveryView) throws DiscoveryContextBuildException {
         String uri = discoveryView.getSource().getUri();
         String filter = discoveryView.getFilter();
+        if (discoveryView.getSource().getRequiresFilter() && filter.isEmpty()) {
+            filter = FILTER_WILDCARD;
+        }
         try {
             return solrSourceService.getAvailableFields(uri, filter);
         } catch (SourceServiceException e) {

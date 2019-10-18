@@ -1,29 +1,39 @@
-describe('model: InternalMetadata', function () {
-  var InternalMetadata;
+describe("model: InternalMetadata", function () {
+  var $rootScope, $scope, WsApi, model;
+
+  var initializeVariables = function(settings) {
+    inject(function (_$rootScope_, _WsApi_) {
+      $rootScope = _$rootScope_;
+
+      WsApi = _WsApi_;
+    });
+  };
+
+  var initializeModel = function(settings) {
+    inject(function (InternalMetadata) {
+      $scope = $rootScope.$new();
+
+      model = angular.extend(new InternalMetadata(), dataInternalMetadata1);
+
+      // ensure that all pre-processing is called.
+      if (!$scope.$$phase) {
+        $scope.$digest();
+      }
+    });
+  };
 
   beforeEach(function() {
-    module('core');
-    module('sage');
+    module("core");
+    module("sage");
+    module("mock.wsApi");
 
-    inject(function ($rootScope, _InternalMetadata_) {
-      rootScope = $rootScope;
-      scope = $rootScope.$new();
-
-      InternalMetadata = _InternalMetadata_;
-    });
+    initializeVariables();
+    initializeModel();
   });
 
-  describe('Is the model defined', function () {
-    it('should be defined', function () {
-      expect(InternalMetadata).toBeDefined();
+  describe("Is the model defined", function () {
+    it("should be defined", function () {
+      expect(model).toBeDefined();
     });
   });
-
-  describe('Initialization should return InternalMetadata', function() {
-    it('the InternalMetadata was returned', function() {
-      var model = new InternalMetadata();
-      expect(typeof model).toEqual("object");
-    });
-  });
-
 });

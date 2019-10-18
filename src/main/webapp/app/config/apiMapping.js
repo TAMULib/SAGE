@@ -51,6 +51,12 @@ var apiMapping = {
       'httpMethod': 'DELETE',
       'method': ''
     },
+    testPing: {
+      'endpoint': '/private/queue',
+      'controller': 'source/solr',
+      'httpMethod': 'POST',
+      'method': 'test/ping'
+    },
     testLocation: {
       'endpoint': '/private/queue',
       'controller': 'source/solr',
@@ -321,6 +327,14 @@ var apiMapping = {
     lazy: true
   },
   SearchField: {
+    validations: false,
+    lazy: true
+  },
+  MetadataField: {
+    validations: false,
+    lazy: true
+  },
+  FacetField: {
     validations: false,
     lazy: true
   }

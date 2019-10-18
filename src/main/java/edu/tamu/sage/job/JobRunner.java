@@ -39,54 +39,54 @@ public class JobRunner {
     @Scheduled(cron = "0 0/30 * * * ?")
     private void runJobs() {
         List<Job> activeJobs = jobRepo.findByScheduleActiveTrue();
-        logger.debug("Checking "+activeJobs.size()+" Active Jobs");
+        logger.debug("Checking " + activeJobs.size() + " Active Jobs");
         LocalDateTime schedulerStarted = java.time.LocalDateTime.now(ZoneId.of("UTC"));
         activeJobs.forEach(j -> {
             switch (j.getSchedule().getFrequency()) {
-                case ONDEMAND:
-                    // This is not to be run on a schedule.
-                    break;
-                case ONCE:
-                    LocalTime jobStartTime = buildJobStartTime(j.getSchedule().getScheduleData().get(START_TIME_KEY));
-                    LocalDateTime jobDate = LocalDateTime.parse(j.getSchedule().getScheduleData().get(DATE_KEY), getDateTimeFormatter());
-
-                    if (jobDate.getDayOfMonth() == schedulerStarted.getDayOfMonth() && jobStartTime.getHour() == schedulerStarted.getHour() && jobStartTime.getMinute() == schedulerStarted.getMinute()) {
-                        startJob(j);
-                        j.getSchedule().setActive(false);
-                        jobRepo.save(j);
-                    }
+            case ONDEMAND:
+                // This is not to be run on a schedule.
                 break;
-                case HOURLY:
-                    List<Integer> hourlyDaysToRun = buildDaysToRun(j.getSchedule().getScheduleData().get(DAYS_KEY));
+            case ONCE:
+                LocalTime jobStartTime = buildJobStartTime(j.getSchedule().getScheduleData().get(START_TIME_KEY));
+                LocalDateTime jobDate = LocalDateTime.parse(j.getSchedule().getScheduleData().get(DATE_KEY), getDateTimeFormatter());
 
-                    if (schedulerStarted.getMinute() == 0 && hourlyDaysToRun.contains(schedulerStarted.getDayOfWeek().getValue())) {
-                        startJob(j);
-                    }
+                if (jobDate.getDayOfMonth() == schedulerStarted.getDayOfMonth() && jobStartTime.getHour() == schedulerStarted.getHour() && jobStartTime.getMinute() == schedulerStarted.getMinute()) {
+                    startJob(j);
+                    j.getSchedule().setActive(false);
+                    jobRepo.save(j);
+                }
                 break;
-                case DAILY:
-                    List<Integer> daysToRun = buildDaysToRun(j.getSchedule().getScheduleData().get(DAYS_KEY));
-                    LocalTime dailyJobStartTime = buildJobStartTime(j.getSchedule().getScheduleData().get(START_TIME_KEY));
+            case HOURLY:
+                List<Integer> hourlyDaysToRun = buildDaysToRun(j.getSchedule().getScheduleData().get(DAYS_KEY));
 
-                    if (daysToRun.contains(schedulerStarted.getDayOfWeek().getValue()) && dailyJobStartTime.getHour() == schedulerStarted.getHour() && dailyJobStartTime.getMinute() == schedulerStarted.getMinute()) {
-                        startJob(j);
-                    }
+                if (schedulerStarted.getMinute() == 0 && hourlyDaysToRun.contains(schedulerStarted.getDayOfWeek().getValue())) {
+                    startJob(j);
+                }
                 break;
-                case MONTHLY:
-                    LocalTime monthlyStartTime = buildJobStartTime(j.getSchedule().getScheduleData().get(START_TIME_KEY));
-                    List<Integer> monthsToRun = buildDaysToRun(j.getSchedule().getScheduleData().get(MONTHS_KEY));
+            case DAILY:
+                List<Integer> daysToRun = buildDaysToRun(j.getSchedule().getScheduleData().get(DAYS_KEY));
+                LocalTime dailyJobStartTime = buildJobStartTime(j.getSchedule().getScheduleData().get(START_TIME_KEY));
 
-                    if (monthsToRun.contains(schedulerStarted.getMonth().getValue()) && schedulerStarted.getDayOfMonth() == 1 && monthlyStartTime.getHour() == schedulerStarted.getHour() && monthlyStartTime.getMinute() == schedulerStarted.getMinute()) {
-                        startJob(j);
-                    }
+                if (daysToRun.contains(schedulerStarted.getDayOfWeek().getValue()) && dailyJobStartTime.getHour() == schedulerStarted.getHour() && dailyJobStartTime.getMinute() == schedulerStarted.getMinute()) {
+                    startJob(j);
+                }
                 break;
-                default:
-                    break;
+            case MONTHLY:
+                LocalTime monthlyStartTime = buildJobStartTime(j.getSchedule().getScheduleData().get(START_TIME_KEY));
+                List<Integer> monthsToRun = buildDaysToRun(j.getSchedule().getScheduleData().get(MONTHS_KEY));
+
+                if (monthsToRun.contains(schedulerStarted.getMonth().getValue()) && schedulerStarted.getDayOfMonth() == 1 && monthlyStartTime.getHour() == schedulerStarted.getHour() && monthlyStartTime.getMinute() == schedulerStarted.getMinute()) {
+                    startJob(j);
+                }
+                break;
+            default:
+                break;
             }
         });
     }
 
     private void startJob(Job job) {
-        logger.debug("Starting Job: "+job.getName()+" "+job.getSchedule().getFrequency());
+        logger.debug("Starting Job: " + job.getName() + " " + job.getSchedule().getFrequency());
         processorService.process(job);
     }
 

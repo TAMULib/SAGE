@@ -1,31 +1,39 @@
-describe('model: Writer', function () {
-  var rootScope, scope, WsApi, Writer;
+describe("model: Writer", function () {
+  var $rootScope, $scope, WsApi, model;
+
+  var initializeVariables = function(settings) {
+    inject(function (_$rootScope_, _WsApi_) {
+      $rootScope = _$rootScope_;
+
+      WsApi = _WsApi_;
+    });
+  };
+
+  var initializeModel = function(settings) {
+    inject(function (Writer) {
+      $scope = $rootScope.$new();
+
+      model = angular.extend(new Writer(), dataWriter1);
+
+      // ensure that all pre-processing is called.
+      if (!$scope.$$phase) {
+        $scope.$digest();
+      }
+    });
+  };
 
   beforeEach(function() {
-    module('core');
-    module('sage');
-    module('mock.wsApi');
+    module("core");
+    module("sage");
+    module("mock.wsApi");
 
-    inject(function ($rootScope, _WsApi_, HttpMethodVerbs, _Writer_) {
-      rootScope = $rootScope;
-      scope = $rootScope.$new();
-      WsApi = _WsApi_;
-
-      Writer = _Writer_;
-    });
+    initializeVariables();
+    initializeModel();
   });
 
-  describe('Is the model defined', function () {
-    it('should be defined', function () {
-      expect(Writer).toBeDefined();
+  describe("Is the model defined", function () {
+    it("should be defined", function () {
+      expect(model).toBeDefined();
     });
   });
-
-  describe('Initialization should return Writer', function() {
-    it('the Writer was returned', function() {
-      var model = new Writer();
-      expect(typeof model).toEqual("object");
-    });
-  });
-
 });

@@ -5,25 +5,41 @@ sage.repo("DiscoveryViewRepo", function() {
     name: "",
     source: "",
     facetFields: [],
-    filter: "*:*",
+    filter: "",
     resourceLocationUriKey: "",
     resourceThumbnailUriKey: "",
     resultMetadataFields: [],
-    searchFields: [ {
-      key: "all_fields",
-      label: "Everything"
-    }],
+    searchFields: [],
     slug: "",
     titleKey: "",
     infoLinkText: "",
     infoLinkUrl: "",
     infoText: "",
+    queryParser: "",
+    defaultOperand: "",
     uniqueIdentifierKey: ""
+  };
+
+  discoveryViewRepo.scaffoldFacetField = {
+    key: "",
+    label: "",
+    type: "",
+    widget: ""
   };
 
   discoveryViewRepo.scaffoldSearchField = {
     key: "",
     label: ""
+  };
+
+  discoveryViewRepo.scaffoldMetadataField = {
+    inGrid: true,
+    inList: true,
+    inSingleResult: true,
+    key: "",
+    label: "",
+    sortable: true,
+    type: ""
   };
 
   return discoveryViewRepo;

@@ -1,8 +1,7 @@
-sage.model("SingleResultContext", function ($q, WsApi) {
+sage.model("SingleResultContext", function (WsApi) {
   return function SingleResultContext() {
-
     var singleResultContext = this;
-    
+
     singleResultContext.before(function() {
       var loadedPromise = WsApi.fetch(singleResultContext.getMapping().load, {
         pathValues: {
@@ -17,7 +16,13 @@ sage.model("SingleResultContext", function ($q, WsApi) {
       return loadedPromise;
     });
 
-    return singleResultContext;
+    singleResultContext.getBreadcrumb = function() {
+      return {
+        label: singleResultContext.title.replace(/^\[(.*)]$/i, "$1"),
+        path: "discovery-context/" + singleResultContext.slug + "/" + singleResultContext.resultId
+      };
+    };
 
+    return singleResultContext;
   };
 });

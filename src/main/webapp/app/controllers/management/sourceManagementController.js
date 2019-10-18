@@ -1,3 +1,4 @@
+// This managers "Cores", to represent a "Source", the readOnly property of a "Core" needs to be set to TRUE.
 sage.controller('SourceManagementController', function ($controller, $scope, NgTableParams, SourceRepo) {
 
   angular.extend(this, $controller('AbstractController', {
@@ -31,7 +32,7 @@ sage.controller('SourceManagementController', function ($controller, $scope, NgT
 
   $scope.createSource = function() {
     SourceRepo.create($scope.sourceToCreate).then(function(res) {
-      if(angular.fromJson(res.body).meta.status === "SUCCESS") {
+      if (angular.fromJson(res.body).meta.status === "SUCCESS") {
         $scope.cancelCreateSource();
       }
     });

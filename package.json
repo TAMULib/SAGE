@@ -1,7 +1,7 @@
 {
   "name": "sage",
   "private": true,
-  "version": "1.0.0",
+  "version": "0.3.0",
   "description": "Solr Agregation Engine UI",
   "repository": "https://github.com/TAMULib/Sage",
   "license": "MIT",
@@ -26,7 +26,7 @@
     "ng-openseadragon": "1.3.5",
     "ng-table": "3.0.1",
     "openseadragon": "2.4.0",
-    "weaver-ui-core": "git+https://github.com/TAMULib/Weaver-UI-Core.git#v2.0.4"
+    "weaver-ui-core": "git+https://github.com/TAMULib/Weaver-UI-Core.git#v2.0.5"
   },
   "devDependencies": {
     "grunt": "1.0.3",

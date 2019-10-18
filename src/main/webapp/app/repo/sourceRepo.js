@@ -1,3 +1,4 @@
+// This managers "Cores", to represent a "Source", the readOnly property of a "Core" needs to be set to TRUE.
 sage.repo("SourceRepo", function (Source, WsApi) {
   var sourceRepo = this;
 
@@ -5,6 +6,7 @@ sage.repo("SourceRepo", function (Source, WsApi) {
     name: "Local Solr",
     uri: "http://localhost:8983/solr/collection1",
     readOnly: true,
+    requiresFilter: true,
     username: "",
     password: ""
   });

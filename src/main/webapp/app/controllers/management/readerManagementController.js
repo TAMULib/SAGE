@@ -46,7 +46,7 @@ sage.controller('ReaderManagementController', function ($controller, $scope, NgT
   var applyFields = function (reader) {
     var fields = [];
     angular.forEach($scope.readerFields, function(valueObj,key) {
-        this.push({"name":valueObj.value,"schemaMapping": key});
+      this.push({"name":valueObj.value,"schemaMapping": key});
     }, fields);
     reader.fields = fields;
   };
@@ -55,7 +55,7 @@ sage.controller('ReaderManagementController', function ($controller, $scope, NgT
     applyFields($scope.readerToCreate);
 
     ReaderRepo.create($scope.readerToCreate).then(function(res) {
-      if(angular.fromJson(res.body).meta.status === "SUCCESS") {
+      if (angular.fromJson(res.body).meta.status === "SUCCESS") {
         $scope.cancelCreateReader();
       }
     });

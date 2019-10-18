@@ -1,4 +1,4 @@
-sage.model("Writer", function(WsApi, HttpMethodVerbs) {
+sage.model("Writer", function() {
   return function Writer() {
     var writer = this;
 

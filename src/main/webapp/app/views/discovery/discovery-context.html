@@ -1,41 +1,40 @@
-<div class="discovery-context">
-
-  <div class="row dc-heading">
-    <h1>{{discoveryContext.name}}</h1>
-    <hr>
+<div class="discovery-context row">
+  <div class="dc-heading">
+    <h2>{{discoveryContext.name}}</h2>
   </div>
-  <div class="row dc-content">
+  <div class="dc-content">
+    <breadcrumbs contexts="breadcrumbContexts" reload="resetPage" home=""></breadcrumbs>
     <div class="col-md-3 dc-side-panel">
       <div ng-if="discoveryContext.infoLinkText || discoveryContext.infoText" class="panel panel-default information-box">
-          <div ng-if="discoveryContext.infoText" class="panel-body">
-            {{discoveryContext.infoText}}
-          </div>
-          <div ng-if="discoveryContext.infoLinkText" class="panel-footer">
-            <a ng-if="discoveryContext.infoLinkUrl" href="{{discoveryContext.infoLinkUrl}}">{{discoveryContext.infoLinkText}}</a>
-            <p ng-if="!discoveryContext.infoLinkUrl">{{discoveryContext.infoLinkText}}</p>
-          </div>
+        <div ng-if="discoveryContext.infoText" class="panel-body">
+          {{discoveryContext.infoText}}
+        </div>
+        <div ng-if="discoveryContext.infoLinkText" class="panel-footer">
+          <a ng-if="discoveryContext.infoLinkUrl" href="{{discoveryContext.infoLinkUrl}}">{{discoveryContext.infoLinkText}}</a>
+          <p ng-if="!discoveryContext.infoLinkUrl">{{discoveryContext.infoLinkText}}</p>
+        </div>
       </div>
-      <facet-widget facet="facet" discovery-context="discoveryContext" ng-repeat="facet in discoveryContext.facetFilters" reset-search="resetSearch"></facet-widget>
+      <facet-widget facet="facet" discovery-context="discoveryContext" ng-repeat="facet in discoveryContext.facetFilters" reset-search="prepareSearch"></facet-widget>
     </div>
     <div class="col-md-9 dc-main">
       <div class="row dc-search">
         <div class="col-xs-12">
-            <form class="form-group">
+          <form class="form-group">
             <div class="input-group">
-                <div class="input-group-btn">
-                  <select class="form-control dc-filter-select" ng-model="currentSearchField" ng-options="searchField.label for searchField in discoveryContext.searchFields"></select>
-                </div>
-                <input type="text" class="form-control dc-search-input" ng-model="currentSearchValue" ng-keypress="searchProcessKeyPress($event)">
+              <div class="input-group-btn">
+                <select class="form-control dc-filter-select" ng-model="currentSearchField" ng-options="searchField.label for searchField in discoveryContext.searchFields"></select>
+              </div>
+              <input type="text" class="form-control dc-search-input" ng-model="currentSearchValue" ng-keypress="searchProcessKeyPress($event)">
             </div>
           </form>
         </div>
       </div>
-
-      <div class="row dc-active-filters" ng-if="discoveryContext.search.filters.length > 0">
+      <div class="row dc-active-filters" ng-if="hasActiveFilters() || hasSearch()">
         <div class="col-xs-12">
           <ul class="list list-inline">
-            <li style="min-width:37px" class="btn btn-primary dc-active-filter" ng-if="discoveryContext.search.filters.length" ng-click="clearFilters()"><span class="glyphicon glyphicon-home"></span></li>
-            <li role="presentation" ng-repeat="filter in discoveryContext.search.filters" class="btn btn-primary dc-active-filter" ng-click="removeFilter(filter)">{{filter.label}} <span ng-if="filter.key">:</span> {{filter.value}} <span class="glyphicon glyphicon-remove"></span></li>
+            <li style="min-width:37px" class="btn btn-primary dc-active-filter" ng-click="resetBadges()"><span class="glyphicon glyphicon-home"></span></li>
+            <li role="presentation" ng-if="hasActiveFilters()" ng-repeat="filter in discoveryContext.search.filters" class="btn btn-primary dc-active-filter" ng-click="removeFilter(filter)"><span class="glyphicon glyphicon-filter"></span>{{filter.label}} <span ng-if="filter.key">:</span> {{filter.value}} <span class="glyphicon glyphicon-remove"></span></li>
+            <li role="presentation" ng-if="hasSearch()" class="btn btn-primary dc-active-filter" ng-click="resetSearch()"><span class="glyphicon glyphicon-search"></span> <span ng-if="discoveryContext.search.label">{{discoveryContext.search.label}} :</span> </span>{{discoveryContext.search.value}} <span class="glyphicon glyphicon-remove"></span></li>
           </ul>
         </div>
       </div>
@@ -56,7 +55,7 @@
         </div>
       </div>
 
-      <hr class="dc-results-hr" />
+      <hr class="dc-results-hr">
 
       <div class="row dc-results">
         <div class="col-xs-12 results" ng-class="{'hide-results': discoveryContext.isSearching()}">

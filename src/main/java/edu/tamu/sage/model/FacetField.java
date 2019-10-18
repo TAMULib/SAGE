@@ -3,17 +3,17 @@ package edu.tamu.sage.model;
 import javax.persistence.Embeddable;
 
 @Embeddable
-public class FacetFields {
-    
+public class FacetField {
+
     private String key;
-    
+
     private String label;
-    
+
     private String type;
-    
+
     private String widget;
-    
-    public FacetFields() {
+
+    public FacetField() {
         super();
     }
 
@@ -40,7 +40,7 @@ public class FacetFields {
     public void setType(String type) {
         this.type = type;
     }
-    
+
     public String getWidget() {
         return widget;
     }

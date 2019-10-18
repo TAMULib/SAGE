@@ -1,9 +1,9 @@
-angular.module('mock.validationStore', []).service('ValidationStore', function () {
-  var validationStore = this;
+angular.module("mock.validationStore", []).service("ValidationStore", function ($q) {
+  var service = mockService($q);
 
-  validationStore.getValidations = function(entityName) {
+  service.getValidations = function(entityName) {
     return {};
-  }
+  };
 
-  return validationStore;
+  return service;
 });

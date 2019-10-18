@@ -2,6 +2,7 @@ package edu.tamu.sage.controller;
 
 import static edu.tamu.weaver.response.ApiStatus.ERROR;
 import static edu.tamu.weaver.response.ApiStatus.SUCCESS;
+import static edu.tamu.weaver.response.ApiStatus.WARNING;
 import static edu.tamu.weaver.validation.model.BusinessValidationType.CREATE;
 import static edu.tamu.weaver.validation.model.BusinessValidationType.DELETE;
 import static edu.tamu.weaver.validation.model.BusinessValidationType.UPDATE;
@@ -53,6 +54,25 @@ public class SourceController {
     private SourceService sourceService;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    @RequestMapping("/test/ping")
+    @PreAuthorize("hasRole('ANONYMOUS')")
+    public ApiResponse testSolrCorePing(@WeaverValidatedModel Source source) throws IOException {
+        SolrClient solr = new HttpSolrClient(source.getUri());
+
+        ApiResponse response = new ApiResponse(SUCCESS);
+
+        try {
+            solr.ping();
+        } catch (Exception e) {
+            logger.info("Failed to ping " + source.getName() + " at URL " + source.getUri() + ", response = " + e.getMessage());
+            response = new ApiResponse(WARNING, "Failed to connect to " + source.getName() + " at URL " + source.getUri());
+        } finally {
+            solr.close();
+        }
+
+        return response;
+    }
 
     @RequestMapping("/test/location")
     @PreAuthorize("hasRole('ANONYMOUS')")

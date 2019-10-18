@@ -1,0 +1,32 @@
+.single-result {
+  .dc-heading {
+    h1, h2, h3, h4, h5, h6 {
+      visibility: hidden;
+      width: 0px;
+      height: 0px;
+      margin: 0px;
+      padding: 0px;
+    }
+  }
+
+  .title {
+    display: block;
+    font-size: 36px;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+    color: inherit;
+
+    h1, h2, h3, h4, h5, h6 {
+      font-size: 36px;
+      margin-top: 0px;
+      margin-bottom: 10px;
+    }
+  }
+
+  .dc-field {
+    font-size: 20px;
+  }
+
+  margin-bottom: 10px;
+}

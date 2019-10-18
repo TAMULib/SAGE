@@ -187,7 +187,7 @@ public class SimpleProcessorService implements ProcessorService {
 
     /**
      * If job is not already processing, process job asynchronously. Returns true if job is started, false if job is already in process.
-     * 
+     *
      * @param job the job to process
      * @return whether the job has started or not
      */
@@ -219,7 +219,7 @@ public class SimpleProcessorService implements ProcessorService {
 
     /**
      * Process list of jobs.
-     * 
+     *
      * @param jobs list of jobs to process
      */
     public void process(List<Job> jobs) {

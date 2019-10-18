@@ -1,35 +1,53 @@
-describe('model: DiscoveryView', function () {
-    var model, rootScope, scope, location, WsApi;
+describe("model: DiscoveryView", function () {
+  var $rootScope, $scope, $location, WsApi, model, routeParams;
 
-    var initializeVariables = function(settings) {
-        inject(function ($location, $rootScope, _WsApi_) {
-            location = $location;
-            rootScope = $rootScope;
+  var initializeVariables = function(settings) {
+    inject(function (_$location_, _$rootScope_, _WsApi_) {
+      $location = _$location_;
+      $rootScope = _$rootScope_;
 
-            WsApi = _WsApi_;
-        });
-    };
+      if (settings && settings.routeParams) {
+        angular.extend(routeParams, settings.routeParams);
+      }
 
-    var initializeModel = function(settings) {
-        inject(function (DiscoveryView) {
-            scope = rootScope.$new();
-
-            model = angular.extend(new DiscoveryView(), dataDiscoveryView1);
-        });
-    };
-
-    beforeEach(function() {
-        module('core');
-        module('sage');
-        module('mock.wsApi');
-
-        initializeVariables();
-        initializeModel();
+      WsApi = _WsApi_;
     });
+  };
 
-    describe('Is the model defined', function () {
-        it('should be defined', function () {
-            expect(model).toBeDefined();
-        });
+  var initializeModel = function(settings) {
+    inject(function (DiscoveryView) {
+      $scope = $rootScope.$new();
+
+      if (settings) {
+        if (settings.routeParams) {
+          angular.extend(routeParams, settings.routeParams);
+        }
+      }
+
+      model = angular.extend(new DiscoveryView(), dataDiscoveryView1);
+
+      // ensure that all pre-processing is called.
+      if (!$scope.$$phase) {
+        $scope.$digest();
+      }
     });
+  };
+
+  beforeEach(function() {
+    module("core", function($provide) {
+      routeParams = {};
+      $provide.value("$routeParams", routeParams);
+    });
+    module("sage");
+    module("mock.wsApi");
+
+    initializeVariables();
+    initializeModel();
+  });
+
+  describe("Is the model defined", function () {
+    it("should be defined", function () {
+      expect(model).toBeDefined();
+    });
+  });
 });

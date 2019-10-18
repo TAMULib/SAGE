@@ -10,15 +10,15 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ViewController {
 
-	@RequestMapping("/")
-	public ModelAndView view(HttpServletRequest request) {
-		return index(request);
-	}
+    @RequestMapping("/")
+    public ModelAndView view(HttpServletRequest request) {
+        return index(request);
+    }
 
-	public static ModelAndView index(HttpServletRequest request) {
-		ModelAndView index = new ModelAndView("index");
-		index.addObject("base", request.getServletContext().getContextPath());
-		return index;
-	}
+    public static ModelAndView index(HttpServletRequest request) {
+        ModelAndView index = new ModelAndView("index");
+        index.addObject("base", request.getServletContext().getContextPath());
+        return index;
+    }
 
 }

@@ -58,11 +58,15 @@ public class DiscoveryView extends ValidatingBaseEntity {
     @Column(nullable = false)
     private String infoLinkUrl;
 
+    private String queryParser;
+
+    private String defaultOperand;
+
     @ElementCollection
     private List<MetadataField> resultMetadataFields;
 
     @ElementCollection
-    private List<FacetFields> facetFields;
+    private List<FacetField> facetFields;
 
     @OrderColumn
     @ElementCollection
@@ -160,6 +164,22 @@ public class DiscoveryView extends ValidatingBaseEntity {
         this.infoLinkUrl = infoLinkUrl;
     }
 
+    public String getQueryParser() {
+        return queryParser;
+    }
+
+    public void setQueryParser(String queryParser) {
+        this.queryParser = queryParser;
+    }
+
+    public String getDefaultOperand() {
+        return defaultOperand;
+    }
+
+    public void setDefaultOperand(String defaultOperand) {
+        this.defaultOperand = defaultOperand;
+    }
+
     public List<MetadataField> getResultMetadataFields() {
         return resultMetadataFields;
     }
@@ -179,9 +199,9 @@ public class DiscoveryView extends ValidatingBaseEntity {
         return m;
     }
 
-    public FacetFields findFacetFieldByKey(String key) {
-        FacetFields f = null;
-        for (FacetFields ff : facetFields) {
+    public FacetField findFacetFieldByKey(String key) {
+        FacetField f = null;
+        for (FacetField ff : facetFields) {
             if (ff.getKey().equals(key)) {
                 f = ff;
                 break;
@@ -201,11 +221,11 @@ public class DiscoveryView extends ValidatingBaseEntity {
         return searchField;
     }
 
-    public List<FacetFields> getFacetFields() {
+    public List<FacetField> getFacetFields() {
         return facetFields;
     }
 
-    public void setFacetFields(List<FacetFields> facetFields) {
+    public void setFacetFields(List<FacetField> facetFields) {
         this.facetFields = facetFields;
     }
 

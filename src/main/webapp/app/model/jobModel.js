@@ -1,4 +1,4 @@
-sage.model("Job", function(WsApi, HttpMethodVerbs) {
+sage.model("Job", function() {
   return function Job() {
     var job = this;
 

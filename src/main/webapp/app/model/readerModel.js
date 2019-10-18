@@ -1,4 +1,4 @@
-sage.model("Reader", function(WsApi, HttpMethodVerbs) {
+sage.model("Reader", function() {
   return function Reader() {
     var reader = this;
 

@@ -1,31 +1,39 @@
-describe('model: Reader', function () {
-  var rootScope, scope, WsApi, Reader;
+describe("model: Reader", function () {
+  var $rootScope, $scope, WsApi, model;
+
+  var initializeVariables = function(settings) {
+    inject(function (_$rootScope_, _WsApi_) {
+      $rootScope = _$rootScope_;
+
+      WsApi = _WsApi_;
+    });
+  };
+
+  var initializeModel = function(settings) {
+    inject(function (Reader) {
+      $scope = $rootScope.$new();
+
+      model = angular.extend(new Reader(), dataReader1);
+
+      // ensure that all pre-processing is called.
+      if (!$scope.$$phase) {
+        $scope.$digest();
+      }
+    });
+  };
 
   beforeEach(function() {
-    module('core');
-    module('sage');
-    module('mock.wsApi');
+    module("core");
+    module("sage");
+    module("mock.wsApi");
 
-    inject(function ($rootScope, _WsApi_, HttpMethodVerbs, _Reader_) {
-      rootScope = $rootScope;
-      scope = $rootScope.$new();
-      WsApi = _WsApi_;
-
-      Reader = _Reader_;
-    });
+    initializeVariables();
+    initializeModel();
   });
 
-  describe('Is the model defined', function () {
-    it('should be defined', function () {
-      expect(Reader).toBeDefined();
+  describe("Is the model defined", function () {
+    it("should be defined", function () {
+      expect(model).toBeDefined();
     });
   });
-
-  describe('Initialization should return Reader', function() {
-    it('the Reader was returned', function() {
-      var model = new Reader();
-      expect(typeof model).toEqual("object");
-    });
-  });
-
 });

@@ -1,29 +1,39 @@
-describe('model: Operator', function () {
-  var Operator;
+describe("model: Operator", function () {
+  var $rootScope, $scope, WsApi, model;
+
+  var initializeVariables = function(settings) {
+    inject(function (_$rootScope_, _WsApi_) {
+      $rootScope = _$rootScope_;
+
+      WsApi = _WsApi_;
+    });
+  };
+
+  var initializeModel = function(settings) {
+    inject(function (Operator) {
+      $scope = $rootScope.$new();
+
+      model = angular.extend(new Operator(), dataOperator1);
+
+      // ensure that all pre-processing is called.
+      if (!$scope.$$phase) {
+        $scope.$digest();
+      }
+    });
+  };
 
   beforeEach(function() {
-    module('core');
-    module('sage');
+    module("core");
+    module("sage");
+    module("mock.wsApi");
 
-    inject(function ($rootScope, _Operator_) {
-      rootScope = $rootScope;
-      scope = $rootScope.$new();
-
-      Operator = _Operator_;
-    });
+    initializeVariables();
+    initializeModel();
   });
 
-  describe('Is the model defined', function () {
-    it('should be defined', function () {
-      expect(Operator).toBeDefined();
+  describe("Is the model defined", function () {
+    it("should be defined", function () {
+      expect(model).toBeDefined();
     });
   });
-
-  describe('Initialization should return Operator', function() {
-    it('the Operator was returned', function() {
-      var model = new Operator();
-      expect(typeof model).toEqual("object");
-    });
-  });
-
 });
