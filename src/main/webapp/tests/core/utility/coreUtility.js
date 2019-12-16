@@ -34,12 +34,7 @@ var buildMessagePromiseBody = function (message, messageStatus, httpStatus, acti
 
 var messagePromise = function (defer, message, messageStatus, httpStatus, action) {
   defer.resolve({
-    body: angular.toJson(buildMessagePromiseBody(
-      message,
-      messageStatus,
-      httpStatus,
-      action
-    ))
+    body: angular.toJson(buildMessagePromiseBody(message, messageStatus, httpStatus, action))
   });
 
   return defer.promise;
@@ -61,12 +56,7 @@ var valuePromise = function (defer, model, type, timeout) {
 
 var payloadPromise = function (defer, payload, messageStatus, httpStatus, action) {
   defer.resolve({
-    body: angular.toJson(buildPayloadPromiseBody(
-      payload,
-      messageStatus,
-      httpStatus,
-      action
-    ))
+    body: angular.toJson(buildPayloadPromiseBody(payload, messageStatus, httpStatus, action))
   });
 
   return defer.promise;
@@ -74,12 +64,7 @@ var payloadPromise = function (defer, payload, messageStatus, httpStatus, action
 
 var dataPromise = function (defer, payload, messageStatus, httpStatus, action) {
   defer.resolve({
-    data: buildPayloadPromiseBody(
-      payload,
-      messageStatus,
-      httpStatus,
-      action
-    )
+    data: buildPayloadPromiseBody(payload, messageStatus, httpStatus, action)
   });
 
   return defer.promise;
@@ -87,12 +72,7 @@ var dataPromise = function (defer, payload, messageStatus, httpStatus, action) {
 
 var rejectPromise = function (defer, payload, messageStatus, httpStatus) {
   defer.reject({
-    body: angular.toJson(buildPayloadPromiseBody(
-      payload,
-      messageStatus ? messageStatus : "INVALID",
-      httpStatus ? httpStatus : 200,
-      action
-    ))
+    body: angular.toJson(buildPayloadPromiseBody(payload, messageStatus ? messageStatus : "INVALID", httpStatus ? httpStatus : 200, action))
   });
 
   return defer.promise;
@@ -100,12 +80,7 @@ var rejectPromise = function (defer, payload, messageStatus, httpStatus) {
 
 var failurePromise = function (defer, payload, messageStatus, httpStatus) {
   defer.reject({
-    data: buildPayloadPromiseBody(
-      payload,
-      messageStatus ? messageStatus : "INVALID",
-      httpStatus ? httpStatus : 500,
-      action
-    )
+    data: buildPayloadPromiseBody(payload, messageStatus ? messageStatus : "INVALID", httpStatus ? httpStatus : 500, action)
   });
 
   return defer.promise;
@@ -114,12 +89,7 @@ var failurePromise = function (defer, payload, messageStatus, httpStatus) {
 var notifyPromise = function (timeout, defer, payload, messageStatus, httpStatus, action) {
   timeout(function () {
     defer.notify({
-      body: angular.toJson(buildPayloadPromiseBody(
-        payload,
-        messageStatus,
-        httpStatus,
-        action ? action : "BROADCAST"
-      ))
+      body: angular.toJson(buildPayloadPromiseBody(payload, messageStatus, httpStatus, action ? action : "BROADCAST"))
     });
   }, 0);
 
