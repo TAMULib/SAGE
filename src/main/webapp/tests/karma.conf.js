@@ -47,7 +47,6 @@ module.exports = function(config){
 
       "app/node_modules/weaver-ui-core/app/**/*.js",
 
-
       "tests/testSetup.js",
 
       "app/app.js",
@@ -75,14 +74,13 @@ module.exports = function(config){
       "tests/mocks/**/*.js",
 
       "tests/unit/**/*.js"
-
     ],
 
-    autoWatch : true,
+    autoWatch: true,
 
     frameworks: ["jasmine"],
 
-    browsers : ["Firefox", "Chrome", "ChromeHeadless", "ChromeHeadlessNoSandbox"],
+    browsers: ["Firefox", "Chrome", "ChromeHeadless", "ChromeHeadlessNoSandbox"],
 
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
@@ -91,16 +89,16 @@ module.exports = function(config){
       }
     },
 
-    plugins : [
-      "karma-coverage",
-      "karma-jasmine",
+    plugins: [
       "karma-chrome-launcher",
+      "karma-coverage",
       "karma-firefox-launcher",
+      "karma-jasmine",
       "karma-junit-reporter",
       "karma-ng-html2js-preprocessor"
     ],
 
-    junitReporter : {
+    junitReporter: {
       outputFile: "test_out/unit.xml",
       suite: "unit"
     },
