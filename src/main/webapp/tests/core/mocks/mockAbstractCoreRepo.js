@@ -287,8 +287,8 @@ var mockRepo = function (repoName, $q, mockModelCtor, mockDataArray) {
     var updated;
     for (var i in repo.mockedList) {
       if (repo.mockedList[i].id === model.id) {
+        angular.extend(repo.mockedList[i], model);
         updated = repo.mockCopy(repo.mockedList[i]);
-        angular.extend(updated, model);
         break;
       }
     }
