@@ -40,13 +40,13 @@ angular.module("mock.storageService", []).service("StorageService", function ($q
   service.delete = function (key, type) {
     type = (type !== undefined) ? type : appConfig.storageType;
     if (service.keys[type][key] !== undefined) {
-        service.keys[type][key].notify(null);
+      service.keys[type][key].notify(null);
     }
     delete service.keys[type][key];
     delete service.storage[type][key];
   };
 
-  for (var type in { "session": "0", "local": "1" }) {
+  for (var type in { session: "0", local: "1" }) {
     for (var key in service.storage[type]) {
       service.keys[type][key] = $q.defer();
       service.keys[type][key].notify(service.storage[type][key]);

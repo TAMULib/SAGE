@@ -34,9 +34,24 @@ var dataUser3 = {
 var mockUser = function($q) {
   var model = mockModel("User", $q, dataUser1);
 
-  model.getMapping = function() {
-    // @todo
-    return [];
+  model.anonymous = (sessionStorage.role === appConfig.anonymousRole);
+  model.authDefer = $q.defer();
+
+  model.authenticate = function (registration) {
+    return payloadPromise(model.authDefer);
+  };
+
+  model.logout = function () {
+    model.anonymous = true;
+    model.authDefer = $q.defer();
+  };
+
+  model.register = function (registration) {
+    return payloadPromise($q.defer());
+  };
+
+  model.verifyEmail = function (email) {
+    return true;
   };
 
   return model;
