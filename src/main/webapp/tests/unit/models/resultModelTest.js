@@ -11,10 +11,10 @@ describe("model: Result", function () {
   };
 
   var initializeModel = function(settings) {
-    inject(function (Result) {
+    inject(function (_Result_) {
       $scope = $rootScope.$new();
 
-      model = angular.extend(new Result(), dataResult1);
+      model = angular.extend(new _Result_(), dataResult1);
 
       // ensure that all pre-processing is called.
       if (!$scope.$$phase) {

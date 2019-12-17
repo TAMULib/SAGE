@@ -11,10 +11,10 @@ describe("model: SingleResultContext", function () {
   };
 
   var initializeModel = function(settings) {
-    inject(function (SingleResultContext) {
+    inject(function (_SingleResultContext_) {
       $scope = $rootScope.$new();
 
-      model = angular.extend(new SingleResultContext(), dataSingleResultContext1);
+      model = angular.extend(new _SingleResultContext_(), dataSingleResultContext1);
 
       // ensure that all pre-processing is called.
       if (!$scope.$$phase) {

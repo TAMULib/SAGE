@@ -10,10 +10,10 @@ describe("model: MetadataField", function () {
   };
 
   var initializeModel = function(settings) {
-    inject(function (FacetField) {
+    inject(function (_FacetField_) {
       $scope = $rootScope.$new();
 
-      model = angular.extend(new FacetField(), dataFacetField1);
+      model = angular.extend(new _FacetField_(), dataFacetField1);
     });
   };
 

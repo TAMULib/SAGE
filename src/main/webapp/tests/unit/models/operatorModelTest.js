@@ -10,10 +10,10 @@ describe("model: Operator", function () {
   };
 
   var initializeModel = function(settings) {
-    inject(function (Operator) {
+    inject(function (_Operator_) {
       $scope = $rootScope.$new();
 
-      model = angular.extend(new Operator(), dataOperator1);
+      model = angular.extend(new _Operator_(), dataOperator1);
 
       // ensure that all pre-processing is called.
       if (!$scope.$$phase) {

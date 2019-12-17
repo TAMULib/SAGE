@@ -36,7 +36,7 @@ describe("model: DiscoveryContext", function () {
   };
 
   var initializeModel = function(settings) {
-    inject(function (DiscoveryContext) {
+    inject(function (_DiscoveryContext_) {
       $scope = $rootScope.$new();
 
       if (settings) {
@@ -45,7 +45,7 @@ describe("model: DiscoveryContext", function () {
         }
       }
 
-      model = angular.extend(new DiscoveryContext(), dataDiscoveryContext1);
+      model = angular.extend(new _DiscoveryContext_(), dataDiscoveryContext1);
 
       // ensure that all pre-processing is called.
       if (!$scope.$$phase) {

@@ -10,10 +10,10 @@ describe("model: Writer", function () {
   };
 
   var initializeModel = function(settings) {
-    inject(function (Writer) {
+    inject(function (_Writer_) {
       $scope = $rootScope.$new();
 
-      model = angular.extend(new Writer(), dataWriter1);
+      model = angular.extend(new _Writer_(), dataWriter1);
 
       // ensure that all pre-processing is called.
       if (!$scope.$$phase) {

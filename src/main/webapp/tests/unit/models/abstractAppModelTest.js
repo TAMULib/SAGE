@@ -10,10 +10,10 @@ describe("model: AbstractAppModel", function () {
   };
 
   var initializeModel = function(settings) {
-    inject(function (AbstractAppModel) {
+    inject(function (_AbstractAppModel_) {
       $scope = $rootScope.$new();
 
-      model = angular.extend(new AbstractAppModel());
+      model = angular.extend(new _AbstractAppModel_());
     });
   };
 

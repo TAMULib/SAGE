@@ -2,7 +2,8 @@ describe("model: Source", function () {
   var $q, $rootScope, $scope, WsApi, model;
 
   var initializeVariables = function(settings) {
-    inject(function (_$rootScope_, _WsApi_) {
+    inject(function (_$q_, _$rootScope_, _WsApi_) {
+      $q = _$q_;
       $rootScope = _$rootScope_;
 
       WsApi = _WsApi_;
@@ -10,11 +11,10 @@ describe("model: Source", function () {
   };
 
   var initializeModel = function(settings) {
-    inject(function (_$q_, Source) {
-      $q = _$q_;
+    inject(function (_Source_) {
       $scope = $rootScope.$new();
 
-      model = angular.extend(new Source(), dataSource1);
+      model = angular.extend(new _Source_(), dataSource1);
 
       // ensure that all pre-processing is called.
       if (!$scope.$$phase) {

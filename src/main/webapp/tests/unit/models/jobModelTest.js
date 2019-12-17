@@ -10,10 +10,10 @@ describe("model: Job", function () {
   };
 
   var initializeModel = function(settings) {
-    inject(function (Job) {
+    inject(function (_Job_) {
       $scope = $rootScope.$new();
 
-      model = angular.extend(new Job(), dataJob1);
+      model = angular.extend(new _Job_(), dataJob1);
 
       // ensure that all pre-processing is called.
       if (!$scope.$$phase) {

@@ -10,10 +10,10 @@ describe("model: Search", function () {
   };
 
   var initializeModel = function(settings) {
-    inject(function (Search) {
+    inject(function (_Search_) {
       $scope = $rootScope.$new();
 
-      model = angular.extend(new Search(), dataSearch1);
+      model = angular.extend(new _Search_(), dataSearch1);
 
       // ensure that all pre-processing is called.
       if (!$scope.$$phase) {

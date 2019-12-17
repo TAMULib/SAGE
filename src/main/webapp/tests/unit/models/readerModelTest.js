@@ -10,10 +10,10 @@ describe("model: Reader", function () {
   };
 
   var initializeModel = function(settings) {
-    inject(function (Reader) {
+    inject(function (_Reader_) {
       $scope = $rootScope.$new();
 
-      model = angular.extend(new Reader(), dataReader1);
+      model = angular.extend(new _Reader_(), dataReader1);
 
       // ensure that all pre-processing is called.
       if (!$scope.$$phase) {

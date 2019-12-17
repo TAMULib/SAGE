@@ -15,7 +15,7 @@ describe("model: DiscoveryView", function () {
   };
 
   var initializeModel = function(settings) {
-    inject(function (DiscoveryView) {
+    inject(function (_DiscoveryView_) {
       $scope = $rootScope.$new();
 
       if (settings) {
@@ -24,7 +24,7 @@ describe("model: DiscoveryView", function () {
         }
       }
 
-      model = angular.extend(new DiscoveryView(), dataDiscoveryView1);
+      model = angular.extend(new _DiscoveryView_(), dataDiscoveryView1);
 
       // ensure that all pre-processing is called.
       if (!$scope.$$phase) {

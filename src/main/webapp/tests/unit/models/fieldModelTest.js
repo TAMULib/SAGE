@@ -11,10 +11,10 @@ describe("model: Field", function () {
   };
 
   var initializeModel = function(settings) {
-    inject(function (Field) {
+    inject(function (_Field_) {
       $scope = $rootScope.$new();
 
-      model = angular.extend(new Field(), dataField1);
+      model = angular.extend(new _Field_(), dataField1);
 
       // ensure that all pre-processing is called.
       if (!$scope.$$phase) {

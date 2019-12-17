@@ -10,10 +10,10 @@ describe("model: InternalMetadata", function () {
   };
 
   var initializeModel = function(settings) {
-    inject(function (InternalMetadata) {
+    inject(function (_InternalMetadata_) {
       $scope = $rootScope.$new();
 
-      model = angular.extend(new InternalMetadata(), dataInternalMetadata1);
+      model = angular.extend(new _InternalMetadata_(), dataInternalMetadata1);
 
       // ensure that all pre-processing is called.
       if (!$scope.$$phase) {
