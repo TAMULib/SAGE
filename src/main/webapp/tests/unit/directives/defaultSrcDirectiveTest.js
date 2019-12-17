@@ -9,11 +9,14 @@ describe("directive: defaultSrc", function () {
     });
   };
 
-  var initializeDirective = function() {
+  var initializeDirective = function(settings) {
     inject(function (_$rootScope_) {
       $scope = _$rootScope_.$new();
 
-      element = angular.element("<default-src default-src=\"defaultSrc\"></default-src>");
+      var attr = settings && settings.attr ? settings.attr : "default-src=\"defaultSrc\"";
+      var body = settings && settings.body ? settings.body : "";
+
+      element = angular.element("<default-src " + attr + ">" + body + "</default-src>");
       directive = $compile(element)($scope);
 
       $scope.defaultSrc = defaultSrc;

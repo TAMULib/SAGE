@@ -11,11 +11,14 @@ describe("directive: contentviewer", function () {
     });
   };
 
-  var initializeDirective = function() {
+  var initializeDirective = function(settings) {
     inject(function (_$rootScope_) {
       $scope = _$rootScope_.$new();
 
-      element = angular.element("<contentviewer resource=\"resource\" content-type=\"contentType\"></contentviewer>");
+      var attr = settings && settings.attr ? settings.attr : "resource=\"resource\" content-type=\"contentType\"";
+      var body = settings && settings.body ? settings.body : "";
+
+      element = angular.element("<contentviewer " + attr + ">" + body + "</contentviewer>");
       directive = $compile(element)($scope);
 
       $scope.contentType = contentType;

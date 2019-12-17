@@ -15,11 +15,14 @@ describe("directive: breadcrumbs", function () {
     });
   };
 
-  var initializeDirective = function() {
+  var initializeDirective = function(settings) {
     inject(function (_$rootScope_) {
       $scope = _$rootScope_.$new();
 
-      element = angular.element("<breadcrumbs contexts=\"contexts\" home=\"home\" reload=\"reload\"></breadcrumbs>")
+      var attr = settings && settings.attr ? settings.attr : "contexts=\"contexts\" home=\"home\" reload=\"reload\"";
+      var body = settings && settings.body ? settings.body : "";
+
+      element = angular.element("<breadcrumbs " + attr + ">" + body + "</breadcrumbs>")
       directive = $compile(element)($scope);
 
       $scope.contexts = contexts;
