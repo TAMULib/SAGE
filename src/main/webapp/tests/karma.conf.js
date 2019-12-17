@@ -8,9 +8,9 @@ module.exports = function(config){
 
     reporters: ["progress", "coverage"],
 
-    basePath : "../",
+    basePath: "../",
 
-    files : [
+    files: [
       "app/config/appConfig.js",
       "app/config/apiMapping.js",
 
