@@ -1,5 +1,6 @@
 var mockModel = function (modelName, $q, mockDataObj) {
   var model = {};
+  var shadow = {};
   var combinationOperation = "";
 
   model.isDirty = false;
@@ -16,7 +17,9 @@ var mockModel = function (modelName, $q, mockDataObj) {
     }
   };
 
-  model.mock(mockDataObj);
+  model.mockShadow = function(toMock) {
+    shadow = toMock;
+  }
 
   model.acceptPendingUpdate = function () {
   };
@@ -84,6 +87,7 @@ var mockModel = function (modelName, $q, mockDataObj) {
   };
 
   model.refresh = function() {
+    angular.extend(model, shadow);
   };
 
   model.reload = function() {
@@ -97,8 +101,12 @@ var mockModel = function (modelName, $q, mockDataObj) {
   };
 
   model._syncShadow = function() {
+    model.isDirty = false;
+    shadow = angular.copy(model);
   };
 
+  model.mock(mockDataObj);
+  model._syncShadow();
 
   return model;
 };
