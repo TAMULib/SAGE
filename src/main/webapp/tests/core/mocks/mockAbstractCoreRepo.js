@@ -43,6 +43,14 @@ var mockRepo = function (repoName, $q, mockModelCtor, mockDataArray) {
     return toMock;
   };
 
+  repo.mockValidations = function(toMock) {
+    if (typeof toMock === "object") {
+      validations = toMock;
+    } else {
+      validations = {};
+    }
+  };
+
   repo.mock(mockDataArray);
 
   repo.scaffold = {};
