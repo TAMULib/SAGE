@@ -32,21 +32,27 @@ describe("model: Result", function () {
     initializeModel();
   });
 
-  describe("Is the model defined", function () {
-    it("should be defined", function () {
+  describe("Is the model", function () {
+    it("defined", function () {
       expect(model).toBeDefined();
     });
   });
 
-  describe("Are the model methods defined", function () {
-    it("getValue should be defined", function () {
-      expect(model.getValue).toBeDefined();
-      expect(typeof model.getValue).toEqual("function");
-    });
+  describe("Is the model method", function () {
+    var methods = [
+      "getValue"
+    ];
+
+    for (var i in methods) {
+      it(methods[i] + " defined", function () {
+        expect(model[methods[i]]).toBeDefined();
+        expect(typeof model[methods[i]]).toEqual("function");
+      });
+    }
   });
 
-  describe("Are the model methods working as expected", function () {
-    it("getValue should work", function () {
+  describe("Are the model methods work as expected", function () {
+    it("getValue work as expected", function () {
       var response;
 
       model.fields = { mockKey: "mock value" };

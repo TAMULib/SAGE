@@ -21,14 +21,14 @@ describe("filter: boldMatch", function () {
     initializeFilter();
   });
 
-  describe("Is the filter defined", function () {
-    it("should be defined", function () {
+  describe("Is the filter", function () {
+    it("defined", function () {
       expect(filter).toBeDefined();
     });
   });
 
-  describe("Does the filter work as expected", function () {
-    it("should return nothing on empty input", function () {
+  describe("Does the filter", function () {
+    it("return nothing on empty input", function () {
       var result;
 
       result = filter("", "");
@@ -37,7 +37,7 @@ describe("filter: boldMatch", function () {
       //expect(result).toBe("");
     });
 
-    it("should add bold tag on match", function () {
+    it("add bold tag on match", function () {
       var result;
 
       result = filter("<div>match</div>", "match");
@@ -45,7 +45,7 @@ describe("filter: boldMatch", function () {
       expect(result).toBe("<div><b>match</b></div>");
     });
 
-    it("should not add bold tag on no match", function () {
+    it("not add bold tag on no match", function () {
       var result;
 
       result = filter("<div>miss</div>", "match");

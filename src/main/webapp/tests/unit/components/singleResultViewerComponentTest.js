@@ -43,15 +43,15 @@ describe("component: singleResultViewer", function () {
     initializeVariables();
   });
 
-  describe("Is the component defined", function () {
-    it("should be defined", function () {
+  describe("Is the component", function () {
+    it("defined", function () {
       initializeComponent();
       expect(component).toBeDefined();
     });
   });
 
-  describe("Does the component initialize properly", function () {
-    it("should assign ready after a $timeout", function () {
+  describe("Does the component", function () {
+    it("assign ready after a $timeout", function () {
       context = new mockSingleResultContext($q);
 
       initializeComponent();

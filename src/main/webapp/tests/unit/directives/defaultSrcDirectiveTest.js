@@ -34,17 +34,17 @@ describe("directive: defaultSrc", function () {
     initializeVariables();
   });
 
-  describe("Is the directive defined", function () {
-    it("should be defined", function () {
+  describe("Is the directive", function () {
+    it("defined", function () {
       initializeDirective();
       expect(directive).toBeDefined();
     });
   });
 
-  describe("Does the directive initialize properly", function () {
+  describe("Does the directive", function () {
     // @todo determine how to test attrs.$observe and implement tests here.
     /*
-    it("should work observe src changes", function () {
+    it("work observe src changes", function () {
       defaultSrc = "example.png";
 
       initializeDirective();

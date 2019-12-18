@@ -32,21 +32,27 @@ describe("model: SingleResultContext", function () {
     initializeModel();
   });
 
-  describe("Is the model defined", function () {
-    it("should be defined", function () {
+  describe("Is the model", function () {
+    it("defined", function () {
       expect(model).toBeDefined();
     });
   });
 
-  describe("Are the model methods defined", function () {
-    it("getBreadcrumb should be defined", function () {
-      expect(model.getBreadcrumb).toBeDefined();
-      expect(typeof model.getBreadcrumb).toEqual("function");
-    });
+  describe("Is the model method", function () {
+    var methods = [
+      "getBreadcrumb"
+    ];
+
+    for (var i in methods) {
+      it(methods[i] + " defined", function () {
+        expect(model[methods[i]]).toBeDefined();
+        expect(typeof model[methods[i]]).toEqual("function");
+      });
+    }
   });
 
-  describe("Are the model methods working as expected", function () {
-    it("getBreadcrumb should work", function () {
+  describe("Does the model method", function () {
+    it("getBreadcrumb work as expected", function () {
       var result;
 
       result = model.getBreadcrumb();

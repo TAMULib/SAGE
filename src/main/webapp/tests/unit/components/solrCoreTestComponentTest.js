@@ -43,8 +43,8 @@ describe("component: solrCoreTest", function () {
     initializeVariables();
   });
 
-  describe("Is the component defined", function () {
-    it("should be defined", function () {
+  describe("Is the component", function () {
+    it("defined", function () {
       initializeComponent();
       expect(component).toBeDefined();
     });

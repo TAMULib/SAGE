@@ -54,29 +54,29 @@ describe("directive: breadcrumbs", function () {
     initializeVariables();
   });
 
-  describe("Is the directive defined", function () {
-    it("should be defined", function () {
+  describe("Is the directive", function () {
+    it("defined", function () {
       initializeDirective();
       expect(directive).toBeDefined();
     });
   });
 
-  describe("Does the directive initialize properly", function () {
-    it("should work with a single context", function () {
+  describe("Does the directive", function () {
+    it("work with a single context", function () {
       contexts: [ new mockDiscoveryContext($q) ];
 
       initializeDirective();
       expect(directive).toBeDefined();
     });
 
-    it("should work with multiple contexts", function () {
+    it("work with multiple contexts", function () {
       contexts = [ new mockDiscoveryContext($q), new mockSingleResultContext($q) ];
 
       initializeDirective();
       expect(directive).toBeDefined();
     });
 
-    it("should be defined, with home property", function () {
+    it("define the home property", function () {
       home = {
         label: "Mocked Home",
         path: "http://localhost/"
@@ -86,7 +86,7 @@ describe("directive: breadcrumbs", function () {
       expect(directive).toBeDefined();
     });
 
-    it("should be defined, with reload property", function () {
+    it("define the reload property", function () {
       reload = function () {};
 
       initializeDirective();

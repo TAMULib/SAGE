@@ -83,8 +83,8 @@ describe("controller: UsersController", function () {
     }
   });
 
-  describe("Do the $scope methods work as expected", function () {
-    it("assignableRoles should work", function () {
+  describe("Does the $scope method", function () {
+    it("assignableRoles work as expected", function () {
       var result;
 
       result = $scope.assignableRoles("ROLE_ADMIN");
@@ -99,21 +99,24 @@ describe("controller: UsersController", function () {
       result = $scope.assignableRoles("Should not exist");
       // @todo
     });
-    it("canDelete should work", function () {
+
+    it("canDelete work as expected", function () {
       var user = new mockUser($q);
       var result;
 
       result = $scope.canDelete(user);
       // @todo
     });
-    it("delete should work", function () {
+
+    it("delete work as expected", function () {
       var user = new mockUser($q);
       var result;
 
       result = $scope.delete(user);
       // @todo
     });
-    it("updateRole should work", function () {
+
+    it("updateRole work as expected", function () {
       var user = new mockUser($q);
       var result;
 

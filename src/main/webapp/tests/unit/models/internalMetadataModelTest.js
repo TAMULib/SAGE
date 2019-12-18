@@ -31,8 +31,8 @@ describe("model: InternalMetadata", function () {
     initializeModel();
   });
 
-  describe("Is the model defined", function () {
-    it("should be defined", function () {
+  describe("Is the model", function () {
+    it("defined", function () {
       expect(model).toBeDefined();
     });
   });

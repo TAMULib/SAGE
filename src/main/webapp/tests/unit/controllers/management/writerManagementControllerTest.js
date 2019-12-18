@@ -123,8 +123,8 @@ describe("controller: WriterManagementController", function () {
     }
   });
 
-  describe("Are the $scope methods working as expected", function () {
-    it("cancelCreateWriter should cancel creating a writer", function () {
+  describe("Does the $scope method", function () {
+    it("cancelCreateWriter cancel creating a writer", function () {
       $scope.writerMappings = null;
 
       spyOn($scope, "resetWriterForms");
@@ -136,7 +136,7 @@ describe("controller: WriterManagementController", function () {
       expect($scope.writerMappings).not.toBe(null);
     });
 
-    it("cancelDeleteWriter should cancel deleting a writer", function () {
+    it("cancelDeleteWriter cancel deleting a writer", function () {
       var writer = new mockWriter($q);
       $scope.writerToDelete = writer;
 
@@ -148,7 +148,7 @@ describe("controller: WriterManagementController", function () {
       expect($scope.resetWriterForms).toHaveBeenCalled();
     });
 
-    it("cancelUpdateWriter should cancel updating a writer", function () {
+    it("cancelUpdateWriter cancel updating a writer", function () {
       var writer = new mockWriter($q);
       $scope.writerToUpdate = writer;
 
@@ -160,7 +160,7 @@ describe("controller: WriterManagementController", function () {
       expect($scope.resetWriterForms).toHaveBeenCalled();
     });
 
-    it("confirmDeleteWriter should confirm deleting a writer", function () {
+    it("confirmDeleteWriter confirm deleting a writer", function () {
       var writer = new mockWriter($q);
 
       $scope.writerToDelete = null;
@@ -174,7 +174,7 @@ describe("controller: WriterManagementController", function () {
       expect($scope.openModal).toHaveBeenCalled();
     });
 
-    it("createWriter should create a writer", function () {
+    it("createWriter create a writer", function () {
       var newWriter = new mockWriter($q);
       newWriter.name = "New Writer";
       delete newWriter.id;
@@ -187,7 +187,7 @@ describe("controller: WriterManagementController", function () {
       expect($scope.cancelCreateWriter).toHaveBeenCalled();
     });
 
-    it("deleteWriter should delete a writer", function () {
+    it("deleteWriter delete a writer", function () {
       $scope.deletingWriter = null;
       $scope.writerToDelete = new mockWriter($q);
 
@@ -200,18 +200,18 @@ describe("controller: WriterManagementController", function () {
       expect($scope.resetWriterForms).toHaveBeenCalled();
     });
 
-    it("disableSubmit should work", function () {
+    it("disableSubmit work", function () {
       var form = {};
       $scope.disableSubmit(form);
       // @todo
     });
 
-    it("getFields should work", function () {
+    it("getFields work", function () {
       $scope.getFields("todo", "todo");
       // @todo
     });
 
-    it("resetWriterForms should reset writer form", function () {
+    it("resetWriterForms reset writer form", function () {
       $scope.closeModal = function () { };
 
       spyOn(WriterRepo, "clearValidationResults");
@@ -234,13 +234,13 @@ describe("controller: WriterManagementController", function () {
       }
     });
 
-    it("setTable should start creating a writers", function () {
+    it("setTable start creating a writers", function () {
       var data = $scope.tableParams._settings.getData();
 
       expect($scope.writers).toEqual(data);
     });
 
-    it("source candidates should not be readOnly", function () {
+    it("source candidates not be readOnly", function () {
       var foundReadOnlyCandidate = false;
       for (var i in $scope.sources) {
         if ($scope.sources[i].readOnly == true) {
@@ -252,14 +252,14 @@ describe("controller: WriterManagementController", function () {
       expect(foundReadOnlyCandidate).toEqual(false);
     });
 
-    it("sourceChanged should work", function () {
+    it("sourceChanged work", function () {
       $scope.writerToCreate = new mockWriter($q);
 
       $scope.sourceChanged();
       // @todo
     });
 
-    it("startCreateWriter should start creating a writer", function () {
+    it("startCreateWriter start creating a writer", function () {
       $scope.openModal = function (name) { };
 
       spyOn($scope, "openModal");
@@ -269,7 +269,7 @@ describe("controller: WriterManagementController", function () {
       expect($scope.openModal).toHaveBeenCalled();
     });
 
-    it("startUpdateWriter should start updating a writer", function () {
+    it("startUpdateWriter start updating a writer", function () {
       var writer = new mockWriter($q);
       $scope.writerToUpdate = null;
       $scope.openModal = function (name) { };
@@ -282,7 +282,7 @@ describe("controller: WriterManagementController", function () {
       expect($scope.openModal).toHaveBeenCalled();
     });
 
-    it("updateWriter should update a writer", function () {
+    it("updateWriter update a writer", function () {
       $scope.updatingWriter = null;
       $scope.writerToUpdate = new mockWriter($q);
       $scope.writerToUpdate.name = "Updated Writer 1";

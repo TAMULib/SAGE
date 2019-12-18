@@ -111,8 +111,8 @@ describe("controller: DiscoveryContextController", function () {
     }
   });
 
-  describe("Do the $scope methods work as expected", function () {
-    it("findSearchFieldLabel should work", function () {
+  describe("Does the $scope method", function () {
+    it("findSearchFieldLabel work as expected", function () {
       var result;
 
       result = $scope.findSearchFieldLabel("should not be found");
@@ -125,7 +125,7 @@ describe("controller: DiscoveryContextController", function () {
       expect(result).toBe($scope.discoveryContext.searchFields[1].label);
     });
 
-    it("hasActiveFilters should work", function () {
+    it("hasActiveFilters work as expected", function () {
       var result;
 
       result = $scope.hasActiveFilters();
@@ -138,7 +138,7 @@ describe("controller: DiscoveryContextController", function () {
       expect(result).toBe(true);
     });
 
-    it("hasSearch should work", function () {
+    it("hasSearch work as expected", function () {
       var result;
 
       result = $scope.hasSearch();
@@ -149,21 +149,21 @@ describe("controller: DiscoveryContextController", function () {
       expect(result).toBe(true);
     });
 
-    it("pageBack should work", function () {
+    it("pageBack work as expected", function () {
       var result;
 
       result = $scope.pageBack();
       // @todo
     });
 
-    it("pageForward should work", function () {
+    it("pageForward work as expected", function () {
       var result;
 
       result = $scope.pageForward();
       // @todo
     });
 
-    it("removeFilter should work", function () {
+    it("removeFilter work as expected", function () {
       // @todo: implement a mockFacetField and use that here.
       var filter = {};
       $scope.discoveryContext.search.filters = [ filter ];
@@ -172,7 +172,7 @@ describe("controller: DiscoveryContextController", function () {
       // @todo
     });
 
-    it("resetBadges should work", function () {
+    it("resetBadges work as expected", function () {
       $scope.discoveryContext = new mockDiscoveryContext($q);
 
       spyOn($scope, "prepareSearch");
@@ -183,7 +183,7 @@ describe("controller: DiscoveryContextController", function () {
       expect($scope.prepareSearch).toHaveBeenCalled();
     });
 
-    it("resetPage should work", function () {
+    it("resetPage work as expected", function () {
       $scope.discoveryContext = new mockDiscoveryContext($q);
 
       spyOn($scope, "prepareSearch");
@@ -194,7 +194,7 @@ describe("controller: DiscoveryContextController", function () {
       expect($scope.prepareSearch).toHaveBeenCalled();
     });
 
-    it("resetSearch should work", function () {
+    it("resetSearch work as expected", function () {
       $scope.discoveryContext = new mockDiscoveryContext($q);
 
       spyOn($scope, "prepareSearch");
@@ -205,7 +205,7 @@ describe("controller: DiscoveryContextController", function () {
       expect($scope.prepareSearch).toHaveBeenCalled();
     });
 
-    it("prepareSearch should work", function () {
+    it("prepareSearch work as expected", function () {
       var result;
 
       result = $scope.prepareSearch();
@@ -213,7 +213,7 @@ describe("controller: DiscoveryContextController", function () {
       // @todo
     });
 
-    it("searchProcessKeyPress should work", function () {
+    it("searchProcessKeyPress work as expected", function () {
       var result;
       var event = {
           which: 13,
@@ -226,7 +226,7 @@ describe("controller: DiscoveryContextController", function () {
       // @todo
     });
 
-    it("updateLimit should work", function () {
+    it("updateLimit work as expected", function () {
       var result;
 
       result = $scope.updateLimit();
@@ -234,7 +234,7 @@ describe("controller: DiscoveryContextController", function () {
       // @todo
     });
 
-    it("updateSort should work", function () {
+    it("updateSort work as expected", function () {
       var result;
 
       result = $scope.updateSort();

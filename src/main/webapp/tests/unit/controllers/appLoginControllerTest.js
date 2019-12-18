@@ -72,8 +72,8 @@ describe("controller: AppLoginController", function () {
     }
   });
 
-  describe("Do the $scope methods work as expected", function () {
-    it("checkAuthStrategy should work", function () {
+  describe("Does the $scope methods", function () {
+    it("checkAuthStrategy work as expected", function () {
       var result;
 
       result = $scope.checkAuthStrategy("emailRegistration");
@@ -83,14 +83,14 @@ describe("controller: AppLoginController", function () {
       // @todo
     });
 
-    it("isEmailEnabled should work", function () {
+    it("isEmailEnabled work as expected", function () {
       var result;
 
       result = $scope.isEmailEnabled();
       // @todo
     });
 
-    it("isExternalEnabled should work", function () {
+    it("isExternalEnabled work as expected", function () {
       var result;
 
       result = $scope.isExternalEnabled();

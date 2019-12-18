@@ -37,22 +37,22 @@ describe("directive: contentviewer", function () {
     initializeVariables();
   });
 
-  describe("Is the directive defined", function () {
-    it("should be defined", function () {
+  describe("Is the directive", function () {
+    it("defined", function () {
       initializeDirective();
       expect(directive).toBeDefined();
     });
   });
 
-  describe("Does the directive initialize properly", function () {
-    it("should work with a default viewer", function () {
+  describe("Does the directive", function () {
+    it("work with a default viewer", function () {
       contentType = "image/png";
 
       initializeDirective();
       expect(directive).toBeDefined();
     });
 
-    it("should work with a seadragon viewer", function () {
+    it("work with a seadragon viewer", function () {
       contentType = "image/jp2";
 
       initializeDirective();

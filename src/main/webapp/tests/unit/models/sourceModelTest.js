@@ -32,31 +32,29 @@ describe("model: Source", function () {
     initializeModel();
   });
 
-  describe("Is the model defined", function () {
-    it("should be defined", function () {
+  describe("Is the model", function () {
+    it("defined", function () {
       expect(model).toBeDefined();
     });
   });
 
-  describe("Are the model methods defined", function () {
-    it("testPing should be defined", function () {
-      expect(model.testPing).toBeDefined();
-      expect(typeof model.testPing).toEqual("function");
-    });
+  describe("Is the model method", function () {
+    var methods = [
+      "testPing",
+      "testLocation",
+      "testAuthorization"
+    ];
 
-    it("testLocation should be defined", function () {
-      expect(model.testLocation).toBeDefined();
-      expect(typeof model.testLocation).toEqual("function");
-    });
-
-    it("testAuthorization should be defined", function () {
-      expect(model.testAuthorization).toBeDefined();
-      expect(typeof model.testAuthorization).toEqual("function");
-    });
+    for (var i in methods) {
+      it(methods[i] + " defined", function () {
+        expect(model[methods[i]]).toBeDefined();
+        expect(typeof model[methods[i]]).toEqual("function");
+      });
+    }
   });
 
-  describe("Are the model methods working as expected", function () {
-    it("testPing should work", function () {
+  describe("Does the model method", function () {
+    it("testPing work as expected", function () {
       var passedPath;
 
       WsApi.fetch = function (path, data) {
@@ -72,12 +70,12 @@ describe("model: Source", function () {
       expect(passedPath.method).toBe("test/ping");
     });
 
-    it("testLocation should work", function () {
+    it("testLocation work as expected", function () {
       model.testLocation();
       $scope.$digest();
     });
 
-    it("testAuthorization should work", function () {
+    it("testAuthorization work as expected", function () {
       model.testAuthorization();
       $scope.$digest();
     });
