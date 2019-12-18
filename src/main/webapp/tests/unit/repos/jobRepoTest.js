@@ -34,33 +34,35 @@ describe("service: jobRepo", function () {
     initializeRepo();
   });
 
-  describe("Is the repo defined", function () {
-    it("should be defined", function () {
+  describe("Is the repo", function () {
+    it("defined", function () {
       expect(repo).toBeDefined();
     });
   });
 
-  describe("Are the repo methods defined", function () {
-    it("run should be defined", function () {
-      expect(repo.run).toBeDefined();
-      expect(typeof repo.run).toEqual("function");
-    });
+  describe("Is the repo method", function () {
+    var methods = [
+      "run",
+      "runAll"
+    ];
 
-    it("runAll should be defined", function () {
-      expect(repo.runAll).toBeDefined();
-      expect(typeof repo.runAll).toEqual("function");
-    });
+    for (var i in methods) {
+      it(methods[i] + " defined", function () {
+        expect(repo[methods[i]]).toBeDefined();
+        expect(typeof repo[methods[i]]).toEqual("function");
+      });
+    }
   });
 
-  describe("Do the repo methods work as expected", function () {
-    it("run should work", function () {
+  describe("Does the repo method", function () {
+    it("run work as expected", function () {
       repo.run(new mockJob($q));
       $scope.$digest();
 
       // TODO
     });
 
-    it("runAll should work", function () {
+    it("runAll work as expected", function () {
       repo.runAll("todo");
       $scope.$digest();
 

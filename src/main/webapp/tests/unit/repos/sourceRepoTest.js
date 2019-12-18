@@ -34,57 +34,51 @@ describe("service: sourceRepo", function () {
     initializeRepo();
   });
 
-  describe("Is the repo defined", function () {
-    it("should be defined", function () {
+  describe("Is the repo", function () {
+    it("defined", function () {
       expect(repo).toBeDefined();
     });
   });
 
-  describe("Are the repo methods defined", function () {
-    it("getAvailableFields should be defined", function () {
-      expect(repo.getAvailableFields).toBeDefined();
-      expect(typeof repo.getAvailableFields).toEqual("function");
-    });
+  describe("Is the repo method", function () {
+    var methods = [
+      "getAvailableFields",
+      "getIndexedFields",
+      "getReadable",
+      "getWriteable"
+    ];
 
-    it("getIndexedFields should be defined", function () {
-      expect(repo.getIndexedFields).toBeDefined();
-      expect(typeof repo.getIndexedFields).toEqual("function");
-    });
-
-    it("getReadable should be defined", function () {
-      expect(repo.getReadable).toBeDefined();
-      expect(typeof repo.getReadable).toEqual("function");
-    });
-
-    it("getWriteable should be defined", function () {
-      expect(repo.getWriteable).toBeDefined();
-      expect(typeof repo.getWriteable).toEqual("function");
-    });
+    for (var i in methods) {
+      it(methods[i] + " defined", function () {
+        expect(repo[methods[i]]).toBeDefined();
+        expect(typeof repo[methods[i]]).toEqual("function");
+      });
+    }
   });
 
-  describe("Do the repo methods work as expected", function () {
-    it("getAvailableFields should work", function () {
+  describe("Does the repo method", function () {
+    it("getAvailableFields work as expected", function () {
       repo.getAvailableFields("todo", "todo");
       $scope.$digest();
 
       // TODO
     });
 
-    it("getIndexedFields should work", function () {
+    it("getIndexedFields work as expected", function () {
       repo.getIndexedFields("todo", "todo");
       $scope.$digest();
 
       // TODO
     });
 
-    it("getReadable should work", function () {
+    it("getReadable work as expected", function () {
       repo.getReadable();
       $scope.$digest();
 
       // TODO
     });
 
-    it("getWriteable should work", function () {
+    it("getWriteable work as expected", function () {
       repo.getWriteable();
       $scope.$digest();
 

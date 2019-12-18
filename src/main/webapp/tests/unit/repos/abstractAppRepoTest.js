@@ -32,33 +32,35 @@ describe("service: abstractAppRepo", function () {
     initializeRepo();
   });
 
-  describe("Is the repo defined", function () {
-    it("should be defined", function () {
+  describe("Is the repo", function () {
+    it("defined", function () {
       expect(repo).toBeDefined();
     });
   });
 
-  describe("Are the repo methods defined", function () {
-    it("getScaffold should be defined", function () {
-      expect(repo.getScaffold).toBeDefined();
-      expect(typeof repo.getScaffold).toEqual("function");
-    });
+  describe("Is the repo method", function () {
+    var methods = [
+      "getScaffold",
+      "isInScaffold"
+    ];
 
-    it("isInScaffold should be defined", function () {
-      expect(repo.isInScaffold).toBeDefined();
-      expect(typeof repo.isInScaffold).toEqual("function");
-    });
+    for (var i in methods) {
+      it(methods[i] + " defined", function () {
+        expect(repo[methods[i]]).toBeDefined();
+        expect(typeof repo[methods[i]]).toEqual("function");
+      });
+    }
   });
 
-  describe("Do the repo methods work as expected", function () {
-    it("getScaffold should work", function () {
+  describe("Does the repo method", function () {
+    it("getScaffold work as expected", function () {
       repo.getScaffold();
       $scope.$digest();
 
       // TODO
     });
 
-    it("getScaffold should work", function () {
+    it("getScaffold work as expected", function () {
       repo.isInScaffold("todo");
       $scope.$digest();
 
