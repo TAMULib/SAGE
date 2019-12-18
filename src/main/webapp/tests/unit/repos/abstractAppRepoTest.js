@@ -1,7 +1,7 @@
 describe("service: abstractAppRepo", function () {
   var $q, $rootScope, $scope, WsApi, repo, mockedRepo;
 
-  var initializeVariables = function(settings) {
+  var initializeVariables = function (settings) {
     inject(function (_$q_, _$rootScope_, _WsApi_) {
       $q = _$q_;
       $rootScope = _$rootScope_;
@@ -10,7 +10,7 @@ describe("service: abstractAppRepo", function () {
     });
   };
 
-  var initializeRepo = function(settings) {
+  var initializeRepo = function (settings) {
     inject(function ($injector) {
       $scope = $rootScope.$new();
       mockedRepo = new mockRepo("AbstractAppRepo", $q);
@@ -23,7 +23,7 @@ describe("service: abstractAppRepo", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
     module("mock.wsApi");

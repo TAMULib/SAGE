@@ -1,7 +1,7 @@
 describe("model: DiscoveryContext", function () {
   var $rootScope, $scope, $location, WsApi, routeParams, model, wsResponse;
 
-  var initializeVariables = function(settings) {
+  var initializeVariables = function (settings) {
     inject(function (_$q_, _$location_, _$rootScope_, _WsApi_) {
       $location = _$location_;
       $q = _$q_;
@@ -35,7 +35,7 @@ describe("model: DiscoveryContext", function () {
     });
   };
 
-  var initializeModel = function(settings) {
+  var initializeModel = function (settings) {
     inject(function (_DiscoveryContext_) {
       $scope = $rootScope.$new();
 
@@ -54,8 +54,8 @@ describe("model: DiscoveryContext", function () {
     });
   };
 
-  beforeEach(function() {
-    module("core", function($provide) {
+  beforeEach(function () {
+    module("core", function ($provide) {
       routeParams = {};
       $provide.value("$routeParams", routeParams);
     });

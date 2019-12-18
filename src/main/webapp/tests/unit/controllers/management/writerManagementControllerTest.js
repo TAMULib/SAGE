@@ -1,7 +1,7 @@
 describe("controller: WriterManagementController", function () {
   var $q, $scope, MockedInternalMetadata, MockedReader, MockedSource, MockedUser, MockedWriter, WriterRepo, controller;
 
-  var initializeVariables = function() {
+  var initializeVariables = function () {
     inject(function (_$q_, _WriterRepo_) {
       $q = _$q_;
 
@@ -15,7 +15,7 @@ describe("controller: WriterManagementController", function () {
     });
   };
 
-  var initializeController = function(settings) {
+  var initializeController = function (settings) {
     inject(function (_$controller_, _$rootScope_, _InternalMetadata_, _InternalMetadataRepo_, _Reader_, _ReaderRepo_, _Source_, _SourceRepo_, _User_, _UserService_, _Writer_) {
       $scope = _$rootScope_.$new();
 
@@ -43,39 +43,39 @@ describe("controller: WriterManagementController", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
-    module("mock.internalMetadata", function($provide) {
-      var InternalMetadata = function() {
+    module("mock.internalMetadata", function ($provide) {
+      var InternalMetadata = function () {
         return MockedInternalMetadata;
       };
       $provide.value("InternalMetadata", InternalMetadata);
     });
     module("mock.internalMetadataRepo");
-    module("mock.reader", function($provide) {
-      var Reader = function() {
+    module("mock.reader", function ($provide) {
+      var Reader = function () {
         return MockedReader;
       };
       $provide.value("Reader", Reader);
     });
     module("mock.readerRepo");
-    module("mock.source", function($provide) {
-      var Source = function() {
+    module("mock.source", function ($provide) {
+      var Source = function () {
         return MockedSource;
       };
       $provide.value("Source", Source);
     });
     module("mock.sourceRepo");
-    module("mock.user", function($provide) {
-      var User = function() {
+    module("mock.user", function ($provide) {
+      var User = function () {
         return MockedUser;
       };
       $provide.value("User", User);
     });
     module("mock.userService");
-    module("mock.writer", function($provide) {
-      var Writer = function() {
+    module("mock.writer", function ($provide) {
+      var Writer = function () {
         return MockedWriter;
       };
       $provide.value("Writer", Writer);
@@ -218,7 +218,7 @@ describe("controller: WriterManagementController", function () {
       var writer = new mockWriter($q);
 
       $scope.writerToDelete = null;
-      $scope.openModal = function(name) { };
+      $scope.openModal = function (name) { };
 
       spyOn($scope, "openModal");
 
@@ -266,14 +266,14 @@ describe("controller: WriterManagementController", function () {
     });
 
     it("resetWriterForms should reset writer form", function () {
-      $scope.closeModal = function() { };
+      $scope.closeModal = function () { };
 
       spyOn(WriterRepo, "clearValidationResults");
       spyOn($scope, "closeModal");
 
       var key;
       for (key in $scope.writerForms) {
-        $scope.writerForms[key].$setPristine = function() { };
+        $scope.writerForms[key].$setPristine = function () { };
         spyOn($scope.writerForms[key], "$setPristine");
       }
 
@@ -314,7 +314,7 @@ describe("controller: WriterManagementController", function () {
     });
 
     it("startCreateWriter should start creating a writer", function () {
-      $scope.openModal = function(name) { };
+      $scope.openModal = function (name) { };
 
       spyOn($scope, "openModal");
 
@@ -326,7 +326,7 @@ describe("controller: WriterManagementController", function () {
     it("startUpdateWriter should start updating a writer", function () {
       var writer = new mockWriter($q);
       $scope.writerToUpdate = null;
-      $scope.openModal = function(name) { };
+      $scope.openModal = function (name) { };
 
       spyOn($scope, "openModal");
 

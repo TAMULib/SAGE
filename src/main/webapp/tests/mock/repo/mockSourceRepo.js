@@ -16,7 +16,7 @@ var dataSourceRepo3 = [
   dataSource2
 ];
 
-angular.module("mock.sourceRepo", []).service("SourceRepo", function($q) {
+angular.module("mock.sourceRepo", []).service("SourceRepo", function ($q) {
   var repo = mockRepo("SourceRepo", $q, mockSource, dataSourceRepo1);
 
   repo.scaffold = {
@@ -28,17 +28,17 @@ angular.module("mock.sourceRepo", []).service("SourceRepo", function($q) {
     password: ""
   };
 
-  repo.getAvailableFields = function() {
+  repo.getAvailableFields = function () {
     // @todo
     return [];
   };
 
-  repo.getIndexedFields = function() {
+  repo.getIndexedFields = function () {
     // @todo
     return [];
   };
 
-  repo.getReadable = function() {
+  repo.getReadable = function () {
     var readables = [];
     for (var i in repo.list) {
       if (repo.list[i].readOnly === true) {
@@ -48,7 +48,7 @@ angular.module("mock.sourceRepo", []).service("SourceRepo", function($q) {
     return readables;
   };
 
-  repo.getWriteable = function() {
+  repo.getWriteable = function () {
     var writeables = [];
     for (var i in repo.list) {
       if (repo.list[i].readOnly === false) {

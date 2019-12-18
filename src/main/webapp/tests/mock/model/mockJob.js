@@ -170,7 +170,7 @@ var dataJob3 = {
   }
 };
 
-var mockJob = function($q) {
+var mockJob = function ($q) {
   var model = mockModel("Job", $q, dataJob1);
 
   return model;

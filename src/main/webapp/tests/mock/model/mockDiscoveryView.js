@@ -57,7 +57,7 @@ var dataDiscoveryView3 = {
   uniqueIdentifierKey: "uniqueIdentifierKey"
 };
 
-var mockDiscoveryView = function($q) {
+var mockDiscoveryView = function ($q) {
   var model = mockModel("DiscoveryView", $q, dataDiscoveryView1);
 
   return model;

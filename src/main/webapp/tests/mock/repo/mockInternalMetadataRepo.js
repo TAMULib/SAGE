@@ -16,7 +16,7 @@ var dataInternalMetadataRepo3 = [
   dataInternalMetadata2
 ];
 
-angular.module("mock.internalMetadataRepo", []).service("InternalMetadataRepo", function($q) {
+angular.module("mock.internalMetadataRepo", []).service("InternalMetadataRepo", function ($q) {
   var repo = mockRepo("InternalMetadataRepo", $q, mockInternalMetadata, dataInternalMetadataRepo1);
 
   repo.scaffold = {
@@ -25,7 +25,7 @@ angular.module("mock.internalMetadataRepo", []).service("InternalMetadataRepo", 
     required: true
   };
 
-  repo.getMetadataFields = function(fields) {
+  repo.getMetadataFields = function (fields) {
     return payloadPromise($q.defer(), fields);
   };
 

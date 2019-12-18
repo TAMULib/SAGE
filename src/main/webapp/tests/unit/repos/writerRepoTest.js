@@ -1,7 +1,7 @@
 describe("service: writerRepo", function () {
   var $q, $rootScope, $scope, MockedWriter, WsApi, repo;
 
-  var initializeVariables = function(settings) {
+  var initializeVariables = function (settings) {
     inject(function (_$q_, _$rootScope_, _WsApi_) {
       $q = _$q_;
       $rootScope = _$rootScope_;
@@ -11,7 +11,7 @@ describe("service: writerRepo", function () {
     });
   };
 
-  var initializeRepo = function(settings) {
+  var initializeRepo = function (settings) {
     inject(function ($injector, WriterRepo) {
       $scope = $rootScope.$new();
 
@@ -19,11 +19,11 @@ describe("service: writerRepo", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
-    module("mock.writer", function($provide) {
-      var Writer = function() {
+    module("mock.writer", function ($provide) {
+      var Writer = function () {
         return MockedWriter;
       };
       $provide.value("Writer", Writer);

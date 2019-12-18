@@ -2,7 +2,7 @@ describe("controller: InternalMetadataManagementController", function () {
 
   var $q, $scope, MockedInternalMetadata, NgTableParams, controller;
 
-  var initializeVariables = function() {
+  var initializeVariables = function () {
     inject(function (_$q_, _InternalMetadataRepo_) {
       $q = _$q_;
 
@@ -12,7 +12,7 @@ describe("controller: InternalMetadataManagementController", function () {
     });
   };
 
-  var initializeController = function(settings) {
+  var initializeController = function (settings) {
     inject(function (_$controller_, _$rootScope_) {
       $scope = _$rootScope_.$new();
 
@@ -32,11 +32,11 @@ describe("controller: InternalMetadataManagementController", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
-    module("mock.internalMetadata", function($provide) {
-      var InternalMetadata = function() {
+    module("mock.internalMetadata", function ($provide) {
+      var InternalMetadata = function () {
         return MockedInternalMetadata;
       };
       $provide.value("InternalMetadata", InternalMetadata);
@@ -164,7 +164,7 @@ describe("controller: InternalMetadataManagementController", function () {
       var internalMetadata = new mockInternalMetadata($q);
 
       $scope.internalMetadatumToDelete = null;
-      $scope.openModal = function(name) { };
+      $scope.openModal = function (name) { };
 
       spyOn($scope, "openModal");
 
@@ -200,14 +200,14 @@ describe("controller: InternalMetadataManagementController", function () {
     });
 
     it("resetInternalMetadatumForms should reset internalMetadata form", function () {
-      $scope.closeModal = function() { };
+      $scope.closeModal = function () { };
 
       spyOn(InternalMetadataRepo, "clearValidationResults");
       spyOn($scope, "closeModal");
 
       var key;
       for (key in $scope.internalMetadataForms) {
-        $scope.internalMetadataForms[key].$setPristine = function() { };
+        $scope.internalMetadataForms[key].$setPristine = function () { };
         spyOn($scope.internalMetadataForms[key], "$setPristine");
       }
 
@@ -231,7 +231,7 @@ describe("controller: InternalMetadataManagementController", function () {
     });
 
     it("startCreateInternalMetadatum should start creating a internalMetadata", function () {
-      $scope.openModal = function(name) { };
+      $scope.openModal = function (name) { };
 
       spyOn($scope, "openModal");
 
@@ -242,7 +242,7 @@ describe("controller: InternalMetadataManagementController", function () {
 
     it("startUpdateInternalMetadatum should start updating a internalMetadata", function () {
       $scope.internalMetadatumToUpdate = null;
-      $scope.openModal = function(name) { };
+      $scope.openModal = function (name) { };
 
       spyOn($scope, "openModal");
 

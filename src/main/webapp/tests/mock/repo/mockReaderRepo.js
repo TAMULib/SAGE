@@ -16,7 +16,7 @@ var dataReaderRepo3 = [
   dataReader2
 ];
 
-angular.module("mock.readerRepo", []).service("ReaderRepo", function($q) {
+angular.module("mock.readerRepo", []).service("ReaderRepo", function ($q) {
   var repo = mockRepo("ReaderRepo", $q, mockReader, dataReaderRepo1);
 
   repo.scaffold = {

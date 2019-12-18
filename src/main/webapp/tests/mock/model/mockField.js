@@ -16,7 +16,7 @@ var dataField3 = {
   schemaMapping: "schemaMapping"
 };
 
-var mockField = function($q) {
+var mockField = function ($q) {
   var model = mockModel("Field", $q, dataField1);
 
   return model;

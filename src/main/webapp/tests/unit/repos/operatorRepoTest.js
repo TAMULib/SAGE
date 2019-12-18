@@ -1,7 +1,7 @@
 describe("service: operatorRepo", function () {
   var $q, $rootScope, $scope, MockedOperator, WsApi, repo;
 
-  var initializeVariables = function(settings) {
+  var initializeVariables = function (settings) {
     inject(function (_$q_, _$rootScope_, _WsApi_) {
       $q = _$q_;
       $rootScope = _$rootScope_;
@@ -11,7 +11,7 @@ describe("service: operatorRepo", function () {
     });
   };
 
-  var initializeRepo = function(settings) {
+  var initializeRepo = function (settings) {
     inject(function ($injector, OperatorRepo) {
       $scope = $rootScope.$new();
 
@@ -19,11 +19,11 @@ describe("service: operatorRepo", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
-    module("mock.operator", function($provide) {
-      var Operator = function() {
+    module("mock.operator", function ($provide) {
+      var Operator = function () {
         return MockedOperator;
       };
       $provide.value("Operator", Operator);

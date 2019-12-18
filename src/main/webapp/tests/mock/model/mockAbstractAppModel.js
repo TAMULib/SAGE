@@ -10,7 +10,7 @@ var dataAbstractAppModel3 = {
   id: 3
 };
 
-var mockAbstractAppModel = function($q) {
+var mockAbstractAppModel = function ($q) {
   var model = mockModel("AbstractAppModel", $q, dataAbstractAppModel1);
 
   return model;

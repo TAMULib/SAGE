@@ -1,7 +1,7 @@
 describe("model: Source", function () {
   var $q, $rootScope, $scope, WsApi, model;
 
-  var initializeVariables = function(settings) {
+  var initializeVariables = function (settings) {
     inject(function (_$q_, _$rootScope_, _WsApi_) {
       $q = _$q_;
       $rootScope = _$rootScope_;
@@ -10,7 +10,7 @@ describe("model: Source", function () {
     });
   };
 
-  var initializeModel = function(settings) {
+  var initializeModel = function (settings) {
     inject(function (_Source_) {
       $scope = $rootScope.$new();
 
@@ -23,7 +23,7 @@ describe("model: Source", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
     module("mock.wsApi");
@@ -59,7 +59,7 @@ describe("model: Source", function () {
     it("testPing should work", function () {
       var passedPath;
 
-      WsApi.fetch = function(path, data) {
+      WsApi.fetch = function (path, data) {
         passedPath = path;
       };
 

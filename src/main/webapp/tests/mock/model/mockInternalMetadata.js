@@ -19,7 +19,7 @@ var dataInternalMetadata3 = {
   required: false
 };
 
-var mockInternalMetadata = function($q) {
+var mockInternalMetadata = function ($q) {
   var model = mockModel("InternalMetadata", $q, dataInternalMetadata1);
 
   return model;

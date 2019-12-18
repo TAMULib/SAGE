@@ -1,10 +1,10 @@
 describe("filter: removeBrackets", function () {
   var $scope, filter;
 
-  var initializeVariables = function() {
+  var initializeVariables = function () {
   };
 
-  var initializeFilter = function(settings) {
+  var initializeFilter = function (settings) {
     inject(function (_$filter_, _$rootScope_) {
       $scope = _$rootScope_.$new();
 
@@ -12,7 +12,7 @@ describe("filter: removeBrackets", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
 

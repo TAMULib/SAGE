@@ -1,7 +1,7 @@
 describe("controller: ReaderManagementController", function () {
   var $q, $scope, MockedReader, MockedSource, MockedInternalMetadata, MockedUser, ReaderRepo, controller;
 
-  var initializeVariables = function() {
+  var initializeVariables = function () {
     inject(function (_$q_, _ReaderRepo_) {
       $q = _$q_;
 
@@ -14,7 +14,7 @@ describe("controller: ReaderManagementController", function () {
     });
   };
 
-  var initializeController = function(settings) {
+  var initializeController = function (settings) {
     inject(function (_$controller_, _$rootScope_, _InternalMetadata_, _InternalMetadataRepo_, _Reader_, _Source_, _SourceRepo_, _User_, _UserService_) {
       $scope = _$rootScope_.$new();
 
@@ -40,32 +40,32 @@ describe("controller: ReaderManagementController", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
-    module("mock.reader", function($provide) {
-      var Reader = function() {
+    module("mock.reader", function ($provide) {
+      var Reader = function () {
         return MockedReader;
       };
       $provide.value("Reader", Reader);
     });
     module("mock.readerRepo");
-    module("mock.source", function($provide) {
-      var Source = function() {
+    module("mock.source", function ($provide) {
+      var Source = function () {
         return MockedSource;
       };
       $provide.value("Source", Source);
     });
     module("mock.sourceRepo");
-    module("mock.internalMetadata", function($provide) {
-      var InternalMetadata = function() {
+    module("mock.internalMetadata", function ($provide) {
+      var InternalMetadata = function () {
         return MockedInternalMetadata;
       };
       $provide.value("InternalMetadata", InternalMetadata);
     });
     module("mock.internalMetadataRepo");
-    module("mock.user", function($provide) {
-      var User = function() {
+    module("mock.user", function ($provide) {
+      var User = function () {
         return MockedUser;
       };
       $provide.value("User", User);
@@ -208,7 +208,7 @@ describe("controller: ReaderManagementController", function () {
       var reader = new mockReader($q);
 
       $scope.readerToDelete = null;
-      $scope.openModal = function(name) { };
+      $scope.openModal = function (name) { };
 
       spyOn($scope, "openModal");
 
@@ -256,14 +256,14 @@ describe("controller: ReaderManagementController", function () {
     });
 
     it("resetReaderForms should reset reader form", function () {
-      $scope.closeModal = function() { };
+      $scope.closeModal = function () { };
 
       spyOn(ReaderRepo, "clearValidationResults");
       spyOn($scope, "closeModal");
 
       var key;
       for (key in $scope.readerForms) {
-        $scope.readerForms[key].$setPristine = function() { };
+        $scope.readerForms[key].$setPristine = function () { };
         spyOn($scope.readerForms[key], "$setPristine");
       }
 
@@ -290,7 +290,7 @@ describe("controller: ReaderManagementController", function () {
     });
 
     it("startCreateReader should start creating a reader", function () {
-      $scope.openModal = function(name) { };
+      $scope.openModal = function (name) { };
 
       spyOn($scope, "openModal");
 
@@ -302,7 +302,7 @@ describe("controller: ReaderManagementController", function () {
     it("startUpdateReader should start updating a reader", function () {
       var reader = new mockReader($q);
       $scope.readerToUpdate = null;
-      $scope.openModal = function(name) { };
+      $scope.openModal = function (name) { };
 
       spyOn($scope, "openModal");
 

@@ -1,7 +1,7 @@
 describe("service: jobRepo", function () {
   var $q, $rootScope, $scope, WsApi, repo;
 
-  var initializeVariables = function(settings) {
+  var initializeVariables = function (settings) {
     inject(function (_$q_, _$rootScope_, _WsApi_) {
       $q = _$q_;
       $rootScope = _$rootScope_;
@@ -11,7 +11,7 @@ describe("service: jobRepo", function () {
     });
   };
 
-  var initializeRepo = function(settings) {
+  var initializeRepo = function (settings) {
     inject(function ($injector, JobRepo) {
       $scope = $rootScope.$new();
 
@@ -19,11 +19,11 @@ describe("service: jobRepo", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
-    module("mock.job", function($provide) {
-      var Job = function() {
+    module("mock.job", function ($provide) {
+      var Job = function () {
         return MockedJob;
       };
       $provide.value("Job", Job);

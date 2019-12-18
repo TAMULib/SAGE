@@ -31,10 +31,10 @@ var dataSingleResultContext3 = {
   uniqueIdentifier: "uniqueIdentifier"
 };
 
-var mockSingleResultContext = function($q) {
+var mockSingleResultContext = function ($q) {
   var model = mockModel("SingleResultContext", $q, dataSingleResultContext1);
 
-  model.getBreadcrumb = function() {
+  model.getBreadcrumb = function () {
     return {
       label: model.title.replace(/^\[(.*)]$/i, "$1"),
       path: "discovery-context/" + model.slug + "/" + model.resultId

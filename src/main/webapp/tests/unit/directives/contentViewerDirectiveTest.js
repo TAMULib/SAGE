@@ -1,7 +1,7 @@
 describe("directive: contentviewer", function () {
   var $compile, $scope, appConfig, directive, element, contentType, resource;
 
-  var initializeVariables = function() {
+  var initializeVariables = function () {
     inject(function (_$compile_, _appConfig_) {
       $compile = _$compile_;
       appConfig = _appConfig_;
@@ -11,7 +11,7 @@ describe("directive: contentviewer", function () {
     });
   };
 
-  var initializeDirective = function(settings) {
+  var initializeDirective = function (settings) {
     inject(function (_$rootScope_) {
       $scope = _$rootScope_.$new();
 
@@ -28,7 +28,7 @@ describe("directive: contentviewer", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
     module("templates");

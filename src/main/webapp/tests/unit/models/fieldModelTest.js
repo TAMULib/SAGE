@@ -1,7 +1,7 @@
 describe("model: Field", function () {
   var $rootScope, $scope, $location, WsApi, model;
 
-  var initializeVariables = function(settings) {
+  var initializeVariables = function (settings) {
     inject(function (_$location_, _$rootScope_, _WsApi_) {
       $location = _$location_;
       $rootScope = _$rootScope_;
@@ -10,7 +10,7 @@ describe("model: Field", function () {
     });
   };
 
-  var initializeModel = function(settings) {
+  var initializeModel = function (settings) {
     inject(function (_Field_) {
       $scope = $rootScope.$new();
 
@@ -23,7 +23,7 @@ describe("model: Field", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
     module("mock.wsApi");

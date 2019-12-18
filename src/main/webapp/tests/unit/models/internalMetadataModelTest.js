@@ -1,7 +1,7 @@
 describe("model: InternalMetadata", function () {
   var $rootScope, $scope, WsApi, model;
 
-  var initializeVariables = function(settings) {
+  var initializeVariables = function (settings) {
     inject(function (_$rootScope_, _WsApi_) {
       $rootScope = _$rootScope_;
 
@@ -9,7 +9,7 @@ describe("model: InternalMetadata", function () {
     });
   };
 
-  var initializeModel = function(settings) {
+  var initializeModel = function (settings) {
     inject(function (_InternalMetadata_) {
       $scope = $rootScope.$new();
 
@@ -22,7 +22,7 @@ describe("model: InternalMetadata", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
     module("mock.wsApi");

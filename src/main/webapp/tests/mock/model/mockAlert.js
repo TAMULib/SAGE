@@ -34,7 +34,7 @@ var dataAlert3 = {
   type: "SUCCESS"
 };
 
-var mockAlert = function($q) {
+var mockAlert = function ($q) {
   var model = mockModel("Alert", $q, dataAlert1);
 
   return model;

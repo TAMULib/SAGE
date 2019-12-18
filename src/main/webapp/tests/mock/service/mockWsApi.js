@@ -3,7 +3,7 @@ angular.module("mock.wsApi", []).service("WsApi", function ($q) {
   var mapping;
   var fetchResponse;
 
-  service.mockFetchResponse = function(data) {
+  service.mockFetchResponse = function (data) {
     if (data === null || data === undefined) {
       fetchResponse = undefined;
     } else {
@@ -18,7 +18,7 @@ angular.module("mock.wsApi", []).service("WsApi", function ($q) {
     }
   };
 
-  service.mockMapping = function(toMock) {
+  service.mockMapping = function (toMock) {
     mapping = {};
     for (var key in toMock) {
       mapping[key] = toMock[key];

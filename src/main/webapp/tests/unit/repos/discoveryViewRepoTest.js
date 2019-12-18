@@ -1,7 +1,7 @@
 describe("service: discoveryViewRepo", function () {
   var $q, $rootScope, $scope, MockedDiscoveryView, WsApi, repo;
 
-  var initializeVariables = function(settings) {
+  var initializeVariables = function (settings) {
     inject(function (_$q_, _$rootScope_, _WsApi_) {
       $q = _$q_;
       $rootScope = _$rootScope_;
@@ -11,7 +11,7 @@ describe("service: discoveryViewRepo", function () {
     });
   };
 
-  var initializeRepo = function(settings) {
+  var initializeRepo = function (settings) {
     inject(function ($injector, DiscoveryViewRepo) {
       $scope = $rootScope.$new();
 
@@ -19,11 +19,11 @@ describe("service: discoveryViewRepo", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
-    module("mock.discoveryView", function($provide) {
-      var DiscoveryView = function() {
+    module("mock.discoveryView", function ($provide) {
+      var DiscoveryView = function () {
         return MockedDiscoveryView;
       };
       $provide.value("DiscoveryView", DiscoveryView);

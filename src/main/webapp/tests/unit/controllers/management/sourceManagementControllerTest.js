@@ -1,7 +1,7 @@
 describe("controller: SourceManagementController", function () {
   var $q, $scope, MockedReader, MockedSource, MockedInternalMetadata, MockedUser, SourceRepo, controller;
 
-  var initializeVariables = function() {
+  var initializeVariables = function () {
     inject(function (_$q_, _SourceRepo_) {
       $q = _$q_;
 
@@ -14,7 +14,7 @@ describe("controller: SourceManagementController", function () {
     });
   };
 
-  var initializeController = function(settings) {
+  var initializeController = function (settings) {
     inject(function (_$controller_, _$rootScope_, _Source_, _User_, _UserService_) {
       $scope = _$rootScope_.$new();
 
@@ -36,32 +36,32 @@ describe("controller: SourceManagementController", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
-    module("mock.reader", function($provide) {
-      var Reader = function() {
+    module("mock.reader", function ($provide) {
+      var Reader = function () {
         return MockedReader;
       };
       $provide.value("Reader", Reader);
     });
     module("mock.readerRepo");
-    module("mock.source", function($provide) {
-      var Source = function() {
+    module("mock.source", function ($provide) {
+      var Source = function () {
         return MockedSource;
       };
       $provide.value("Source", Source);
     });
     module("mock.sourceRepo");
-    module("mock.internalMetadata", function($provide) {
-      var InternalMetadata = function() {
+    module("mock.internalMetadata", function ($provide) {
+      var InternalMetadata = function () {
         return MockedInternalMetadata;
       };
       $provide.value("InternalMetadata", InternalMetadata);
     });
     module("mock.internalMetadataRepo");
-    module("mock.user", function($provide) {
-      var User = function() {
+    module("mock.user", function ($provide) {
+      var User = function () {
         return MockedUser;
       };
       $provide.value("User", User);
@@ -186,7 +186,7 @@ describe("controller: SourceManagementController", function () {
       var source = new mockSource($q);
 
       $scope.sourceToDelete = null;
-      $scope.openModal = function(name) { };
+      $scope.openModal = function (name) { };
 
       spyOn($scope, "openModal");
 
@@ -223,14 +223,14 @@ describe("controller: SourceManagementController", function () {
     });
 
     it("resetSourceForms should reset source form", function () {
-      $scope.closeModal = function() { };
+      $scope.closeModal = function () { };
 
       spyOn(SourceRepo, "clearValidationResults");
       spyOn($scope, "closeModal");
 
       var key;
       for (key in $scope.sourceForms) {
-        $scope.sourceForms[key].$setPristine = function() { };
+        $scope.sourceForms[key].$setPristine = function () { };
         spyOn($scope.sourceForms[key], "$setPristine");
       }
 
@@ -252,7 +252,7 @@ describe("controller: SourceManagementController", function () {
     });
 
     it("startCreateSource should start creating a source", function () {
-      $scope.openModal = function(name) { };
+      $scope.openModal = function (name) { };
 
       spyOn($scope, "openModal");
 
@@ -264,7 +264,7 @@ describe("controller: SourceManagementController", function () {
     it("startUpdateSource should start updating a source", function () {
       var source = new mockSource($q);
       $scope.sourceToUpdate = null;
-      $scope.openModal = function(name) { };
+      $scope.openModal = function (name) { };
 
       spyOn($scope, "openModal");
 

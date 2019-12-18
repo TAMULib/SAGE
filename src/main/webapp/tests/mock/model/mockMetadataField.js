@@ -31,7 +31,7 @@ var dataMetadataField3 = {
   type: ""
 };
 
-var mockMetadataField = function($q) {
+var mockMetadataField = function ($q) {
   var model = mockModel("MetadataField", $q, dataMetadataField1);
 
   return model;

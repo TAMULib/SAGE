@@ -31,7 +31,7 @@ var dataUser3 = {
   uin: "192837465"
 };
 
-var mockUser = function($q) {
+var mockUser = function ($q) {
   var model = mockModel("User", $q, dataUser1);
 
   model.anonymous = (sessionStorage.role === appConfig.anonymousRole);

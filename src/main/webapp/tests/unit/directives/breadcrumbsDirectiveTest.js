@@ -1,7 +1,7 @@
 describe("directive: breadcrumbs", function () {
   var $compile, $q, $scope, MockedDiscoveryContext, MockedSingleResultContext, directive, element, contexts, home, reload;
 
-  var initializeVariables = function() {
+  var initializeVariables = function () {
     inject(function (_$q_, _$compile_) {
       $q = _$q_;
       $compile = _$compile_;
@@ -15,7 +15,7 @@ describe("directive: breadcrumbs", function () {
     });
   };
 
-  var initializeDirective = function(settings) {
+  var initializeDirective = function (settings) {
     inject(function (_$rootScope_) {
       $scope = _$rootScope_.$new();
 
@@ -33,18 +33,18 @@ describe("directive: breadcrumbs", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
     module("templates");
-    module("mock.discoveryContext", function($provide) {
-      var DiscoveryContext = function() {
+    module("mock.discoveryContext", function ($provide) {
+      var DiscoveryContext = function () {
         return MockedDiscoveryContext;
       };
       $provide.value("DiscoveryContext", DiscoveryContext);
     });
-    module("mock.singleResultContext", function($provide) {
-      var SingleResultContext = function() {
+    module("mock.singleResultContext", function ($provide) {
+      var SingleResultContext = function () {
         return MockedSingleResultContext;
       };
       $provide.value("SingleResultContext", SingleResultContext);
@@ -87,7 +87,7 @@ describe("directive: breadcrumbs", function () {
     });
 
     it("should be defined, with reload property", function () {
-      reload = function() {};
+      reload = function () {};
 
       initializeDirective();
       expect(directive).toBeDefined();

@@ -1,7 +1,7 @@
 describe("controller: SingleResultController", function () {
   var $q, $scope, MockedDiscoveryContext, MockedSingleResultContext, MockedUser, WsApi, controller;
 
-  var initializeVariables = function() {
+  var initializeVariables = function () {
     inject(function (_$q_, _WsApi_) {
       $q = _$q_;
 
@@ -13,7 +13,7 @@ describe("controller: SingleResultController", function () {
     });
   };
 
-  var initializeController = function(settings) {
+  var initializeController = function (settings) {
     inject(function (_$controller_, _$rootScope_, _DiscoveryContext_, _SingleResultContext_, _UserService_) {
       $scope = _$rootScope_.$new();
 
@@ -36,23 +36,23 @@ describe("controller: SingleResultController", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
-    module("mock.discoveryContext", function($provide) {
-      var DiscoveryContext = function() {
+    module("mock.discoveryContext", function ($provide) {
+      var DiscoveryContext = function () {
         return MockedDiscoveryContext;
       };
       $provide.value("DiscoveryContext", DiscoveryContext);
     });
-    module("mock.singleResultContext", function($provide) {
-      var SingleResultContext = function() {
+    module("mock.singleResultContext", function ($provide) {
+      var SingleResultContext = function () {
         return MockedSingleResultContext;
       };
       $provide.value("SingleResultContext", SingleResultContext);
     });
-    module("mock.user", function($provide) {
-      var User = function() {
+    module("mock.user", function ($provide) {
+      var User = function () {
         return MockedUser;
       };
       $provide.value("User", User);

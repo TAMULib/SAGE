@@ -1,7 +1,7 @@
 describe("model: MetadataField", function () {
   var $rootScope, $scope, WsApi, model;
 
-  var initializeVariables = function(settings) {
+  var initializeVariables = function (settings) {
     inject(function (_$rootScope_, _WsApi_) {
       $rootScope = _$rootScope_;
 
@@ -9,7 +9,7 @@ describe("model: MetadataField", function () {
     });
   };
 
-  var initializeModel = function(settings) {
+  var initializeModel = function (settings) {
     inject(function (_FacetField_) {
       $scope = $rootScope.$new();
 
@@ -17,7 +17,7 @@ describe("model: MetadataField", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
     module("mock.wsApi");

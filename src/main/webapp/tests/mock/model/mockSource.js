@@ -28,23 +28,23 @@ var dataSource3 = {
   requiresFilter: true
 };
 
-var mockSource = function($q) {
+var mockSource = function ($q) {
   var model = mockModel("Source", $q, dataSource1);
 
-  model.testPing = function() {
-    return $q(function(resolve) {
+  model.testPing = function () {
+    return $q(function (resolve) {
       resolve();
     });
   };
 
-  model.testLocation = function() {
-    return $q(function(resolve) {
+  model.testLocation = function () {
+    return $q(function (resolve) {
       resolve();
     });
   };
 
-  model.testAuthorization = function() {
-    return $q(function(resolve) {
+  model.testAuthorization = function () {
+    return $q(function (resolve) {
       resolve();
     });
   };

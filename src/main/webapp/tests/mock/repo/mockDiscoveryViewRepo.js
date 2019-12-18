@@ -16,7 +16,7 @@ var dataDiscoveryViewRepo3 = [
   dataDiscoveryView2
 ];
 
-angular.module("mock.discoveryViewRepo", []).service("DiscoveryViewRepo", function($q) {
+angular.module("mock.discoveryViewRepo", []).service("DiscoveryViewRepo", function ($q) {
   var repo = mockRepo("DiscoveryViewRepo", $q, mockDiscoveryView, dataDiscoveryViewRepo1);
 
   repo.scaffold = {

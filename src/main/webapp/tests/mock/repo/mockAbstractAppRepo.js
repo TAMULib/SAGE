@@ -16,7 +16,7 @@ var dataAbstractAppModelRepo3 = [
   dataAbstractAppModel2
 ];
 
-angular.module("mock.abstractAppRepo", []).service("AbstractAppRepo", function($q) {
+angular.module("mock.abstractAppRepo", []).service("AbstractAppRepo", function ($q) {
   var repo = mockRepo("AbstractAppRepo", $q);
 
   return repo;

@@ -1,14 +1,14 @@
 describe("controller: JobManagementController", function () {
   var $q, $scope, JobRepo, MockedJob, MockedOperator, MockedReader, MockedSource, MockedUser, MockedWriter, controller, event;
 
-  var initializeVariables = function() {
+  var initializeVariables = function () {
     inject(function (_$q_, _JobRepo_) {
       $q = _$q_;
 
       // @todo: create a mock event object with appropriate methods.
       event = {
-        preventDefault: function() {},
-        stopPropagation: function() {}
+        preventDefault: function () {},
+        stopPropagation: function () {}
       };
 
       JobRepo = _JobRepo_;
@@ -21,7 +21,7 @@ describe("controller: JobManagementController", function () {
     });
   };
 
-  var initializeController = function(settings) {
+  var initializeController = function (settings) {
     inject(function (_$controller_, _$rootScope_, _Job_, _Reader_, _ReaderRepo_, _OperatorRepo_, _Source_, _SourceRepo_, _User_, _UserService_, _Writer_, _WriterRepo_) {
       $scope = _$rootScope_.$new();
 
@@ -50,46 +50,46 @@ describe("controller: JobManagementController", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
-    module("mock.job", function($provide) {
-      var Job = function() {
+    module("mock.job", function ($provide) {
+      var Job = function () {
         return MockedJob;
       };
       $provide.value("Job", Job);
     });
     module("mock.jobRepo");
-    module("mock.operator", function($provide) {
-      var Operator = function() {
+    module("mock.operator", function ($provide) {
+      var Operator = function () {
         return MockedOperator;
       };
       $provide.value("Operator", Operator);
     });
     module("mock.operatorRepo");
-    module("mock.reader", function($provide) {
-      var Reader = function() {
+    module("mock.reader", function ($provide) {
+      var Reader = function () {
         return MockedReader;
       };
       $provide.value("Reader", Reader);
     });
     module("mock.readerRepo");
-    module("mock.source", function($provide) {
-      var Source = function() {
+    module("mock.source", function ($provide) {
+      var Source = function () {
         return MockedSource;
       };
       $provide.value("Source", Source);
     });
     module("mock.sourceRepo");
-    module("mock.user", function($provide) {
-      var User = function() {
+    module("mock.user", function ($provide) {
+      var User = function () {
         return MockedUser;
       };
       $provide.value("User", User);
     });
     module("mock.userService");
-    module("mock.writer", function($provide) {
-      var Writer = function() {
+    module("mock.writer", function ($provide) {
+      var Writer = function () {
         return MockedWriter;
       };
       $provide.value("Writer", Writer);
@@ -264,7 +264,7 @@ describe("controller: JobManagementController", function () {
       var job = new mockJob($q);
 
       $scope.jobToDelete = null;
-      $scope.openModal = function(name) { };
+      $scope.openModal = function (name) { };
 
       spyOn($scope, "openModal");
 
@@ -324,14 +324,14 @@ describe("controller: JobManagementController", function () {
     });
 
     it("resetJobForms should reset job form", function () {
-      $scope.closeModal = function() { };
+      $scope.closeModal = function () { };
 
       spyOn(JobRepo, "clearValidationResults");
       spyOn($scope, "closeModal");
 
       var key;
       for (key in $scope.jobForms) {
-        $scope.jobForms[key].$setPristine = function() { };
+        $scope.jobForms[key].$setPristine = function () { };
         spyOn($scope.jobForms[key], "$setPristine");
       }
 
@@ -359,7 +359,7 @@ describe("controller: JobManagementController", function () {
     });
 
     it("startCreateJob should start creating a job", function () {
-      $scope.openModal = function(name) { };
+      $scope.openModal = function (name) { };
 
       spyOn($scope, "openModal");
 
@@ -371,7 +371,7 @@ describe("controller: JobManagementController", function () {
     it("startUpdateJob should start updating a job", function () {
       var job = new mockJob($q);
       $scope.jobToUpdate = null;
-      $scope.openModal = function(name) { };
+      $scope.openModal = function (name) { };
 
       spyOn($scope, "openModal");
 

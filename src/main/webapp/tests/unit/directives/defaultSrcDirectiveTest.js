@@ -1,7 +1,7 @@
 describe("directive: defaultSrc", function () {
   var $compile, $scope, directive, element, defaultSrc;
 
-  var initializeVariables = function(settings) {
+  var initializeVariables = function (settings) {
     inject(function (_$compile_) {
       $compile = _$compile_;
 
@@ -9,7 +9,7 @@ describe("directive: defaultSrc", function () {
     });
   };
 
-  var initializeDirective = function(settings) {
+  var initializeDirective = function (settings) {
     inject(function (_$rootScope_) {
       $scope = _$rootScope_.$new();
 
@@ -25,7 +25,7 @@ describe("directive: defaultSrc", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
     module("templates");

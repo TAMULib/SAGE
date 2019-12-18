@@ -1,7 +1,7 @@
 describe("model: DiscoveryView", function () {
   var $rootScope, $scope, $location, WsApi, model, routeParams;
 
-  var initializeVariables = function(settings) {
+  var initializeVariables = function (settings) {
     inject(function (_$location_, _$rootScope_, _WsApi_) {
       $location = _$location_;
       $rootScope = _$rootScope_;
@@ -14,7 +14,7 @@ describe("model: DiscoveryView", function () {
     });
   };
 
-  var initializeModel = function(settings) {
+  var initializeModel = function (settings) {
     inject(function (_DiscoveryView_) {
       $scope = $rootScope.$new();
 
@@ -33,8 +33,8 @@ describe("model: DiscoveryView", function () {
     });
   };
 
-  beforeEach(function() {
-    module("core", function($provide) {
+  beforeEach(function () {
+    module("core", function ($provide) {
       routeParams = {};
       $provide.value("$routeParams", routeParams);
     });

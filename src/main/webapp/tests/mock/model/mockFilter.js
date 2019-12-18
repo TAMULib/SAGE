@@ -19,7 +19,7 @@ var dataFilter3 = {
   value: "Value 3"
 };
 
-var mockFilter = function($q) {
+var mockFilter = function ($q) {
   var model = mockModel("Filter", $q, dataFilter1);
 
   return model;

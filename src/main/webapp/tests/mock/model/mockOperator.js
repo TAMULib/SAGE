@@ -22,7 +22,7 @@ var dataOperator3 = {
   value: "English"
 };
 
-var mockOperator = function($q) {
+var mockOperator = function ($q) {
   var model = mockModel("Operator", $q, dataOperator1);
 
   return model;

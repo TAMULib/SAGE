@@ -1,7 +1,7 @@
 describe("component: singleResultViewer", function () {
   var $compile, $q, $scope, $timeout, MockedSingleResultContext, component, element, context;
 
-  var initializeVariables = function() {
+  var initializeVariables = function () {
     inject(function (_$compile_, _$q_, _$timeout_) {
       $compile = _$compile_;
       $q = _$q_;
@@ -13,7 +13,7 @@ describe("component: singleResultViewer", function () {
     });
   };
 
-  var initializeComponent = function() {
+  var initializeComponent = function () {
     inject(function (_$rootScope_) {
       $scope = _$rootScope_.$new();
 
@@ -28,12 +28,12 @@ describe("component: singleResultViewer", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
     module("templates");
-    module("mock.singleResultContext", function($provide) {
-      var SingleResultContext = function() {
+    module("mock.singleResultContext", function ($provide) {
+      var SingleResultContext = function () {
         return MockedSingleResultContext;
       };
       $provide.value("SingleResultContext", SingleResultContext);

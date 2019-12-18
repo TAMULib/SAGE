@@ -2,7 +2,7 @@ angular.module("mock.userService", []).service("UserService", function ($q) {
   var service = mockService($q, mockUser);
   var currentUser;
 
-  service.mockCurrentUser = function(toMock) {
+  service.mockCurrentUser = function (toMock) {
     delete sessionStorage.role;
 
     if (toMock === undefined || toMock === null) {

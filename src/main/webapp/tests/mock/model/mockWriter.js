@@ -70,7 +70,7 @@ var dataWriter3 = {
   outputMappings: []
 };
 
-var mockWriter = function($q) {
+var mockWriter = function ($q) {
   var model = mockModel("Writer", $q, dataWriter1);
 
   return model;

@@ -32,36 +32,36 @@ var dataAssumedControl3 = {
   user: {}
 };
 
-var mockAssumedControl = function($q) {
+var mockAssumedControl = function ($q) {
   var model = mockModel("AssumedControl", $q, dataAssumedControl1);
 
-  model.addCallback = function(callback) {
+  model.addCallback = function (callback) {
     // TODO
   };
 
-  model.assume = function() {
+  model.assume = function () {
     // TODO
     return payloadPromise($q.defer(), null);
   };
 
-  model.cancel = function() {
+  model.cancel = function () {
     // TODO
   };
 
-  model.get = function() {
+  model.get = function () {
     return payloadPromise($q.defer(), dataAssumedControl3);
   };
 
-  model.ready = function() {
+  model.ready = function () {
     // TODO
     return payloadPromise($q.defer(), null);
   };
 
-  model.set = function() {
+  model.set = function () {
     return payloadPromise($q.defer(), true);
   };
 
-  model.unassume = function() {
+  model.unassume = function () {
     // TODO
     return payloadPromise($q.defer(), null);
   };

@@ -10,7 +10,7 @@ var dataSearch3 = {
   id: 3
 };
 
-var mockSearch = function($q) {
+var mockSearch = function ($q) {
   var model = mockModel("Search", $q, dataSearch1);
 
   return model;

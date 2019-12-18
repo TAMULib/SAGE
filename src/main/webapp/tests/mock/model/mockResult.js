@@ -31,7 +31,7 @@ var dataResult3 = {
   uniqueIdentifier: "uniqueIdentifier"
 };
 
-var mockResult = function($q) {
+var mockResult = function ($q) {
   var model = mockModel("Result", $q, dataResult1);
 
   return model;

@@ -11,11 +11,11 @@ angular.module("mock.assumedControl", []).service("AssumedControl", function ($q
     service.mockedCallbacks.push(callback);
   };
 
-  service.assume = function(user) {
+  service.assume = function (user) {
     // @todo
   };
 
-  service.cancel = function() {
+  service.cancel = function () {
     service.set({
       netid: "",
       button: "Assume User",
@@ -23,7 +23,7 @@ angular.module("mock.assumedControl", []).service("AssumedControl", function ($q
     });
   };
 
-  service.get = function(data) {
+  service.get = function (data) {
     service.mockedPromise = $q.defer();
 
     if (service.mockedData) {
@@ -39,12 +39,12 @@ angular.module("mock.assumedControl", []).service("AssumedControl", function ($q
     return service.mockedPromise;
   };
 
-  service.set = function(data) {
+  service.set = function (data) {
     angular.extend(service.mockedData, data);
     service.mockedPromise.resolve();
   };
 
-  service.unassume = function(user) {
+  service.unassume = function (user) {
     // @todo
   };
 

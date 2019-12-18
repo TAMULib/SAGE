@@ -1,7 +1,7 @@
 describe("controller: DiscoveryViewManagementController", function () {
   var $q, $scope, $timeout, DiscoveryViewRepo, MockedDiscoveryView, MockedFacetField, MockedMetadataField, MockedSearchField, MockedSource, NgTableParams, SourceRepo, controller;
 
-  var initializeVariables = function() {
+  var initializeVariables = function () {
     inject(function (_$q_, _DiscoveryViewRepo_, _WsApi_, _SourceRepo_) {
       $q = _$q_;
 
@@ -17,7 +17,7 @@ describe("controller: DiscoveryViewManagementController", function () {
     });
   };
 
-  var initializeController = function(settings) {
+  var initializeController = function (settings) {
     inject(function (_$controller_, _$rootScope_, _$timeout_, _DiscoveryView_, _FacetField_, _MetadataField_, _SearchField_, _Source_) {
       $scope = _$rootScope_.$new();
       $timeout = _$timeout_;
@@ -44,37 +44,37 @@ describe("controller: DiscoveryViewManagementController", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
-    module("mock.discoveryView", function($provide) {
-      var DiscoveryView = function() {
+    module("mock.discoveryView", function ($provide) {
+      var DiscoveryView = function () {
         return MockedDiscoveryView;
       };
       $provide.value("DiscoveryView", DiscoveryView);
     });
     module("mock.discoveryViewRepo");
-    module("mock.facetField", function($provide) {
-      var FacetField = function() {
+    module("mock.facetField", function ($provide) {
+      var FacetField = function () {
         return MockedFacetField;
       };
       $provide.value("FacetField", FacetField);
     });
-    module("mock.metadataField", function($provide) {
-      var MetadataField = function() {
+    module("mock.metadataField", function ($provide) {
+      var MetadataField = function () {
         return MockedMetadataField;
       };
       $provide.value("MetadataField", MetadataField);
     });
     module("mock.ngTableParams");
-    module("mock.searchField", function($provide) {
-      var SearchField = function() {
+    module("mock.searchField", function ($provide) {
+      var SearchField = function () {
         return MockedSearchField;
       };
       $provide.value("SearchField", SearchField);
     });
-    module("mock.source", function($provide) {
-      var Source = function() {
+    module("mock.source", function ($provide) {
+      var Source = function () {
         return MockedSource;
       };
       $provide.value("Source", Source);
@@ -363,7 +363,7 @@ describe("controller: DiscoveryViewManagementController", function () {
       discoveryView.source = [];
       discoveryView.source.requiresFilter = false;
 
-      SourceRepo.getAvailableFields = function(uri, filter) {
+      SourceRepo.getAvailableFields = function (uri, filter) {
         receivedUri = uri;
         receivedFilter = filter;
       };
@@ -558,19 +558,19 @@ describe("controller: DiscoveryViewManagementController", function () {
 
       $scope.tabs.inCreate = true;
       $scope.tabs.inUpdate = false;
-      $scope.isDiscoveryViewGeneralInvalid = function() {
+      $scope.isDiscoveryViewGeneralInvalid = function () {
         return mockInvalidGeneralTab;
       };
 
-      $scope.isDiscoveryViewFacetsInvalid = function() {
+      $scope.isDiscoveryViewFacetsInvalid = function () {
         return mockInvalidFacetsTab;
       };
 
-      $scope.isDiscoveryViewSearchInvalid = function() {
+      $scope.isDiscoveryViewSearchInvalid = function () {
         return mockInvalidSearchTab;
       };
 
-      $scope.isDiscoveryViewResultsInvalid = function() {
+      $scope.isDiscoveryViewResultsInvalid = function () {
         return mockInvalidResultsTab;
       };
 
@@ -661,19 +661,19 @@ describe("controller: DiscoveryViewManagementController", function () {
 
       $scope.tabs.inCreate = false;
       $scope.tabs.inUpdate = true;
-      $scope.isDiscoveryViewGeneralInvalid = function() {
+      $scope.isDiscoveryViewGeneralInvalid = function () {
         return mockInvalidGeneralTab;
       };
 
-      $scope.isDiscoveryViewFacetsInvalid = function() {
+      $scope.isDiscoveryViewFacetsInvalid = function () {
         return mockInvalidFacetsTab;
       };
 
-      $scope.isDiscoveryViewSearchInvalid = function() {
+      $scope.isDiscoveryViewSearchInvalid = function () {
         return mockInvalidSearchTab;
       };
 
-      $scope.isDiscoveryViewResultsInvalid = function() {
+      $scope.isDiscoveryViewResultsInvalid = function () {
         return mockInvalidResultsTab;
       };
 
@@ -778,7 +778,7 @@ describe("controller: DiscoveryViewManagementController", function () {
 
       $scope.originalSourceName = $scope.discoveryView.source.name;
       $scope.originalFilter = $scope.discoveryView.filter;
-      $scope.getFields = function() {};
+      $scope.getFields = function () {};
       spyOn($scope, "getFields");
 
       $scope.tabs.active = 0;
@@ -825,7 +825,7 @@ describe("controller: DiscoveryViewManagementController", function () {
 
       $scope.originalSourceName = discoveryView.source.name;
       $scope.tabs.active = 1;
-      $scope.getFields = function() {};
+      $scope.getFields = function () {};
       spyOn($scope, "getFields");
 
       $scope.refreshSource(discoveryView);

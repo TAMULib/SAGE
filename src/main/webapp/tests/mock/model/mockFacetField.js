@@ -22,7 +22,7 @@ var dataFacetField3 = {
   widget: ""
 };
 
-var mockFacetField = function($q) {
+var mockFacetField = function ($q) {
   var model = mockModel("FacetField", $q, dataFacetField1);
 
   return model;

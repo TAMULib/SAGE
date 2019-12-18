@@ -1,7 +1,7 @@
 describe("controller: DiscoveryContextController", function () {
   var $location, $q, $scope, DiscoveryContext, MockedDiscoveryContext, MockedUser, WsApi, appConfig, controller, routeParams;
 
-  var initializeVariables = function() {
+  var initializeVariables = function () {
     inject(function (_$location_, _$q_, _WsApi_) {
       $location = _$location_;
       $q = _$q_;
@@ -15,7 +15,7 @@ describe("controller: DiscoveryContextController", function () {
     });
   };
 
-  var initializeController = function(settings) {
+  var initializeController = function (settings) {
     inject(function (_$controller_, _$rootScope_) {
       $scope = _$rootScope_.$new();
 
@@ -50,20 +50,20 @@ describe("controller: DiscoveryContextController", function () {
     });
   };
 
-  beforeEach(function() {
-    module("core", function($provide) {
+  beforeEach(function () {
+    module("core", function ($provide) {
       routeParams = {};
       $provide.value("$routeParams", routeParams);
     });
     module("sage");
-    module("mock.discoveryContext", function($provide) {
-      DiscoveryContext = function() {
+    module("mock.discoveryContext", function ($provide) {
+      DiscoveryContext = function () {
         return MockedDiscoveryContext;
       };
       $provide.value("DiscoveryContext", DiscoveryContext);
     });
-    module("mock.user", function($provide) {
-      var User = function() {
+    module("mock.user", function ($provide) {
+      var User = function () {
         return MockedUser;
       };
       $provide.value("User", User);
@@ -271,7 +271,7 @@ describe("controller: DiscoveryContextController", function () {
       var event = {
           which: 13,
           target: {
-              blur: function() {}
+              blur: function () {}
           }
       };
 

@@ -1,7 +1,7 @@
 describe("component: facetWidget", function () {
   var $compile, $httpBackend, $scope, component, element, facet, discoveryContext, resetSearch;
 
-  var initializeVariables = function() {
+  var initializeVariables = function () {
     inject(function (_$compile_, _$httpBackend_) {
       $compile = _$compile_;
       $httpBackend = _$httpBackend_;
@@ -14,7 +14,7 @@ describe("component: facetWidget", function () {
     });
   };
 
-  var initializeComponent = function() {
+  var initializeComponent = function () {
     inject(function (_$rootScope_) {
       $scope = _$rootScope_.$new();
 
@@ -31,7 +31,7 @@ describe("component: facetWidget", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
     module("templates");

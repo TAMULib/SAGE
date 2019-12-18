@@ -16,7 +16,7 @@ var dataSearchField3 = {
   label: "Search Field 3"
 };
 
-var mockSearchField = function($q) {
+var mockSearchField = function ($q) {
   var model = mockModel("SearchField", $q, dataSearchField1);
 
   return model;

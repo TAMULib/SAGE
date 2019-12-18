@@ -40,7 +40,7 @@ var dataReader3 = {
   sortId: "id"
 };
 
-var mockReader = function($q) {
+var mockReader = function ($q) {
   var model = mockModel("Reader", $q, dataReader1);
 
   return model;

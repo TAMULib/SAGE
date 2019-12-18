@@ -1,7 +1,7 @@
 describe("controller: OperatorManagementController", function () {
   var $q, $scope, MockedInternalMetadata, MockedOperator, NgTableParams, OperatorRepo, controller;
 
-  var initializeVariables = function() {
+  var initializeVariables = function () {
     inject(function (_$q_, _OperatorRepo_) {
       $q = _$q_;
 
@@ -12,7 +12,7 @@ describe("controller: OperatorManagementController", function () {
     });
   };
 
-  var initializeController = function(settings) {
+  var initializeController = function (settings) {
     inject(function (_$controller_, _$rootScope_, _InternalMetadata_, _InternalMetadataRepo_, _Operator_, _ValidationStore_) {
       $scope = _$rootScope_.$new();
 
@@ -36,18 +36,18 @@ describe("controller: OperatorManagementController", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
-    module("mock.internalMetadata", function($provide) {
-      var InternalMetadata = function() {
+    module("mock.internalMetadata", function ($provide) {
+      var InternalMetadata = function () {
         return MockedInternalMetadata;
       };
       $provide.value("InternalMetadata", InternalMetadata);
     });
     module("mock.internalMetadataRepo");
-    module("mock.operator", function($provide) {
-      var Operator = function() {
+    module("mock.operator", function ($provide) {
+      var Operator = function () {
         return MockedOperator;
       };
       $provide.value("Operator", Operator);
@@ -173,7 +173,7 @@ describe("controller: OperatorManagementController", function () {
       var operator = new mockOperator($q);
 
       $scope.operatorToDelete = null;
-      $scope.openModal = function(name) { };
+      $scope.openModal = function (name) { };
 
       spyOn($scope, "openModal");
 
@@ -210,14 +210,14 @@ describe("controller: OperatorManagementController", function () {
     });
 
     it("resetOperatorForms should reset operator form", function () {
-      $scope.closeModal = function() { };
+      $scope.closeModal = function () { };
 
       spyOn(OperatorRepo, "clearValidationResults");
       spyOn($scope, "closeModal");
 
       var key;
       for (key in $scope.operatorForms) {
-        $scope.operatorForms[key].$setPristine = function() { };
+        $scope.operatorForms[key].$setPristine = function () { };
         spyOn($scope.operatorForms[key], "$setPristine");
       }
 
@@ -241,7 +241,7 @@ describe("controller: OperatorManagementController", function () {
     });
 
     it("startCreateOperator should start creating a operator", function () {
-      $scope.openModal = function(name) { };
+      $scope.openModal = function (name) { };
 
       spyOn($scope, "openModal");
 
@@ -253,7 +253,7 @@ describe("controller: OperatorManagementController", function () {
     it("startUpdateOperator should start updating a operator", function () {
       var operator = new mockOperator($q);
       $scope.operatorToUpdate = null;
-      $scope.openModal = function(name) { };
+      $scope.openModal = function (name) { };
 
       spyOn($scope, "openModal");
 
