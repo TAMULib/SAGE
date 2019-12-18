@@ -87,94 +87,40 @@ describe("controller: WriterManagementController", function () {
     initializeController();
   });
 
-  describe("Is the controller defined", function () {
-    it("should be defined for admin", function () {
-      expect(controller).toBeDefined();
-    });
-    it("should be defined for manager", function () {
-      initializeController({role: "ROLE_MANAGER"});
-      expect(controller).toBeDefined();
-    });
-    it("should be defined for user", function () {
-      initializeController({role: "ROLE_USER"});
-      expect(controller).toBeDefined();
-    });
-    it("should be defined for anonymous", function () {
-      initializeController({role: "ROLE_ANONYMOUS"});
-      expect(controller).toBeDefined();
-    });
+  describe("Is the controller", function () {
+    var roles = [ "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_USER", "ROLE_ANONYMOUS" ];
+    for (var i in roles) {
+      it("defined for " + roles[i], function () {
+        initializeController({ role: roles[i] });
+        expect(controller).toBeDefined();
+      });
+    }
   });
 
-  describe("Are the scope methods defined", function () {
-    it("cancelCreateWriter should be defined", function () {
-      expect($scope.cancelCreateWriter).toBeDefined();
-      expect(typeof $scope.cancelCreateWriter).toEqual("function");
-    });
+  describe("Is the scope method", function () {
+    var methods = [
+      "cancelCreateWriter",
+      "cancelDeleteWriter",
+      "cancelUpdateWriter",
+      "confirmDeleteWriter",
+      "createWriter",
+      "deleteWriter",
+      "disableSubmit",
+      "getFields",
+      "resetWriterForms",
+      "setTable",
+      "startCreateWriter",
+      "startUpdateWriter",
+      "sourceChanged",
+      "updateWriter"
+    ];
 
-    it("cancelDeleteWriter should be defined", function () {
-      expect($scope.cancelDeleteWriter).toBeDefined();
-      expect(typeof $scope.cancelDeleteWriter).toEqual("function");
-    });
-
-    it("cancelUpdateWriter should be defined", function () {
-      expect($scope.cancelUpdateWriter).toBeDefined();
-      expect(typeof $scope.cancelUpdateWriter).toEqual("function");
-    });
-
-    it("confirmDeleteWriter should be defined", function () {
-      expect($scope.confirmDeleteWriter).toBeDefined();
-      expect(typeof $scope.confirmDeleteWriter).toEqual("function");
-    });
-
-    it("createWriter should be defined", function () {
-      expect($scope.createWriter).toBeDefined();
-      expect(typeof $scope.createWriter).toEqual("function");
-    });
-
-    it("deleteWriter should be defined", function () {
-      expect($scope.deleteWriter).toBeDefined();
-      expect(typeof $scope.deleteWriter).toEqual("function");
-    });
-
-    it("disableSubmit should be defined", function () {
-      expect($scope.disableSubmit).toBeDefined();
-      expect(typeof $scope.disableSubmit).toEqual("function");
-    });
-
-    it("getFields should be defined", function () {
-      expect($scope.getFields).toBeDefined();
-      expect(typeof $scope.getFields).toEqual("function");
-    });
-
-    it("resetWriterForms should be defined", function () {
-      expect($scope.resetWriterForms).toBeDefined();
-      expect(typeof $scope.resetWriterForms).toEqual("function");
-    });
-
-    it("setTable should be defined", function () {
-      expect($scope.setTable).toBeDefined();
-      expect(typeof $scope.setTable).toEqual("function");
-    });
-
-    it("startCreateWriter should be defined", function () {
-      expect($scope.startCreateWriter).toBeDefined();
-      expect(typeof $scope.startCreateWriter).toEqual("function");
-    });
-
-    it("startUpdateWriter should be defined", function () {
-      expect($scope.startUpdateWriter).toBeDefined();
-      expect(typeof $scope.startUpdateWriter).toEqual("function");
-    });
-
-    it("sourceChanged should be defined", function () {
-      expect($scope.sourceChanged).toBeDefined();
-      expect(typeof $scope.sourceChanged).toEqual("function");
-    });
-
-    it("updateWriter should be defined", function () {
-      expect($scope.updateWriter).toBeDefined();
-      expect(typeof $scope.updateWriter).toEqual("function");
-    });
+    for (var i in methods) {
+      it(methods[i] + " defined", function () {
+        expect($scope[methods[i]]).toBeDefined();
+        expect(typeof $scope[methods[i]]).toEqual("function");
+      });
+    }
   });
 
   describe("Are the $scope methods working as expected", function () {

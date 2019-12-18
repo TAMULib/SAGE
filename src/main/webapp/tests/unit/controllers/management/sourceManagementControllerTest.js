@@ -73,79 +73,37 @@ describe("controller: SourceManagementController", function () {
     initializeController();
   });
 
-  describe("Is the controller defined", function () {
-    it("should be defined for admin", function () {
-      expect(controller).toBeDefined();
-    });
-    it("should be defined for manager", function () {
-      initializeController({role: "ROLE_MANAGER"});
-      expect(controller).toBeDefined();
-    });
-    it("should be defined for user", function () {
-      initializeController({role: "ROLE_USER"});
-      expect(controller).toBeDefined();
-    });
-    it("should be defined for anonymous", function () {
-      initializeController({role: "ROLE_ANONYMOUS"});
-      expect(controller).toBeDefined();
-    });
+  describe("Is the controller", function () {
+    var roles = [ "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_USER", "ROLE_ANONYMOUS" ];
+    for (var i in roles) {
+      it("defined for " + roles[i], function () {
+        initializeController({ role: roles[i] });
+        expect(controller).toBeDefined();
+      });
+    }
   });
 
-  describe("Are the scope methods defined", function () {
-    it("cancelCreateSource should be defined", function () {
-      expect($scope.cancelCreateSource).toBeDefined();
-      expect(typeof $scope.cancelCreateSource).toEqual("function");
-    });
+  describe("Is the scope method", function () {
+    var methods = [
+      "cancelCreateSource",
+      "cancelDeleteSource",
+      "cancelUpdateSource",
+      "confirmDeleteSource",
+      "createSource",
+      "deleteSource",
+      "resetSourceForms",
+      "setTable",
+      "startCreateSource",
+      "startUpdateSource",
+      "updateSource"
+    ];
 
-    it("cancelDeleteSource should be defined", function () {
-      expect($scope.cancelDeleteSource).toBeDefined();
-      expect(typeof $scope.cancelDeleteSource).toEqual("function");
-    });
-
-    it("cancelUpdateSource should be defined", function () {
-      expect($scope.cancelUpdateSource).toBeDefined();
-      expect(typeof $scope.cancelUpdateSource).toEqual("function");
-    });
-
-    it("confirmDeleteSource should be defined", function () {
-      expect($scope.confirmDeleteSource).toBeDefined();
-      expect(typeof $scope.confirmDeleteSource).toEqual("function");
-    });
-
-    it("createSource should be defined", function () {
-      expect($scope.createSource).toBeDefined();
-      expect(typeof $scope.createSource).toEqual("function");
-    });
-
-    it("deleteSource should be defined", function () {
-      expect($scope.deleteSource).toBeDefined();
-      expect(typeof $scope.deleteSource).toEqual("function");
-    });
-
-    it("resetSourceForms should be defined", function () {
-      expect($scope.resetSourceForms).toBeDefined();
-      expect(typeof $scope.resetSourceForms).toEqual("function");
-    });
-
-    it("setTable should be defined", function () {
-      expect($scope.setTable).toBeDefined();
-      expect(typeof $scope.setTable).toEqual("function");
-    });
-
-    it("startCreateSource should be defined", function () {
-      expect($scope.startCreateSource).toBeDefined();
-      expect(typeof $scope.startCreateSource).toEqual("function");
-    });
-
-    it("startUpdateSource should be defined", function () {
-      expect($scope.startUpdateSource).toBeDefined();
-      expect(typeof $scope.startUpdateSource).toEqual("function");
-    });
-
-    it("updateSource should be defined", function () {
-      expect($scope.updateSource).toBeDefined();
-      expect(typeof $scope.updateSource).toEqual("function");
-    });
+    for (var i in methods) {
+      it(methods[i] + " defined", function () {
+        expect($scope[methods[i]]).toBeDefined();
+        expect(typeof $scope[methods[i]]).toEqual("function");
+      });
+    }
   });
 
   describe("Are the $scope methods working as expected", function () {

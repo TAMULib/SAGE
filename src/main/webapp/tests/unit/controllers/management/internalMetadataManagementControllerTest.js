@@ -50,79 +50,37 @@ describe("controller: InternalMetadataManagementController", function () {
     initializeController();
   });
 
-  describe("Is the controller defined", function () {
-    it("should be defined for admin", function () {
-      expect(controller).toBeDefined();
-    });
-    it("should be defined for manager", function () {
-      initializeController({role: "ROLE_MANAGER"});
-      expect(controller).toBeDefined();
-    });
-    it("should be defined for user", function () {
-      initializeController({role: "ROLE_USER"});
-      expect(controller).toBeDefined();
-    });
-    it("should be defined for anonymous", function () {
-      initializeController({role: "ROLE_ANONYMOUS"});
-      expect(controller).toBeDefined();
-    });
+  describe("Is the controller", function () {
+    var roles = [ "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_USER", "ROLE_ANONYMOUS" ];
+    for (var i in roles) {
+      it("defined for " + roles[i], function () {
+        initializeController({ role: roles[i] });
+        expect(controller).toBeDefined();
+      });
+    }
   });
 
-  describe("Are the scope methods defined", function () {
-    it("cancelCreateInternalMetadatum should be defined", function () {
-      expect($scope.cancelCreateInternalMetadatum).toBeDefined();
-      expect(typeof $scope.cancelCreateInternalMetadatum).toEqual("function");
-    });
+  describe("Is the scope method", function () {
+    var methods = [
+      "cancelCreateInternalMetadatum",
+      "cancelDeleteInternalMetadatum",
+      "cancelUpdateInternalMetadatum",
+      "confirmDeleteInternalMetadatum",
+      "createInternalMetadatum",
+      "deleteInternalMetadatum",
+      "resetInternalMetadatumForms",
+      "setTable",
+      "startCreateInternalMetadatum",
+      "startUpdateInternalMetadatum",
+      "updateInternalMetadatum"
+    ];
 
-    it("cancelDeleteInternalMetadatum should be defined", function () {
-      expect($scope.cancelDeleteInternalMetadatum).toBeDefined();
-      expect(typeof $scope.cancelDeleteInternalMetadatum).toEqual("function");
-    });
-
-    it("cancelUpdateInternalMetadatum should be defined", function () {
-      expect($scope.cancelUpdateInternalMetadatum).toBeDefined();
-      expect(typeof $scope.cancelUpdateInternalMetadatum).toEqual("function");
-    });
-
-    it("confirmDeleteInternalMetadatum should be defined", function () {
-      expect($scope.confirmDeleteInternalMetadatum).toBeDefined();
-      expect(typeof $scope.confirmDeleteInternalMetadatum).toEqual("function");
-    });
-
-    it("createInternalMetadatum should be defined", function () {
-      expect($scope.createInternalMetadatum).toBeDefined();
-      expect(typeof $scope.createInternalMetadatum).toEqual("function");
-    });
-
-    it("deleteInternalMetadatum should be defined", function () {
-      expect($scope.deleteInternalMetadatum).toBeDefined();
-      expect(typeof $scope.deleteInternalMetadatum).toEqual("function");
-    });
-
-    it("resetInternalMetadatumForms should be defined", function () {
-      expect($scope.resetInternalMetadatumForms).toBeDefined();
-      expect(typeof $scope.resetInternalMetadatumForms).toEqual("function");
-    });
-
-    it("setTable should be defined", function () {
-      expect($scope.setTable).toBeDefined();
-      expect(typeof $scope.setTable).toEqual("function");
-    });
-
-    it("startCreateInternalMetadatum should be defined", function () {
-      expect($scope.startCreateInternalMetadatum).toBeDefined();
-      expect(typeof $scope.startCreateInternalMetadatum).toEqual("function");
-    });
-
-    it("startUpdateInternalMetadatum should be defined", function () {
-      expect($scope.startUpdateInternalMetadatum).toBeDefined();
-      expect(typeof $scope.startUpdateInternalMetadatum).toEqual("function");
-    });
-
-    it("updateInternalMetadatum should be defined", function () {
-      expect($scope.updateInternalMetadatum).toBeDefined();
-      expect(typeof $scope.updateInternalMetadatum).toEqual("function");
-    });
+    for (var i in methods) {
+      it(methods[i] + " defined", function () {
+        expect($scope[methods[i]]).toBeDefined();
+        expect(typeof $scope[methods[i]]).toEqual("function");
+      });
+    }
   });
 
   describe("Are the $scope methods working as expected", function () {

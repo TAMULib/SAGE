@@ -60,79 +60,37 @@ describe("controller: OperatorManagementController", function () {
     initializeController();
   });
 
-  describe("Is the controller defined", function () {
-    it("should be defined for admin", function () {
-      expect(controller).toBeDefined();
-    });
-    it("should be defined for manager", function () {
-      initializeController({role: "ROLE_MANAGER"});
-      expect(controller).toBeDefined();
-    });
-    it("should be defined for user", function () {
-      initializeController({role: "ROLE_USER"});
-      expect(controller).toBeDefined();
-    });
-    it("should be defined for anonymous", function () {
-      initializeController({role: "ROLE_ANONYMOUS"});
-      expect(controller).toBeDefined();
-    });
+  describe("Is the controller", function () {
+    var roles = [ "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_USER", "ROLE_ANONYMOUS" ];
+    for (var i in roles) {
+      it("defined for " + roles[i], function () {
+        initializeController({ role: roles[i] });
+        expect(controller).toBeDefined();
+      });
+    }
   });
 
-  describe("Are the scope methods defined", function () {
-    it("cancelCreateOperator should be defined", function () {
-      expect($scope.cancelCreateOperator).toBeDefined();
-      expect(typeof $scope.cancelCreateOperator).toEqual("function");
-    });
+  describe("Is the scope method", function () {
+    var methods = [
+      "cancelCreateOperator",
+      "cancelDeleteOperator",
+      "cancelUpdateOperator",
+      "confirmDeleteOperator",
+      "createOperator",
+      "deleteOperator",
+      "resetOperatorForms",
+      "setTable",
+      "startCreateOperator",
+      "startUpdateOperator",
+      "updateOperator"
+    ];
 
-    it("cancelDeleteOperator should be defined", function () {
-      expect($scope.cancelDeleteOperator).toBeDefined();
-      expect(typeof $scope.cancelDeleteOperator).toEqual("function");
-    });
-
-    it("cancelUpdateOperator should be defined", function () {
-      expect($scope.cancelUpdateOperator).toBeDefined();
-      expect(typeof $scope.cancelUpdateOperator).toEqual("function");
-    });
-
-    it("confirmDeleteOperator should be defined", function () {
-      expect($scope.confirmDeleteOperator).toBeDefined();
-      expect(typeof $scope.confirmDeleteOperator).toEqual("function");
-    });
-
-    it("createOperator should be defined", function () {
-      expect($scope.createOperator).toBeDefined();
-      expect(typeof $scope.createOperator).toEqual("function");
-    });
-
-    it("deleteOperator should be defined", function () {
-      expect($scope.deleteOperator).toBeDefined();
-      expect(typeof $scope.deleteOperator).toEqual("function");
-    });
-
-    it("resetOperatorForms should be defined", function () {
-      expect($scope.resetOperatorForms).toBeDefined();
-      expect(typeof $scope.resetOperatorForms).toEqual("function");
-    });
-
-    it("setTable should be defined", function () {
-      expect($scope.setTable).toBeDefined();
-      expect(typeof $scope.setTable).toEqual("function");
-    });
-
-    it("startCreateOperator should be defined", function () {
-      expect($scope.startCreateOperator).toBeDefined();
-      expect(typeof $scope.startCreateOperator).toEqual("function");
-    });
-
-    it("startUpdateOperator should be defined", function () {
-      expect($scope.startUpdateOperator).toBeDefined();
-      expect(typeof $scope.startUpdateOperator).toEqual("function");
-    });
-
-    it("updateOperator should be defined", function () {
-      expect($scope.updateOperator).toBeDefined();
-      expect(typeof $scope.updateOperator).toEqual("function");
-    });
+    for (var i in methods) {
+      it(methods[i] + " defined", function () {
+        expect($scope[methods[i]]).toBeDefined();
+        expect(typeof $scope[methods[i]]).toEqual("function");
+      });
+    }
   });
 
   describe("Are the $scope methods working as expected", function () {

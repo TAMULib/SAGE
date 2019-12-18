@@ -76,92 +76,39 @@ describe("controller: DiscoveryContextController", function () {
     initializeController();
   });
 
-  describe("Is the controller defined", function () {
-    it("should be defined for admin", function () {
-      expect(controller).toBeDefined();
-    });
-
-    it("should be defined for manager", function () {
-      initializeController({role: "ROLE_MANAGER"});
-      expect(controller).toBeDefined();
-    });
-
-    it("should be defined for user", function () {
-      initializeController({role: "ROLE_USER"});
-      expect(controller).toBeDefined();
-    });
-
-    it("should be defined for anonymous", function () {
-      initializeController({role: "ROLE_ANONYMOUS"});
-      expect(controller).toBeDefined();
-    });
+  describe("Is the controller", function () {
+    var roles = [ "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_USER", "ROLE_ANONYMOUS" ];
+    for (var i in roles) {
+      it("defined for " + roles[i], function () {
+        initializeController({ role: roles[i] });
+        expect(controller).toBeDefined();
+      });
+    }
   });
 
-  describe("Are the scope methods defined", function () {
-    it("findSearchFieldLabel should be defined", function () {
-      expect($scope.findSearchFieldLabel).toBeDefined();
-      expect(typeof $scope.findSearchFieldLabel).toEqual("function");
-    });
+  describe("Is the scope method", function () {
+    var methods = [
+      "findSearchFieldLabel",
+      "hasActiveFilters",
+      "hasSearch",
+      "pageBack",
+      "pageForward",
+      "removeFilter",
+      "prepareSearch",
+      "resetBadges",
+      "resetPage",
+      "resetSearch",
+      "searchProcessKeyPress",
+      "updateLimit",
+      "updateSort"
+    ];
 
-    it("hasActiveFilters should be defined", function () {
-      expect($scope.hasActiveFilters).toBeDefined();
-      expect(typeof $scope.hasActiveFilters).toEqual("function");
-    });
-
-    it("hasSearch should be defined", function () {
-      expect($scope.hasSearch).toBeDefined();
-      expect(typeof $scope.hasSearch).toEqual("function");
-    });
-
-    it("pageBack should be defined", function () {
-      expect($scope.pageBack).toBeDefined();
-      expect(typeof $scope.pageBack).toEqual("function");
-    });
-
-    it("pageForward should be defined", function () {
-      expect($scope.pageForward).toBeDefined();
-      expect(typeof $scope.pageForward).toEqual("function");
-    });
-
-    it("removeFilter should be defined", function () {
-      expect($scope.removeFilter).toBeDefined();
-      expect(typeof $scope.removeFilter).toEqual("function");
-    });
-
-    it("prepareSearch should be defined", function () {
-      expect($scope.prepareSearch).toBeDefined();
-      expect(typeof $scope.prepareSearch).toEqual("function");
-    });
-
-    it("resetBadges should be defined", function () {
-      expect($scope.resetBadges).toBeDefined();
-      expect(typeof $scope.resetBadges).toEqual("function");
-    });
-
-    it("resetPage should be defined", function () {
-      expect($scope.resetPage).toBeDefined();
-      expect(typeof $scope.resetPage).toEqual("function");
-    });
-
-    it("resetSearch should be defined", function () {
-      expect($scope.resetSearch).toBeDefined();
-      expect(typeof $scope.resetSearch).toEqual("function");
-    });
-
-    it("searchProcessKeyPress should be defined", function () {
-      expect($scope.searchProcessKeyPress).toBeDefined();
-      expect(typeof $scope.searchProcessKeyPress).toEqual("function");
-    });
-
-    it("updateLimit should be defined", function () {
-      expect($scope.updateLimit).toBeDefined();
-      expect(typeof $scope.updateLimit).toEqual("function");
-    });
-
-    it("updateSort should be defined", function () {
-      expect($scope.updateSort).toBeDefined();
-      expect(typeof $scope.updateSort).toEqual("function");
-    });
+    for (var i in methods) {
+      it(methods[i] + " defined", function () {
+        expect($scope[methods[i]]).toBeDefined();
+        expect(typeof $scope[methods[i]]).toEqual("function");
+      });
+    }
   });
 
   describe("Do the $scope methods work as expected", function () {

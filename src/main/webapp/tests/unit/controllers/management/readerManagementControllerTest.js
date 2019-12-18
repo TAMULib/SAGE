@@ -77,94 +77,40 @@ describe("controller: ReaderManagementController", function () {
     initializeController();
   });
 
-  describe("Is the controller defined", function () {
-    it("should be defined for admin", function () {
-      expect(controller).toBeDefined();
-    });
-    it("should be defined for manager", function () {
-      initializeController({role: "ROLE_MANAGER"});
-      expect(controller).toBeDefined();
-    });
-    it("should be defined for user", function () {
-      initializeController({role: "ROLE_USER"});
-      expect(controller).toBeDefined();
-    });
-    it("should be defined for anonymous", function () {
-      initializeController({role: "ROLE_ANONYMOUS"});
-      expect(controller).toBeDefined();
-    });
+  describe("Is the controller", function () {
+    var roles = [ "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_USER", "ROLE_ANONYMOUS" ];
+    for (var i in roles) {
+      it("defined for " + roles[i], function () {
+        initializeController({ role: roles[i] });
+        expect(controller).toBeDefined();
+      });
+    }
   });
 
-  describe("Are the scope methods defined", function () {
-    it("cancelCreateReader should be defined", function () {
-      expect($scope.cancelCreateReader).toBeDefined();
-      expect(typeof $scope.cancelCreateReader).toEqual("function");
-    });
+  describe("Is the scope method", function () {
+    var methods = [
+      "cancelCreateReader",
+      "cancelDeleteReader",
+      "cancelUpdateReader",
+      "confirmDeleteReader",
+      "createReader",
+      "deleteReader",
+      "disableSubmit",
+      "getFields",
+      "resetReaderForms",
+      "setTable",
+      "sourceChanged",
+      "startCreateReader",
+      "startUpdateReader",
+      "updateReader"
+    ];
 
-    it("cancelDeleteReader should be defined", function () {
-      expect($scope.cancelDeleteReader).toBeDefined();
-      expect(typeof $scope.cancelDeleteReader).toEqual("function");
-    });
-
-    it("cancelUpdateReader should be defined", function () {
-      expect($scope.cancelUpdateReader).toBeDefined();
-      expect(typeof $scope.cancelUpdateReader).toEqual("function");
-    });
-
-    it("confirmDeleteReader should be defined", function () {
-      expect($scope.confirmDeleteReader).toBeDefined();
-      expect(typeof $scope.confirmDeleteReader).toEqual("function");
-    });
-
-    it("createReader should be defined", function () {
-      expect($scope.createReader).toBeDefined();
-      expect(typeof $scope.createReader).toEqual("function");
-    });
-
-    it("deleteReader should be defined", function () {
-      expect($scope.deleteReader).toBeDefined();
-      expect(typeof $scope.deleteReader).toEqual("function");
-    });
-
-    it("disableSubmit should be defined", function () {
-      expect($scope.disableSubmit).toBeDefined();
-      expect(typeof $scope.disableSubmit).toEqual("function");
-    });
-
-    it("getFields should be defined", function () {
-      expect($scope.getFields).toBeDefined();
-      expect(typeof $scope.getFields).toEqual("function");
-    });
-
-    it("resetReaderForms should be defined", function () {
-      expect($scope.resetReaderForms).toBeDefined();
-      expect(typeof $scope.resetReaderForms).toEqual("function");
-    });
-
-    it("setTable should be defined", function () {
-      expect($scope.setTable).toBeDefined();
-      expect(typeof $scope.setTable).toEqual("function");
-    });
-
-    it("sourceChanged should be defined", function () {
-      expect($scope.sourceChanged).toBeDefined();
-      expect(typeof $scope.sourceChanged).toEqual("function");
-    });
-
-    it("startCreateReader should be defined", function () {
-      expect($scope.startCreateReader).toBeDefined();
-      expect(typeof $scope.startCreateReader).toEqual("function");
-    });
-
-    it("startUpdateReader should be defined", function () {
-      expect($scope.startUpdateReader).toBeDefined();
-      expect(typeof $scope.startUpdateReader).toEqual("function");
-    });
-
-    it("updateReader should be defined", function () {
-      expect($scope.updateReader).toBeDefined();
-      expect(typeof $scope.updateReader).toEqual("function");
-    });
+    for (var i in methods) {
+      it(methods[i] + " defined", function () {
+        expect($scope[methods[i]]).toBeDefined();
+        expect(typeof $scope[methods[i]]).toEqual("function");
+      });
+    }
   });
 
   describe("Are the $scope methods working as expected", function () {

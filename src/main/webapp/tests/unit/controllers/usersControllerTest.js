@@ -57,41 +57,30 @@ describe("controller: UsersController", function () {
     initializeController();
   });
 
-  describe("Is the controller defined", function () {
-    it("should be defined for admin", function () {
-      expect(controller).toBeDefined();
-    });
-    it("should be defined for manager", function () {
-      initializeController({role: "ROLE_MANAGER"});
-      expect(controller).toBeDefined();
-    });
-    it("should be defined for user", function () {
-      initializeController({role: "ROLE_USER"});
-      expect(controller).toBeDefined();
-    });
-    it("should be defined for anonymous", function () {
-      initializeController({role: "ROLE_ANONYMOUS"});
-      expect(controller).toBeDefined();
-    });
+  describe("Is the controller", function () {
+    var roles = [ "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_USER", "ROLE_ANONYMOUS" ];
+    for (var i in roles) {
+      it("defined for " + roles[i], function () {
+        initializeController({ role: roles[i] });
+        expect(controller).toBeDefined();
+      });
+    }
   });
 
-  describe("Are the scope methods defined", function () {
-    it("assignableRoles should be defined", function () {
-      expect($scope.assignableRoles).toBeDefined();
-      expect(typeof $scope.assignableRoles).toEqual("function");
-    });
-    it("canDelete should be defined", function () {
-      expect($scope.canDelete).toBeDefined();
-      expect(typeof $scope.canDelete).toEqual("function");
-    });
-    it("delete should be defined", function () {
-      expect($scope.delete).toBeDefined();
-      expect(typeof $scope.delete).toEqual("function");
-    });
-    it("updateRole should be defined", function () {
-      expect($scope.updateRole).toBeDefined();
-      expect(typeof $scope.updateRole).toEqual("function");
-    });
+  describe("Is the scope method", function () {
+    var methods = [
+      "assignableRoles",
+      "canDelete",
+      "delete",
+      "updateRole"
+    ];
+
+    for (var i in methods) {
+      it(methods[i] + " defined", function () {
+        expect($scope[methods[i]]).toBeDefined();
+        expect(typeof $scope[methods[i]]).toEqual("function");
+      });
+    }
   });
 
   describe("Do the $scope methods work as expected", function () {
