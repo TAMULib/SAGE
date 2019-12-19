@@ -46,11 +46,15 @@ describe("service: jobRepo", function () {
       "runAll"
     ];
 
+    var repoMethodExists = function (key) {
+      return function() {
+        expect(repo[key]).toBeDefined();
+        expect(typeof repo[key]).toEqual("function");
+      };
+    };
+
     for (var i in methods) {
-      it(methods[i] + " defined", function () {
-        expect(repo[methods[i]]).toBeDefined();
-        expect(typeof repo[methods[i]]).toEqual("function");
-      });
+      it(methods[i] + " defined", repoMethodExists(methods[i]));
     }
   });
 

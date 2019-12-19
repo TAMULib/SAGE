@@ -59,11 +59,16 @@ describe("controller: UsersController", function () {
 
   describe("Is the controller", function () {
     var roles = [ "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_USER", "ROLE_ANONYMOUS" ];
-    for (var i in roles) {
-      it("defined for " + roles[i], function () {
-        initializeController({ role: roles[i] });
+
+    var controllerExists = function (setting) {
+      return function() {
+        initializeController(setting);
         expect(controller).toBeDefined();
-      });
+      };
+    };
+
+    for (var i in roles) {
+      it("defined for " + roles[i], controllerExists({ role: roles[i] }));
     }
   });
 
@@ -75,11 +80,15 @@ describe("controller: UsersController", function () {
       "updateRole"
     ];
 
+    var scopeMethodExists = function (method) {
+      return function() {
+        expect($scope[method]).toBeDefined();
+        expect(typeof $scope[method]).toEqual("function");
+      };
+    };
+
     for (var i in methods) {
-      it(methods[i] + " defined", function () {
-        expect($scope[methods[i]]).toBeDefined();
-        expect(typeof $scope[methods[i]]).toEqual("function");
-      });
+      it(methods[i] + " defined", scopeMethodExists(methods[i]));
     }
   });
 

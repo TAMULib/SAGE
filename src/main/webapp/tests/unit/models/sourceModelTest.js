@@ -45,11 +45,15 @@ describe("model: Source", function () {
       "testAuthorization"
     ];
 
+    var modelMethodExists = function (key) {
+      return function() {
+        expect(model[key]).toBeDefined();
+        expect(typeof model[key]).toEqual("function");
+      };
+    };
+
     for (var i in methods) {
-      it(methods[i] + " defined", function () {
-        expect(model[methods[i]]).toBeDefined();
-        expect(typeof model[methods[i]]).toEqual("function");
-      });
+      it(methods[i] + " defined", modelMethodExists(methods[i]));
     }
   });
 
