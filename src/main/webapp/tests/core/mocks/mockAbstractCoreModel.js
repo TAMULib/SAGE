@@ -19,7 +19,7 @@ var mockModel = function (modelName, $q, mockDataObj) {
 
   model.mockShadow = function (toMock) {
     shadow = toMock;
-  }
+  };
 
   model.acceptPendingUpdate = function () {
   };

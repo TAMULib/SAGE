@@ -22,7 +22,7 @@ describe("directive: breadcrumbs", function () {
       var attr = settings && settings.attr ? settings.attr : "contexts=\"contexts\" home=\"home\" reload=\"reload\"";
       var body = settings && settings.body ? settings.body : "";
 
-      element = angular.element("<breadcrumbs " + attr + ">" + body + "</breadcrumbs>")
+      element = angular.element("<breadcrumbs " + attr + ">" + body + "</breadcrumbs>");
       directive = $compile(element)($scope);
 
       $scope.contexts = contexts;
@@ -63,7 +63,7 @@ describe("directive: breadcrumbs", function () {
 
   describe("Does the directive", function () {
     it("work with a single context", function () {
-      contexts: [ new mockDiscoveryContext($q) ];
+      contexts = [ new mockDiscoveryContext($q) ];
 
       initializeDirective();
       expect(directive).toBeDefined();
