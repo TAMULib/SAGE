@@ -1,7 +1,7 @@
 describe("component: multiSuggestionInput", function () {
   var $compile, $scope, component, element, suggestions, model, property, optionproperty, displayproperty, name, label, placeholder;
 
-  var initializeVariables = function() {
+  var initializeVariables = function () {
     inject(function (_$compile_) {
       $compile = _$compile_;
 
@@ -16,7 +16,7 @@ describe("component: multiSuggestionInput", function () {
     });
   };
 
-  var initializeComponent = function() {
+  var initializeComponent = function () {
     inject(function (_$rootScope_) {
       $scope = _$rootScope_.$new();
 
@@ -37,7 +37,7 @@ describe("component: multiSuggestionInput", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
     module("templates");
@@ -46,8 +46,8 @@ describe("component: multiSuggestionInput", function () {
     initializeVariables();
   });
 
-  describe("Is the component defined", function () {
-    it("should be defined", function () {
+  describe("Is the component", function () {
+    it("defined", function () {
       initializeComponent();
       expect(component).toBeDefined();
     });

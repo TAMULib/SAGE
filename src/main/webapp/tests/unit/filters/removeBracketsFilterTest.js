@@ -1,10 +1,10 @@
 describe("filter: removeBrackets", function () {
   var $scope, filter;
 
-  var initializeVariables = function() {
+  var initializeVariables = function () {
   };
 
-  var initializeFilter = function(settings) {
+  var initializeFilter = function (settings) {
     inject(function (_$filter_, _$rootScope_) {
       $scope = _$rootScope_.$new();
 
@@ -12,7 +12,7 @@ describe("filter: removeBrackets", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
 
@@ -21,14 +21,14 @@ describe("filter: removeBrackets", function () {
     initializeFilter();
   });
 
-  describe("Is the filter defined", function () {
-    it("should be defined", function () {
+  describe("Is the filter", function () {
+    it("defined", function () {
       expect(filter).toBeDefined();
     });
   });
 
-  describe("Does the filter work as expected", function () {
-    it("should return nothing on empty input", function () {
+  describe("Does the filter", function () {
+    it("return nothing on empty input", function () {
       var result;
 
       result = filter("", "");
@@ -36,7 +36,7 @@ describe("filter: removeBrackets", function () {
       expect(result).toBe("");
     });
 
-    it("should remove [ and ]", function () {
+    it("remove [ and ]", function () {
       var result;
 
       // @fixme filter needs to be fixed, as it makes some assumptions on brackets structure.
@@ -48,7 +48,7 @@ describe("filter: removeBrackets", function () {
       expect(result).toBe("brackets");
     });
 
-    it("should not do anything when there are no [ or ]", function () {
+    it("not do anything when there are no [ or ]", function () {
       var result;
 
       result = filter("no brackets");

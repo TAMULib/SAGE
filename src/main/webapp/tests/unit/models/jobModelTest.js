@@ -1,7 +1,7 @@
 describe("model: Job", function () {
   var $rootScope, $scope, WsApi, model;
 
-  var initializeVariables = function(settings) {
+  var initializeVariables = function (settings) {
     inject(function (_$rootScope_, _WsApi_) {
       $rootScope = _$rootScope_;
 
@@ -9,11 +9,11 @@ describe("model: Job", function () {
     });
   };
 
-  var initializeModel = function(settings) {
-    inject(function (Job) {
+  var initializeModel = function (settings) {
+    inject(function (_Job_) {
       $scope = $rootScope.$new();
 
-      model = angular.extend(new Job(), dataJob1);
+      model = angular.extend(new _Job_(), dataJob1);
 
       // ensure that all pre-processing is called.
       if (!$scope.$$phase) {
@@ -22,7 +22,7 @@ describe("model: Job", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
     module("mock.wsApi");
@@ -31,8 +31,8 @@ describe("model: Job", function () {
     initializeModel();
   });
 
-  describe("Is the model defined", function () {
-    it("should be defined", function () {
+  describe("Is the model", function () {
+    it("defined", function () {
       expect(model).toBeDefined();
     });
   });

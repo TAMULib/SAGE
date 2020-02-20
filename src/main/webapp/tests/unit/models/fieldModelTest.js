@@ -1,7 +1,7 @@
 describe("model: Field", function () {
   var $rootScope, $scope, $location, WsApi, model;
 
-  var initializeVariables = function(settings) {
+  var initializeVariables = function (settings) {
     inject(function (_$location_, _$rootScope_, _WsApi_) {
       $location = _$location_;
       $rootScope = _$rootScope_;
@@ -10,11 +10,11 @@ describe("model: Field", function () {
     });
   };
 
-  var initializeModel = function(settings) {
-    inject(function (Field) {
+  var initializeModel = function (settings) {
+    inject(function (_Field_) {
       $scope = $rootScope.$new();
 
-      model = angular.extend(new Field(), dataField1);
+      model = angular.extend(new _Field_(), dataField1);
 
       // ensure that all pre-processing is called.
       if (!$scope.$$phase) {
@@ -23,7 +23,7 @@ describe("model: Field", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
     module("mock.wsApi");
@@ -32,8 +32,8 @@ describe("model: Field", function () {
     initializeModel();
   });
 
-  describe("Is the model defined", function () {
-    it("should be defined", function () {
+  describe("Is the model", function () {
+    it("defined", function () {
       expect(model).toBeDefined();
     });
   });

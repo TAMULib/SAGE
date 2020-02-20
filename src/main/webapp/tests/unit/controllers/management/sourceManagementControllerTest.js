@@ -1,7 +1,7 @@
 describe("controller: SourceManagementController", function () {
   var $q, $scope, MockedReader, MockedSource, MockedInternalMetadata, MockedUser, SourceRepo, controller;
 
-  var initializeVariables = function() {
+  var initializeVariables = function () {
     inject(function (_$q_, _SourceRepo_) {
       $q = _$q_;
 
@@ -14,7 +14,7 @@ describe("controller: SourceManagementController", function () {
     });
   };
 
-  var initializeController = function(settings) {
+  var initializeController = function (settings) {
     inject(function (_$controller_, _$rootScope_, _Source_, _User_, _UserService_) {
       $scope = _$rootScope_.$new();
 
@@ -36,32 +36,32 @@ describe("controller: SourceManagementController", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
-    module("mock.reader", function($provide) {
-      var Reader = function() {
+    module("mock.reader", function ($provide) {
+      var Reader = function () {
         return MockedReader;
       };
       $provide.value("Reader", Reader);
     });
     module("mock.readerRepo");
-    module("mock.source", function($provide) {
-      var Source = function() {
+    module("mock.source", function ($provide) {
+      var Source = function () {
         return MockedSource;
       };
       $provide.value("Source", Source);
     });
     module("mock.sourceRepo");
-    module("mock.internalMetadata", function($provide) {
-      var InternalMetadata = function() {
+    module("mock.internalMetadata", function ($provide) {
+      var InternalMetadata = function () {
         return MockedInternalMetadata;
       };
       $provide.value("InternalMetadata", InternalMetadata);
     });
     module("mock.internalMetadataRepo");
-    module("mock.user", function($provide) {
-      var User = function() {
+    module("mock.user", function ($provide) {
+      var User = function () {
         return MockedUser;
       };
       $provide.value("User", User);
@@ -73,79 +73,46 @@ describe("controller: SourceManagementController", function () {
     initializeController();
   });
 
-  describe("Is the controller defined", function () {
-    it("should be defined for admin", function () {
-      expect(controller).toBeDefined();
-    });
-    it("should be defined for manager", function () {
-      initializeController({role: "ROLE_MANAGER"});
-      expect(controller).toBeDefined();
-    });
-    it("should be defined for user", function () {
-      initializeController({role: "ROLE_USER"});
-      expect(controller).toBeDefined();
-    });
-    it("should be defined for anonymous", function () {
-      initializeController({role: "ROLE_ANONYMOUS"});
-      expect(controller).toBeDefined();
-    });
+  describe("Is the controller", function () {
+    var roles = [ "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_USER", "ROLE_ANONYMOUS" ];
+
+    var controllerExists = function (setting) {
+      return function() {
+        initializeController(setting);
+        expect(controller).toBeDefined();
+      };
+    };
+
+    for (var i in roles) {
+      it("defined for " + roles[i], controllerExists({ role: roles[i] }));
+    }
   });
 
-  describe("Are the scope methods defined", function () {
-    it("cancelCreateSource should be defined", function () {
-      expect($scope.cancelCreateSource).toBeDefined();
-      expect(typeof $scope.cancelCreateSource).toEqual("function");
-    });
+  describe("Is the scope method", function () {
+    var methods = [
+      "cancelCreateSource",
+      "cancelDeleteSource",
+      "cancelUpdateSource",
+      "confirmDeleteSource",
+      "createSource",
+      "deleteSource",
+      "resetSourceForms",
+      "setTable",
+      "startCreateSource",
+      "startUpdateSource",
+      "updateSource"
+    ];
 
-    it("cancelDeleteSource should be defined", function () {
-      expect($scope.cancelDeleteSource).toBeDefined();
-      expect(typeof $scope.cancelDeleteSource).toEqual("function");
-    });
+    var scopeMethodExists = function (method) {
+      return function() {
+        expect($scope[method]).toBeDefined();
+        expect(typeof $scope[method]).toEqual("function");
+      };
+    };
 
-    it("cancelUpdateSource should be defined", function () {
-      expect($scope.cancelUpdateSource).toBeDefined();
-      expect(typeof $scope.cancelUpdateSource).toEqual("function");
-    });
-
-    it("confirmDeleteSource should be defined", function () {
-      expect($scope.confirmDeleteSource).toBeDefined();
-      expect(typeof $scope.confirmDeleteSource).toEqual("function");
-    });
-
-    it("createSource should be defined", function () {
-      expect($scope.createSource).toBeDefined();
-      expect(typeof $scope.createSource).toEqual("function");
-    });
-
-    it("deleteSource should be defined", function () {
-      expect($scope.deleteSource).toBeDefined();
-      expect(typeof $scope.deleteSource).toEqual("function");
-    });
-
-    it("resetSourceForms should be defined", function () {
-      expect($scope.resetSourceForms).toBeDefined();
-      expect(typeof $scope.resetSourceForms).toEqual("function");
-    });
-
-    it("setTable should be defined", function () {
-      expect($scope.setTable).toBeDefined();
-      expect(typeof $scope.setTable).toEqual("function");
-    });
-
-    it("startCreateSource should be defined", function () {
-      expect($scope.startCreateSource).toBeDefined();
-      expect(typeof $scope.startCreateSource).toEqual("function");
-    });
-
-    it("startUpdateSource should be defined", function () {
-      expect($scope.startUpdateSource).toBeDefined();
-      expect(typeof $scope.startUpdateSource).toEqual("function");
-    });
-
-    it("updateSource should be defined", function () {
-      expect($scope.updateSource).toBeDefined();
-      expect(typeof $scope.updateSource).toEqual("function");
-    });
+    for (var i in methods) {
+      it(methods[i] + " defined", scopeMethodExists(methods[i]));
+    }
   });
 
   describe("Are the $scope methods working as expected", function () {
@@ -186,7 +153,7 @@ describe("controller: SourceManagementController", function () {
       var source = new mockSource($q);
 
       $scope.sourceToDelete = null;
-      $scope.openModal = function(name) { };
+      $scope.openModal = function (name) { };
 
       spyOn($scope, "openModal");
 
@@ -223,14 +190,14 @@ describe("controller: SourceManagementController", function () {
     });
 
     it("resetSourceForms should reset source form", function () {
-      $scope.closeModal = function() { };
+      $scope.closeModal = function () { };
 
       spyOn(SourceRepo, "clearValidationResults");
       spyOn($scope, "closeModal");
 
       var key;
       for (key in $scope.sourceForms) {
-        $scope.sourceForms[key].$setPristine = function() { };
+        $scope.sourceForms[key].$setPristine = function () { };
         spyOn($scope.sourceForms[key], "$setPristine");
       }
 
@@ -252,7 +219,7 @@ describe("controller: SourceManagementController", function () {
     });
 
     it("startCreateSource should start creating a source", function () {
-      $scope.openModal = function(name) { };
+      $scope.openModal = function (name) { };
 
       spyOn($scope, "openModal");
 
@@ -264,7 +231,7 @@ describe("controller: SourceManagementController", function () {
     it("startUpdateSource should start updating a source", function () {
       var source = new mockSource($q);
       $scope.sourceToUpdate = null;
-      $scope.openModal = function(name) { };
+      $scope.openModal = function (name) { };
 
       spyOn($scope, "openModal");
 

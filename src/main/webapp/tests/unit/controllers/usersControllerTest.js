@@ -1,7 +1,7 @@
 describe("controller: UsersController", function () {
   var $injector, $location, $q, $route, $scope, MockedUser, WsApi, controller;
 
-  var initializeVariables = function() {
+  var initializeVariables = function () {
     inject(function (_$injector_, _$location_, _$q_, _$route_, _WsApi_) {
       $injector = _$injector_;
       $location = _$location_;
@@ -9,11 +9,12 @@ describe("controller: UsersController", function () {
       $q = _$q_;
 
       MockedUser = new mockUser($q);
+
       WsApi = _WsApi_;
     });
   };
 
-  var initializeController = function(settings) {
+  var initializeController = function (settings) {
     inject(function (_$controller_, _$location_, _$rootScope_, _StorageService_, _UserService_) {
       $scope = _$rootScope_.$new();
 
@@ -37,12 +38,12 @@ describe("controller: UsersController", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
     module("mock.storageService");
-    module("mock.user", function($provide) {
-      var User = function() {
+    module("mock.user", function ($provide) {
+      var User = function () {
         return MockedUser;
       };
       $provide.value("User", User);
@@ -56,45 +57,43 @@ describe("controller: UsersController", function () {
     initializeController();
   });
 
-  describe("Is the controller defined", function () {
-    it("should be defined for admin", function () {
-      expect(controller).toBeDefined();
-    });
-    it("should be defined for manager", function () {
-      initializeController({role: "ROLE_MANAGER"});
-      expect(controller).toBeDefined();
-    });
-    it("should be defined for user", function () {
-      initializeController({role: "ROLE_USER"});
-      expect(controller).toBeDefined();
-    });
-    it("should be defined for anonymous", function () {
-      initializeController({role: "ROLE_ANONYMOUS"});
-      expect(controller).toBeDefined();
-    });
+  describe("Is the controller", function () {
+    var roles = [ "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_USER", "ROLE_ANONYMOUS" ];
+
+    var controllerExists = function (setting) {
+      return function() {
+        initializeController(setting);
+        expect(controller).toBeDefined();
+      };
+    };
+
+    for (var i in roles) {
+      it("defined for " + roles[i], controllerExists({ role: roles[i] }));
+    }
   });
 
-  describe("Are the scope methods defined", function () {
-    it("assignableRoles should be defined", function () {
-      expect($scope.assignableRoles).toBeDefined();
-      expect(typeof $scope.assignableRoles).toEqual("function");
-    });
-    it("canDelete should be defined", function () {
-      expect($scope.canDelete).toBeDefined();
-      expect(typeof $scope.canDelete).toEqual("function");
-    });
-    it("delete should be defined", function () {
-      expect($scope.delete).toBeDefined();
-      expect(typeof $scope.delete).toEqual("function");
-    });
-    it("updateRole should be defined", function () {
-      expect($scope.updateRole).toBeDefined();
-      expect(typeof $scope.updateRole).toEqual("function");
-    });
+  describe("Is the scope method", function () {
+    var methods = [
+      "assignableRoles",
+      "canDelete",
+      "delete",
+      "updateRole"
+    ];
+
+    var scopeMethodExists = function (method) {
+      return function() {
+        expect($scope[method]).toBeDefined();
+        expect(typeof $scope[method]).toEqual("function");
+      };
+    };
+
+    for (var i in methods) {
+      it(methods[i] + " defined", scopeMethodExists(methods[i]));
+    }
   });
 
-  describe("Do the $scope methods work as expected", function () {
-    it("assignableRoles should work", function () {
+  describe("Does the $scope method", function () {
+    it("assignableRoles work as expected", function () {
       var result;
 
       result = $scope.assignableRoles("ROLE_ADMIN");
@@ -109,21 +108,24 @@ describe("controller: UsersController", function () {
       result = $scope.assignableRoles("Should not exist");
       // @todo
     });
-    it("canDelete should work", function () {
+
+    it("canDelete work as expected", function () {
       var user = new mockUser($q);
       var result;
 
       result = $scope.canDelete(user);
       // @todo
     });
-    it("delete should work", function () {
+
+    it("delete work as expected", function () {
       var user = new mockUser($q);
       var result;
 
       result = $scope.delete(user);
       // @todo
     });
-    it("updateRole should work", function () {
+
+    it("updateRole work as expected", function () {
       var user = new mockUser($q);
       var result;
 

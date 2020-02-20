@@ -1,11 +1,12 @@
 var mockModel = function (modelName, $q, mockDataObj) {
   var model = {};
+  var shadow = {};
   var combinationOperation = "";
 
   model.isDirty = false;
   model.isValid = false;
 
-  model.mock = function(toMock) {
+  model.mock = function (toMock) {
     if (typeof toMock === "object") {
       var keys = Object.keys(toMock);
       for (var i in keys) {
@@ -16,7 +17,9 @@ var mockModel = function (modelName, $q, mockDataObj) {
     }
   };
 
-  model.mock(mockDataObj);
+  model.mockShadow = function (toMock) {
+    shadow = toMock;
+  };
 
   model.acceptPendingUpdate = function () {
   };
@@ -27,7 +30,7 @@ var mockModel = function (modelName, $q, mockDataObj) {
   model.before = function () {
   };
 
-  model.clearListens = function() {
+  model.clearListens = function () {
     var payload = {};
     return payloadPromise($q.defer(), payload);
   };
@@ -35,11 +38,11 @@ var mockModel = function (modelName, $q, mockDataObj) {
   model.clearValidationResults = function () {
   };
 
-  model.delete = function() {
+  model.delete = function () {
     return payloadPromise($q.defer(), true);
   };
 
-  model.dirty = function(boolean) {
+  model.dirty = function (boolean) {
     if (boolean !== undefined) {
       model.isDirty = boolean;
     }
@@ -55,7 +58,7 @@ var mockModel = function (modelName, $q, mockDataObj) {
     combinationOperation = "extend";
   };
 
-  model.fetch = function() {
+  model.fetch = function () {
     return payloadPromise($q.defer(), mockDataObj);
   };
 
@@ -74,31 +77,36 @@ var mockModel = function (modelName, $q, mockDataObj) {
   model.init = function (data, apiMapping) {
   };
 
-  model.listen = function() {
+  model.listen = function () {
   };
 
-  model.ready = function() {
+  model.ready = function () {
     var defer = $q.defer();
     defer.resolve();
     return defer.promise;
   };
 
-  model.refresh = function() {
+  model.refresh = function () {
+    angular.extend(model, shadow);
   };
 
-  model.reload = function() {
+  model.reload = function () {
     var defer = $q.defer();
     defer.resolve(model);
     return defer.promise;
   };
 
-  model.save = function() {
+  model.save = function () {
     return payloadPromise($q.defer(), true);
   };
 
-  model._syncShadow = function() {
+  model._syncShadow = function () {
+    model.isDirty = false;
+    shadow = angular.copy(model);
   };
 
+  model.mock(mockDataObj);
+  model._syncShadow();
 
   return model;
 };

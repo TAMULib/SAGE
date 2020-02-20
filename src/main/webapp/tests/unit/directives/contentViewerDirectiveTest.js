@@ -1,7 +1,7 @@
 describe("directive: contentviewer", function () {
   var $compile, $scope, appConfig, directive, element, contentType, resource;
 
-  var initializeVariables = function() {
+  var initializeVariables = function () {
     inject(function (_$compile_, _appConfig_) {
       $compile = _$compile_;
       appConfig = _appConfig_;
@@ -11,11 +11,14 @@ describe("directive: contentviewer", function () {
     });
   };
 
-  var initializeDirective = function() {
+  var initializeDirective = function (settings) {
     inject(function (_$rootScope_) {
       $scope = _$rootScope_.$new();
 
-      element = angular.element("<contentviewer resource=\"resource\" content-type=\"contentType\"></contentviewer>");
+      var attr = settings && settings.attr ? settings.attr : "resource=\"resource\" content-type=\"contentType\"";
+      var body = settings && settings.body ? settings.body : "";
+
+      element = angular.element("<contentviewer " + attr + ">" + body + "</contentviewer>");
       directive = $compile(element)($scope);
 
       $scope.contentType = contentType;
@@ -25,7 +28,7 @@ describe("directive: contentviewer", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
     module("templates");
@@ -34,22 +37,22 @@ describe("directive: contentviewer", function () {
     initializeVariables();
   });
 
-  describe("Is the directive defined", function () {
-    it("should be defined", function () {
+  describe("Is the directive", function () {
+    it("defined", function () {
       initializeDirective();
       expect(directive).toBeDefined();
     });
   });
 
-  describe("Does the directive initialize properly", function () {
-    it("should work with a default viewer", function () {
+  describe("Does the directive", function () {
+    it("work with a default viewer", function () {
       contentType = "image/png";
 
       initializeDirective();
       expect(directive).toBeDefined();
     });
 
-    it("should work with a seadragon viewer", function () {
+    it("work with a seadragon viewer", function () {
       contentType = "image/jp2";
 
       initializeDirective();

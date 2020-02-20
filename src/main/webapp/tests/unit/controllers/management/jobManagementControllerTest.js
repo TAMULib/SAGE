@@ -1,14 +1,14 @@
 describe("controller: JobManagementController", function () {
   var $q, $scope, JobRepo, MockedJob, MockedOperator, MockedReader, MockedSource, MockedUser, MockedWriter, controller, event;
 
-  var initializeVariables = function() {
+  var initializeVariables = function () {
     inject(function (_$q_, _JobRepo_) {
       $q = _$q_;
 
       // @todo: create a mock event object with appropriate methods.
       event = {
-        preventDefault: function() {},
-        stopPropagation: function() {}
+        preventDefault: function () {},
+        stopPropagation: function () {}
       };
 
       JobRepo = _JobRepo_;
@@ -21,7 +21,7 @@ describe("controller: JobManagementController", function () {
     });
   };
 
-  var initializeController = function(settings) {
+  var initializeController = function (settings) {
     inject(function (_$controller_, _$rootScope_, _Job_, _Reader_, _ReaderRepo_, _OperatorRepo_, _Source_, _SourceRepo_, _User_, _UserService_, _Writer_, _WriterRepo_) {
       $scope = _$rootScope_.$new();
 
@@ -50,46 +50,46 @@ describe("controller: JobManagementController", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
-    module("mock.job", function($provide) {
-      var Job = function() {
+    module("mock.job", function ($provide) {
+      var Job = function () {
         return MockedJob;
       };
       $provide.value("Job", Job);
     });
     module("mock.jobRepo");
-    module("mock.operator", function($provide) {
-      var Operator = function() {
+    module("mock.operator", function ($provide) {
+      var Operator = function () {
         return MockedOperator;
       };
       $provide.value("Operator", Operator);
     });
     module("mock.operatorRepo");
-    module("mock.reader", function($provide) {
-      var Reader = function() {
+    module("mock.reader", function ($provide) {
+      var Reader = function () {
         return MockedReader;
       };
       $provide.value("Reader", Reader);
     });
     module("mock.readerRepo");
-    module("mock.source", function($provide) {
-      var Source = function() {
+    module("mock.source", function ($provide) {
+      var Source = function () {
         return MockedSource;
       };
       $provide.value("Source", Source);
     });
     module("mock.sourceRepo");
-    module("mock.user", function($provide) {
-      var User = function() {
+    module("mock.user", function ($provide) {
+      var User = function () {
         return MockedUser;
       };
       $provide.value("User", User);
     });
     module("mock.userService");
-    module("mock.writer", function($provide) {
-      var Writer = function() {
+    module("mock.writer", function ($provide) {
+      var Writer = function () {
         return MockedWriter;
       };
       $provide.value("Writer", Writer);
@@ -102,119 +102,54 @@ describe("controller: JobManagementController", function () {
     initializeController();
   });
 
-  describe("Is the controller defined", function () {
-    it("should be defined for admin", function () {
-      expect(controller).toBeDefined();
-    });
-    it("should be defined for manager", function () {
-      initializeController({role: "ROLE_MANAGER"});
-      expect(controller).toBeDefined();
-    });
-    it("should be defined for user", function () {
-      initializeController({role: "ROLE_USER"});
-      expect(controller).toBeDefined();
-    });
-    it("should be defined for anonymous", function () {
-      initializeController({role: "ROLE_ANONYMOUS"});
-      expect(controller).toBeDefined();
-    });
+  describe("Is the controller", function () {
+    var roles = [ "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_USER", "ROLE_ANONYMOUS" ];
+
+    var controllerExists = function (setting) {
+      return function() {
+        initializeController(setting);
+        expect(controller).toBeDefined();
+      };
+    };
+
+    for (var i in roles) {
+      it("defined for " + roles[i], controllerExists({ role: roles[i] }));
+    }
   });
 
-  describe("Are the scope methods defined", function () {
-    it("cancelCreateJob should be defined", function () {
-      expect($scope.cancelCreateJob).toBeDefined();
-      expect(typeof $scope.cancelCreateJob).toEqual("function");
-    });
+  describe("Is the scope method", function () {
+    var methods = [
+      "cancelCreateJob",
+      "cancelDeleteJob",
+      "cancelUpdateJob",
+      "clearExistingSchedule",
+      "confirmDeleteJob",
+      "createJob",
+      "deleteJob",
+      "hasDay",
+      "hasMonth",
+      "openEnd",
+      "openStart",
+      "resetJobForms",
+      "setTable",
+      "showScheduleOption",
+      "startCreateJob",
+      "startUpdateJob",
+      "toggleDay",
+      "toggleMonth",
+      "updateJob"
+    ];
 
-    it("cancelDeleteJob should be defined", function () {
-      expect($scope.cancelDeleteJob).toBeDefined();
-      expect(typeof $scope.cancelDeleteJob).toEqual("function");
-    });
+    var scopeMethodExists = function (method) {
+      return function() {
+        expect($scope[method]).toBeDefined();
+        expect(typeof $scope[method]).toEqual("function");
+      };
+    };
 
-    it("cancelUpdateJob should be defined", function () {
-      expect($scope.cancelUpdateJob).toBeDefined();
-      expect(typeof $scope.cancelUpdateJob).toEqual("function");
-    });
-
-    it("clearExistingSchedule should be defined", function () {
-      expect($scope.clearExistingSchedule).toBeDefined();
-      expect(typeof $scope.clearExistingSchedule).toEqual("function");
-    });
-
-    it("confirmDeleteJob should be defined", function () {
-      expect($scope.confirmDeleteJob).toBeDefined();
-      expect(typeof $scope.confirmDeleteJob).toEqual("function");
-    });
-
-    it("createJob should be defined", function () {
-      expect($scope.createJob).toBeDefined();
-      expect(typeof $scope.createJob).toEqual("function");
-    });
-
-    it("deleteJob should be defined", function () {
-      expect($scope.deleteJob).toBeDefined();
-      expect(typeof $scope.deleteJob).toEqual("function");
-    });
-
-    it("hasDay should be defined", function () {
-      expect($scope.hasDay).toBeDefined();
-      expect(typeof $scope.hasDay).toEqual("function");
-    });
-
-    it("hasMonth should be defined", function () {
-      expect($scope.hasMonth).toBeDefined();
-      expect(typeof $scope.hasMonth).toEqual("function");
-    });
-
-    it("openEnd should be defined", function () {
-      expect($scope.openEnd).toBeDefined();
-      expect(typeof $scope.openEnd).toEqual("function");
-    });
-
-    it("openStart should be defined", function () {
-      expect($scope.openStart).toBeDefined();
-      expect(typeof $scope.openStart).toEqual("function");
-    });
-
-    it("resetJobForms should be defined", function () {
-      expect($scope.resetJobForms).toBeDefined();
-      expect(typeof $scope.resetJobForms).toEqual("function");
-    });
-
-    it("setTable should be defined", function () {
-      expect($scope.setTable).toBeDefined();
-      expect(typeof $scope.setTable).toEqual("function");
-    });
-
-    it("showScheduleOption should be defined", function () {
-      expect($scope.showScheduleOption).toBeDefined();
-      expect(typeof $scope.showScheduleOption).toEqual("function");
-    });
-
-    it("startCreateJob should be defined", function () {
-      expect($scope.startCreateJob).toBeDefined();
-      expect(typeof $scope.startCreateJob).toEqual("function");
-    });
-
-    it("startUpdateJob should be defined", function () {
-      expect($scope.startUpdateJob).toBeDefined();
-      expect(typeof $scope.startUpdateJob).toEqual("function");
-    });
-
-    it("toggleDay should be defined", function () {
-      expect($scope.toggleDay).toBeDefined();
-      expect(typeof $scope.toggleDay).toEqual("function");
-    });
-
-    it("toggleMonth should be defined", function () {
-      expect($scope.toggleMonth).toBeDefined();
-      expect(typeof $scope.toggleMonth).toEqual("function");
-    });
-
-    it("updateJob should be defined", function () {
-      expect($scope.updateJob).toBeDefined();
-      expect(typeof $scope.updateJob).toEqual("function");
-    });
+    for (var i in methods) {
+      it(methods[i] + " defined", scopeMethodExists(methods[i]));
+    }
   });
 
   describe("Are the $scope methods working as expected", function () {
@@ -264,7 +199,7 @@ describe("controller: JobManagementController", function () {
       var job = new mockJob($q);
 
       $scope.jobToDelete = null;
-      $scope.openModal = function(name) { };
+      $scope.openModal = function (name) { };
 
       spyOn($scope, "openModal");
 
@@ -324,14 +259,14 @@ describe("controller: JobManagementController", function () {
     });
 
     it("resetJobForms should reset job form", function () {
-      $scope.closeModal = function() { };
+      $scope.closeModal = function () { };
 
       spyOn(JobRepo, "clearValidationResults");
       spyOn($scope, "closeModal");
 
       var key;
       for (key in $scope.jobForms) {
-        $scope.jobForms[key].$setPristine = function() { };
+        $scope.jobForms[key].$setPristine = function () { };
         spyOn($scope.jobForms[key], "$setPristine");
       }
 
@@ -359,7 +294,7 @@ describe("controller: JobManagementController", function () {
     });
 
     it("startCreateJob should start creating a job", function () {
-      $scope.openModal = function(name) { };
+      $scope.openModal = function (name) { };
 
       spyOn($scope, "openModal");
 
@@ -371,7 +306,7 @@ describe("controller: JobManagementController", function () {
     it("startUpdateJob should start updating a job", function () {
       var job = new mockJob($q);
       $scope.jobToUpdate = null;
-      $scope.openModal = function(name) { };
+      $scope.openModal = function (name) { };
 
       spyOn($scope, "openModal");
 

@@ -1,7 +1,7 @@
 describe("controller: DiscoveryViewManagementController", function () {
   var $q, $scope, $timeout, DiscoveryViewRepo, MockedDiscoveryView, MockedFacetField, MockedMetadataField, MockedSearchField, MockedSource, NgTableParams, SourceRepo, controller;
 
-  var initializeVariables = function() {
+  var initializeVariables = function () {
     inject(function (_$q_, _DiscoveryViewRepo_, _WsApi_, _SourceRepo_) {
       $q = _$q_;
 
@@ -17,7 +17,7 @@ describe("controller: DiscoveryViewManagementController", function () {
     });
   };
 
-  var initializeController = function(settings) {
+  var initializeController = function (settings) {
     inject(function (_$controller_, _$rootScope_, _$timeout_, _DiscoveryView_, _FacetField_, _MetadataField_, _SearchField_, _Source_) {
       $scope = _$rootScope_.$new();
       $timeout = _$timeout_;
@@ -44,37 +44,37 @@ describe("controller: DiscoveryViewManagementController", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
-    module("mock.discoveryView", function($provide) {
-      var DiscoveryView = function() {
+    module("mock.discoveryView", function ($provide) {
+      var DiscoveryView = function () {
         return MockedDiscoveryView;
       };
       $provide.value("DiscoveryView", DiscoveryView);
     });
     module("mock.discoveryViewRepo");
-    module("mock.facetField", function($provide) {
-      var FacetField = function() {
+    module("mock.facetField", function ($provide) {
+      var FacetField = function () {
         return MockedFacetField;
       };
       $provide.value("FacetField", FacetField);
     });
-    module("mock.metadataField", function($provide) {
-      var MetadataField = function() {
+    module("mock.metadataField", function ($provide) {
+      var MetadataField = function () {
         return MockedMetadataField;
       };
       $provide.value("MetadataField", MetadataField);
     });
     module("mock.ngTableParams");
-    module("mock.searchField", function($provide) {
-      var SearchField = function() {
+    module("mock.searchField", function ($provide) {
+      var SearchField = function () {
         return MockedSearchField;
       };
       $provide.value("SearchField", SearchField);
     });
-    module("mock.source", function($provide) {
-      var Source = function() {
+    module("mock.source", function ($provide) {
+      var Source = function () {
         return MockedSource;
       };
       $provide.value("Source", Source);
@@ -87,147 +87,59 @@ describe("controller: DiscoveryViewManagementController", function () {
     initializeController();
   });
 
-  describe("Is the controller defined", function () {
-    it("should be defined for admin", function () {
-      expect(controller).toBeDefined();
-    });
+  describe("Is the controller", function () {
+    var roles = [ "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_USER", "ROLE_ANONYMOUS" ];
 
-    it("should be defined for manager", function () {
-      initializeController({role: "ROLE_MANAGER"});
-      expect(controller).toBeDefined();
-    });
+    var controllerExists = function (setting) {
+      return function() {
+        initializeController(setting);
+        expect(controller).toBeDefined();
+      };
+    };
 
-    it("should be defined for user", function () {
-      initializeController({role: "ROLE_USER"});
-      expect(controller).toBeDefined();
-    });
-
-    it("should be defined for anonymous", function () {
-      initializeController({role: "ROLE_ANONYMOUS"});
-      expect(controller).toBeDefined();
-    });
+    for (var i in roles) {
+      it("defined for " + roles[i], controllerExists({ role: roles[i] }));
+    }
   });
 
-  describe("Are the scope methods defined", function () {
-    it("appendFacetFieldItem should be defined", function () {
-      expect($scope.appendFacetFieldItem).toBeDefined();
-      expect(typeof $scope.appendFacetFieldItem).toEqual("function");
-    });
+  describe("Is the scope method", function () {
+    var methods = [
+      "appendFacetFieldItem",
+      "appendResultMetadataFieldItem",
+      "appendSearchFieldItem",
+      "back",
+      "cancelCreateDiscoveryView",
+      "cancelDeleteDiscoveryView",
+      "cancelUpdateDiscoveryView",
+      "confirmDeleteDiscoveryView",
+      "createDiscoveryView",
+      "deleteDiscoveryView",
+      "findFieldByKey",
+      "getFields",
+      "isDiscoveryViewFacetsInvalid",
+      "isDiscoveryViewGeneralInvalid",
+      "isDiscoveryViewResultsInvalid",
+      "isDiscoveryViewSearchInvalid",
+      "isTransitionDenied",
+      "next",
+      "pingSource",
+      "refreshSource",
+      "resetDiscoveryViewForms",
+      "startCreateDiscoveryView",
+      "startUpdateDiscoveryView",
+      "updateDiscoveryView"
+    ];
 
-    it("appendResultMetadataFieldItem should be defined", function () {
-      expect($scope.appendResultMetadataFieldItem).toBeDefined();
-      expect(typeof $scope.appendResultMetadataFieldItem).toEqual("function");
-    });
+    var scopeMethodExists = function (method) {
+      return function() {
+        expect($scope[method]).toBeDefined();
+        expect(typeof $scope[method]).toEqual("function");
+      };
+    };
 
-    it("appendSearchFieldItem should be defined", function () {
-      expect($scope.appendSearchFieldItem).toBeDefined();
-      expect(typeof $scope.appendSearchFieldItem).toEqual("function");
-    });
-
-    it("back should be defined", function () {
-      expect($scope.back).toBeDefined();
-      expect(typeof $scope.back).toEqual("function");
-    });
-
-    it("cancelCreateDiscoveryView should be defined", function () {
-      expect($scope.cancelCreateDiscoveryView).toBeDefined();
-      expect(typeof $scope.cancelCreateDiscoveryView).toEqual("function");
-    });
-
-    it("cancelDeleteDiscoveryView should be defined", function () {
-      expect($scope.cancelDeleteDiscoveryView).toBeDefined();
-      expect(typeof $scope.cancelDeleteDiscoveryView).toEqual("function");
-    });
-
-    it("cancelUpdateDiscoveryView should be defined", function () {
-      expect($scope.cancelUpdateDiscoveryView).toBeDefined();
-      expect(typeof $scope.cancelUpdateDiscoveryView).toEqual("function");
-    });
-
-    it("confirmDeleteDiscoveryView should be defined", function () {
-      expect($scope.confirmDeleteDiscoveryView).toBeDefined();
-      expect(typeof $scope.confirmDeleteDiscoveryView).toEqual("function");
-    });
-
-    it("createDiscoveryView should be defined", function () {
-      expect($scope.createDiscoveryView).toBeDefined();
-      expect(typeof $scope.createDiscoveryView).toEqual("function");
-    });
-
-    it("deleteDiscoveryView should be defined", function () {
-      expect($scope.deleteDiscoveryView).toBeDefined();
-      expect(typeof $scope.deleteDiscoveryView).toEqual("function");
-    });
-
-    it("findFieldByKey should be defined", function () {
-      expect($scope.findFieldByKey).toBeDefined();
-      expect(typeof $scope.findFieldByKey).toEqual("function");
-    });
-
-    it("getFields should be defined", function () {
-      expect($scope.getFields).toBeDefined();
-      expect(typeof $scope.getFields).toEqual("function");
-    });
-
-    it("isDiscoveryViewFacetsInvalid should be defined", function () {
-      expect($scope.isDiscoveryViewFacetsInvalid).toBeDefined();
-      expect(typeof $scope.isDiscoveryViewFacetsInvalid).toEqual("function");
-    });
-
-    it("isDiscoveryViewGeneralInvalid should be defined", function () {
-      expect($scope.isDiscoveryViewGeneralInvalid).toBeDefined();
-      expect(typeof $scope.isDiscoveryViewGeneralInvalid).toEqual("function");
-    });
-
-    it("isDiscoveryViewResultsInvalid should be defined", function () {
-      expect($scope.isDiscoveryViewResultsInvalid).toBeDefined();
-      expect(typeof $scope.isDiscoveryViewResultsInvalid).toEqual("function");
-    });
-
-    it("isDiscoveryViewSearchInvalid should be defined", function () {
-      expect($scope.isDiscoveryViewSearchInvalid).toBeDefined();
-      expect(typeof $scope.isDiscoveryViewSearchInvalid).toEqual("function");
-    });
-
-    it("isTransitionDenied should be defined", function () {
-      expect($scope.isTransitionDenied).toBeDefined();
-      expect(typeof $scope.isTransitionDenied).toEqual("function");
-    });
-
-    it("next should be defined", function () {
-      expect($scope.next).toBeDefined();
-      expect(typeof $scope.next).toEqual("function");
-    });
-
-    it("pingSource should be defined", function () {
-      expect($scope.pingSource).toBeDefined();
-      expect(typeof $scope.pingSource).toEqual("function");
-    });
-
-    it("refreshSource should be defined", function () {
-      expect($scope.refreshSource).toBeDefined();
-      expect(typeof $scope.refreshSource).toEqual("function");
-    });
-
-    it("resetDiscoveryViewForms should be defined", function () {
-      expect($scope.resetDiscoveryViewForms).toBeDefined();
-      expect(typeof $scope.resetDiscoveryViewForms).toEqual("function");
-    });
-
-    it("startCreateDiscoveryView should be defined", function () {
-      expect($scope.startCreateDiscoveryView).toBeDefined();
-      expect(typeof $scope.startCreateDiscoveryView).toEqual("function");
-    });
-
-    it("startUpdateDiscoveryView should be defined", function () {
-      expect($scope.startUpdateDiscoveryView).toBeDefined();
-      expect(typeof $scope.startUpdateDiscoveryView).toEqual("function");
-    });
-
-    it("updateDiscoveryView should be defined", function () {
-      expect($scope.updateDiscoveryView).toBeDefined();
-      expect(typeof $scope.updateDiscoveryView).toEqual("function");
-    });
+    for (var i in methods) {
+      it(methods[i] + " defined", scopeMethodExists(methods[i]));
+    }
   });
 
   describe("Do the $scope methods work as expected", function () {
@@ -363,7 +275,7 @@ describe("controller: DiscoveryViewManagementController", function () {
       discoveryView.source = [];
       discoveryView.source.requiresFilter = false;
 
-      SourceRepo.getAvailableFields = function(uri, filter) {
+      SourceRepo.getAvailableFields = function (uri, filter) {
         receivedUri = uri;
         receivedFilter = filter;
       };
@@ -558,19 +470,19 @@ describe("controller: DiscoveryViewManagementController", function () {
 
       $scope.tabs.inCreate = true;
       $scope.tabs.inUpdate = false;
-      $scope.isDiscoveryViewGeneralInvalid = function() {
+      $scope.isDiscoveryViewGeneralInvalid = function () {
         return mockInvalidGeneralTab;
       };
 
-      $scope.isDiscoveryViewFacetsInvalid = function() {
+      $scope.isDiscoveryViewFacetsInvalid = function () {
         return mockInvalidFacetsTab;
       };
 
-      $scope.isDiscoveryViewSearchInvalid = function() {
+      $scope.isDiscoveryViewSearchInvalid = function () {
         return mockInvalidSearchTab;
       };
 
-      $scope.isDiscoveryViewResultsInvalid = function() {
+      $scope.isDiscoveryViewResultsInvalid = function () {
         return mockInvalidResultsTab;
       };
 
@@ -661,19 +573,19 @@ describe("controller: DiscoveryViewManagementController", function () {
 
       $scope.tabs.inCreate = false;
       $scope.tabs.inUpdate = true;
-      $scope.isDiscoveryViewGeneralInvalid = function() {
+      $scope.isDiscoveryViewGeneralInvalid = function () {
         return mockInvalidGeneralTab;
       };
 
-      $scope.isDiscoveryViewFacetsInvalid = function() {
+      $scope.isDiscoveryViewFacetsInvalid = function () {
         return mockInvalidFacetsTab;
       };
 
-      $scope.isDiscoveryViewSearchInvalid = function() {
+      $scope.isDiscoveryViewSearchInvalid = function () {
         return mockInvalidSearchTab;
       };
 
-      $scope.isDiscoveryViewResultsInvalid = function() {
+      $scope.isDiscoveryViewResultsInvalid = function () {
         return mockInvalidResultsTab;
       };
 
@@ -778,7 +690,7 @@ describe("controller: DiscoveryViewManagementController", function () {
 
       $scope.originalSourceName = $scope.discoveryView.source.name;
       $scope.originalFilter = $scope.discoveryView.filter;
-      $scope.getFields = function() {};
+      $scope.getFields = function () {};
       spyOn($scope, "getFields");
 
       $scope.tabs.active = 0;
@@ -825,7 +737,7 @@ describe("controller: DiscoveryViewManagementController", function () {
 
       $scope.originalSourceName = discoveryView.source.name;
       $scope.tabs.active = 1;
-      $scope.getFields = function() {};
+      $scope.getFields = function () {};
       spyOn($scope, "getFields");
 
       $scope.refreshSource(discoveryView);

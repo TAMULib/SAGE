@@ -1,7 +1,7 @@
 describe("component: solrCoreTest", function () {
   var $compile, $q, $scope, MockedSource, component, element, source;
 
-  var initializeVariables = function() {
+  var initializeVariables = function () {
     inject(function (_$compile_, _$q_) {
       $compile = _$compile_;
       $q = _$q_;
@@ -12,7 +12,7 @@ describe("component: solrCoreTest", function () {
     });
   };
 
-  var initializeComponent = function(settings) {
+  var initializeComponent = function (settings) {
     inject(function (_$rootScope_) {
       $scope = _$rootScope_.$new();
 
@@ -28,12 +28,12 @@ describe("component: solrCoreTest", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
     module("templates");
-    module("mock.source", function($provide) {
-      var Source = function() {
+    module("mock.source", function ($provide) {
+      var Source = function () {
         return MockedSource;
       };
       $provide.value("Source", Source);
@@ -43,8 +43,8 @@ describe("component: solrCoreTest", function () {
     initializeVariables();
   });
 
-  describe("Is the component defined", function () {
-    it("should be defined", function () {
+  describe("Is the component", function () {
+    it("defined", function () {
       initializeComponent();
       expect(component).toBeDefined();
     });

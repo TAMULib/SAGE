@@ -1,7 +1,7 @@
 describe("model: Result", function () {
   var $rootScope, $scope, $location, WsApi, model;
 
-  var initializeVariables = function(settings) {
+  var initializeVariables = function (settings) {
     inject(function (_$location_, _$rootScope_, _WsApi_) {
       $location = _$location_;
       $rootScope = _$rootScope_;
@@ -10,11 +10,11 @@ describe("model: Result", function () {
     });
   };
 
-  var initializeModel = function(settings) {
-    inject(function (Result) {
+  var initializeModel = function (settings) {
+    inject(function (_Result_) {
       $scope = $rootScope.$new();
 
-      model = angular.extend(new Result(), dataResult1);
+      model = angular.extend(new _Result_(), dataResult1);
 
       // ensure that all pre-processing is called.
       if (!$scope.$$phase) {
@@ -23,7 +23,7 @@ describe("model: Result", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
     module("mock.wsApi");
@@ -32,21 +32,31 @@ describe("model: Result", function () {
     initializeModel();
   });
 
-  describe("Is the model defined", function () {
-    it("should be defined", function () {
+  describe("Is the model", function () {
+    it("defined", function () {
       expect(model).toBeDefined();
     });
   });
 
-  describe("Are the model methods defined", function () {
-    it("getValue should be defined", function () {
-      expect(model.getValue).toBeDefined();
-      expect(typeof model.getValue).toEqual("function");
-    });
+  describe("Is the model method", function () {
+    var methods = [
+      "getValue"
+    ];
+
+    var modelMethodExists = function (key) {
+      return function() {
+        expect(model[key]).toBeDefined();
+        expect(typeof model[key]).toEqual("function");
+      };
+    };
+
+    for (var i in methods) {
+      it(methods[i] + " defined", modelMethodExists(methods[i]));
+    }
   });
 
-  describe("Are the model methods working as expected", function () {
-    it("getValue should work", function () {
+  describe("Are the model methods work as expected", function () {
+    it("getValue work as expected", function () {
       var response;
 
       model.fields = { mockKey: "mock value" };

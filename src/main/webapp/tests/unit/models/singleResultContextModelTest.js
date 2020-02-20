@@ -1,7 +1,7 @@
 describe("model: SingleResultContext", function () {
   var $rootScope, $scope, $location, WsApi, model;
 
-  var initializeVariables = function(settings) {
+  var initializeVariables = function (settings) {
     inject(function (_$location_, _$rootScope_, _WsApi_) {
       $location = _$location_;
       $rootScope = _$rootScope_;
@@ -10,11 +10,11 @@ describe("model: SingleResultContext", function () {
     });
   };
 
-  var initializeModel = function(settings) {
-    inject(function (SingleResultContext) {
+  var initializeModel = function (settings) {
+    inject(function (_SingleResultContext_) {
       $scope = $rootScope.$new();
 
-      model = angular.extend(new SingleResultContext(), dataSingleResultContext1);
+      model = angular.extend(new _SingleResultContext_(), dataSingleResultContext1);
 
       // ensure that all pre-processing is called.
       if (!$scope.$$phase) {
@@ -23,7 +23,7 @@ describe("model: SingleResultContext", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
     module("mock.wsApi");
@@ -32,21 +32,31 @@ describe("model: SingleResultContext", function () {
     initializeModel();
   });
 
-  describe("Is the model defined", function () {
-    it("should be defined", function () {
+  describe("Is the model", function () {
+    it("defined", function () {
       expect(model).toBeDefined();
     });
   });
 
-  describe("Are the model methods defined", function () {
-    it("getBreadcrumb should be defined", function () {
-      expect(model.getBreadcrumb).toBeDefined();
-      expect(typeof model.getBreadcrumb).toEqual("function");
-    });
+  describe("Is the model method", function () {
+    var methods = [
+      "getBreadcrumb"
+    ];
+
+    var modelMethodExists = function (key) {
+      return function() {
+        expect(model[key]).toBeDefined();
+        expect(typeof model[key]).toEqual("function");
+      };
+    };
+
+    for (var i in methods) {
+      it(methods[i] + " defined", modelMethodExists(methods[i]));
+    }
   });
 
-  describe("Are the model methods working as expected", function () {
-    it("getBreadcrumb should work", function () {
+  describe("Does the model method", function () {
+    it("getBreadcrumb work as expected", function () {
       var result;
 
       result = model.getBreadcrumb();

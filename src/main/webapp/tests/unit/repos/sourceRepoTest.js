@@ -1,7 +1,7 @@
 describe("service: sourceRepo", function () {
   var $q, $rootScope, $scope, MockedSource, WsApi, repo;
 
-  var initializeVariables = function(settings) {
+  var initializeVariables = function (settings) {
     inject(function (_$q_, _$rootScope_, _WsApi_) {
       $q = _$q_;
       $rootScope = _$rootScope_;
@@ -11,7 +11,7 @@ describe("service: sourceRepo", function () {
     });
   };
 
-  var initializeRepo = function(settings) {
+  var initializeRepo = function (settings) {
     inject(function ($injector, SourceRepo) {
       $scope = $rootScope.$new();
 
@@ -19,11 +19,11 @@ describe("service: sourceRepo", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
-    module("mock.source", function($provide) {
-      var Source = function() {
+    module("mock.source", function ($provide) {
+      var Source = function () {
         return MockedSource;
       };
       $provide.value("Source", Source);
@@ -34,57 +34,55 @@ describe("service: sourceRepo", function () {
     initializeRepo();
   });
 
-  describe("Is the repo defined", function () {
-    it("should be defined", function () {
+  describe("Is the repo", function () {
+    it("defined", function () {
       expect(repo).toBeDefined();
     });
   });
 
-  describe("Are the repo methods defined", function () {
-    it("getAvailableFields should be defined", function () {
-      expect(repo.getAvailableFields).toBeDefined();
-      expect(typeof repo.getAvailableFields).toEqual("function");
-    });
+  describe("Is the repo method", function () {
+    var methods = [
+      "getAvailableFields",
+      "getIndexedFields",
+      "getReadable",
+      "getWriteable"
+    ];
 
-    it("getIndexedFields should be defined", function () {
-      expect(repo.getIndexedFields).toBeDefined();
-      expect(typeof repo.getIndexedFields).toEqual("function");
-    });
+    var repoMethodExists = function (key) {
+      return function() {
+        expect(repo[key]).toBeDefined();
+        expect(typeof repo[key]).toEqual("function");
+      };
+    };
 
-    it("getReadable should be defined", function () {
-      expect(repo.getReadable).toBeDefined();
-      expect(typeof repo.getReadable).toEqual("function");
-    });
-
-    it("getWriteable should be defined", function () {
-      expect(repo.getWriteable).toBeDefined();
-      expect(typeof repo.getWriteable).toEqual("function");
-    });
+    for (var i in methods) {
+      it(methods[i] + " defined", repoMethodExists(methods[i]));
+    }
   });
 
-  describe("Do the repo methods work as expected", function () {
-    it("getAvailableFields should work", function () {
+  describe("Does the repo method", function () {
+    it("getAvailableFields work as expected", function () {
       repo.getAvailableFields("todo", "todo");
       $scope.$digest();
 
       // TODO
     });
 
-    it("getIndexedFields should work", function () {
+    it("getIndexedFields work as expected", function () {
       repo.getIndexedFields("todo", "todo");
       $scope.$digest();
 
       // TODO
     });
 
-    it("getReadable should work", function () {
+    it("getReadable work as expected", function () {
       repo.getReadable();
       $scope.$digest();
 
       // TODO
     });
 
-    it("getWriteable should work", function () {
+    it("getWriteable work as expected", function () {
       repo.getWriteable();
       $scope.$digest();
 

@@ -2,7 +2,7 @@ describe("controller: InternalMetadataManagementController", function () {
 
   var $q, $scope, MockedInternalMetadata, NgTableParams, controller;
 
-  var initializeVariables = function() {
+  var initializeVariables = function () {
     inject(function (_$q_, _InternalMetadataRepo_) {
       $q = _$q_;
 
@@ -12,7 +12,7 @@ describe("controller: InternalMetadataManagementController", function () {
     });
   };
 
-  var initializeController = function(settings) {
+  var initializeController = function (settings) {
     inject(function (_$controller_, _$rootScope_) {
       $scope = _$rootScope_.$new();
 
@@ -32,11 +32,11 @@ describe("controller: InternalMetadataManagementController", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
-    module("mock.internalMetadata", function($provide) {
-      var InternalMetadata = function() {
+    module("mock.internalMetadata", function ($provide) {
+      var InternalMetadata = function () {
         return MockedInternalMetadata;
       };
       $provide.value("InternalMetadata", InternalMetadata);
@@ -50,79 +50,46 @@ describe("controller: InternalMetadataManagementController", function () {
     initializeController();
   });
 
-  describe("Is the controller defined", function () {
-    it("should be defined for admin", function () {
-      expect(controller).toBeDefined();
-    });
-    it("should be defined for manager", function () {
-      initializeController({role: "ROLE_MANAGER"});
-      expect(controller).toBeDefined();
-    });
-    it("should be defined for user", function () {
-      initializeController({role: "ROLE_USER"});
-      expect(controller).toBeDefined();
-    });
-    it("should be defined for anonymous", function () {
-      initializeController({role: "ROLE_ANONYMOUS"});
-      expect(controller).toBeDefined();
-    });
+  describe("Is the controller", function () {
+    var roles = [ "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_USER", "ROLE_ANONYMOUS" ];
+
+    var controllerExists = function (setting) {
+      return function() {
+        initializeController(setting);
+        expect(controller).toBeDefined();
+      };
+    };
+
+    for (var i in roles) {
+      it("defined for " + roles[i], controllerExists({ role: roles[i] }));
+    }
   });
 
-  describe("Are the scope methods defined", function () {
-    it("cancelCreateInternalMetadatum should be defined", function () {
-      expect($scope.cancelCreateInternalMetadatum).toBeDefined();
-      expect(typeof $scope.cancelCreateInternalMetadatum).toEqual("function");
-    });
+  describe("Is the scope method", function () {
+    var methods = [
+      "cancelCreateInternalMetadatum",
+      "cancelDeleteInternalMetadatum",
+      "cancelUpdateInternalMetadatum",
+      "confirmDeleteInternalMetadatum",
+      "createInternalMetadatum",
+      "deleteInternalMetadatum",
+      "resetInternalMetadatumForms",
+      "setTable",
+      "startCreateInternalMetadatum",
+      "startUpdateInternalMetadatum",
+      "updateInternalMetadatum"
+    ];
 
-    it("cancelDeleteInternalMetadatum should be defined", function () {
-      expect($scope.cancelDeleteInternalMetadatum).toBeDefined();
-      expect(typeof $scope.cancelDeleteInternalMetadatum).toEqual("function");
-    });
+    var scopeMethodExists = function (method) {
+      return function() {
+        expect($scope[method]).toBeDefined();
+        expect(typeof $scope[method]).toEqual("function");
+      };
+    };
 
-    it("cancelUpdateInternalMetadatum should be defined", function () {
-      expect($scope.cancelUpdateInternalMetadatum).toBeDefined();
-      expect(typeof $scope.cancelUpdateInternalMetadatum).toEqual("function");
-    });
-
-    it("confirmDeleteInternalMetadatum should be defined", function () {
-      expect($scope.confirmDeleteInternalMetadatum).toBeDefined();
-      expect(typeof $scope.confirmDeleteInternalMetadatum).toEqual("function");
-    });
-
-    it("createInternalMetadatum should be defined", function () {
-      expect($scope.createInternalMetadatum).toBeDefined();
-      expect(typeof $scope.createInternalMetadatum).toEqual("function");
-    });
-
-    it("deleteInternalMetadatum should be defined", function () {
-      expect($scope.deleteInternalMetadatum).toBeDefined();
-      expect(typeof $scope.deleteInternalMetadatum).toEqual("function");
-    });
-
-    it("resetInternalMetadatumForms should be defined", function () {
-      expect($scope.resetInternalMetadatumForms).toBeDefined();
-      expect(typeof $scope.resetInternalMetadatumForms).toEqual("function");
-    });
-
-    it("setTable should be defined", function () {
-      expect($scope.setTable).toBeDefined();
-      expect(typeof $scope.setTable).toEqual("function");
-    });
-
-    it("startCreateInternalMetadatum should be defined", function () {
-      expect($scope.startCreateInternalMetadatum).toBeDefined();
-      expect(typeof $scope.startCreateInternalMetadatum).toEqual("function");
-    });
-
-    it("startUpdateInternalMetadatum should be defined", function () {
-      expect($scope.startUpdateInternalMetadatum).toBeDefined();
-      expect(typeof $scope.startUpdateInternalMetadatum).toEqual("function");
-    });
-
-    it("updateInternalMetadatum should be defined", function () {
-      expect($scope.updateInternalMetadatum).toBeDefined();
-      expect(typeof $scope.updateInternalMetadatum).toEqual("function");
-    });
+    for (var i in methods) {
+      it(methods[i] + " defined", scopeMethodExists(methods[i]));
+    }
   });
 
   describe("Are the $scope methods working as expected", function () {
@@ -164,7 +131,7 @@ describe("controller: InternalMetadataManagementController", function () {
       var internalMetadata = new mockInternalMetadata($q);
 
       $scope.internalMetadatumToDelete = null;
-      $scope.openModal = function(name) { };
+      $scope.openModal = function (name) { };
 
       spyOn($scope, "openModal");
 
@@ -200,14 +167,14 @@ describe("controller: InternalMetadataManagementController", function () {
     });
 
     it("resetInternalMetadatumForms should reset internalMetadata form", function () {
-      $scope.closeModal = function() { };
+      $scope.closeModal = function () { };
 
       spyOn(InternalMetadataRepo, "clearValidationResults");
       spyOn($scope, "closeModal");
 
       var key;
       for (key in $scope.internalMetadataForms) {
-        $scope.internalMetadataForms[key].$setPristine = function() { };
+        $scope.internalMetadataForms[key].$setPristine = function () { };
         spyOn($scope.internalMetadataForms[key], "$setPristine");
       }
 
@@ -231,7 +198,7 @@ describe("controller: InternalMetadataManagementController", function () {
     });
 
     it("startCreateInternalMetadatum should start creating a internalMetadata", function () {
-      $scope.openModal = function(name) { };
+      $scope.openModal = function (name) { };
 
       spyOn($scope, "openModal");
 
@@ -242,7 +209,7 @@ describe("controller: InternalMetadataManagementController", function () {
 
     it("startUpdateInternalMetadatum should start updating a internalMetadata", function () {
       $scope.internalMetadatumToUpdate = null;
-      $scope.openModal = function(name) { };
+      $scope.openModal = function (name) { };
 
       spyOn($scope, "openModal");
 

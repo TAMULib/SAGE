@@ -1,7 +1,7 @@
 describe("model: DiscoveryContext", function () {
   var $rootScope, $scope, $location, WsApi, routeParams, model, wsResponse;
 
-  var initializeVariables = function(settings) {
+  var initializeVariables = function (settings) {
     inject(function (_$q_, _$location_, _$rootScope_, _WsApi_) {
       $location = _$location_;
       $q = _$q_;
@@ -35,8 +35,8 @@ describe("model: DiscoveryContext", function () {
     });
   };
 
-  var initializeModel = function(settings) {
-    inject(function (DiscoveryContext) {
+  var initializeModel = function (settings) {
+    inject(function (_DiscoveryContext_) {
       $scope = $rootScope.$new();
 
       if (settings) {
@@ -45,7 +45,7 @@ describe("model: DiscoveryContext", function () {
         }
       }
 
-      model = angular.extend(new DiscoveryContext(), dataDiscoveryContext1);
+      model = angular.extend(new _DiscoveryContext_(), dataDiscoveryContext1);
 
       // ensure that all pre-processing is called.
       if (!$scope.$$phase) {
@@ -54,8 +54,8 @@ describe("model: DiscoveryContext", function () {
     });
   };
 
-  beforeEach(function() {
-    module("core", function($provide) {
+  beforeEach(function () {
+    module("core", function ($provide) {
       routeParams = {};
       $provide.value("$routeParams", routeParams);
     });
@@ -73,65 +73,35 @@ describe("model: DiscoveryContext", function () {
     });
   });
 
-  describe("Are the model methods defined", function () {
-    it("addFilter should be defined", function () {
-      expect(model.addFilter).toBeDefined();
-      expect(typeof model.addFilter).toEqual("function");
-    });
+  describe("Is the model method", function () {
+    var methods = [
+      "addFilter",
+      "buildPage",
+      "buildUrlFilterKeyValues",
+      "executeSearch",
+      "getBreadcrumb",
+      "isSearching",
+      "reload",
+      "removeFilter",
+      "resetBadges",
+      "resetSearch",
+      "setSearchField"
+    ];
 
-    it("buildPage should be defined", function () {
-      expect(model.buildPage).toBeDefined();
-      expect(typeof model.buildPage).toEqual("function");
-    });
+    var modelMethodExists = function (key) {
+      return function() {
+        expect(model[key]).toBeDefined();
+        expect(typeof model[key]).toEqual("function");
+      };
+    };
 
-    it("buildUrlFilterKeyValues should be defined", function () {
-      expect(model.buildUrlFilterKeyValues).toBeDefined();
-      expect(typeof model.buildUrlFilterKeyValues).toEqual("function");
-    });
-
-    it("executeSearch should be defined", function () {
-      expect(model.executeSearch).toBeDefined();
-      expect(typeof model.executeSearch).toEqual("function");
-    });
-
-    it("getBreadcrumb should be defined", function () {
-      expect(model.getBreadcrumb).toBeDefined();
-      expect(typeof model.getBreadcrumb).toEqual("function");
-    });
-
-    it("isSearching should be defined", function () {
-      expect(model.isSearching).toBeDefined();
-      expect(typeof model.isSearching).toEqual("function");
-    });
-
-    it("reload should be defined", function () {
-      expect(model.reload).toBeDefined();
-      expect(typeof model.reload).toEqual("function");
-    });
-
-    it("removeFilter should be defined", function () {
-      expect(model.removeFilter).toBeDefined();
-      expect(typeof model.removeFilter).toEqual("function");
-    });
-
-    it("resetBadges should be defined", function () {
-      expect(model.resetBadges).toBeDefined();
-      expect(typeof model.resetBadges).toEqual("function");
-    });
-
-    it("resetSearch should be defined", function () {
-      expect(model.resetSearch).toBeDefined();
-      expect(typeof model.resetSearch).toEqual("function");
-    });
-
-    it("setSearchField should be defined", function () {
-      expect(model.setSearchField).toBeDefined();
-      expect(typeof model.setSearchField).toEqual("function");
-    });
+    for (var i in methods) {
+      it(methods[i] + " defined", modelMethodExists(methods[i]));
+    }
   });
 
-  describe("Are the model methods working as expected", function () {
-    it("addFilter should work", function () {
+  describe("Does the model method", function () {
+    it("addFilter work as expected", function () {
       var mockFilter1 = new mockFilter($q);
       var mockFilter2 = new mockFilter($q);
       var mockFilter3 = new mockFilter($q);
@@ -156,7 +126,7 @@ describe("model: DiscoveryContext", function () {
       expect(model.search.filters.length).toBe(3);
     });
 
-    it("buildPage should work", function () {
+    it("buildPage work as expected", function () {
       var page;
 
       page = model.buildPage();
@@ -184,7 +154,7 @@ describe("model: DiscoveryContext", function () {
       expect(page.offset).toBe(settings.routeParams.offset);
     });
 
-    it("buildUrlFilterKeyValues should work", function () {
+    it("buildUrlFilterKeyValues work as expected", function () {
       var urlFilters;
       var mockFilter1 = new mockFilter($q);
       var mockFilter2 = new mockFilter($q);
@@ -214,7 +184,7 @@ describe("model: DiscoveryContext", function () {
       expect(urlFilters["f." + mockFilter1.key].length).toBe(2);
     });
 
-    it("executeSearch should work", function () {
+    it("executeSearch work as expected", function () {
       var originalSearch = $location.search;
       spyOn($location, "search").and.callThrough();
 
@@ -245,14 +215,14 @@ describe("model: DiscoveryContext", function () {
       $scope.$digest();
     });
 
-    it("getBreadcrumb should work", function () {
+    it("getBreadcrumb work as expected", function () {
       var result;
 
       result = model.getBreadcrumb();
       expect(result.label).toBe(model.name);
     });
 
-    it("isSearching should work", function () {
+    it("isSearching work as expected", function () {
       model.executeSearch();
       expect(model.isSearching()).toBe(true);
       $scope.$digest();
@@ -260,7 +230,7 @@ describe("model: DiscoveryContext", function () {
       expect(model.isSearching()).toBe(false);
     });
 
-    it("reload should work", function () {
+    it("reload work as expected", function () {
       wsResponse.payload.DiscoveryContext.search.field = "mock";
       wsResponse.payload.DiscoveryContext.search.filters = {
         "f.mock1": "value1",
@@ -278,7 +248,7 @@ describe("model: DiscoveryContext", function () {
       expect(model.search.page.number).toBe(1);
     });
 
-    it("removeFilter should work", function () {
+    it("removeFilter work as expected", function () {
       var mockFilter1 = new mockFilter($q);
       var mockFilter2 = new mockFilter($q);
       var mockFilter3 = new mockFilter($q);
@@ -303,7 +273,7 @@ describe("model: DiscoveryContext", function () {
       expect(model.search.filters.length).toBe(0);
     });
 
-    it("resetBadges should work", function () {
+    it("resetBadges work as expected", function () {
       var mockFilter1 = new mockFilter($q);
       var mockFilter2 = new mockFilter($q);
       mockFilter2.mock(dataFilter2);
@@ -319,7 +289,7 @@ describe("model: DiscoveryContext", function () {
       expect(model.executeSearch).toHaveBeenCalled();
     });
 
-    it("resetSearch should work", function () {
+    it("resetSearch work as expected", function () {
       spyOn(model, "executeSearch");
       model.search.field = "mock_field";
       model.search.value = "mockedValue";
@@ -334,7 +304,7 @@ describe("model: DiscoveryContext", function () {
       expect(model.executeSearch).toHaveBeenCalled();
     });
 
-    it("setSearchField should work", function () {
+    it("setSearchField work as expected", function () {
       var searchField = new mockSearchField($q);
       model.search.field = "";
       model.search.value = "";
@@ -346,8 +316,8 @@ describe("model: DiscoveryContext", function () {
     });
   });
 
-  describe("Does the $scope initialize as expected", function () {
-    it("EmailTemplateRepo.before() should work", function () {
+  describe("Does the $scope", function () {
+    it("EmailTemplateRepo.before() work as expected", function () {
       var settings = {
         routeParams: {
           field: "mockField",
