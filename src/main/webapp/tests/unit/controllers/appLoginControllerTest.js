@@ -1,7 +1,7 @@
 describe("controller: AppLoginController", function () {
   var $q, $scope, MockedUser, WsApi, controller;
 
-  var initializeVariables = function() {
+  var initializeVariables = function () {
     inject(function (_$q_, _WsApi_) {
       $q = _$q_;
 
@@ -10,7 +10,7 @@ describe("controller: AppLoginController", function () {
     });
   };
 
-  var initializeController = function(settings) {
+  var initializeController = function (settings) {
     inject(function (_$controller_, _$rootScope_, _UserService_) {
       $scope = _$rootScope_.$new();
 
@@ -30,11 +30,11 @@ describe("controller: AppLoginController", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
-    module("mock.user", function($provide) {
-      var User = function() {
+    module("mock.user", function ($provide) {
+      var User = function () {
         return MockedUser;
       };
       $provide.value("User", User);
@@ -47,46 +47,42 @@ describe("controller: AppLoginController", function () {
     initializeController();
   });
 
-  describe("Is the controller defined", function () {
-    it("should be defined for admin", function () {
-      expect(controller).toBeDefined();
-    });
+  describe("Is the controller", function () {
+    var roles = [ "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_USER", "ROLE_ANONYMOUS" ];
 
-    it("should be defined for manager", function () {
-      initializeController({role: "ROLE_MANAGER"});
-      expect(controller).toBeDefined();
-    });
+    var controllerExists = function (setting) {
+      return function() {
+        initializeController(setting);
+        expect(controller).toBeDefined();
+      };
+    };
 
-    it("should be defined for user", function () {
-      initializeController({role: "ROLE_USER"});
-      expect(controller).toBeDefined();
-    });
-
-    it("should be defined for anonymous", function () {
-      initializeController({role: "ROLE_ANONYMOUS"});
-      expect(controller).toBeDefined();
-    });
+    for (var i in roles) {
+      it("defined for " + roles[i], controllerExists({ role: roles[i] }));
+    }
   });
 
-  describe("Are the scope methods defined", function () {
-    it("checkAuthStrategy should be defined", function () {
-      expect($scope.checkAuthStrategy).toBeDefined();
-      expect(typeof $scope.checkAuthStrategy).toEqual("function");
-    });
+  describe("Is the scope method", function () {
+    var methods = [
+      "checkAuthStrategy",
+      "isEmailEnabled",
+      "isExternalEnabled"
+    ];
 
-    it("isEmailEnabled should be defined", function () {
-      expect($scope.isEmailEnabled).toBeDefined();
-      expect(typeof $scope.isEmailEnabled).toEqual("function");
-    });
+    var scopeMethodExists = function (method) {
+      return function() {
+        expect($scope[method]).toBeDefined();
+        expect(typeof $scope[method]).toEqual("function");
+      };
+    };
 
-    it("isExternalEnabled should be defined", function () {
-      expect($scope.isExternalEnabled).toBeDefined();
-      expect(typeof $scope.isExternalEnabled).toEqual("function");
-    });
+    for (var i in methods) {
+      it(methods[i] + " defined", scopeMethodExists(methods[i]));
+    }
   });
 
-  describe("Do the $scope methods work as expected", function () {
-    it("checkAuthStrategy should work", function () {
+  describe("Does the $scope methods", function () {
+    it("checkAuthStrategy work as expected", function () {
       var result;
 
       result = $scope.checkAuthStrategy("emailRegistration");
@@ -96,14 +92,14 @@ describe("controller: AppLoginController", function () {
       // @todo
     });
 
-    it("isEmailEnabled should work", function () {
+    it("isEmailEnabled work as expected", function () {
       var result;
 
       result = $scope.isEmailEnabled();
       // @todo
     });
 
-    it("isExternalEnabled should work", function () {
+    it("isExternalEnabled work as expected", function () {
       var result;
 
       result = $scope.isExternalEnabled();

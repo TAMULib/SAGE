@@ -12,7 +12,7 @@ var mockRepo = function (repoName, $q, mockModelCtor, mockDataArray) {
 
   repo.mockedList = [];
 
-  repo.mock = function(toMock) {
+  repo.mock = function (toMock) {
     repo.mockedList = [];
     originalList = [];
 
@@ -25,7 +25,7 @@ var mockRepo = function (repoName, $q, mockModelCtor, mockDataArray) {
     }
   };
 
-  repo.mockCopy = function(toCopy) {
+  repo.mockCopy = function (toCopy) {
     if (repo.mockSpyAssist) {
       return toCopy;
     }
@@ -33,7 +33,7 @@ var mockRepo = function (repoName, $q, mockModelCtor, mockDataArray) {
     return angular.copy(toCopy);
   };
 
-  repo.mockModel = function(toMock) {
+  repo.mockModel = function (toMock) {
     if (typeof mockModelCtor === "function") {
       var mocked = new mockModelCtor($q);
       mocked.mock(toMock);
@@ -41,6 +41,14 @@ var mockRepo = function (repoName, $q, mockModelCtor, mockDataArray) {
     }
 
     return toMock;
+  };
+
+  repo.mockValidations = function (toMock) {
+    if (typeof toMock === "object") {
+      validations = toMock;
+    } else {
+      validations = {};
+    }
   };
 
   repo.mock(mockDataArray);
@@ -140,10 +148,10 @@ var mockRepo = function (repoName, $q, mockModelCtor, mockDataArray) {
     return repo.mockCopy(repo.mockedList);
   };
 
-  repo.getAllFiltered = function(predicate) {
+  repo.getAllFiltered = function (predicate) {
     var filteredData = [];
 
-    angular.forEach(repo.list, function(datum) {
+    angular.forEach(repo.list, function (datum) {
       if (predicate(datum)) {
         filteredData.push(datum);
       }
@@ -152,7 +160,7 @@ var mockRepo = function (repoName, $q, mockModelCtor, mockDataArray) {
     return filteredData;
   };
 
-  repo.getScaffold = function(defaults) {
+  repo.getScaffold = function (defaults) {
     var updatedScaffold = repo.scaffold;
 
     if (!defaults) defaults = {};
@@ -161,7 +169,7 @@ var mockRepo = function (repoName, $q, mockModelCtor, mockDataArray) {
     return updatedScaffold;
   };
 
-  repo.isInScaffold = function(property) {
+  repo.isInScaffold = function (property) {
     var propertyFound = false;
     var scaffoldKeys = Object.keys(repo.scaffold);
 
@@ -215,7 +223,7 @@ var mockRepo = function (repoName, $q, mockModelCtor, mockDataArray) {
     return payloadPromise($q.defer());
   };
 
-  repo.ready = function() {
+  repo.ready = function () {
     return payloadPromise($q.defer(), mockDataArray);
   };
 
@@ -287,8 +295,8 @@ var mockRepo = function (repoName, $q, mockModelCtor, mockDataArray) {
     var updated;
     for (var i in repo.mockedList) {
       if (repo.mockedList[i].id === model.id) {
+        angular.extend(repo.mockedList[i], model);
         updated = repo.mockCopy(repo.mockedList[i]);
-        angular.extend(updated, model);
         break;
       }
     }

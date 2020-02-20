@@ -1,7 +1,7 @@
 describe("service: readerRepo", function () {
   var $q, $rootScope, $scope, MockedReader, WsApi, repo;
 
-  var initializeVariables = function(settings) {
+  var initializeVariables = function (settings) {
     inject(function (_$q_, _$rootScope_, _WsApi_) {
       $q = _$q_;
       $rootScope = _$rootScope_;
@@ -11,7 +11,7 @@ describe("service: readerRepo", function () {
     });
   };
 
-  var initializeRepo = function(settings) {
+  var initializeRepo = function (settings) {
     inject(function ($injector, ReaderRepo) {
       $scope = $rootScope.$new();
 
@@ -19,11 +19,11 @@ describe("service: readerRepo", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
-    module("mock.reader", function($provide) {
-      var Reader = function() {
+    module("mock.reader", function ($provide) {
+      var Reader = function () {
         return MockedReader;
       };
       $provide.value("Reader", Reader);
@@ -34,8 +34,8 @@ describe("service: readerRepo", function () {
     initializeRepo();
   });
 
-  describe("Is the repo defined", function () {
-    it("should be defined", function () {
+  describe("Is the repo", function () {
+    it("defined", function () {
       expect(repo).toBeDefined();
     });
   });

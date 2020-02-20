@@ -1,7 +1,7 @@
 describe("controller: DiscoveryContextController", function () {
   var $location, $q, $scope, DiscoveryContext, MockedDiscoveryContext, MockedUser, WsApi, appConfig, controller, routeParams;
 
-  var initializeVariables = function() {
+  var initializeVariables = function () {
     inject(function (_$location_, _$q_, _WsApi_) {
       $location = _$location_;
       $q = _$q_;
@@ -15,7 +15,7 @@ describe("controller: DiscoveryContextController", function () {
     });
   };
 
-  var initializeController = function(settings) {
+  var initializeController = function (settings) {
     inject(function (_$controller_, _$rootScope_) {
       $scope = _$rootScope_.$new();
 
@@ -50,20 +50,20 @@ describe("controller: DiscoveryContextController", function () {
     });
   };
 
-  beforeEach(function() {
-    module("core", function($provide) {
+  beforeEach(function () {
+    module("core", function ($provide) {
       routeParams = {};
       $provide.value("$routeParams", routeParams);
     });
     module("sage");
-    module("mock.discoveryContext", function($provide) {
-      DiscoveryContext = function() {
+    module("mock.discoveryContext", function ($provide) {
+      DiscoveryContext = function () {
         return MockedDiscoveryContext;
       };
       $provide.value("DiscoveryContext", DiscoveryContext);
     });
-    module("mock.user", function($provide) {
-      var User = function() {
+    module("mock.user", function ($provide) {
+      var User = function () {
         return MockedUser;
       };
       $provide.value("User", User);
@@ -76,96 +76,52 @@ describe("controller: DiscoveryContextController", function () {
     initializeController();
   });
 
-  describe("Is the controller defined", function () {
-    it("should be defined for admin", function () {
-      expect(controller).toBeDefined();
-    });
+  describe("Is the controller", function () {
+    var roles = [ "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_USER", "ROLE_ANONYMOUS" ];
 
-    it("should be defined for manager", function () {
-      initializeController({role: "ROLE_MANAGER"});
-      expect(controller).toBeDefined();
-    });
+    var controllerExists = function (setting) {
+      return function() {
+        initializeController(setting);
+        expect(controller).toBeDefined();
+      };
+    };
 
-    it("should be defined for user", function () {
-      initializeController({role: "ROLE_USER"});
-      expect(controller).toBeDefined();
-    });
-
-    it("should be defined for anonymous", function () {
-      initializeController({role: "ROLE_ANONYMOUS"});
-      expect(controller).toBeDefined();
-    });
+    for (var i in roles) {
+      it("defined for " + roles[i], controllerExists({ role: roles[i] }));
+    }
   });
 
-  describe("Are the scope methods defined", function () {
-    it("findSearchFieldLabel should be defined", function () {
-      expect($scope.findSearchFieldLabel).toBeDefined();
-      expect(typeof $scope.findSearchFieldLabel).toEqual("function");
-    });
+  describe("Is the scope method", function () {
+    var methods = [
+      "findSearchFieldLabel",
+      "hasActiveFilters",
+      "hasSearch",
+      "pageBack",
+      "pageForward",
+      "removeFilter",
+      "prepareSearch",
+      "resetBadges",
+      "resetPage",
+      "resetSearch",
+      "searchProcessKeyPress",
+      "updateLimit",
+      "updateSort"
+    ];
 
-    it("hasActiveFilters should be defined", function () {
-      expect($scope.hasActiveFilters).toBeDefined();
-      expect(typeof $scope.hasActiveFilters).toEqual("function");
-    });
+    var scopeMethodExists = function (method) {
+      return function() {
+        expect($scope[method]).toBeDefined();
+        expect(typeof $scope[method]).toEqual("function");
+      };
+    };
 
-    it("hasSearch should be defined", function () {
-      expect($scope.hasSearch).toBeDefined();
-      expect(typeof $scope.hasSearch).toEqual("function");
-    });
-
-    it("pageBack should be defined", function () {
-      expect($scope.pageBack).toBeDefined();
-      expect(typeof $scope.pageBack).toEqual("function");
-    });
-
-    it("pageForward should be defined", function () {
-      expect($scope.pageForward).toBeDefined();
-      expect(typeof $scope.pageForward).toEqual("function");
-    });
-
-    it("removeFilter should be defined", function () {
-      expect($scope.removeFilter).toBeDefined();
-      expect(typeof $scope.removeFilter).toEqual("function");
-    });
-
-    it("prepareSearch should be defined", function () {
-      expect($scope.prepareSearch).toBeDefined();
-      expect(typeof $scope.prepareSearch).toEqual("function");
-    });
-
-    it("resetBadges should be defined", function () {
-      expect($scope.resetBadges).toBeDefined();
-      expect(typeof $scope.resetBadges).toEqual("function");
-    });
-
-    it("resetPage should be defined", function () {
-      expect($scope.resetPage).toBeDefined();
-      expect(typeof $scope.resetPage).toEqual("function");
-    });
-
-    it("resetSearch should be defined", function () {
-      expect($scope.resetSearch).toBeDefined();
-      expect(typeof $scope.resetSearch).toEqual("function");
-    });
-
-    it("searchProcessKeyPress should be defined", function () {
-      expect($scope.searchProcessKeyPress).toBeDefined();
-      expect(typeof $scope.searchProcessKeyPress).toEqual("function");
-    });
-
-    it("updateLimit should be defined", function () {
-      expect($scope.updateLimit).toBeDefined();
-      expect(typeof $scope.updateLimit).toEqual("function");
-    });
-
-    it("updateSort should be defined", function () {
-      expect($scope.updateSort).toBeDefined();
-      expect(typeof $scope.updateSort).toEqual("function");
-    });
+    for (var i in methods) {
+      it(methods[i] + " defined", scopeMethodExists(methods[i]));
+    }
   });
 
-  describe("Do the $scope methods work as expected", function () {
-    it("findSearchFieldLabel should work", function () {
+  describe("Does the $scope method", function () {
+    it("findSearchFieldLabel work as expected", function () {
       var result;
 
       result = $scope.findSearchFieldLabel("should not be found");
@@ -178,7 +134,7 @@ describe("controller: DiscoveryContextController", function () {
       expect(result).toBe($scope.discoveryContext.searchFields[1].label);
     });
 
-    it("hasActiveFilters should work", function () {
+    it("hasActiveFilters work as expected", function () {
       var result;
 
       result = $scope.hasActiveFilters();
@@ -191,7 +147,7 @@ describe("controller: DiscoveryContextController", function () {
       expect(result).toBe(true);
     });
 
-    it("hasSearch should work", function () {
+    it("hasSearch work as expected", function () {
       var result;
 
       result = $scope.hasSearch();
@@ -202,21 +158,21 @@ describe("controller: DiscoveryContextController", function () {
       expect(result).toBe(true);
     });
 
-    it("pageBack should work", function () {
+    it("pageBack work as expected", function () {
       var result;
 
       result = $scope.pageBack();
       // @todo
     });
 
-    it("pageForward should work", function () {
+    it("pageForward work as expected", function () {
       var result;
 
       result = $scope.pageForward();
       // @todo
     });
 
-    it("removeFilter should work", function () {
+    it("removeFilter work as expected", function () {
       // @todo: implement a mockFacetField and use that here.
       var filter = {};
       $scope.discoveryContext.search.filters = [ filter ];
@@ -225,7 +181,7 @@ describe("controller: DiscoveryContextController", function () {
       // @todo
     });
 
-    it("resetBadges should work", function () {
+    it("resetBadges work as expected", function () {
       $scope.discoveryContext = new mockDiscoveryContext($q);
 
       spyOn($scope, "prepareSearch");
@@ -236,7 +192,7 @@ describe("controller: DiscoveryContextController", function () {
       expect($scope.prepareSearch).toHaveBeenCalled();
     });
 
-    it("resetPage should work", function () {
+    it("resetPage work as expected", function () {
       $scope.discoveryContext = new mockDiscoveryContext($q);
 
       spyOn($scope, "prepareSearch");
@@ -247,7 +203,7 @@ describe("controller: DiscoveryContextController", function () {
       expect($scope.prepareSearch).toHaveBeenCalled();
     });
 
-    it("resetSearch should work", function () {
+    it("resetSearch work as expected", function () {
       $scope.discoveryContext = new mockDiscoveryContext($q);
 
       spyOn($scope, "prepareSearch");
@@ -258,7 +214,7 @@ describe("controller: DiscoveryContextController", function () {
       expect($scope.prepareSearch).toHaveBeenCalled();
     });
 
-    it("prepareSearch should work", function () {
+    it("prepareSearch work as expected", function () {
       var result;
 
       result = $scope.prepareSearch();
@@ -266,12 +222,12 @@ describe("controller: DiscoveryContextController", function () {
       // @todo
     });
 
-    it("searchProcessKeyPress should work", function () {
+    it("searchProcessKeyPress work as expected", function () {
       var result;
       var event = {
           which: 13,
           target: {
-              blur: function() {}
+              blur: function () {}
           }
       };
 
@@ -279,7 +235,7 @@ describe("controller: DiscoveryContextController", function () {
       // @todo
     });
 
-    it("updateLimit should work", function () {
+    it("updateLimit work as expected", function () {
       var result;
 
       result = $scope.updateLimit();
@@ -287,7 +243,7 @@ describe("controller: DiscoveryContextController", function () {
       // @todo
     });
 
-    it("updateSort should work", function () {
+    it("updateSort work as expected", function () {
       var result;
 
       result = $scope.updateSort();

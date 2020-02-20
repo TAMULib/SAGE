@@ -1,7 +1,7 @@
 describe("controller: OperatorManagementController", function () {
   var $q, $scope, MockedInternalMetadata, MockedOperator, NgTableParams, OperatorRepo, controller;
 
-  var initializeVariables = function() {
+  var initializeVariables = function () {
     inject(function (_$q_, _OperatorRepo_) {
       $q = _$q_;
 
@@ -12,7 +12,7 @@ describe("controller: OperatorManagementController", function () {
     });
   };
 
-  var initializeController = function(settings) {
+  var initializeController = function (settings) {
     inject(function (_$controller_, _$rootScope_, _InternalMetadata_, _InternalMetadataRepo_, _Operator_, _ValidationStore_) {
       $scope = _$rootScope_.$new();
 
@@ -36,18 +36,18 @@ describe("controller: OperatorManagementController", function () {
     });
   };
 
-  beforeEach(function() {
+  beforeEach(function () {
     module("core");
     module("sage");
-    module("mock.internalMetadata", function($provide) {
-      var InternalMetadata = function() {
+    module("mock.internalMetadata", function ($provide) {
+      var InternalMetadata = function () {
         return MockedInternalMetadata;
       };
       $provide.value("InternalMetadata", InternalMetadata);
     });
     module("mock.internalMetadataRepo");
-    module("mock.operator", function($provide) {
-      var Operator = function() {
+    module("mock.operator", function ($provide) {
+      var Operator = function () {
         return MockedOperator;
       };
       $provide.value("Operator", Operator);
@@ -60,79 +60,46 @@ describe("controller: OperatorManagementController", function () {
     initializeController();
   });
 
-  describe("Is the controller defined", function () {
-    it("should be defined for admin", function () {
-      expect(controller).toBeDefined();
-    });
-    it("should be defined for manager", function () {
-      initializeController({role: "ROLE_MANAGER"});
-      expect(controller).toBeDefined();
-    });
-    it("should be defined for user", function () {
-      initializeController({role: "ROLE_USER"});
-      expect(controller).toBeDefined();
-    });
-    it("should be defined for anonymous", function () {
-      initializeController({role: "ROLE_ANONYMOUS"});
-      expect(controller).toBeDefined();
-    });
+  describe("Is the controller", function () {
+    var roles = [ "ROLE_ADMIN", "ROLE_MANAGER", "ROLE_USER", "ROLE_ANONYMOUS" ];
+
+    var controllerExists = function (setting) {
+      return function() {
+        initializeController(setting);
+        expect(controller).toBeDefined();
+      };
+    };
+
+    for (var i in roles) {
+      it("defined for " + roles[i], controllerExists({ role: roles[i] }));
+    }
   });
 
-  describe("Are the scope methods defined", function () {
-    it("cancelCreateOperator should be defined", function () {
-      expect($scope.cancelCreateOperator).toBeDefined();
-      expect(typeof $scope.cancelCreateOperator).toEqual("function");
-    });
+  describe("Is the scope method", function () {
+    var methods = [
+      "cancelCreateOperator",
+      "cancelDeleteOperator",
+      "cancelUpdateOperator",
+      "confirmDeleteOperator",
+      "createOperator",
+      "deleteOperator",
+      "resetOperatorForms",
+      "setTable",
+      "startCreateOperator",
+      "startUpdateOperator",
+      "updateOperator"
+    ];
 
-    it("cancelDeleteOperator should be defined", function () {
-      expect($scope.cancelDeleteOperator).toBeDefined();
-      expect(typeof $scope.cancelDeleteOperator).toEqual("function");
-    });
+    var scopeMethodExists = function (method) {
+      return function() {
+        expect($scope[method]).toBeDefined();
+        expect(typeof $scope[method]).toEqual("function");
+      };
+    };
 
-    it("cancelUpdateOperator should be defined", function () {
-      expect($scope.cancelUpdateOperator).toBeDefined();
-      expect(typeof $scope.cancelUpdateOperator).toEqual("function");
-    });
-
-    it("confirmDeleteOperator should be defined", function () {
-      expect($scope.confirmDeleteOperator).toBeDefined();
-      expect(typeof $scope.confirmDeleteOperator).toEqual("function");
-    });
-
-    it("createOperator should be defined", function () {
-      expect($scope.createOperator).toBeDefined();
-      expect(typeof $scope.createOperator).toEqual("function");
-    });
-
-    it("deleteOperator should be defined", function () {
-      expect($scope.deleteOperator).toBeDefined();
-      expect(typeof $scope.deleteOperator).toEqual("function");
-    });
-
-    it("resetOperatorForms should be defined", function () {
-      expect($scope.resetOperatorForms).toBeDefined();
-      expect(typeof $scope.resetOperatorForms).toEqual("function");
-    });
-
-    it("setTable should be defined", function () {
-      expect($scope.setTable).toBeDefined();
-      expect(typeof $scope.setTable).toEqual("function");
-    });
-
-    it("startCreateOperator should be defined", function () {
-      expect($scope.startCreateOperator).toBeDefined();
-      expect(typeof $scope.startCreateOperator).toEqual("function");
-    });
-
-    it("startUpdateOperator should be defined", function () {
-      expect($scope.startUpdateOperator).toBeDefined();
-      expect(typeof $scope.startUpdateOperator).toEqual("function");
-    });
-
-    it("updateOperator should be defined", function () {
-      expect($scope.updateOperator).toBeDefined();
-      expect(typeof $scope.updateOperator).toEqual("function");
-    });
+    for (var i in methods) {
+      it(methods[i] + " defined", scopeMethodExists(methods[i]));
+    }
   });
 
   describe("Are the $scope methods working as expected", function () {
@@ -173,7 +140,7 @@ describe("controller: OperatorManagementController", function () {
       var operator = new mockOperator($q);
 
       $scope.operatorToDelete = null;
-      $scope.openModal = function(name) { };
+      $scope.openModal = function (name) { };
 
       spyOn($scope, "openModal");
 
@@ -210,14 +177,14 @@ describe("controller: OperatorManagementController", function () {
     });
 
     it("resetOperatorForms should reset operator form", function () {
-      $scope.closeModal = function() { };
+      $scope.closeModal = function () { };
 
       spyOn(OperatorRepo, "clearValidationResults");
       spyOn($scope, "closeModal");
 
       var key;
       for (key in $scope.operatorForms) {
-        $scope.operatorForms[key].$setPristine = function() { };
+        $scope.operatorForms[key].$setPristine = function () { };
         spyOn($scope.operatorForms[key], "$setPristine");
       }
 
@@ -241,7 +208,7 @@ describe("controller: OperatorManagementController", function () {
     });
 
     it("startCreateOperator should start creating a operator", function () {
-      $scope.openModal = function(name) { };
+      $scope.openModal = function (name) { };
 
       spyOn($scope, "openModal");
 
@@ -253,7 +220,7 @@ describe("controller: OperatorManagementController", function () {
     it("startUpdateOperator should start updating a operator", function () {
       var operator = new mockOperator($q);
       $scope.operatorToUpdate = null;
-      $scope.openModal = function(name) { };
+      $scope.openModal = function (name) { };
 
       spyOn($scope, "openModal");
 
