@@ -12,7 +12,7 @@
     "grunt:deploy": "grunt deploy",
     "test": "node node_modules/karma/bin/karma start src/main/webapp/tests/karma.conf.js --single-run --browsers Firefox,ChromeHeadlessNoSandbox",
     "test-single-run": "node node_modules/karma/bin/karma start src/main/webapp/tests/karma.conf.js --single-run",
-    "test-ci": "node node_modules/karma/bin/karma start src/main/webapp/tests/karma.conf.js --no-auto-watch --single-run --browsers=Firefox",
+    "test-ci": "node node_modules/karma/bin/karma start src/main/webapp/tests/karma.conf.js --no-auto-watch --single-run --browsers=ChromeHeadlessNoSandbox",
     "preupdate-webdriver": "npm install",
     "update-webdriver": "webdriver-manager update",
     "preprotractor": "npm run update-webdriver",
