@@ -39,13 +39,13 @@ module.exports = function (config) {
 
       "app/node_modules/jasmine-promise-matchers/dist/jasmine-promise-matchers.js",
 
-      "app/node_modules/weaver-ui-core/app/config/coreConfig.js",
+      "app/node_modules/@wvr/core/app/config/coreConfig.js",
 
-      "app/node_modules/weaver-ui-core/app/components/**/*.js",
+      "app/node_modules/@wvr/core/app/components/**/*.js",
 
-      "app/node_modules/weaver-ui-core/app/core.js",
+      "app/node_modules/@wvr/core/app/core.js",
 
-      "app/node_modules/weaver-ui-core/app/**/*.js",
+      "app/node_modules/@wvr/core/app/**/*.js",
 
       "tests/testSetup.js",
 

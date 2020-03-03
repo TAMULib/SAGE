@@ -1,7 +1,7 @@
 {
   "name": "sage",
   "private": true,
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Solr Agregation Engine UI",
   "repository": "https://github.com/TAMULib/Sage",
   "license": "MIT",
@@ -25,18 +25,18 @@
     "ng-file-upload": "12.2.13",
     "ng-openseadragon": "1.3.5",
     "ng-table": "3.0.1",
-    "openseadragon": "2.4.0",
-    "weaver-ui-core": "git+https://github.com/TAMULib/Weaver-UI-Core.git#p2.0.6"
+    "openseadragon": "2.4.1",
+    "@wvr/core": "2.0.7"
   },
   "devDependencies": {
-    "grunt": "1.0.3",
+    "grunt": "1.0.4",
     "grunt-cli": "1.3.2",
     "grunt-contrib-clean": "2.0.0",
     "grunt-contrib-concat": "1.0.1",
     "grunt-contrib-copy": "1.0.0",
-    "grunt-contrib-jshint": "2.0.0",
+    "grunt-contrib-jshint": "2.1.0",
     "grunt-contrib-symlink": "1.0.0",
-    "grunt-contrib-uglify": "4.0.0",
+    "grunt-contrib-uglify": "4.0.1",
     "grunt-contrib-watch": "1.1.0",
     "grunt-karma-coveralls": "2.5.4",
     "grunt-ngdocs": "0.2.11",
@@ -47,10 +47,10 @@
     "karma": "4.4.1",
     "karma-chrome-launcher": "3.1.0",
     "karma-coverage": "2.0.1",
-    "karma-firefox-launcher": "1.2.0",
-    "karma-jasmine": "2.0.1",
+    "karma-firefox-launcher": "1.3.0",
+    "karma-jasmine": "3.1.1",
     "karma-junit-reporter": "2.0.1",
     "karma-ng-html2js-preprocessor": "1.0.0",
-    "protractor": "5.4.2"
+    "protractor": "5.4.3"
   }
 }
