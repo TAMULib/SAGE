@@ -69,9 +69,6 @@ module.exports = function (grunt) {
           "node_modules/ng-file-upload/dist/ng-file-upload-shim.min.js",
           "node_modules/ng-file-upload/dist/ng-file-upload.min.js",
 
-          "node_modules/tinymce/tinymce.min.js",
-          "node_modules/angular-ui-tinymce/dist/tinymce.min.js",
-
           "node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js",
 
           "node_modules/file-saver/FileSaver.min.js",
@@ -202,18 +199,6 @@ module.exports = function (grunt) {
           cwd: "node_modules/ng-sortable/dist/",
           src: "ng-sortable.min.css",
           dest: "<%= build.app %>/resources/styles/",
-          expand: true
-        }]
-      },
-      tinymce: {
-        files: [{
-          cwd: "node_modules/tinymce/",
-          src: [
-            "plugins/**/*",
-            "themes/**/*",
-            "skins/**/*"
-          ],
-          dest: "<%= build.app %>/resources/scripts/",
           expand: true
         }]
       },
