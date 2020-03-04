@@ -8,4 +8,5 @@ INSERT INTO INTERNAL_METADATA (FIELD, GLOSS, REQUIRED) VALUES
   ( 'language', 'Language', false ),
   ( 'terms.identifier', 'Identifier', false ),
   ( 'isPartOf', 'Part Of', false )
+  ON CONFLICT DO NOTHING;
 ;
