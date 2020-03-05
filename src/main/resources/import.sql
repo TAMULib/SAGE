@@ -1,12 +1,11 @@
-INSERT INTO INTERNAL_METADATA (FIELD, GLOSS, REQUIRED) VALUES
-  ( 'id', 'Id', true ),
-  ( 'title', 'Title', true ),
-  ( 'creator', 'Creator', false ),
-  ( 'created', 'Created', false ),
-  ( 'subject', 'Subject', false ),
-  ( 'format', 'Format', false ),
-  ( 'language', 'Language', false ),
-  ( 'terms.identifier', 'Identifier', false ),
-  ( 'isPartOf', 'Part Of', false )
-  ON CONFLICT DO NOTHING;
-;
+INSERT INTO INTERNAL_METADATA SELECT * FROM (
+  SELECT 1, 'id', 'Id', true UNION
+  SELECT 2, 'title', 'Title', true UNION
+  SELECT 3, 'creator', 'Creator', false UNION
+  SELECT 4, 'created', 'Created', false UNION
+  SELECT 5, 'subject', 'Subject', false UNION
+  SELECT 6, 'format', 'Format', false UNION
+  SELECT 7, 'language', 'Language', false UNION
+  SELECT 8, 'terms.identifier', 'Identifier', false UNION
+  SELECT 9, 'isPartOf', 'Part Of', false
+) M WHERE NOT EXISTS(SELECT * FROM INTERNAL_METADATA);
