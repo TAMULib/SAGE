@@ -14,8 +14,9 @@ INSERT INTO INTERNAL_METADATA SELECT * FROM (
   SELECT 11, 'datePublished', 'Date Published (dc.date.issued)', false UNION
   SELECT 12, 'dateCreated', 'Date Created (dc.date.created)', false UNION
   SELECT 13, 'summaryAbstract', 'Summary/Abstract (dc.description)', false UNION
-  SELECT 14, 'institutionDepartment', 'Institution/Department (dc.language)', false UNION
-  SELECT 15, 'standardDigitalIdentifier', 'Standard Digital Identifier (dc.contributor, dc.description)', false UNION
+  SELECT 14, 'language', 'Language (dc.language)', false UNION
+  SELECT 14, 'institutionDepartment', 'Institution/Department (dc.contributor, dc.description)', false UNION
+  SELECT 15, 'standardDigitalIdentifier', 'Standard Digital Identifier (dc.identifier)', false UNION
   SELECT 16, 'localDigitalIdentifier', 'Local Digital Identifier (dc.identifier)', false UNION
   SELECT 17, 'editionRevisionInformation', 'Edition/Revision Information (dc.description)', false UNION
   
@@ -24,8 +25,8 @@ INSERT INTO INTERNAL_METADATA SELECT * FROM (
   SELECT 20, 'tableOfContents', 'Table of Contents (dc.description.tableOfContents)', false UNION
   SELECT 21, 'contributor', 'Contributor (dc.contributor)', false UNION
   SELECT 22, 'relatedResource', 'Related Resource (dc.relation.isPartOf, dc.relation.isFormatOf, dc.relation.HasPart, dc.relation.isVersionOf, dc.relation.HasVersion, dc.relation.isReferencedBy, dc.relation.Requires, dc.relation.Replaces, dc.relation.isReplacedBy)', false UNION
-  SELECT 23, 'publisher', 'Original Publisher (dc.publisher)', false UNION
-  SELECT 24, 'format', 'Physical Extent (dc.format.extent)', false UNION
+  SELECT 23, 'originalPublisher', 'Original Publisher (dc.publisher)', false UNION
+  SELECT 24, 'physicalExtent', 'Physical Extent (dc.format.extent)', false UNION
   SELECT 25, 'sponsor', 'Sponsor (dc.contributor, dc.description)', false UNION
   
   SELECT 26, 'sourceCollection', 'Source Collection (dc.relation)', false UNION
