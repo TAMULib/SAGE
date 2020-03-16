@@ -15,26 +15,26 @@ INSERT INTO INTERNAL_METADATA SELECT * FROM (
   SELECT 12, 'dateCreated', 'Date Created (dc.date.created)', false UNION
   SELECT 13, 'summaryAbstract', 'Summary/Abstract (dc.description)', false UNION
   SELECT 14, 'language', 'Language (dc.language)', false UNION
-  SELECT 14, 'institutionDepartment', 'Institution/Department (dc.contributor, dc.description)', false UNION
-  SELECT 15, 'standardDigitalIdentifier', 'Standard Digital Identifier (dc.identifier)', false UNION
-  SELECT 16, 'localDigitalIdentifier', 'Local Digital Identifier (dc.identifier)', false UNION
-  SELECT 17, 'editionRevisionInformation', 'Edition/Revision Information (dc.description)', false UNION
+  SELECT 15, 'institutionDepartment', 'Institution/Department (dc.contributor, dc.description)', false UNION
+  SELECT 16, 'standardDigitalIdentifier', 'Standard Digital Identifier (dc.identifier)', false UNION
+  SELECT 17, 'localDigitalIdentifier', 'Local Digital Identifier (dc.identifier)', false UNION
+  SELECT 18, 'editionRevisionInformation', 'Edition/Revision Information (dc.description)', false UNION
   
-  SELECT 18, 'alternativeTitle', 'Alternative Title (dc.title.alternative)', false UNION
-  SELECT 19, 'genre', 'Genre (dc.type)', false UNION
-  SELECT 20, 'tableOfContents', 'Table of Contents (dc.description.tableOfContents)', false UNION
-  SELECT 21, 'contributor', 'Contributor (dc.contributor)', false UNION
-  SELECT 22, 'relatedResource', 'Related Resource (dc.relation.isPartOf, dc.relation.isFormatOf, dc.relation.HasPart, dc.relation.isVersionOf, dc.relation.HasVersion, dc.relation.isReferencedBy, dc.relation.Requires, dc.relation.Replaces, dc.relation.isReplacedBy)', false UNION
-  SELECT 23, 'originalPublisher', 'Original Publisher (dc.publisher)', false UNION
-  SELECT 24, 'physicalExtent', 'Physical Extent (dc.format.extent)', false UNION
-  SELECT 25, 'sponsor', 'Sponsor (dc.contributor, dc.description)', false UNION
+  SELECT 19, 'alternativeTitle', 'Alternative Title (dc.title.alternative)', false UNION
+  SELECT 20, 'genre', 'Genre (dc.type)', false UNION
+  SELECT 21, 'tableOfContents', 'Table of Contents (dc.description.tableOfContents)', false UNION
+  SELECT 22, 'contributor', 'Contributor (dc.contributor)', false UNION
+  SELECT 23, 'relatedResource', 'Related Resource (dc.relation.isPartOf, dc.relation.isFormatOf, dc.relation.HasPart, dc.relation.isVersionOf, dc.relation.HasVersion, dc.relation.isReferencedBy, dc.relation.Requires, dc.relation.Replaces, dc.relation.isReplacedBy)', false UNION
+  SELECT 24, 'originalPublisher', 'Original Publisher (dc.publisher)', false UNION
+  SELECT 25, 'physicalExtent', 'Physical Extent (dc.format.extent)', false UNION
+  SELECT 26, 'sponsor', 'Sponsor (dc.contributor, dc.description)', false UNION
   
-  SELECT 26, 'sourceCollection', 'Source Collection (dc.relation)', false UNION
-  SELECT 27, 'originalResource', 'Original Resource (dc.source)', false UNION
-  SELECT 28, 'notes', 'Notes (dc.description, dc.provenance)', false UNION
-  SELECT 29, 'origin', 'Original Place of Publication, Production or Manufacture (dc.description)', false UNION
-  SELECT 30, 'audience', 'Audience Level (dc.audience)', false UNION
-  SELECT 31, 'classification', 'Classification (dc.description)', false UNION
-  SELECT 32, 'itemIdentifier', 'Physical Item Identifier (dc.identifier)', false UNION
-  SELECT 33, 'itemLocation', 'Physical Item Location (dc.description)', false
+  SELECT 27, 'sourceCollection', 'Source Collection (dc.relation)', false UNION
+  SELECT 28, 'originalResource', 'Original Resource (dc.source)', false UNION
+  SELECT 29, 'notes', 'Notes (dc.description, dc.provenance)', false UNION
+  SELECT 30, 'origin', 'Original Place of Publication, Production or Manufacture (dc.description)', false UNION
+  SELECT 31, 'audience', 'Audience Level (dc.audience)', false UNION
+  SELECT 32, 'classification', 'Classification (dc.description)', false UNION
+  SELECT 33, 'itemIdentifier', 'Physical Item Identifier (dc.identifier)', false UNION
+  SELECT 34, 'itemLocation', 'Physical Item Location (dc.description)', false
 ) M WHERE NOT EXISTS(SELECT * FROM INTERNAL_METADATA);
