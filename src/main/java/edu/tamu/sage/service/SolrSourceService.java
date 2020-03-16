@@ -8,7 +8,6 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import org.apache.solr.client.solrj.SolrClient;
-import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.request.LukeRequest;
@@ -39,8 +38,6 @@ public class SolrSourceService implements SourceService {
             luke.setNumTerms(0);
             LukeResponse lr = luke.process(solr);
             Map<String, FieldInfo> map = lr.getFieldInfo();
-            SolrQuery query = new SolrQuery();
-            query.setRows(1);
             for (Entry<String, FieldInfo> field : map.entrySet()) {
                 if (isStored(field.getValue()) || !isIndexed(field.getValue())) {
                     availableFields.add(SolrField.of(field.getValue()));
