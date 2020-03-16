@@ -115,6 +115,7 @@
     <field name="_version_" type="plong" indexed="false" stored="false"/>
     <field name="_root_" type="string" indexed="true" stored="false" docValues="false" />
     <field name="_text_" type="text_general" indexed="true" stored="false" multiValued="true"/>
+    <field name="timestamp" type="date" indexed="true" stored="true" default="NOW" multiValued="false"/>
 
 
     <!-- Internal -->
@@ -122,10 +123,10 @@
 
     <!-- Mandatory (M) -->
     <field name="title" type="sorting_string" indexed="true" stored="true" multiValued="false"/>
-    <field name="content_type" type="string" indexed="true" stored="true" multiValued="true"/>
-    <field name="digital_publisher" type="string" indexed="true" stored="true" multiValued="true"/>
-    <field name="rights_access" type="string" indexed="true" stored="true" multiValued="true"/>
-    <field name="reformatting" type="string" indexed="true" stored="true" multiValued="true"/>
+    <field name="content_type" type="strings" indexed="true" stored="true" multiValued="true"/>
+    <field name="digital_publisher" type="strings" indexed="true" stored="true" multiValued="true"/>
+    <field name="rights_access" type="strings" indexed="true" stored="true" multiValued="true"/>
+    <field name="reformatting" type="strings" indexed="true" stored="true" multiValued="true"/>
     <field name="filename" type="sorting_string" indexed="true" stored="true" multiValued="false"/>
 
     <copyField source="title" dest="_text_"/>
@@ -136,12 +137,12 @@
     <field name="creator" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
     <field name="date_published" type="pdate" indexed="true" stored="true" multiValued="false"/>
     <field name="date_created" type="pdate" indexed="true" stored="true" multiValued="false"/>
-    <field name="summary_abstract" type="string" indexed="true" stored="true" multiValued="true"/>
+    <field name="summary_abstract" type="strings" indexed="true" stored="true" multiValued="true"/>
     <field name="language" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
     <field name="institution_department" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
-    <field name="standard_digital_identifier" type="string" indexed="true" stored="true" multiValued="true"/>
-    <field name="local_digital_identifier" type="string" indexed="true" stored="true" multiValued="true"/>
-    <field name="edition_revision_information" type="string" indexed="true" stored="true" multiValued="true"/>
+    <field name="standard_digital_identifier" type="strings" indexed="true" stored="true" multiValued="true"/>
+    <field name="local_digital_identifier" type="strings" indexed="true" stored="true" multiValued="true"/>
+    <field name="edition_revision_information" type="strings" indexed="true" stored="true" multiValued="true"/>
 
     <copyField source="subject" dest="_text_"/>
     <copyField source="creator" dest="_text_"/>
@@ -150,13 +151,13 @@
     <copyField source="edition_revision_information" dest="_text_"/>
 
     <!-- Non-core Recommended -->
-    <field name="alternative_title" type="string" indexed="true" stored="true" multiValued="true"/>
+    <field name="alternative_title" type="strings" indexed="true" stored="true" multiValued="true"/>
     <field name="genre" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
-    <field name="table_of_contents" type="string" indexed="true" stored="true" multiValued="true"/>
+    <field name="table_of_contents" type="strings" indexed="true" stored="true" multiValued="true"/>
     <field name="contributor" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
-    <field name="related_resource" type="string" indexed="true" stored="true" multiValued="true"/>
-    <field name="original_publisher" type="string" indexed="true" stored="true" multiValued="true"/>
-    <field name="physical_extent" type="string" indexed="true" stored="true" multiValued="true"/>
+    <field name="related_resource" type="strings" indexed="true" stored="true" multiValued="true"/>
+    <field name="original_publisher" type="strings" indexed="true" stored="true" multiValued="true"/>
+    <field name="physical_extent" type="strings" indexed="true" stored="true" multiValued="true"/>
     <field name="sponsor" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
 
     <copyField source="alternative_title" dest="_text_"/>
@@ -167,12 +168,12 @@
 
     <!-- Non-core Optional -->
     <field name="source_collection" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
-    <field name="original_resource" type="string" indexed="true" stored="true" multiValued="true"/>
-    <field name="notes" type="string" indexed="true" stored="true" multiValued="true"/>
-    <field name="origin" type="string" indexed="true" stored="true" multiValued="true"/>
-    <field name="audience_level" type="string" indexed="true" stored="true" multiValued="true"/>
+    <field name="original_resource" type="strings" indexed="true" stored="true" multiValued="true"/>
+    <field name="notes" type="strings" indexed="true" stored="true" multiValued="true"/>
+    <field name="origin" type="strings" indexed="true" stored="true" multiValued="true"/>
+    <field name="audience_level" type="strings" indexed="true" stored="true" multiValued="true"/>
     <field name="classification" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
-    <field name="physical_item_identifier" type="string" indexed="true" stored="true" multiValued="true"/>
+    <field name="physical_item_identifier" type="strings" indexed="true" stored="true" multiValued="true"/>
     <field name="physical_item_location" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
 
     <copyField source="notes" dest="_text_"/>
@@ -187,37 +188,6 @@
        for fields via the specification of patterns to match field names.
        EXAMPLE:  name="*_i" will match any field ending in _i (like myid_i, z_i)
        RESTRICTION: the glob-like pattern in the name attribute must have a "*" only at the start or the end.  -->
-   
-    <dynamicField name="*_i"  type="pint"    indexed="true"  stored="true"/>
-    <dynamicField name="*_is" type="pints"    indexed="true"  stored="true"/>
-    <dynamicField name="*_s"  type="string"  indexed="true"  stored="true" />
-    <dynamicField name="*_ss" type="strings"  indexed="true"  stored="true"/>
-    <dynamicField name="*_l"  type="plong"   indexed="true"  stored="true"/>
-    <dynamicField name="*_ls" type="plongs"   indexed="true"  stored="true"/>
-    <dynamicField name="*_t" type="text_general" indexed="true" stored="true" multiValued="false"/>
-    <dynamicField name="*_txt" type="text_general" indexed="true" stored="true"/>
-    <dynamicField name="*_b"  type="boolean" indexed="true" stored="true"/>
-    <dynamicField name="*_bs" type="booleans" indexed="true" stored="true"/>
-    <dynamicField name="*_f"  type="pfloat"  indexed="true"  stored="true"/>
-    <dynamicField name="*_fs" type="pfloats"  indexed="true"  stored="true"/>
-    <dynamicField name="*_d"  type="pdouble" indexed="true"  stored="true"/>
-    <dynamicField name="*_ds" type="pdoubles" indexed="true"  stored="true"/>
-    <dynamicField name="random_*" type="random"/>
-
-    <!-- Type used for data-driven schema, to add a string copy for each text field -->
-    <dynamicField name="*_str" type="strings" stored="false" docValues="true" indexed="false" useDocValuesAsStored="false"/>
-
-    <dynamicField name="*_dt"  type="pdate"    indexed="true"  stored="true"/>
-    <dynamicField name="*_dts" type="pdate"    indexed="true"  stored="true" multiValued="true"/>
-    <dynamicField name="*_p"  type="location" indexed="true" stored="true"/>
-    <dynamicField name="*_srpt"  type="location_rpt" indexed="true" stored="true"/>
-    
-    <!-- payloaded dynamic fields -->
-    <dynamicField name="*_dpf" type="delimited_payloads_float" indexed="true"  stored="true"/>
-    <dynamicField name="*_dpi" type="delimited_payloads_int" indexed="true"  stored="true"/>
-    <dynamicField name="*_dps" type="delimited_payloads_string" indexed="true"  stored="true"/>
-
-    <dynamicField name="attr_*" type="text_general" indexed="true" stored="true" multiValued="true"/>
 
     <!-- Field to use to determine and enforce document uniqueness.
       Unless this field is marked with required="false", it will be a required field
@@ -255,22 +225,15 @@
     -->
 
     <!-- sorting string type  -->
-    <fieldType name="sorting_string" class="solr.TextField" omitNorms="true" termVectors="false" termPositions="false" termOffsets="false" sortMissingLast="true">
+    <fieldType name="sorting_string" class="solr.StrField" omitNorms="true" sortMissingLast="true">
       <analyzer>
         <tokenizer class="solr.KeywordTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory" />
       </analyzer>
     </fieldType>
 
-    <!-- whole string type  -->
-    <fieldType name="whole_string" class="solr.TextField" omitNorms="true" termVectors="false" termPositions="false" termOffsets="false" sortMissingLast="true">
-      <analyzer>
-        <tokenizer class="solr.KeywordTokenizerFactory"/>
-      </analyzer>
-    </fieldType>
-
     <!-- whole strings type -->
-    <fieldType name="whole_strings" class="solr.TextField" omitNorms="true" termVectors="false" termPositions="false" termOffsets="false" sortMissingLast="true" multiValued="true">
+    <fieldType name="whole_strings" class="solr.TextField" omitNorms="true" sortMissingLast="true" multiValued="true">
       <analyzer>
         <tokenizer class="solr.KeywordTokenizerFactory"/>
       </analyzer>
