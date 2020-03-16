@@ -13,7 +13,7 @@ public class ValueTemplateUtility {
 
         StringBuilder strBldr = new StringBuilder(template);
 
-        extractKeysFromtemplate(template).forEach(key -> {
+        extractKeysFromTemplate(template).forEach(key -> {
             Object value = solrDoc.getFieldValue(key);
             if (value != null) {
                 String toReplace = "{{" + key + "}}";
@@ -29,7 +29,7 @@ public class ValueTemplateUtility {
 
     }
 
-    public static List<String> extractKeysFromtemplate(String key) {
+    public static List<String> extractKeysFromTemplate(String key) {
 
         Pattern pattern = Pattern.compile("\\{\\{(.*?)\\}\\}");
 
