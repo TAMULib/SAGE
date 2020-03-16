@@ -225,7 +225,7 @@
     -->
 
     <!-- sorting string type  -->
-    <fieldType name="sorting_string" class="solr.StrField" omitNorms="true" sortMissingLast="true">
+    <fieldType name="sorting_string" class="solr.TextField" omitNorms="true" sortMissingLast="true">
       <analyzer>
         <tokenizer class="solr.KeywordTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory" />
