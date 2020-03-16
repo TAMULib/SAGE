@@ -115,7 +115,7 @@
     <field name="_version_" type="plong" indexed="false" stored="false"/>
     <field name="_root_" type="string" indexed="true" stored="false" docValues="false" />
     <field name="_text_" type="text_general" indexed="true" stored="false" multiValued="true"/>
-    <field name="timestamp" type="date" indexed="true" stored="true" default="NOW" multiValued="false"/>
+    <field name="timestamp" type="pdate" indexed="true" stored="true" default="NOW" multiValued="false"/>
 
 
     <!-- Internal -->
