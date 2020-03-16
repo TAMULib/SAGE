@@ -136,10 +136,9 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
   $scope.refreshSource = function(dv) {
     if ($scope.tabs.active === 0) {
       $scope.pingSource(dv);
-    } else {
-      if ((angular.isDefined($scope.originalSourceName) && dv.source.name !== $scope.originalSourceName) || (angular.isDefined($scope.originalFilter) && dv.filter !== $scope.originalFilter)) {
-        $scope.getFields(dv);
-      }
+    }
+    if ((angular.isDefined($scope.originalSourceName) && dv.source.name !== $scope.originalSourceName) || (angular.isDefined($scope.originalFilter) && dv.filter !== $scope.originalFilter)) {
+      $scope.getFields(dv);
     }
   };
 
