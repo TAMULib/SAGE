@@ -24,7 +24,11 @@ import edu.tamu.weaver.validation.model.ValidatingBaseEntity;
 @DiscriminatorColumn(name = "TYPE")
 @Inheritance(strategy = SINGLE_TABLE)
 @JsonTypeInfo(use = NAME, include = EXISTING_PROPERTY, property = "type")
-@JsonSubTypes({ @Type(value = DefaultOp.class, name = DefaultOp.TYPE), @Type(value = ConstantOp.class, name = ConstantOp.TYPE) })
+@JsonSubTypes({
+    @Type(value = DefaultOp.class, name = DefaultOp.TYPE),
+    @Type(value = ConstantOp.class, name = ConstantOp.TYPE),
+    @Type(value = DateNormalizationOp.class, name = DateNormalizationOp.TYPE)
+})
 public abstract class BaseOp extends ValidatingBaseEntity implements Operator {
 
     @Transient
