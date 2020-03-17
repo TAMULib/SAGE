@@ -23,12 +23,12 @@
 
   <link rel="stylesheet" th:href="${@environment.getProperty('app.url')+'/wro/app.css'}" />
 
+
 </head>
 
 <body>
   <main>
-    <tamuheader title="Sage"></tamuheader>
-
+    <tl-header page-title="SAGE"></tl-header>
     <alerts types="WARNING,ERROR"></alerts>
 
     <modal modal-id="verifyEmailModal" modal-view="views/modals/verifyEmailModal.html"
