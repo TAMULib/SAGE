@@ -8,13 +8,11 @@ import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import org.apache.solr.client.solrj.SolrClient;
-import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.request.LukeRequest;
 import org.apache.solr.client.solrj.response.LukeResponse;
 import org.apache.solr.client.solrj.response.LukeResponse.FieldInfo;
-import org.apache.solr.client.solrj.response.QueryResponse;
 import org.springframework.stereotype.Service;
 
 import edu.tamu.sage.exceptions.SourceFieldsException;
@@ -40,16 +38,9 @@ public class SolrSourceService implements SourceService {
             luke.setNumTerms(0);
             LukeResponse lr = luke.process(solr);
             Map<String, FieldInfo> map = lr.getFieldInfo();
-            SolrQuery query = new SolrQuery();
-            query.setRows(1);
             for (Entry<String, FieldInfo> field : map.entrySet()) {
-                if (isStored(field.getValue())) {
-                    String q = String.format("%s AND %s:*", filter, field.getKey());
-                    query.setQuery(q);
-                    QueryResponse qr = solr.query(query);
-                    if (qr.getResults().size() > 0 || !isIndexed(field.getValue())) {
-                        availableFields.add(SolrField.of(field.getValue()));
-                    }
+                if (isStored(field.getValue()) || !isIndexed(field.getValue())) {
+                    availableFields.add(SolrField.of(field.getValue()));
                 }
             }
         } catch (ConnectException | SolrServerException e) {

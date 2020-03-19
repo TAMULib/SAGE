@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
@@ -203,7 +204,7 @@ public class SolrDiscoveryService {
 
             discoveryView.getResultMetadataFields().forEach(metadataField -> {
                 if (metadataField.getKey().contains("{{")) {
-                    ValueTemplateUtility.extractKeysFromtemplate(metadataField.getKey()).forEach(key -> {
+                    ValueTemplateUtility.extractKeysFromTemplate(metadataField.getKey()).forEach(key -> {
                         query.addField(key);
                     });
                 } else {
@@ -218,9 +219,9 @@ public class SolrDiscoveryService {
             privellegedKeys.add(discoveryView.getResourceThumbnailUriKey());
             privellegedKeys.add(discoveryView.getResourceLocationUriKey());
 
-            privellegedKeys.forEach(rawKey -> {
+            privellegedKeys.stream().filter(rawKey -> StringUtils.isNotEmpty(rawKey)).forEach(rawKey -> {
                 if (rawKey.contains("{{")) {
-                    ValueTemplateUtility.extractKeysFromtemplate(rawKey).forEach(key -> {
+                    ValueTemplateUtility.extractKeysFromTemplate(rawKey).forEach(key -> {
                         query.addField(key);
                     });
                 } else {
@@ -228,7 +229,7 @@ public class SolrDiscoveryService {
                 }
             });
 
-            System.out.println(query);
+            logger.info("{}", query);
 
             QueryResponse rsp = solr.query(query);
 
