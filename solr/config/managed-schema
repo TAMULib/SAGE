@@ -122,6 +122,7 @@
     <field name="collection" type="string" indexed="true" stored="true" required="true" multiValued="false"/>
     <field name="thumbnail" type="string" indexed="true" stored="true" multiValued="false"/>
     <field name="resource" type="string" indexed="true" stored="true" multiValued="false"/>
+    <field name="manifest" type="string" indexed="true" stored="true" multiValued="false"/>
 
     <!-- Mandatory (M) -->
     <field name="title" type="sorting_string" indexed="true" stored="true" multiValued="false"/>
