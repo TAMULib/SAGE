@@ -1,0 +1,20 @@
+<div class="row">
+
+  <h1>Discovery Views</h1>
+
+  <div class="panel panel-default discovery-view-container">
+
+    <div class="panel-body">
+      <table ng-table="tableParams" class="table table-hover discovery-view-table">
+        <tbody>
+          <tr ng-repeat="discoveryView in $data">
+            <td data-title="'Name'" sortable="'name'">
+              <a href="discovery-context/{{discoveryView.slug}}">{{discoveryView.name}}</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
