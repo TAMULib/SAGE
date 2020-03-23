@@ -2,6 +2,7 @@ package edu.tamu.sage.service;
 
 import java.net.ConnectException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import edu.tamu.sage.exceptions.SourceFieldsException;
 import edu.tamu.sage.exceptions.SourceNotFoundException;
 import edu.tamu.sage.exceptions.SourceServiceException;
+import edu.tamu.sage.model.ApplicationType;
 import edu.tamu.sage.model.response.SolrField;
 
 @Service
@@ -73,6 +75,11 @@ public class SolrSourceService implements SourceService {
 
     private boolean isStored(FieldInfo info) {
         return info.getSchema().contains("S");
+    }
+
+    @Override
+    public List<ApplicationType> getApplicationTypes() {
+        return new ArrayList<>(Arrays.asList(ApplicationType.values()));
     }
 
 }

@@ -7,6 +7,8 @@ sage.controller('SourceManagementController', function ($controller, $scope, NgT
 
   $scope.sources = SourceRepo.getAll();
 
+  $scope.applicationTypes = SourceRepo.getApplicationTypes();
+
   $scope.sourceToCreate = SourceRepo.getScaffold();
   $scope.sourceToUpdate = {};
   $scope.sourceToDelete = {};
@@ -27,6 +29,7 @@ sage.controller('SourceManagementController', function ($controller, $scope, NgT
   };
 
   $scope.startCreateSource = function() {
+    $scope.sourceToCreate.applicationType = $scope.applicationTypes[0];
     $scope.openModal("#createSourceModal");
   };
 

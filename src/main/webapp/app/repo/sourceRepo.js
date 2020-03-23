@@ -4,7 +4,7 @@ sage.repo("SourceRepo", function (Source, WsApi) {
 
   sourceRepo.scaffold = new Source({
     name: "Local Solr",
-    uri: "http://localhost:8983/solr/collection1",
+    uri: "http://localhost:8983/solr/sage-discovery",
     readOnly: true,
     requiresFilter: true,
     username: "",
@@ -43,6 +43,18 @@ sage.repo("SourceRepo", function (Source, WsApi) {
       }
     });
     return fields;
+  };
+
+  sourceRepo.getApplicationTypes = function () {
+    var applicationTypes = [];
+    var getApplicationTypesPromise = WsApi.fetch(sourceRepo.mapping.getApplicationTypes);
+    getApplicationTypesPromise.then(function (response) {
+      var apiRes = angular.fromJson(response.body);
+      if (apiRes.meta.status === 'SUCCESS') {
+        angular.extend(applicationTypes, apiRes.payload['ArrayList<ApplicationType>']);
+      }
+    });
+    return applicationTypes;
   };
 
   sourceRepo.getReadable = function () {
