@@ -25,7 +25,7 @@ public class ApplicationTypeOp extends BasicOp {
     }
 
     @Override
-    public void process(Reader reader, Map<String, String> sageDoc) {
+    public void process(Reader reader, Map<String, Object> sageDoc) {
         sageDoc.put(getField(), reader.getSource().getApplicationType().getName());
     }
 

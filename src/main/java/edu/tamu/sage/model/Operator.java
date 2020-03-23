@@ -4,6 +4,6 @@ import java.util.Map;
 
 public interface Operator {
 
-    public void process(Reader reader, Map<String, String> sageDocument);
+    public void process(Reader reader, Map<String, Object> sageDocument);
 
 }
