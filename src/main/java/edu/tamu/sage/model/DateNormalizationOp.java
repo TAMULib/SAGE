@@ -94,8 +94,8 @@ public class DateNormalizationOp extends BasicOp {
 
     @Override
     public void process(Map<String, String> sageDoc) {
-        if (!sageDoc.containsKey(getField())) {
-            String value = getValue();
+        if (sageDoc.containsKey(getField())) {
+            String value = sageDoc.get(getField());
             try {
                 Date date = DateUtils.parseDate(value, DATE_FORMATS);
                 sageDoc.put(getField(), dateFormat.format(date));

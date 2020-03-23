@@ -39,9 +39,8 @@ public class RegexReplaceOp extends BasicOp {
 
     @Override
     public void process(Map<String, String> sageDoc) {
-        if (!sageDoc.containsKey(getField())) {
-            String value = getValue();
-            sageDoc.put(getField(), value.replaceAll(regex, value));
+        if (sageDoc.containsKey(getField())) {
+            sageDoc.put(getField(), sageDoc.get(getField()).replaceAll(regex, getValue()));
         }
     }
 
