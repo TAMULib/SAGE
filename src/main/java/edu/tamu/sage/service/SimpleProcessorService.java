@@ -37,7 +37,7 @@ public class SimpleProcessorService implements ProcessorService {
 
     private final static Map<Long, AtomicBoolean> processing = new ConcurrentHashMap<Long, AtomicBoolean>();
 
-    private List<Map<String, String>> readSolrCore(Reader solrReader) {
+    private List<Map<String, String>> readSolrCore(Reader solrReader, List<BaseOp> operators) {
         logger.info("Using Reader: " + solrReader.getName() + " to read from SOLR Core: " + solrReader.getSource().getName() + " - " + solrReader.getSource().getUri());
 
         int batchSize = 500;
@@ -99,6 +99,7 @@ public class SimpleProcessorService implements ProcessorService {
                     });
 
                     if (!resultsMap.isEmpty()) {
+                        operators.forEach(operator -> operator.process(solrReader, resultsMap));
                         mappedResults.add(resultsMap);
                     }
                 }
@@ -121,12 +122,6 @@ public class SimpleProcessorService implements ProcessorService {
             }
         }
         return mappedResults;
-    }
-
-    private void processOperator(BaseOp operator, List<Map<String, String>> mappedResults) {
-        mappedResults.forEach(map -> {
-            operator.process(map);
-        });
     }
 
     private void writeSolrCore(Writer writer, List<Map<String, String>> mappedResults) {
@@ -203,9 +198,8 @@ public class SimpleProcessorService implements ProcessorService {
         if (processing.compareAndSet(false, true)) {
             CompletableFuture.runAsync(() -> {
                 List<Map<String, String>> mappedResults = new ArrayList<Map<String, String>>();
-                job.getReaders().forEach(reader -> mappedResults.addAll(readSolrCore(reader)));
+                job.getReaders().forEach(reader -> mappedResults.addAll(readSolrCore(reader, job.getOperators())));
                 if (!mappedResults.isEmpty()) {
-                    job.getOperators().forEach(operator -> processOperator(operator, mappedResults));
                     job.getWriters().forEach(writer -> writeSolrCore(writer, mappedResults));
                 } else {
                     logger.info("Writer results: There were no documents to write");
