@@ -1,9 +1,9 @@
 INSERT INTO INTERNAL_METADATA SELECT * FROM (
   SELECT 1, 'id', 'Id', true UNION
   SELECT 2, 'collection', 'Collection', true UNION
-  SELECT 3, 'thumbnail', 'Thumbnail', true UNION
-  SELECT 4, 'resource', 'Resource', true UNION
-  SELECT 5, 'manifest', 'IIIF Manifest', true UNION
+  SELECT 3, 'thumbnail', 'Thumbnail', false UNION
+  SELECT 4, 'resource', 'Resource', false UNION
+  SELECT 5, 'manifest', 'IIIF Manifest', false UNION
   
   SELECT 6, 'title', 'Title (dc.title, dcterms.title)', true UNION
   SELECT 7, 'contentType', 'Content Type (dc.type)', false UNION
