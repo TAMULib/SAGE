@@ -38,6 +38,11 @@ angular.module("mock.sourceRepo", []).service("SourceRepo", function ($q) {
     return [];
   };
 
+  repo.getApplicationTypes = function () {
+    // @todo
+    return [];
+  };
+
   repo.getReadable = function () {
     var readables = [];
     for (var i in repo.list) {
