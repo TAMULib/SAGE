@@ -5,33 +5,33 @@ import java.util.Map;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
+import edu.tamu.sage.utility.ValueTemplateUtility;
+
 @Entity
-@DiscriminatorValue("Default")
-public class DefaultOp extends BasicOp {
+@DiscriminatorValue("Template")
+public class TemplateOp extends BasicOp {
 
-    public final static String TYPE = "DEFAULT_OP";
+    public final static String TYPE = "TEMPLATE_OP";
 
-    public DefaultOp() {
+    public TemplateOp() {
         super();
         setType(TYPE);
     }
 
-    public DefaultOp(String field, String value) {
+    public TemplateOp(String field, String value) {
         this();
         setField(field);
         setValue(value);
     }
 
-    public DefaultOp(String name, String field, String value) {
+    public TemplateOp(String name, String field, String value) {
         this(field, value);
         setName(name);
     }
 
     @Override
     public void process(Reader reader, Map<String, Object> sageDoc) {
-        if (!sageDoc.containsKey(getField())) {
-            sageDoc.put(getField(), getValue());
-        }
+        sageDoc.put(getField(), ValueTemplateUtility.compileTemplate(getValue(), sageDoc));
     }
 
     @Override

@@ -29,7 +29,8 @@ import edu.tamu.weaver.validation.model.ValidatingBaseEntity;
     @Type(value = ConstantOp.class, name = ConstantOp.TYPE),
     @Type(value = ApplicationTypeOp.class, name = ApplicationTypeOp.TYPE),
     @Type(value = DateNormalizationOp.class, name = DateNormalizationOp.TYPE),
-    @Type(value = RegexReplaceOp.class, name = RegexReplaceOp.TYPE)
+    @Type(value = RegexReplaceOp.class, name = RegexReplaceOp.TYPE),
+    @Type(value = TemplateOp.class, name = TemplateOp.TYPE)
 })
 public abstract class BaseOp extends ValidatingBaseEntity implements Operator {
 
