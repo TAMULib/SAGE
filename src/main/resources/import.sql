@@ -4,7 +4,7 @@ INSERT INTO INTERNAL_METADATA SELECT * FROM (
   SELECT 3, 'thumbnail', 'Thumbnail', false UNION
   SELECT 4, 'resource', 'Resource', false UNION
   SELECT 5, 'manifest', 'IIIF Manifest', false UNION
-  
+
   SELECT 6, 'title', 'Title (dc.title, dcterms.title)', true UNION
   SELECT 7, 'contentType', 'Content Type (dc.type)', false UNION
   SELECT 8, 'digitalPublisher', 'Digital Publisher (dc.publisher, dcterms.publisher)', false UNION

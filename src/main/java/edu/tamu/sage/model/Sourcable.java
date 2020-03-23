@@ -18,7 +18,16 @@ public interface Sourcable {
 
     public void setPassword(String password);
 
+    public Boolean getReadOnly();
+
+    public void setReadOnly(Boolean readOnly);
+
     public Boolean getRequiresFilter();
 
     public void setRequiresFilter(Boolean requiresFilter);
+
+    public ApplicationType getApplicationType();
+
+    public void setApplicationType(ApplicationType applicationType);
+
 }
