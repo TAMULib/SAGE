@@ -60,6 +60,18 @@
           results="operatorForms.getResults()"
           autocomplete="off">
         </validatedinput>
+
+        <validatedinput
+          ng-if="enableRegexInput(operatorToUpdate.type)"
+          id="operatorToUpdateRegex"
+          model="operatorToUpdate"
+          property="regex"
+          label="Regex"
+          form="operatorForms.update"
+          validations="operatorForms.validations"
+          results="operatorForms.getResults()"
+          autocomplete="off">
+        </validatedinput>
       </div>
     </div>
   </div>

@@ -13,6 +13,8 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.tamu.sage.model.validation.DateNormalizationOpValidator;
+
 @Entity
 @DiscriminatorValue("DateNormalization")
 public class DateNormalizationOp extends BasicOp {
@@ -67,6 +69,7 @@ public class DateNormalizationOp extends BasicOp {
     public DateNormalizationOp() {
         super();
         setType(TYPE);
+        setModelValidator(new DateNormalizationOpValidator());
     }
 
     public DateNormalizationOp(String field, String value) {
@@ -91,8 +94,8 @@ public class DateNormalizationOp extends BasicOp {
 
     @Override
     public void process(Map<String, String> sageDoc) {
-        if (!sageDoc.containsKey(getField())) {
-            String value = getValue();
+        if (sageDoc.containsKey(getField())) {
+            String value = sageDoc.get(getField());
             try {
                 Date date = DateUtils.parseDate(value, DATE_FORMATS);
                 sageDoc.put(getField(), dateFormat.format(date));

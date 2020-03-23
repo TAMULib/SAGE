@@ -58,6 +58,18 @@
           results="operatorForms.getResults()"
           autocomplete="off">
         </validatedinput>
+
+        <validatedinput
+          ng-if="enableRegexInput(operatorToCreate.type)"
+          id="operatorToCreateRegex"
+          model="operatorToCreate"
+          property="regex"
+          label="Regex"
+          form="operatorForms.create"
+          validations="operatorForms.validations"
+          results="operatorForms.getResults()"
+          autocomplete="off">
+        </validatedinput>
       </div>
     </div>
   </div>
