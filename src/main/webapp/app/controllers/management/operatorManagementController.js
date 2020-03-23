@@ -41,6 +41,10 @@ sage.controller('OperatorManagementController', function ($controller, $scope, N
     return ['REGEX_REPLACE_OP'].indexOf(opType) >= 0;
   };
 
+  $scope.enableRegexInput = function(opType) {
+    return opType === 'REGEX_REPLACE_OP';
+  };
+
   $scope.typeChanged = function(operator) {
     if (!$scope.enableFieldInput(operator.type)) {
       operator.field = "";
