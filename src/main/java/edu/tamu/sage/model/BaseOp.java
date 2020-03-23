@@ -27,7 +27,8 @@ import edu.tamu.weaver.validation.model.ValidatingBaseEntity;
 @JsonSubTypes({
     @Type(value = DefaultOp.class, name = DefaultOp.TYPE),
     @Type(value = ConstantOp.class, name = ConstantOp.TYPE),
-    @Type(value = DateNormalizationOp.class, name = DateNormalizationOp.TYPE)
+    @Type(value = DateNormalizationOp.class, name = DateNormalizationOp.TYPE),
+    @Type(value = RegexReplaceOp.class, name = RegexReplaceOp.TYPE)
 })
 public abstract class BaseOp extends ValidatingBaseEntity implements Operator {
 

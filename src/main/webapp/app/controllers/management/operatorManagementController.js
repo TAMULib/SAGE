@@ -37,12 +37,19 @@ sage.controller('OperatorManagementController', function ($controller, $scope, N
     return opType === 'DEFAULT_OP' || 'CONSTANT_OP' || 'DATE_NORMALIZATION_OP';
   };
 
+  $scope.enableRegexInput = function(opType) {
+    return opType === 'REGEX_REPLACE_OP';
+  };
+
   $scope.typeChanged = function(operator) {
     if (!$scope.enableFieldInput(operator.type)) {
       operator.field = "";
     }
     if (!$scope.enableValueInput(operator.type)) {
       operator.value = "";
+    }
+    if (!$scope.enableRegexInput(operator.type)) {
+      operator.regex = "";
     }
     for (var i = 0; i < $scope.operatorTypes.length; i++) {
       if ($scope.operatorTypes.hasOwnProperty(i)) {
