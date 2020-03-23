@@ -123,6 +123,7 @@
     <field name="thumbnail" type="string" indexed="true" stored="true" multiValued="false"/>
     <field name="resource" type="string" indexed="true" stored="true" multiValued="false"/>
     <field name="manifest" type="string" indexed="true" stored="true" multiValued="false"/>
+    <field name="application_type" type="string" indexed="true" stored="true" multiValued="false"/>
 
     <!-- Mandatory (M) -->
     <field name="title" type="sorting_string" indexed="true" stored="true" multiValued="false"/>
