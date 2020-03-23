@@ -93,7 +93,7 @@ public class DateNormalizationOp extends BasicOp {
     }
 
     @Override
-    public void process(Map<String, String> sageDoc) {
+    public void process(Reader reader, Map<String, String> sageDoc) {
         if (sageDoc.containsKey(getField())) {
             String value = sageDoc.get(getField());
             try {

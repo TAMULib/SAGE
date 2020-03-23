@@ -28,7 +28,7 @@ public class ConstantOp extends BasicOp {
     }
 
     @Override
-    public void process(Map<String, String> sageDoc) {
+    public void process(Reader reader, Map<String, String> sageDoc) {
         sageDoc.put(getField(), getValue());
     }
 

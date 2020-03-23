@@ -30,11 +30,15 @@ sage.controller('OperatorManagementController', function ($controller, $scope, N
   };
 
   $scope.enableFieldInput = function(opType) {
-    return opType === 'DEFAULT_OP' || 'CONSTANT_OP' || 'DATE_NORMALIZATION_OP';
+    return ['DEFAULT_OP', 'CONSTANT_OP', 'DATE_NORMALIZATION_OP', 'REGEX_REPLACE_OP', 'APPLICATION_TYPE_OP'].indexOf(opType) >= 0;
   };
 
   $scope.enableValueInput = function(opType) {
-    return opType === 'DEFAULT_OP' || 'CONSTANT_OP' || 'DATE_NORMALIZATION_OP';
+    return ['DEFAULT_OP', 'CONSTANT_OP', 'DATE_NORMALIZATION_OP', 'REGEX_REPLACE_OP'].indexOf(opType) >= 0;
+  };
+
+  $scope.enableRegexInput = function(opType) {
+    return ['REGEX_REPLACE_OP'].indexOf(opType) >= 0;
   };
 
   $scope.enableRegexInput = function(opType) {
