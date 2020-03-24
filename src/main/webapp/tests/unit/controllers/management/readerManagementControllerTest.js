@@ -101,10 +101,9 @@ describe("controller: ReaderManagementController", function () {
       "createReader",
       "deleteReader",
       "disableSubmit",
-      "getFields",
       "resetReaderForms",
       "setTable",
-      "sourceChanged",
+      "updateFields",
       "startCreateReader",
       "startUpdateReader",
       "updateReader"
@@ -205,11 +204,6 @@ describe("controller: ReaderManagementController", function () {
       // @todo
     });
 
-    it("getFields should work", function () {
-      $scope.getFields("todo", "todo");
-      // @todo
-    });
-
     it("resetReaderForms should reset reader form", function () {
       $scope.closeModal = function () { };
 
@@ -239,8 +233,9 @@ describe("controller: ReaderManagementController", function () {
       expect($scope.readers).toEqual(data);
     });
 
-    it("sourceChanged should work", function () {
-      $scope.sourceChanged();
+    it("updateFields should work", function () {
+      var reader = new mockReader($q);
+      $scope.updateFields(reader);
       // @todo
     });
 

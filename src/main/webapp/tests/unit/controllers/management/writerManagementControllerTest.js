@@ -111,12 +111,11 @@ describe("controller: WriterManagementController", function () {
       "createWriter",
       "deleteWriter",
       "disableSubmit",
-      "getFields",
       "resetWriterForms",
       "setTable",
       "startCreateWriter",
       "startUpdateWriter",
-      "sourceChanged",
+      "updateFields",
       "updateWriter"
     ];
 
@@ -215,11 +214,6 @@ describe("controller: WriterManagementController", function () {
       // @todo
     });
 
-    it("getFields work", function () {
-      $scope.getFields("todo", "todo");
-      // @todo
-    });
-
     it("resetWriterForms reset writer form", function () {
       $scope.closeModal = function () { };
 
@@ -261,10 +255,9 @@ describe("controller: WriterManagementController", function () {
       expect(foundReadOnlyCandidate).toEqual(false);
     });
 
-    it("sourceChanged work", function () {
-      $scope.writerToCreate = new mockWriter($q);
-
-      $scope.sourceChanged();
+    it("updateFields work", function () {
+      var writer = new mockWriter($q);
+      $scope.updateFields(writer);
       // @todo
     });
 
