@@ -22,6 +22,7 @@
   <meta name="description" content="Fedora User Interface" />
 
   <link rel="stylesheet" th:href="${@environment.getProperty('app.url')+'/wro/app.css'}" />
+  <link rel="stylesheet" type="text/css" href="node_modules/mirador/dist/css/mirador-combined.min.css">
 
 </head>
 
@@ -109,6 +110,8 @@
 
   <script src="node_modules/openseadragon/build/openseadragon/openseadragon.min.js"></script>
   <script src="node_modules/ng-openseadragon/build/angular-openseadragon.js"></script>
+
+  <script src="node_modules/mirador/dist/mirador.js"></script>
   <!-- Core Libraries -->
 
   <!-- Core Configuration -->
@@ -234,6 +237,7 @@
   <script src="directives/breadcrumbsDirective.js"></script>
   <script src="directives/defaultSrcDirective.js"></script>
   <script src="directives/contentViewerDirective.js"></script>
+  <script src="directives/afterRenderDirective.js"></script>
 
   <!-- filters -->
   <script src="filters/boldMatchFilter.js"></script>
