@@ -1,36 +1,27 @@
 package edu.tamu.sage.model.response;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.response.LukeResponse.FieldInfo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public class SolrField {
 
-    // <str name="I">Indexed</str>
-    // <str name="T">Tokenized</str>
-    // <str name="S">Stored</str>
-    // <str name="M">Multivalued</str>
-    // <str name="V">TermVector Stored</str>
-    // <str name="o">Store Offset With TermVector</str>
-    // <str name="p">Store Position With TermVector</str>
-    // <str name="O">Omit Norms</str>
-    // <str name="L">Lazy</str>
-    // <str name="B">Binary</str>
-    // <str name="f">Sort Missing First</str>
-    // <str name="l">Sort Missing Last</str>
-
     private String name;
-
-    @JsonIgnore
-    private String schema;
 
     private String type;
 
-    private int distinct;
+    private boolean multiValued;
+
+    private boolean indexed;
+
+    private boolean stored;
 
     public SolrField() {
         super();
-        distinct = 0;
+        setMultiValued(false);
+        setIndexed(false);
+        setStored(false);
     }
 
     public String getName() {
@@ -41,14 +32,6 @@ public class SolrField {
         this.name = name;
     }
 
-    public String getSchema() {
-        return schema;
-    }
-
-    public void setSchema(String schema) {
-        this.schema = schema;
-    }
-
     public String getType() {
         return type;
     }
@@ -57,37 +40,71 @@ public class SolrField {
         this.type = type;
     }
 
-    public void setDistinct(int distinct) {
-        this.distinct = distinct;
+    public boolean isMultiValued() {
+        return multiValued;
+    }
+
+    public void setMultiValued(boolean multiValued) {
+        this.multiValued = multiValued;
     }
 
     public boolean isIndexed() {
-        return schema != null ? schema.contains("I") : false;
+        return indexed;
     }
 
-    public boolean isTokenized() {
-        return schema != null ? schema.contains("T") : false;
+    public void setIndexed(boolean indexed) {
+        this.indexed = indexed;
     }
 
     public boolean isStored() {
-        return schema != null ? schema.contains("S") : false;
+        return stored;
     }
 
-    public boolean isMultivalued() {
-        return schema != null ? schema.contains("M") : false;
+    public void setStored(boolean stored) {
+        this.stored = stored;
     }
 
-    public boolean isDistinct() {
-        return distinct == 1;
-    }
-
-    public static SolrField of(FieldInfo info) {
+    public static SolrField from(FieldInfo info) {
         SolrField field = new SolrField();
         field.setType(info.getType());
-        field.setSchema(info.getSchema());
         field.setName(info.getName());
-        field.setDistinct(info.getDistinct());
+        String schema = info.getSchema();
+        if (StringUtils.isNotEmpty(schema)) {
+            field.setMultiValued(schema.contains("M"));
+            field.setIndexed(schema.contains("I"));
+            field.setStored(schema.contains("S"));
+        }
         return field;
+    }
+
+    public static SolrField from(JsonNode fieldNode) {
+        SolrField field = new SolrField();
+        field.setType(fieldNode.get("type").asText());
+        field.setName(fieldNode.get("name").asText());
+        field.setMultiValued(fieldNode.has("multiValued") ? fieldNode.get("multiValued").asBoolean() : false);
+        field.setIndexed(fieldNode.has("indexed") ? fieldNode.get("indexed").asBoolean() : false);
+        field.setStored(fieldNode.has("stored") ? fieldNode.get("stored").asBoolean() : false);
+        return field;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof SolrField)) {
+            return false;
+        }
+        SolrField other = (SolrField) o;
+        return name.equals(other.name);
+    }
+
+    // Idea from effective Java : Item 9
+    @Override
+    public int hashCode() {
+        int result = 31;
+        result = 73 * result + name.hashCode();
+        return result;
     }
 
 }

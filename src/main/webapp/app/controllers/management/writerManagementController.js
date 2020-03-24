@@ -35,12 +35,8 @@ sage.controller('WriterManagementController', function ($controller, $scope, NgT
     $scope.openModal("#createWriterModal");
   };
 
-  $scope.sourceChanged = function() {
-    $scope.getFields($scope.writerToCreate.source.uri, "*:*");
-  };
-
-  $scope.getFields = function(uri, filter) {
-    $scope.fields = SourceRepo.getIndexedFields(uri, filter);
+  $scope.updateFields = function(writer) {
+    $scope.fields = SourceRepo.getIndexedFields(writer.source.uri, '*:*');
   };
 
   var applyMappings = function (writer) {

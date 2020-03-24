@@ -1,6 +1,7 @@
 var dataReader1 = {
   id: 1,
   name: "Reader 1",
+  filter: "*:*",
   source: {
     id: 1,
     name: "Source 1",
@@ -15,6 +16,7 @@ var dataReader1 = {
 var dataReader2 = {
   id: 2,
   name: "Reader 2",
+  filter: "*:*",
   source: {
     id: 2,
     name: "Source 2",
@@ -29,6 +31,7 @@ var dataReader2 = {
 var dataReader3 = {
   id: 3,
   name: "Reader 3",
+  filter: "*:*",
   source: {
     id: 3,
     name: "Source 3",
