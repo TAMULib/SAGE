@@ -54,7 +54,7 @@ sage.controller('ReaderManagementController', function ($controller, $scope, $ti
         }, 5000);
       }
     };
-  }
+  };
 
   $scope.$watch("readerToCreate.filter", filterChangeWrapper($scope.readerToCreate));
 
