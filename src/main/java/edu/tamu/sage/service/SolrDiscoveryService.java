@@ -218,6 +218,7 @@ public class SolrDiscoveryService {
             privellegedKeys.add(discoveryView.getUniqueIdentifierKey());
             privellegedKeys.add(discoveryView.getResourceThumbnailUriKey());
             privellegedKeys.add(discoveryView.getResourceLocationUriKey());
+            privellegedKeys.add(discoveryView.getManifestUriKey());
 
             privellegedKeys.stream().filter(rawKey -> StringUtils.isNotEmpty(rawKey)).forEach(rawKey -> {
                 if (rawKey.contains("{{")) {

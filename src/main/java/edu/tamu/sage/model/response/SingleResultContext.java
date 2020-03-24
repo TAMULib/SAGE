@@ -2,7 +2,6 @@ package edu.tamu.sage.model.response;
 
 import static edu.tamu.sage.utility.ValueTemplateUtility.compileTemplate;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,9 +10,7 @@ import org.apache.solr.common.SolrDocument;
 import edu.tamu.sage.model.DiscoveryView;
 import edu.tamu.sage.model.MetadataField;
 
-public class SingleResultContext implements Serializable {
-
-    private static final long serialVersionUID = 6808155032067806535L;
+public class SingleResultContext {
 
     private String title;
 
