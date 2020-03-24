@@ -1,4 +1,4 @@
-sage.directive("contentviewer", function($filter, $timeout) {
+sage.directive("contentviewer", function($filter) {
   var viewerMap = appConfig.contentMap;
   return {
     templateUrl: "views/directives/viewers/viewerWrapper.html",
