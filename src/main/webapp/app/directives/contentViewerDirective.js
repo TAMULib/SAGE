@@ -13,13 +13,10 @@ sage.directive("contentviewer", function($filter) {
         viewerTemplate = 'mirador';
         $scope.resource = $filter("removeBrackets")($scope.context.manifestUri);
       } else {
-        typeLoop:
         for (var type in viewerMap) {
-          for (var supportedType in viewerMap[type]) {
-            if ($scope.contentType === viewerMap[type][supportedType]) {
-              viewerTemplate = type;
-              break typeLoop;
-            }
+          if (viewerMap[type].indexOf($scope.contentType) >= 0) {
+            viewerTemplate = type;
+            break;
           }
         }
         $scope.resource = $filter("removeBrackets")($scope.context.resourceLocationUri);
