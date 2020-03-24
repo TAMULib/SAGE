@@ -101,6 +101,7 @@ public class DateNormalizationOp extends BasicOp {
                 sageDoc.put(getField(), dateFormat.format(date));
             } catch (ParseException e) {
                 log.warn("Couldn't parse date from {}: {}", value, e.getMessage());
+                sageDoc.remove(getField());
             }
         }
     }
