@@ -1,4 +1,4 @@
-sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Result, Field, Search) {
+sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, ManifestService, Result, Search, WsApi) {
   return function DiscoveryContext() {
 
     var discoveryContext = this;
@@ -90,6 +90,19 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, WsApi, Res
 
         populateProperty("results", Result);
         populateProperty("fields", Field);
+
+        angular.forEach(discoveryContext.results, function(value, key) {
+          if (!value.resourceThumbnailUriKey) {
+            value.resourceThumbnailUriKey = 'temp';
+            if (value.manifestUriKey) {
+              ManifestService.getThumbnailUrl(value.manifestUriKey).then(function(thumbnailUrl) {
+                value.resourceThumbnailUriKey = thumbnailUrl;
+              }, function(error) {
+
+              });
+            }
+          }
+        });
 
         defer.resolve(discoveryContext);
       });
