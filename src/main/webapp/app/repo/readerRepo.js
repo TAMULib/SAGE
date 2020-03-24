@@ -4,8 +4,7 @@ sage.repo("ReaderRepo", function(WsApi) {
   readerRepo.scaffold = {
     fields: [],
     filter: "*:*",
-    name: "",
-    source: {}
+    name: ""
   };
 
   return readerRepo;

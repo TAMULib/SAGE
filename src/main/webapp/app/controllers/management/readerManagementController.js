@@ -1,4 +1,4 @@
-sage.controller('ReaderManagementController', function ($controller, $scope, NgTableParams, InternalMetadataRepo, ReaderRepo, SourceRepo) {
+sage.controller('ReaderManagementController', function ($controller, $scope, $timeout, NgTableParams, InternalMetadataRepo, ReaderRepo, SourceRepo) {
 
   angular.extend(this, $controller('AbstractController', {
       $scope: $scope
@@ -35,13 +35,28 @@ sage.controller('ReaderManagementController', function ($controller, $scope, NgT
     $scope.openModal("#createReaderModal");
   };
 
-  $scope.sourceChanged = function() {
-    $scope.getFields($scope.readerToCreate.source.uri, $scope.readerToCreate.filter);
+  $scope.updateFields = function(reader) {
+    if (reader.source !== undefined && reader.filter.length > 0) {
+      $scope.fields = SourceRepo.getIndexedFields(reader.source.uri, reader.filter);
+    }
   };
 
-  $scope.getFields = function(uri, filter) {
-    $scope.fields = SourceRepo.getIndexedFields(uri, filter);
-  };
+  var filterChangeDebouncePromise;
+
+  var filterChangeWrapper = function(reader) {
+    return function(newFilter, oldFilter) {
+      if (newFilter !== oldFilter) {
+        if (filterChangeDebouncePromise !== undefined) {
+          $timeout.cancel(filterChangeDebouncePromise);
+        }
+        filterChangeDebouncePromise = $timeout(function() {
+          $scope.updateFields(reader);
+        }, 5000);
+      }
+    };
+  }
+
+  $scope.$watch("readerToCreate.filter", filterChangeWrapper($scope.readerToCreate));
 
   var applyFields = function (reader) {
     var fields = [];
@@ -77,8 +92,14 @@ sage.controller('ReaderManagementController', function ($controller, $scope, NgT
     });
   };
 
+  var readerToUpdateWatcher;
+
   $scope.startUpdateReader = function(reader) {
     $scope.readerToUpdate = reader;
+    if (readerToUpdateWatcher !== undefined) {
+      readerToUpdateWatcher();
+    }
+    readerToUpdateWatcher = $scope.$watch("readerToUpdate.filter", filterChangeWrapper($scope.readerToUpdate));
     angular.forEach($scope.readerToUpdate.fields, function(field) {
       $scope.readerFields[field.schemaMapping] = {
         value: field.name
