@@ -212,15 +212,15 @@ public class SolrDiscoveryService {
                 }
             });
 
-            List<String> privellegedKeys = new ArrayList<>();
+            List<String> privilegedKeys = new ArrayList<>();
 
-            privellegedKeys.add(discoveryView.getTitleKey());
-            privellegedKeys.add(discoveryView.getUniqueIdentifierKey());
-            privellegedKeys.add(discoveryView.getResourceThumbnailUriKey());
-            privellegedKeys.add(discoveryView.getResourceLocationUriKey());
-            privellegedKeys.add(discoveryView.getManifestUriKey());
+            privilegedKeys.add(discoveryView.getTitleKey());
+            privilegedKeys.add(discoveryView.getUniqueIdentifierKey());
+            privilegedKeys.add(discoveryView.getResourceThumbnailUriKey());
+            privilegedKeys.add(discoveryView.getResourceLocationUriKey());
+            privilegedKeys.add(discoveryView.getManifestUriKey());
 
-            privellegedKeys.stream().filter(rawKey -> StringUtils.isNotEmpty(rawKey)).forEach(rawKey -> {
+            privilegedKeys.stream().filter(rawKey -> StringUtils.isNotEmpty(rawKey)).forEach(rawKey -> {
                 if (rawKey.contains("{{")) {
                     ValueTemplateUtility.extractKeysFromTemplate(rawKey).forEach(key -> {
                         query.addField(key);
