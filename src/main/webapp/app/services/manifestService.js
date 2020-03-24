@@ -32,9 +32,9 @@ sage.factory("ManifestService", function($http, $q) {
         }
       }, function() {
         reject(error);
-      })
+      });
     });
-  }
+  };
 
   return manifestService;
 });
