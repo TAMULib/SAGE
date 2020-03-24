@@ -14,15 +14,17 @@ import edu.tamu.sage.model.MetadataField;
 public class SingleResultContext implements Serializable {
 
     private static final long serialVersionUID = 6808155032067806535L;
-    
+
     private String title;
-    
+
     private String uniqueIdentifier;
-    
+
     private String resourceThumbnailUri;
-    
+
     private String resourceLocationUri;
-    
+
+    private String manifestUri;
+
     private List<ResultMetadataField> resultMetadataFields;
 
     public SingleResultContext() {
@@ -37,7 +39,7 @@ public class SingleResultContext implements Serializable {
     public void setTitle(String title) {
         this.title = title;
     }
-    
+
     public String getUniqueIdentifier() {
         return uniqueIdentifier;
     }
@@ -62,8 +64,12 @@ public class SingleResultContext implements Serializable {
         this.resourceLocationUri = resourceLocationUri;
     }
 
-    public static long getSerialversionuid() {
-        return serialVersionUID;
+    public String getManifestUri() {
+        return manifestUri;
+    }
+
+    public void setManifestUri(String manifestUri) {
+        this.manifestUri = manifestUri;
     }
 
     public List<ResultMetadataField> getResultMetadataFields() {
@@ -76,17 +82,18 @@ public class SingleResultContext implements Serializable {
 
     public static SingleResultContext of(DiscoveryView dv, SolrDocument solrDocument) {
         SingleResultContext src = new SingleResultContext();
-        
+
         src.setTitle(compileTemplate(dv.getTitleKey(), solrDocument));
         src.setUniqueIdentifier(compileTemplate(dv.getUniqueIdentifierKey(), solrDocument));
         src.setResourceLocationUri(compileTemplate(dv.getResourceLocationUriKey(), solrDocument));
         src.setResourceThumbnailUri(compileTemplate(dv.getResourceThumbnailUriKey(), solrDocument));
-        
+        src.setManifestUri(compileTemplate(dv.getManifestUriKey(), solrDocument));
+
         for (MetadataField mf : dv.getResultMetadataFields()) {
             Object value = solrDocument.getFieldValue(mf.getKey());
-            src.resultMetadataFields.add(ResultMetadataField.of(mf,  value != null ? value.toString() : "unavailable"));
+            src.resultMetadataFields.add(ResultMetadataField.of(mf, value != null ? value.toString() : "unavailable"));
         }
-        
+
         return src;
     }
 }
