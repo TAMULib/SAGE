@@ -36,15 +36,13 @@ var appConfig = {
 
   'contentMap': {
     "image": [
+      "image/jpeg",
       "image/png",
-      "image/gif",
-      "text/html",
-      "text/html;charset=UTF-8"
+      "image/gif"
     ],
     "seadragon": [
       "image/jp2",
       "image/tiff",
-      "json",
       "application/json",
       "application/json;charset=UTF-8"
     ],

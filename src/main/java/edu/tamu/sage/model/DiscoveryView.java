@@ -39,7 +39,7 @@ public class DiscoveryView extends ValidatingBaseEntity {
     private String resourceLocationUriKey;
 
     @NotNull
-    @Column(nullable = true)
+    @Column(nullable = false)
     private String manifestUriKey;
 
     @NotNull

@@ -49,11 +49,16 @@ sage.component("singleResultViewer", {
     $timeout(function() {
       $scope.singleResultContext = $scope.$ctrl.context;
       $scope.singleResultContext.ready().then(function() {
-        var resourceUri = $filter("removeBrackets")($scope.singleResultContext.resourceLocationUri);
-        getContentType(resourceUri).then(function(ct) {
-          $scope.contentType = ct;
+        if ($scope.singleResultContext.manifestUri) {
+          $scope.contentType = 'manifest';
           $scope.ready = true;
-        });
+        } else {
+          var resourceUri = $filter("removeBrackets")($scope.singleResultContext.resourceLocationUri);
+          getContentType(resourceUri).then(function(ct) {
+            $scope.contentType = ct;
+            $scope.ready = true;
+          });
+        }
       });
     });
 
