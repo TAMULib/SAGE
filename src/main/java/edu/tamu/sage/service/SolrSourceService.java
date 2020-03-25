@@ -86,11 +86,13 @@ public class SolrSourceService implements SourceService {
             for (FieldInfo info : lr.getFieldInfo().values()) {
                 SolrField field = SolrField.from(info);
 
-                String q = String.format("%s AND %s:*", filter, info.getName());
-                query.setQuery(q);
-                QueryResponse qr = solr.query(query);
-                if (qr.getResults().size() > 0) {
-                    fields.add(field);
+                if (!info.getName().contains("*") && !info.getName().equals("_version_")) {
+                    String q = String.format("%s AND %s:*", filter, info.getName());
+                    query.setQuery(q);
+                    QueryResponse qr = solr.query(query);
+                    if (qr.getResults().size() > 0) {
+                        fields.add(field);
+                    }
                 }
             }
             return fields.stream();

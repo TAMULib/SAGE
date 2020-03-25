@@ -84,10 +84,6 @@ public class DateNormalizationOp extends BasicOp {
         setName(name);
     }
 
-    public DateFormat getDateFormat() {
-        return dateFormat;
-    }
-
     public void setDateFormat(DateFormat dateFormat) {
         this.dateFormat = dateFormat;
     }
@@ -101,6 +97,7 @@ public class DateNormalizationOp extends BasicOp {
                 sageDoc.put(getField(), dateFormat.format(date));
             } catch (ParseException e) {
                 log.warn("Couldn't parse date from {}: {}", value, e.getMessage());
+                sageDoc.remove(getField());
             }
         }
     }

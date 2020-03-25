@@ -5,8 +5,10 @@ import static edu.tamu.sage.service.SolrSourceService.ALL_FIELDS_KEY;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrClient;
@@ -75,9 +77,12 @@ public class SolrDiscoveryService {
         }
 
         String query = "";
-        if (!(field.isEmpty() || value.isEmpty())) {
-            query = search.getField();
-            query += ":" + (value.isEmpty() ? "*" : value);
+        if (search.getField().isEmpty() && search.getValue().isEmpty()) {
+            query = "*:*";
+        } else if (search.getField().isEmpty()) {
+            query = search.getValue();
+        } else {
+            query = search.getField() + ":" + search.getValue();
         }
 
         SolrQuery solrQuery = new SolrQuery(query);
@@ -202,13 +207,15 @@ public class SolrDiscoveryService {
         try {
             solr.ping();
 
+            Set<String> fields = new HashSet<String>();
+
             discoveryView.getResultMetadataFields().forEach(metadataField -> {
                 if (metadataField.getKey().contains("{{")) {
                     ValueTemplateUtility.extractKeysFromTemplate(metadataField.getKey()).forEach(key -> {
-                        query.addField(key);
+                        fields.add(key);
                     });
                 } else {
-                    query.addField(metadataField.getKey());
+                    fields.add(metadataField.getKey());
                 }
             });
 
@@ -223,12 +230,14 @@ public class SolrDiscoveryService {
             privilegedKeys.stream().filter(rawKey -> StringUtils.isNotEmpty(rawKey)).forEach(rawKey -> {
                 if (rawKey.contains("{{")) {
                     ValueTemplateUtility.extractKeysFromTemplate(rawKey).forEach(key -> {
-                        query.addField(key);
+                        fields.add(key);
                     });
                 } else {
-                    query.addField(rawKey);
+                    fields.add(rawKey);
                 }
             });
+
+            fields.forEach(field -> query.addField(field));
 
             logger.info("{}", query);
 

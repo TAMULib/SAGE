@@ -30,7 +30,7 @@ sage.factory("ManifestService", function($http, $q) {
         } else {
           reject('No manifest thumbnail found!');
         }
-      }, function() {
+      }, function(error) {
         reject(error);
       });
     });
