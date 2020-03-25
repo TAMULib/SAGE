@@ -84,10 +84,6 @@ public class DateNormalizationOp extends BasicOp {
         setName(name);
     }
 
-    public DateFormat getDateFormat() {
-        return dateFormat;
-    }
-
     public void setDateFormat(DateFormat dateFormat) {
         this.dateFormat = dateFormat;
     }
