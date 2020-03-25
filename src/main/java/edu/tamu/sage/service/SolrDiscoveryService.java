@@ -77,9 +77,12 @@ public class SolrDiscoveryService {
         }
 
         String query = "";
-        if (!(field.isEmpty() || value.isEmpty())) {
-            query = search.getField();
-            query += ":" + (value.isEmpty() ? "*" : value);
+        if (search.getField().isEmpty() && search.getValue().isEmpty()) {
+            query = "*:*";
+        } else if (search.getField().isEmpty()) {
+            query = search.getValue();
+        } else {
+            query = search.getField() + ":" + search.getValue();
         }
 
         SolrQuery solrQuery = new SolrQuery(query);
