@@ -28,6 +28,7 @@ import edu.tamu.weaver.validation.model.ValidatingBaseEntity;
     @Type(value = DefaultOp.class, name = DefaultOp.TYPE),
     @Type(value = ConstantOp.class, name = ConstantOp.TYPE),
     @Type(value = ApplicationTypeOp.class, name = ApplicationTypeOp.TYPE),
+    @Type(value = Base64EncodeOp.class, name = Base64EncodeOp.TYPE),
     @Type(value = DateNormalizationOp.class, name = DateNormalizationOp.TYPE),
     @Type(value = RegexReplaceOp.class, name = RegexReplaceOp.TYPE),
     @Type(value = TemplateOp.class, name = TemplateOp.TYPE)
