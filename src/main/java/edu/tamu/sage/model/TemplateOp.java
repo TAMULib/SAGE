@@ -31,7 +31,9 @@ public class TemplateOp extends BasicOp {
 
     @Override
     public void process(Reader reader, Map<String, Object> sageDoc) {
-        sageDoc.put(getField(), ValueTemplateUtility.compileTemplate(getValue(), sageDoc));
+        if (!sageDoc.containsKey(getField())) {
+            sageDoc.put(getField(), ValueTemplateUtility.compileTemplate(getValue(), sageDoc));
+        }
     }
 
     @Override
