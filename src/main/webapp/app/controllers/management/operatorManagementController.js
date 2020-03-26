@@ -30,7 +30,7 @@ sage.controller('OperatorManagementController', function ($controller, $scope, N
   };
 
   $scope.enableFieldInput = function(opType) {
-    return ['DEFAULT_OP', 'CONSTANT_OP', 'APPLICATION_TYPE_OP', 'DATE_NORMALIZATION_OP', 'REGEX_REPLACE_OP', 'TEMPLATE_OP'].indexOf(opType) >= 0;
+    return ['DEFAULT_OP', 'CONSTANT_OP', 'APPLICATION_TYPE_OP', 'BASE_64_ENCODE_OP', 'DATE_NORMALIZATION_OP', 'REGEX_REPLACE_OP', 'TEMPLATE_OP'].indexOf(opType) >= 0;
   };
 
   $scope.enableValueInput = function(opType) {
