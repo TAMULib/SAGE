@@ -6,7 +6,7 @@
 
   <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
-    window.location.base = [[${base}]];
+    window.location.base = [[${ base }]];
     /*]]>*/
   </script>
 
@@ -58,7 +58,7 @@
                     <username></username> <span class="caret"></span>
                   </a>
                   <ul class="dropdown-menu" role="menu">
-                    <li ng-if="isUser() || isManager() || isAdmin()"><a href="management/discovery-view">Manage Discovery Views</a></li>
+                    <li ng-if="isManager() || isAdmin()"><a href="management/discovery-view">Manage Discovery Views</a></li>
                     <li ng-if="isAdmin() || isAssuming() == 'true'" role="presentation" class="divider"></li>
                     <li ng-if="isAdmin() || isAssuming() == 'true'" role="presentation" class="dropdown-header">Admin Actions</li>
                     <li ng-if="isAdmin() || isAssuming() == 'true'"><a href="users">Manage Users</a></li>
