@@ -198,8 +198,8 @@ module.exports = function (grunt) {
     copy: {
       styles: {
         files: [{
-          cwd: "node_modules/ng-sortable/dist/",
-          src: "ng-sortable.min.css",
+          cwd: "node_modules/mirador/dist/css/",
+          src: "mirador-combined.min.css",
           dest: "<%= build.app %>/resources/styles/",
           expand: true
         }]
