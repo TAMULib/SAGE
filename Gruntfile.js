@@ -206,6 +206,12 @@ module.exports = function (grunt) {
       },
       fonts: {
         files: [{
+          src: [
+            "node_modules/bootstrap-sass/assets/fonts/bootstrap/*"
+          ],
+          dest: "<%= build.app %>",
+          expand: true
+        }, {
           cwd: "node_modules/mirador/dist/fonts/",
           src: "*",
           dest: "<%= build.app %>/resources/fonts/",
