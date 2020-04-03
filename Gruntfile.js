@@ -198,11 +198,25 @@ module.exports = function (grunt) {
     copy: {
       styles: {
         files: [{
-          cwd: "node_modules/ng-sortable/dist/",
-          src: "ng-sortable.min.css",
+          cwd: "node_modules/mirador/dist/css/",
+          src: "mirador-combined.min.css",
           dest: "<%= build.app %>/resources/styles/",
           expand: true
         }]
+      },
+      fonts: {
+        files: [{
+          src: [
+            "node_modules/bootstrap-sass/assets/fonts/bootstrap/*"
+          ],
+          dest: "<%= build.app %>",
+          expand: true
+        }, {
+          cwd: "node_modules/mirador/dist/fonts/",
+          src: "*",
+          dest: "<%= build.app %>/resources/fonts/",
+          expand: true
+        }],
       },
       weaver: {
         files: [{
@@ -214,15 +228,6 @@ module.exports = function (grunt) {
           dest: "<%= build.app %>",
           expand: true
         }]
-      },
-      fonts: {
-        files: [{
-          src: [
-            "node_modules/bootstrap-sass/assets/fonts/bootstrap/*"
-          ],
-          dest: "<%= build.app %>",
-          expand: true
-        }],
       }
     },
 
@@ -245,15 +250,15 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks("grunt-contrib-symlink");
   grunt.loadNpmTasks("grunt-karma-coveralls");
 
-  grunt.registerTask("default", ["jshint", "copy:styles", "clean", "symlink"]);
+  grunt.registerTask("default", ["jshint", "copy:styles", "copy:fonts", "clean", "symlink"]);
 
   grunt.registerTask("coverage-preprocess", ["concat", "usemin", "clean", "copy", "symlink"]);
 
-  grunt.registerTask("coverage", ["jshint", "copy:styles", "symlink", "coveralls"]);
+  grunt.registerTask("coverage", ["jshint", "copy:styles", "copy:fonts", "symlink", "coveralls"]);
 
   grunt.registerTask("watch", ["watch"]);
 
-  grunt.registerTask("develop", ["jshint", "concat", "usemin", "copy:styles", "clean", "symlink", "watch"]);
+  grunt.registerTask("develop", ["jshint", "concat", "usemin", "copy:styles", "copy:fonts", "clean", "symlink", "watch"]);
 
   grunt.registerTask("deploy", ["jshint", "concat", "uglify", "usemin", "clean", "copy"]);
 
