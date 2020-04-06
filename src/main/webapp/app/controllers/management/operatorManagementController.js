@@ -50,9 +50,8 @@ sage.controller('OperatorManagementController', function ($controller, $scope, N
   };
 
   $scope.clearValue = function(type) {
-    return !$scope.enableValueInput(type)
-      && !$scope.enableMultiSuggestionValueInput(type);
-  }
+    return !$scope.enableValueInput(type) && !$scope.enableMultiSuggestionValueInput(type);
+  };
 
   $scope.typeChanged = function(operator) {
     if (!$scope.enableFieldInput(operator.type)) {
