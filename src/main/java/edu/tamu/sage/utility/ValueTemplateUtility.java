@@ -20,7 +20,7 @@ public class ValueTemplateUtility {
                 int end = strBldr.indexOf(toReplace) + toReplace.length();
                 strBldr.replace(start, end, value.toString());
             } else {
-                strBldr.replace(0, template.length(), "unavailable");
+                strBldr.replace(0, template.length(), "");
             }
         });
         return strBldr.toString();

@@ -92,9 +92,9 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
         populateProperty("fields", Field);
 
         angular.forEach(discoveryContext.results, function(value, key) {
-          if (!value.resourceThumbnailUriKey || value.resourceThumbnailUriKey === 'unavailable') {
+          if (!value.resourceThumbnailUriKey) {
             value.resourceThumbnailUriKey = 'temp';
-            if (value.manifestUriKey && value.manifestUriKey !== 'unavailable') {
+            if (value.manifestUriKey) {
               ManifestService.getThumbnailUrl(value.manifestUriKey).then(function(thumbnailUrl) {
                 value.resourceThumbnailUriKey = thumbnailUrl;
               }, function(error) {

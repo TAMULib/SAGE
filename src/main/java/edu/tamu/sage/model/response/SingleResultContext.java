@@ -88,7 +88,9 @@ public class SingleResultContext {
 
         for (MetadataField mf : dv.getResultMetadataFields()) {
             Object value = solrDocument.getFieldValue(mf.getKey());
-            src.resultMetadataFields.add(ResultMetadataField.of(mf, value != null ? value.toString() : "unavailable"));
+            if (value != null) {
+                src.resultMetadataFields.add(ResultMetadataField.of(mf, value.toString()));
+            }
         }
 
         return src;

@@ -109,7 +109,10 @@ public class Result {
             Object value = doc.getFieldValue(mf.getKey());
             result.inList = mf.isInList();
             result.inGrid = mf.isInGrid();
-            result.fields.add(ResultMetadataField.of(mf, value != null ? value.toString() : "unavailable"));
+            if (value != null) {
+                result.fields.add(ResultMetadataField.of(mf, value.toString()));
+            }
+
         }
         return result;
     }
