@@ -26,9 +26,8 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
         if (!angular.isDefined(parameters.query[filterKey])) {
           parameters.query[filterKey] = [];
         }
-        parameters.query[filterKey].push(filter.value);
+        parameters.query[filterKey].push(encodeURIComponent(filter.value));
       });
-
       return WsApi.fetch(discoveryContext.getMapping().load, parameters);
     };
 
