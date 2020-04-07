@@ -3,6 +3,7 @@ package edu.tamu.sage.utility;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,20 +11,22 @@ public class ValueTemplateUtility {
 
     private static Pattern pattern = Pattern.compile("\\{\\{(.*?)\\}\\}");
 
-    public static String compileTemplate(String template, Map<String, Object> context) {
+    public static Optional<String> compileTemplate(String template, Map<String, Object> context) {
         StringBuilder strBldr = new StringBuilder(template);
-        extractKeysFromTemplate(template).forEach(key -> {
+        Optional<String> strOpt = Optional.empty();
+        for (String key : extractKeysFromTemplate(template)) {
             if (context.containsKey(key)) {
                 Object value = context.get(key);
                 String toReplace = "{{" + key + "}}";
                 int start = strBldr.indexOf(toReplace);
                 int end = strBldr.indexOf(toReplace) + toReplace.length();
-                strBldr.replace(start, end, value.toString());
+                strOpt = Optional.of(strBldr.replace(start, end, value.toString()).toString());
             } else {
-                strBldr.replace(0, template.length(), "");
+                strOpt = Optional.empty();
+                break;
             }
-        });
-        return strBldr.toString();
+        }
+        return strOpt;
     }
 
     public static List<String> extractKeysFromTemplate(String key) {

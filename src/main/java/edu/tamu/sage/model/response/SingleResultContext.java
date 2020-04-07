@@ -4,6 +4,7 @@ import static edu.tamu.sage.utility.ValueTemplateUtility.compileTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.solr.common.SolrDocument;
 
@@ -80,11 +81,27 @@ public class SingleResultContext {
     public static SingleResultContext of(DiscoveryView dv, SolrDocument solrDocument) {
         SingleResultContext src = new SingleResultContext();
 
-        src.setTitle(compileTemplate(dv.getTitleKey(), solrDocument));
-        src.setUniqueIdentifier(compileTemplate(dv.getUniqueIdentifierKey(), solrDocument));
-        src.setResourceLocationUri(compileTemplate(dv.getResourceLocationUriKey(), solrDocument));
-        src.setResourceThumbnailUri(compileTemplate(dv.getResourceThumbnailUriKey(), solrDocument));
-        src.setManifestUri(compileTemplate(dv.getManifestUriKey(), solrDocument));
+        Optional<String> titleOption = compileTemplate(dv.getTitleKey(), solrDocument);
+        Optional<String> uniqueIdOption = compileTemplate(dv.getUniqueIdentifierKey(), solrDocument);
+        Optional<String> locationOption = compileTemplate(dv.getResourceLocationUriKey(), solrDocument);
+        Optional<String> thumbnailOption = compileTemplate(dv.getResourceThumbnailUriKey(), solrDocument);
+        Optional<String> manifestOption = compileTemplate(dv.getManifestUriKey(), solrDocument);
+
+        if (titleOption.isPresent()) {
+            src.setTitle(titleOption.get());
+        }
+        if (uniqueIdOption.isPresent()) {
+            src.setUniqueIdentifier(uniqueIdOption.get());
+        }
+        if (locationOption.isPresent()) {
+            src.setResourceLocationUri(locationOption.get());
+        }
+        if (thumbnailOption.isPresent()) {
+            src.setResourceThumbnailUri(thumbnailOption.get());
+        }
+        if (manifestOption.isPresent()) {
+            src.setManifestUri(manifestOption.get());
+        }
 
         for (MetadataField mf : dv.getResultMetadataFields()) {
             Object value = solrDocument.getFieldValue(mf.getKey());
