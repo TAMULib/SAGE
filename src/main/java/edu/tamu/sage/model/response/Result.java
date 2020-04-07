@@ -4,6 +4,7 @@ import static edu.tamu.sage.utility.ValueTemplateUtility.compileTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.solr.common.SolrDocument;
 
@@ -99,17 +100,36 @@ public class Result {
     public static Result of(SolrDocument doc, DiscoveryView discoveryView) {
         Result result = new Result();
 
-        result.setUniqueIdentifier(compileTemplate("{{" + discoveryView.getUniqueIdentifierKey() + "}}", doc));
-        result.setTitle(compileTemplate(discoveryView.getTitleKey(), doc));
-        result.setResourceLocationUriKey(compileTemplate(discoveryView.getResourceLocationUriKey(), doc));
-        result.setResourceThumbnailUriKey(compileTemplate(discoveryView.getResourceThumbnailUriKey(), doc));
-        result.setManifestUriKey(compileTemplate(discoveryView.getManifestUriKey(), doc));
+        Optional<String> titleOption = compileTemplate(discoveryView.getTitleKey(), doc);
+        Optional<String> uniqueIdOption = compileTemplate("{{" + discoveryView.getUniqueIdentifierKey() + "}}", doc);
+        Optional<String> locationOption = compileTemplate(discoveryView.getResourceLocationUriKey(), doc);
+        Optional<String> thumbnailOption = compileTemplate(discoveryView.getResourceThumbnailUriKey(), doc);
+        Optional<String> manifestOption = compileTemplate(discoveryView.getManifestUriKey(), doc);
+        
+        if (titleOption.isPresent()) {
+            result.setTitle(titleOption.get());
+        }
+        if (uniqueIdOption.isPresent()) {
+            result.setUniqueIdentifier(uniqueIdOption.get());
+        }
+        if (locationOption.isPresent()) {
+            result.setResourceLocationUriKey(locationOption.get());
+        }
+        if (thumbnailOption.isPresent()) {
+            result.setResourceThumbnailUriKey(thumbnailOption.get());
+        }
+        if (manifestOption.isPresent()) {
+            result.setManifestUriKey(manifestOption.get());
+        }
 
         for (MetadataField mf : discoveryView.getResultMetadataFields()) {
             Object value = doc.getFieldValue(mf.getKey());
             result.inList = mf.isInList();
             result.inGrid = mf.isInGrid();
-            result.fields.add(ResultMetadataField.of(mf, value != null ? value.toString() : "unavailable"));
+            if (value != null) {
+                result.fields.add(ResultMetadataField.of(mf, value.toString()));
+            }
+
         }
         return result;
     }
