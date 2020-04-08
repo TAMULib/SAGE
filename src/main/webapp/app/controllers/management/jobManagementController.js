@@ -13,6 +13,10 @@ sage.controller('JobManagementController', function ($controller, $scope, NgTabl
   $scope.jobToUpdate = {};
   $scope.jobToDelete = {};
 
+  $scope.addingOperator = false;
+  // Can't use objects directly on the scope in ng-model
+  $scope.operatorToAdd = { value: null };
+
   $scope.weekDays = {1:"Monday",2:"Tuesday",3:"Wednesday",4:"Thursday",5:"Friday",6:"Saturday",7:"Sunday"};
   $scope.months = {1:"January",2:"February",3:"March",4:"April",5:"May",6:"June",7:"July",8:"August",9:"September",10:"October",11:"November",12:"December"};
 
@@ -32,6 +36,7 @@ sage.controller('JobManagementController', function ($controller, $scope, NgTabl
         $scope.jobForms[key].$setPristine();
       }
     }
+    $scope.closeAddOperator();
     $scope.closeModal();
   };
 
@@ -187,6 +192,41 @@ sage.controller('JobManagementController', function ($controller, $scope, NgTabl
     $event.preventDefault();
     $event.stopPropagation();
     $scope.popupEnd.opened = true;
+  };
+
+  $scope.openAddOperator = function() {
+    $scope.addingOperator = true;
+  };
+
+  $scope.closeAddOperator = function() {
+    $scope.addingOperator = false;
+    $scope.operatorToAdd.value = null;
+  };
+
+  $scope.addOperator = function(operators, operator) {
+    operators.push(operator);
+    $scope.closeAddOperator();
+  };
+
+  $scope.removeOperator = function(operators, operator) {
+    operators.splice(operators.indexOf(operator), 1);
+  };
+
+  $scope.moveUp = function(operators, operator) {
+    var index = operators.indexOf(operator);
+    if (index !== 0) {
+      var temp = operators.splice(index, 1)[0];
+      operators.splice(index - 1, 0, temp);
+    }
+
+  };
+
+  $scope.moveDown = function(operators, operator) {
+    var index = operators.indexOf(operator);
+    if (index !== operators.length - 1) {
+      var temp = operators.splice(index, 1)[0];
+      operators.splice(index + 1, 0, temp);
+    }
   };
 
   JobRepo.ready().then(function() {
