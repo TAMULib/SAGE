@@ -29,7 +29,7 @@
               <div ng-disabled="addingOperator" class="btn btn-default pull-right add-operator" ng-click="openAddOperator()">Add</div>
             </div>
             <div class="input-group" ng-if="addingOperator">
-              <select name="add-operator" class="form-control" ng-model="operatorToAdd.value" ng-options="operator as operator.name for operator in operators track by operator.id">
+              <select name="add-operator" class="form-control" ng-model="operatorToAdd.value" ng-options="operator as operator.name for operator in operators | availableOperator : jobToUpdate.operators track by operator.id">
                 <option value="" selected>Select An Operator</option>
               </select>
               <span class="input-group-btn">
