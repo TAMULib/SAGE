@@ -82,9 +82,9 @@ public class SolrDiscoveryService {
         if (search.getField().isEmpty() && search.getValue().isEmpty()) {
             query = "*:*";
         } else if (search.getField().isEmpty()) {
-            query = ClientUtils.escapeQueryChars(search.getValue());
+            query = search.getValue();
         } else {
-            query = search.getField() + ":" + ClientUtils.escapeQueryChars(search.getValue());
+            query = search.getField() + ":" + search.getValue();
         }
 
         SolrQuery solrQuery = new SolrQuery(query);
