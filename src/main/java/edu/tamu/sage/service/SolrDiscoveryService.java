@@ -16,6 +16,7 @@ import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.client.solrj.util.ClientUtils;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.slf4j.Logger;
@@ -42,6 +43,7 @@ import edu.tamu.sage.utility.ValueTemplateUtility;
 public class SolrDiscoveryService {
 
     private final static String FILTER_WILDCARD = "*:*";
+    private final static String FILTER_VALUE_PREFIX = "fv::";
 
     private final static Logger logger = LoggerFactory.getLogger(SolrDiscoveryService.class);
 
@@ -80,9 +82,9 @@ public class SolrDiscoveryService {
         if (search.getField().isEmpty() && search.getValue().isEmpty()) {
             query = "*:*";
         } else if (search.getField().isEmpty()) {
-            query = search.getValue();
+            query = ClientUtils.escapeQueryChars(search.getValue());
         } else {
-            query = search.getField() + ":" + search.getValue();
+            query = search.getField() + ":" + ClientUtils.escapeQueryChars(search.getValue());
         }
 
         SolrQuery solrQuery = new SolrQuery(query);
@@ -101,17 +103,16 @@ public class SolrDiscoveryService {
             discoveryView.getFacetFields().forEach(facetField -> {
                 solrQuery.addFacetField(facetField.getKey());
 
-                String filterKey = "f." + facetField.getKey();
+                String filterKey = facetField.getKey();
                 if (filterMap.containsKey(filterKey)) {
-                    String[] filterValues = filterMap.get(filterKey).split(",", -1);
-
+                    String[] filterValues = filterMap.get(filterKey).split(","+FILTER_VALUE_PREFIX, -1);
                     for (int i = 0; i < filterValues.length; i++) {
                         Filter filter = new Filter();
                         filter.setKey(facetField.getKey());
                         filter.setLabel(facetField.getLabel());
-                        filter.setValue(filterValues[i]);
+                        filter.setValue(filterValues[i].replace(FILTER_VALUE_PREFIX,""));
                         filters.add(filter);
-                        solrQuery.addFilterQuery(facetField.getKey() + ":" + filterValues[i]);
+                        solrQuery.addFilterQuery(facetField.getKey() + ":" + ClientUtils.escapeQueryChars(filter.getValue()));
                     }
                 }
             });
