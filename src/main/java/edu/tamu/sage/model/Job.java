@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.OrderColumn;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Fetch;
@@ -30,6 +31,7 @@ public class Job extends ValidatingBaseEntity {
     @Column(nullable = false)
     private List<Reader> readers;
 
+    @OrderColumn
     @ManyToMany(fetch = EAGER)
     @Fetch(FetchMode.SELECT)
     private List<BaseOp> operators;
