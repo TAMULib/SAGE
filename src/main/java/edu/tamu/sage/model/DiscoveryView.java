@@ -63,7 +63,7 @@ public class DiscoveryView extends ValidatingBaseEntity {
     private String infoLinkUrl;
 
     @NotNull
-    @Column(nullable = false)
+    @Column(length = 1000, nullable = false)
     private String description;
 
     private String queryParser;
