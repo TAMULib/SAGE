@@ -76,6 +76,9 @@ public class DiscoveryView extends ValidatingBaseEntity {
     @ElementCollection
     private List<SearchField> searchFields;
 
+    @Column
+    private String logoUrl;
+
     public DiscoveryView() {
         setModelValidator(new DiscoveryViewValidator());
     }
@@ -247,6 +250,14 @@ public class DiscoveryView extends ValidatingBaseEntity {
 
     public void setSearchFields(List<SearchField> searchFields) {
         this.searchFields = searchFields;
+    }
+
+    public String getLogoUrl() {
+        return logoUrl;
+    }
+
+    public void setLogoUrl(String logoUrl) {
+        this.logoUrl = logoUrl;
     }
 
 }
