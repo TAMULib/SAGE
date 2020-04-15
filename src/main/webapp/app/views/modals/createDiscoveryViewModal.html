@@ -326,21 +326,28 @@
       </uib-tab>
       <uib-tab index="4" heading="Landing Page" disable="isTransitionDenied(4)" select="stepTransitionRefresh(tabs.active)">
         <div class="row">
-          <div class="row">
-            <div class="col-sm-10 col-sm-offset-1">
-              <br>
-              <validatedinput
-                id="discoveryViewToCreateLogoUrl"
-                model="discoveryView"
-                property="logoUrl"
-                label="Logo URL"
-                placeholder="Logo URL for the new Discovery View"
-                form="discoveryViewForms.create"
-                validations="discoveryViewForms.validations"
-                results="discoveryViewForms.getResults()"
-                autocomplete="off">
-              </validatedinput>
-            </div>
+          <div class="col-sm-10 col-sm-offset-1">
+            </br>
+            <validatedinput
+              id="discoveryViewToCreateLogoUrl"
+              model="discoveryView"
+              property="logoUrl"
+              label="Logo URL"
+              placeholder="Logo URL for the new Discovery View"
+              form="discoveryViewForms.create"
+              validations="discoveryViewForms.validations"
+              results="discoveryViewForms.getResults()"
+              autocomplete="off">
+            </validatedinput>
+            <validatedtextarea
+              id="discoveryViewToCreateLandingPageDescription"
+              model="discoveryView"
+              property="description"
+              label="Landing Page Description"
+              form="discoveryViewForms.create"
+              validations="discoveryViewForms.validations"
+              results="discoveryViewForms.getResults()">
+            </validatedtextarea>
           </div>
         </div>
       </uib-tab>

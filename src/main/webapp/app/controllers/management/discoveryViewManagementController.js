@@ -221,7 +221,9 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
   };
 
   $scope.isDiscoveryViewLandingPageInvalid = function(key) {
-    return false;
+    var description = $scope.discoveryViewForms[key].description;
+
+    return (description && description.$invalid);
   };
 
   $scope.startUpdateDiscoveryView = function(dv) {
