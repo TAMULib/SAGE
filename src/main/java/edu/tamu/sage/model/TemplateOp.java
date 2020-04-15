@@ -1,6 +1,7 @@
 package edu.tamu.sage.model;
 
 import java.util.Map;
+import java.util.Optional;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -31,8 +32,9 @@ public class TemplateOp extends BasicOp {
 
     @Override
     public void process(Reader reader, Map<String, Object> sageDoc) {
-        if (!sageDoc.containsKey(getField())) {
-            sageDoc.put(getField(), ValueTemplateUtility.compileTemplate(getValue(), sageDoc));
+        Optional<String> option = ValueTemplateUtility.compileTemplate(getValue(), sageDoc);
+        if (!sageDoc.containsKey(getField()) && option.isPresent()) {
+            sageDoc.put(getField(), option.get());
         }
     }
 

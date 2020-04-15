@@ -7,6 +7,7 @@ import static edu.tamu.weaver.validation.model.BusinessValidationType.UPDATE;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -84,18 +85,23 @@ public class DiscoveryViewController {
 
     @RequestMapping(value = "/context/{slug}", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ANONYMOUS')")
-    public ApiResponse findBySlug(@PathVariable String slug, @RequestParam(name = "field", defaultValue = "") String field, @RequestParam(name = "value", defaultValue = "") String value, @PageableDefault(page = 0, size = 10) Pageable page, @RequestParam(name = "offset", defaultValue = "0") int offset, @RequestParam Map<String, String> filterMap) throws DiscoveryContextNotFoundException, UnsupportedEncodingException, DiscoveryContextBuildException {
+    public ApiResponse findBySlug(@PathVariable String slug, @RequestParam(name = "field", defaultValue = "") String field, @RequestParam(name = "value", defaultValue = "") String value, @PageableDefault(page = 0, size = 10) Pageable page, @RequestParam(name = "offset", defaultValue = "0") int offset, @RequestParam Map<String, String> reqFilterMap) throws DiscoveryContextNotFoundException, UnsupportedEncodingException, DiscoveryContextBuildException {
         DiscoveryView discoveryView = discoveryViewRepo.findOneBySlug(slug);
         if (discoveryView == null) {
             throw new DiscoveryContextNotFoundException(String.format("Could not find Discovery Context for %s", slug));
         }
 
-        filterMap.remove("field");
-        filterMap.remove("value");
-        filterMap.remove("page");
-        filterMap.remove("size");
-        filterMap.remove("sort");
-        filterMap.remove("offset");
+        reqFilterMap.remove("field");
+        reqFilterMap.remove("value");
+        reqFilterMap.remove("page");
+        reqFilterMap.remove("size");
+        reqFilterMap.remove("sort");
+        reqFilterMap.remove("offset");
+
+        Map<String, String> filterMap = new HashMap<String,String>();
+        reqFilterMap.forEach((k,v) -> {
+           filterMap.put( k.replace("f.", ""), v);
+        });
 
         return new ApiResponse(SUCCESS, solrDiscoveryService.buildDiscoveryContext(discoveryView, field, value, page, offset, filterMap));
     }
