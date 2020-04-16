@@ -10,6 +10,8 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
 
   $scope.rowOptions = [];
 
+  $scope.landingPageVisible = true;
+
   var options = [10, 25, 50, 100];
 
   for (var i in options) {
@@ -19,6 +21,10 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
   $scope.discoveryContext = new DiscoveryContext({
     slug: $routeParams.slug,
   });
+
+  $scope.hideLandingPage = function() {
+    $scope.landingPageVisible = false;
+  };
 
   $scope.discoveryContext.ready().then(function() {
 
