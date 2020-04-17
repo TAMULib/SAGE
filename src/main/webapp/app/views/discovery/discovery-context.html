@@ -59,8 +59,9 @@
         <div class="panel panel-default">
           <div ng-click="hideLandingPage()" class="panel-heading">{{discoveryContext.name}}<span class="close modal-close pull-right">&times;</span></div>
           <div class="panel-body">
-              <img ng-if="discoveryContext.logoUrl" class="media-object" ng-src="{{discoveryContext.logoUrl}}" alt="{{discoveryContext.title}} logo">
+            <img ng-if="discoveryContext.logoUrl" class="media-object" ng-src="{{discoveryContext.logoUrl}}" alt="{{discoveryContext.title}} logo">
             <hr ng-if="discoveryContext.logoUrl"/>
+            <p ng-if="discoveryContext.description">{{discoveryContext.description}}</p>
           </div>
         </div>
       </div>
