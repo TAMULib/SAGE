@@ -11,6 +11,14 @@ SAGE’s feature set includes both the ability aggregate disparate searchable so
 
 SAGE boasts an intuitive user interface, but some much needed user documentation is currently a work in progress.
 
+### SAGE Default Solr
+
+```bash
+   cd SAGE/solr
+   docker build --tag=sage/solr .
+   docker run -p 8983:8983 sage/solr
+```
+
 ### Developer Documentation
 
 - [Contributors Documentation](https://github.com/TAMULib/SAGE/blob/master/CONTRIBUTING.md)

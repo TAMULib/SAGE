@@ -60,6 +60,30 @@
           results="operatorForms.getResults()"
           autocomplete="off">
         </validatedinput>
+
+        <multi-suggestion-input
+          ng-if="enableMultiSuggestionValueInput(operatorToUpdate.type)"
+          id="operatorToUpdateValue"
+          model="operatorToUpdate"
+          property="value"
+          optionproperty="field"
+          suggestions="internalMetadata"
+          name="value"
+          label="Template"
+          placeholder="'{{' to see Value Key suggestions">
+        </multi-suggestion-input>
+
+        <validatedinput
+          ng-if="enableRegexInput(operatorToUpdate.type)"
+          id="operatorToUpdateRegex"
+          model="operatorToUpdate"
+          property="regex"
+          label="Regex"
+          form="operatorForms.update"
+          validations="operatorForms.validations"
+          results="operatorForms.getResults()"
+          autocomplete="off">
+        </validatedinput>
       </div>
     </div>
   </div>

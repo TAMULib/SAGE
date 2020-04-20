@@ -34,7 +34,23 @@ var appConfig = {
   // otherwise set to null or false
   'mockRole': null,
 
-  'contentMap': {"image": ["image/png","image/gif", "text/html;charset=UTF-8"],"seadragon": ["image/jp2","image/tiff", "application/json;charset=UTF-8", "json"]},
+  'contentMap': {
+    "image": [
+      "image/jpeg",
+      "image/png",
+      "image/gif"
+    ],
+    "seadragon": [
+      "image/jp2",
+      "image/tiff",
+      "application/json",
+      "application/json;charset=UTF-8"
+    ],
+    "pdf": [
+      "pdf",
+      "application/pdf"
+    ]
+  },
 
   'defaultThumbnailURI': "resources/images/default-thumbnail.jpg"
 

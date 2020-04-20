@@ -58,6 +58,30 @@
           results="operatorForms.getResults()"
           autocomplete="off">
         </validatedinput>
+
+        <multi-suggestion-input
+          ng-if="enableMultiSuggestionValueInput(operatorToCreate.type)"
+          id="operatorToCreateValue"
+          model="operatorToCreate"
+          property="value"
+          optionproperty="field"
+          suggestions="internalMetadata"
+          name="value"
+          label="Template"
+          placeholder="'{{' to see Value Key suggestions">
+        </multi-suggestion-input>
+
+        <validatedinput
+          ng-if="enableRegexInput(operatorToCreate.type)"
+          id="operatorToCreateRegex"
+          model="operatorToCreate"
+          property="regex"
+          label="Regex"
+          form="operatorForms.create"
+          validations="operatorForms.validations"
+          results="operatorForms.getResults()"
+          autocomplete="off">
+        </validatedinput>
       </div>
     </div>
   </div>

@@ -14,6 +14,9 @@ public class SourceValidator extends BaseModelValidator {
         String uriProperty = "uri";
         this.addInputValidator(new InputValidator(InputValidationType.required, "An Solr Source requires a URI", uriProperty, true));
         this.addInputValidator(new InputValidator(InputValidationType.pattern, "An Solr Source requires a valid URI", uriProperty, ValidationUtility.URL_REGEX));
+        
+        String applicationTypeProperty = "applicationType";
+        this.addInputValidator(new InputValidator(InputValidationType.required, "An Solr Source requires an application type", applicationTypeProperty, true));
     }
 
 }

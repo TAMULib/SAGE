@@ -21,6 +21,8 @@ public class DiscoveryContext implements Serializable {
 
     private String resourceLocationUriKey;
 
+    private String manifestUriKey;
+
     private Search search;
 
     private List<Result> results;
@@ -45,9 +47,9 @@ public class DiscoveryContext implements Serializable {
 
     public DiscoveryContext() {
         super();
-        searchFields = new  ArrayList<SearchField>();
-        searchFilters = new  ArrayList<SearchFilter>();
-        sortFields = new  ArrayList<SortField>();
+        searchFields = new ArrayList<SearchField>();
+        searchFilters = new ArrayList<SearchFilter>();
+        sortFields = new ArrayList<SortField>();
     }
 
     public String getName() {
@@ -88,6 +90,14 @@ public class DiscoveryContext implements Serializable {
 
     public void setResourceLocationUriKey(String resourceLocationUriKey) {
         this.resourceLocationUriKey = resourceLocationUriKey;
+    }
+
+    public String getManifestUriKey() {
+        return manifestUriKey;
+    }
+
+    public void setManifestUriKey(String manifestUriKey) {
+        this.manifestUriKey = manifestUriKey;
     }
 
     public static long getSerialversionuid() {
@@ -190,6 +200,7 @@ public class DiscoveryContext implements Serializable {
         dc.setUniqueIdentifierKey(dv.getUniqueIdentifierKey());
         dc.setResourceLocationUriKey(dv.getResourceLocationUriKey());
         dc.setResourceThumbnailUriKey(dv.getResourceThumbnailUriKey());
+        dc.setManifestUriKey(dv.getManifestUriKey());
         dc.setInfoText(dv.getInfoText());
         dc.setInfoLinkUrl(dv.getInfoLinkUrl());
         dc.setInfoLinkText(dv.getInfoLinkText());
@@ -202,18 +213,13 @@ public class DiscoveryContext implements Serializable {
         dc.searchFields = dv.getSearchFields();
         dc.searchFilters.add(defaultSearchFilter);
 
-//        SearchFilter titleSearchFilter = new SearchFilter();
-//        titleSearchFilter.setKey(dv.getTitleKey());
-//        titleSearchFilter.setLabel("Name");
-//        dc.searchFilters.add(titleSearchFilter);
-
         SortField identifierSortField = new SortField();
         identifierSortField.setKey(dc.getUniqueIdentifierKey());
         identifierSortField.setLabel("ID");
         dc.sortFields.add(identifierSortField);
 
-        dv.getResultMetadataFields().forEach(metadataField->{
-            if(metadataField.isSortable()) {
+        dv.getResultMetadataFields().forEach(metadataField -> {
+            if (metadataField.isSortable()) {
                 dc.sortFields.add(SortField.of(metadataField));
             }
         });

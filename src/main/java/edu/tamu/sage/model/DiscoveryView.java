@@ -40,6 +40,10 @@ public class DiscoveryView extends ValidatingBaseEntity {
 
     @NotNull
     @Column(nullable = false)
+    private String manifestUriKey;
+
+    @NotNull
+    @Column(nullable = false)
     private String uniqueIdentifierKey;
 
     @NotNull
@@ -130,6 +134,14 @@ public class DiscoveryView extends ValidatingBaseEntity {
 
     public void setResourceLocationUriKey(String resourceLocationUriKey) {
         this.resourceLocationUriKey = resourceLocationUriKey;
+    }
+
+    public String getManifestUriKey() {
+        return manifestUriKey;
+    }
+
+    public void setManifestUriKey(String manifestUriKey) {
+        this.manifestUriKey = manifestUriKey;
     }
 
     public String getUniqueIdentifierKey() {

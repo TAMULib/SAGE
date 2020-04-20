@@ -30,11 +30,23 @@ sage.controller('OperatorManagementController', function ($controller, $scope, N
   };
 
   $scope.enableFieldInput = function(opType) {
-    return opType === 'DEFAULT_OP' || 'CONSTANT_OP';
+    return ['DEFAULT_OP', 'CONSTANT_OP', 'APPLICATION_TYPE_OP', 'BASE_64_ENCODE_OP', 'DATE_NORMALIZATION_OP', 'REGEX_REPLACE_OP', 'TEMPLATE_OP'].indexOf(opType) >= 0;
   };
 
   $scope.enableValueInput = function(opType) {
-    return opType === 'DEFAULT_OP' || 'CONSTANT_OP';
+    return ['DEFAULT_OP', 'CONSTANT_OP', 'DATE_NORMALIZATION_OP', 'REGEX_REPLACE_OP'].indexOf(opType) >= 0;
+  };
+
+  $scope.enableMultiSuggestionValueInput = function(opType) {
+    return ['TEMPLATE_OP'].indexOf(opType) >= 0;
+  };
+
+  $scope.enableRegexInput = function(opType) {
+    return ['REGEX_REPLACE_OP'].indexOf(opType) >= 0;
+  };
+
+  $scope.enableRegexInput = function(opType) {
+    return opType === 'REGEX_REPLACE_OP';
   };
 
   $scope.typeChanged = function(operator) {
@@ -43,6 +55,9 @@ sage.controller('OperatorManagementController', function ($controller, $scope, N
     }
     if (!$scope.enableValueInput(operator.type)) {
       operator.value = "";
+    }
+    if (!$scope.enableRegexInput(operator.type)) {
+      operator.regex = "";
     }
     for (var i = 0; i < $scope.operatorTypes.length; i++) {
       if ($scope.operatorTypes.hasOwnProperty(i)) {

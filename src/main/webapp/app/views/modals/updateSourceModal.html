@@ -15,8 +15,8 @@
               model="sourceToUpdate"
               property="name"
               label="Name"
-              placeholder="URI for the new Solr Source"
-              form="sourceForms.create"
+              placeholder="URI for the Source"
+              form="sourceForms.update"
               validations="sourceForms.validations"
               results="sourceForms.getResults()"
               autocomplete="off">
@@ -27,12 +27,25 @@
               model="sourceToUpdate"
               property="uri"
               label="URI"
-              placeholder="URI for the new Solr Source"
-              form="sourceForms.create"
+              placeholder="URI for the Source"
+              form="sourceForms.update"
               validations="sourceForms.validations"
               results="sourceForms.getResults()"
               autocomplete="off">
             </validatedinput>
+
+            <validatedselect
+              id="sourceToUpdateApplicationType"
+              model="sourceToUpdate"
+              property="applicationType"
+              options="applicationTypes"
+              label="Application Type"
+              placeholder="Application Type for the Source"
+              form="sourceForms.update"
+              validations="sourceForms.validations"
+              results="sourceForms.getResults()"
+              autocomplete="off">
+            </validatedselect>
 
             <div class="input-group">
               <label>Type</label>

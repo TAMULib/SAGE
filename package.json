@@ -1,7 +1,7 @@
 {
   "name": "sage",
   "private": true,
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Solr Agregation Engine UI",
   "repository": "https://github.com/TAMULib/Sage",
   "license": "MIT",
@@ -21,12 +21,13 @@
     "start-dev": "wvr server -b /sage --uid sage-webserver"
   },
   "dependencies": {
+    "@wvr/core": "2.0.8",
+    "mirador": "2.7.2",
     "ng-csv": "0.3.6",
     "ng-file-upload": "12.2.13",
     "ng-openseadragon": "1.3.5",
     "ng-table": "3.0.1",
-    "openseadragon": "2.4.0",
-    "@wvr/core": "2.0.7"
+    "openseadragon": "2.4.0"
   },
   "devDependencies": {
     "grunt": "1.0.3",

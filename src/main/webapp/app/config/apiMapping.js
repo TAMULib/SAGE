@@ -81,6 +81,12 @@ var apiMapping = {
       'httpMethod': 'GET',
       'method': 'fields/indexed'
     },
+    getApplicationTypes: {
+      'endpoint': '/private/queue',
+      'controller': 'source/solr',
+      'httpMethod': 'GET',
+      'method': 'application-types'
+    },
     readable: {
       'endpoint': '/private/queue',
       'controller': 'source/solr',

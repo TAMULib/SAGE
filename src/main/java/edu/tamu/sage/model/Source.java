@@ -2,6 +2,8 @@ package edu.tamu.sage.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -9,11 +11,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.tamu.sage.model.validation.SourceValidator;
 import edu.tamu.weaver.validation.model.ValidatingBaseEntity;
 
-
 // In the UI, this is called a "Core" and not a "Source", the "readOnly" property instead designates this as a "Source" or "Destination".
 @Entity
 public class Source extends ValidatingBaseEntity implements Sourcable {
-    //TODO Query the SOLR Core for its fields to provide Readers/Writers with a list of fields to choose from for mapping to the internal metadata fields
+    // TODO Query the SOLR Core for its fields to provide Readers/Writers with a list of fields to choose from for mapping to the internal metadata fields
     @NotNull
     @Column(unique = true, nullable = false)
     private String name;
@@ -40,18 +41,14 @@ public class Source extends ValidatingBaseEntity implements Sourcable {
     @Column(nullable = false)
     private Boolean requiresFilter;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ApplicationType applicationType;
+
     public Source() {
         setModelValidator(new SourceValidator());
-    }
-
-    public Source(String name, String uri, String username, String password, Boolean readOnly, Boolean requiresFilter) {
-        this();
-        setName(name);
-        setUri(uri);
-        setUsername(username);
-        setPassword(password);
-        setReadOnly(readOnly);
-        setRequiresFilter(requiresFilter);
+        setApplicationType(ApplicationType.UNSPECIFIED);
     }
 
     @Override
@@ -94,10 +91,12 @@ public class Source extends ValidatingBaseEntity implements Sourcable {
         this.password = password;
     }
 
+    @Override
     public Boolean getReadOnly() {
         return readOnly;
     }
 
+    @Override
     public void setReadOnly(Boolean readOnly) {
         this.readOnly = readOnly;
     }
@@ -111,4 +110,15 @@ public class Source extends ValidatingBaseEntity implements Sourcable {
     public void setRequiresFilter(Boolean requiresFilter) {
         this.requiresFilter = requiresFilter;
     }
+
+    @Override
+    public ApplicationType getApplicationType() {
+        return applicationType;
+    }
+
+    @Override
+    public void setApplicationType(ApplicationType applicationType) {
+        this.applicationType = applicationType;
+    }
+
 }

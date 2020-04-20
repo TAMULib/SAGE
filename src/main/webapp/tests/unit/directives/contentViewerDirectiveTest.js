@@ -7,7 +7,7 @@ describe("directive: contentviewer", function () {
       appConfig = _appConfig_;
 
       contentType = "";
-      resource = "";
+      context = {};
     });
   };
 
@@ -15,14 +15,16 @@ describe("directive: contentviewer", function () {
     inject(function (_$rootScope_) {
       $scope = _$rootScope_.$new();
 
-      var attr = settings && settings.attr ? settings.attr : "resource=\"resource\" content-type=\"contentType\"";
+      var attr = settings && settings.attr ? settings.attr : "context=\"context\" content-type=\"contentType\"";
       var body = settings && settings.body ? settings.body : "";
 
       element = angular.element("<contentviewer " + attr + ">" + body + "</contentviewer>");
       directive = $compile(element)($scope);
 
       $scope.contentType = contentType;
-      $scope.resource = resource;
+      $scope.context = {
+        resourceLocationUri: resource
+      };
 
       $scope.$digest();
     });

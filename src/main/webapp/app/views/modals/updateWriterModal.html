@@ -10,6 +10,7 @@
     <div class="row">
       <div class="col-sm-10 col-sm-offset-1">
         <validatedinput
+          id="writerToUpdateName"
           model="writerToUpdate"
           property="name"
           label="Name"
@@ -20,6 +21,7 @@
         </validatedinput>
 
         <validatedselect
+          id="writerToUpdateSource"
           model="writerToUpdate"
           property="source"
           options="sources"
@@ -28,13 +30,13 @@
           form="writerForms.update"
           validations="writerForms.validations"
           results="writerForms.getResults()"
-          change="sourceChanged()"
+          change="updateFields(writerToUpdate)"
           autocomplete="off">
         </validatedselect>
 
         <label>Field Mappings</label>
         <ul class="list-group">
-          <li class="list-group-item" ng-repeat="metadatum in internalMetadata">
+          <li class="list-group-item" ng-repeat="metadatum in internalMetadata | orderBy: 'id'">
             <label>{{metadatum.gloss}}</label>
             <input class="form-control" type="text" name="writerMappings" ng-model="writerMappings[metadatum.field]" uib-typeahead="f.name for f in fields | filter:$viewValue" />
             <small ng-if="metadatum.required" class="form-text text-muted">This field is required.</small>

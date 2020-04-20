@@ -5,9 +5,12 @@ import static edu.tamu.sage.service.SolrSourceService.ALL_FIELDS_KEY;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
@@ -74,9 +77,12 @@ public class SolrDiscoveryService {
         }
 
         String query = "";
-        if (!(field.isEmpty() || value.isEmpty())) {
-            query = search.getField();
-            query += ":" + (value.isEmpty() ? "*" : value);
+        if (search.getField().isEmpty() && search.getValue().isEmpty()) {
+            query = "*:*";
+        } else if (search.getField().isEmpty()) {
+            query = search.getValue();
+        } else {
+            query = search.getField() + ":" + search.getValue();
         }
 
         SolrQuery solrQuery = new SolrQuery(query);
@@ -201,34 +207,39 @@ public class SolrDiscoveryService {
         try {
             solr.ping();
 
+            Set<String> fields = new HashSet<String>();
+
             discoveryView.getResultMetadataFields().forEach(metadataField -> {
                 if (metadataField.getKey().contains("{{")) {
-                    ValueTemplateUtility.extractKeysFromtemplate(metadataField.getKey()).forEach(key -> {
-                        query.addField(key);
+                    ValueTemplateUtility.extractKeysFromTemplate(metadataField.getKey()).forEach(key -> {
+                        fields.add(key);
                     });
                 } else {
-                    query.addField(metadataField.getKey());
+                    fields.add(metadataField.getKey());
                 }
             });
 
-            List<String> privellegedKeys = new ArrayList<>();
+            List<String> privilegedKeys = new ArrayList<>();
 
-            privellegedKeys.add(discoveryView.getTitleKey());
-            privellegedKeys.add(discoveryView.getUniqueIdentifierKey());
-            privellegedKeys.add(discoveryView.getResourceThumbnailUriKey());
-            privellegedKeys.add(discoveryView.getResourceLocationUriKey());
+            privilegedKeys.add(discoveryView.getTitleKey());
+            privilegedKeys.add(discoveryView.getUniqueIdentifierKey());
+            privilegedKeys.add(discoveryView.getResourceThumbnailUriKey());
+            privilegedKeys.add(discoveryView.getResourceLocationUriKey());
+            privilegedKeys.add(discoveryView.getManifestUriKey());
 
-            privellegedKeys.forEach(rawKey -> {
+            privilegedKeys.stream().filter(rawKey -> StringUtils.isNotEmpty(rawKey)).forEach(rawKey -> {
                 if (rawKey.contains("{{")) {
-                    ValueTemplateUtility.extractKeysFromtemplate(rawKey).forEach(key -> {
-                        query.addField(key);
+                    ValueTemplateUtility.extractKeysFromTemplate(rawKey).forEach(key -> {
+                        fields.add(key);
                     });
                 } else {
-                    query.addField(rawKey);
+                    fields.add(rawKey);
                 }
             });
 
-            System.out.println(query);
+            fields.forEach(field -> query.addField(field));
+
+            logger.info("{}", query);
 
             QueryResponse rsp = solr.query(query);
 

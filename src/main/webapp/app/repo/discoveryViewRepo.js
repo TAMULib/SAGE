@@ -8,6 +8,7 @@ sage.repo("DiscoveryViewRepo", function() {
     filter: "",
     resourceLocationUriKey: "",
     resourceThumbnailUriKey: "",
+    manifestUriKey: "",
     resultMetadataFields: [],
     searchFields: [],
     slug: "",

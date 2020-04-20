@@ -174,18 +174,25 @@ public class SourceController {
         return new ApiResponse(SUCCESS);
     }
 
-    @GetMapping("fields/indexed")
+    @GetMapping("/fields/indexed")
     @PreAuthorize("hasRole('USER')")
     public ApiResponse getIndexedFields(@RequestParam String uri, @RequestParam String filter) throws SourceFieldsException {
         logger.info(String.format("Getting indexed fields for source %s with filter %s ", uri, filter));
         return new ApiResponse(SUCCESS, sourceService.getIndexedFields(uri, filter));
     }
 
-    @GetMapping("fields/available")
+    @GetMapping("/fields/available")
     @PreAuthorize("hasRole('USER')")
     public ApiResponse getAvailableFields(@RequestParam String uri, @RequestParam String filter) throws SourceFieldsException {
         logger.info(String.format("Getting available fields for source %s with filter %s ", uri, filter));
         return new ApiResponse(SUCCESS, sourceService.getAvailableFields(uri, filter));
+    }
+
+    @GetMapping("/application-types")
+    @PreAuthorize("hasRole('USER')")
+    public ApiResponse getApplicationTypes() {
+        logger.info(String.format("Getting application types"));
+        return new ApiResponse(SUCCESS, sourceService.getApplicationTypes());
     }
 
 }

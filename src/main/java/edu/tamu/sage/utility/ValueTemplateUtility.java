@@ -2,20 +2,19 @@ package edu.tamu.sage.utility;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.solr.common.SolrDocument;
-
 public class ValueTemplateUtility {
 
-    public static String compileTemplate(String template, SolrDocument solrDoc) {
+    private static Pattern pattern = Pattern.compile("\\{\\{(.*?)\\}\\}");
 
+    public static String compileTemplate(String template, Map<String, Object> context) {
         StringBuilder strBldr = new StringBuilder(template);
-
-        extractKeysFromtemplate(template).forEach(key -> {
-            Object value = solrDoc.getFieldValue(key);
-            if (value != null) {
+        extractKeysFromTemplate(template).forEach(key -> {
+            if (context.containsKey(key)) {
+                Object value = context.get(key);
                 String toReplace = "{{" + key + "}}";
                 int start = strBldr.indexOf(toReplace);
                 int end = strBldr.indexOf(toReplace) + toReplace.length();
@@ -24,25 +23,16 @@ public class ValueTemplateUtility {
                 strBldr.replace(0, template.length(), "unavailable");
             }
         });
-
         return strBldr.toString();
-
     }
 
-    public static List<String> extractKeysFromtemplate(String key) {
-
-        Pattern pattern = Pattern.compile("\\{\\{(.*?)\\}\\}");
-
+    public static List<String> extractKeysFromTemplate(String key) {
         Matcher matcher = pattern.matcher(key);
-
         List<String> keys = new ArrayList<String>();
-
         while (matcher.find()) {
             keys.add(key.substring(matcher.start(), matcher.end()).replaceAll("\\{", "").replaceAll("\\}", ""));
         }
-
         return keys;
-
     }
 
 }
