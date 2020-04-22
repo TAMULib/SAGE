@@ -136,10 +136,9 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
   $scope.refreshSource = function(dv) {
     if ($scope.tabs.active === 0) {
       $scope.pingSource(dv);
-    } else {
-      if ((angular.isDefined($scope.originalSourceName) && dv.source.name !== $scope.originalSourceName) || (angular.isDefined($scope.originalFilter) && dv.filter !== $scope.originalFilter)) {
-        $scope.getFields(dv);
-      }
+    }
+    if ((angular.isDefined($scope.originalSourceName) && dv.source.name !== $scope.originalSourceName) || (angular.isDefined($scope.originalFilter) && dv.filter !== $scope.originalFilter)) {
+      $scope.getFields(dv);
     }
   };
 
@@ -278,11 +277,9 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
   $scope.getFields = function(dv) {
     if (angular.isDefined(dv) && angular.isDefined(dv.source) && angular.isDefined(dv.source.uri)) {
       var filter = angular.isDefined(dv.filter) && dv.filter.length > 0 ? dv.filter : "";
-
-      if (dv.source.requiresFilter && filter.length == 0) {
+      if (dv.source.requiresFilter && filter.length === 0) {
         filter = "*.*";
       }
-
       $scope.fields = SourceRepo.getAvailableFields(dv.source.uri, filter);
     }
   };

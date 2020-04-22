@@ -37,12 +37,12 @@ public class SimpleProcessorService implements ProcessorService {
 
     private final static Map<Long, AtomicBoolean> processing = new ConcurrentHashMap<Long, AtomicBoolean>();
 
-    private List<Map<String, String>> readSolrCore(Reader solrReader) {
+    private List<Map<String, Object>> readSolrCore(Reader solrReader, List<BaseOp> operators) {
         logger.info("Using Reader: " + solrReader.getName() + " to read from SOLR Core: " + solrReader.getSource().getName() + " - " + solrReader.getSource().getUri());
 
         int batchSize = 500;
 
-        List<Map<String, String>> mappedResults = new ArrayList<Map<String, String>>();
+        List<Map<String, Object>> mappedResults = new ArrayList<Map<String, Object>>();
 
         SolrClient solr = new HttpSolrClient(solrReader.getSource().getUri());
 
@@ -80,7 +80,7 @@ public class SimpleProcessorService implements ProcessorService {
                         continue;
                     }
 
-                    Map<String, String> resultsMap = new HashMap<String, String>();
+                    Map<String, Object> resultsMap = new HashMap<String, Object>();
 
                     solrReader.getFields().forEach(field -> {
                         if (doc.getFieldValues(field.getName()) != null) {
@@ -92,13 +92,14 @@ public class SimpleProcessorService implements ProcessorService {
                                 if (field.getSchemaMapping().equals("terms.identifier") && doc.getFieldValue(field.getName()).toString().contains("://")) {
                                     resultsMap.put(field.getSchemaMapping(), new String(Base64.encodeBase64(result.toString().getBytes())));
                                 } else {
-                                    resultsMap.put(field.getSchemaMapping(), result.toString());
+                                    resultsMap.put(field.getSchemaMapping(), result);
                                 }
                             });
                         }
                     });
 
                     if (!resultsMap.isEmpty()) {
+                        operators.forEach(operator -> operator.process(solrReader, resultsMap));
                         mappedResults.add(resultsMap);
                     }
                 }
@@ -123,13 +124,7 @@ public class SimpleProcessorService implements ProcessorService {
         return mappedResults;
     }
 
-    private void processOperator(BaseOp operator, List<Map<String, String>> mappedResults) {
-        mappedResults.forEach(map -> {
-            operator.process(map);
-        });
-    }
-
-    private void writeSolrCore(Writer writer, List<Map<String, String>> mappedResults) {
+    private void writeSolrCore(Writer writer, List<Map<String, Object>> mappedResults) {
         int batchSize = 1000;
 
         SolrClient writeableSolr = new HttpSolrClient(writer.getSource().getUri());
@@ -202,10 +197,9 @@ public class SimpleProcessorService implements ProcessorService {
         }
         if (processing.compareAndSet(false, true)) {
             CompletableFuture.runAsync(() -> {
-                List<Map<String, String>> mappedResults = new ArrayList<Map<String, String>>();
-                job.getReaders().forEach(reader -> mappedResults.addAll(readSolrCore(reader)));
+                List<Map<String, Object>> mappedResults = new ArrayList<Map<String, Object>>();
+                job.getReaders().forEach(reader -> mappedResults.addAll(readSolrCore(reader, job.getOperators())));
                 if (!mappedResults.isEmpty()) {
-                    job.getOperators().forEach(operator -> processOperator(operator, mappedResults));
                     job.getWriters().forEach(writer -> writeSolrCore(writer, mappedResults));
                 } else {
                     logger.info("Writer results: There were no documents to write");

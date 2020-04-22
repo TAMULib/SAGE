@@ -10,6 +10,7 @@
     <div class="row">
       <div class="col-sm-10 col-sm-offset-1">
         <validatedinput
+          id="readerToUpdateName"
           model="readerToUpdate"
           property="name"
           label="Name"
@@ -20,6 +21,7 @@
         </validatedinput>
 
         <validatedselect
+          id="readerToUpdateSource"
           model="readerToUpdate"
           property="source"
           options="sources"
@@ -28,11 +30,12 @@
           form="readerForms.update"
           validations="readerForms.validations"
           results="readerForms.getResults()"
-          change="sourceChanged()"
+          change="updateFields(readerToUpdate)"
           autocomplete="off">
         </validatedselect>
 
         <validatedinput
+          id="readerToUpdateFilter"
           model="readerToUpdate"
           property="filter"
           label="Filter"
@@ -45,7 +48,7 @@
 
         <label>Field Mappings</label>
         <ul class="list-group">
-          <li class="list-group-item" ng-repeat="metadatum in internalMetadata">
+          <li class="list-group-item" ng-repeat="metadatum in internalMetadata | orderBy: 'id'">
             <label>{{metadatum.gloss}}</label>
             <input class="form-control" type="text" name="fieldMapping" ng-model="readerFields[metadatum.field].value" uib-typeahead="f.name for f in fields | filter:$viewValue" />
             <small ng-if="metadatum.required" class="form-text text-muted">This field is required.</small>

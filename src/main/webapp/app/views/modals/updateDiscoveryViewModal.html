@@ -226,36 +226,50 @@
                 suggestions="fields"
                 name="titleKey"
                 label="Title Key"
-                placeholder="'{{' to see Title Key suggesions">
+                placeholder="'{{' to see Title Key suggestions">
               </multi-suggestion-input>
             </div>
           </div>
           <div class="row">
-              <div class="col-sm-5 col-sm-offset-1">
-                <multi-suggestion-input
-                  id="discoveryViewToUpdateResourceThumbnailUriKey"
-                  model="discoveryView"
-                  property="resourceThumbnailUriKey"
-                  optionproperty="name"
-                  suggestions="fields"
-                  name="resourceThumbnailUriKey"
-                  label="Thumbnail Uri Key"
-                  placeholder="'{{' to see Thumbnail Uri Key suggesions">
-                </multi-suggestion-input>
-              </div>
-              <div class="col-sm-5">
-                <multi-suggestion-input
-                  id="discoveryViewToUpdateResourceUriKey"
-                  model="discoveryView"
-                  property="resourceLocationUriKey"
-                  optionproperty="name"
-                  suggestions="fields"
-                  name="resourceUriKey"
-                  label="Resource Key"
-                  placeholder="'{{' to see Resource Key suggesions">
-                </multi-suggestion-input>
-              </div>
+            <div class="col-sm-5 col-sm-offset-1">
+              <multi-suggestion-input
+                id="discoveryViewToUpdateResourceThumbnailUriKey"
+                model="discoveryView"
+                property="resourceThumbnailUriKey"
+                optionproperty="name"
+                suggestions="fields"
+                name="resourceThumbnailUriKey"
+                label="Thumbnail URI Key"
+                placeholder="'{{' to see Thumbnail URI Key suggestions">
+              </multi-suggestion-input>
             </div>
+            <div class="col-sm-5">
+              <multi-suggestion-input
+                id="discoveryViewToUpdateResourceUriKey"
+                model="discoveryView"
+                property="resourceLocationUriKey"
+                optionproperty="name"
+                suggestions="fields"
+                name="resourceLocationUriKey"
+                label="Resource URI Key"
+                placeholder="'{{' to see Resource URI Key suggestions">
+              </multi-suggestion-input>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-5 col-sm-offset-1">
+              <multi-suggestion-input
+                id="discoveryViewToUpdateManifestUriKey"
+                model="discoveryView"
+                property="manifestUriKey"
+                optionproperty="name"
+                suggestions="fields"
+                name="manifestUriKey"
+                label="Manifest URI Key"
+                placeholder="'{{' to see Manifest URI Key suggestions">
+              </multi-suggestion-input>
+            </div>
+          </div>
         </div>
         <hr>
         <div class="row">
@@ -268,7 +282,7 @@
             <div class="col-xs-3 col-sm-offset-1">
               <div class="form-group">
                 <label for="key">Key</label>
-                <select name="key" class="form-control" ng-model="discoveryView.resultMetadataFields[$index].key" ng-options="option['name'] as option['name'] for option in fields" ng-change="discoveryView.resultMetadataFields[$index].sortable=!findFieldByKey(discoveryView.resultMetadataFields[$index].key).multivalued"></select>
+                <select name="key" class="form-control" ng-model="discoveryView.resultMetadataFields[$index].key" ng-options="option['name'] as option['name'] for option in fields" ng-change="discoveryView.resultMetadataFields[$index].sortable=!findFieldByKey(discoveryView.resultMetadataFields[$index].key).multiValued"></select>
               </div>
             </div>
             <div class="col-xs-2">
@@ -280,7 +294,7 @@
             <div class="col-xs-1">
               <div class="form-group">
                 <label for="sortable">Sortable</label>
-                <input name="sortable" type="checkbox" class="form-control" ng-model="discoveryView.resultMetadataFields[$index].sortable" ng-disabled="findFieldByKey(discoveryView.resultMetadataFields[$index].key).multivalued">
+                <input name="sortable" type="checkbox" class="form-control" ng-model="discoveryView.resultMetadataFields[$index].sortable" ng-disabled="findFieldByKey(discoveryView.resultMetadataFields[$index].key).multiValued">
               </div>
             </div>
             <div class="col-xs-1">

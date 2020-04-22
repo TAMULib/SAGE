@@ -21,6 +21,7 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
   });
 
   $scope.discoveryContext.ready().then(function() {
+
     $scope.breadcrumbContexts = [
       $scope.discoveryContext
     ];

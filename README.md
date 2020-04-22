@@ -5,11 +5,19 @@
 
 SAGE is the Search Aggregation Engine developed and maintained by [Texas A&M University Libraries](http://library.tamu.edu). 
 
-SAGE’s feature set includes both the ability aggregate disparate searchable sources into a common solr index, as well as the ability expose Solr indicis through a dynamic user interface.
+SAGE’s feature set includes both the ability aggregate disparate searchable sources into a common Solr index, as well as the ability expose Solr indexes through a dynamic user interface.
 
 ### User Documentation
 
 SAGE boasts an intuitive user interface, but some much needed user documentation is currently a work in progress.
+
+### SAGE Default Solr
+
+```bash
+   cd SAGE/solr
+   docker build --tag=sage/solr .
+   docker run -p 8983:8983 sage/solr
+```
 
 ### Developer Documentation
 

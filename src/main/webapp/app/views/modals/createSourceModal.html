@@ -15,7 +15,7 @@
               model="sourceToCreate"
               property="name"
               label="Name"
-              placeholder="URI for the new Core"
+              placeholder="URI for the new Source"
               form="sourceForms.create"
               validations="sourceForms.validations"
               results="sourceForms.getResults()"
@@ -27,12 +27,25 @@
               model="sourceToCreate"
               property="uri"
               label="URI"
-              placeholder="URI for the new Core"
+              placeholder="URI for the new Source"
               form="sourceForms.create"
               validations="sourceForms.validations"
               results="sourceForms.getResults()"
               autocomplete="off">
             </validatedinput>
+
+            <validatedselect
+              id="sourceToCreateApplicationType"
+              model="sourceToCreate"
+              property="applicationType"
+              options="applicationTypes"
+              label="Application Type"
+              placeholder="Application Type for the new Source"
+              form="sourceForms.create"
+              validations="sourceForms.validations"
+              results="sourceForms.getResults()"
+              autocomplete="off">
+            </validatedselect>
 
             <div class="form-group">
               <div>

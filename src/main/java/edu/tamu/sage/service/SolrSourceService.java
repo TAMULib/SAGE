@@ -1,11 +1,13 @@
 package edu.tamu.sage.service;
 
+import java.io.IOException;
 import java.net.ConnectException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -15,73 +17,107 @@ import org.apache.solr.client.solrj.request.LukeRequest;
 import org.apache.solr.client.solrj.response.LukeResponse;
 import org.apache.solr.client.solrj.response.LukeResponse.FieldInfo;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 
 import edu.tamu.sage.exceptions.SourceFieldsException;
 import edu.tamu.sage.exceptions.SourceNotFoundException;
 import edu.tamu.sage.exceptions.SourceServiceException;
+import edu.tamu.sage.model.ApplicationType;
 import edu.tamu.sage.model.response.SolrField;
+import edu.tamu.weaver.utility.HttpUtility;
 
 @Service
 public class SolrSourceService implements SourceService {
 
     public final static String ALL_FIELDS_KEY = "all_fields";
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @Override
     public List<SolrField> getAvailableFields(String uri, String filter) throws SourceServiceException {
-        List<SolrField> availableFields = new ArrayList<SolrField>();
+        List<SolrField> fields = new ArrayList<SolrField>();
+
+        // TODO: remove this and figure out how to select text general field for searching
         SolrField defaultField = new SolrField();
         // TODO: ensure type is actual Solr datatype for text
         defaultField.setName(ALL_FIELDS_KEY);
         defaultField.setType("text");
-        availableFields.add(defaultField);
-        try (SolrClient solr = new HttpSolrClient(uri)) {
-            LukeRequest luke = new LukeRequest();
-            luke.setNumTerms(0);
-            LukeResponse lr = luke.process(solr);
-            Map<String, FieldInfo> map = lr.getFieldInfo();
-            SolrQuery query = new SolrQuery();
-            query.setRows(1);
-            for (Entry<String, FieldInfo> field : map.entrySet()) {
-                if (isStored(field.getValue())) {
-                    String q = String.format("%s AND %s:*", filter, field.getKey());
-                    query.setQuery(q);
-                    QueryResponse qr = solr.query(query);
-                    if (qr.getResults().size() > 0 || !isIndexed(field.getValue())) {
-                        availableFields.add(SolrField.of(field.getValue()));
-                    }
-                }
-            }
-        } catch (ConnectException | SolrServerException e) {
-            throw new SourceNotFoundException("Could not connect to the core, uri: " + uri, e);
-        } catch (Exception e) {
-            throw new SourceFieldsException("Could not populate fields, uri: " + uri, e);
-        }
 
-        return availableFields;
+        fields.add(defaultField);
+
+        getFields(uri, filter).filter(field -> field.isStored()).forEach(field -> fields.add(field));
+
+        return fields;
     }
 
     @Override
     public List<SolrField> getIndexedFields(String uri, String filter) throws SourceServiceException {
+        return getFields(uri, filter).filter(field -> field.isIndexed()).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ApplicationType> getApplicationTypes() {
+        return new ArrayList<>(Arrays.asList(ApplicationType.values()));
+    }
+
+    private Stream<SolrField> getFields(String uri, String filter) {
+        return Stream.concat(lookupFieldsWithLuke(uri, filter), lookupFields(uri)).distinct();
+    }
+
+    // luke handler provides dynamic fields that have been mapped in a document
+    private Stream<SolrField> lookupFieldsWithLuke(String uri, String filter) {
         try (SolrClient solr = new HttpSolrClient(uri)) {
+            List<SolrField> fields = new ArrayList<SolrField>();
+
             LukeRequest luke = new LukeRequest();
             luke.setNumTerms(0);
             LukeResponse lr = luke.process(solr);
-            Map<String, FieldInfo> map = lr.getFieldInfo();
-            return map.values().stream().filter(info -> isIndexed(info)).map(info -> SolrField.of(info)).collect(Collectors.toList());
+
+            // lookup solr document using filter to only gets available fields used in this scope
+            SolrQuery query = new SolrQuery();
+            query.setRows(1);
+
+            for (FieldInfo info : lr.getFieldInfo().values()) {
+                SolrField field = SolrField.from(info);
+
+                if (!info.getName().contains("*") && !info.getName().equals("_version_")) {
+                    String q = String.format("%s AND %s:*", filter, info.getName());
+                    query.setQuery(q);
+                    QueryResponse qr = solr.query(query);
+                    if (qr.getResults().size() > 0) {
+                        fields.add(field);
+                    }
+                }
+            }
+            return fields.stream();
         } catch (ConnectException | SolrServerException e) {
             throw new SourceNotFoundException("Could not connect to the core, uri: " + uri, e);
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new SourceFieldsException("Could not populate fields, uri: " + uri, e);
         }
     }
 
-    private boolean isIndexed(FieldInfo info) {
-        return info.getSchema().contains("I");
-    }
-
-    private boolean isStored(FieldInfo info) {
-        return info.getSchema().contains("S");
+    // schema fields provides explicit fields even that have not been used in a document
+    private Stream<SolrField> lookupFields(String uri) {
+        try {
+            String response = HttpUtility.makeHttpRequest(uri + "/schema/fields", "GET");
+            JsonNode responseNode = objectMapper.readTree(response);
+            if (responseNode.has("fields") && responseNode.get("fields").isArray()) {
+                ArrayNode fieldNodes = (ArrayNode) responseNode.get("fields");
+                Iterable<JsonNode> fields = () -> fieldNodes.iterator();
+                return StreamSupport.stream(fields.spliterator(), false).map(SolrField::from);
+            } else {
+                throw new SourceFieldsException("Could not populate fields, uri: " + uri);
+            }
+        } catch (IOException e) {
+            throw new SourceNotFoundException("Could not connect to the core, uri: " + uri, e);
+        }
     }
 
 }

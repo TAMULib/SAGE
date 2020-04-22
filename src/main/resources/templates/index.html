@@ -22,13 +22,14 @@
   <meta name="description" content="Fedora User Interface" />
 
   <link rel="stylesheet" th:href="${@environment.getProperty('app.url')+'/wro/app.css'}" />
-
+  <link rel="stylesheet" type="text/css" href="resources/styles/mirador-combined.min.css">
 
 </head>
 
 <body>
   <main>
-    <tl-header page-title="SAGE"></tl-header>
+    <tl-header page-title="Sage"></tl-header>
+
     <alerts types="WARNING,ERROR"></alerts>
 
     <modal modal-id="verifyEmailModal" modal-view="views/modals/verifyEmailModal.html"
@@ -59,10 +60,12 @@
                     <username></username> <span class="caret"></span>
                   </a>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="users">Manage Users</a></li>
+                    <li ng-if="isManager() || isAdmin()"><a href="management/discovery-view">Manage Discovery Views</a>
+                    </li>
                     <li ng-if="isAdmin() || isAssuming() == 'true'" role="presentation" class="divider"></li>
                     <li ng-if="isAdmin() || isAssuming() == 'true'" role="presentation" class="dropdown-header">Admin
-                      Actions header</li>
+                      Actions</li>
+                    <li ng-if="isAdmin() || isAssuming() == 'true'"><a href="users">Manage Users</a></li>
                     <li ng-if="isAdmin() || isAssuming() == 'true'">
                       <a href ng-if="isAssuming() == 'false'" data-toggle="modal"
                         ng-click="openModal('#assumeUserModal')">{{assumedControl.button}}</a>
@@ -112,6 +115,8 @@
 
   <script src="node_modules/openseadragon/build/openseadragon/openseadragon.min.js"></script>
   <script src="node_modules/ng-openseadragon/build/angular-openseadragon.js"></script>
+
+  <script src="node_modules/mirador/dist/mirador.js"></script>
   <!-- Core Libraries -->
 
   <!-- Core Configuration -->
@@ -237,12 +242,15 @@
   <script src="directives/breadcrumbsDirective.js"></script>
   <script src="directives/defaultSrcDirective.js"></script>
   <script src="directives/contentViewerDirective.js"></script>
+  <script src="directives/afterRenderDirective.js"></script>
 
   <!-- filters -->
   <script src="filters/boldMatchFilter.js"></script>
   <script src="filters/convertBracketsToButtonsFilter.js"></script>
   <script src="filters/removeBracketsFilter.js"></script>
 
+  <!-- services -->
+  <script src="services/manifestService.js"></script>
 
   <!-- Controllers -->
   <script src="controllers/managementController.js"></script>
@@ -253,6 +261,7 @@
   <script src="controllers/management/readerManagementController.js"></script>
   <script src="controllers/management/writerManagementController.js"></script>
   <script src="controllers/management/discoveryViewManagementController.js"></script>
+  <script src="controllers/discoveryViewController.js"></script>
   <script src="controllers/discoveryContextController.js"></script>
   <script src="controllers/singleResultController.js"></script>
   <script src="controllers/usersController.js"></script>
@@ -260,6 +269,7 @@
   <!-- endbuild -->
 
   <script src="https://labs.library.tamu.edu/tl-components/latest/tl-components.js"></script>
+
 </body>
 
 </html>
