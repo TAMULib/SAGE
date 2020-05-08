@@ -13,6 +13,7 @@ sage.component("singleResultViewer", {
         if (url === undefined) {
           // probably should reject
           resolve(null);
+          return;
         }
 
         var extension = url.split('.').pop();
