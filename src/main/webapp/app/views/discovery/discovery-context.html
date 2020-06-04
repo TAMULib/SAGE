@@ -33,7 +33,7 @@
         <div class="col-xs-12">
           <ul class="list list-inline">
             <li style="min-width:37px" class="btn btn-primary dc-active-filter" ng-click="resetBadges()"><span class="glyphicon glyphicon-home"></span></li>
-            <li role="presentation" ng-if="hasActiveFilters()" ng-repeat="filter in discoveryContext.search.filters" class="btn btn-primary dc-active-filter" ng-click="removeFilter(filter)"><span class="glyphicon glyphicon-filter"></span>{{filter.label}} <span ng-if="filter.key">:</span> {{filter.value}} <span class="glyphicon glyphicon-remove"></span></li>
+            <li role="presentation" ng-if="hasActiveFilters()" ng-repeat="filter in discoveryContext.search.filters" class="btn btn-primary dc-active-filter" ng-click="removeFilter(filter)"><span class="glyphicon glyphicon-filter"></span>{{filter.label}} <span ng-if="filter.key">:</span> {{filter.value|limitTo:60}}<span ng-if="filter.value.length >= 60">...</span> <span class="glyphicon glyphicon-remove"></span></li>
             <li role="presentation" ng-if="hasSearch()" class="btn btn-primary dc-active-filter" ng-click="resetSearch()"><span class="glyphicon glyphicon-search"></span> <span ng-if="discoveryContext.search.label">{{discoveryContext.search.label}} :</span> </span>{{discoveryContext.search.value}} <span class="glyphicon glyphicon-remove"></span></li>
           </ul>
         </div>
@@ -54,8 +54,17 @@
           <select class="form-control dc-filter-select" ng-model="discoveryContext.search.page.size" ng-options="rows.value as rows.label for rows in rowOptions" ng-change="updateLimit()"></select>
         </div>
       </div>
-
       <hr class="dc-results-hr">
+      <div ng-if="landingPageVisible && !hasActiveFilters() && !hasSearch()" class="row">
+        <div class="panel panel-default">
+          <div ng-click="hideLandingPage()" class="panel-heading">{{discoveryContext.name}}<span class="close modal-close pull-right">&times;</span></div>
+          <div class="panel-body">
+            <img ng-if="discoveryContext.logoUrl" class="media-object" ng-src="{{discoveryContext.logoUrl}}" alt="{{discoveryContext.title}} logo">
+            <hr ng-if="discoveryContext.logoUrl"/>
+            <p ng-if="discoveryContext.description">{{discoveryContext.description}}</p>
+          </div>
+        </div>
+      </div>
 
       <div class="row dc-results">
         <div class="col-xs-12 results" ng-class="{'hide-results': discoveryContext.isSearching()}">

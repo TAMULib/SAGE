@@ -49,11 +49,15 @@ sage.controller('OperatorManagementController', function ($controller, $scope, N
     return opType === 'REGEX_REPLACE_OP';
   };
 
+  $scope.clearValue = function(type) {
+    return !$scope.enableValueInput(type) && !$scope.enableMultiSuggestionValueInput(type);
+  };
+
   $scope.typeChanged = function(operator) {
     if (!$scope.enableFieldInput(operator.type)) {
       operator.field = "";
     }
-    if (!$scope.enableValueInput(operator.type)) {
+    if ($scope.clearValue(operator.type)) {
       operator.value = "";
     }
     if (!$scope.enableRegexInput(operator.type)) {

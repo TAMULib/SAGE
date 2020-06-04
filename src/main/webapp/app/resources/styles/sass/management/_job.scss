@@ -3,3 +3,23 @@
 .jobs-table-row-writer ul {
   padding-left: 1em;
 }
+
+.operator-panel {
+  margin-top: 20px;
+
+  .panel-heading {
+    min-height: 54px;
+
+    label {
+      margin-top: 5px;
+    }
+
+    .input-group {
+      margin-top: 20px;
+    }
+  }
+
+  ul {
+    margin-bottom: 0;
+  }
+}

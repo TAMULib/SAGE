@@ -62,6 +62,10 @@ public class DiscoveryView extends ValidatingBaseEntity {
     @Column(nullable = false)
     private String infoLinkUrl;
 
+    @NotNull
+    @Column(length = 1000, nullable = false)
+    private String description;
+
     private String queryParser;
 
     private String defaultOperand;
@@ -75,6 +79,9 @@ public class DiscoveryView extends ValidatingBaseEntity {
     @OrderColumn
     @ElementCollection
     private List<SearchField> searchFields;
+
+    @Column
+    private String logoUrl;
 
     public DiscoveryView() {
         setModelValidator(new DiscoveryViewValidator());
@@ -200,6 +207,14 @@ public class DiscoveryView extends ValidatingBaseEntity {
         this.resultMetadataFields = resultMetadataFields;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public MetadataField findMetadataFieldByKey(String key) {
         MetadataField m = null;
         for (MetadataField rm : resultMetadataFields) {
@@ -247,6 +262,14 @@ public class DiscoveryView extends ValidatingBaseEntity {
 
     public void setSearchFields(List<SearchField> searchFields) {
         this.searchFields = searchFields;
+    }
+
+    public String getLogoUrl() {
+        return logoUrl;
+    }
+
+    public void setLogoUrl(String logoUrl) {
+        this.logoUrl = logoUrl;
     }
 
 }

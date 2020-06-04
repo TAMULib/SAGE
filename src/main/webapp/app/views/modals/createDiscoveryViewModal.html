@@ -158,7 +158,7 @@
             <div class="col-xs-2">
               <div class="form-group add-field-group">
                 <button ng-if="$index == 0" type="button" class="btn btn-success" ng-click="appendFacetFieldItem(discoveryView)"><span class="glyphicon glyphicon-plus"></span></button>
-                <button ng-if="$index > 0" type="button" class="btn btn-danger" ng-click="discoveryView.facetFields.splice($index,1)"><span class="glyphicon glyphicon-minus"></span></button>
+                <button ng-if="$index > 0 || discoveryView.facetFields.length > 1" type="button" class="btn btn-danger" ng-click="discoveryView.facetFields.splice($index,1)"><span class="glyphicon glyphicon-minus"></span></button>
               </div>
             </div>
           </div>
@@ -187,7 +187,7 @@
             <div class="col-xs-2">
               <div class="form-group add-field-group">
                 <button ng-if="$index == 0" type="button" class="btn btn-success" ng-click="appendSearchFieldItem(discoveryView)"><span class="glyphicon glyphicon-plus"></span></button>
-                <button ng-if="$index > 0" type="button" class="btn btn-danger" ng-click="discoveryView.searchFields.splice($index,1)"><span class="glyphicon glyphicon-minus"></span></button>
+                <button ng-if="$index > 0 || discoveryView.searchFields.length > 1" type="button" class="btn btn-danger" ng-click="discoveryView.searchFields.splice($index,1)"><span class="glyphicon glyphicon-minus"></span></button>
               </div>
             </div>
           </div>
@@ -318,9 +318,36 @@
             <div class="col-xs-2">
               <div class="form-group add-field-group">
                 <button ng-if="$index == 0" type="button" class="btn btn-success" ng-click="appendResultMetadataFieldItem(discoveryView)"><span class="glyphicon glyphicon-plus"></span></button>
-                <button ng-if="$index > 0" type="button" class="btn btn-danger" ng-click="discoveryView.resultMetadataFields.splice($index,1)"><span class="glyphicon glyphicon-minus"></span></button>
+                <button ng-if="$index > 0 || discoveryView.resultMetadataFields.length > 1" type="button" class="btn btn-danger" ng-click="discoveryView.resultMetadataFields.splice($index,1)"><span class="glyphicon glyphicon-minus"></span></button>
               </div>
             </div>
+          </div>
+        </div>
+      </uib-tab>
+      <uib-tab index="4" heading="Landing Page" disable="isTransitionDenied(4)" select="stepTransitionRefresh(tabs.active)">
+        <div class="row">
+          <div class="col-sm-10 col-sm-offset-1">
+            </br>
+            <validatedinput
+              id="discoveryViewToCreateLogoUrl"
+              model="discoveryView"
+              property="logoUrl"
+              label="Logo URL"
+              placeholder="Logo URL for the new Discovery View"
+              form="discoveryViewForms.create"
+              validations="discoveryViewForms.validations"
+              results="discoveryViewForms.getResults()"
+              autocomplete="off">
+            </validatedinput>
+            <validatedtextarea
+              id="discoveryViewToCreateLandingPageDescription"
+              model="discoveryView"
+              property="description"
+              label="Landing Page Description"
+              form="discoveryViewForms.create"
+              validations="discoveryViewForms.validations"
+              results="discoveryViewForms.getResults()">
+            </validatedtextarea>
           </div>
         </div>
       </uib-tab>
@@ -334,6 +361,8 @@
     <button ng-show="tabs.active === 2" type="button" class="btn btn-success" ng-click="back()">Back</button>
     <button ng-show="tabs.active === 2" ng-disabled="isDiscoveryViewSearchInvalid('create')" type="button" class="btn btn-success" ng-click="next()">Next</button>
     <button ng-show="tabs.active === 3" type="button" class="btn btn-success" ng-click="back()">Back</button>
-    <button ng-show="tabs.active === 3" ng-disabled="isDiscoveryViewResultsInvalid('create') || discoveryViewForms.create.$invalid" type="submit" class="btn btn-success">Create</button>
+    <button ng-show="tabs.active === 3" ng-disabled="isDiscoveryViewResultsInvalid('create')" type="button" class="btn btn-success" ng-click="next()">Next</button>
+    <button ng-show="tabs.active === 4" type="button" class="btn btn-success" ng-click="back()">Back</button>
+    <button ng-show="tabs.active === 4" ng-disabled="isDiscoveryViewLandingPageInvalid('create') || discoveryViewForms.create.$invalid" type="submit" class="btn btn-success">Create</button>
   </div>
 </form>
