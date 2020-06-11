@@ -64,10 +64,8 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
         }
       }
 
-      $scope.currentSearchField = "";
       $scope.currentSearchValue = "";
-
-      if (angular.isDefined($scope.discoveryContext.searchFields)) {
+      if (!$scope.currentSearchField && angular.isDefined($scope.discoveryContext.searchFields)) {
         $scope.currentSearchField = $scope.discoveryContext.searchFields[0];
       }
     };
@@ -88,6 +86,7 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
 
     $scope.resetBadges = function() {
       $scope.discoveryContext.resetBadges().then(function() {
+        $scope.currentSearchField = null;
         $scope.prepareSearch();
       });
     };
@@ -124,12 +123,20 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
       });
     };
 
-    $scope.searchProcessKeyPress = function(event) {
-      if (event.keyCode === 13 && $scope.currentSearchField) {
+    $scope.setCurrentSearchField = function(searchField) {
+      $scope.currentSearchField = searchField;
+    };
+
+    $scope.search = function() {
         $scope.discoveryContext.setSearchField($scope.currentSearchField.key, $scope.currentSearchValue, $scope.findSearchFieldLabel($scope.currentSearchField.key));
         $scope.discoveryContext.executeSearch().then(function() {
           $scope.prepareSearch();
         });
+    };
+
+    $scope.searchProcessKeyPress = function(event) {
+      if (event.keyCode === 13 && $scope.currentSearchField) {
+        $scope.search();
       }
     };
 
