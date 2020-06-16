@@ -1,5 +1,8 @@
 <div class="panel panel-default dc-facet">
-  <div class="panel-heading clickable" ng-click="open=!open">{{$ctrl.facet.label}} <span class="glyphicon glyphicon-chevron-right pull-right"></span></div>
+  <div class="panel-heading" ng-class="{'clickable': !facetIsEmpty()}" ng-click="open=!open">{{$ctrl.facet.label}}
+    <span ng-if="!facetIsEmpty()" class="glyphicon glyphicon-chevron-right pull-right"></span>
+    <span ng-if="facetIsEmpty()" class="badge pull-right">0</span>
+  </div>
   <ul class="list-group dc-facet-counts-in-use">
     <li class="list-group-item dc-facet-count-in-use clickable clearfix" ng-class="{'list-group-item-success': !hover, 'list-group-item-warning': hover}" ng-mouseover="hover=true" ng-mouseleave="hover=false" ng-repeat="(facetName, facetCount) in $ctrl.facet.counts track by $index" ng-click="addRemoveFacetFilter($ctrl.facet, facetName)" ng-if="findFilterByFacet($ctrl.facet.label, facetName)">
       {{facetName}} <span class="badge pull-right" ng-hide="hover">{{facetCount}}</span> <span class="glyphicon glyphicon-remove pull-right" ng-show="hover"></span>
