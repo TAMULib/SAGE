@@ -84,17 +84,11 @@ public class SimpleProcessorService implements ProcessorService {
 
                     solrReader.getFields().forEach(field -> {
                         if (doc.getFieldValues(field.getName()) != null) {
-                            boolean hasValue = false;
-                            doc.getFieldValues(field.getName()).forEach(result -> {
-                                if (hasValue) {
-                                    return;
-                                }
-                                if (field.getSchemaMapping().equals("terms.identifier") && doc.getFieldValue(field.getName()).toString().contains("://")) {
-                                    resultsMap.put(field.getSchemaMapping(), new String(Base64.encodeBase64(result.toString().getBytes())));
-                                } else {
-                                    resultsMap.put(field.getSchemaMapping(), result);
-                                }
-                            });
+                            if (doc.getFieldValues(field.getName()).size() > 1) {
+                                resultsMap.put(field.getSchemaMapping(), doc.getFieldValues(field.getName()));
+                            } else {
+                                resultsMap.put(field.getSchemaMapping(), doc.getFirstValue(field.getName()));
+                            }
                         }
                     });
 
@@ -186,6 +180,7 @@ public class SimpleProcessorService implements ProcessorService {
      * @param job the job to process
      * @return whether the job has started or not
      */
+    @Override
     public boolean process(Job job) {
         boolean processStarted = false;
         AtomicBoolean processing;
@@ -216,6 +211,7 @@ public class SimpleProcessorService implements ProcessorService {
      *
      * @param jobs list of jobs to process
      */
+    @Override
     public void process(List<Job> jobs) {
         jobs.forEach(job -> process(job));
     }

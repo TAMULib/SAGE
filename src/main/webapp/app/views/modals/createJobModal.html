@@ -23,8 +23,34 @@
         <label for="readersSelect">Readers</label>
         <select name="readersSelect" class="form-control" ng-options="reader as reader.name for reader in readers track by reader.id" ng-model="jobToCreate.readers" multiple required></select>
 
-        <label for="operatorsSelect">Operators</label>
-        <select name="operatorsSelect" class="form-control" ng-options="operator as operator.name for operator in operators track by operator.id" ng-model="jobToCreate.operators" multiple></select>
+        <div class="panel panel-default operator-panel">
+          <div class="panel-heading">
+            <div>
+              <label for="operatorsSelect">Operators</label>
+              <div ng-disabled="addingOperator" class="btn btn-default pull-right add-operator" ng-click="openAddOperator()">Add</div>
+            </div>
+            <div class="input-group" ng-if="addingOperator">
+              <select name="add-operator" class="form-control" ng-model="operatorToAdd.value" ng-options="operator as operator.name for operator in operators | availableOperator : jobToCreate.operators  track by operator.id">
+                <option value="" selected>Select An Operator</option>
+              </select>
+              <span class="input-group-btn">
+                <button ng-click="addOperator(jobToCreate.operators, operatorToAdd.value)" ng-disabled="operatorToAdd.value === null" class="btn btn-success" type="button">Add</button>
+                <button class="btn btn-default" type="button" ng-click="closeAddOperator()">Cancel</button>
+              </span>
+            </div>
+          </div>
+          <div class="panel-body">
+            <ul class="list-group">
+              <li class="list-group-item" ng-repeat="operator in jobToCreate.operators track by operator.id" ng-model="jobToCreate.operators">{{operator.name}}
+                <span class="pull-right">
+                  <span ng-if="!$first" title="Move Operator Up" class="glyphicon glyphicon glyphicon-arrow-up clickable" ng-click="moveUp(jobToCreate.operators, operator)"></span>
+                  <span ng-if="!$last" title="Move Operator Down" class="glyphicon glyphicon glyphicon-arrow-down clickable" ng-click="moveDown(jobToCreate.operators, operator)"></span>
+                  <span class="glyphicon glyphicon glyphicon glyphicon-trash clickable" title="Remove Operator" ng-click="removeOperator(jobToCreate.operators, operator)"></span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
 
         <label for="writersSelect">Writers</label>
         <select name="writersSelect" class="form-control" ng-options="writer as writer.name for writer in writers track by writer.id" ng-model="jobToCreate.writers" multiple required></select>

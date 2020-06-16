@@ -7,7 +7,7 @@
   </div>
 
   <form name="forms.login" novalidate>
-    <span ng-if="isEmailEnabled()">
+    <span ng-controller="AppLoginController" ng-if="isEmailEnabled()">
       <validationmessage results="user.getValidationResults()"></validationmessage>
       <div class="modal-body loginModal">
         <validatedinput
@@ -34,7 +34,7 @@
         <button class="btn btn-primary" type="submit" ng-click="login()" ng-disabled="forms.login.$invalid">Login</button>
       </div>
     </span>
-    <div class="modal-footer">
+    <div ng-controller="AuthenticationController" class="modal-footer">
       <button type="button" class="btn btn-default" ng-click="reset()">Cancel</button>
       <button ng-if="isExternalEnabled()" type="button" class="btn btn-primary pull-left" ng-click="login()">External Login</button>
     </div>

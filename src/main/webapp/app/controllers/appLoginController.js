@@ -1,6 +1,6 @@
 sage.controller('AppLoginController', function ($controller, $scope) {
 
-  angular.extend(this, $controller('AuthenticationController', {
+  angular.extend(this, $controller('LoginController', {
     $scope: $scope
   }));
 
