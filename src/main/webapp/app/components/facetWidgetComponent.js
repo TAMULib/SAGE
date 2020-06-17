@@ -7,6 +7,10 @@ sage.component("facetWidget", {
   },
   controller: function($scope) {
 
+    $scope.facetIsEmpty = function() {
+      return Object.keys($scope.$ctrl.facet.counts).length == 0;
+    };
+
     $scope.addRemoveFacetFilter = function(facet, value) {
       var filter = $scope.findFilterByFacet(facet.label, value);
       if(filter) {
