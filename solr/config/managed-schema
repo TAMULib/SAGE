@@ -165,12 +165,16 @@
     <field name="original_publisher" type="strings" indexed="true" stored="true" multiValued="true"/>
     <field name="physical_extent" type="strings" indexed="true" stored="true" multiValued="true"/>
     <field name="sponsor" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
+    <field name="details" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
+    <field name="spatial" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
 
     <copyField source="alternative_title" dest="_text_"/>
     <copyField source="genre" dest="_text_"/>
     <copyField source="contributor" dest="_text_"/>
     <copyField source="original_publisher" dest="_text_"/>
     <copyField source="sponsor" dest="_text_"/>
+    <copyField source="details" dest="_text_"/>
+    <copyField source="spatial" dest="_text_"/>
 
     <!-- Non-core Optional -->
     <field name="source_collection" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
