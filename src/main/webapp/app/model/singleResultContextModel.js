@@ -3,7 +3,8 @@ sage.model("SingleResultContext", function (WsApi) {
     var singleResultContext = this;
 
     singleResultContext.before(function() {
-      var loadedPromise = WsApi.fetch(singleResultContext.getMapping().load, {
+      var method = singleResultContext.fullView ? "full":"load";
+      var loadedPromise = WsApi.fetch(singleResultContext.getMapping()[method], {
         pathValues: {
           slug: singleResultContext.slug,
           resultId: singleResultContext.resultId

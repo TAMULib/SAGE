@@ -117,4 +117,14 @@ public class DiscoveryViewController {
         return new ApiResponse(SUCCESS, solrDiscoveryService.getSingleResult(discoveryView, resultId));
     }
 
+    @RequestMapping(value = "/context/full/{slug}/{resultId}", method = RequestMethod.GET)
+    @PreAuthorize("hasRole('MANAGER')")
+    public ApiResponse findFullResultBySlugAndId(@PathVariable String slug, @PathVariable String resultId) throws DiscoveryContextNotFoundException, DiscoveryContextBuildException, JsonProcessingException, IOException {
+
+        DiscoveryView discoveryView = discoveryViewRepo.findOneBySlug(slug);
+        if (discoveryView == null) {
+            throw new DiscoveryContextNotFoundException(String.format("Could not find Discovery Context for %s", slug));
+        }
+        return new ApiResponse(SUCCESS, solrDiscoveryService.getSingleResultFull(discoveryView, resultId));
+    }
 }

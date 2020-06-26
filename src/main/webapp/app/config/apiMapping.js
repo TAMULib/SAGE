@@ -318,7 +318,13 @@ var apiMapping = {
       'httpMethod': 'GET',
       'controller': 'discovery-view/context',
       'method': ':slug/:resultId'
-    }
+    },
+    full: {
+      'endpoint': '/private/queue',
+      'httpMethod': 'GET',
+      'controller': 'discovery-view/context/full',
+      'method': ':slug/:resultId'
+    },
   },
   Result: {
     validations: false,
