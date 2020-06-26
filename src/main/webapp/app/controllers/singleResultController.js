@@ -14,7 +14,7 @@ sage.controller('SingleResultController', function ($controller, $q, $routeParam
       resultId: $routeParams.resultId,
       fullView: fullView
     });
-  }
+  };
 
   $scope.setResultContext(false);
 
