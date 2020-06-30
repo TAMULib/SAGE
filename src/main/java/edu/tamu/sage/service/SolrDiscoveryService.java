@@ -173,9 +173,28 @@ public class SolrDiscoveryService {
     }
 
     public SingleResultContext getSingleResult(DiscoveryView discoveryView, String resultId) throws DiscoveryContextBuildException {
+        SingleResultContext singleResultContext = null;
+        SolrDocument solrDocument = getSingleResultDocument(discoveryView, resultId);
 
-        SingleResultContext sinlgeResultContext = null;
+        if (solrDocument != null) {
+            singleResultContext = SingleResultContext.of(discoveryView, solrDocument);
+        }
 
+        return singleResultContext;
+    }
+
+    public SingleResultContext getSingleResultFull(DiscoveryView discoveryView, String resultId) throws DiscoveryContextBuildException {
+        SingleResultContext singleResultContext = null;
+        SolrDocument solrDocument = getSingleResultDocument(discoveryView, resultId);
+
+        if (solrDocument != null) {
+            singleResultContext = SingleResultContext.fullViewOf(discoveryView, solrDocument);
+        }
+
+        return singleResultContext;
+    }
+
+    private SolrDocument getSingleResultDocument(DiscoveryView discoveryView, String resultId) throws DiscoveryContextBuildException {
         try (SolrClient solr = new HttpSolrClient(discoveryView.getSource().getUri())) {
             SolrQuery query = new SolrQuery();
 
@@ -185,14 +204,12 @@ public class SolrDiscoveryService {
             QueryResponse qr = solr.query(query);
 
             if (qr.getResults().size() > 0) {
-                sinlgeResultContext = SingleResultContext.of(discoveryView, qr.getResults().get(0));
+                return qr.getResults().get(0);
             }
-
+            return null;
         } catch (Exception e) {
-            throw new DiscoveryContextBuildException("Could not find singe result", e);
+            throw new DiscoveryContextBuildException("Could not find single result", e);
         }
-
-        return sinlgeResultContext;
     }
 
     private ResultSet querySolrCore(DiscoveryView discoveryView, SolrQuery query, Search search) {

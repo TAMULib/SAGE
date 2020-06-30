@@ -3,7 +3,9 @@ package edu.tamu.sage.model.response;
 import static edu.tamu.sage.utility.ValueTemplateUtility.compileTemplate;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.apache.solr.common.SolrDocument;
@@ -79,6 +81,28 @@ public class SingleResultContext {
     }
 
     public static SingleResultContext of(DiscoveryView dv, SolrDocument solrDocument) {
+        SingleResultContext src = buildSingleResult(dv, solrDocument);
+
+        for (MetadataField mf : dv.getResultMetadataFields()) {
+            Object value = solrDocument.getFieldValue(mf.getKey());
+            if (value != null) {
+                src.resultMetadataFields.add(ResultMetadataField.of(mf, value.toString()));
+            }
+        }
+        return src;
+    }
+
+    public static SingleResultContext fullViewOf(DiscoveryView dv, SolrDocument solrDocument) {
+        SingleResultContext src = buildSingleResult(dv, solrDocument);
+
+        Map<String, Collection<Object>> fields = solrDocument.getFieldValuesMap();
+        fields.keySet().forEach(k -> {
+            src.resultMetadataFields.add(ResultMetadataField.of(k, solrDocument.getFieldValue(k).toString()));
+        });
+        return src;
+    }
+
+    private static SingleResultContext buildSingleResult(DiscoveryView dv, SolrDocument solrDocument) {
         SingleResultContext src = new SingleResultContext();
 
         Optional<String> titleOption = compileTemplate(dv.getTitleKey(), solrDocument);
@@ -102,14 +126,6 @@ public class SingleResultContext {
         if (manifestOption.isPresent()) {
             src.setManifestUri(manifestOption.get());
         }
-
-        for (MetadataField mf : dv.getResultMetadataFields()) {
-            Object value = solrDocument.getFieldValue(mf.getKey());
-            if (value != null) {
-                src.resultMetadataFields.add(ResultMetadataField.of(mf, value.toString()));
-            }
-        }
-
         return src;
     }
 }
