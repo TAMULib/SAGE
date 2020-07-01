@@ -4,6 +4,9 @@
     <h4 class="modal-title">Edit Discovery View</h4>
   </div>
   <div class="modal-body" ng-if="discoveryView">
+    <div class="form-group text-center">
+      <a role="button" class="btn btn-default" target="_blank" href="discovery-context/{{discoveryView.slug}}">View {{discoveryView.name}}</a>
+    </div>
     <alerts seconds="30" channels="source/solr/fields,source/solr/test,discovery-view" types="WARNING,ERROR" exclusive></alerts>
     <validationmessage results="discoveryViewForms.getResults()"></validationmessage>
 
