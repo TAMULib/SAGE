@@ -9,7 +9,7 @@
       <single-result-viewer context="singleResultContext"></single-result-viewer>
       <dl class="dl-horizontal dc-result-metadata">
         <span class="dc-field" ng-repeat="metadataField in singleResultContext.resultMetadataFields" ng-if="metadataField.inSingleResult">
-          <dt><span class="dc-field-key"><small>{{metadataField.label}}:</small></span></dt>
+          <dt><span class="dc-field-key">{{metadataField.label}}:</span></dt>
           <dd><span class="dc-field-value">{{metadataField.value | removeBrackets}}</span></dd>
         </span>
       </dl>
