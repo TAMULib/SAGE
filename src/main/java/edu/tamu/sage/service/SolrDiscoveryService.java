@@ -5,6 +5,8 @@ import static edu.tamu.sage.service.SolrSourceService.ALL_FIELDS_KEY;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +26,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import edu.tamu.sage.enums.QueryOperandType;
 import edu.tamu.sage.enums.QueryParserType;
@@ -49,6 +54,9 @@ public class SolrDiscoveryService {
 
     @Autowired
     private SolrSourceService solrSourceService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     private class ResultSet {
         public List<Result> results;
@@ -185,7 +193,9 @@ public class SolrDiscoveryService {
             QueryResponse qr = solr.query(query);
 
             if (qr.getResults().size() > 0) {
-                sinlgeResultContext = SingleResultContext.of(discoveryView, qr.getResults().get(0));
+                SolrDocument doc = qr.getResults().get(0);
+                processResult(doc);
+                sinlgeResultContext = SingleResultContext.of(discoveryView, doc);
             }
 
         } catch (Exception e) {
@@ -249,6 +259,7 @@ public class SolrDiscoveryService {
             search.setTotal(docs.getNumFound());
 
             for (SolrDocument doc : docs) {
+                processResult(doc);
                 results.add(Result.of(doc, discoveryView));
             }
 
@@ -269,6 +280,28 @@ public class SolrDiscoveryService {
         }
 
         return new ResultSet(results, facetFilters);
+    }
+
+    private void processResult(SolrDocument solrDoc) {
+        solrDoc.getFieldNames().forEach(name -> {
+
+            Object value = solrDoc.getFieldValue(name);
+                if (value instanceof Collection) {
+                    try {
+                        value = objectMapper.writeValueAsString(value);
+                        solrDoc.setField(name, value);
+                    } catch (JsonProcessingException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    try {
+                     value = objectMapper.writeValueAsString(Arrays.asList(value.toString()));
+                     solrDoc.setField(name, value);
+                 } catch (JsonProcessingException e) {
+                     e.printStackTrace();
+                 }
+                }
+         });
     }
 
 }

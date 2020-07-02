@@ -5,17 +5,17 @@ import edu.tamu.sage.model.MetadataField;
 public class ResultMetadataField {
 
     private String Key;
-    
+
     private String Label;
-    
-    private String Value;
-    
+
+    private Object Value;
+
     private boolean inList;
-    
+
     private boolean inGrid;
-    
+
     private boolean inSingleResult;
-    
+
     public ResultMetadataField() {}
 
     public String getKey() {
@@ -34,11 +34,11 @@ public class ResultMetadataField {
         Label = label;
     }
 
-    public String getValue() {
+    public Object getValue() {
         return Value;
     }
 
-    public void setValue(String value) {
+    public void setValue(Object value) {
         Value = value;
     }
 
@@ -65,20 +65,20 @@ public class ResultMetadataField {
     public void setInSingleResult(boolean inSingleResult) {
         this.inSingleResult = inSingleResult;
     }
-    
+
 
     public static ResultMetadataField of(MetadataField mf, String value) {
         ResultMetadataField rmf = new ResultMetadataField();
-        
+
         rmf.setKey(mf.getKey());
         rmf.setLabel(mf.getLabel());
         rmf.setValue(value);
-        
+
         rmf.setInList(mf.isInList());
         rmf.setInGrid(mf.isInGrid());
         rmf.setInSingleResult(mf.isInSingleResult());
-        
+
         return rmf;
     }
-    
+
 }
