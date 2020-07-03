@@ -41,8 +41,11 @@
       <div class="row dc-active-filters" ng-if="hasActiveFilters() || hasSearch()">
         <div class="col-xs-12">
           <ul class="list list-inline">
-            <li style="min-width:37px" class="btn btn-primary dc-active-filter" ng-click="resetBadges()"><span class="glyphicon glyphicon-home"></span></li>
-            <li role="presentation" ng-if="hasActiveFilters()" ng-repeat="filter in discoveryContext.search.filters" class="btn btn-primary dc-active-filter" ng-click="removeFilter(filter)"><span class="glyphicon glyphicon-filter"></span>{{filter.label}} <span ng-if="filter.key">:</span> {{filter.value|limitTo:60}}<span ng-if="filter.value.length >= 60">...</span> <span class="glyphicon glyphicon-remove"></span></li>
+            <li role="presentation" ng-if="hasActiveFilters()" ng-repeat="filter in discoveryContext.search.filters" class="btn btn-primary dc-active-filter" ng-click="removeFilter(filter)">
+              <div class="pull-right remove"></div>
+              <div class="label">{{filter.label}}</div>
+              <div class="value">{{filter.value|limitTo:60}}<span ng-if="filter.value.length >= 60">...</span></div>
+            </li>
           </ul>
         </div>
       </div>

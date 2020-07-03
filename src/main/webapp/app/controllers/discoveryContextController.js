@@ -83,14 +83,6 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
       });
     };
 
-    $scope.resetBadges = function() {
-      $scope.currentSearchValue = "";
-      $scope.discoveryContext.resetBadges().then(function() {
-        $scope.currentSearchField = null;
-        $scope.prepareSearch();
-      });
-    };
-
     $scope.resetSearch = function() {
       $scope.currentSearchValue = "";
       $scope.discoveryContext.resetSearch().then(function() {
