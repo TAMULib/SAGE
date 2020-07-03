@@ -80,15 +80,17 @@
           <div class="media dc-result" ng-repeat="result in discoveryContext.results">
             <div class="media-left media-middle">
               <a href="discovery-context/{{discoveryContext.slug}}/{{result.uniqueIdentifier}}">
-                <img class="media-object" default-src="defaultThumbnailURI" ng-src="{{result.resourceThumbnailUriKey | removeBrackets}}" alt="picture of: {{result.title}}">
+                <img class="media-object" default-src="defaultThumbnailURI" ng-src="{{result.resourceThumbnailUriKey}}" alt="picture of: {{result.title}}">
               </a>
             </div>
             <div class="media-body">
-              <h4 class="media-heading"><a href="discovery-context/{{discoveryContext.slug}}/{{result.uniqueIdentifier}}">{{result.title | removeBrackets}}</a></h4>
+              <h4 class="media-heading"><a href="discovery-context/{{discoveryContext.slug}}/{{result.uniqueIdentifier}}">{{result.title}}</a></h4>
               <dl class="dl-horizontal dc-result-metadata">
                 <span class="dc-field" ng-repeat="resultField in result.fields" ng-if="resultField.inList">
                   <dt><span class="dc-field-key">{{resultField.label}}:</span></dt>
-                  <dd><span class="dc-field-value">{{resultField.value | removeBrackets}}</span></dd>
+                  <dd>
+                    <div class="dc-field-value" ng-repeat="value in resultField.value">{{value}}</div>
+                  </dd>
                 </span>
               </dl>
             </div>

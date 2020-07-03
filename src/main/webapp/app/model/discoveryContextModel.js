@@ -92,6 +92,19 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
         populateProperty("fields", Field);
 
         angular.forEach(discoveryContext.results, function(value, key) {
+          var specialKeys = ["title", "manifestUriKey", "resourceLocationUriKey", "resourceThumbnailUriKey", "uniqueIdentifier"];
+          angular.forEach(specialKeys, function(key) {
+            if (value[key]) {
+              value[key] = JSON.parse(value[key])[0];
+            }
+          });
+
+          angular.forEach(value.fields, function(field, fieldName) {
+            if (field.value.startsWith("[") && field.value.endsWith("]")) {
+              field.value = JSON.parse(field.value);
+            }
+          });
+
           if (!value.resourceThumbnailUriKey) {
             value.resourceThumbnailUriKey = 'temp';
             if (value.manifestUriKey) {
