@@ -65,8 +65,17 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
       }
 
       $scope.currentSearchValue = "";
-      if (!$scope.currentSearchField && angular.isDefined($scope.discoveryContext.searchFields)) {
-        $scope.currentSearchField = $scope.discoveryContext.searchFields[0];
+
+      if (angular.isDefined($scope.discoveryContext.searchFields)) {
+        if ($scope.currentSearchField) {
+          angular.forEach($scope.discoveryContext.searchFields, function(v,k) {
+            if ($scope.currentSearchField.key === v.key) {
+              $scope.currentSearchField = v;
+            }
+          });
+        } else {
+          $scope.currentSearchField = $scope.discoveryContext.searchFields[0];
+        }
       }
     };
 

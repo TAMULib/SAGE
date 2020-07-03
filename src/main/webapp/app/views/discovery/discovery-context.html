@@ -21,19 +21,14 @@
         <div class="col-xs-12">
           <form class="form-group">
             <div class="input-group">
-
-              <div class="input-group-btn">
-                <button ng-click="search()" type="button" class="btn btn-default dc-filter dc-filter-search">Search</button>
-                <button type="button" class="btn btn-default dropdown-toggle dc-filter dc-filter-select" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span class="caret"></span> <span class="sr-only">Toggle Dropdown</span>
-                </button>
-                <ul class="dropdown-menu">
-                  <li ng-repeat="searchField in discoveryContext.searchFields">
-                    <a href="#" ng-click="setCurrentSearchField(searchField)">{{searchField.label}}</a>
-                  </li>
-                </ul>
-              </div>
+              <span class="input-group-btn">
+                  <select class="form-control dc-filter-select" ng-model="currentSearchField" ng-options="searchField.label for searchField in discoveryContext.searchFields">
+                  </select>
+              </span>
               <input type="text" class="form-control dc-search-input" ng-model="currentSearchValue" ng-keypress="searchProcessKeyPress($event)">
+              <span class="input-group-btn">
+                <button ng-click="search()" type="button" class="btn btn-default dc-filter dc-filter-search">Search</button>
+              </span>
             </div>
           </form>
         </div>
