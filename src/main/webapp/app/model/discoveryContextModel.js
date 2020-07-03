@@ -183,18 +183,6 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
       return discoveryContext.executeSearch();
     };
 
-    discoveryContext.resetBadges = function() {
-      discoveryContext.clearCommon();
-
-      discoveryContext.search.filters.length = 0;
-
-      angular.forEach($location.search(), function(value, key) {
-        if (key.match(/^f\./i)) $location.search(key, null);
-      });
-
-      return discoveryContext.executeSearch();
-    };
-
     discoveryContext.resetSearch = function() {
       discoveryContext.clearCommon();
 
