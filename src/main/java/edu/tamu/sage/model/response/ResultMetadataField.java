@@ -8,7 +8,7 @@ public class ResultMetadataField {
 
     private String Label;
 
-    private String Value;
+    private Object Value;
 
     private boolean inList;
 
@@ -34,11 +34,11 @@ public class ResultMetadataField {
         Label = label;
     }
 
-    public String getValue() {
+    public Object getValue() {
         return Value;
     }
 
-    public void setValue(String value) {
+    public void setValue(Object value) {
         Value = value;
     }
 
