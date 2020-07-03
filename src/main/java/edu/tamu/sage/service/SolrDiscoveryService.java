@@ -284,23 +284,11 @@ public class SolrDiscoveryService {
 
     private void processResult(SolrDocument solrDoc) {
         solrDoc.getFieldNames().forEach(name -> {
-
-            Object value = solrDoc.getFieldValue(name);
-                if (value instanceof Collection) {
-                    try {
-                        value = objectMapper.writeValueAsString(value);
-                        solrDoc.setField(name, value);
-                    } catch (JsonProcessingException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    try {
-                     value = objectMapper.writeValueAsString(Arrays.asList(value.toString()));
-                     solrDoc.setField(name, value);
-                 } catch (JsonProcessingException e) {
-                     e.printStackTrace();
-                 }
-                }
+            try {
+                solrDoc.setField(name, objectMapper.writeValueAsString(solrDoc.getFieldValues(name)));
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
          });
     }
 
