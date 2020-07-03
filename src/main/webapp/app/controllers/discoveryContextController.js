@@ -64,7 +64,6 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
         }
       }
 
-      $scope.currentSearchValue = "";
       if (!$scope.currentSearchField && angular.isDefined($scope.discoveryContext.searchFields)) {
         $scope.currentSearchField = $scope.discoveryContext.searchFields[0];
       }
@@ -85,6 +84,7 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
     };
 
     $scope.resetBadges = function() {
+      $scope.currentSearchValue = "";
       $scope.discoveryContext.resetBadges().then(function() {
         $scope.currentSearchField = null;
         $scope.prepareSearch();
@@ -92,6 +92,7 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
     };
 
     $scope.resetSearch = function() {
+      $scope.currentSearchValue = "";
       $scope.discoveryContext.resetSearch().then(function() {
         $scope.prepareSearch();
       });
