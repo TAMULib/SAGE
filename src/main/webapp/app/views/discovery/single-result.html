@@ -14,7 +14,9 @@
         <span class="dc-field" ng-repeat="metadataField in singleResultContext.resultMetadataFields" ng-if="metadataField.inSingleResult">
           <dt><span class="dc-field-key">{{metadataField.label}}:</span></dt>
           <dd>
-            <div class="dc-field-value" ng-repeat="value in metadataField.value">{{value}}</div>
+            <div class="dc-field-value" ng-repeat="value in metadataField.value">
+              <present-value>{{value}}</present-value>
+            </div>
           </dd>
         </span>
       </dl>
