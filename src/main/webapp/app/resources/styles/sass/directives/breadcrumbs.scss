@@ -4,6 +4,30 @@
     .active {
       color: #535353;
     }
+
+    a {
+      color: #000;
+    }
+
+    a.link-like {
+      color: #999999;
+    }
+
+    > li + li::before {
+      content: "";
+      background-image: url("../resources/images/breadcrumb.png");
+      background-repeat: no-repeat;
+      background-position: top left;
+      background-size: 65%;
+      width: 24px;
+      height: 15px;
+      display: inline-block;
+      bottom: -2px;
+      position: relative;
+      margin-left: 4px;
+      padding-right: 0;
+    }
+    background-color: transparent;
   }
 
   margin-top: 5px;
