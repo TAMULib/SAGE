@@ -91,6 +91,44 @@
 
         .dc-active-filter {
           margin-right: 10px;
+          min-width: 120px;
+        }
+
+        .dc-active-filter .remove {
+          background-image: url("../resources/images/remove.png");
+          background-repeat: no-repeat;
+          background-position: center center;
+          width: 20px;
+          height: 40px;
+          background-size: 75%;
+        }
+
+        .dc-active-filter .label {
+          display: block;
+          color: rgb(77, 77, 77);
+          text-align: left;
+          padding-left: 0;
+          font-size: 90%;
+        }
+
+        .dc-active-filter .value {
+          margin-right:30px;
+        }
+
+        .dc-active-filter .glyphicon {
+          height:40px;
+          top: 12px;
+        }
+
+        .dc-active-filter {
+          background: rgb(255, 255, 255);
+          border: 1px solid rgb(237, 237, 237);
+          border-left: 4px solid rgb(80, 0, 1);
+          border-radius: 0;
+          color: rgb(77, 77, 77);
+          font-weight: normal;
+          text-align: left;
+          letter-spacing: 0.1px;
         }
       }
 
