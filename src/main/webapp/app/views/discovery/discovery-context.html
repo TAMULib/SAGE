@@ -5,7 +5,7 @@
   <div class="dc-content">
     <breadcrumbs contexts="breadcrumbContexts" reload="resetPage" home=""></breadcrumbs>
     <div class="col-md-3 dc-side-panel">
-      <div ng-style="discoveryContext.logoUrl ? {'background-image':'url({{discoveryContext.logoUrl}})','background-size': 'cover'}:{}" ng-if="discoveryContext.infoLinkText || discoveryContext.infoText" class="panel panel-default information-box">
+      <div ng-style="discoveryContext.logoUrl ? {'background-image':'url({{discoveryContext.logoUrl}})'}:{}" ng-if="discoveryContext.infoLinkText || discoveryContext.infoText" class="panel panel-default information-box">
         <div ng-if="discoveryContext.infoText" class="panel-body">
           <h3>
             <a ng-if="discoveryContext.infoLinkUrl" href="{{discoveryContext.infoLinkUrl}}">{{discoveryContext.infoLinkText}}</a>
