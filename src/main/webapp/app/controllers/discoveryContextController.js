@@ -1,4 +1,4 @@
-sage.controller('DiscoveryContextController', function ($controller, $scope, $routeParams, $location, DiscoveryContext, appConfig) {
+sage.controller('DiscoveryContextController', function ($controller, $scope, $routeParams, $location, $sce, DiscoveryContext, appConfig) {
 
   angular.extend(this, $controller('CoreAdminController', {
     $scope: $scope
@@ -10,8 +10,6 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
 
   $scope.rowOptions = [];
 
-  $scope.landingPageVisible = true;
-
   var options = [10, 25, 50, 100];
 
   for (var i in options) {
@@ -21,10 +19,6 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
   $scope.discoveryContext = new DiscoveryContext({
     slug: $routeParams.slug,
   });
-
-  $scope.hideLandingPage = function() {
-    $scope.landingPageVisible = false;
-  };
 
   $scope.discoveryContext.ready().then(function() {
 
@@ -187,6 +181,10 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
     $scope.hasSearch = function() {
       return typeof $scope.discoveryContext.search.value === "string" && $scope.discoveryContext.search.value !== "";
     };
+
+    $scope.presentCollectionText = function(value) {
+      return $sce.trustAsHtml(value);
+    }
   });
 
 });

@@ -65,6 +65,18 @@
             </validatedinput>
 
             <validatedinput
+              id="discoveryViewToCreateLogoUrl"
+              model="discoveryView"
+              property="logoUrl"
+              label="Logo URL"
+              placeholder="Logo URL for the new Discovery View"
+              form="discoveryViewForms.create"
+              validations="discoveryViewForms.validations"
+              results="discoveryViewForms.getResults()"
+              autocomplete="off">
+            </validatedinput>
+
+            <validatedinput
               id="discoveryViewToCreateInfoLinkText"
               model="discoveryView"
               property="infoLinkText"
@@ -324,33 +336,6 @@
           </div>
         </div>
       </uib-tab>
-      <uib-tab index="4" heading="Landing Page" disable="isTransitionDenied(4)" select="stepTransitionRefresh(tabs.active)">
-        <div class="row">
-          <div class="col-sm-10 col-sm-offset-1">
-            </br>
-            <validatedinput
-              id="discoveryViewToCreateLogoUrl"
-              model="discoveryView"
-              property="logoUrl"
-              label="Logo URL"
-              placeholder="Logo URL for the new Discovery View"
-              form="discoveryViewForms.create"
-              validations="discoveryViewForms.validations"
-              results="discoveryViewForms.getResults()"
-              autocomplete="off">
-            </validatedinput>
-            <validatedtextarea
-              id="discoveryViewToCreateLandingPageDescription"
-              model="discoveryView"
-              property="description"
-              label="Landing Page Description"
-              form="discoveryViewForms.create"
-              validations="discoveryViewForms.validations"
-              results="discoveryViewForms.getResults()">
-            </validatedtextarea>
-          </div>
-        </div>
-      </uib-tab>
     </uib-tabset>
   </div>
   <div class="modal-footer">
@@ -361,8 +346,6 @@
     <button ng-show="tabs.active === 2" type="button" class="btn btn-success" ng-click="back()">Back</button>
     <button ng-show="tabs.active === 2" ng-disabled="isDiscoveryViewSearchInvalid('create')" type="button" class="btn btn-success" ng-click="next()">Next</button>
     <button ng-show="tabs.active === 3" type="button" class="btn btn-success" ng-click="back()">Back</button>
-    <button ng-show="tabs.active === 3" ng-disabled="isDiscoveryViewResultsInvalid('create')" type="button" class="btn btn-success" ng-click="next()">Next</button>
-    <button ng-show="tabs.active === 4" type="button" class="btn btn-success" ng-click="back()">Back</button>
-    <button ng-show="tabs.active === 4" ng-disabled="isDiscoveryViewLandingPageInvalid('create') || discoveryViewForms.create.$invalid" type="submit" class="btn btn-success">Create</button>
+    <button ng-show="tabs.active === 3" ng-disabled="isDiscoveryViewResultsInvalid('create') || discoveryViewForms.create.$invalid" type="submit" class="btn btn-success">Create</button>
   </div>
 </form>
