@@ -74,7 +74,7 @@ module.exports = function (grunt) {
           "node_modules/file-saver/FileSaver.min.js",
 
           "node_modules/openseadragon/build/openseadragon/openseadragon.min.js",
-          "node_modules/ng-openseadragon/build/angular-openseadragon.js",
+          "node_modules/ng-openseadragon/dist/ng-openseadragon.min.js",
 
           "node_modules/mirador/dist/mirador.js"
         ],
