@@ -184,7 +184,7 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
 
     $scope.presentCollectionText = function(value) {
       return $sce.trustAsHtml(value);
-    }
+    };
   });
 
 });
