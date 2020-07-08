@@ -5,13 +5,14 @@
   <div class="dc-content">
     <breadcrumbs contexts="breadcrumbContexts" reload="resetPage" home=""></breadcrumbs>
     <div class="col-md-3 dc-side-panel">
-      <div ng-if="discoveryContext.infoLinkText || discoveryContext.infoText" class="panel panel-default information-box">
+      <div ng-style="discoveryContext.logoUrl ? {'background-image':'url({{discoveryContext.logoUrl}})'}:{}" ng-if="discoveryContext.infoLinkText || discoveryContext.infoText" class="panel panel-default information-box">
         <div ng-if="discoveryContext.infoText" class="panel-body">
-          {{discoveryContext.infoText}}
-        </div>
-        <div ng-if="discoveryContext.infoLinkText" class="panel-footer">
-          <a ng-if="discoveryContext.infoLinkUrl" href="{{discoveryContext.infoLinkUrl}}">{{discoveryContext.infoLinkText}}</a>
-          <p ng-if="!discoveryContext.infoLinkUrl">{{discoveryContext.infoLinkText}}</p>
+          <h3>
+            <a ng-if="discoveryContext.infoLinkUrl" href="{{discoveryContext.infoLinkUrl}}">{{discoveryContext.infoLinkText}}</a>
+            <span ng-if="!discoveryContext.infoLinkUrl">{{discoveryContext.infoLinkText}}</span>
+          </h3>
+          <div ng-if="discoveryContext.infoText" class="panel-footer" ng-bind-html="presentCollectionText(discoveryContext.infoText)">
+          </div>
         </div>
       </div>
       <facet-widget facet="facet" discovery-context="discoveryContext" ng-repeat="facet in discoveryContext.facetFilters" reset-search="prepareSearch"></facet-widget>
@@ -61,17 +62,6 @@
         </div>
       </div>
       <hr class="dc-results-hr">
-      <div ng-if="landingPageVisible && !hasActiveFilters() && !hasSearch()" class="row">
-        <div class="panel panel-default">
-          <div ng-click="hideLandingPage()" class="panel-heading">{{discoveryContext.name}}<span class="close modal-close pull-right">&times;</span></div>
-          <div class="panel-body">
-            <img ng-if="discoveryContext.logoUrl" class="media-object" ng-src="{{discoveryContext.logoUrl}}" alt="{{discoveryContext.title}} logo">
-            <hr ng-if="discoveryContext.logoUrl"/>
-            <p ng-if="discoveryContext.description">{{discoveryContext.description}}</p>
-          </div>
-        </div>
-      </div>
-
       <div class="row dc-results">
         <div class="col-xs-12 results" ng-class="{'hide-results': discoveryContext.isSearching()}">
           <div class="media dc-result" ng-repeat="result in discoveryContext.results">

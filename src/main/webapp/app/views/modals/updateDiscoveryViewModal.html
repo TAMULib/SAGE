@@ -68,6 +68,18 @@
             </validatedinput>
 
             <validatedinput
+              id="discoveryViewToUpdateLogoUrl"
+              model="discoveryView"
+              property="logoUrl"
+              label="Logo URL"
+              placeholder="Logo URL for the updated Discovery View"
+              form="discoveryViewForms.update"
+              validations="discoveryViewForms.validations"
+              results="discoveryViewForms.getResults()"
+              autocomplete="off">
+            </validatedinput>
+
+            <validatedinput
               id="discoveryViewToUpdateInfoLinkText"
               model="discoveryView"
               property="infoLinkText"
@@ -327,33 +339,6 @@
           </div>
         </div>
       </uib-tab>
-      <uib-tab index="4" heading="Landing Page" disable="isTransitionDenied(4)" select="stepTransitionRefresh(tabs.active)">
-        <div class="row">
-          <div class="col-sm-10 col-sm-offset-1">
-            </br>
-            <validatedinput
-              id="discoveryViewToUpdateLogoUrl"
-              model="discoveryView"
-              property="logoUrl"
-              label="Logo URL"
-              placeholder="Logo URL for the updated Discovery View"
-              form="discoveryViewForms.update"
-              validations="discoveryViewForms.validations"
-              results="discoveryViewForms.getResults()"
-              autocomplete="off">
-            </validatedinput>
-            <validatedtextarea
-              id="discoveryViewToUpdateLandingPageDescription"
-              model="discoveryView"
-              property="description"
-              label="Landing Page Description"
-              form="discoveryViewForms.update"
-              validations="discoveryViewForms.validations"
-              results="discoveryViewForms.getResults()">
-            </validatedtextarea>
-          </div>
-        </div>
-      </uib-tab>
     </uib-tabset>
   </div>
   <div class="modal-footer">
@@ -364,8 +349,6 @@
     <button ng-show="tabs.active === 2" type="button" class="btn btn-success" ng-click="back()">Back</button>
     <button ng-show="tabs.active === 2" ng-disabled="isDiscoveryViewSearchInvalid('update')" type="button" class="btn btn-success" ng-click="next()">Next</button>
     <button ng-show="tabs.active === 3" type="button" class="btn btn-success" ng-click="back()">Back</button>
-    <button ng-show="tabs.active === 3" ng-disabled="isDiscoveryViewResultsInvalid('update')" type="button" class="btn btn-success" ng-click="next()">Next</button>
-    <button ng-show="tabs.active === 4" type="button" class="btn btn-success" ng-click="back()">Back</button>
-    <button ng-show="tabs.active === 4" ng-disabled="isDiscoveryViewLandingPageInvalid('update') || discoveryViewForms.update.$invalid" type="submit" class="btn btn-success">Update</button>
+    <button ng-show="tabs.active === 3" ng-disabled="isDiscoveryViewResultsInvalid('update') || discoveryViewForms.update.$invalid" type="submit" class="btn btn-success">Update</button>
   </div>
 </form>

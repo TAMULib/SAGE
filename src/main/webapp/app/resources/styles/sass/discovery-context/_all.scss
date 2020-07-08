@@ -10,6 +10,44 @@
 
     .dc-side-panel {
 
+      .information-box {
+        background-size: cover;
+        border-radius: 0px;
+        min-height: 440px;
+        position:relative;
+
+        .panel-body {
+          border-top: 1px solid #8E8E93;
+          color:#fff;
+          background: rgb(110,110,110);
+          background: radial-gradient(circle, rgba(110,110,110,1) 0%, rgba(91,91,91,1) 100%);
+          position: absolute;
+          bottom: 0;
+          padding: 5px 12px 10px 15px;
+
+          h3 {
+            letter-spacing: -.43px;
+            line-height: 26px;
+            margin-top: 8px;
+          }
+
+          a {
+            color: #fff;
+          }
+        }
+
+        .panel-footer {
+          background-color: transparent;
+          border: 0;
+          padding: 0;
+          color: #fff;
+
+          a {
+            color: #fff;
+          }
+        }
+      }
+
       .dc-facet {
 
         .dc-facet-counts-in-use {
