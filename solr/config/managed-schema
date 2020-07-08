@@ -141,7 +141,8 @@
     <field name="subject" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
     <field name="creator" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
     <field name="date_published" type="pdate" indexed="true" stored="true" multiValued="false"/>
-    <field name="date_created" type="pdate" indexed="true" stored="true" multiValued="false"/>
+    <!--<field name="date_created" type="pdate" indexed="true" stored="true" multiValued="false"/>-->
+    <field name="date_created" type="string" indexed="true" stored="true" multiValued="false"/>
     <field name="summary_abstract" type="strings" indexed="true" stored="true" multiValued="true"/>
     <field name="language" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
     <field name="institution_department" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
