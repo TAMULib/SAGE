@@ -100,7 +100,6 @@ describe("controller: DiscoveryContextController", function () {
       "pageForward",
       "removeFilter",
       "prepareSearch",
-      "resetBadges",
       "resetPage",
       "resetSearch",
       "searchProcessKeyPress",
@@ -179,17 +178,6 @@ describe("controller: DiscoveryContextController", function () {
       $scope.removeFilter(filter);
       $scope.$digest();
       // @todo
-    });
-
-    it("resetBadges work as expected", function () {
-      $scope.discoveryContext = new mockDiscoveryContext($q);
-
-      spyOn($scope, "prepareSearch");
-
-      $scope.resetBadges();
-      $scope.$digest();
-
-      expect($scope.prepareSearch).toHaveBeenCalled();
     });
 
     it("resetPage work as expected", function () {
