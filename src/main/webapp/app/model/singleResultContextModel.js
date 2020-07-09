@@ -31,7 +31,7 @@ sage.model("SingleResultContext", function (WsApi) {
 
     singleResultContext.getBreadcrumb = function() {
       return {
-        label: singleResultContext.title.replace(/^\[(.*)]$/i, "$1"),
+        label: singleResultContext.title,
         path: "discovery-context/" + singleResultContext.slug + "/" + singleResultContext.resultId
       };
     };
