@@ -83,7 +83,6 @@ describe("model: DiscoveryContext", function () {
       "isSearching",
       "reload",
       "removeFilter",
-      "resetBadges",
       "resetSearch",
       "setSearchField"
     ];
@@ -271,22 +270,6 @@ describe("model: DiscoveryContext", function () {
       model.removeFilter(mockFilter3);
       $scope.$digest();
       expect(model.search.filters.length).toBe(0);
-    });
-
-    it("resetBadges work as expected", function () {
-      var mockFilter1 = new mockFilter($q);
-      var mockFilter2 = new mockFilter($q);
-      mockFilter2.mock(dataFilter2);
-
-      spyOn(model, "executeSearch");
-      model.search.filters = [ mockFilter1, mockFilter2 ];
-      $location.search("f.mock", "mockedValue");
-
-      model.resetBadges();
-      $scope.$digest();
-
-      expect(model.search.filters.length).toBe(0);
-      expect(model.executeSearch).toHaveBeenCalled();
     });
 
     it("resetSearch work as expected", function () {
