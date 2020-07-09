@@ -46,7 +46,7 @@
         </div>
       </div>
 
-      <div class="row dc-paging-controls-top">
+      <div class="row dc-paging-controls dc-paging-controls-top">
         <div class="col-md-6 col-sm-4">
           <ul class="list-inline paging-controls">
             <li class="list-inline-item" ng-click="pageBack()"><span ng-class="{ 'link-like': discoveryContext.search.start > 0 }"><span class="glyphicon glyphicon-chevron-left"></span>Previous</span></li>
@@ -61,7 +61,7 @@
           <select class="form-control dc-filter-select" ng-model="discoveryContext.search.page.size" ng-options="rows.value as rows.label for rows in rowOptions" ng-change="updateLimit()"></select>
         </div>
       </div>
-      <hr class="dc-results-hr">
+      <hr class="dc-results-hr top">
       <div class="row dc-results">
         <div class="col-xs-12 results" ng-class="{'hide-results': discoveryContext.isSearching()}">
           <div class="media dc-result" ng-repeat="result in discoveryContext.results">
@@ -83,11 +83,11 @@
                 </span>
               </dl>
             </div>
+            <hr>
           </div>
         </div>
       </div>
-      <hr class="dc-results-hr">
-      <div class="row dc-paging-controls-top">
+      <div class="row dc-paging-controls">
         <div class="col-md-6 col-sm-4">
           <ul class="list-inline paging-controls">
             <li class="list-inline-item" ng-click="pageBack()"><span ng-class="{ 'link-like': discoveryContext.search.start > 0 }"><span class="glyphicon glyphicon-chevron-left"></span>Previous</span></li>
