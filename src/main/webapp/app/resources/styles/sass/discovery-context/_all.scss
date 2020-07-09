@@ -80,6 +80,7 @@
     .dc-main {
 
       margin-bottom: 50px;
+      padding-left: 25px;
 
       .dc-search {
 
@@ -170,17 +171,23 @@
         }
       }
 
-      .dc-paging-controls-top .paging-controls {
+      .dc-paging-controls .paging-controls {
         padding-top: 15px;
+      }
+
+      .dc-paging-controls-top {
+        margin-top: 10px;
       }
 
       .dc-results-hr {
         margin-top: 0px;
       }
 
-      .dc-results {
+      .dc-results-hr.top {
+        margin-bottom: 50px;
+      }
 
-        padding-left: 25px;
+      .dc-results {
 
         .results-loader {
           text-align: center;
