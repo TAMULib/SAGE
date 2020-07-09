@@ -60,7 +60,7 @@ describe("model: SingleResultContext", function () {
       var result;
 
       result = model.getBreadcrumb();
-      expect(JSON.parse(result.label)[0]).toBe(model.title);
+      expect(result.label).toBe(JSON.parse(model.title)[0]);
     });
   });
 });
