@@ -3,7 +3,7 @@ var dataSingleResultContext1 = {
   fields: [],
   inList: true,
   inGrid: false,
-  title: 'Result 1',
+  title: '["Result 1"]',
   resourceLocationUriKey: "resourceLocationUriKey",
   resourceThumbnailUriKey: "resourceThumbnailUriKey",
   uniqueIdentifier: "uniqueIdentifier"
@@ -14,7 +14,7 @@ var dataSingleResultContext2 = {
   fields: [],
   inList: true,
   inGrid: false,
-  title: 'Result 2',
+  title: '["Result 2"]',
   resourceLocationUriKey: "resourceLocationUriKey",
   resourceThumbnailUriKey: "resourceThumbnailUriKey",
   uniqueIdentifier: "uniqueIdentifier"
@@ -25,7 +25,7 @@ var dataSingleResultContext3 = {
   fields: [],
   inList: false,
   inGrid: false,
-  title: 'Result 3',
+  title: '["Result 3"]',
   resourceLocationUriKey: "resourceLocationUriKey",
   resourceThumbnailUriKey: "resourceThumbnailUriKey",
   uniqueIdentifier: "uniqueIdentifier"
