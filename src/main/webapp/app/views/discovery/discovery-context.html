@@ -23,12 +23,12 @@
           <form class="form-group">
             <div class="input-group">
               <span class="input-group-btn">
-                  <select class="form-control dc-filter-select" ng-model="currentSearchField" ng-options="searchField.label for searchField in discoveryContext.searchFields">
+                  <select aria-label="Search Fields" class="form-control dc-filter-select" ng-model="currentSearchField" ng-options="searchField.label for searchField in discoveryContext.searchFields">
                   </select>
               </span>
-              <input type="text" class="form-control dc-search-input" ng-model="currentSearchValue" ng-keypress="searchProcessKeyPress($event)">
+              <input aria-labelledby="searchButton" type="text" class="form-control dc-search-input" ng-model="currentSearchValue" ng-keypress="searchProcessKeyPress($event)">
               <span class="input-group-btn">
-                <button ng-click="search()" type="button" class="btn btn-default dc-filter dc-filter-search">Search</button>
+                <button id="searchButton" ng-click="search()" type="button" class="btn btn-default dc-filter dc-filter-search">Search</button>
               </span>
             </div>
           </form>
@@ -49,9 +49,9 @@
       <div class="row dc-paging-controls dc-paging-controls-top">
         <div class="col-md-6 col-sm-4">
           <ul class="list-inline paging-controls">
-            <li class="list-inline-item" ng-click="pageBack()"><span ng-class="{ 'link-like': discoveryContext.search.start > 0 }"><span class="glyphicon glyphicon-chevron-left"></span>Previous</span></li>
+            <li class="list-inline-item" ng-click="pageBack()" aria-label="Previous Page"><span ng-class="{ 'link-like': discoveryContext.search.start > 0 }"><span class="glyphicon glyphicon-chevron-left"></span>Previous</span></li>
             <li class="list-inline-item"><strong>{{ discoveryContext.search.total == 0 ? 0 : discoveryContext.search.start + 1 }}</strong>-<strong>{{ discoveryContext.search.start + discoveryContext.search.page.size > discoveryContext.search.total ? discoveryContext.search.total : discoveryContext.search.start + discoveryContext.search.page.size }}</strong> of <strong>{{discoveryContext.search.total}}</strong></li>
-            <li class="list-inline-item" ng-click="pageForward()"><span ng-class="{ 'link-like': discoveryContext.search.start < discoveryContext.search.total - discoveryContext.search.page.size }">Next<span class="glyphicon glyphicon-chevron-right"></span></span></li>
+            <li class="list-inline-item" ng-click="pageForward()" aria-label="Next Page"><span ng-class="{ 'link-like': discoveryContext.search.start < discoveryContext.search.total - discoveryContext.search.page.size }">Next<span class="glyphicon glyphicon-chevron-right"></span></span></li>
           </ul>
         </div>
         <div class="col-sm-4 col-md-3">
@@ -90,9 +90,9 @@
       <div class="row dc-paging-controls">
         <div class="col-md-6 col-sm-4">
           <ul class="list-inline paging-controls">
-            <li class="list-inline-item" ng-click="pageBack()"><span ng-class="{ 'link-like': discoveryContext.search.start > 0 }"><span class="glyphicon glyphicon-chevron-left"></span>Previous</span></li>
+            <li class="list-inline-item" ng-click="pageBack()" aria-label="Previous Page"><span ng-class="{ 'link-like': discoveryContext.search.start > 0 }"><span class="glyphicon glyphicon-chevron-left"></span>Previous</span></li>
             <li class="list-inline-item"><strong>{{ discoveryContext.search.total == 0 ? 0 : discoveryContext.search.start + 1 }}</strong>-<strong>{{ discoveryContext.search.start + discoveryContext.search.page.size > discoveryContext.search.total ? discoveryContext.search.total : discoveryContext.search.start + discoveryContext.search.page.size }}</strong> of <strong>{{discoveryContext.search.total}}</strong></li>
-            <li class="list-inline-item" ng-click="pageForward()"><span ng-class="{ 'link-like': discoveryContext.search.start < discoveryContext.search.total - discoveryContext.search.page.size }">Next<span class="glyphicon glyphicon-chevron-right"></span></span></li>
+            <li class="list-inline-item" ng-click="pageForward()" aria-label="Next Page"><span ng-class="{ 'link-like': discoveryContext.search.start < discoveryContext.search.total - discoveryContext.search.page.size }">Next<span class="glyphicon glyphicon-chevron-right"></span></span></li>
           </ul>
         </div>
         <div class="col-sm-4 col-md-3">
