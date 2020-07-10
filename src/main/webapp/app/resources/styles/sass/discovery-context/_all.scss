@@ -257,19 +257,3 @@
   }
 
 }
-
-.single-item-viewer {
-  font: initial;
-  .viewer-wrapper {
-    text-align: center;
-    margin: 5px;
-    img {
-      height: 100%;
-      max-height: 800px;
-    }
-  }
-  .openseadragon-container {
-    min-height: 550px;
-  }
-  margin-bottom: 10px;
-}
