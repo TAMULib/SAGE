@@ -1,6 +1,6 @@
 <div class="panel panel-default dc-facet">
   <div class="panel-heading" ng-class="{'clickable': !facetIsEmpty()}" ng-click="open=!open">{{$ctrl.facet.label}}
-    <span ng-if="!facetIsEmpty()" class="glyphicon glyphicon-chevron-right pull-right"></span>
+    <span ng-if="!facetIsEmpty()" class="glyphicon pull-right"  ng-class="{'glyphicon-chevron-down': open, 'glyphicon-chevron-right': !open}"></span>
     <span ng-if="facetIsEmpty()" class="badge pull-right">0</span>
   </div>
   <ul class="list-group dc-facet-counts-in-use">
