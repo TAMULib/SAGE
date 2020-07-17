@@ -25,6 +25,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import edu.tamu.sage.enums.QueryOperandType;
 import edu.tamu.sage.enums.QueryParserType;
 import edu.tamu.sage.exceptions.DiscoveryContextBuildException;
@@ -49,6 +52,9 @@ public class SolrDiscoveryService {
 
     @Autowired
     private SolrSourceService solrSourceService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     private class ResultSet {
         public List<Result> results;
@@ -173,9 +179,28 @@ public class SolrDiscoveryService {
     }
 
     public SingleResultContext getSingleResult(DiscoveryView discoveryView, String resultId) throws DiscoveryContextBuildException {
+        SingleResultContext singleResultContext = null;
+        SolrDocument solrDocument = getSingleResultDocument(discoveryView, resultId);
 
-        SingleResultContext sinlgeResultContext = null;
+        if (solrDocument != null) {
+            singleResultContext = SingleResultContext.of(discoveryView, solrDocument);
+        }
 
+        return singleResultContext;
+    }
+
+    public SingleResultContext getSingleResultFull(DiscoveryView discoveryView, String resultId) throws DiscoveryContextBuildException {
+        SingleResultContext singleResultContext = null;
+        SolrDocument solrDocument = getSingleResultDocument(discoveryView, resultId);
+
+        if (solrDocument != null) {
+            singleResultContext = SingleResultContext.fullViewOf(discoveryView, solrDocument);
+        }
+
+        return singleResultContext;
+    }
+
+    private SolrDocument getSingleResultDocument(DiscoveryView discoveryView, String resultId) throws DiscoveryContextBuildException {
         try (SolrClient solr = new HttpSolrClient(discoveryView.getSource().getUri())) {
             SolrQuery query = new SolrQuery();
 
@@ -185,14 +210,14 @@ public class SolrDiscoveryService {
             QueryResponse qr = solr.query(query);
 
             if (qr.getResults().size() > 0) {
-                sinlgeResultContext = SingleResultContext.of(discoveryView, qr.getResults().get(0));
+                SolrDocument doc = qr.getResults().get(0);
+                processResult(doc);
+                return doc;
             }
-
+            return null;
         } catch (Exception e) {
-            throw new DiscoveryContextBuildException("Could not find singe result", e);
+            throw new DiscoveryContextBuildException("Could not find single result", e);
         }
-
-        return sinlgeResultContext;
     }
 
     private ResultSet querySolrCore(DiscoveryView discoveryView, SolrQuery query, Search search) {
@@ -249,6 +274,7 @@ public class SolrDiscoveryService {
             search.setTotal(docs.getNumFound());
 
             for (SolrDocument doc : docs) {
+                processResult(doc);
                 results.add(Result.of(doc, discoveryView));
             }
 
@@ -269,6 +295,16 @@ public class SolrDiscoveryService {
         }
 
         return new ResultSet(results, facetFilters);
+    }
+
+    private void processResult(SolrDocument solrDoc) {
+        solrDoc.getFieldNames().forEach(name -> {
+            try {
+                solrDoc.setField(name, objectMapper.writeValueAsString(solrDoc.getFieldValues(name)));
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+         });
     }
 
 }

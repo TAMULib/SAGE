@@ -28,7 +28,7 @@
 
 <body>
   <main>
-    <tamuheader title="Sage"></tamuheader>
+    <tl-header page-title="Digital Collections"></tl-header>
 
     <alerts types="WARNING,ERROR"></alerts>
 
@@ -80,7 +80,7 @@
       </div>
     </div>
   </main>
-  <tamufooter></tamufooter>
+  <tl-footer></tl-footer>
 
   <!-- build:js resources/scripts/bundle.js -->
   <!-- Vendor Libraries -->
@@ -238,6 +238,7 @@
   <script src="directives/defaultSrcDirective.js"></script>
   <script src="directives/contentViewerDirective.js"></script>
   <script src="directives/afterRenderDirective.js"></script>
+  <script src="directives/presentValueDirective.js"></script>
 
   <!-- filters -->
   <script src="filters/availableOperatorFilter.js"></script>
@@ -263,6 +264,9 @@
   <script src="controllers/usersController.js"></script>
   <script src="controllers/appLoginController.js"></script>
   <!-- endbuild -->
+
+  <!-- CDN tl-component -->
+  <script src="https://demos.library.tamu.edu/tl-components/latest/tl-components.js"></script>
 
 </body>
 

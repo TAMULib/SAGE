@@ -26,7 +26,7 @@ sage.factory("ManifestService", function($http, $q) {
     return $q(function(resolve, reject) {
       manifestService.getManifest(url, ignoreCache).then(function(manifest) {
         if (manifest && manifest.thumbnail) {
-          resolve(manifest.thumbnail['@id']);
+          resolve(manifest.thumbnail['@id'].replace("!100,100","!200,200"));
         } else {
           reject('No manifest thumbnail found!');
         }

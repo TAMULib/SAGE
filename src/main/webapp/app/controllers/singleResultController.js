@@ -8,10 +8,15 @@ sage.controller('SingleResultController', function ($controller, $q, $routeParam
     slug: $routeParams.slug,
   });
 
-  $scope.singleResultContext = new SingleResultContext({
-    slug: $routeParams.slug,
-    resultId: $routeParams.resultId,
-  });
+  $scope.setResultContext = function(fullView) {
+    $scope.singleResultContext = new SingleResultContext({
+      slug: $routeParams.slug,
+      resultId: $routeParams.resultId,
+      fullView: fullView
+    });
+  };
+
+  $scope.setResultContext(false);
 
   $q.all([$scope.discoveryContext.ready(), $scope.singleResultContext.ready()]).then(function() {
     $scope.breadcrumbContexts = [

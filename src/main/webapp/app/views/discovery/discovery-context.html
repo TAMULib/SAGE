@@ -5,13 +5,14 @@
   <div class="dc-content">
     <breadcrumbs contexts="breadcrumbContexts" reload="resetPage" home=""></breadcrumbs>
     <div class="col-md-3 dc-side-panel">
-      <div ng-if="discoveryContext.infoLinkText || discoveryContext.infoText" class="panel panel-default information-box">
+      <div ng-style="discoveryContext.logoUrl ? {'background-image':'url({{discoveryContext.logoUrl}})'}:{}" ng-if="discoveryContext.infoLinkText || discoveryContext.infoText" class="panel panel-default information-box">
         <div ng-if="discoveryContext.infoText" class="panel-body">
-          {{discoveryContext.infoText}}
-        </div>
-        <div ng-if="discoveryContext.infoLinkText" class="panel-footer">
-          <a ng-if="discoveryContext.infoLinkUrl" href="{{discoveryContext.infoLinkUrl}}">{{discoveryContext.infoLinkText}}</a>
-          <p ng-if="!discoveryContext.infoLinkUrl">{{discoveryContext.infoLinkText}}</p>
+          <h3>
+            <a ng-if="discoveryContext.infoLinkUrl" href="{{discoveryContext.infoLinkUrl}}">{{discoveryContext.infoLinkText}}</a>
+            <span ng-if="!discoveryContext.infoLinkUrl">{{discoveryContext.infoLinkText}}</span>
+          </h3>
+          <div ng-if="discoveryContext.infoText" class="panel-footer" ng-bind-html="presentCollectionText(discoveryContext.infoText)">
+          </div>
         </div>
       </div>
       <facet-widget facet="facet" discovery-context="discoveryContext" ng-repeat="facet in discoveryContext.facetFilters" reset-search="prepareSearch"></facet-widget>
@@ -21,10 +22,14 @@
         <div class="col-xs-12">
           <form class="form-group">
             <div class="input-group">
-              <div class="input-group-btn">
-                <select class="form-control dc-filter-select" ng-model="currentSearchField" ng-options="searchField.label for searchField in discoveryContext.searchFields"></select>
-              </div>
-              <input type="text" class="form-control dc-search-input" ng-model="currentSearchValue" ng-keypress="searchProcessKeyPress($event)">
+              <span class="input-group-btn">
+                  <select aria-label="Search Fields" class="form-control dc-filter-select" ng-model="currentSearchField" ng-options="searchField.label for searchField in discoveryContext.searchFields">
+                  </select>
+              </span>
+              <input aria-labelledby="searchButton" type="text" class="form-control dc-search-input" ng-model="currentSearchValue" ng-keypress="searchProcessKeyPress($event)">
+              <span class="input-group-btn">
+                <button id="searchButton" ng-click="search()" type="button" class="btn btn-default dc-filter dc-filter-search">Search</button>
+              </span>
             </div>
           </form>
         </div>
@@ -32,19 +37,21 @@
       <div class="row dc-active-filters" ng-if="hasActiveFilters() || hasSearch()">
         <div class="col-xs-12">
           <ul class="list list-inline">
-            <li style="min-width:37px" class="btn btn-primary dc-active-filter" ng-click="resetBadges()"><span class="glyphicon glyphicon-home"></span></li>
-            <li role="presentation" ng-if="hasActiveFilters()" ng-repeat="filter in discoveryContext.search.filters" class="btn btn-primary dc-active-filter" ng-click="removeFilter(filter)"><span class="glyphicon glyphicon-filter"></span>{{filter.label}} <span ng-if="filter.key">:</span> {{filter.value|limitTo:60}}<span ng-if="filter.value.length >= 60">...</span> <span class="glyphicon glyphicon-remove"></span></li>
-            <li role="presentation" ng-if="hasSearch()" class="btn btn-primary dc-active-filter" ng-click="resetSearch()"><span class="glyphicon glyphicon-search"></span> <span ng-if="discoveryContext.search.label">{{discoveryContext.search.label}} :</span> </span>{{discoveryContext.search.value}} <span class="glyphicon glyphicon-remove"></span></li>
+            <li role="presentation" ng-if="hasActiveFilters()" ng-repeat="filter in discoveryContext.search.filters" class="btn btn-primary dc-active-filter" ng-click="removeFilter(filter)">
+              <div class="pull-right remove"></div>
+              <div class="label">{{filter.label}}</div>
+              <div class="value">{{filter.value|limitTo:60}}<span ng-if="filter.value.length >= 60">...</span></div>
+            </li>
           </ul>
         </div>
       </div>
 
-      <div class="row dc-paging-controls-top">
+      <div class="row dc-paging-controls dc-paging-controls-top">
         <div class="col-md-6 col-sm-4">
           <ul class="list-inline paging-controls">
-            <li class="list-inline-item" ng-click="pageBack()"><span ng-class="{ 'link-like': discoveryContext.search.start > 0 }"><span class="glyphicon glyphicon-chevron-left"></span>Previous</span></li>
+            <li class="list-inline-item" ng-click="pageBack()" aria-label="Previous Page"><span ng-class="{ 'link-like': discoveryContext.search.start > 0 }"><span class="glyphicon glyphicon-chevron-left"></span>Previous</span></li>
             <li class="list-inline-item"><strong>{{ discoveryContext.search.total == 0 ? 0 : discoveryContext.search.start + 1 }}</strong>-<strong>{{ discoveryContext.search.start + discoveryContext.search.page.size > discoveryContext.search.total ? discoveryContext.search.total : discoveryContext.search.start + discoveryContext.search.page.size }}</strong> of <strong>{{discoveryContext.search.total}}</strong></li>
-            <li class="list-inline-item" ng-click="pageForward()"><span ng-class="{ 'link-like': discoveryContext.search.start < discoveryContext.search.total - discoveryContext.search.page.size }">Next<span class="glyphicon glyphicon-chevron-right"></span></span></li>
+            <li class="list-inline-item" ng-click="pageForward()" aria-label="Next Page"><span ng-class="{ 'link-like': discoveryContext.search.start < discoveryContext.search.total - discoveryContext.search.page.size }">Next<span class="glyphicon glyphicon-chevron-right"></span></span></li>
           </ul>
         </div>
         <div class="col-sm-4 col-md-3">
@@ -54,36 +61,45 @@
           <select class="form-control dc-filter-select" ng-model="discoveryContext.search.page.size" ng-options="rows.value as rows.label for rows in rowOptions" ng-change="updateLimit()"></select>
         </div>
       </div>
-      <hr class="dc-results-hr">
-      <div ng-if="landingPageVisible && !hasActiveFilters() && !hasSearch()" class="row">
-        <div class="panel panel-default">
-          <div ng-click="hideLandingPage()" class="panel-heading">{{discoveryContext.name}}<span class="close modal-close pull-right">&times;</span></div>
-          <div class="panel-body">
-            <img ng-if="discoveryContext.logoUrl" class="media-object" ng-src="{{discoveryContext.logoUrl}}" alt="{{discoveryContext.title}} logo">
-            <hr ng-if="discoveryContext.logoUrl"/>
-            <p ng-if="discoveryContext.description">{{discoveryContext.description}}</p>
-          </div>
-        </div>
-      </div>
-
+      <hr class="dc-results-hr top">
       <div class="row dc-results">
         <div class="col-xs-12 results" ng-class="{'hide-results': discoveryContext.isSearching()}">
           <div class="media dc-result" ng-repeat="result in discoveryContext.results">
-            <div class="media-left media-middle">
+            <div class="media-left">
               <a href="discovery-context/{{discoveryContext.slug}}/{{result.uniqueIdentifier}}">
-                <img class="media-object" default-src="defaultThumbnailURI" ng-src="{{result.resourceThumbnailUriKey | removeBrackets}}" alt="picture of: {{result.title}}">
+                <img class="media-object" default-src="defaultThumbnailURI" ng-src="{{result.resourceThumbnailUriKey}}" alt="picture of: {{result.title}}">
               </a>
             </div>
             <div class="media-body">
-              <h4 class="media-heading"><a href="discovery-context/{{discoveryContext.slug}}/{{result.uniqueIdentifier}}">{{result.title | removeBrackets}}</a></h4>
+              <h4 class="media-heading"><a href="discovery-context/{{discoveryContext.slug}}/{{result.uniqueIdentifier}}">{{result.title}}</a></h4>
               <dl class="dl-horizontal dc-result-metadata">
                 <span class="dc-field" ng-repeat="resultField in result.fields" ng-if="resultField.inList">
-                  <dt><span class="dc-field-key"><small>{{resultField.label}}:</small></span></dt>
-                  <dd><span class="dc-field-value">{{resultField.value | removeBrackets}}</span></dd>
+                  <dt><span class="dc-field-key">{{resultField.label}}:</span></dt>
+                  <dd>
+                    <div class="dc-field-value" ng-repeat="value in resultField.value">
+                      <present-value>{{value}}</present-value>
+                    </div>
+                  </dd>
                 </span>
               </dl>
             </div>
+            <hr>
           </div>
+        </div>
+      </div>
+      <div class="row dc-paging-controls">
+        <div class="col-md-6 col-sm-4">
+          <ul class="list-inline paging-controls">
+            <li class="list-inline-item" ng-click="pageBack()" aria-label="Previous Page"><span ng-class="{ 'link-like': discoveryContext.search.start > 0 }"><span class="glyphicon glyphicon-chevron-left"></span>Previous</span></li>
+            <li class="list-inline-item"><strong>{{ discoveryContext.search.total == 0 ? 0 : discoveryContext.search.start + 1 }}</strong>-<strong>{{ discoveryContext.search.start + discoveryContext.search.page.size > discoveryContext.search.total ? discoveryContext.search.total : discoveryContext.search.start + discoveryContext.search.page.size }}</strong> of <strong>{{discoveryContext.search.total}}</strong></li>
+            <li class="list-inline-item" ng-click="pageForward()" aria-label="Next Page"><span ng-class="{ 'link-like': discoveryContext.search.start < discoveryContext.search.total - discoveryContext.search.page.size }">Next<span class="glyphicon glyphicon-chevron-right"></span></span></li>
+          </ul>
+        </div>
+        <div class="col-sm-4 col-md-3">
+          <select class="form-control dc-filter-select" ng-model="discoveryContext.search.page.sort" ng-options="sort.key as sort.label for sort in discoveryContext.sortFields" ng-change="updateSort()"></select>
+        </div>
+        <div class="col-sm-4 col-md-3">
+          <select class="form-control dc-filter-select" ng-model="discoveryContext.search.page.size" ng-options="rows.value as rows.label for rows in rowOptions" ng-change="updateLimit()"></select>
         </div>
       </div>
     </div>

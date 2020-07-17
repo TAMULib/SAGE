@@ -68,14 +68,12 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
       if (transitionTo > 0 && $scope.isDiscoveryViewGeneralInvalid("create")) return true;
       if (transitionTo > 1 && $scope.isDiscoveryViewFacetsInvalid("create")) return true;
       if (transitionTo > 2 && $scope.isDiscoveryViewSearchInvalid("create")) return true;
-      if (transitionTo > 3 && $scope.isDiscoveryViewResultsInvalid("create")) return true;
-      if (transitionTo > 4 && $scope.isDiscoveryViewLandingPageInvalid("create") || $scope.discoveryViewForms.create.$invalid) return true;
+      if (transitionTo > 3 && $scope.isDiscoveryViewResultsInvalid("create") || $scope.discoveryViewForms.create.$invalid) return true;
     } else if ($scope.tabs.inUpdate) {
       if (transitionTo > 0 && $scope.isDiscoveryViewGeneralInvalid("update")) return true;
       if (transitionTo > 1 && $scope.isDiscoveryViewFacetsInvalid("update")) return true;
       if (transitionTo > 2 && $scope.isDiscoveryViewSearchInvalid("update")) return true;
-      if (transitionTo > 3 && $scope.isDiscoveryViewResultsInvalid("update")) return true;
-      if (transitionTo > 4 && $scope.isDiscoveryViewLandingPageInvalid("update") || $scope.discoveryViewForms.update.$invalid) return true;
+      if (transitionTo > 3 && $scope.isDiscoveryViewResultsInvalid("update") || $scope.discoveryViewForms.update.$invalid) return true;
     }
 
     return $scope.tabs.completed < transitionTo;
@@ -218,12 +216,6 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
 
     return (primaryKey && primaryKey.$invalid) ||
            (primaryURI && primaryURI.$invalid);
-  };
-
-  $scope.isDiscoveryViewLandingPageInvalid = function(key) {
-    var description = $scope.discoveryViewForms[key].description;
-
-    return (description && description.$invalid);
   };
 
   $scope.startUpdateDiscoveryView = function(dv) {

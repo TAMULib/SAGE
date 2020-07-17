@@ -5,7 +5,11 @@ sage.component("facetWidget", {
     discoveryContext: "=",
     resetSearch: "="
   },
-  controller: function($scope) {
+  controller: function($scope, $filter) {
+
+    $scope.facetIsEmpty = function() {
+      return Object.keys($scope.$ctrl.facet.counts).length == 0;
+    };
 
     $scope.addRemoveFacetFilter = function(facet, value) {
       var filter = $scope.findFilterByFacet(facet.label, value);
@@ -37,9 +41,7 @@ sage.component("facetWidget", {
       if($scope.$ctrl.facet) {
         keys = Object.keys($scope.$ctrl.facet.counts);
       }
-      return keys.filter(function(facet) {
-        return facet.toLowerCase().startsWith(viewValue.toLowerCase());
-      });
+      return $filter('filter')(keys, viewValue);
     };
   }
 });

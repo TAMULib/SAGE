@@ -36,7 +36,7 @@ var mockSingleResultContext = function ($q) {
 
   model.getBreadcrumb = function () {
     return {
-      label: model.title.replace(/^\[(.*)]$/i, "$1"),
+      label: model.title,
       path: "discovery-context/" + model.slug + "/" + model.resultId
     };
   };

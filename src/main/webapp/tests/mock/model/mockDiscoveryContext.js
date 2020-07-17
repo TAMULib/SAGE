@@ -149,14 +149,6 @@ var mockDiscoveryContext = function ($q) {
     return model.executeSearch();
   };
 
-  model.resetBadges = function () {
-    model.search.filters.length = 0;
-    model.search.field = "";
-    model.search.value = "";
-    model.search.label = "";
-    return model.executeSearch();
-  };
-
   model.resetPage = function () {
     model.search.filters.length = 0;
     model.search.field = "";

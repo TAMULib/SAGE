@@ -131,7 +131,7 @@
     <field name="digital_publisher" type="strings" indexed="true" stored="true" multiValued="true"/>
     <field name="rights_access" type="strings" indexed="true" stored="true" multiValued="true"/>
     <field name="reformatting" type="strings" indexed="true" stored="true" multiValued="true"/>
-    <field name="filename" type="sorting_string" indexed="true" stored="true" multiValued="false"/>
+    <field name="filename" type="sorting_string" indexed="true" stored="true" multiValued="true"/>
 
     <copyField source="title" dest="_text_"/>
     <copyField source="title" dest="title_txt_en_split"/>
@@ -141,7 +141,8 @@
     <field name="subject" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
     <field name="creator" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
     <field name="date_published" type="pdate" indexed="true" stored="true" multiValued="false"/>
-    <field name="date_created" type="pdate" indexed="true" stored="true" multiValued="false"/>
+    <!--<field name="date_created" type="pdate" indexed="true" stored="true" multiValued="false"/>-->
+    <field name="date_created" type="string" indexed="true" stored="true" multiValued="false"/>
     <field name="summary_abstract" type="strings" indexed="true" stored="true" multiValued="true"/>
     <field name="language" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
     <field name="institution_department" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
@@ -154,7 +155,7 @@
     <copyField source="summary_abstract" dest="_text_"/>
     <copyField source="institution_department" dest="_text_"/>
     <copyField source="edition_revision_information" dest="_text_"/>
-    <copyField source="summary_abstract" dest="summary_abstract_txt_en_split"/>
+    <copyField source="summary_abstract" dest="summary_abstract_txt_en_split_mv"/>
 
     <!-- Non-core Recommended -->
     <field name="alternative_title" type="strings" indexed="true" stored="true" multiValued="true"/>
@@ -444,6 +445,8 @@
         <filter class="solr.PorterStemFilterFactory"/>
       </analyzer>
     </fieldType>
+
+    <dynamicField name="*_txt_en_split_mv" type="text_en_splitting"  indexed="true" stored="true" multiValued="true"/>
 
     <!-- Less flexible matching, but less false matches.  Probably not ideal for product names,
          but may be good for SKUs.  Can insert dashes in the wrong place and still match. -->

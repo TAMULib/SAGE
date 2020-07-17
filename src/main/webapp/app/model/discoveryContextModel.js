@@ -92,6 +92,19 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
         populateProperty("fields", Field);
 
         angular.forEach(discoveryContext.results, function(value, key) {
+          var specialKeys = ["title", "manifestUriKey", "resourceLocationUriKey", "resourceThumbnailUriKey", "uniqueIdentifier"];
+          angular.forEach(specialKeys, function(key) {
+            if (value[key]) {
+              value[key] = JSON.parse(value[key])[0];
+            }
+          });
+
+          angular.forEach(value.fields, function(field, fieldName) {
+            if (field.value.startsWith("[") && field.value.endsWith("]")) {
+              field.value = JSON.parse(field.value);
+            }
+          });
+
           if (!value.resourceThumbnailUriKey) {
             value.resourceThumbnailUriKey = 'temp';
             if (value.manifestUriKey) {
@@ -178,18 +191,6 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
 
       angular.forEach($location.search(), function(value, key) {
         $location.search(key, null);
-      });
-
-      return discoveryContext.executeSearch();
-    };
-
-    discoveryContext.resetBadges = function() {
-      discoveryContext.clearCommon();
-
-      discoveryContext.search.filters.length = 0;
-
-      angular.forEach($location.search(), function(value, key) {
-        if (key.match(/^f\./i)) $location.search(key, null);
       });
 
       return discoveryContext.executeSearch();
