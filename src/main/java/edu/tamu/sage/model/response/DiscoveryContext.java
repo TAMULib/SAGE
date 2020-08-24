@@ -45,8 +45,6 @@ public class DiscoveryContext implements Serializable {
 
     private String defaultOperand;
 
-    private String description;
-
     private String logoUrl;
 
     public DiscoveryContext() {
@@ -196,14 +194,6 @@ public class DiscoveryContext implements Serializable {
         this.defaultOperand = defaultOperand;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getLogoUrl() {
         return logoUrl;
     }
@@ -226,7 +216,6 @@ public class DiscoveryContext implements Serializable {
         dc.setInfoLinkText(dv.getInfoLinkText());
         dc.setQueryParser(dv.getQueryParser());
         dc.setDefaultOperand(dv.getDefaultOperand());
-        dc.setDescription(dv.getDescription());
         dc.setLogoUrl(dv.getLogoUrl());
 
         SearchFilter defaultSearchFilter = new SearchFilter();
