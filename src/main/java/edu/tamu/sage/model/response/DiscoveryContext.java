@@ -224,17 +224,11 @@ public class DiscoveryContext implements Serializable {
         dc.searchFields = dv.getSearchFields();
         dc.searchFilters.add(defaultSearchFilter);
 
-        SortField identifierSortField = new SortField();
-        identifierSortField.setKey(dc.getUniqueIdentifierKey());
-        identifierSortField.setLabel("ID");
-        dc.sortFields.add(identifierSortField);
-
         dv.getResultMetadataFields().forEach(metadataField -> {
             if (metadataField.isSortable()) {
                 dc.sortFields.add(SortField.of(metadataField));
             }
         });
-
         return dc;
     }
 }
