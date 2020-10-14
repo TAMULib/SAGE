@@ -1,5 +1,7 @@
 package edu.tamu.sage.model;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 
@@ -31,10 +33,10 @@ public class TemplateOp extends BasicOp {
     }
 
     @Override
-    public void process(Reader reader, Map<String, Object> sageDoc) {
+    public void process(Reader reader, Map<String, Collection<Object>> sageDoc) {
         Optional<String> option = ValueTemplateUtility.compileTemplate(getValue(), sageDoc);
         if (!sageDoc.containsKey(getField()) && option.isPresent()) {
-            sageDoc.put(getField(), option.get());
+            sageDoc.put(getField(), Arrays.asList(option.get()));
         }
     }
 

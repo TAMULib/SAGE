@@ -1,5 +1,6 @@
 package edu.tamu.sage.model;
 
+import java.util.Collection;
 import java.util.Map;
 
 import javax.persistence.DiscriminatorValue;
@@ -28,8 +29,8 @@ public class ConstantOp extends BasicOp {
     }
 
     @Override
-    public void process(Reader reader, Map<String, Object> sageDoc) {
-        sageDoc.put(getField(), getValue());
+    public void process(Reader reader, Map<String, Collection<Object>> sageDoc) {
+        sageDoc.get(getField()).forEach(v -> v = getValue());
     }
 
     @Override

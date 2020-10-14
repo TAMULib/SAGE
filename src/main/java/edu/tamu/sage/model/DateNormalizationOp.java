@@ -3,6 +3,7 @@ package edu.tamu.sage.model;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
 
@@ -89,16 +90,18 @@ public class DateNormalizationOp extends BasicOp {
     }
 
     @Override
-    public void process(Reader reader, Map<String, Object> sageDoc) {
+    public void process(Reader reader, Map<String, Collection<Object>> sageDoc) {
         if (sageDoc.containsKey(getField())) {
-            String value = sageDoc.get(getField()).toString();
-            try {
-                Date date = DateUtils.parseDate(value, DATE_FORMATS);
-                sageDoc.put(getField(), dateFormat.format(date));
-            } catch (ParseException e) {
-                log.warn("Couldn't parse date from {}: {}", value, e.getMessage());
-                sageDoc.remove(getField());
-            }
+            sageDoc.get(getField()).forEach(value -> {
+                String valueAsString = sageDoc.get(getField()).toString();
+                try {
+                    Date date = DateUtils.parseDate(valueAsString, DATE_FORMATS);
+                    value = dateFormat.format(date);
+                } catch (ParseException e) {
+                    log.warn("Couldn't parse date from {}: {}", valueAsString, e.getMessage());
+                    sageDoc.remove(getField());
+                }
+            });
         }
     }
 
