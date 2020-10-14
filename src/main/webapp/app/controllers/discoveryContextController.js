@@ -58,6 +58,10 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
         }
       }
 
+      if (!angular.isDefined($scope.discoveryContext.search.page.sort)) {
+        $scope.discoveryContext.search.page.sort = $scope.discoveryContext.sortFields[0].key;
+      }
+
       if (angular.isDefined($scope.discoveryContext.searchFields)) {
         if ($scope.currentSearchField) {
           angular.forEach($scope.discoveryContext.searchFields, function(v,k) {

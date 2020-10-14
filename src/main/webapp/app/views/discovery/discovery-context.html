@@ -55,7 +55,8 @@
           </ul>
         </div>
         <div class="col-sm-4 col-md-3">
-          <select class="form-control dc-filter-select" ng-model="discoveryContext.search.page.sort" ng-options="sort.key as sort.label for sort in discoveryContext.sortFields" ng-change="updateSort()"></select>
+          {{discoveryContext.search.page.sort.key}}
+          <select class="form-control dc-filter-select" ng-model="discoveryContext.search.page.sort" ng-options="sort.key as sort.label for sort in discoveryContext.sortFields" trackby="sort.key" ng-change="updateSort()"></select>
         </div>
         <div class="col-sm-4 col-md-3">
           <select class="form-control dc-filter-select" ng-model="discoveryContext.search.page.size" ng-options="rows.value as rows.label for rows in rowOptions" ng-change="updateLimit()"></select>
