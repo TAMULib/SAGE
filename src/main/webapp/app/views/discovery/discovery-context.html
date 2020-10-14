@@ -55,7 +55,6 @@
           </ul>
         </div>
         <div class="col-sm-4 col-md-3">
-          {{discoveryContext.search.page.sort.key}}
           <select class="form-control dc-filter-select" ng-model="discoveryContext.search.page.sort" ng-options="sort.key as sort.label for sort in discoveryContext.sortFields" trackby="sort.key" ng-change="updateSort()"></select>
         </div>
         <div class="col-sm-4 col-md-3">
