@@ -21,7 +21,6 @@ describe("model: DiscoveryContext", function () {
               field: "",
               value: "",
               page: {
-                sort: "id",
                 number: 0,
                 size: 10,
                 offset: 0
@@ -132,7 +131,7 @@ describe("model: DiscoveryContext", function () {
 
       expect(page.number).toBe(0);
       expect(page.size).toBe(10);
-      expect(page.sort).toBe("id");
+      expect(page.sort).toBe(undefined);
       expect(page.offset).toBe(0);
 
       var settings = {
@@ -195,7 +194,6 @@ describe("model: DiscoveryContext", function () {
       wsResponse.payload.DiscoveryContext.search.field = "mockField";
       wsResponse.payload.DiscoveryContext.search.value = "mockValue";
       wsResponse.payload.DiscoveryContext.search.page.number = 1;
-      wsResponse.payload.DiscoveryContext.search.page.sort = "id";
       wsResponse.payload.DiscoveryContext.search.page.size = -1;
       wsResponse.payload.DiscoveryContext.search.page.offset = -1;
       wsResponse.payload.DiscoveryContext.search.filters = [ "f.mock1", "f.mock2" ];
