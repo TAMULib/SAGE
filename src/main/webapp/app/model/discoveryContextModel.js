@@ -27,8 +27,8 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
         if (!angular.isDefined(parameters.query[filterKey])) {
           parameters.query[filterKey] = [];
         }
-        if (sortedActiveFilterKeys.indexOf(filter.key) < 0) {
-          sortedActiveFilterKeys.push(filter.key);
+        if (!hasSortedActiveFilterKey(filter.key)) {
+          addSortedActiveFilterKey(filter.key);
         }
         //the service uses the fv:: prefix to understand and process multiple values for the same filter key
         parameters.query[filterKey].push(encodeURIComponent("fv::"+filter.value));
@@ -143,7 +143,7 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
       if (!discoveryContext.search.filters) {
         discoveryContext.search.filters = [];
       }
-      sortedActiveFilterKeys.push(filter.key);
+      addSortedActiveFilterKey(filter.key);
       discoveryContext.search.filters.push(filter);
 
       var urlKey = "f." + filter.key;
@@ -154,14 +154,7 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
     };
 
     discoveryContext.removeFilter = function(filter) {
-      sortedActiveFilterKeys.splice(sortedActiveFilterKeys.indexOf(filter.key),1);
-      for (var i = 0; i < sortedActiveFilterKeys.length; i++) {
-          var sortedFilterKey = sortedActiveFilterKeys[i];
-          if (filter.key === sortedFilterKey) {
-            discoveryContext.search.filters.splice(i, 1);
-            break;
-          }
-      }
+      removeSortedActiveFilterKey(filter.key);
 
       for (var i = 0; i < discoveryContext.search.filters.length; i++) {
         var f = discoveryContext.search.filters[i];
@@ -329,6 +322,18 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
         sortedFilters.push(getFilterByKey(filterKey));
       });
       return sortedFilters;
+    };
+
+    var addSortedActiveFilterKey = function(filterKey) {
+      sortedActiveFilterKeys.push(filterKey);
+    };
+
+    var removeSortedActiveFilterKey = function(filterKey) {
+      sortedActiveFilterKeys.splice(sortedActiveFilterKeys.indexOf(filterKey),1);
+    };
+
+    var hasSortedActiveFilterKey = function(filterKey) {
+      return sortedActiveFilterKeys.indexOf(filterKey) > -1;
     };
 
     var getFilterByKey = function(filterKey) {
