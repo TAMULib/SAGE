@@ -4,7 +4,6 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
     var discoveryContext = this;
     var searching;
     var defaultPageSize = 10;
-    var defaultPageSort = "id"; // @fixme: needs to be determined from DiscoveryView.
     var sortedActiveFilterKeys = [];
 
     var fetchContext = function () {
@@ -15,12 +14,15 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
         query: {
           field: angular.isDefined(discoveryContext.search.field) ? discoveryContext.search.field : "",
           value: angular.isDefined(discoveryContext.search.value) ? discoveryContext.search.value : "",
-          sort: angular.isDefined(discoveryContext.search.page.sort) ? discoveryContext.search.page.sort : defaultPageSort,
           page: angular.isDefined(discoveryContext.search.page.number) ? discoveryContext.search.page.number : 0,
           size: angular.isDefined(discoveryContext.search.page.size) ? discoveryContext.search.page.size : defaultPageSize,
           offset: angular.isDefined(discoveryContext.search.page.offset) ? discoveryContext.search.page.offset : 0
         }
       };
+
+      if (angular.isDefined(discoveryContext.search.page.sort)) {
+        parameters.query.sort = discoveryContext.search.page.sort;
+      }
 
       angular.forEach(discoveryContext.search.filters, function(filter) {
         var filterKey = "f." + filter.key;
@@ -120,7 +122,6 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
             }
           }
         });
-
         defer.resolve(discoveryContext);
       });
 
@@ -192,7 +193,7 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
       discoveryContext.search.filters.length = 0;
       discoveryContext.search.page.number = 0;
       discoveryContext.search.page.size = defaultPageSize;
-      discoveryContext.search.page.sort = defaultPageSort;
+      delete discoveryContext.search.page.sort;
       discoveryContext.search.page.offset = 0;
 
       angular.forEach($location.search(), function(value, key) {
@@ -230,9 +231,12 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
             $location.search("field", discoveryContext.search.field === "" ? null : discoveryContext.search.field);
             $location.search("value", discoveryContext.search.value === "" ? null : discoveryContext.search.value);
             $location.search("page", discoveryContext.search.page.number === 0 ? null : discoveryContext.search.page.number);
-            $location.search("sort", discoveryContext.search.page.sort === defaultPageSort ? null : discoveryContext.search.page.sort);
             $location.search("size", discoveryContext.search.page.size === defaultPageSize ? null : discoveryContext.search.page.size);
             $location.search("offset", discoveryContext.search.page.offset === 0 ? null : discoveryContext.search.page.offset);
+
+            if (discoveryContext.search.page.sort) {
+              $location.search("sort", discoveryContext.search.page.sort);
+            }
 
             if (discoveryContext.search.filters) {
               angular.forEach(discoveryContext.buildUrlFilterKeyValues(), function(value, key) {
@@ -276,7 +280,6 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
       var page = {
         number: 0,
         size: defaultPageSize,
-        sort: defaultPageSort,
         offset: 0
       };
       var number;

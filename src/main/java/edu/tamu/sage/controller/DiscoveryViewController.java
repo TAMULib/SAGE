@@ -9,11 +9,14 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +31,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import edu.tamu.sage.exceptions.DiscoveryContextBuildException;
 import edu.tamu.sage.exceptions.DiscoveryContextNotFoundException;
 import edu.tamu.sage.model.DiscoveryView;
+import edu.tamu.sage.model.MetadataField;
 import edu.tamu.sage.model.repo.DiscoveryViewRepo;
 import edu.tamu.sage.service.SolrDiscoveryService;
 import edu.tamu.weaver.response.ApiResponse;
@@ -89,6 +93,14 @@ public class DiscoveryViewController {
         DiscoveryView discoveryView = discoveryViewRepo.findOneBySlug(slug);
         if (discoveryView == null) {
             throw new DiscoveryContextNotFoundException(String.format("Could not find Discovery Context for %s", slug));
+        }
+
+        if (page.getSort() == null) {
+            Optional<MetadataField> sortableField = discoveryView.getResultMetadataFields().stream().filter(r -> r.isSortable()).findFirst();
+            if (sortableField.isPresent()) {
+                PageRequest pageRequest = new PageRequest(page.getPageNumber(), page.getPageSize(), Direction.ASC, sortableField.get().getKey());
+                page = pageRequest;
+            }
         }
 
         reqFilterMap.remove("field");
