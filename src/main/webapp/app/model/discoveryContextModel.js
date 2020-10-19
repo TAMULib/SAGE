@@ -5,6 +5,7 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
     var searching;
     var defaultPageSize = 10;
     var defaultPageSort = "id"; // @fixme: needs to be determined from DiscoveryView.
+    var sortedActiveFilterKeys = [];
 
     var fetchContext = function () {
       var parameters = {
@@ -25,6 +26,9 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
         var filterKey = "f." + filter.key;
         if (!angular.isDefined(parameters.query[filterKey])) {
           parameters.query[filterKey] = [];
+        }
+        if (sortedActiveFilterKeys.indexOf(filter.key) < 0) {
+          sortedActiveFilterKeys.push(filter.key);
         }
         //the service uses the fv:: prefix to understand and process multiple values for the same filter key
         parameters.query[filterKey].push(encodeURIComponent("fv::"+filter.value));
@@ -139,7 +143,7 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
       if (!discoveryContext.search.filters) {
         discoveryContext.search.filters = [];
       }
-
+      sortedActiveFilterKeys.push(filter.key);
       discoveryContext.search.filters.push(filter);
 
       var urlKey = "f." + filter.key;
@@ -150,6 +154,15 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
     };
 
     discoveryContext.removeFilter = function(filter) {
+      sortedActiveFilterKeys.splice(sortedActiveFilterKeys.indexOf(filter.key),1);
+      for (var i = 0; i < sortedActiveFilterKeys.length; i++) {
+          var sortedFilterKey = sortedActiveFilterKeys[i];
+          if (filter.key === sortedFilterKey) {
+            discoveryContext.search.filters.splice(i, 1);
+            break;
+          }
+      }
+
       for (var i = 0; i < discoveryContext.search.filters.length; i++) {
         var f = discoveryContext.search.filters[i];
         if (f.key === filter.key && f.value === filter.value) {
@@ -308,6 +321,25 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
         label: discoveryContext.name,
         path: "discovery-context/" + discoveryContext.slug
       };
+    };
+
+    discoveryContext.getSortedActiveFilters = function() {
+      var sortedFilters = [];
+      angular.forEach(sortedActiveFilterKeys, function(filterKey) {
+        sortedFilters.push(getFilterByKey(filterKey));
+      });
+      return sortedFilters;
+    };
+
+    var getFilterByKey = function(filterKey) {
+      let filterMatch = {};
+      for (let filter of discoveryContext.search.filters) {
+        if (filter.key === filterKey) {
+          filterMatch = filter;
+          break;
+        }
+      }
+      return filterMatch;
     };
 
     return this;
