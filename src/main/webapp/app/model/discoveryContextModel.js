@@ -340,8 +340,9 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
     };
 
     var getFilterByKey = function(filterKey) {
-      let filterMatch = {};
-      for (let filter of discoveryContext.search.filters) {
+      var filterMatch = {};
+      for (var x=0;x<discoveryContext.search.filters.length;x++) {
+        var filter = discoveryContext.search.filters[x];
         if (filter.key === filterKey) {
           filterMatch = filter;
           break;
