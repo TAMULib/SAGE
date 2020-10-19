@@ -37,7 +37,7 @@
       <div class="row dc-active-filters" ng-if="hasActiveFilters() || hasSearch()">
         <div class="col-xs-12">
           <ul class="list list-inline">
-            <li role="presentation" ng-if="hasActiveFilters()" ng-repeat="filter in discoveryContext.search.filters" class="btn btn-primary dc-active-filter" ng-click="removeFilter(filter)">
+            <li role="presentation" ng-if="hasActiveFilters()" ng-repeat="filter in discoveryContext.getSortedActiveFilters()" class="btn btn-primary dc-active-filter" ng-click="removeFilter(filter)">
               <div class="pull-right remove"></div>
               <div class="label">{{filter.label}}</div>
               <div class="value">{{filter.value|limitTo:60}}<span ng-if="filter.value.length >= 60">...</span></div>

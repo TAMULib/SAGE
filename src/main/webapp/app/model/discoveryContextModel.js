@@ -4,6 +4,7 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
     var discoveryContext = this;
     var searching;
     var defaultPageSize = 10;
+    var sortedActiveFilterKeys = [];
 
     var fetchContext = function () {
       var parameters = {
@@ -27,6 +28,9 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
         var filterKey = "f." + filter.key;
         if (!angular.isDefined(parameters.query[filterKey])) {
           parameters.query[filterKey] = [];
+        }
+        if (!hasSortedActiveFilterKey(filter.key)) {
+          addSortedActiveFilterKey(filter.key);
         }
         //the service uses the fv:: prefix to understand and process multiple values for the same filter key
         parameters.query[filterKey].push(encodeURIComponent("fv::"+filter.value));
@@ -140,7 +144,7 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
       if (!discoveryContext.search.filters) {
         discoveryContext.search.filters = [];
       }
-
+      addSortedActiveFilterKey(filter.key);
       discoveryContext.search.filters.push(filter);
 
       var urlKey = "f." + filter.key;
@@ -151,6 +155,8 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
     };
 
     discoveryContext.removeFilter = function(filter) {
+      removeSortedActiveFilterKey(filter.key);
+
       for (var i = 0; i < discoveryContext.search.filters.length; i++) {
         var f = discoveryContext.search.filters[i];
         if (f.key === filter.key && f.value === filter.value) {
@@ -311,6 +317,38 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
         label: discoveryContext.name,
         path: "discovery-context/" + discoveryContext.slug
       };
+    };
+
+    discoveryContext.getSortedActiveFilters = function() {
+      var sortedFilters = [];
+      angular.forEach(sortedActiveFilterKeys, function(filterKey) {
+        sortedFilters.push(getFilterByKey(filterKey));
+      });
+      return sortedFilters;
+    };
+
+    var addSortedActiveFilterKey = function(filterKey) {
+      sortedActiveFilterKeys.push(filterKey);
+    };
+
+    var removeSortedActiveFilterKey = function(filterKey) {
+      sortedActiveFilterKeys.splice(sortedActiveFilterKeys.indexOf(filterKey),1);
+    };
+
+    var hasSortedActiveFilterKey = function(filterKey) {
+      return sortedActiveFilterKeys.indexOf(filterKey) > -1;
+    };
+
+    var getFilterByKey = function(filterKey) {
+      var filterMatch = {};
+      for (var x=0;x<discoveryContext.search.filters.length;x++) {
+        var filter = discoveryContext.search.filters[x];
+        if (filter.key === filterKey) {
+          filterMatch = filter;
+          break;
+        }
+      }
+      return filterMatch;
     };
 
     return this;
