@@ -10,12 +10,12 @@ public class InternalMetadataValidator extends BaseModelValidator {
         String glossProperty = "gloss";
         this.addInputValidator(new InputValidator(InputValidationType.required, "A internal metadatum requires a gloss", glossProperty, true));
         this.addInputValidator(new InputValidator(InputValidationType.minlength, "A internal metadatum gloss must be at least 2 characters", glossProperty, 2));
-        this.addInputValidator(new InputValidator(InputValidationType.maxlength, "A internal metadatum gloss must be no more than 40 characters", glossProperty, 40));
+        this.addInputValidator(new InputValidator(InputValidationType.maxlength, "A internal metadatum gloss must be no more than 50 characters", glossProperty, 50));
 
         String fieldProperty = "field";
         this.addInputValidator(new InputValidator(InputValidationType.required, "A internal metadatum requires a field", fieldProperty, true));
         this.addInputValidator(new InputValidator(InputValidationType.minlength, "A internal metadatum field must be at least 2 characters", fieldProperty, 2));
-        this.addInputValidator(new InputValidator(InputValidationType.maxlength, "A internal metadatum field must be no more than 25 characters", fieldProperty, 25));
+        this.addInputValidator(new InputValidator(InputValidationType.maxlength, "A internal metadatum field must be no more than 50 characters", fieldProperty, 50));
 
         String requiredProperty = "required";
         this.addInputValidator(new InputValidator(InputValidationType.required, "A internal metadatum requires a required flag", requiredProperty, true));
