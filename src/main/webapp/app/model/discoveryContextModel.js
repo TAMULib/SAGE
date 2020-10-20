@@ -27,7 +27,16 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
           parameters.query[filterKey] = [];
         }
         //the service uses the fv:: prefix to understand and process multiple values for the same filter key
-        parameters.query[filterKey].push(encodeURIComponent("fv::"+filter.value));
+        if (Array.isArray(filter.value)) {
+          var groupedValue = "";
+          angular.forEach(filter.value, function(value) {
+            groupedValue += "fv::"+value+",";
+          });
+          groupedValue = groupedValue.slice(0,-1);
+          parameters.query[filterKey].push(encodeURIComponent(groupedValue));
+        } else {
+          parameters.query[filterKey].push(encodeURIComponent("fv::"+filter.value));
+        }
       });
       return WsApi.fetch(discoveryContext.getMapping().load, parameters);
     };
@@ -77,7 +86,6 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
           discoveryContext.search.page.number = page;
           $location.search("page", discoveryContext.search.page.number);
         }
-
         discoveryContext.search.field = search.field;
         discoveryContext.search.label = search.label;
         discoveryContext.search.value = search.value;
