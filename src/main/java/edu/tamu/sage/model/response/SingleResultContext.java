@@ -1,6 +1,6 @@
 package edu.tamu.sage.model.response;
 
-import static edu.tamu.sage.utility.ValueTemplateUtility.compileTemplate;
+import static edu.tamu.sage.utility.ValueTemplateUtility.compileTemplateEntry;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -105,11 +105,11 @@ public class SingleResultContext {
     private static SingleResultContext buildSingleResult(DiscoveryView dv, SolrDocument solrDocument) {
         SingleResultContext src = new SingleResultContext();
 
-        Optional<String> titleOption = compileTemplate(dv.getTitleKey(), solrDocument);
-        Optional<String> uniqueIdOption = compileTemplate(dv.getUniqueIdentifierKey(), solrDocument);
-        Optional<String> locationOption = compileTemplate(dv.getResourceLocationUriKey(), solrDocument);
-        Optional<String> thumbnailOption = compileTemplate(dv.getResourceThumbnailUriKey(), solrDocument);
-        Optional<String> manifestOption = compileTemplate(dv.getManifestUriKey(), solrDocument);
+        Optional<String> titleOption = compileTemplateEntry(dv.getTitleKey(), solrDocument);
+        Optional<String> uniqueIdOption = compileTemplateEntry(dv.getUniqueIdentifierKey(), solrDocument);
+        Optional<String> locationOption = compileTemplateEntry(dv.getResourceLocationUriKey(), solrDocument);
+        Optional<String> thumbnailOption = compileTemplateEntry(dv.getResourceThumbnailUriKey(), solrDocument);
+        Optional<String> manifestOption = compileTemplateEntry(dv.getManifestUriKey(), solrDocument);
 
         if (titleOption.isPresent()) {
             src.setTitle(titleOption.get());

@@ -1,5 +1,6 @@
 package edu.tamu.sage.model;
 
+import java.util.Collection;
 import java.util.Map;
 
 import javax.persistence.DiscriminatorValue;
@@ -28,9 +29,9 @@ public class DefaultOp extends BasicOp {
     }
 
     @Override
-    public void process(Reader reader, Map<String, Object> sageDoc) {
+    public void process(Reader reader, Map<String, Collection<Object>> sageDoc) {
         if (!sageDoc.containsKey(getField())) {
-            sageDoc.put(getField(), getValue());
+            sageDoc.get(getField()).forEach(v -> v = getValue());
         }
     }
 

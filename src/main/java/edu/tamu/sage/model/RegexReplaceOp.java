@@ -1,5 +1,6 @@
 package edu.tamu.sage.model;
 
+import java.util.Collection;
 import java.util.Map;
 
 import javax.persistence.DiscriminatorValue;
@@ -38,9 +39,11 @@ public class RegexReplaceOp extends BasicOp {
     }
 
     @Override
-    public void process(Reader reader, Map<String, Object> sageDoc) {
+    public void process(Reader reader, Map<String, Collection<Object>> sageDoc) {
         if (sageDoc.containsKey(getField())) {
-            sageDoc.put(getField(), sageDoc.get(getField()).toString().replaceAll(regex, getValue()));
+            sageDoc.get(getField()).forEach(value -> {
+                value = value.toString().replaceAll(regex, getValue());
+            });
         }
     }
 

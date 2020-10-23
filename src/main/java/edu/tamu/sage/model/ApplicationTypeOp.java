@@ -1,5 +1,7 @@
 package edu.tamu.sage.model;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Map;
 
 import javax.persistence.DiscriminatorValue;
@@ -25,8 +27,8 @@ public class ApplicationTypeOp extends BasicOp {
     }
 
     @Override
-    public void process(Reader reader, Map<String, Object> sageDoc) {
-        sageDoc.put(getField(), reader.getSource().getApplicationType().getName());
+    public void process(Reader reader, Map<String, Collection<Object>> sageDoc) {
+        sageDoc.put(getField(), Arrays.asList(reader.getSource().getApplicationType().getName()));
     }
 
     @Override
