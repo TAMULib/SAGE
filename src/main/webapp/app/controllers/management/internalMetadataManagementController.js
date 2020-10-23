@@ -20,6 +20,7 @@ sage.controller('InternalMetadataManagementController', function ($controller, $
     for (var key in $scope.internalMetadatumForms) {
       if ($scope.internalMetadatumForms[key] !== undefined && !$scope.internalMetadatumForms[key].$pristine && $scope.internalMetadatumForms[key].$setPristine) {
         $scope.internalMetadatumForms[key].$setPristine();
+        $scope.internalMetadatumForms[key].$setUntouched();
       }
     }
     $scope.closeModal();
@@ -41,7 +42,6 @@ sage.controller('InternalMetadataManagementController', function ($controller, $
 
   $scope.cancelCreateInternalMetadatum = function() {
     angular.extend($scope.internalMetadatumToCreate, InternalMetadataRepo.getScaffold());
-    $scope.newInternalMetadatumFields = {};
     $scope.resetInternalMetadatumForms();
   };
 
