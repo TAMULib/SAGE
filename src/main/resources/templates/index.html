@@ -49,6 +49,7 @@
             </ul>
           </div>
           <div ng-if="!isAnonymous()" class="col-md-12" ng-controller="CoreAdminController">
+            <modal modal-id="assumeUserModal" modal-view="views/modals/assumeUserModal.html" modal-header-class="modal-header-primary" wvr-modal-backdrop="static"></modal>
             <div class="row">
               <nav class="pull-right">
                 <div class="dropdown">
@@ -61,7 +62,7 @@
                     <li ng-if="isManager() || isAdmin()"><a href="management/discovery-view">Manage Discovery Views</a></li>
                     <li ng-if="isAdmin() || isAssuming() == 'true'" role="presentation" class="divider"></li>
                     <li ng-if="isAdmin() || isAssuming() == 'true'" role="presentation" class="dropdown-header">Admin Actions</li>
-                    <li ng-if="isAdmin() || isAssuming() == 'true'"><a href="users">Manage Users</a></li>
+                    <li ng-if="isAdmin()"><a href="users">Manage Users</a></li>
                     <li ng-if="isAdmin() || isAssuming() == 'true'">
                       <a href ng-if="isAssuming() == 'false'" data-toggle="modal" ng-click="openModal('#assumeUserModal')">{{assumedControl.button}}</a>
                       <a href ng-if="isAssuming() == 'true'" ng-click="assumeUser(assume)">{{assumedControl.button}}</a>
@@ -266,7 +267,7 @@
   <!-- endbuild -->
 
   <!-- CDN tl-component -->
-  <script src="https://demos.library.tamu.edu/tl-components/latest/tl-components.js"></script>
+  <script src="https://labs.library.tamu.edu/tl-components/latest/tl-components.js"></script>
 
 </body>
 
