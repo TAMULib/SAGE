@@ -5,7 +5,17 @@
   <div class="dc-content">
     <breadcrumbs contexts="breadcrumbContexts" reload="resetPage" home=""></breadcrumbs>
     <div class="col-md-3 dc-side-panel">
-      <div ng-style="discoveryContext.logoUrl ? {'background-image':'url({{discoveryContext.logoUrl}})'}:{}" ng-if="discoveryContext.infoLinkText || discoveryContext.infoText" class="panel panel-default information-box">
+      <div ng-style="{'background-image':'url({{discoveryContext.logoUrl}})'}" ng-if="discoveryContext.logoUrl && (discoveryContext.infoLinkText || discoveryContext.infoText)" class="panel panel-default information-box logo-information-box">
+        <div ng-if="discoveryContext.infoText" class="panel-body">
+          <h3>
+            <a ng-if="discoveryContext.infoLinkUrl" href="{{discoveryContext.infoLinkUrl}}">{{discoveryContext.infoLinkText}}</a>
+            <span ng-if="!discoveryContext.infoLinkUrl">{{discoveryContext.infoLinkText}}</span>
+          </h3>
+          <div ng-if="discoveryContext.infoText" class="panel-footer" ng-bind-html="presentCollectionText(discoveryContext.infoText)">
+          </div>
+        </div>
+      </div>
+      <div ng-if="!discoveryContext.logoUrl && discoveryContext.infoLinkText" class="panel panel-default information-box">
         <div ng-if="discoveryContext.infoText" class="panel-body">
           <h3>
             <a ng-if="discoveryContext.infoLinkUrl" href="{{discoveryContext.infoLinkUrl}}">{{discoveryContext.infoLinkText}}</a>
