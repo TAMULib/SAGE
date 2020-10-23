@@ -199,15 +199,44 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
   };
 
   $scope.isDiscoveryViewFacetsInvalid = function(key) {
-    return false;
+    var isInvalid = false;
+    if (angular.isDefined($scope.discoveryView)) {
+      var facetFields = $scope.discoveryView.facetFields;
+      angular.forEach(facetFields, function(field) {
+        if (field === undefined  || !fieldIsPopulated(field,['type'])) {
+          isInvalid = true;
+        }
+      });
+    }
+    return isInvalid;
   };
 
   $scope.isDiscoveryViewSearchInvalid = function(key) {
+    var isInvalid = false;
     if (angular.isDefined($scope.discoveryView)) {
       var searchFields = $scope.discoveryView.searchFields;
-      return (searchFields && (searchFields.$invalid || searchFields.length == 0));
+      if (searchFields && (searchFields.$invalid || searchFields.length == 0)) {
+        isInvalid = true;
+      }
+      angular.forEach(searchFields, function(field) {
+        if (field === undefined || !fieldIsPopulated(field,['type'])) {
+          isInvalid = true;
+        }
+      });
     }
-    return false;
+
+    return isInvalid;
+  };
+
+  var fieldIsPopulated = function(field, exemptions) {
+    var isPopulated = true;
+    var fieldKeys = Object.keys(field);
+    angular.forEach(fieldKeys, function(key) {
+      if ((!exemptions || exemptions.indexOf(key) == -1) && (field[key] == null || field[key] == "" || field[key] == "?")) {
+        isPopulated = false;
+      }
+    });
+    return isPopulated;
   };
 
   $scope.isDiscoveryViewResultsInvalid = function(key) {

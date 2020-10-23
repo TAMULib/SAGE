@@ -345,7 +345,7 @@
     <button type="button" class="btn btn-default" ng-click="cancelUpdateDiscoveryView()">Cancel</button>
     <button ng-show="tabs.active === 0" ng-disabled="isDiscoveryViewGeneralInvalid('update')" type="button" class="btn btn-success" ng-click="next()">Next</button>
     <button ng-show="tabs.active === 1" type="button" class="btn btn-success" ng-click="back()">Back</button>
-    <button ng-show="tabs.active === 1" ng-disabled="isDiscoveryViewFiltersInvalid('update')" type="button" class="btn btn-success" ng-click="next()">Next</button>
+    <button ng-show="tabs.active === 1" ng-disabled="isDiscoveryViewFacetsInvalid('update')" type="button" class="btn btn-success" ng-click="next()">Next</button>
     <button ng-show="tabs.active === 2" type="button" class="btn btn-success" ng-click="back()">Back</button>
     <button ng-show="tabs.active === 2" ng-disabled="isDiscoveryViewSearchInvalid('update')" type="button" class="btn btn-success" ng-click="next()">Next</button>
     <button ng-show="tabs.active === 3" type="button" class="btn btn-success" ng-click="back()">Back</button>
