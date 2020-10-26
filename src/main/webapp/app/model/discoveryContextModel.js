@@ -352,7 +352,7 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
 
     var hashSortedActiveFilterKey = function(filterKey, value) {
       return window.btoa(encodeURIComponent(filterKey+value));
-    }
+    };
 
     var getFilterByKey = function(filterKey) {
       var filterMatch = {};
