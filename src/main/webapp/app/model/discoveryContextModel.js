@@ -29,18 +29,21 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
         if (!angular.isDefined(parameters.query[filterKey])) {
           parameters.query[filterKey] = [];
         }
-        if (!hasSortedActiveFilterKey(filter.key)) {
-          addSortedActiveFilterKey(filter.key);
-        }
         //the service uses the fv:: prefix to understand and process multiple values for the same filter key
         if (Array.isArray(filter.value)) {
           var groupedValue = "";
           angular.forEach(filter.value, function(value) {
             groupedValue += "fv::"+value+",";
+            if (!hasSortedActiveFilterKey(filter.key, value)) {
+              addSortedActiveFilterKey(filter.key, value);
+            }
           });
           groupedValue = groupedValue.slice(0,-1);
           parameters.query[filterKey].push(encodeURIComponent(groupedValue));
         } else {
+          if (!hasSortedActiveFilterKey(filter.key, filter.value)) {
+            addSortedActiveFilterKey(filter.key, filter.value);
+          }
           parameters.query[filterKey].push(encodeURIComponent("fv::"+filter.value));
         }
       });
@@ -152,7 +155,7 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
       if (!discoveryContext.search.filters) {
         discoveryContext.search.filters = [];
       }
-      addSortedActiveFilterKey(filter.key);
+      addSortedActiveFilterKey(filter.key, filter.value);
       discoveryContext.search.filters.push(filter);
 
       var urlKey = "f." + filter.key;
@@ -163,7 +166,7 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
     };
 
     discoveryContext.removeFilter = function(filter) {
-      removeSortedActiveFilterKey(filter.key);
+      removeSortedActiveFilterKey(filter);
 
       for (var i = 0; i < discoveryContext.search.filters.length; i++) {
         var f = discoveryContext.search.filters[i];
@@ -335,23 +338,27 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
       return sortedFilters;
     };
 
-    var addSortedActiveFilterKey = function(filterKey) {
-      sortedActiveFilterKeys.push(filterKey);
+    var addSortedActiveFilterKey = function(filterKey, value) {
+      sortedActiveFilterKeys.push(hashSortedActiveFilterKey(filterKey, value));
     };
 
-    var removeSortedActiveFilterKey = function(filterKey) {
-      sortedActiveFilterKeys.splice(sortedActiveFilterKeys.indexOf(filterKey),1);
+    var removeSortedActiveFilterKey = function(filter) {
+      sortedActiveFilterKeys.splice(sortedActiveFilterKeys.indexOf(hashSortedActiveFilterKey(filter.key, filter.value)),1);
     };
 
-    var hasSortedActiveFilterKey = function(filterKey) {
-      return sortedActiveFilterKeys.indexOf(filterKey) > -1;
+    var hasSortedActiveFilterKey = function(filterKey, value) {
+      return sortedActiveFilterKeys.indexOf(hashSortedActiveFilterKey(filterKey, value)) > -1;
+    };
+
+    var hashSortedActiveFilterKey = function(filterKey, value) {
+      return window.btoa(encodeURIComponent(filterKey+value));
     };
 
     var getFilterByKey = function(filterKey) {
       var filterMatch = {};
       for (var x=0;x<discoveryContext.search.filters.length;x++) {
         var filter = discoveryContext.search.filters[x];
-        if (filter.key === filterKey) {
+        if (hashSortedActiveFilterKey(filter.key, filter.value) === filterKey) {
           filterMatch = filter;
           break;
         }
