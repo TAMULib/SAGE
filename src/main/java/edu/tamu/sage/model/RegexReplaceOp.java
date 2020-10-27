@@ -2,6 +2,7 @@ package edu.tamu.sage.model;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -41,9 +42,7 @@ public class RegexReplaceOp extends BasicOp {
     @Override
     public void process(Reader reader, Map<String, Collection<Object>> sageDoc) {
         if (sageDoc.containsKey(getField())) {
-            sageDoc.get(getField()).forEach(value -> {
-                value = value.toString().replaceAll(regex, getValue());
-            });
+            sageDoc.put(getField(), sageDoc.get(getField()).stream().map(value -> value.toString().replaceAll(regex, getValue())).collect(Collectors.toList()));
         }
     }
 
