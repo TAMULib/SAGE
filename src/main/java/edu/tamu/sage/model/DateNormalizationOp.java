@@ -3,10 +3,10 @@ package edu.tamu.sage.model;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -93,18 +93,20 @@ public class DateNormalizationOp extends BasicOp {
     @Override
     public void process(Reader reader, Map<String, Collection<Object>> sageDoc) {
         if (sageDoc.containsKey(getField())) {
-             sageDoc.put(getField(), sageDoc.get(getField()).stream().map(value ->
-             {
-                 String valueAsString = sageDoc.get(getField()).toString();
-                 try {
-                     Date date = DateUtils.parseDate(valueAsString, DATE_FORMATS);
-                     value = dateFormat.format(date);
-                 } catch (ParseException e) {
-                     log.warn("Couldn't parse date from {}: {}", valueAsString, e.getMessage());
-                     sageDoc.remove(getField());
-                 }
-                 return value;
-             }).collect(Collectors.toList()));
+            if (dateFormat == null) {
+                setDateFormat(new SimpleDateFormat(getValue()));
+            }
+            Collection<Object> newValues = new ArrayList<Object>();
+            sageDoc.get(getField()).forEach(value -> {
+                String valueAsString = value.toString();
+                try {
+                    Date date = DateUtils.parseDate(valueAsString, DATE_FORMATS);
+                    newValues.add(dateFormat.format(date));
+                } catch (ParseException e) {
+                    log.warn("Couldn't parse date from {}: {}", valueAsString, e.getMessage());
+                }
+            });
+            sageDoc.put(getField(), newValues);
         }
     }
 

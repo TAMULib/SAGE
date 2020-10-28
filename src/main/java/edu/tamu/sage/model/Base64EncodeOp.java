@@ -30,7 +30,7 @@ public class Base64EncodeOp extends BasicOp {
     @Override
     public void process(Reader reader, Map<String, Collection<Object>> sageDoc) {
         if (sageDoc.containsKey(getField())) {
-            sageDoc.put(getField(), sageDoc.get(getField()).stream().map(value -> Base64.getEncoder().encode(value.toString().getBytes())).collect(Collectors.toList()));
+            sageDoc.put(getField(), sageDoc.get(getField()).stream().map(value -> new String(Base64.getEncoder().encode(value.toString().getBytes()))).collect(Collectors.toList()));
         }
     }
 
