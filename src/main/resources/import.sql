@@ -16,7 +16,7 @@ INSERT INTO INTERNAL_METADATA SELECT * FROM (
   SELECT 13, 'subject', 'Subject (dc.subject, dcterms.subject)', false UNION
   SELECT 14, 'creator', 'Creator (dc.creator, dcterms.creator)', false UNION
   SELECT 15, 'datePublished', 'Date Published (dcterms.dateAccepted)', false UNION
-  SELECT 16, 'dateCreated', 'Date Created (dc.date, dcterms.date)', false UNION
+  SELECT 16, 'dateCreated', 'Date Created (dc.date, dcterms.date, dcterms.created)', false UNION
   SELECT 17, 'summaryAbstract', 'Summary/Abstract (dc.description, dcterms.abstract)', false UNION
   SELECT 18, 'language', 'Language (dc.language, dcterms.language)', false UNION
   SELECT 19, 'institutionDepartment', 'Institution/Department (dc.contributor, dc.description)', false UNION
@@ -40,5 +40,7 @@ INSERT INTO INTERNAL_METADATA SELECT * FROM (
   SELECT 35, 'audience', 'Audience Level (dc.audience, dcterms.audience)', false UNION
   SELECT 36, 'classification', 'Classification (dc.description)', false UNION
   SELECT 37, 'itemIdentifier', 'Physical Item Identifier (dc.identifier)', false UNION
-  SELECT 38, 'itemLocation', 'Physical Item Location (dc.description)', false
+  SELECT 38, 'itemLocation', 'Physical Item Location (dc.description)', false UNION
+  SELECT 39, 'details', 'Details (local.details)', false UNION
+  SELECT 40, 'spatial', 'Spatial (dcterms.spatial)', false
 ) M WHERE NOT EXISTS(SELECT * FROM INTERNAL_METADATA);
