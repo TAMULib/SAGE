@@ -112,11 +112,12 @@ public class SolrDiscoveryService {
                 String filterKey = facetField.getKey();
                 if (filterMap.containsKey(filterKey)) {
                     String[] filterValues = filterMap.get(filterKey).split(","+FILTER_VALUE_PREFIX, -1);
+                    filterValues[0] = filterValues[0].replace(FILTER_VALUE_PREFIX,"");
                     for (int i = 0; i < filterValues.length; i++) {
                         Filter filter = new Filter();
                         filter.setKey(facetField.getKey());
                         filter.setLabel(facetField.getLabel());
-                        filter.setValue(filterValues[i].replace(FILTER_VALUE_PREFIX,""));
+                        filter.setValue(filterValues[i]);
                         filters.add(filter);
                         solrQuery.addFilterQuery(facetField.getKey() + ":" + ClientUtils.escapeQueryChars(filter.getValue()));
                     }

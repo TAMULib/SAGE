@@ -1,7 +1,9 @@
 package edu.tamu.sage.model;
 
 import java.util.Base64;
+import java.util.Collection;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -26,10 +28,9 @@ public class Base64EncodeOp extends BasicOp {
     }
 
     @Override
-    public void process(Reader reader, Map<String, Object> sageDoc) {
+    public void process(Reader reader, Map<String, Collection<Object>> sageDoc) {
         if (sageDoc.containsKey(getField())) {
-            byte[] encoded = Base64.getEncoder().encode(sageDoc.get(getField()).toString().getBytes());
-            sageDoc.put(getField(), new String(encoded));
+            sageDoc.put(getField(), sageDoc.get(getField()).stream().map(value -> new String(Base64.getEncoder().encode(value.toString().getBytes()))).collect(Collectors.toList()));
         }
     }
 

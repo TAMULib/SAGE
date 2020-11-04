@@ -32,7 +32,6 @@
                   <option ng-repeat="role in assignableRoles(thisUser.role)">{{role}}</option>
                 </select>
               </td>
-              <td ng-if="!((isAdmin() || isManager()) && (thisUser.role == 'ROLE_MANAGER' || thisUser.role == 'ROLE_ADMIN'))"></td>
               <td ng-if="(isAdmin() || isManager()) && canDelete(thisUser)">
 
                 <modal modal-id="ConfirmDeleteUserModal{{$index}}"

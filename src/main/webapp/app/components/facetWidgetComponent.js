@@ -43,5 +43,19 @@ sage.component("facetWidget", {
       }
       return $filter('filter')(keys, viewValue);
     };
+
+    $scope.initialize = function() {
+      if($scope.$ctrl.facet && $scope.$ctrl.facet.widget === "Link") {
+        $scope.open = false;
+        var facetNames = Object.keys($scope.$ctrl.facet.counts);
+        for(var i in facetNames) {
+          var facetName = facetNames[i];
+          if ($scope.findFilterByFacet($scope.$ctrl.facet.label, facetName)) {
+            $scope.open = true;
+            break;
+          }
+        }
+      }
+    };
   }
 });
