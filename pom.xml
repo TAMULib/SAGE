@@ -90,7 +90,7 @@
       <groupId>org.apache.jena</groupId>
       <artifactId>apache-jena-libs</artifactId>
       <type>pom</type>
-      <version>3.15.0</version>
+      <version>3.16.0</version>
     </dependency>
 
     <dependency>
@@ -230,24 +230,30 @@
 
     <repository>
       <id>tamu-releases</id>
-      <url>https://artifacts.library.tamu.edu/repository/maven-releases/</url>
+      <url>https://artifacts.library.tamu.edu/repository/maven-releases</url>
     </repository>
 
     <repository>
       <id>tamu-snapshots</id>
-      <url>https://artifacts.library.tamu.edu/repository/maven-snapshots/</url>
+      <url>https://artifacts.library.tamu.edu/repository/maven-snapshots</url>
     </repository>
 
     <repository>
       <id>apache.snapshots</id>
       <name>Apache Development Snapshot Repository</name>
-      <url>https://repository.apache.org/content/repositories/snapshots/</url>
+      <url>https://repository.apache.org/content/repositories/snapshots</url>
       <releases>
         <enabled>false</enabled>
       </releases>
       <snapshots>
         <enabled>true</enabled>
       </snapshots>
+    </repository>
+
+    <repository>
+      <id>mvnrepository</id>
+      <name>Maven Central Repository</name>
+      <url>https://repo1.maven.org/maven2/</url>
     </repository>
 
     <repository>
