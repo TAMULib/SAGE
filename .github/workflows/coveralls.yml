@@ -24,11 +24,9 @@ jobs:
 
         include:
           - language_engine: java
-            with: java-version
             version: 1.8
 
           - language_engine: nodejs
-            with: node-version
             version: 12
 
     steps:
