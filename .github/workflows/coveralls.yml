@@ -1,8 +1,3 @@
-name: TAMULib Coveralls Matrix
-description: Build, test, and report coveralls using parallel matrix.
-
-on: ["push", "pull_request"]
-
 name: Test Coveralls Parallel
 
 jobs:
