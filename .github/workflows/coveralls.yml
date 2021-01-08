@@ -3,12 +3,10 @@ name: TAMULib Coveralls Matrix
 on:
   push:
     branches:
-      - $default-branch
       - sprint*-staging
 
   pull_request:
     branches:
-      - $default-branch
       - sprint*-staging
 
   workflow_dispatch:
