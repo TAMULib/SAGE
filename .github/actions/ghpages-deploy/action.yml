@@ -1,0 +1,14 @@
+name: TAMULib GH-Pages Deploy Action
+description: Build and deploy GH-Pages.
+
+runs:
+  using: "composite"
+
+  steps:
+    - name: Deploy to GitHub Pages
+      uses: Cecilapp/GitHub-Pages-deploy@v3
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        email: huff@library.tamu.edu
+        build_dir: APISpecs
