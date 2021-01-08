@@ -36,12 +36,12 @@ jobs:
             version: 12
 
     steps:
-    - name: "Matrix Operation for ${{ matrix.language_engine }} ${{ matrix.version }}"
+    - name: "Matrix Operation for ${{ matrix.language_engine }} ${{ matrix.version }} (build ${{ github.run_number }})"
       uses: ${{ matrix.uses }}
       with:
         version: ${{ matrix.version }}
-        build-number: ${{ github.run_number }}
-        github-token: ${{ secrets.github_token }}
+        build_number: ${{ github.run_number }}
+        github_token: ${{ secrets.github_token }}
 
   finish:
     needs: coveralls

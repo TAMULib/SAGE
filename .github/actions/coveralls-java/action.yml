@@ -2,17 +2,14 @@ name: TAMULib Java Coverage Action
 description: Build coverage for Java code for parallel coveralls execution.
 
 inputs:
-  java-version:
+  version:
     description: 'The version of Java to use.'
     required: true
     default: 1.8
-  coveralls-token:
-    description: 'The API token for Coveralls.'
-    required: false
-  build-number:
+  build_number:
     description: 'The Unique Build Number for Coveralls.'
     required: true
-  github-token:
+  github_token:
     description: 'The API token for Github.'
     required: true
 
@@ -22,7 +19,7 @@ runs:
   steps:
     - uses: actions/checkout@v2
 
-    - name: Setup JDK ${{ inputs.java-version }}
+    - name: Setup JDK ${{ inputs.version }} (build ${{ inputs.build_number }})
       uses: actions/setup-java@v1
       env:
         COVERALLS_PARALLEL: true
@@ -32,9 +29,9 @@ runs:
         mvn test-compile -DskipTests=true -Dmaven.javadoc.skip=true -B -V
         mvn clean test cobertura:cobertura jacoco:report coveralls:report -DserviceName="github-actions"
 
-    - name: Coveralls Parallel Java
+    - name: Coveralls Parallel Java (build ${{ inputs.build_number }})
       uses: coverallsapp/github-action@master
       with:
-        github-token: ${{ inputs.github_token }}
+        github_token: ${{ inputs.github_token }}
         flag-name: run-${{ inputs.build_number }}-java
         parallel: true

@@ -2,17 +2,14 @@ name: TAMULib NodeJs Coverage Action
 description: Build coverage for NodeJs code for parallel coveralls execution.
 
 inputs:
-  nodejs-version:
+  version:
     description: 'The version of NodeJs to use.'
     required: true
     default: 12
-  coveralls-token:
-    description: 'The API token for Coveralls.'
-    required: false
-  build-number:
+  build_number:
     description: 'The Unique Build Number for Coveralls.'
     required: true
-  github-token:
+  github_token:
     description: 'The API token for Github.'
     required: true
 
@@ -26,7 +23,7 @@ runs:
       uses: actions/setup-node@v2
       run: npm install
 
-    - name: Setup NodeJs ${{ inputs.nodejs-version }}
+    - name: Setup NodeJs ${{ inputs.version }} (build ${{ inputs.build_number }})
       env:
         COVERALLS_PARALLEL: true
         COVERALLS_BUILD_NUMBER: run-${{ inputs.build_number }}-java
@@ -39,7 +36,7 @@ runs:
         npm run test-ci
         grunt coverage
 
-    - name: Coveralls Parallel NodeJs
+    - name: Coveralls Parallel NodeJs (build ${{ inputs.build_number }})
       uses: coverallsapp/github-action@master
       with:
         github-token: ${{ inputs.github_token }}
