@@ -1,4 +1,5 @@
 name: Test Coveralls Parallel
+on: ["push", "pull_request"]
 
 jobs:
   test:
