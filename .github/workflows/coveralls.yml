@@ -24,18 +24,16 @@ jobs:
 
         include:
           - language_engine: java
-            uses: ./.github/actions/coveralls-java
             with: java-version
             version: 1.8
 
           - language_engine: nodejs
             with: node-version
-            uses: ./.github/actions/coveralls-nodejs
             version: 12
 
     steps:
     - name: "Matrix Operation for ${{ matrix.language_engine }} ${{ matrix.version }} (build ${{ github.run_number }})"
-      uses: ${{ matrix.uses }}
+      uses: './.github/actions/coveralls-${{ matrix.language_engine }}'
       with:
         version: ${{ matrix.version }}
         build_number: ${{ github.run_number }}
