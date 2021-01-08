@@ -1,13 +1,6 @@
 name: TAMULib Coveralls Matrix
 
-on:
-  push:
-    branches: [ $default-branch ]
-
-  pull_request:
-    branches: [ $default-branch ]
-
-  workflow_dispatch:
+on: ["push", "pull_request"]
 
 jobs:
   coveralls:
