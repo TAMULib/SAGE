@@ -32,6 +32,8 @@ jobs:
             version: 12
 
     steps:
+    - uses: actions/checkout@v2
+
     - name: "Matrix Operation for ${{ matrix.language_engine }} ${{ matrix.version }} (build ${{ github.run_number }})"
       if: ${{ matrix.language_engine == 'java' }}
       uses: './.github/actions/coveralls-java'
