@@ -1,49 +1,40 @@
-name: CI
+name: TAMULib Coveralls Matrix
+description: Build, test, and report coveralls using parallel matrix.
 
-on:
-  push:
-    branches: [ $default-branch ]
+on: ["push", "pull_request"]
 
-  pull_request:
-    branches: [ $default-branch ]
-
-  workflow_dispatch:
+name: Test Coveralls Parallel
 
 jobs:
-  build-all:
+  test:
     runs-on: ubuntu-latest
-
     strategy:
-      max-parallel: 2
       matrix:
-        language-engine: [ java, nodejs ]
-
-        include:
-          - language-engine: java
-            uses: ./.github/actions/coveralls-java
-            with: java-version
-            version: 1.8
-
-          - language-engine: nodejs
-            with: node-version
-            uses: ./.github/actions/coveralls-nodejs
-            version: 12
-
+        test_number:
+          - 1
+          - 2
     steps:
-      - uses: actions/checkout@v2
-      - uses: ${{ matrix.uses }}
-        with:
-          version: ${{ matrix.version }}
-          coveralls-token: ${{ secrets.coveralls_token }}
-          build-number: ${{ github.run_number }}
+    - uses: actions/checkout@master
+    - name: Use Node.js 10.x
+      uses: actions/setup-node@master
+      with:
+        version: 10.x
 
-      - if: ${{ language-engine == 'java' }}
-        uses: ./.github/actions/ghpages-deploy
+    - name: npm install
+      run: npm install
+
+    - name: Test ${{ matrix.test_number }}
+      run: make test-coverage-${{ matrix.test_number }}
+    - name: Coveralls Parallel
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.github_token }}
+        flag-name: run-${{ matrix.test_number }}
+        parallel: true
 
   finish:
-    needs: build-all
+    needs: test
     runs-on: ubuntu-latest
-
     steps:
     - name: Coveralls Finished
       uses: coverallsapp/github-action@master
