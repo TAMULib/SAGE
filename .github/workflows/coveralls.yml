@@ -36,18 +36,33 @@ jobs:
 
     - name: "Matrix Operation for ${{ matrix.language_engine }} ${{ matrix.version }} (build ${{ github.run_number }})"
       if: ${{ matrix.language_engine == 'java' }}
-      uses: './.github/actions/coveralls-java'
-      with:
-        version: ${{ matrix.version }}
-        build_number: ${{ github.run_number }}
-        github_token: ${{ secrets.github_token }}
+      uses: actions/setup-java@v1
+      env:
+        COVERALLS_PARALLEL: true
+        COVERALLS_BUILD_NUMBER: run-${{ github.run_number }}-${{ matrix.language_engine }}
+      run: |
+        mvn test-compile -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+        mvn clean test cobertura:cobertura jacoco:report coveralls:report -DserviceName="github-actions"
+
     - name: "Matrix Operation for ${{ matrix.language_engine }} ${{ matrix.version }} (build ${{ github.run_number }})"
       if: ${{ matrix.language_engine == 'nodejs' }}
-      uses: './.github/actions/coveralls-nodejs'
+      env:
+        COVERALLS_PARALLEL: true
+        COVERALLS_BUILD_NUMBER: run-${{ github.run_number }}-${{ matrix.language_engine }}
+      run: |
+        npm start > /dev/null &
+        npm run update-webdriver
+        sleep 1 # give server time to start
+        grunt coverage-preprocess
+        npm run test-ci
+        grunt coverage
+
+    - name: Coveralls Parallel Java (build ${{ github.run_number }}) (flag run-${{ github.run_number }}-${{ matrix.language_engine }})
+      uses: coverallsapp/github-action@master
       with:
-        version: ${{ matrix.version }}
-        build_number: ${{ github.run_number }}
         github_token: ${{ secrets.github_token }}
+        flag-name: run-${{ github.run_number }}-${{ matrix.language_engine }}
+        parallel: true
 
   finish:
     needs: coveralls
