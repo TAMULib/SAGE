@@ -34,6 +34,14 @@ jobs:
 
 
     # Setup Caches
+    - name: Cache Java Maven Dependencies
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+
     - name: Cache Node Dependencies
       if: ${{ matrix.language_engine == 'node' }}
       uses: actions/cache@v2
@@ -41,6 +49,9 @@ jobs:
         cache-name: cache-node-modules
       with:
         path: ~/.npm
+        #key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        #restore-keys: |
+        #  ${{ runner.os }}-maven-
         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-build-${{ env.cache-name }}-
