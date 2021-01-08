@@ -27,7 +27,7 @@ jobs:
             action: "echo hello node"
 
     steps:
-    - name: "Matrix Operation for ${{ matrix.language_engine }} ${{ version }}"
+    - name: "Matrix Operation for ${{ matrix.language_engine }} ${{ matrix.version }}"
       run: ${{ matrix.action }}
 
   finish:
