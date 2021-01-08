@@ -50,4 +50,4 @@ jobs:
       with:
         github-token: ${{ secrets.github_token }}
         parallel-finished: true
-      run: curl https://coveralls.io/webhook?repo_token=${{ secrets.coveralls_token }}
+      run: curl https://coveralls.io/webhook
