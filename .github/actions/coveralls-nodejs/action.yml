@@ -12,16 +12,24 @@ inputs:
   build-number:
     description: 'The Unique Build Number for Coveralls.'
     required: true
+  github-token:
+    description: 'The API token for Github.'
+    required: true
 
 runs:
   using: "composite"
 
   steps:
-    - uses: actions/setup-node@v2
+    - uses: actions/checkout@v2
+
+    - name: Install NodeJs
+      uses: actions/setup-node@v2
+      run: npm install
+
     - name: Setup NodeJs ${{ inputs.nodejs-version }}
       env:
         COVERALLS_PARALLEL: true
-        COVERALLS_BUILD_NUMBER: ${{ inputs.build_number }}
+        COVERALLS_BUILD_NUMBER: run-${{ inputs.build_number }}-java
         COVERALLS_REPO_TOKEN: ${{ inputs.coveralls_token }}
       run: |
         npm start > /dev/null &
@@ -30,3 +38,10 @@ runs:
         grunt coverage-preprocess
         npm run test-ci
         grunt coverage
+
+    - name: Coveralls Parallel NodeJs
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ inputs.github_token }}
+        flag-name: run-${{ inputs.build_number }}-java
+        parallel: true

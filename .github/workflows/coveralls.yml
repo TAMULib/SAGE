@@ -29,17 +29,19 @@ jobs:
             uses: ./.github/actions/coveralls-java
             with: java-version
             version: 1.8
-            action: "echo hello java"
 
           - language_engine: nodejs
             with: node-version
             uses: ./.github/actions/coveralls-nodejs
             version: 12
-            action: "echo hello node"
 
     steps:
     - name: "Matrix Operation for ${{ matrix.language_engine }} ${{ matrix.version }}"
-      run: ${{ matrix.action }}
+      uses: ${{ matrix.uses }}
+      with:
+        version: ${{ matrix.version }}
+        build-number: ${{ github.run_number }}
+        github-token: ${{ secrets.github_token }}
 
   finish:
     needs: coveralls
