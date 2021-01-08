@@ -1,36 +1,46 @@
-name: Test Coveralls Parallel
-on: ["push", "pull_request"]
+name: TAMULib Coveralls Matrix
+
+on:
+  push:
+    branches: [ $default-branch ]
+
+  pull_request:
+    branches: [ $default-branch ]
+
+  workflow_dispatch:
 
 jobs:
-  test:
+  coveralls:
     runs-on: ubuntu-latest
+
     strategy:
+      max-parallel: 2
       matrix:
-        test_number:
-          - 1
-          - 2
+        language_engine:
+          - java
+          - nodejs
+
+        include:
+          - language_engine: java
+            uses: ./.github/actions/coveralls-java
+            with: java-version
+            version: 1.8
+            action: "echo hello java"
+
+          - language_engine: nodejs
+            with: node-version
+            uses: ./.github/actions/coveralls-nodejs
+            version: 12
+            action: "echo hello node"
+
     steps:
-    - uses: actions/checkout@master
-    - name: Use Node.js 10.x
-      uses: actions/setup-node@master
-      with:
-        version: 10.x
-
-    - name: npm install
-      run: npm install
-
-    - name: Test ${{ matrix.test_number }}
-      run: make test-coverage-${{ matrix.test_number }}
-    - name: Coveralls Parallel
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.github_token }}
-        flag-name: run-${{ matrix.test_number }}
-        parallel: true
+    - name: "Matrix Operation for ${{ matrix.language_engine }} ${{ version }}"
+      run: ${{ matrix.action }}
 
   finish:
-    needs: test
+    needs: coveralls
     runs-on: ubuntu-latest
+
     steps:
     - name: Coveralls Finished
       uses: coverallsapp/github-action@master
