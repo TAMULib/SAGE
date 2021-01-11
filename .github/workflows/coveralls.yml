@@ -49,7 +49,7 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Cache Node Dependencies
-        if: ${{ matrix.language_engine == 'node' }}
+        #if: ${{ matrix.language_engine == 'node' }}
         uses: actions/cache@v2
         env:
           cache-name: sage-cache-node-dependencies
@@ -61,21 +61,21 @@ jobs:
 
 
       # Setup Java and Node
-      - name: "Setup Java"
-        if: ${{ matrix.language_engine == 'java' }}
-        uses: actions/setup-java@v1
-        with:
-          java-version: ${{ matrix.version }}
-
       - name: "Setup Node"
-        if: ${{ matrix.language_engine == 'node' }}
+        #if: ${{ matrix.language_engine == 'node' }}
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.version }}
 
       - name: "Install Node Dependencies"
-        if: ${{ matrix.language_engine == 'node' }}
+        #if: ${{ matrix.language_engine == 'node' }}
         run: npm install
+
+      - name: "Setup Java"
+        if: ${{ matrix.language_engine == 'java' }}
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.version }}
 
 
       # Run Tests
@@ -101,4 +101,26 @@ jobs:
           sleep 1 # give server time to start
           grunt coverage-preprocess
           npm run test-ci
-          grunt coverage
+          #grunt coverage
+
+
+    # Initiate Coveralls Parallel
+    - name: Coveralls Parallel (build sage-${{ github.run_number }}-${{ matrix.language_engine }})
+      uses: coverallsapp/github-action@master
+      with:
+        github_token: ${{ secrets.github_token }}
+        flag-name: sage-${{ github.action }}-${{ github.run_number }}-${{ matrix.language_engine }}
+        parallel: true
+
+
+  # Resolve Coveralls Parallel
+  finish:
+    needs: coveralls
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Coveralls Finished
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.github_token }}
+        parallel-finished: true
