@@ -34,79 +34,79 @@ jobs:
 
     # Checkout Repository Code
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
 
-    # Setup Caches
-    - name: Cache Java Maven Dependencies
-      uses: actions/cache@v2
-      with:
-        path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-        restore-keys: |
-          ${{ runner.os }}-maven-
+      # Setup Caches
+      - name: Cache Java Maven Dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
 
-    - name: Cache Node Dependencies
-      if: ${{ matrix.language_engine == 'node' }}
-      uses: actions/cache@v2
-      env:
-        cache-name: cache-node-modules
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
-
-
-    # Setup Java and Node
-    - name: "Setup Java"
-      if: ${{ matrix.language_engine == 'java' }}
-      uses: actions/setup-java@v1
-      with:
-        java-version: ${{ matrix.version }}
-
-    - name: "Setup Node"
-      if: ${{ matrix.language_engine == 'node' }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.version }}
-
-    - name: "Install Node Dependencies"
-      if: ${{ matrix.language_engine == 'node' }}
-      run: npm install
+      - name: Cache Node Dependencies
+        if: ${{ matrix.language_engine == 'node' }}
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
 
 
-    # Run Tests
-    - name: "Running Tests for Java"
-      if: ${{ matrix.language_engine == 'java' }}
-      uses: TAMULib/.github@action-coveralls-java-test
-      with:
-        coveralls_repo_token: ''
-        coveralls_build_number: sage-${{ github.action }}-${{ github.run_number }}-${{ matrix.language_engine }}
-        coveralls_parallel: true
+      # Setup Java and Node
+      - name: "Setup Java"
+        if: ${{ matrix.language_engine == 'java' }}
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.version }}
 
-    - name: "Running Tests for Node"
-      if: ${{ matrix.language_engine == 'node' }}
-      env:
-        COVERALLS_BUILD_NUMBER: sage-${{ github.action }}-${{ github.run_number }}-${{ matrix.language_engine }}
-        COVERALLS_REPO_TOKEN: ${{ secrets.coveralls_repo_token }}
-        COVERALLS_PARALLEL: true
-      run: |
-        npm start > /dev/null &
-        npm run update-webdriver
-        sleep 1 # give server time to start
-        grunt coverage-preprocess
-        npm run test-ci
-        grunt coverage
+      - name: "Setup Node"
+        if: ${{ matrix.language_engine == 'node' }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.version }}
+
+      - name: "Install Node Dependencies"
+        if: ${{ matrix.language_engine == 'node' }}
+        run: npm install
 
 
-    # Initiate Coveralls Parallel
-    - name: Coveralls Parallel (build sage-${{ github.run_number }}-${{ matrix.language_engine }})
-      uses: coverallsapp/github-action@master
-      with:
-        github_token: ${{ secrets.github_token }}
-        flag-name: sage-${{ github.action }}-${{ github.run_number }}-${{ matrix.language_engine }}
-        parallel: true
+      # Run Tests
+      - name: "Running Tests for Java"
+        if: ${{ matrix.language_engine == 'java' }}
+        uses: TAMULib/.github@action-coveralls-java-test
+        with:
+          coveralls_repo_token: ''
+          coveralls_build_number: sage-${{ github.action }}-${{ github.run_number }}-${{ matrix.language_engine }}
+          coveralls_parallel: true
+
+      - name: "Running Tests for Node"
+        if: ${{ matrix.language_engine == 'node' }}
+        env:
+          COVERALLS_BUILD_NUMBER: sage-${{ github.action }}-${{ github.run_number }}-${{ matrix.language_engine }}
+          COVERALLS_REPO_TOKEN: ${{ secrets.coveralls_repo_token }}
+          COVERALLS_PARALLEL: true
+        run: |
+          npm start > /dev/null &
+          npm run update-webdriver
+          sleep 1 # give server time to start
+          grunt coverage-preprocess
+          npm run test-ci
+          grunt coverage
+
+
+      # Initiate Coveralls Parallel
+      - name: Coveralls Parallel (build sage-${{ github.run_number }}-${{ matrix.language_engine }})
+        uses: coverallsapp/github-action@master
+        with:
+          github_token: ${{ secrets.github_token }}
+          flag-name: sage-${{ github.action }}-${{ github.run_number }}-${{ matrix.language_engine }}
+          parallel: true
 
 
   # Resolve Coveralls Parallel
@@ -115,8 +115,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Coveralls Finished
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.github_token }}
-        parallel-finished: true
+      - name: Coveralls Finished
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          parallel-finished: true
