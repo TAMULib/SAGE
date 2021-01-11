@@ -25,11 +25,9 @@ jobs:
         include:
           - language_engine: java
             version: 1.8
-            coveralls_build_number: sage-${{ github.action }}-${{ github.run_number }}-${{ matrix.language_engine }}
 
           - language_engine: node
             version: 12
-            coveralls_build_number: sage-${{ github.action }}-${{ github.run_number }}-${{ matrix.language_engine }}
 
     steps:
     - uses: actions/checkout@v2
@@ -78,7 +76,7 @@ jobs:
     - name: "Running Tests for Java"
       if: ${{ matrix.language_engine == 'java' }}
       env:
-        COVERALLS_BUILD_NUMBER: ${{ matrix.coveralls_build_number }}
+        COVERALLS_BUILD_NUMBER: sage-${{ github.action }}-${{ github.run_number }}-${{ matrix.language_engine }}
         COVERALLS_REPO_TOKEN: ${{ secrets.coveralls_repo_token }}
         COVERALLS_PARALLEL: true
       run: |
@@ -88,7 +86,7 @@ jobs:
     - name: "Running Tests for Node"
       if: ${{ matrix.language_engine == 'node' }}
       env:
-        COVERALLS_BUILD_NUMBER: ${{ matrix.coveralls_build_number }}
+        COVERALLS_BUILD_NUMBER: sage-${{ github.action }}-${{ github.run_number }}-${{ matrix.language_engine }}
         COVERALLS_REPO_TOKEN: ${{ secrets.coveralls_repo_token }}
         COVERALLS_PARALLEL: true
       run: |
@@ -106,7 +104,7 @@ jobs:
 
 
     # Process Coveralls
-    - name: Coveralls Parallel (build ${{ matrix.coveralls_build_number }})
+    - name: Coveralls Parallel (build sage-${{ github.action }}-${{ github.run_number }}-${{ matrix.language_engine }})
       uses: coverallsapp/github-action@master
       with:
         github_token: ${{ secrets.github_token }}
