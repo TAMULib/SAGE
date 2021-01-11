@@ -89,6 +89,11 @@ jobs:
         CI_BUILD_NUMBER: run-${{ github.run_number }}-${{ matrix.language_engine }}
         CI_NAME: github-actions
       run: |
+        echo
+        echo "============== ENV ============="
+        env
+        echo "============== ENV ============="
+        echo
         npm start > /dev/null &
         npm run update-webdriver
         sleep 1 # give server time to start
