@@ -113,14 +113,14 @@ jobs:
           parallel: true
 
 
-    # Resolve Coveralls Parallel
-    finish:
-      needs: coveralls
-      runs-on: ubuntu-latest
+  # Resolve Coveralls Parallel
+  finish:
+    needs: coveralls
+    runs-on: ubuntu-latest
 
-      steps:
-      - name: Coveralls Finished
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.github_token }}
-          parallel-finished: true
+    steps:
+    - name: Coveralls Finished
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.github_token }}
+        parallel-finished: true
