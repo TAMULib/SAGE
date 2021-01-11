@@ -38,6 +38,14 @@ jobs:
 
 
     # Setup Caches
+    - name: Cache Java Maven Dependencies
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+
     - name: Cache Node Dependencies
       if: ${{ matrix.language_engine == 'node' }}
       uses: actions/cache@v2
@@ -51,6 +59,12 @@ jobs:
 
 
     # Setup Java and Node
+    - name: "Setup Java"
+      if: ${{ matrix.language_engine == 'java' }}
+      uses: actions/setup-java@v1
+      with:
+        java-version: ${{ matrix.version }}
+
     - name: "Setup Node"
       if: ${{ matrix.language_engine == 'node' }}
       uses: actions/setup-node@v2
@@ -70,7 +84,6 @@ jobs:
         coveralls_repo_token: ''
         coveralls_build_number: sage-${{ github.action }}-${{ github.run_number }}-${{ matrix.language_engine }}
         coveralls_parallel: true
-        github_token: ${{ secrets.github_token }}
 
     - name: "Running Tests for Node"
       if: ${{ matrix.language_engine == 'node' }}
@@ -89,7 +102,6 @@ jobs:
 
     # Initiate Coveralls Parallel
     - name: Coveralls Parallel (build sage-${{ github.run_number }}-${{ matrix.language_engine }})
-      if: ${{ matrix.language_engine == 'node' }}
       uses: coverallsapp/github-action@master
       with:
         github_token: ${{ secrets.github_token }}
