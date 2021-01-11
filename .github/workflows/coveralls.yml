@@ -102,7 +102,7 @@ jobs:
           sleep 1 # give server time to start
           grunt coverage-preprocess
           npm run test-ci
-          #grunt coverage
+          grunt coverage
 
 
       # Initiate Coveralls Parallel
