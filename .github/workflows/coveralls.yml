@@ -33,6 +33,13 @@ jobs:
     - uses: actions/checkout@v2
 
 
+    # Setup Common Environment
+      env:
+        COVERALLS_BUILD_NUMBER: run-sage-${{ github.action }}-${{ github.run_id }}-${{ github.run_number }}-${{ matrix.language_engine }}
+        COVERALLS_REPO_TOKEN: ${{ secrets.coveralls_repo_token }}
+        COVERALLS_PARALLEL: true
+
+
     # Setup Caches
     - name: Cache Java Maven Dependencies
       uses: actions/cache@v2
@@ -75,19 +82,12 @@ jobs:
     # Run Tests.
     - name: "Running Tests for Java"
       if: ${{ matrix.language_engine == 'java' }}
-      env:
-        COVERALLS_PARALLEL: true
-        COVERALLS_BUILD_NUMBER: run-${{ github.run_number }}-${{ matrix.language_engine }}
       run: |
         mvn test-compile -DskipTests=true -Dmaven.javadoc.skip=true -B -V
         mvn clean test cobertura:cobertura jacoco:report coveralls:report -DserviceName="github-actions" -DserviceBuildNumber=$COVERALLS_BUILD_NUMBER
 
     - name: "Running Tests for Node"
       if: ${{ matrix.language_engine == 'node' }}
-      env:
-        COVERALLS_PARALLEL: true
-        CI_BUILD_NUMBER: run-${{ github.run_number }}-${{ matrix.language_engine }}
-        CI_NAME: github-actions
       run: |
         echo
         echo "============== ENV ============="
@@ -103,7 +103,7 @@ jobs:
 
 
     # Process Coveralls
-    - name: Coveralls Parallel Java (build ${{ github.run_number }}) (flag run-${{ github.run_number }}-${{ matrix.language_engine }})
+    - name: Coveralls Parallel (build ${{ github.action }} ${{ github.run_id }} ${{ github.run_number }}) ${{ matrix.language_engine }})
       uses: coverallsapp/github-action@master
       with:
         github_token: ${{ secrets.github_token }}
