@@ -80,13 +80,14 @@ jobs:
         COVERALLS_BUILD_NUMBER: run-${{ github.run_number }}-${{ matrix.language_engine }}
       run: |
         mvn test-compile -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-        mvn clean test cobertura:cobertura jacoco:report coveralls:report -DserviceName="github-actions"
+        mvn clean test cobertura:cobertura jacoco:report coveralls:report -DserviceName="github-actions" -DserviceBuildNumber=$COVERALLS_BUILD_NUMBER
 
     - name: "Running Tests for Node"
       if: ${{ matrix.language_engine == 'node' }}
       env:
         COVERALLS_PARALLEL: true
-        COVERALLS_BUILD_NUMBER: run-${{ github.run_number }}-${{ matrix.language_engine }}
+        CI_BUILD_NUMBER: run-${{ github.run_number }}-${{ matrix.language_engine }}
+        CI_NAME: github-actions
       run: |
         npm start > /dev/null &
         npm run update-webdriver
