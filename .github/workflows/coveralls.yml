@@ -34,6 +34,7 @@ jobs:
 
 
     # Setup Common Environment
+    - name: Setup Common Environment
       env:
         COVERALLS_BUILD_NUMBER: run-sage-${{ github.action }}-${{ github.run_id }}-${{ github.run_number }}-${{ matrix.language_engine }}
         COVERALLS_REPO_TOKEN: ${{ secrets.coveralls_repo_token }}
@@ -103,7 +104,7 @@ jobs:
 
 
     # Process Coveralls
-    - name: Coveralls Parallel (build ${{ github.action }} ${{ github.run_id }} ${{ github.run_number }}) ${{ matrix.language_engine }})
+    - name: Coveralls Parallel (build ${{ github.action }} ${{ github.run_id }} ${{ github.run_number }} ${{ matrix.language_engine }})
       uses: coverallsapp/github-action@master
       with:
         github_token: ${{ secrets.github_token }}
