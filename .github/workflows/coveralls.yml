@@ -104,23 +104,23 @@ jobs:
           #grunt coverage
 
 
-    # Initiate Coveralls Parallel
-    - name: Coveralls Parallel (build sage-${{ github.run_number }}-${{ matrix.language_engine }})
-      uses: coverallsapp/github-action@master
-      with:
-        github_token: ${{ secrets.github_token }}
-        flag-name: sage-${{ github.action }}-${{ github.run_number }}-${{ matrix.language_engine }}
-        parallel: true
+      # Initiate Coveralls Parallel
+      - name: Coveralls Parallel (build sage-${{ github.run_number }}-${{ matrix.language_engine }})
+        uses: coverallsapp/github-action@master
+        with:
+          github_token: ${{ secrets.github_token }}
+          flag-name: sage-${{ github.action }}-${{ github.run_number }}-${{ matrix.language_engine }}
+          parallel: true
 
 
-  # Resolve Coveralls Parallel
-  finish:
-    needs: coveralls
-    runs-on: ubuntu-latest
+    # Resolve Coveralls Parallel
+    finish:
+      needs: coveralls
+      runs-on: ubuntu-latest
 
-    steps:
-    - name: Coveralls Finished
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.github_token }}
-        parallel-finished: true
+      steps:
+      - name: Coveralls Finished
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          parallel-finished: true
