@@ -104,7 +104,7 @@ jobs:
 
 
     # Process Coveralls
-    - name: Coveralls Parallel (build sage-${{ github.action }}-${{ github.run_number }}-${{ matrix.language_engine }})
+    - name: Coveralls Parallel (build sage-${{ github.run_number }}-${{ matrix.language_engine }})
       uses: coverallsapp/github-action@master
       with:
         github_token: ${{ secrets.github_token }}
