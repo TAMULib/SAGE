@@ -102,10 +102,6 @@ jobs:
 
       - name: "Running Tests for Node"
         if: ${{ matrix.language_engine == 'node' }}
-        env:
-          COVERALLS_BUILD_NUMBER: sage-${{ github.action }}-${{ github.run_number }}-${{ matrix.language_engine }}
-          COVERALLS_REPO_TOKEN: ${{ secrets.coveralls_repo_token }}
-          COVERALLS_PARALLEL: true
         run: |
           npm run test-ci
           grunt coverage
