@@ -40,14 +40,29 @@ jobs:
       # Setup Caches
       - name: Cache Java Maven Dependencies
         if: ${{ matrix.language_engine == 'java' }}
-        uses: actions/cache@v2
-        env:
-          cache-name: sage-cache-maven-dependencies
+      #  uses: actions/cache@v2
+      #  env:
+      #    cache-name: sage-cache-maven-dependencies
+      #  with:
+      #    path: ~/.m2/repository
+      #    key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+      #    restore-keys: |
+      #      ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        uses: actions/download-artifact@v2
         with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          name: sage-maven-artifact
+          path: ~/.m2
+
+      - name: Load Java Maven Dependencies (Artifact)
+        if: ${{ matrix.language_engine == 'java' }}
+        run: mvn clean -U
+
+      - name: Save Java Maven Dependencies (Artifact)
+        if: ${{ matrix.language_engine == 'java' && success() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: sage-maven-artifact
+          path: ~/.m2
 
       - name: Cache Node Dependencies
         if: ${{ matrix.language_engine == 'node' }}
@@ -82,21 +97,13 @@ jobs:
       # Run Tests
       - name: "Running Tests for Java"
         if: ${{ matrix.language_engine == 'java' }}
-        env:
-          COVERALLS_BUILD_NUMBER: sage-${{ github.action }}-${{ github.run_number }}-${{ matrix.language_engine }}
-          COVERALLS_REPO_TOKEN: ${{ secrets.coveralls_repo_token }}
-          COVERALLS_PARALLEL: true
         run: |
           sudo chown $RUNNER_USER /usr/local/lib/node_modules/
           mvn test-compile -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-          mvn clean test cobertura:cobertura jacoco:report coveralls:report -DserviceName="github-actions" -DserviceBuildNumber="$COVERALLS_BUILD_NUMBER" -DrepoToken="$COVERALLS_REPO_TOKEN"
+          mvn clean test cobertura:cobertura jacoco:report coveralls:report
 
       - name: "Running Tests for Node"
         if: ${{ matrix.language_engine == 'node' }}
-        env:
-          COVERALLS_BUILD_NUMBER: sage-${{ github.action }}-${{ github.run_number }}-${{ matrix.language_engine }}
-          COVERALLS_REPO_TOKEN: ${{ secrets.coveralls_repo_token }}
-          COVERALLS_PARALLEL: true
         run: |
           npm start > /dev/null &
           npm run update-webdriver
