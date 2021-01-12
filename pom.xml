@@ -795,7 +795,7 @@
                   <executable>npm${npm-extension}</executable>
                   <arguments>
                     <argument>run</argument>
-                    <argument>test</argument>
+                    <argument>test-ci</argument>
                   </arguments>
                 </configuration>
                 <goals>
