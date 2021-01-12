@@ -42,30 +42,33 @@ jobs:
             ${{ runner.os }}-
 
       # Run Tests
-      - name: Test compile
-        run: mvn -B -V test-compile -DskipTests=true -Dmaven.javadoc.skip=true
-
       - name: Tests with Coveralls coverage reports
         run: mvn clean test cobertura:cobertura jacoco:report coveralls:report -DdryRun=true -DtestClient
 
       # Send Coveralls Coverage Reports
-      - name: Service Coveralls coverage report
+      - name: Send Java Coveralls coverage report
         uses: MikeEdgar/github-action@raw_coverage_file
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          flag-name: sage-${{ github.action }}-${{ github.run_number }}-${{ matrix.language_engine }}
+          flag-name: java-${{ github.action }}-${{ github.run_number }}
           parallel: true
           path-to-file: ./target/coveralls.json
           coverage-format: raw
 
-      - name: UI Coveralls coverage report
+      - name: Send Node Coveralls coverage report
         uses: MikeEdgar/github-action@raw_coverage_file
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          flag-name: sage-${{ github.action }}-${{ github.run_number }}-${{ matrix.language_engine }}
+          flag-name: node-${{ github.action }}-${{ github.run_number }}
           parallel: true
           path-to-lcov: ./src/main/webapp/coverage/coveralls.json
           coverage-format: raw
+
+      - name: Coveralls finished
+        uses: MikeEdgar/github-action@raw_coverage_file
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true
 
       - name: Deploy to GitHub pages
         if: github.event.push.base.ref == 'master'
@@ -76,15 +79,3 @@ jobs:
           FOLDER: target/generated-docs
           CLEAN: true
           SINGLE_COMMIT: true
-
-  # Resolve Coveralls Parallel
-  finish:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Coveralls Finished
-      uses: MikeEdgar/github-action@raw_coverage_file
-      with:
-        github-token: ${{ secrets.github_GITHUB_TOKENtoken }}
-        parallel-finished: true
