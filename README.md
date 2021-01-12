@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/TAMULib/SAGE.svg?branch=master)](https://travis-ci.org/TAMULib/SAGE)
-[![Coverage Status](https://coveralls.io/repos/github/TAMULib/SAGE/badge.svg?branch=master)](https://coveralls.io/github/TAMULib/SAGE?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/TAMULib/SAGE/badge.svg)](https://coveralls.io/github/TAMULib/SAGE)
 
 # SAGE
 

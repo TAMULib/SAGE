@@ -7,41 +7,22 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    # Setup Matrix
-    strategy:
-      max-parallel: 2
-      matrix:
-        language_engine:
-          - java
-          - node
-
-        include:
-          - language_engine: java
-            version: 1.8
-
-          - language_engine: node
-            version: 12
-
-    # Checkout Repository Code
     steps:
       - uses: actions/checkout@v2
 
       # Setup Java and Node
       - name: Setup Java
-        if: ${{ matrix.language_engine == 'java' }}
         uses: actions/setup-java@v1
         with:
-          java-version: ${{ matrix.version }}
+          java-version: 1.8
 
       - name: Setup Node
-        if: ${{ matrix.language_engine == 'node' }}
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.version }}
+          node-version: 10.x
 
       # Setup Caches
       - name: Cache local Maven repository
-        if: ${{ matrix.language_engine == 'java' }}
         uses: actions/cache@v2
         with:
           path: ~/.m2/repository
@@ -49,7 +30,6 @@ jobs:
           restore-keys: ${{ runner.os }}-maven-
 
       - name: Cache node modules
-        if: ${{ matrix.language_engine == 'node' }}
         uses: actions/cache@v2
         with:
           path: ~/.npm
@@ -61,16 +41,13 @@ jobs:
 
       # Run Tests
       - name: Test compile
-        if: ${{ matrix.language_engine == 'java' }}
         run: mvn -B -V test-compile -DskipTests=true -Dmaven.javadoc.skip=true
 
       - name: Tests with Coveralls coverage reports
-        if: ${{ matrix.language_engine == 'java' }}
         run: mvn clean test cobertura:cobertura jacoco:report coveralls:report -DdryRun=true -DtestClient
 
       # Send Coveralls Coverage Reports
       - name: Service Coveralls coverage report
-        if: ${{ matrix.language_engine == 'java' }}
         uses: MikeEdgar/github-action@raw_coverage_file
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -80,7 +57,6 @@ jobs:
           coverage-format: raw
 
       - name: UI Coveralls coverage report
-        if: ${{ matrix.language_engine == 'node' }}
         uses: MikeEdgar/github-action@raw_coverage_file
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
