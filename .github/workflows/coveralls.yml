@@ -40,29 +40,14 @@ jobs:
       # Setup Caches
       - name: Cache Java Maven Dependencies
         if: ${{ matrix.language_engine == 'java' }}
-      #  uses: actions/cache@v2
-      #  env:
-      #    cache-name: sage-cache-maven-dependencies
-      #  with:
-      #    path: ~/.m2/repository
-      #    key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-      #    restore-keys: |
-      #      ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-        uses: actions/download-artifact@v2
+        uses: actions/cache@v2
+        env:
+          cache-name: sage-cache-maven-dependencies
         with:
-          name: sage-maven-artifact
-          path: ~/.m2
-
-      - name: Load Java Maven Dependencies (Artifact)
-        if: ${{ matrix.language_engine == 'java' }}
-        run: mvn clean -U
-
-      - name: Save Java Maven Dependencies (Artifact)
-        if: ${{ matrix.language_engine == 'java' && success() }}
-        uses: actions/upload-artifact@v2
-        with:
-          name: sage-maven-artifact
-          path: ~/.m2
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
 
       - name: Cache Node Dependencies
         if: ${{ matrix.language_engine == 'node' }}
