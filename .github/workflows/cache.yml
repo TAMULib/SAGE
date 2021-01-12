@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  coveralls:
+  cache:
     runs-on: ubuntu-latest
 
     steps:
@@ -26,9 +26,9 @@ jobs:
           cache-name: sage-cache-maven-dependencies
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-sage-cache-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
-            ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+            ${{ runner.os }}-sage-cache-maven-${{ hashFiles('**/pom.xml') }}
 
       - name: "Setup Java"
         uses: actions/setup-java@v1
