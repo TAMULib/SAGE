@@ -106,6 +106,7 @@ jobs:
 
       # Initiate Coveralls Parallel
       - name: Coveralls Parallel (build sage-${{ github.run_number }}-${{ matrix.language_engine }})
+        if: ${{ matrix.language_engine == 'java' }}
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.github_token }}
