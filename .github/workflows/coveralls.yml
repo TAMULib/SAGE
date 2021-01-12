@@ -1,15 +1,6 @@
 name: TAMULib Sage Coveralls Matrix
 
-on:
-  push:
-    branches:
-      - sprint*-staging
-
-  pull_request:
-    branches:
-      - sprint*-staging
-
-  workflow_dispatch:
+on: [ push, pull_request, workflow_dispatch ]
 
 jobs:
   coveralls:
@@ -122,11 +113,13 @@ jobs:
       # Initiate Coveralls
       - name: To Coveralls Java (build sage-${{ github.run_number }}-${{ matrix.language_engine }})
         if: ${{ matrix.language_engine == 'java' }}
-        uses: coverallsapp/github-action@master
+        uses: MikeEdgar/github-action@raw_coverage_file
         with:
           github-token: ${{ secrets.github_token }}
           flag-name: sage-${{ github.action }}-${{ github.run_number }}-${{ matrix.language_engine }}
           parallel: true
+          path-to-file: ./target/coveralls.json
+          coverage-format: raw
 
       - name: To Coveralls Node (build sage-${{ github.run_number }}-${{ matrix.language_engine }})
         if: ${{ matrix.language_engine == 'node' }}

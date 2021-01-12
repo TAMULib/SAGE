@@ -1,9 +1,14 @@
-name: TAMULib Sage Maven Cache
+name: TAMULib Sage GH-Pages
 
-on: [ push, pull_request, workflow_dispatch ]
+on:
+  push:
+    branches:
+      - $default_branch
+
+  workflow_dispatch:
 
 jobs:
-  cache:
+  ghpages:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,5 +32,17 @@ jobs:
       - name: "Fixing node_modules Path for Java"
         run: sudo chown $RUNNER_USER /usr/local/lib/node_modules/
 
-      - name: "Loading Maven Dependencies"
-        run: mvn -B -V package -DskipTests=true -Dmaven.javadoc.skip=true
+      - name: "Compiling Tests for Java"
+        run: mvn test-compile -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+
+      - name: "Running Tests for Java"
+        run: mvn clean test cobertura:cobertura jacoco:report coveralls:report -DdryRun=true
+
+      - name: Deploy GH-Pages
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          github_token: ${{ secrets.github_token }}
+          branch: gh-pages
+          folder: target/generated-docs
+          clean: true
+          single_commit: true
