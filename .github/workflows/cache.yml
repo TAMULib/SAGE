@@ -36,4 +36,4 @@ jobs:
           java-version: 1.8
 
       - name: "Loading Maven Dependencies"
-        run: mvn clean -U
+        run: mvn -B -V package -DskipTests=true -Dmaven.javadoc.skip=true

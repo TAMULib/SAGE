@@ -1,4 +1,4 @@
-name: TAMULib Coveralls Matrix
+name: TAMULib Sage Coveralls Matrix
 
 on:
   push:
@@ -80,27 +80,52 @@ jobs:
 
 
       # Run Tests
+      - name: "Fixing node_modules Path for Java"
+        if: ${{ matrix.language_engine == 'java' }}
+        run: sudo chown $RUNNER_USER /usr/local/lib/node_modules/
+
+      - name: "Compiling Tests for Java"
+        if: ${{ matrix.language_engine == 'java' }}
+        run: mvn test-compile -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+
       - name: "Running Tests for Java"
         if: ${{ matrix.language_engine == 'java' }}
-        run: |
-          sudo chown $RUNNER_USER /usr/local/lib/node_modules/
-          mvn test-compile -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-          mvn clean test cobertura:cobertura jacoco:report coveralls:report
+        run: mvn clean test cobertura:cobertura jacoco:report coveralls:report -DdryRun=true
 
-      - name: "Running Tests for Node"
+      - name: "Find lcov.info file"
+        if: ${{ matrix.language_engine == 'java' }}
+        run: find -name 'lcov.info'
+
+      - name: "Starting Service for Node"
         if: ${{ matrix.language_engine == 'node' }}
         run: |
           npm start > /dev/null &
           npm run update-webdriver
           sleep 1 # give server time to start
-          grunt coverage-preprocess
+
+      - name: "Pre-processing Tests for Node"
+        if: ${{ matrix.language_engine == 'node' }}
+        run: grunt coverage-preprocess
+
+      - name: "Running Tests for Node"
+        if: ${{ matrix.language_engine == 'node' }}
+        run: |
           npm run test-ci
           grunt coverage
           mv ./src/main/webapp/coverage/*/* ./src/main/webapp/coverage/ # move coverage data outside of the browser specific path.
 
 
-      # Initiate Coveralls Parallel
-      - name: Coveralls Parallel (build sage-${{ github.run_number }}-${{ matrix.language_engine }})
+      # Initiate Coveralls
+      - name: To Coveralls Java (build sage-${{ github.run_number }}-${{ matrix.language_engine }})
+        if: ${{ matrix.language_engine == 'java' }}
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          flag-name: sage-${{ github.action }}-${{ github.run_number }}-${{ matrix.language_engine }}
+          parallel: true
+
+      - name: To Coveralls Node (build sage-${{ github.run_number }}-${{ matrix.language_engine }})
+        if: ${{ matrix.language_engine == 'node' }}
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.github_token }}
