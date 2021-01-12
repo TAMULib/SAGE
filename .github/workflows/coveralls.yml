@@ -39,6 +39,7 @@ jobs:
 
       # Setup Caches
       - name: Cache Java Maven Dependencies
+        if: ${{ matrix.language_engine == 'java' }}
         uses: actions/cache@v2
         env:
           cache-name: sage-cache-maven-dependencies
