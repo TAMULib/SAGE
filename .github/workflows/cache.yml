@@ -1,0 +1,39 @@
+name: TAMULib Sage Maven Cache
+
+on:
+  push:
+    branches:
+      - $default_branch
+      - sprint*-staging
+
+  pull_request:
+    branches:
+      - $default_branch
+      - sprint*-staging
+
+  workflow_dispatch:
+
+jobs:
+  coveralls:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: "Cache Maven Dependencies"
+        uses: actions/cache@v2
+        env:
+          cache-name: sage-cache-maven-dependencies
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+
+      - name: "Setup Java"
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      - name: "Loading Maven Dependencies"
+        run: mvn clean -U
