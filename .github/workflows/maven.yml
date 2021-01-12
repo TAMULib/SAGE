@@ -101,7 +101,7 @@ jobs:
 
   # Resolve Coveralls Parallel
   finish:
-    needs: coveralls
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
