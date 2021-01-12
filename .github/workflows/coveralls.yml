@@ -102,16 +102,17 @@ jobs:
           grunt coverage-preprocess
           npm run test-ci
           grunt coverage
+          find -name 'lcov.info' # (temporary) find the file for development log purposes.
 
 
       # Initiate Coveralls Parallel
       - name: Coveralls Parallel (build sage-${{ github.run_number }}-${{ matrix.language_engine }})
-        if: ${{ matrix.language_engine == 'java' }}
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.github_token }}
           flag-name: sage-${{ github.action }}-${{ github.run_number }}-${{ matrix.language_engine }}
           parallel: true
+          path-to-lcov: './src/main/webapp/coverage/lcov.info'
 
 
   # Resolve Coveralls Parallel
