@@ -102,7 +102,7 @@ jobs:
           grunt coverage-preprocess
           npm run test-ci
           grunt coverage
-          find -name 'lcov.info' # (temporary) find the file for development log purposes.
+          mv ./src/main/webapp/coverage/*/* ./src/main/webapp/coverage/ # move coverage data outside of the browser specific path.
 
 
       # Initiate Coveralls Parallel
