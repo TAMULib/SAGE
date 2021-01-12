@@ -89,7 +89,7 @@ jobs:
         run: |
           sudo chown $RUNNER_USER /usr/local/lib/node_modules/
           mvn test-compile -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-          mvn clean test cobertura:cobertura jacoco:report coveralls:report -DserviceName="github-actions" -DserviceBuildNumber="$COVERALLS_BUILD_NUMBER"
+          mvn clean test cobertura:cobertura jacoco:report coveralls:report -DserviceName="github-actions" -DserviceBuildNumber="$COVERALLS_BUILD_NUMBER" -DrepoToken="$COVERALLS_REPO_TOKEN"
 
       - name: "Running Tests for Node"
         if: ${{ matrix.language_engine == 'node' }}
