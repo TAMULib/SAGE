@@ -1,6 +1,14 @@
 name: TAMULib Sage Coveralls Matrix
 
-on: [ push, pull_request, workflow_dispatch ]
+on:
+  push:
+    branches:
+      - $default_branch
+      - sprint*-staging
+
+  pull_request:
+
+  workflow_dispatch:
 
 jobs:
   coveralls:
@@ -29,25 +37,25 @@ jobs:
 
 
       # Setup Caches
-      - name: Cache Java Maven Dependencies
+      - name: "Cache Java Maven Dependencies"
         if: ${{ matrix.language_engine == 'java' }}
         uses: actions/cache@v2
         env:
           cache-name: sage-cache-maven-dependencies
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-sage-cache-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-sage-cache-maven-${{ hashFiles('**/pom.xml') }}
 
-      - name: Cache Node Dependencies
+      - name: "Cache Node Dependencies"
         if: ${{ matrix.language_engine == 'node' }}
         uses: actions/cache@v2
         env:
           cache-name: sage-cache-node-dependencies
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package.json', '**/package-lock.json') }}
+          key: ${{ runner.os }}-sage-cache-node-${{ hashFiles('**/package.json', '**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-sage-cache-node-${{ hashFiles('**/package.json', '**/package-lock.json') }}
 
@@ -111,7 +119,7 @@ jobs:
 
 
       # Initiate Coveralls
-      - name: To Coveralls Java (build sage-${{ github.run_number }}-${{ matrix.language_engine }})
+      - name: "To Coveralls Java (build sage-sage-${{ github.action }}-${{ github.run_number }}-${{ matrix.language_engine }})"
         if: ${{ matrix.language_engine == 'java' }}
         uses: MikeEdgar/github-action@raw_coverage_file
         with:
@@ -121,7 +129,7 @@ jobs:
           path-to-file: ./target/coveralls.json
           coverage-format: raw
 
-      - name: To Coveralls Node (build sage-${{ github.run_number }}-${{ matrix.language_engine }})
+      - name: "To Coveralls Node (build sage-${{ github.action }}-${{ github.run_number }}-${{ matrix.language_engine }})"
         if: ${{ matrix.language_engine == 'node' }}
         uses: coverallsapp/github-action@master
         with:
