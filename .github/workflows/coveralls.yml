@@ -24,8 +24,7 @@ jobs:
           cache-name: sage-cache-node-dependencies
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-sage-cache-node-${{ hashFiles('**/package.json', '**/package-lock.json') }}
-          restore-keys: ${{ runner.os }}-sage-cache-node-${{ hashFiles('**/package.json', '**/package-lock.json') }}
+          key: ${{ runner.os }}-sage-cache-node-${{ hashFiles('**/package.json', '**/package-lock.json') }}-test
 
       - name: "Setup Node"
         uses: actions/setup-node@v2
