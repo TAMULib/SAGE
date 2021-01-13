@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/TAMULib/SAGE.svg?branch=master)](https://travis-ci.org/TAMULib/SAGE)
+![Java CI with Maven](https://github.com/TAMULib/SAGE/workflows/Java%20CI%20with%20Maven/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/TAMULib/SAGE/badge.svg)](https://coveralls.io/github/TAMULib/SAGE)
 
 # SAGE
