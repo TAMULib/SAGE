@@ -45,7 +45,10 @@ jobs:
         run: grunt coverage-preprocess
 
       - name: "Running Tests"
-        run: npm run test-ci
+        run: |
+          npm run test-ci
+          grunt coverage
+          mv ./src/main/webapp/coverage/*/* ./src/main/webapp/coverage/ # move coverage data outside of the browser specific path.
 
       - name: "To Coveralls (build sage-${{ github.action }}-${{ github.run_number }}-node)"
         uses: MikeEdgar/github-action@raw_coverage_file
@@ -53,8 +56,7 @@ jobs:
           github-token: ${{ secrets.github_token }}
           flag-name: sage-${{ github.action }}-${{ github.run_number }}-node
           parallel: true
-          path-to-file: ./src/main/webapp/coverage/coveralls.json
-          coverage-format: raw
+          path-to-lcov: './src/main/webapp/coverage/lcov.info'
 
   java_coveralls:
     needs: node_coveralls
@@ -101,7 +103,7 @@ jobs:
           github-token: ${{ secrets.github_token }}
           flag-name: sage-${{ github.action }}-${{ github.run_number }}-java
           parallel: true
-          path-to-file: ./target/coveralls.json
+          path-to-file: './target/coveralls.json'
           coverage-format: raw
 
   finish_coveralls:
