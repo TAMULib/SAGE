@@ -52,7 +52,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           flag-name: node-${{ github.run_number }}
           parallel: true
-          path-to-lcov: ./src/main/webapp/coverage/coveralls.json
+          path-to-file: ./src/main/webapp/coverage/coveralls.json
           coverage-format: raw
 
       - name: Coveralls finished
