@@ -25,14 +25,12 @@ jobs:
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2-
 
       - name: Cache node modules
         uses: actions/cache@v2
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package.json') }}
-          restore-keys: ${{ runner.os }}-npm-
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package.json') }}
 
       - name: Tests with Coveralls coverage reports
         run: mvn clean test cobertura:cobertura jacoco:report coveralls:report -DdryRun=true -DtestClient
