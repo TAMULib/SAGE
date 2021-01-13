@@ -1,4 +1,4 @@
-name: TAMULib Sage Maven Cache
+name: Maven Cache
 
 on: [ workflow_dispatch ]
 
@@ -28,4 +28,4 @@ jobs:
         run: sudo chown $RUNNER_USER /usr/local/lib/node_modules/
 
       - name: "Loading Maven Dependencies"
-        run: mvn -B -V package -DskipTests=true -Dmaven.javadoc.skip=true
+        run: mvn test-compile -DskipTests=true -Dmaven.javadoc.skip=true -B -V
