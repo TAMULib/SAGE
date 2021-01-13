@@ -11,43 +11,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  java_coveralls:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: "Cache Maven Dependencies"
-        uses: actions/cache@v2
-        env:
-          cache-name: sage-cache-maven-dependencies
-        with:
-          path: [ ~/.m2/repository, ~/.npm ]
-          key: ${{ runner.os }}-sage-cache-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-sage-cache-maven-${{ hashFiles('**/pom.xml') }}
-
-      - name: "Setup Java"
-        uses: actions/setup-java@v1
-        with:
-          java-version: 1.8
-
-      - name: "Fixing node_modules Path"
-        run: sudo chown $RUNNER_USER /usr/local/lib/node_modules/
-
-      - name: "Compiling Tests"
-        run: mvn test-compile -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-
-      - name: "Running Tests"
-        run: mvn clean test cobertura:cobertura jacoco:report coveralls:report -DdryRun=true
-
-      - name: "To Coveralls (build sage-sage-${{ github.action }}-${{ github.run_number }}-java)"
-        uses: MikeEdgar/github-action@raw_coverage_file
-        with:
-          github-token: ${{ secrets.github_token }}
-          flag-name: sage-${{ github.action }}-${{ github.run_number }}-java
-          parallel: true
-          path-to-file: ./target/coveralls.json
-          coverage-format: raw
 
   node_coveralls:
     runs-on: ubuntu-latest
@@ -93,9 +56,47 @@ jobs:
           path-to-file: ./src/main/webapp/coverage/coveralls.json
           coverage-format: raw
 
+  java_coveralls:
+    needs: node_coveralls
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: "Cache Maven Dependencies"
+        uses: actions/cache@v2
+        env:
+          cache-name: sage-cache-maven-dependencies
+        with:
+          path: [ ~/.m2/repository, ~/.npm ]
+          key: ${{ runner.os }}-sage-cache-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-sage-cache-maven-${{ hashFiles('**/pom.xml') }}
+
+      - name: "Setup Java"
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
+      - name: "Fixing node_modules Path"
+        run: sudo chown $RUNNER_USER /usr/local/lib/node_modules/
+
+      - name: "Compiling Tests"
+        run: mvn test-compile -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+
+      - name: "Running Tests"
+        run: mvn clean test cobertura:cobertura jacoco:report coveralls:report -DdryRun=true
+
+      - name: "To Coveralls (build sage-sage-${{ github.action }}-${{ github.run_number }}-java)"
+        uses: MikeEdgar/github-action@raw_coverage_file
+        with:
+          github-token: ${{ secrets.github_token }}
+          flag-name: sage-${{ github.action }}-${{ github.run_number }}-java
+          parallel: true
+          path-to-file: ./target/coveralls.json
+          coverage-format: raw
+
   finish_coveralls:
     needs: java_coveralls
-    needs: node_coveralls
     runs-on: ubuntu-latest
 
     steps:
