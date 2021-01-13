@@ -1,4 +1,4 @@
-name: Sage Coveralls
+name: Coveralls
 
 on:
   push:
@@ -12,7 +12,7 @@ on:
 
 jobs:
 
-  node_coveralls:
+  node:
     runs-on: ubuntu-latest
 
     steps:
@@ -50,16 +50,16 @@ jobs:
           grunt coverage
           mv ./src/main/webapp/coverage/*/* ./src/main/webapp/coverage/ # move coverage data outside of the browser specific path.
 
-      - name: "To Coveralls (build sage-${{ github.action }}-${{ github.run_number }}-node)"
+      - name: "To Coveralls (build sage-${{ github.run_number }}-node)"
         uses: MikeEdgar/github-action@raw_coverage_file
         with:
           github-token: ${{ secrets.github_token }}
-          flag-name: sage-${{ github.action }}-${{ github.run_number }}-node
+          flag-name: sage-${{ github.run_number }}-node
           parallel: true
           path-to-lcov: './src/main/webapp/coverage/lcov.info'
 
-  java_coveralls:
-    needs: node_coveralls
+  java:
+    needs: node
     runs-on: ubuntu-latest
 
     steps:
@@ -97,21 +97,21 @@ jobs:
       - name: "Running Tests"
         run: mvn clean test cobertura:cobertura jacoco:report coveralls:report -DdryRun=true
 
-      - name: "To Coveralls (build sage-sage-${{ github.action }}-${{ github.run_number }}-java)"
+      - name: "To Coveralls (build sage-${{ github.run_number }}-java)"
         uses: MikeEdgar/github-action@raw_coverage_file
         with:
           github-token: ${{ secrets.github_token }}
-          flag-name: sage-${{ github.action }}-${{ github.run_number }}-java
+          flag-name: sage-${{ github.run_number }}-java
           parallel: true
           path-to-file: './target/coveralls.json'
           coverage-format: raw
 
-  finish_coveralls:
-    needs: java_coveralls
+  send:
+    needs: java
     runs-on: ubuntu-latest
 
     steps:
-    - name: Coveralls Finished
+    - name: Send to Coveralls
       uses: MikeEdgar/github-action@raw_coverage_file
       with:
         github-token: ${{ secrets.github_token }}
