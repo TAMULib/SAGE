@@ -1,4 +1,4 @@
-name: TAMULib Sage Coveralls Matrix
+name: Coveralls
 
 on:
   push:
@@ -11,34 +11,61 @@ on:
   workflow_dispatch:
 
 jobs:
-  coveralls:
+
+  node:
     runs-on: ubuntu-latest
 
-
-    # Setup Matrix
-    strategy:
-      max-parallel: 2
-      matrix:
-        language_engine:
-          - java
-          - node
-
-        include:
-          - language_engine: java
-            version: 1.8
-
-          - language_engine: node
-            version: 12
-
-
-    # Checkout Repository Code
     steps:
       - uses: actions/checkout@v2
 
+      - name: "Cache Node Dependencies"
+        uses: actions/cache@v2
+        env:
+          cache-name: sage-cache-node-dependencies
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-sage-cache-node-${{ hashFiles('**/package.json', '**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-sage-cache-node-${{ hashFiles('**/package.json', '**/package-lock.json') }}
 
-      # Setup Caches
-      - name: "Cache Java Maven Dependencies"
-        if: ${{ matrix.language_engine == 'java' }}
+      - name: "Setup Node"
+        uses: actions/setup-node@v2
+        with:
+          node-version: 12
+
+      - name: "Install Dependencies"
+        run: npm install
+
+      - name: "Starting Service"
+        run: |
+          npm start > /dev/null &
+          npm run update-webdriver
+          sleep 1 # give server time to start
+
+      - name: "Pre-processing Tests"
+        run: grunt coverage-preprocess
+
+      - name: "Running Tests"
+        run: |
+          npm run test-ci
+          grunt coverage
+          mv ./src/main/webapp/coverage/*/* ./src/main/webapp/coverage/ # move coverage data outside of the browser specific path.
+
+      - name: "To Coveralls (build sage-${{ github.run_number }}-node)"
+        uses: MikeEdgar/github-action@raw_coverage_file
+        with:
+          github-token: ${{ secrets.github_token }}
+          flag-name: sage-${{ github.run_number }}-node
+          parallel: true
+          path-to-lcov: './src/main/webapp/coverage/lcov.info'
+
+  java:
+    needs: node
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: "Cache Maven Dependencies"
         uses: actions/cache@v2
         env:
           cache-name: sage-cache-maven-dependencies
@@ -48,7 +75,6 @@ jobs:
           restore-keys: ${{ runner.os }}-sage-cache-maven-${{ hashFiles('**/pom.xml') }}
 
       - name: "Cache Node Dependencies"
-        if: ${{ matrix.language_engine == 'node' }}
         uses: actions/cache@v2
         env:
           cache-name: sage-cache-node-dependencies
@@ -57,86 +83,36 @@ jobs:
           key: ${{ runner.os }}-sage-cache-node-${{ hashFiles('**/package.json', '**/package-lock.json') }}
           restore-keys: ${{ runner.os }}-sage-cache-node-${{ hashFiles('**/package.json', '**/package-lock.json') }}
 
-
-      # Setup Java and Node
       - name: "Setup Java"
-        if: ${{ matrix.language_engine == 'java' }}
         uses: actions/setup-java@v1
         with:
-          java-version: ${{ matrix.version }}
+          java-version: 1.8
 
-      - name: "Setup Node"
-        if: ${{ matrix.language_engine == 'node' }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.version }}
-
-      - name: "Install Node Dependencies"
-        if: ${{ matrix.language_engine == 'node' }}
-        run: npm install
-
-
-      # Run Tests
-      - name: "Fixing node_modules Path for Java"
-        if: ${{ matrix.language_engine == 'java' }}
+      - name: "Fixing node_modules Path"
         run: sudo chown $RUNNER_USER /usr/local/lib/node_modules/
 
-      - name: "Compiling Tests for Java"
-        if: ${{ matrix.language_engine == 'java' }}
+      - name: "Compiling Tests"
         run: mvn test-compile -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 
-      - name: "Running Tests for Java"
-        if: ${{ matrix.language_engine == 'java' }}
+      - name: "Running Tests"
         run: mvn clean test cobertura:cobertura jacoco:report coveralls:report -DdryRun=true
 
-      - name: "Starting Service for Node"
-        if: ${{ matrix.language_engine == 'node' }}
-        run: |
-          npm start > /dev/null &
-          npm run update-webdriver
-          sleep 1 # give server time to start
-
-      - name: "Pre-processing Tests for Node"
-        if: ${{ matrix.language_engine == 'node' }}
-        run: grunt coverage-preprocess
-
-      - name: "Running Tests for Node"
-        if: ${{ matrix.language_engine == 'node' }}
-        run: |
-          npm run test-ci
-          grunt coverage
-          mv ./src/main/webapp/coverage/*/* ./src/main/webapp/coverage/ # move coverage data outside of the browser specific path.
-
-
-      # Initiate Coveralls
-      - name: "To Coveralls Java (build sage-sage-${{ github.action }}-${{ github.run_number }}-${{ matrix.language_engine }})"
-        if: ${{ matrix.language_engine == 'java' }}
+      - name: "To Coveralls (build sage-${{ github.run_number }}-java)"
         uses: MikeEdgar/github-action@raw_coverage_file
         with:
           github-token: ${{ secrets.github_token }}
-          flag-name: sage-${{ github.action }}-${{ github.run_number }}-${{ matrix.language_engine }}
+          flag-name: sage-${{ github.run_number }}-java
           parallel: true
-          path-to-file: ./target/coveralls.json
+          path-to-file: './target/coveralls.json'
           coverage-format: raw
 
-      - name: "To Coveralls Node (build sage-${{ github.action }}-${{ github.run_number }}-${{ matrix.language_engine }})"
-        if: ${{ matrix.language_engine == 'node' }}
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.github_token }}
-          flag-name: sage-${{ github.action }}-${{ github.run_number }}-${{ matrix.language_engine }}
-          parallel: true
-          path-to-lcov: './src/main/webapp/coverage/lcov.info'
-
-
-  # Resolve Coveralls Parallel
-  finish:
-    needs: coveralls
+  send:
+    needs: java
     runs-on: ubuntu-latest
 
     steps:
-    - name: Coveralls Finished
-      uses: coverallsapp/github-action@master
+    - name: Send to Coveralls
+      uses: MikeEdgar/github-action@raw_coverage_file
       with:
         github-token: ${{ secrets.github_token }}
         parallel-finished: true
