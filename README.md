@@ -1,4 +1,4 @@
-[![Coverage Status](//github.com/actions/TAMULib/SAGE/coveralls/badge.svg)](//coveralls.io/github/TAMULib/SAGE?branch=master)
+[![Coverage Status](//github.com/TAMULib/SAGE/Coveralls/badge.svg)](//coveralls.io/github/TAMULib/SAGE?branch=master)
 
 # SAGE
 
