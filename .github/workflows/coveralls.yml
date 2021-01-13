@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: "Cache Dependencies"
+      - name: "Cache Node Dependencies"
         uses: actions/cache@v2
         env:
           cache-name: sage-cache-node-dependencies
@@ -68,9 +68,18 @@ jobs:
         env:
           cache-name: sage-cache-maven-dependencies
         with:
-          path: [ ~/.m2/repository, ~/.npm ]
+          path: ~/.m2/repository
           key: ${{ runner.os }}-sage-cache-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-sage-cache-maven-${{ hashFiles('**/pom.xml') }}
+
+      - name: "Cache Node Dependencies"
+        uses: actions/cache@v2
+        env:
+          cache-name: sage-cache-node-dependencies
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-sage-cache-node-${{ hashFiles('**/package.json', '**/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-sage-cache-node-${{ hashFiles('**/package.json', '**/package-lock.json') }}
 
       - name: "Setup Java"
         uses: actions/setup-java@v1
