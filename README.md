@@ -1,4 +1,4 @@
-![Java CI with Maven](https://github.com/TAMULib/SAGE/workflows/Java%20CI%20with%20Maven/badge.svg)
+[![Java CI with Maven](https://github.com/TAMULib/SAGE/workflows/Java%20CI%20with%20Maven/badge.svg)](https://github.com/TAMULib/SAGE/actions?query=workflow%3A%22Java+CI+with+Maven%22)
 [![Coverage Status](https://coveralls.io/repos/github/TAMULib/SAGE/badge.svg)](https://coveralls.io/github/TAMULib/SAGE)
 
 # SAGE
