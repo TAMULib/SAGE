@@ -1,4 +1,5 @@
 h2/
+bin/
 public/
 target/
 private/
@@ -19,10 +20,7 @@ node_modules/
 .tern-project
 .externalToolBuilders
 
-
 *.log*
 
 .DS_Store
 package-lock.json
-
-coveralls.json
