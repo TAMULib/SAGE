@@ -1,4 +1,4 @@
-name: GH-Pages
+name: GHPages
 
 on:
   push:
@@ -8,35 +8,48 @@ on:
   workflow_dispatch:
 
 jobs:
-  ghpages:
+  build:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: "Cache Maven Dependencies"
+      - name: "Node Cache"
         uses: actions/cache@v2
         env:
-          cache-name: sage-cache-maven-dependencies
+          cache-name: cache-node-dependencies
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-cache-node-${{ hashFiles('**/package.json', '**/package-lock.json') }}
+
+      - name: "Node Cache Modules"
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-cache-node_modules-${{ hashFiles('**/package.json', '**/package-lock.json') }}
+
+      - name: "Maven Cache"
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-maven-dependencies
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-sage-cache-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-sage-cache-maven-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-cache-maven-${{ hashFiles('**/pom.xml') }}
+
+      - name: "Setup Node"
+        uses: actions/setup-node@v2
+        with:
+          node-version: 10
 
       - name: "Setup Java"
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
 
-      - name: "Fixing node_modules Path for Java"
-        run: sudo chown $RUNNER_USER /usr/local/lib/node_modules/
-
-      - name: "Compiling Tests for Java"
-        run: mvn test-compile -DskipTests=true -Dmaven.javadoc.skip=true -B -V
-
-      - name: "Running Tests for Java"
-        run: mvn clean test cobertura:cobertura jacoco:report coveralls:report -DdryRun=true
+      - name: "Maven and Node Tests"
+        run: mvn clean test cobertura:cobertura jacoco:report coveralls:report -DdryRun=true -DtestClient
 
       - name: "Deploy GH-Pages"
         uses: JamesIves/github-pages-deploy-action@3.7.1

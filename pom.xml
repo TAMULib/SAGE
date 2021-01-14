@@ -790,7 +790,7 @@
               <!-- Karma Testing for AngularJS -->
               <execution>
                 <id>exec-npm-run-test</id>
-                <phase>test</phase>
+                <phase>test-ci</phase>
                 <configuration>
                   <executable>npm${npm-extension}</executable>
                   <arguments>

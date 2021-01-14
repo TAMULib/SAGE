@@ -1,9 +1,10 @@
-name: Maven Cache
+name: Coverage
 
-on: [ workflow_dispatch ]
+on: [ push, pull_request, workflow_dispatch ]
 
 jobs:
-  cache:
+
+  coverage:
     runs-on: ubuntu-latest
 
     steps:
@@ -45,3 +46,19 @@ jobs:
 
       - name: "Maven Build"
         run: mvn test-compile -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+
+      - name: "Maven and Node Tests"
+        run: mvn clean test cobertura:cobertura jacoco:report coveralls:report -DdryRun=true -DtestClient
+
+      - name: "Combine Coverage"
+        uses: TAMULib/.github@sprint-action-combine_coverage-test
+        with:
+          source_paths: './src/main/webapp/coverage/coveralls.json ./target/coveralls.json'
+
+      - name: "Send to Coveralls (build node-java-${{ github.run_number }})"
+        uses: MikeEdgar/github-action@raw_coverage_file
+        with:
+          github-token: ${{ secrets.github_token }}
+          flag-name: node-java-${{ github.run_number }}
+          path-to-file: './coveralls.json'
+          coverage-format: raw
