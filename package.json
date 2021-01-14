@@ -19,7 +19,8 @@
     "preprotractor": "npm run update-webdriver",
     "stop": "wvr server --stop",
     "start": "wvr server -b /sage --prod --uid sage-webserver",
-    "start-dev": "wvr server -b /sage --uid sage-webserver"
+    "start-dev": "wvr server -b /sage --uid sage-webserver",
+    "combine-coveralls": "node bin/combine-coveralls.js target/coveralls.json src/main/webapp/coverage/coveralls.json"
   },
   "dependencies": {
     "@wvr/core": "next",
