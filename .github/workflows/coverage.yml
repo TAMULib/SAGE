@@ -50,10 +50,11 @@ jobs:
       - name: "Maven and Node Tests"
         run: mvn clean test cobertura:cobertura jacoco:report coveralls:report -DdryRun=true -DtestClient
 
+      - name: "Install JQ"
+        run: sudo apt-get install jq
+
       - name: "Combine Coverage"
-        uses: TAMULib/.github@sprint-action-combine_coverage-test
-        with:
-          source_paths: './src/main/webapp/coverage/coveralls.json ./target/coveralls.json'
+        run: jq 'reduce inputs as $i (.; .source_files += $i.source_files)' target/coveralls.json src/main/webapp/coverage/coveralls.json > coveralls.json
 
       - name: "Send to Coveralls (build node-java-${{ github.run_number }})"
         uses: MikeEdgar/github-action@raw_coverage_file
