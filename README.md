@@ -1,9 +1,10 @@
-[![Build Status](https://travis-ci.org/TAMULib/SAGE.svg?branch=master)](https://travis-ci.org/TAMULib/SAGE)
-[![Coverage Status](https://coveralls.io/repos/github/TAMULib/SAGE/badge.svg?branch=master)](https://coveralls.io/github/TAMULib/SAGE?branch=master)
+[![Build Status](https://github.com/TAMULib/SAGE/workflows/Build/badge.svg)](https://github.com/TAMULib/SAGE/actions?query=workflow%3ABuild)
+[![Coverage Status](https://coveralls.io/repos/github/TAMULib/SAGE/badge.svg)](https://coveralls.io/github/TAMULib/SAGE)
+[![GHPages Status](https://github.com/TAMULib/SAGE/workflows/GHPages/badge.svg)](https://github.com/TAMULib/SAGE/actions?query=workflow%3AGHPages)
 
 # SAGE
 
-SAGE is the Search Aggregation Engine developed and maintained by [Texas A&M University Libraries](http://library.tamu.edu). 
+SAGE is the Search Aggregation Engine developed and maintained by [Texas A&M University Libraries](http://library.tamu.edu).
 
 SAGE’s feature set includes both the ability aggregate disparate searchable sources into a common Solr index, as well as the ability expose Solr indexes through a dynamic user interface.
 
