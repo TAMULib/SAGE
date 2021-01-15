@@ -16,24 +16,18 @@ jobs:
 
       - name: "Node Cache"
         uses: actions/cache@v2
-        env:
-          cache-name: cache-node-dependencies
         with:
           path: ~/.npm
           key: ${{ runner.os }}-cache-node-${{ hashFiles('**/package.json', '**/package-lock.json') }}
 
       - name: "Node Cache Modules"
         uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
         with:
           path: node_modules
           key: ${{ runner.os }}-cache-node_modules-${{ hashFiles('**/package.json', '**/package-lock.json') }}
 
       - name: "Maven Cache"
         uses: actions/cache@v2
-        env:
-          cache-name: cache-maven-dependencies
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-cache-maven-${{ hashFiles('**/pom.xml') }}
