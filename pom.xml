@@ -90,7 +90,7 @@
       <groupId>org.apache.jena</groupId>
       <artifactId>apache-jena-libs</artifactId>
       <type>pom</type>
-      <version>3.15.0</version>
+      <version>3.16.0</version>
     </dependency>
 
     <dependency>
@@ -251,9 +251,15 @@
     </repository>
 
     <repository>
+      <id>mvnrepository</id>
+      <name>Maven Central Repository</name>
+      <url>https://repo1.maven.org/maven2/</url>
+    </repository>
+
+    <repository>
       <id>spring-libs-release</id>
       <name>Spring Releases</name>
-      <url>https://repo.spring.io/libs-release</url>
+      <url>https://repo.spring.io/libs-release/</url>
       <snapshots>
         <enabled>false</enabled>
       </snapshots>
@@ -262,7 +268,7 @@
     <repository>
       <id>jitpack.io</id>
       <name>JitPack for Maven</name>
-      <url>https://jitpack.io</url>
+      <url>https://jitpack.io/</url>
     </repository>
 
   </repositories>
@@ -789,7 +795,7 @@
                   <executable>npm${npm-extension}</executable>
                   <arguments>
                     <argument>run</argument>
-                    <argument>test</argument>
+                    <argument>test-ci</argument>
                   </arguments>
                 </configuration>
                 <goals>
