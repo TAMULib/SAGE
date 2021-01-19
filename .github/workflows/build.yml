@@ -13,13 +13,13 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-cache-node-${{ hashFiles('**/package.json', '**/package-lock.json') }}
+          key: ${{ runner.os }}-cache-node-${{ hashFiles('**/pom.xml') }}
 
       - name: "Node Modules Cache"
         uses: actions/cache@v2
         with:
           path: node_modules
-          key: ${{ runner.os }}-cache-node_modules-${{ hashFiles('**/package.json', '**/package-lock.json') }}
+          key: ${{ runner.os }}-cache-node_modules-${{ hashFiles('**/pom.xml') }}
 
       - name: "Maven Cache"
         uses: actions/cache@v2
