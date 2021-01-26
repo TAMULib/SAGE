@@ -802,23 +802,22 @@
   </reporting>
 
   <repositories>
-
     <repository>
       <id>tamu-releases</id>
       <url>https://artifacts.library.tamu.edu/repository/maven-releases</url>
     </repository>
-
     <repository>
       <id>tamu-snapshots</id>
       <url>https://artifacts.library.tamu.edu/repository/maven-snapshots</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
     </repository>
-
     <repository>
       <id>jitpack.io</id>
       <name>JitPack for Maven</name>
-      <url>https://jitpack.io/</url>
+      <url>https://jitpack.io</url>
     </repository>
-
   </repositories>
 
 </project>
