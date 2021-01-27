@@ -805,10 +805,14 @@
     <repository>
       <id>tamu-releases</id>
       <url>https://artifacts.library.tamu.edu/repository/maven-releases</url>
+      <releases><enabled>true</enabled></releases>
+      <snapshots><enabled>false</enabled></snapshots>
     </repository>
     <repository>
       <id>tamu-snapshots</id>
       <url>https://artifacts.library.tamu.edu/repository/maven-snapshots</url>
+      <releases><enabled>false</enabled></releases>
+      <snapshots><enabled>true</enabled></snapshots>
     </repository>
     <repository>
       <id>jitpack.io</id>
