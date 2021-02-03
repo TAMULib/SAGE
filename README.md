@@ -3,7 +3,7 @@
 
 # SAGE
 
-SAGE is the Search Aggregation Engine developed and maintained by [Texas A&M University Libraries](http://library.tamu.edu). 
+SAGE is the Search Aggregation Engine developed and maintained by [Texas A&M University Libraries](http://library.tamu.edu).
 
 SAGE’s feature set includes both the ability aggregate disparate searchable sources into a common Solr index, as well as the ability expose Solr indexes through a dynamic user interface.
 
