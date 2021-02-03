@@ -1,6 +1,5 @@
 [![Build Status](https://github.com/TAMULib/SAGE/workflows/Build/badge.svg)](https://github.com/TAMULib/SAGE/actions?query=workflow%3ABuild)
 [![Coverage Status](https://coveralls.io/repos/github/TAMULib/SAGE/badge.svg)](https://coveralls.io/github/TAMULib/SAGE)
-[![GHPages Status](https://github.com/TAMULib/SAGE/workflows/GHPages/badge.svg)](https://github.com/TAMULib/SAGE/actions?query=workflow%3AGHPages)
 
 # SAGE
 
