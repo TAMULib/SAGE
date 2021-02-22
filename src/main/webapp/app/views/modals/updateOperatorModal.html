@@ -84,6 +84,30 @@
           results="operatorForms.getResults()"
           autocomplete="off">
         </validatedinput>
+
+        <div class="form-inline" ng-if="enableMapInput(operatorToUpdate.type)">
+          <label for="mapping">Mapping</label>
+          <div style="margin-bottom: 4px" ng-repeat="(key, value) in operatorToUpdate.mapping track by $index">
+            <div class="form-group">
+              <input class="form-control" value="{{key}}" disabled />
+            </div>
+            <span class="glyphicon glyphicon-arrow-right"></span>
+            <div class="form-group">
+              <input class="form-control" value="{{value}}" disabled />
+            </div>
+            <button type="button" class="btn pull-right" ng-click="removeMapping(operatorToUpdate, key)">Remove</button>
+          </div>
+          <div>
+            <div class="form-group">
+              <input name="key" type="text" class="form-control" ng-model="mappingToAdd.key" />
+            </div>
+            <span class="glyphicon glyphicon-arrow-right"></span>
+            <div class="form-group">
+              <input name="value" type="text" class="form-control" ng-model="mappingToAdd.value" />
+            </div>
+            <button type="button" class="btn pull-right" ng-click="addMapping(operatorToUpdate, mappingToAdd)">Add</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
