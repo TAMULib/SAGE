@@ -11,7 +11,7 @@ import edu.tamu.sage.model.validation.RegexReplaceOpValidator;
 
 @Entity
 @DiscriminatorValue("RegexReplace")
-public class RegexReplaceOp extends BasicOp {
+public class RegexReplaceOp extends BasicValueOp {
 
     public final static String TYPE = "REGEX_REPLACE_OP";
 
