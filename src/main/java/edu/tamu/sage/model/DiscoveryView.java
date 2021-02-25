@@ -66,6 +66,10 @@ public class DiscoveryView extends ValidatingBaseEntity {
 
     private String defaultOperand;
 
+    @NotNull
+    @Column(nullable = false, columnDefinition = "boolean default true")
+    private Boolean ascending;
+
     @ElementCollection
     private List<MetadataField> resultMetadataFields;
 
@@ -201,6 +205,14 @@ public class DiscoveryView extends ValidatingBaseEntity {
 
     public void setResultMetadataFields(List<MetadataField> resultMetadataFields) {
         this.resultMetadataFields = resultMetadataFields;
+    }
+
+    public Boolean getAscending() {
+        return ascending;
+    }
+
+    public void setAscending(Boolean ascending) {
+        this.ascending = ascending;
     }
 
     public MetadataField findMetadataFieldByKey(String key) {
