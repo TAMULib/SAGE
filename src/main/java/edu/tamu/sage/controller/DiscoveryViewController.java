@@ -98,7 +98,7 @@ public class DiscoveryViewController {
         if (page.getSort() == null) {
             String titleKey = discoveryView.getTitleKey().replaceAll("[{}]", "");
             Optional<MetadataField> sortableField = discoveryView.getResultMetadataFields().stream().filter(r -> r.getKey().equals(titleKey)).findFirst();
-            Direction direction = discoveryView.getAscending() ? Direction.ASC : Direction.DESC;
+            Direction direction = discoveryView.isAscending() ? Direction.ASC : Direction.DESC;
             if (sortableField.isPresent() && sortableField.get().isSortable()) {
                 PageRequest pageRequest = new PageRequest(page.getPageNumber(), page.getPageSize(), direction, sortableField.get().getKey());
                 page = pageRequest;

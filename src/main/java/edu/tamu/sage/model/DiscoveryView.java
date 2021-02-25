@@ -67,8 +67,8 @@ public class DiscoveryView extends ValidatingBaseEntity {
     private String defaultOperand;
 
     @NotNull
-    @Column(nullable = false, columnDefinition = "boolean default true")
-    private Boolean ascending;
+    @Column(nullable = false)
+    private boolean ascending;
 
     @ElementCollection
     private List<MetadataField> resultMetadataFields;
@@ -85,6 +85,7 @@ public class DiscoveryView extends ValidatingBaseEntity {
 
     public DiscoveryView() {
         setModelValidator(new DiscoveryViewValidator());
+        setAscending(true);
     }
 
     public String getName() {
@@ -207,11 +208,11 @@ public class DiscoveryView extends ValidatingBaseEntity {
         this.resultMetadataFields = resultMetadataFields;
     }
 
-    public Boolean getAscending() {
+    public boolean isAscending() {
         return ascending;
     }
 
-    public void setAscending(Boolean ascending) {
+    public void setAscending(boolean ascending) {
         this.ascending = ascending;
     }
 
