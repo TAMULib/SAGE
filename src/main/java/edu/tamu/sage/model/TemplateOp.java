@@ -12,7 +12,7 @@ import edu.tamu.sage.utility.ValueTemplateUtility;
 
 @Entity
 @DiscriminatorValue("Template")
-public class TemplateOp extends BasicOp {
+public class TemplateOp extends BasicValueOp {
 
     public final static String TYPE = "TEMPLATE_OP";
 

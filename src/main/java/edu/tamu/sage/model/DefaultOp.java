@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 
 @Entity
 @DiscriminatorValue("Default")
-public class DefaultOp extends BasicOp {
+public class DefaultOp extends BasicValueOp {
 
     public final static String TYPE = "DEFAULT_OP";
 
