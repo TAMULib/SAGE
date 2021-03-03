@@ -47,6 +47,8 @@ public class DiscoveryContext implements Serializable {
 
     private String logoUrl;
 
+    private String wideLogoUrl;
+
     public DiscoveryContext() {
         super();
         searchFields = new ArrayList<SearchField>();
@@ -202,6 +204,14 @@ public class DiscoveryContext implements Serializable {
         this.logoUrl = logoUrl;
     }
 
+    public String getWideLogoUrl() {
+        return wideLogoUrl;
+    }
+
+    public void setWideLogoUrl(String wideLogoUrl) {
+        this.wideLogoUrl = wideLogoUrl;
+    }
+
     public static DiscoveryContext of(DiscoveryView dv) {
         DiscoveryContext dc = new DiscoveryContext();
 
@@ -217,6 +227,7 @@ public class DiscoveryContext implements Serializable {
         dc.setQueryParser(dv.getQueryParser());
         dc.setDefaultOperand(dv.getDefaultOperand());
         dc.setLogoUrl(dv.getLogoUrl());
+        dc.setWideLogoUrl(dv.getWideLogoUrl());
 
         SearchFilter defaultSearchFilter = new SearchFilter();
         defaultSearchFilter.setKey("all_fields");

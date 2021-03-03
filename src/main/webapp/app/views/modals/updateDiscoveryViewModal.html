@@ -71,8 +71,20 @@
               id="discoveryViewToUpdateLogoUrl"
               model="discoveryView"
               property="logoUrl"
-              label="Logo URL"
-              placeholder="Logo URL for the updated Discovery View"
+              label="Narrow Logo URL (3:5 Aspect Ratio)"
+              placeholder="Narow Logo URL for the updated Discovery View"
+              form="discoveryViewForms.update"
+              validations="discoveryViewForms.validations"
+              results="discoveryViewForms.getResults()"
+              autocomplete="off">
+            </validatedinput>
+
+            <validatedinput
+              id="discoveryViewToUpdateWideLogoUrl"
+              model="discoveryView"
+              property="wideLogoUrl"
+              label="Wide Logo URL (5:3 Aspect Ratio)"
+              placeholder="Wide Logo URL for the updated Discovery View"
               form="discoveryViewForms.update"
               validations="discoveryViewForms.validations"
               results="discoveryViewForms.getResults()"

@@ -1,5 +1,17 @@
 .discovery-context {
 
+  @media only screen and (min-width: 992px) {
+    .wide-logo {
+      display:none;
+    }
+  }
+
+  @media only screen and (max-width: 991px) {
+    .narrow-logo {
+      display: none;
+    }
+  }
+
   .dc-heading {
     h1, h2, h3, h4, h5, h6 {
       font-size: 36px
