@@ -35,8 +35,6 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
             ''} ${label}`;
   };
 
-  console.log($scope.discoveryViewForms.validations);
-
   $scope.stepTransitionRefresh = function(fromTab) {
     if (fromTab === 0) {
       if (angular.isDefined($scope.originalSourceName) && $scope.discoveryView.source.name !== $scope.originalSourceName) {
