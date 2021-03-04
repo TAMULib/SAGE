@@ -1,6 +1,6 @@
 <form name="discoveryViewForms.update" ng-submit="updateDiscoveryView()" novalidate class="discovery-view-forms-update">
   <div class="modal-header {{attr.modalHeaderClass}}">
-    <button type="button" class="close modal-close" aria-label="makeLabel('Close" ng-click="cancelUpdateDiscoveryView()"><span aria-hidden="true">&times;</span></button')>
+    <button type="button" class="close modal-close" aria-label="Close" ng-click="cancelUpdateDiscoveryView()"><span aria-hidden="true">&times;</span></button>
     <h4 class="modal-title">Edit Discovery View</h4>
   </div>
   <div class="modal-body" ng-if="discoveryView">
@@ -19,7 +19,7 @@
               id="discoveryViewToUpdateName"
               model="discoveryView"
               property="name"
-              label="makeLabel('Name')"
+              label="{{makeLabel('Name')"
               placeholder="Name for the updated Discovery View"
               form="discoveryViewForms.update"
               validations="discoveryViewForms.validations"
@@ -33,7 +33,7 @@
               property="source"
               options="sources"
               optionproperty="name"
-              label="makeLabel('Source')"
+              label="{{makeLabel('Source')"
               placeholder="Source for the updated Writer"
               form="discoveryViewForms.update"
               validations="discoveryViewForms.validations"
@@ -46,7 +46,7 @@
               id="discoveryViewToUpdateFilter"
               model="discoveryView"
               property="filter"
-              label="makeLabel('Filter')"
+              label="{{makeLabel('Filter')"
               placeholder=""
               form="discoveryViewForms.update"
               validations="discoveryViewForms.validations"
@@ -59,7 +59,7 @@
               id="discoveryViewToUpdateSlug"
               model="discoveryView"
               property="slug"
-              label="makeLabel('Slug')"
+              label="{{makeLabel('Slug')"
               placeholder="The URI slug of this Discovery View"
               form="discoveryViewForms.update"
               validations="discoveryViewForms.validations"
@@ -71,7 +71,7 @@
               id="discoveryViewToUpdateLogoUrl"
               model="discoveryView"
               property="logoUrl"
-              label="makeLabel('Logo URL')"
+              label="{{makeLabel('Logo URL')"
               placeholder="Logo URL for the updated Discovery View"
               form="discoveryViewForms.update"
               validations="discoveryViewForms.validations"
@@ -83,7 +83,7 @@
               id="discoveryViewToUpdateInfoLinkText"
               model="discoveryView"
               property="infoLinkText"
-              label="makeLabel('Info Link Text')"
+              label="{{makeLabel('Info Link Text')"
               placeholder="e.g. 'About This Collection'"
               form="discoveryViewForms.update"
               validations="discoveryViewForms.validations"
@@ -95,7 +95,7 @@
               id="discoveryViewToUpdateInfoLinkUrl"
               model="discoveryView"
               property="infoLinkUrl"
-              label="makeLabel('Info Link Url')"
+              label="{{makeLabel('Info Link Url')"
               placeholder="The URL of the info link"
               form="discoveryViewForms.update"
               validations="discoveryViewForms.validations"
@@ -107,7 +107,7 @@
               id="discoveryViewToUpdateInfoText"
               model="discoveryView"
               property="infoText"
-              label="makeLabel('Info Text')"
+              label="{{makeLabel('Info Text')"
               form="discoveryViewForms.update"
               validations="discoveryViewForms.validations"
               results="discoveryViewForms.getResults()">
@@ -118,7 +118,7 @@
               model="discoveryView"
               property="queryParser"
               options="queryParsers"
-              label="makeLabel('Query Parser')"
+              label="{{makeLabel('Query Parser')"
               placeholder="Optionally specify a query parser"
               form="discoveryViewForms.create"
               validations="discoveryViewForms.validations"
@@ -131,7 +131,7 @@
               model="discoveryView"
               property="defaultOperand"
               options="queryOperands"
-              label="makeLabel('Default Operand')"
+              label="{{makeLabel('Default Operand')"
               placeholder="Optionally Specify a default operand"
               form="discoveryViewForms.create"
               validations="discoveryViewForms.validations"
@@ -225,7 +225,7 @@
                 options="fields"
                 optionproperty="name"
                 optionvalue="name"
-                label="makeLabel('Unique Identifier Key')"
+                label="Unique Identifier Key"
                 placeholder="A unique identifier key for the updated Discovery View"
                 form="discoveryViewForms.create"
                 validations="discoveryViewForms.validations"
@@ -240,7 +240,7 @@
                 optionproperty="name"
                 suggestions="fields"
                 name="titleKey"
-                label="makeLabel('Title Key')"
+                label="Title Key"
                 placeholder="'{{' to see Title Key suggestions">
               </multi-suggestion-input>
             </div>
@@ -254,7 +254,7 @@
                 optionproperty="name"
                 suggestions="fields"
                 name="resourceThumbnailUriKey"
-                label="makeLabel('Thumbnail URI Key')"
+                label="Thumbnail URI Key"
                 placeholder="'{{' to see Thumbnail URI Key suggestions">
               </multi-suggestion-input>
             </div>
@@ -266,7 +266,7 @@
                 optionproperty="name"
                 suggestions="fields"
                 name="resourceLocationUriKey"
-                label="makeLabel('Resource URI Key')"
+                label="Resource URI Key"
                 placeholder="'{{' to see Resource URI Key suggestions">
               </multi-suggestion-input>
             </div>
@@ -280,9 +280,20 @@
                 optionproperty="name"
                 suggestions="fields"
                 name="manifestUriKey"
-                label="makeLabel('Manifest URI Key')"
+                label="Manifest URI Key"
                 placeholder="'{{' to see Manifest URI Key suggestions">
               </multi-suggestion-input>
+            </div>
+            <div class="form-group">
+              <div>
+                <label id="discoveryViewToUpdateDefaultSort">Default Sort</label>
+              </div>
+              <label class="radio-inline" role="group" aria-labelledby="discoveryViewDefaultSort">
+                <input type="radio" name="discoveryViewDefaultSort" ng-model="discoveryView.ascending" ng-value="true"> Ascending
+              </label>
+              <label class="radio-inline" role="group" aria-labelledby="discoveryViewDefaultSort">
+                <input type="radio" name="discoveryViewDefaultSort" ng-model="discoveryView.ascending" ng-value="false"> Descending
+              </label>
             </div>
           </div>
         </div>
@@ -349,6 +360,6 @@
     <button ng-show="tabs.active === 2" type="button" class="btn btn-success" ng-click="back()">Back</button>
     <button ng-show="tabs.active === 2" ng-disabled="isDiscoveryViewSearchInvalid('update')" type="button" class="btn btn-success" ng-click="next()">Next</button>
     <button ng-show="tabs.active === 3" type="button" class="btn btn-success" ng-click="back()">Back</button>
-    <button ng-show="tabs.active === 3" ng-disabled="isDiscoveryViewResultsInvalid('update') || discoveryViewForms.update.$invalid" type="submit" class="btn btn-success">Update</button>
+    <button ng-disabled="isDiscoveryViewResultsInvalid('update') || discoveryViewForms.update.$invalid" type="submit" class="btn btn-success">Update</button>
   </div>
 </form>
