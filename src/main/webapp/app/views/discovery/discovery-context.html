@@ -7,7 +7,7 @@
     <breadcrumbs contexts="breadcrumbContexts" reload="resetPage" home=""></breadcrumbs>
     <div class="col-md-3 dc-side-panel">
       <div ng-if="discoveryContext.logoUrl && discoveryContext.wideLogoUrl">
-        <div ng-style="{'background-image':'url({{discoveryContext.logoUrl}})'}" class="panel panel-default information-box logo-information-box narrow-logo">
+        <div ng-style="getNarrowLogoClass()" class="panel panel-default information-box logo-information-box narrow-logo">
           <div ng-if="discoveryContext.infoLinkText" class="panel-body">
             <h3>
               <a ng-if="discoveryContext.infoLinkUrl" href="{{discoveryContext.infoLinkUrl}}">{{discoveryContext.infoLinkText}}</a>
@@ -17,7 +17,7 @@
             </div>
           </div>
         </div>
-        <div ng-style="{'background-image':'url({{discoveryContext.wideLogoUrl}})'}" class="panel panel-default information-box logo-information-box wide-logo">
+        <div ng-style="getWideLogoClass()" class="panel panel-default information-box logo-information-box wide-logo">
           <div ng-if="discoveryContext.infoLinkText" class="panel-body">
             <h3>
               <a ng-if="discoveryContext.infoLinkUrl" href="{{discoveryContext.infoLinkUrl}}">{{discoveryContext.infoLinkText}}</a>
@@ -28,7 +28,7 @@
           </div>
         </div>
       </div>
-      <div ng-style="{'background-image':'url({{discoveryContext.logoUrl}})'}" ng-if="discoveryContext.logoUrl && !discoveryContext.wideLogoUrl" class="panel panel-default information-box logo-information-box">
+      <div ng-style="getNarrowLogoClass()" ng-if="discoveryContext.logoUrl && !discoveryContext.wideLogoUrl" class="panel panel-default information-box logo-information-box">
         <div ng-if="discoveryContext.infoLinkText" class="panel-body">
           <h3>
             <a ng-if="discoveryContext.infoLinkUrl" href="{{discoveryContext.infoLinkUrl}}">{{discoveryContext.infoLinkText}}</a>
