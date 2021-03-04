@@ -4,6 +4,7 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
     var discoveryContext = this;
     var searching;
     var defaultPageSize = 10;
+    var defaultDirection = discoveryContext.isAscending ? "ASC" : "DESC";
     var sortedActiveFilterKeys = [];
 
     var fetchContext = function () {
@@ -16,7 +17,8 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
           value: angular.isDefined(discoveryContext.search.value) ? discoveryContext.search.value : "",
           page: angular.isDefined(discoveryContext.search.page.number) ? discoveryContext.search.page.number : 0,
           size: angular.isDefined(discoveryContext.search.page.size) ? discoveryContext.search.page.size : defaultPageSize,
-          offset: angular.isDefined(discoveryContext.search.page.offset) ? discoveryContext.search.page.offset : 0
+          offset: angular.isDefined(discoveryContext.search.page.offset) ? discoveryContext.search.page.offset : 0,
+          direction: angular.isDefined(discoveryContext.search.page.direction) ? discoveryContext.search.page.direction : defaultDirection
         }
       };
 
@@ -206,6 +208,7 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
       discoveryContext.search.page.size = defaultPageSize;
       delete discoveryContext.search.page.sort;
       discoveryContext.search.page.offset = 0;
+      discoveryContext.search.page.direction = defaultDirection;
 
       angular.forEach($location.search(), function(value, key) {
         $location.search(key, null);
@@ -235,6 +238,7 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
             $location.search("sort", null);
             $location.search("size", null);
             $location.search("offset", null);
+            $location.search("direction", null);
           }
 
           discoveryContext.reload().then(function() {
@@ -244,6 +248,7 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
             $location.search("page", discoveryContext.search.page.number === 0 ? null : discoveryContext.search.page.number);
             $location.search("size", discoveryContext.search.page.size === defaultPageSize ? null : discoveryContext.search.page.size);
             $location.search("offset", discoveryContext.search.page.offset === 0 ? null : discoveryContext.search.page.offset);
+            $location.search("direction", discoveryContext.search.page.direction === "" ? null : discoveryContext.search.page.direction);
 
             if (discoveryContext.search.page.sort) {
               $location.search("sort", discoveryContext.search.page.sort);
@@ -291,7 +296,8 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
       var page = {
         number: 0,
         size: defaultPageSize,
-        offset: 0
+        offset: 0,
+        direction: defaultDirection
       };
       var number;
 
@@ -318,6 +324,10 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
 
       if ($routeParams.sort) {
         page.sort = $routeParams.sort;
+      }
+
+      if ($routeParams.direction) {
+        page.direction = $routeParams.direction;
       }
 
       return page;
