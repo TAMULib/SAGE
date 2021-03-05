@@ -5,7 +5,7 @@ var appConfig = {
   'allowAnonymous': true,
   'anonymousRole': 'ROLE_ANONYMOUS',
 
-  'authStrategies': ['weaverAuth'],
+  'authStrategies': ['emailRegistration'],
 
   //'authService': window.location.protocol + '//' + window.location.host + window.location.base + '/authfix',
   'authService': 'https://labs.library.tamu.edu/authfix',
