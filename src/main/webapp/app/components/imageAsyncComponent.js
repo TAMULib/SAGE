@@ -10,7 +10,7 @@ sage.component("imgAsync", {
   bindings: {
     result: "="
   },
-  controller: function($scope, $timeout, $timeout, $interval, $element, appConfig, ImageStages) {
+  controller: function($scope, $timeout, $interval, $element, appConfig, ImageStages) {
 
     this.imageStages = ImageStages;
     this.imageStage = ImageStages.START;
@@ -28,7 +28,7 @@ sage.component("imgAsync", {
         $scope.$ctrl.imageStage = ImageStages.SUCCESS;
         $timeout.cancel(loadingTimer);
       });
-    }
+    };
 
     const errorHandler = (e, e1) => {
       console.log(e1);
@@ -38,7 +38,7 @@ sage.component("imgAsync", {
           $timeout.cancel(loadingTimer);
         }
       });
-    }
+    };
 
     thumbnail.addEventListener('load', loadHandler);
     thumbnail.addEventListener('error', errorHandler);
