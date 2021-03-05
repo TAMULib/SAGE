@@ -125,11 +125,13 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
           if (!value.resourceThumbnailUriKey) {
             value.resourceThumbnailUriKey = 'temp';
             if (value.manifestUriKey) {
-              ManifestService.getThumbnailUrl(value.manifestUriKey).then(function(thumbnailUrl) {
-                value.resourceThumbnailUriKey = thumbnailUrl;
-              }, function(error) {
-
-              });
+              ManifestService.getThumbnailUrl(value.manifestUriKey)
+                .then(function(thumbnailUrl) {
+                  value.resourceThumbnailUriKey = thumbnailUrl;
+                })
+                .catch(function(error) {
+                  window.dispatchEvent(new CustomEvent("manifestError", error));
+                });
             }
           }
         });

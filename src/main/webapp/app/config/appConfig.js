@@ -5,9 +5,10 @@ var appConfig = {
   'allowAnonymous': true,
   'anonymousRole': 'ROLE_ANONYMOUS',
 
-  'authStrategies': ['emailRegistration'],
+  'authStrategies': ['weaverAuth'],
 
-  'authService': window.location.protocol + '//' + window.location.host + window.location.base + '/auth',
+  //'authService': window.location.protocol + '//' + window.location.host + window.location.base + '/authfix',
+  'authService': 'https://labs.library.tamu.edu/authfix',
   'webService': window.location.protocol + '//' + window.location.host + window.location.base,
 
   'storageType': 'session',
@@ -52,6 +53,7 @@ var appConfig = {
     ]
   },
 
-  'defaultThumbnailURI': "resources/images/default-thumbnail.jpg"
+  'defaultThumbnailURI': "resources/images/default-thumbnail.jpg",
+  'defaultLoadingThumbnailURI': "resources/images/loading2.gif"
 
 };

@@ -1,0 +1,15 @@
+.loader-wrapper {
+  width: 150px;
+  height: 112.5px;
+  background: #dadada;
+  padding-top: 28px;
+
+}
+
+.discovery-context .dc-content .dc-main .dc-results .dc-result .loader-wrapper img {
+  min-width: unset;
+  max-width: unset;
+  width: 75px !important;
+  height: 56.25px;
+  margin: auto;
+}
