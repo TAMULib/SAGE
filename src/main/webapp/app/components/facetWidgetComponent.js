@@ -3,7 +3,9 @@ sage.component("facetWidget", {
   bindings: {
     facet: '=',
     discoveryContext: "=",
-    resetSearch: "="
+    resetSearch: "=",
+    openModal: "&",
+    closeModal: "&"
   },
   controller: function($scope, $filter) {
 
@@ -56,6 +58,10 @@ sage.component("facetWidget", {
           }
         }
       }
+    };
+
+    $scope.moreFacets = function() {
+      $scope.$ctrl.openModal({modal: "#moreFacetsModal"});
     };
   }
 });

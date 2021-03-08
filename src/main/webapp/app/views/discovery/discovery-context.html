@@ -25,7 +25,7 @@
           </div>
         </div>
       </div>
-      <facet-widget facet="facet" discovery-context="discoveryContext" ng-repeat="facet in discoveryContext.facetFilters" reset-search="prepareSearch"></facet-widget>
+      <facet-widget facet="facet" discovery-context="discoveryContext" ng-repeat="facet in discoveryContext.facetFilters" reset-search="prepareSearch" open-modal="openModal(modal)" close-modal="closeModal()"></facet-widget>
     </div>
     <div class="col-md-9 dc-main">
       <div class="row dc-search">
@@ -114,4 +114,10 @@
       </div>
     </div>
   </div>
+  <modal
+    modal-id="moreFacetsModal"
+    modal-view="views/modals/moreFacetsModal.html"
+    modal-header-class="modal-header-primary"
+    wvr-modal-backdrop="static">
+  </modal>
 </div>

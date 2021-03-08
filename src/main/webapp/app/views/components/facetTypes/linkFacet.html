@@ -9,8 +9,9 @@
     </li>
   </ul>
   <ul class="list-group dc-facet-counts" ng-class="{'open':open}">
-    <li class="list-group-item dc-facet-count clickable clearfix" ng-repeat="(facetName, facetCount) in $ctrl.facet.counts track by $index" ng-click="addRemoveFacetFilter($ctrl.facet, facetName)" ng-if="!findFilterByFacet($ctrl.facet.label, facetName)">
+    <li class="list-group-item dc-facet-count clickable clearfix" ng-repeat="(facetName, facetCount) in $ctrl.facet.counts track by $index" ng-click="addRemoveFacetFilter($ctrl.facet, facetName)" ng-if="!findFilterByFacet($ctrl.facet.label, facetName) && $index < 10">
       {{facetName}} <span class="badge pull-right">{{facetCount}}</span>
     </li>
+    <li class="list-group-item dc-facet-count clickable clearfix" ng-if="getFacetCountKeys().length > 10" ng-click="moreFacets()">more...</li>
   </ul>
 </div>
