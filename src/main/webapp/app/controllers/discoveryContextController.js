@@ -22,6 +22,14 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
 
   $scope.discoveryContext.ready().then(function() {
 
+    $scope.getNarrowLogoClass = function() {
+      return {'background-image': 'url(' + $scope.discoveryContext.logoUrl + ')'};
+    };
+
+    $scope.getWideLogoClass = function() {
+      return {'background-image': 'url(' + $scope.discoveryContext.wideLogoUrl + ')'};
+    };
+
     $scope.breadcrumbContexts = [
       $scope.discoveryContext
     ];

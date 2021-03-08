@@ -83,6 +83,9 @@ public class DiscoveryView extends ValidatingBaseEntity {
     @Column
     private String logoUrl;
 
+    @Column
+    private String wideLogoUrl;
+
     public DiscoveryView() {
         setModelValidator(new DiscoveryViewValidator());
         setAscending(true);
@@ -271,6 +274,14 @@ public class DiscoveryView extends ValidatingBaseEntity {
 
     public void setLogoUrl(String logoUrl) {
         this.logoUrl = logoUrl;
+    }
+
+    public String getWideLogoUrl() {
+        return wideLogoUrl;
+    }
+
+    public void setWideLogoUrl(String wideLogoUrl) {
+        this.wideLogoUrl = wideLogoUrl;
     }
 
 }
