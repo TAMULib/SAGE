@@ -114,7 +114,7 @@
           <div class="media dc-result" ng-repeat="result in discoveryContext.results">
             <div class="media-left">
               <a href="discovery-context/{{discoveryContext.slug}}/{{result.uniqueIdentifier}}">
-                <img class="media-object" default-src="defaultThumbnailURI" ng-src="{{result.resourceThumbnailUriKey}}" alt="picture of: {{result.title}}">
+                <img-async result="result"></img-async>
               </a>
             </div>
             <div class="media-body">
