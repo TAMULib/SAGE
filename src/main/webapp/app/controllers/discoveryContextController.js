@@ -56,6 +56,10 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
         if ($scope.discoveryContext.search.page.offset === 0) {
           $location.search("offset", null);
         }
+
+        if (!angular.isDefined($scope.discoveryContext.search.page.direction)) {
+          $location.search("direction", null);
+        }
       }
 
       if (!angular.isDefined($scope.discoveryContext.search.page.sort)) {
@@ -189,6 +193,15 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
 
     $scope.presentCollectionText = function(value) {
       return $sce.trustAsHtml(value);
+    };
+
+    $scope.toggleSort = function() {
+      $scope.discoveryContext.search.page.direction = $scope.discoveryContext.search.page.direction === "ASC" ? "DESC" : "ASC";
+      $scope.search();
+    };
+
+    $scope.isAscending = function() {
+      return $scope.discoveryContext.search.page.direction === "ASC";
     };
   });
 
