@@ -12,10 +12,6 @@ public class BasicOpValidator extends BaseOpValidator {
         this.addInputValidator(new InputValidator(InputValidationType.required, "A operator requires a field", fieldProperty, true));
         this.addInputValidator(new InputValidator(InputValidationType.minlength, "A operator field must be at least 2 characters", fieldProperty, 2));
         this.addInputValidator(new InputValidator(InputValidationType.maxlength, "A operator field must be no more than 80 characters", fieldProperty, 80));
-
-        String valueProperty = "value";
-        this.addInputValidator(new InputValidator(InputValidationType.required, "A operator requires a value", valueProperty, true));
-        this.addInputValidator(new InputValidator(InputValidationType.minlength, "A operator value must be at least 2 characters", valueProperty, 2));
     }
 
 }

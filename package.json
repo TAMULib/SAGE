@@ -1,7 +1,7 @@
 {
   "name": "sage",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Solr Agregation Engine UI",
   "repository": "https://github.com/TAMULib/Sage",
   "license": "MIT",

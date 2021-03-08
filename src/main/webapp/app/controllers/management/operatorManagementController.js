@@ -10,6 +10,8 @@ sage.controller('OperatorManagementController', function ($controller, $scope, N
 
   $scope.operatorTypes = OperatorRepo.getTypes();
 
+  $scope.mappingToAdd = {key: "", value: ""};
+
   $scope.operatorToCreate = OperatorRepo.getScaffold();
   $scope.operatorToUpdate = {};
   $scope.operatorToDelete = {};
@@ -30,7 +32,7 @@ sage.controller('OperatorManagementController', function ($controller, $scope, N
   };
 
   $scope.enableFieldInput = function(opType) {
-    return ['DEFAULT_OP', 'CONSTANT_OP', 'APPLICATION_TYPE_OP', 'BASE_64_ENCODE_OP', 'DATE_NORMALIZATION_OP', 'REGEX_REPLACE_OP', 'TEMPLATE_OP'].indexOf(opType) >= 0;
+    return ['DEFAULT_OP', 'CONSTANT_OP', 'APPLICATION_TYPE_OP', 'BASE_64_ENCODE_OP', 'DATE_NORMALIZATION_OP', 'REGEX_REPLACE_OP', 'TEMPLATE_OP', 'MAPPING_OP'].indexOf(opType) >= 0;
   };
 
   $scope.enableValueInput = function(opType) {
@@ -45,8 +47,8 @@ sage.controller('OperatorManagementController', function ($controller, $scope, N
     return ['REGEX_REPLACE_OP'].indexOf(opType) >= 0;
   };
 
-  $scope.enableRegexInput = function(opType) {
-    return opType === 'REGEX_REPLACE_OP';
+  $scope.enableMapInput = function(opType) {
+    return ['MAPPING_OP'].indexOf(opType) >= 0;
   };
 
   $scope.clearValue = function(type) {
@@ -62,6 +64,9 @@ sage.controller('OperatorManagementController', function ($controller, $scope, N
     }
     if (!$scope.enableRegexInput(operator.type)) {
       operator.regex = "";
+    }
+    if (!$scope.enableMapInput(operator.type)) {
+      operator.mapping = {};
     }
     for (var i = 0; i < $scope.operatorTypes.length; i++) {
       if ($scope.operatorTypes.hasOwnProperty(i)) {
@@ -137,6 +142,15 @@ sage.controller('OperatorManagementController', function ($controller, $scope, N
       }
       $scope.deletingOperator = false;
     });
+  };
+
+  $scope.addMapping = function(model, mapping) {
+    model.mapping[mapping.key] = mapping.value;
+    $scope.mappingToAdd = {key: "", value: ""};
+  };
+
+  $scope.removeMapping = function(model, key) {
+    delete model.mapping[key];
   };
 
   OperatorRepo.ready().then(function() {
