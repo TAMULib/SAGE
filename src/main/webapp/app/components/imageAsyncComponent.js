@@ -36,8 +36,6 @@ sage.component("imgAsync", {
         $interval.cancel(setSrcTimer);
       }, 15000);
 
-      const thumbnail = $element.children()[2];
-
       const loadHandler = () => {
         $timeout(() => {
           $timeout.cancel(loadingTimer);
@@ -57,6 +55,7 @@ sage.component("imgAsync", {
         });
       };
 
+      const thumbnail = $element.children()[2];
       thumbnail.addEventListener('load', loadHandler);
       thumbnail.addEventListener('error', errorHandler);
       window.addEventListener('manifestError', errorHandler);
