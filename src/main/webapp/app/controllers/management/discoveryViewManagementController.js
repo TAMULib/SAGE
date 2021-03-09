@@ -29,10 +29,11 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
         labelAsKey += (idx === 0 ? add : add[0].toUpperCase() + add.slice(1));
     });
 
-    return `${$scope.discoveryViewForms.validations[labelAsKey] && 
+    return `${label}
+            ${$scope.discoveryViewForms.validations[labelAsKey] && 
             $scope.discoveryViewForms.validations[labelAsKey].required ? 
             '*': 
-            ''} ${label}`;
+            ''}`;
   };
 
   $scope.stepTransitionRefresh = function(fromTab) {
