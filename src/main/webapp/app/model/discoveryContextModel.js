@@ -4,10 +4,14 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
     var discoveryContext = this;
     var searching;
     var defaultPageSize = 10;
-    var defaultDirection = discoveryContext.isAscending ? "ASC" : "DESC";
+    var defaultDirection = null;
     var sortedActiveFilterKeys = [];
 
     var fetchContext = function () {
+      if (angular.isDefined(discoveryContext.ascending)) {
+        defaultDirection = discoveryContext.ascending ? "ASC" : "DESC";
+      }
+
       var parameters = {
         pathValues: {
           slug: discoveryContext.slug
@@ -298,8 +302,7 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
       var page = {
         number: 0,
         size: defaultPageSize,
-        offset: 0,
-        direction: defaultDirection
+        offset: 0
       };
       var number;
 
@@ -330,6 +333,8 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
 
       if ($routeParams.direction) {
         page.direction = $routeParams.direction;
+      } else if (defaultDirection) {
+        page.direction = defaultDirection;
       }
 
       return page;

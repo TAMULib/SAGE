@@ -64,14 +64,15 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
         if ($scope.discoveryContext.search.page.offset === 0) {
           $location.search("offset", null);
         }
-
-        if (!angular.isDefined($scope.discoveryContext.search.page.direction)) {
-          $location.search("direction", null);
-        }
       }
 
       if (!angular.isDefined($scope.discoveryContext.search.page.sort)) {
         $scope.discoveryContext.search.page.sort = $scope.discoveryContext.sortFields[0].key;
+      }
+
+      if (!angular.isDefined($scope.discoveryContext.search.page.direction)) {
+        var defaultDirection = $scope.discoveryContext.ascending ? "ASC" : "DESC";
+        $location.search("direction", defaultDirection);
       }
 
       if (angular.isDefined($scope.discoveryContext.searchFields)) {
