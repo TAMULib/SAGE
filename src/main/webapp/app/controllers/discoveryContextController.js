@@ -71,8 +71,8 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
       }
 
       if (!angular.isDefined($scope.discoveryContext.search.page.direction)) {
-        var defaultDirection = $scope.discoveryContext.ascending ? "ASC" : "DESC";
-        $location.search("direction", defaultDirection);
+        $scope.discoveryContext.search.page.direction = $scope.discoveryContext.ascending ? "ASC" : "DESC";
+        $location.search("direction", $scope.discoveryContext.search.page.direction);
       }
 
       if (angular.isDefined($scope.discoveryContext.searchFields)) {
