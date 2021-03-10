@@ -91,13 +91,13 @@
           <div class="row">
             <div class="input-group">
               <span ng-if="isAscending()" class="input-group-btn">
-                <button class="btn btn-default" type="button" ng-click="toggleSort()">
-                  <span class="glyphicon glyphicon-sort-by-alphabet"></span>
+                <button aria-label="Toggle Sort Order" class="btn btn-default" type="button" ng-click="toggleSort()">
+                  <span class="glyphicon glyphicon-arrow-down"></span>
                 </button>
               </span>
               <span ng-if="!isAscending()" class="input-group-btn">
-                <button class="btn btn-default" type="button" ng-click="toggleSort()">
-                  <span class="glyphicon glyphicon-sort-by-alphabet-alt"></span>
+                <button aria-label="Toggle Sort Order" class="btn btn-default" type="button" ng-click="toggleSort()">
+                  <span class="glyphicon glyphicon-arrow-up"></span>
                 </button>
               </span>
               <select class="form-control dc-filter-select" ng-model="discoveryContext.search.page.sort" ng-options="sort.key as sort.label for sort in discoveryContext.sortFields" trackby="sort.key" ng-change="updateSort()"></select>
