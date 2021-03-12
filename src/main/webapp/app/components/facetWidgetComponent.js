@@ -4,10 +4,13 @@ sage.component("facetWidget", {
     facet: '=',
     discoveryContext: "=",
     resetSearch: "=",
-    openModal: "&",
-    closeModal: "&"
+    moreFacets: "="
   },
-  controller: function($scope, $filter) {
+  controller: function($scope, $controller, $filter) {
+
+    angular.extend(this, $controller('DiscoveryContextController',
+      {$scope: $scope}
+    ));
 
     $scope.facetIsEmpty = function() {
       return Object.keys($scope.$ctrl.facet.counts).length == 0;
@@ -60,8 +63,9 @@ sage.component("facetWidget", {
       }
     };
 
-    $scope.moreFacets = function() {
-      $scope.$ctrl.openModal({modal: "#moreFacetsModal"});
+    $scope.moreFacets = function(facet) {
+      angular.extend($scope.$ctrl.moreFacets, Object.entries(facet));
+      $scope.openModal("#moreFacetsModal");
     };
   }
 });

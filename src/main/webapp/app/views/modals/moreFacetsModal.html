@@ -4,9 +4,18 @@
     <h4 class="modal-title">Create Writer</h4>
   </div>
   <div class="modal-body">
-    
-         
-        
+    <ul class="list-group dc-facet-counts" ng-class="{'open':open}">
+      <li class="list-group-item dc-facet-count clickable clearfix" ng-repeat="facet in moreFacets | limitTo : 10 : facetOffset track by $index" ng-click="addRemoveFacetFilter($ctrl.facet, facetName)">
+        {{facet[0]}} <span class="badge pull-right">{{facet[1]}}</span>
+      </li>
+    </ul>
+    <div>
+      {{facetOffset}}
+      <button ng-disabled="facetOffset === 0" class="btn btn-default" type="button" ng-click="firstPage()"><< <<</button>
+      <button ng-disabled="!hasLastPage()" class="btn btn-default" type="button" ng-click="lastPage()"><<</button>
+      <button ng-disabled="!hasNextPage()" class="btn btn-default" type="button" ng-click="pageForward()">>></button>
+      <button class="btn btn-default" type="button" ng-click="lastPage()">>> >></button>
+    </div>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" ng-click="closeModal()">Close</button>
