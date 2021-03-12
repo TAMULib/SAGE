@@ -1,1 +1,9 @@
-<span ng-include="'views/components/facetTypes/'+$ctrl.facet.widget.toLowerCase()+'Facet.html'"></span>
+<div>
+  <span ng-include="'views/components/facetTypes/'+$ctrl.facet.widget.toLowerCase()+'Facet.html'"></span>
+  <modal
+    modal-id="moreFacetsModal"
+    modal-view="views/modals/moreFacetsModal.html"
+    modal-header-class="modal-header-primary"
+    wvr-modal-backdrop="static">
+  </modal>
+</div>

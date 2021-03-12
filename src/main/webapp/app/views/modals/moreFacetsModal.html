@@ -1,6 +1,6 @@
 <div>
   <div class="modal-header {{attr.modalHeaderClass}}">
-    <button type="button" class="close modal-close" aria-label="Close" ng-click="closeModal()"><span aria-hidden="true">&times;</span></button>
+    <button type="button" class="close modal-close" aria-label="Close" ng-click="closeMoreFacets()"><span aria-hidden="true">&times;</span></button>
     <h4 class="modal-title">Create Writer</h4>
   </div>
   <div class="modal-body">
@@ -10,7 +10,7 @@
       </li>
     </ul>
     <div>
-      {{facetOffset}}
+      {{moreFacets.length}}
       <button ng-disabled="facetOffset === 0" class="btn btn-default" type="button" ng-click="firstPage()"><< <<</button>
       <button ng-disabled="!hasLastPage()" class="btn btn-default" type="button" ng-click="lastPage()"><<</button>
       <button ng-disabled="!hasNextPage()" class="btn btn-default" type="button" ng-click="pageForward()">>></button>
@@ -18,6 +18,6 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-default" ng-click="closeModal()">Close</button>
+    <button type="button" class="btn btn-default" ng-click="closeMoreFacets()">Close</button>
   </div>
 </div>

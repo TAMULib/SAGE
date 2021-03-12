@@ -10,10 +10,6 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
 
   $scope.rowOptions = [];
 
-  $scope.moreFacets = [];
-
-  $scope.facetOffset = 0;
-
   var options = [10, 25, 50, 100];
 
   for (var i in options) {
@@ -195,29 +191,29 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
       return $sce.trustAsHtml(value);
     };
 
-    $scope.pageForward = function() {
-      $scope.facetOffset = $scope.facetOffset + 10;
-    };
+    // $scope.pageForward = function() {
+    //   $scope.facetOffset = $scope.facetOffset + 10;
+    // };
 
-    $scope.pageBack = function() {
-      $scope.facetOffset = $scope.facetOffset - 10;
-    };
+    // $scope.pageBack = function() {
+    //   $scope.facetOffset = $scope.facetOffset - 10;
+    // };
 
-    $scope.firstPage = function() {
-      $scope.facetOffset = 0;
-    };
+    // $scope.firstPage = function() {
+    //   $scope.facetOffset = 0;
+    // };
 
-    $scope.lastPage = function() {
-      $scope.facetOffset = $scope.moreFacets.length - $scope.moreFacets.length % 10;
-    };
+    // $scope.lastPage = function() {
+    //   $scope.facetOffset = $scope.moreFacets.length - $scope.moreFacets.length % 10;
+    // };
 
-    $scope.hasLastPage = function() {
-      return $scope.facetOffset != 0;
-    };
+    // $scope.hasLastPage = function() {
+    //   return $scope.facetOffset != 0;
+    // };
 
-    $scope.hasNextPage = function() {
-      return $scope.moreFacets.length > $scope.facetOffset + 10;
-    };
+    // $scope.hasNextPage = function() {
+    //   return $scope.moreFacets.length > $scope.facetOffset + 10;
+    // };
   });
 
 });
