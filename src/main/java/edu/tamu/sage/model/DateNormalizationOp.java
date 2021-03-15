@@ -19,7 +19,7 @@ import edu.tamu.sage.model.validation.DateNormalizationOpValidator;
 
 @Entity
 @DiscriminatorValue("DateNormalization")
-public class DateNormalizationOp extends BasicOp {
+public class DateNormalizationOp extends BasicValueOp {
 
     private final static Logger log = LoggerFactory.getLogger(DateNormalizationOp.class);
 

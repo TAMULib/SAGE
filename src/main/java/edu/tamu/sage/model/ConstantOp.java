@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 
 @Entity
 @DiscriminatorValue("Constant")
-public class ConstantOp extends BasicOp {
+public class ConstantOp extends BasicValueOp {
 
     public final static String TYPE = "CONSTANT_OP";
 

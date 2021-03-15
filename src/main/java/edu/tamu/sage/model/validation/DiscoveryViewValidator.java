@@ -15,6 +15,15 @@ public class DiscoveryViewValidator extends BaseModelValidator {
         String slugProperty = "slug";
         this.addInputValidator(new InputValidator(InputValidationType.required, "A Discovery View requires a slug", slugProperty, true));
 
+        String infoLinkTextProperty = "infoLinkText";
+        this.addInputValidator(new InputValidator(InputValidationType.required, "A Discovery View requires Info Link Text", infoLinkTextProperty, true));
+
+        String infoLinkUrlProperty = "infoLinkUrl";
+        this.addInputValidator(new InputValidator(InputValidationType.required, "A Discovery View requires an Info Link URL", infoLinkUrlProperty, true));
+
+        String infoTextProperty = "infoText";
+        this.addInputValidator(new InputValidator(InputValidationType.required, "A Discovery View requires Info Text", infoTextProperty, true));
+
         String primaryKeyProperty = "titleKey";
         this.addInputValidator(new InputValidator(InputValidationType.required, "A Discovery View requires a Title Key", primaryKeyProperty, true));
     }

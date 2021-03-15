@@ -59,6 +59,11 @@ sage.component("facetWidget", {
 
     $scope.initialize = function() {
       if($scope.$ctrl.facet && $scope.$ctrl.facet.widget === "Link") {
+        $scope.countsList = Object.keys($scope.$ctrl.facet.counts)
+          .map(function(key) {
+            return {facetName: key, facetCount: $scope.$ctrl.facet.counts[key]};
+          }
+        );
         $scope.open = false;
         var facetNames = Object.keys($scope.$ctrl.facet.counts);
         for(var i in facetNames) {

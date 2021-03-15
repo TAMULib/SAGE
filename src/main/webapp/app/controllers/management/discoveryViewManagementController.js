@@ -22,6 +22,20 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
     getResults: DiscoveryViewRepo.getValidationResults
   };
 
+  $scope.makeLabel = function(label) {
+    var labelAsKey = '';
+    label.split(' ').forEach(function (el, idx) {
+        var add = el.toLowerCase();
+        labelAsKey += (idx === 0 ? add : add[0].toUpperCase() + add.slice(1));
+    });
+
+    return `${label}
+            ${$scope.discoveryViewForms.validations[labelAsKey] && 
+            $scope.discoveryViewForms.validations[labelAsKey].required ? 
+            '*': 
+            ''}`;
+  };
+
   $scope.stepTransitionRefresh = function(fromTab) {
     if (fromTab === 0) {
       if (angular.isDefined($scope.originalSourceName) && $scope.discoveryView.source.name !== $scope.originalSourceName) {

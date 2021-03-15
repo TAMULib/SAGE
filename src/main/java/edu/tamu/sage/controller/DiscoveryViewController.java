@@ -89,17 +89,22 @@ public class DiscoveryViewController {
 
     @RequestMapping(value = "/context/{slug}", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ANONYMOUS')")
-    public ApiResponse findBySlug(@PathVariable String slug, @RequestParam(name = "field", defaultValue = "") String field, @RequestParam(name = "value", defaultValue = "") String value, @PageableDefault(page = 0, size = 10) Pageable page, @RequestParam(name = "offset", defaultValue = "0") int offset, @RequestParam Map<String, String> reqFilterMap) throws DiscoveryContextNotFoundException, UnsupportedEncodingException, DiscoveryContextBuildException {
+    public ApiResponse findBySlug(@PathVariable String slug, @RequestParam(name = "field", defaultValue = "") String field, @RequestParam(name = "value", defaultValue = "") String value, @PageableDefault(page = 0, size = 10) Pageable page, @RequestParam(name = "offset", defaultValue = "0") int offset, @RequestParam String direction, @RequestParam Map<String, String> reqFilterMap) throws DiscoveryContextNotFoundException, UnsupportedEncodingException, DiscoveryContextBuildException {
         DiscoveryView discoveryView = discoveryViewRepo.findOneBySlug(slug);
         if (discoveryView == null) {
             throw new DiscoveryContextNotFoundException(String.format("Could not find Discovery Context for %s", slug));
         }
 
-        if (page.getSort() == null) {
-            Optional<MetadataField> sortableField = discoveryView.getResultMetadataFields().stream().filter(r -> r.isSortable()).findFirst();
-            if (sortableField.isPresent()) {
-                PageRequest pageRequest = new PageRequest(page.getPageNumber(), page.getPageSize(), Direction.ASC, sortableField.get().getKey());
+        String titleKey = discoveryView.getTitleKey().replaceAll("[{}]", "");
+        Optional<MetadataField> sortableField = discoveryView.getResultMetadataFields().stream().filter(r -> r.getKey().equals(titleKey)).findFirst();
+        if (sortableField.isPresent() && sortableField.get().isSortable()) {
+            if (page.getSort() == null) {
+                Direction defaultDirection = discoveryView.isAscending() ? Direction.ASC : Direction.DESC;
+                PageRequest pageRequest = new PageRequest(page.getPageNumber(), page.getPageSize(), defaultDirection, sortableField.get().getKey());
                 page = pageRequest;
+            } else {
+                String sort = page.getSort().toString().split(":")[0];
+                page = new PageRequest(page.getPageNumber(), page.getPageSize(), Direction.fromString(direction), sort);
             }
         }
 
@@ -109,6 +114,7 @@ public class DiscoveryViewController {
         reqFilterMap.remove("size");
         reqFilterMap.remove("sort");
         reqFilterMap.remove("offset");
+        reqFilterMap.remove("direction");
 
         Map<String, String> filterMap = new HashMap<String,String>();
         reqFilterMap.forEach((k,v) -> {

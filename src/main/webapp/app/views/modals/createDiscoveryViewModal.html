@@ -16,7 +16,7 @@
               id="discoveryViewToCreateName"
               model="discoveryView"
               property="name"
-              label="Name"
+              label="{{makeLabel('Name')}}"
               placeholder="Name for the new Discovery View"
               form="discoveryViewForms.create"
               validations="discoveryViewForms.validations"
@@ -30,7 +30,7 @@
               property="source"
               options="sources"
               optionproperty="name"
-              label="Source"
+              label="{{makeLabel('Source')}}"
               placeholder="Source for the new Writer"
               form="discoveryViewForms.create"
               validations="discoveryViewForms.validations"
@@ -43,7 +43,7 @@
               id="discoveryViewToCreateFilter"
               model="discoveryView"
               property="filter"
-              label="Filter"
+              label="{{makeLabel('Filter')}}"
               placeholder=""
               form="discoveryViewForms.create"
               validations="discoveryViewForms.validations"
@@ -56,7 +56,7 @@
               id="discoveryViewToCreateSlug"
               model="discoveryView"
               property="slug"
-              label="Slug"
+              label="{{makeLabel('Slug')}}"
               placeholder="The URI slug of this Discovery View"
               form="discoveryViewForms.create"
               validations="discoveryViewForms.validations"
@@ -68,8 +68,20 @@
               id="discoveryViewToCreateLogoUrl"
               model="discoveryView"
               property="logoUrl"
-              label="Logo URL"
-              placeholder="Logo URL for the new Discovery View"
+              label="{{makeLabel('Narrow Logo URL (3:5 Aspect Ratio)')}}"
+              placeholder="Narrow Logo URL for the new Discovery View"
+              form="discoveryViewForms.create"
+              validations="discoveryViewForms.validations"
+              results="discoveryViewForms.getResults()"
+              autocomplete="off">
+            </validatedinput>
+
+            <validatedinput
+              id="discoveryViewToCreateWideLogoUrl"
+              model="discoveryView"
+              property="wideLogoUrl"
+              label="{{makeLabel('Logo URL (5:3 Aspect Ratio)')}}"
+              placeholder="Wide Logo URL (5:3 Aspect Ratio)"
               form="discoveryViewForms.create"
               validations="discoveryViewForms.validations"
               results="discoveryViewForms.getResults()"
@@ -80,7 +92,7 @@
               id="discoveryViewToCreateInfoLinkText"
               model="discoveryView"
               property="infoLinkText"
-              label="Info Link Text"
+              label="{{makeLabel('Info Link Text')}}"
               placeholder="e.g. 'About This Collection'"
               form="discoveryViewForms.create"
               validations="discoveryViewForms.validations"
@@ -92,7 +104,7 @@
               id="discoveryViewToCreateInfoLinkUrl"
               model="discoveryView"
               property="infoLinkUrl"
-              label="Info Link Url"
+              label="{{makeLabel('Info Link Url')}}"
               placeholder="The URL of the info link"
               form="discoveryViewForms.create"
               validations="discoveryViewForms.validations"
@@ -104,7 +116,7 @@
               id="discoveryViewToCreateInfoText"
               model="discoveryView"
               property="infoText"
-              label="Info Text"
+              label="{{makeLabel('Info Text')}}"
               form="discoveryViewForms.create"
               validations="discoveryViewForms.validations"
               results="discoveryViewForms.getResults()">
@@ -115,7 +127,7 @@
               model="discoveryView"
               property="queryParser"
               options="queryParsers"
-              label="Query Parser"
+              label="{{makeLabel('Query Parser')}}"
               placeholder="Optionally specify a query parser"
               form="discoveryViewForms.create"
               validations="discoveryViewForms.validations"
@@ -128,7 +140,7 @@
               model="discoveryView"
               property="defaultOperand"
               options="queryOperands"
-              label="Default Operand"
+              label="{{makeLabel('Default Operand')}}"
               placeholder="Optionally Specify a default operand"
               form="discoveryViewForms.create"
               validations="discoveryViewForms.validations"
@@ -280,6 +292,17 @@
                 label="Manifest URI Key"
                 placeholder="'{{' to see Manifest URI Key suggestions">
               </multi-suggestion-input>
+            </div>
+            <div class="form-group">
+              <div>
+                <label id="discoveryViewToCreateDefaultSort">Default Sort</label>
+              </div>
+              <label class="radio-inline" role="group" aria-labelledby="discoveryViewDefaultSort">
+                <input type="radio" name="discoveryViewDefaultSort" ng-model="discoveryView.ascending" ng-value="true"> Ascending
+              </label>
+              <label class="radio-inline" role="group" aria-labelledby="discoveryViewDefaultSort">
+                <input type="radio" name="discoveryViewDefaultSort" ng-model="discoveryView.ascending" ng-value="false"> Descending
+              </label>
             </div>
           </div>
         </div>
