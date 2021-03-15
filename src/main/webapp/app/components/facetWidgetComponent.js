@@ -9,7 +9,7 @@ sage.component("facetWidget", {
 
     $scope.moreFacets = [];
 
-    $scope.test = "testing";
+    $scope.page = 0;
 
     $scope.facetIsEmpty = function() {
       return Object.keys($scope.$ctrl.facet.counts).length == 0;
@@ -23,6 +23,15 @@ sage.component("facetWidget", {
         });
       } else {
         $scope.$ctrl.discoveryContext.addFilter(facet.label, facet.key, value).then(function() {
+          $scope.$ctrl.resetSearch();
+        });
+      }
+    };
+
+    $scope.addFacetFilter = function(facetName) {
+      if (!$scope.findFilterByFacet($scope.$ctrl.facet.label, facetName)) {
+        $scope.closeMoreFacets();
+        $scope.$ctrl.discoveryContext.addFilter($scope.$ctrl.facet.label, $scope.$ctrl.facet.key, facetName).then(function() {
           $scope.$ctrl.resetSearch();
         });
       }
@@ -56,24 +65,53 @@ sage.component("facetWidget", {
           var facetName = facetNames[i];
           if ($scope.findFilterByFacet($scope.$ctrl.facet.label, facetName)) {
             $scope.open = true;
-            break;d
+            break;
           }
         }
       }
     };
 
     $scope.openMoreFacets = function() {
-      $timeout(() => {
-        $scope.moreFacets.push("foo");
-        console.log($scope.moreFacets)
-      });
-      
-      // angular.extend($scope.moreFacets, Object.entries($scope.$ctrl.facet.counts));
-      ModalService.openModal("#moreFacetsModal");
+      var facets = Object.entries($scope.$ctrl.facet.counts)
+        .map(facet => {
+          return {facetName: facet[0], facetCount: facet[1]};
+        });
+      $scope.moreFacets.push(...facets);
+
+      ModalService.openModal("#moreFacetsModal-" + $scope.$ctrl.facet.label.split(' ').join('-'));
     };
 
     $scope.closeMoreFacets = function() {
       ModalService.closeModal();
+      $scope.page = 0;
+    };
+
+    $scope.hasNext = function() {
+      return $scope.moreFacets.length > $scope.page * 10 + 10;
+    };
+
+    $scope.hasPrevious = function() {
+      return $scope.page != 0;
+    };
+
+    $scope.isLastPage = function() {
+      return $scope.page * 10 + 10 > $scope.moreFacets.length;
+    };
+
+    $scope.firstPage = function() {
+      $scope.page = 0;
+    };
+
+    $scope.nextPage = function() {
+      $scope.page = $scope.page + 1;
+    };
+
+    $scope.previousPage = function() {
+      $scope.page = $scope.page - 1;
+    };
+
+    $scope.lastPage = function() {
+      $scope.page = Math.floor($scope.moreFacets.length / 10);
     };
   }
 });
