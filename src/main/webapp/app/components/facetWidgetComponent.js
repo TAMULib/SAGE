@@ -5,7 +5,7 @@ sage.component("facetWidget", {
     discoveryContext: "=",
     resetSearch: "="
   },
-  controller: function($scope, $filter, $timeout, ModalService) {
+  controller: function($scope, $filter, ModalService) {
 
     $scope.moreFacets = [];
 
