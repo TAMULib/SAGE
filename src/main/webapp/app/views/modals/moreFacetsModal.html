@@ -1,0 +1,22 @@
+<div>
+  <div class="modal-header {{attr.modalHeaderClass}}">
+    <button type="button" class="close modal-close" aria-label="Close" ng-click="closeMoreFacets()"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Create Writer</h4>
+  </div>
+  <div class="modal-body">
+    <ul class="list-group dc-facet-counts" ng-class="{'open':open}">
+      <li ng-if="!findFilterByFacet($ctrl.facet.label, facet.facetName)" class="list-group-item dc-facet-count clickable clearfix" ng-repeat="facet in moreFacets | orderBy : 'facetCount' : true | limitTo : 10 : page * 10 track by $index" ng-click="addFacetFilter(facet.facetName)">
+        {{facet.facetName}} <span class="badge pull-right">{{facet.facetCount}}</span>
+      </li>
+    </ul>
+    <div>
+      <button ng-disabled="page === 0" class="btn btn-default" type="button" ng-click="firstPage()"><< <<</button>
+      <button ng-disabled="page === 0" class="btn btn-default" type="button" ng-click="previousPage()"><<</button>
+      <button ng-disabled="!hasNext()" class="btn btn-default" type="button" ng-click="nextPage()">>></button>
+      <button ng-disabled="isLastPage()" class="btn btn-default" type="button" ng-click="lastPage()">>> >></button>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="closeMoreFacets()">Close</button>
+  </div>
+</div>
