@@ -27,7 +27,7 @@ public class DiscoveryView extends ValidatingBaseEntity {
     private String filter;
 
     @NotNull
-    @Column(nullable = false)
+    @Column(length = 2048, nullable = false)
     private String titleKey;
 
     @NotNull
