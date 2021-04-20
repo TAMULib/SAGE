@@ -7,6 +7,7 @@ describe("component: facetWidget", function () {
       $httpBackend = _$httpBackend_;
 
       $httpBackend.whenGET("views/components/facetTypes/Facet.html").respond("<div></div>");
+      $httpBackend.whenGET("node_modules/@wvr/core/app/views/modalWrapper.html").respond("<div></div>");
 
       facet = "";
       discoveryContext = undefined;
