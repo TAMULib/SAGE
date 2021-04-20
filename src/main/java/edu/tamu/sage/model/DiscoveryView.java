@@ -70,6 +70,10 @@ public class DiscoveryView extends ValidatingBaseEntity {
     @Column(nullable = false)
     private boolean ascending;
 
+    @NotNull
+    @Column(nullable = false)
+    private boolean published;
+
     @ElementCollection
     private List<MetadataField> resultMetadataFields;
 
@@ -217,6 +221,14 @@ public class DiscoveryView extends ValidatingBaseEntity {
 
     public void setAscending(boolean ascending) {
         this.ascending = ascending;
+    }
+
+    public boolean isPublished() {
+        return published;
+    }
+
+    public void setPublished(boolean published) {
+        this.published = published;
     }
 
     public MetadataField findMetadataFieldByKey(String key) {

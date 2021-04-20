@@ -293,16 +293,33 @@
                 placeholder="'{{' to see Manifest URI Key suggestions">
               </multi-suggestion-input>
             </div>
-            <div class="form-group">
-              <div>
-                <label id="discoveryViewToCreateDefaultSort">Default Sort</label>
+            <div class="col-sm-5">
+              <div class="form-group">
+                <div>
+                  <label id="discoveryViewToCreateDefaultSort">Default Sort</label>
+                </div>
+                <label class="radio-inline" role="group" aria-labelledby="discoveryViewDefaultSort">
+                  <input type="radio" name="discoveryViewDefaultSort" ng-model="discoveryView.ascending" ng-value="true"> Ascending
+                </label>
+                <label class="radio-inline" role="group" aria-labelledby="discoveryViewDefaultSort">
+                  <input type="radio" name="discoveryViewDefaultSort" ng-model="discoveryView.ascending" ng-value="false"> Descending
+                </label>
               </div>
-              <label class="radio-inline" role="group" aria-labelledby="discoveryViewDefaultSort">
-                <input type="radio" name="discoveryViewDefaultSort" ng-model="discoveryView.ascending" ng-value="true"> Ascending
-              </label>
-              <label class="radio-inline" role="group" aria-labelledby="discoveryViewDefaultSort">
-                <input type="radio" name="discoveryViewDefaultSort" ng-model="discoveryView.ascending" ng-value="false"> Descending
-              </label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-5 col-sm-offset-1">
+              <div class="form-group">
+                <div>
+                  <label id="discoveryViewToCreateDefaultSort">Published</label>
+                </div>
+                <label class="radio-inline" role="group" aria-labelledby="discoveryViewPublished">
+                  <input type="radio" name="discoveryViewPublished" ng-model="discoveryView.published" ng-value="true"> Published
+                </label>
+                <label class="radio-inline" role="group" aria-labelledby="discoveryViewPublished">
+                  <input type="radio" name="discoveryViewPublished" ng-model="discoveryView.published" ng-value="false"> Unpublished
+                </label>
+              </div>
             </div>
           </div>
         </div>
