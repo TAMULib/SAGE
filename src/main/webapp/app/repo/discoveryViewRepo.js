@@ -3,6 +3,7 @@ sage.repo("DiscoveryViewRepo", function() {
 
   discoveryViewRepo.scaffold = {
     ascending: true,
+    published: true,
     name: "",
     source: "",
     facetFields: [],
