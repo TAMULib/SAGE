@@ -43,7 +43,7 @@ sage.directive("contentviewer", function($filter) {
               loadedManifest: $scope.resource,
               viewType: 'ImageView',
               displayLayout: false,
-              bottomPanel: false,
+              bottomPanel: true,
               bottomPanelAvailable: false,
               bottomPanelVisible: false,
               sidePanel: false,
