@@ -45,7 +45,7 @@ public class JobController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('MANAGER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = CREATE) })
     public ApiResponse createReader(@WeaverValidatedModel Job job) {
         logger.info(String.format("Creating job %s", job.getName()));
@@ -53,7 +53,7 @@ public class JobController {
     }
 
     @PutMapping
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('MANAGER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = UPDATE) })
     public ApiResponse updateReader(@WeaverValidatedModel Job job) {
         logger.info(String.format("Updating job %s", job.getName()));
@@ -61,7 +61,7 @@ public class JobController {
     }
 
     @DeleteMapping
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('MANAGER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = DELETE) })
     public ApiResponse deleteReader(@WeaverValidatedModel Job job) {
         logger.info(String.format("Deleting job %s", job.getName()));
@@ -70,7 +70,7 @@ public class JobController {
     }
 
     @GetMapping("/run-all")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('MANAGER')")
     public ApiResponse runAll() {
         String message = "Running all jobs";
         logger.info(message);
@@ -79,7 +79,7 @@ public class JobController {
     }
 
     @GetMapping("/run/{jobId}")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('MANAGER')")
     public ApiResponse run(@PathVariable Long jobId) {
         ApiResponse response;
         Job job = jobRepo.findOne(jobId);

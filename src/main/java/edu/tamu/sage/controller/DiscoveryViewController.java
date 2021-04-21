@@ -63,7 +63,7 @@ public class DiscoveryViewController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('MANAGER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = CREATE) })
     public ApiResponse createDiscoveryView(@WeaverValidatedModel DiscoveryView discoveryView) {
         logger.info("Creating Discovery View: " + discoveryView.getName());
@@ -71,7 +71,7 @@ public class DiscoveryViewController {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('MANAGER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = UPDATE) })
     public ApiResponse updateDiscoveryView(@WeaverValidatedModel DiscoveryView discoveryView) {
         logger.info("Updating Discovery View: " + discoveryView.getName());
@@ -79,7 +79,7 @@ public class DiscoveryViewController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE)
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('MANAGER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = DELETE) })
     public ApiResponse deleteDiscoveryView(@RequestBody DiscoveryView discoveryView) {
         logger.info("Deleting Discovery View: " + discoveryView.getName());
