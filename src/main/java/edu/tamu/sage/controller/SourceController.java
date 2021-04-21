@@ -150,7 +150,7 @@ public class SourceController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('MANAGER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = CREATE) })
     public ApiResponse createSolrCore(@WeaverValidatedModel Source source) {
         logger.info("Creating Source: " + source.getName());
@@ -158,7 +158,7 @@ public class SourceController {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('MANAGER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = UPDATE) })
     public ApiResponse updateSolrCore(@WeaverValidatedModel Source source) {
         logger.info("Updating Source: " + source.getName());
@@ -166,7 +166,7 @@ public class SourceController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE)
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('MANAGER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = DELETE) })
     public ApiResponse deleteSolrCore(@WeaverValidatedModel Source source) {
         logger.info("Deleting Source: " + source.getName());

@@ -35,7 +35,7 @@ public class ReaderController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('MANAGER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = CREATE) })
     public ApiResponse createReader(@WeaverValidatedModel Reader solrReader) {
         logger.info("Creating Reader: " + solrReader.getName());
@@ -43,7 +43,7 @@ public class ReaderController {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('MANAGER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = UPDATE) })
     public ApiResponse updateReader(@WeaverValidatedModel Reader solrReader) {
         logger.info("Updating Reader: " + solrReader.getName());
@@ -51,7 +51,7 @@ public class ReaderController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE)
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('MANAGER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = DELETE) })
     public ApiResponse deleteReader(@WeaverValidatedModel Reader solrReader) {
         logger.info("Deleting Reader: " + solrReader.getName());
