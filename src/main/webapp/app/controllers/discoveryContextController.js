@@ -22,6 +22,14 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
 
   $scope.discoveryContext.ready().then(function() {
 
+    $scope.getNarrowLogoClass = function() {
+      return {'background-image': 'url(' + $scope.discoveryContext.logoUrl + ')'};
+    };
+
+    $scope.getWideLogoClass = function() {
+      return {'background-image': 'url(' + $scope.discoveryContext.wideLogoUrl + ')'};
+    };
+
     $scope.breadcrumbContexts = [
       $scope.discoveryContext
     ];
@@ -60,6 +68,11 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
 
       if (!angular.isDefined($scope.discoveryContext.search.page.sort)) {
         $scope.discoveryContext.search.page.sort = $scope.discoveryContext.sortFields[0].key;
+      }
+
+      if (!angular.isDefined($scope.discoveryContext.search.page.direction)) {
+        $scope.discoveryContext.search.page.direction = $scope.discoveryContext.ascending ? "ASC" : "DESC";
+        $location.search("direction", $scope.discoveryContext.search.page.direction);
       }
 
       if (angular.isDefined($scope.discoveryContext.searchFields)) {
@@ -189,6 +202,15 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
 
     $scope.presentCollectionText = function(value) {
       return $sce.trustAsHtml(value);
+    };
+
+    $scope.toggleSort = function() {
+      $scope.discoveryContext.search.page.direction = $scope.discoveryContext.search.page.direction === "ASC" ? "DESC" : "ASC";
+      $scope.search();
+    };
+
+    $scope.isAscending = function() {
+      return $scope.discoveryContext.search.page.direction === "ASC";
     };
   });
 

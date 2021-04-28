@@ -35,7 +35,7 @@ public class WriterController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('MANAGER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = CREATE) })
     public ApiResponse createWriter(@WeaverValidatedModel Writer solrWriter) {
         logger.info("Creating Writer: " + solrWriter.getName());
@@ -43,7 +43,7 @@ public class WriterController {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('MANAGER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = UPDATE) })
     public ApiResponse updateWriter(@WeaverValidatedModel Writer solrWriter) {
         logger.info("Updating Writer: " + solrWriter.getName());
@@ -51,7 +51,7 @@ public class WriterController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE)
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('MANAGER')")
     @WeaverValidation(business = { @WeaverValidation.Business(value = DELETE) })
     public ApiResponse deleteWriter(@WeaverValidatedModel Writer solrWriter) {
         logger.info("Deleting Writer: " + solrWriter.getName());

@@ -5,7 +5,8 @@ sage.repo("OperatorRepo", function(WsApi) {
     name: "",
     type: "DEFAULT_OP",
     field: "",
-    value: ""
+    value: "",
+    mapping: {}
   };
 
   operatorRepo.getTypes = function () {

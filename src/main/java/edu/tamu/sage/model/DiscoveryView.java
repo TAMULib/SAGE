@@ -27,7 +27,7 @@ public class DiscoveryView extends ValidatingBaseEntity {
     private String filter;
 
     @NotNull
-    @Column(nullable = false)
+    @Column(length = 2048, nullable = false)
     private String titleKey;
 
     @NotNull
@@ -66,6 +66,14 @@ public class DiscoveryView extends ValidatingBaseEntity {
 
     private String defaultOperand;
 
+    @NotNull
+    @Column(nullable = false)
+    private boolean ascending;
+
+    @NotNull
+    @Column(nullable = false)
+    private boolean published;
+
     @ElementCollection
     private List<MetadataField> resultMetadataFields;
 
@@ -79,8 +87,12 @@ public class DiscoveryView extends ValidatingBaseEntity {
     @Column
     private String logoUrl;
 
+    @Column
+    private String wideLogoUrl;
+
     public DiscoveryView() {
         setModelValidator(new DiscoveryViewValidator());
+        setAscending(true);
     }
 
     public String getName() {
@@ -203,6 +215,22 @@ public class DiscoveryView extends ValidatingBaseEntity {
         this.resultMetadataFields = resultMetadataFields;
     }
 
+    public boolean isAscending() {
+        return ascending;
+    }
+
+    public void setAscending(boolean ascending) {
+        this.ascending = ascending;
+    }
+
+    public boolean isPublished() {
+        return published;
+    }
+
+    public void setPublished(boolean published) {
+        this.published = published;
+    }
+
     public MetadataField findMetadataFieldByKey(String key) {
         MetadataField m = null;
         for (MetadataField rm : resultMetadataFields) {
@@ -258,6 +286,14 @@ public class DiscoveryView extends ValidatingBaseEntity {
 
     public void setLogoUrl(String logoUrl) {
         this.logoUrl = logoUrl;
+    }
+
+    public String getWideLogoUrl() {
+        return wideLogoUrl;
+    }
+
+    public void setWideLogoUrl(String wideLogoUrl) {
+        this.wideLogoUrl = wideLogoUrl;
     }
 
 }

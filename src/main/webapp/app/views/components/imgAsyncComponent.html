@@ -1,0 +1,5 @@
+<img class="media-object" ng-src="{{$ctrl.defaultThumbnailURI}}" ng-show="$ctrl.imageStage===$ctrl.imageStages.START || $ctrl.imageStage===$ctrl.imageStages.ERROR" />
+<div class="loader-wrapper" ng-show="$ctrl.imageStage===$ctrl.imageStages.LOADING">
+  <img class="media-object" ng-src="{{$ctrl.defaultLoadingURI}}" /> 
+</div>
+<img class="media-object thumbnail" src="{{$ctrl.thumbnailSrc}}" ng-show="$ctrl.imageStage===$ctrl.imageStages.SUCCESS" />

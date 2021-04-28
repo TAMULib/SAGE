@@ -13,10 +13,6 @@ public abstract class BasicOp extends BaseOp {
     @Column(nullable = false)
     private String field;
 
-    @NotNull
-    @Column(nullable = false)
-    private String value;
-
     public BasicOp() {
         super();
         setModelValidator(new BasicOpValidator());
@@ -28,14 +24,6 @@ public abstract class BasicOp extends BaseOp {
 
     public void setField(String field) {
         this.field = field;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
     }
 
 }
