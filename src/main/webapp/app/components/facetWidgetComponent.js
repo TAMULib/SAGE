@@ -31,8 +31,10 @@ sage.component("facetWidget", {
     $scope.addFacetFilter = function(facetName) {
       if (!$scope.findFilterByFacet($scope.$ctrl.facet.label, facetName)) {
         $scope.closeMoreFacets();
-        $scope.$ctrl.discoveryContext.addFilter($scope.$ctrl.facet.label, $scope.$ctrl.facet.key, facetName).then(function() {
-          $scope.$ctrl.resetSearch();
+        angular.element("#moreFacetsModal-" + $scope.$ctrl.facet.label.split(' ').join('-')).on('hidden.bs.modal', function (e) {
+          $scope.$ctrl.discoveryContext.addFilter($scope.$ctrl.facet.label, $scope.$ctrl.facet.key, facetName).then(function() {
+            $scope.$ctrl.resetSearch();
+          });
         });
       }
     };
