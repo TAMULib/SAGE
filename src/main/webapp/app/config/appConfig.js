@@ -5,7 +5,7 @@ var appConfig = {
   'allowAnonymous': true,
   'anonymousRole': 'ROLE_ANONYMOUS',
 
-  'authStrategies': ['emailRegistration'],
+  'authStrategies': ['weaverAuth'],
 
   //'authService': window.location.protocol + '//' + window.location.host + window.location.base + '/authfix',
   'authService': 'https://labs.library.tamu.edu/authfix',
@@ -50,6 +50,14 @@ var appConfig = {
     "pdf": [
       "pdf",
       "application/pdf"
+    ],
+    "audio": [
+      "mpeg",
+      "wav",
+      "audio/mid",
+      "audio/mpeg",
+      "audio/mp4",
+      "audio/x-aiff",
     ]
   },
 
