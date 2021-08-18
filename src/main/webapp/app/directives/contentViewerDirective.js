@@ -1,4 +1,4 @@
-sage.directive("contentviewer", function($filter, $sce) {
+sage.directive("contentviewer", function($filter, $sce, appConfig) {
   var viewerMap = appConfig.contentMap;
   return {
     templateUrl: "views/directives/viewers/viewerWrapper.html",
@@ -55,7 +55,7 @@ sage.directive("contentviewer", function($filter, $sce) {
 
       if (viewerTemplate === 'avalon') {
         $scope.resource = $sce.trustAsResourceUrl(
-          `https://avalon.library.tamu.edu:443/master_files/${$filter("removeBrackets")($scope.context.resourceLocationUri)}/embed`
+          `//${appConfig.avalonUrl}/master_files/${$filter("removeBrackets")($scope.context.resourceLocationUri)}/embed`
         );
       }
 
