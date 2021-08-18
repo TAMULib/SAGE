@@ -27,6 +27,8 @@ public class SingleResultContext {
 
     private List<ResultMetadataField> resultMetadataFields;
 
+    private String preferedPlayer;
+
     public SingleResultContext() {
         super();
         resultMetadataFields = new ArrayList<ResultMetadataField>();
@@ -80,6 +82,14 @@ public class SingleResultContext {
         this.resultMetadataFields = resultMetadataFields;
     }
 
+    public String getPreferedPlayer() {
+        return this.preferedPlayer;
+    }
+
+    public void setPreferedPlayer(String preferedPlayer) {
+        this.preferedPlayer = preferedPlayer;
+    }
+
     public static SingleResultContext of(DiscoveryView dv, SolrDocument solrDocument) {
         SingleResultContext src = buildSingleResult(dv, solrDocument);
 
@@ -110,6 +120,7 @@ public class SingleResultContext {
         Optional<String> locationOption = compileTemplateEntry(dv.getResourceLocationUriKey(), solrDocument);
         Optional<String> thumbnailOption = compileTemplateEntry(dv.getResourceThumbnailUriKey(), solrDocument);
         Optional<String> manifestOption = compileTemplateEntry(dv.getManifestUriKey(), solrDocument);
+        Optional<Object> preferredPlayerOption = Optional.ofNullable(solrDocument.getFirstValue("preferred_player"));
 
         if (titleOption.isPresent()) {
             src.setTitle(titleOption.get());
@@ -126,6 +137,10 @@ public class SingleResultContext {
         if (manifestOption.isPresent()) {
             src.setManifestUri(manifestOption.get());
         }
+        if (preferredPlayerOption.isPresent()) {
+            src.setPreferedPlayer(preferredPlayerOption.get().toString().split("\"")[1]);
+        }
+
         return src;
     }
 }

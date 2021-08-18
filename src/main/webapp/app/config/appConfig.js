@@ -51,13 +51,8 @@ var appConfig = {
       "pdf",
       "application/pdf"
     ],
-    "audio": [
-      "mpeg",
-      "wav",
-      "audio/mid",
-      "audio/mpeg",
-      "audio/mp4",
-      "audio/x-aiff",
+    "avalon": [
+      "avalon"
     ]
   },
 

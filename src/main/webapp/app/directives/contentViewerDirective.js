@@ -1,4 +1,4 @@
-sage.directive("contentviewer", function($filter) {
+sage.directive("contentviewer", function($filter, $sce) {
   var viewerMap = appConfig.contentMap;
   return {
     templateUrl: "views/directives/viewers/viewerWrapper.html",
@@ -51,6 +51,12 @@ sage.directive("contentviewer", function($filter) {
             }]
           });
         };
+      }
+
+      if (viewerTemplate === 'avalon') {
+        $scope.resource = $sce.trustAsResourceUrl(
+          `https://avalon.library.tamu.edu:443/master_files/${$filter("removeBrackets")($scope.context.resourceLocationUri)}/embed`
+        );
       }
 
       $scope.includeTemplateUrl = "views/directives/viewers/"+viewerTemplate+"Viewer.html";
