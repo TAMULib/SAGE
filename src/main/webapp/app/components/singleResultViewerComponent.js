@@ -55,7 +55,6 @@ sage.component("singleResultViewer", {
         if(!!$scope.singleResultContext.preferedPlayer) {
           $scope.contentType = $scope.singleResultContext.preferedPlayer;
           $scope.ready = true;
-          console.log($scope.contentType);
         }
         else if ($scope.singleResultContext.manifestUri) {
           $scope.contentType = 'manifest';
