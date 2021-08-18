@@ -15,6 +15,8 @@ import edu.tamu.sage.model.MetadataField;
 
 public class SingleResultContext {
 
+    private static final String PREFERRED_PLAYER_KEY = "preferred_player";
+
     private String title;
 
     private String uniqueIdentifier;
@@ -120,7 +122,7 @@ public class SingleResultContext {
         Optional<String> locationOption = compileTemplateEntry(dv.getResourceLocationUriKey(), solrDocument);
         Optional<String> thumbnailOption = compileTemplateEntry(dv.getResourceThumbnailUriKey(), solrDocument);
         Optional<String> manifestOption = compileTemplateEntry(dv.getManifestUriKey(), solrDocument);
-        Optional<Object> preferredPlayerOption = Optional.ofNullable(solrDocument.getFirstValue("preferred_player"));
+        Optional<Object> preferredPlayerOption = Optional.ofNullable(solrDocument.getFirstValue(PREFERRED_PLAYER_KEY));
 
         if (titleOption.isPresent()) {
             src.setTitle(titleOption.get());
