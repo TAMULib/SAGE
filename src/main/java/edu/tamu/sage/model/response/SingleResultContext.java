@@ -29,7 +29,7 @@ public class SingleResultContext {
 
     private List<ResultMetadataField> resultMetadataFields;
 
-    private String preferedPlayer;
+    private String preferredPlayer;
 
     public SingleResultContext() {
         super();
@@ -84,12 +84,12 @@ public class SingleResultContext {
         this.resultMetadataFields = resultMetadataFields;
     }
 
-    public String getPreferedPlayer() {
-        return this.preferedPlayer;
+    public String getPreferredPlayer() {
+        return this.preferredPlayer;
     }
 
-    public void setPreferedPlayer(String preferedPlayer) {
-        this.preferedPlayer = preferedPlayer;
+    public void setPreferredPlayer(String preferredPlayer) {
+        this.preferredPlayer = preferredPlayer;
     }
 
     public static SingleResultContext of(DiscoveryView dv, SolrDocument solrDocument) {
@@ -140,7 +140,7 @@ public class SingleResultContext {
             src.setManifestUri(manifestOption.get());
         }
         if (preferredPlayerOption.isPresent()) {
-            src.setPreferedPlayer(preferredPlayerOption.get().toString().split("\"")[1]);
+            src.setPreferredPlayer(preferredPlayerOption.get().toString().split("\"")[1]);
         }
 
         return src;
