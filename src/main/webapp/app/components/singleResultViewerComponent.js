@@ -49,8 +49,14 @@ sage.component("singleResultViewer", {
 
     $timeout(function() {
       $scope.singleResultContext = $scope.$ctrl.context;
+
       $scope.singleResultContext.ready().then(function() {
-        if ($scope.singleResultContext.manifestUri) {
+
+        if(!!$scope.singleResultContext.preferredPlayer) {
+          $scope.contentType = $scope.singleResultContext.prefreredPlayer;
+          $scope.ready = true;
+        }
+        else if ($scope.singleResultContext.manifestUri) {
           $scope.contentType = 'manifest';
           $scope.ready = true;
         } else {
@@ -60,6 +66,7 @@ sage.component("singleResultViewer", {
             $scope.ready = true;
           });
         }
+
       });
     });
 

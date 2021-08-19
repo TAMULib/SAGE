@@ -50,10 +50,14 @@ var appConfig = {
     "pdf": [
       "pdf",
       "application/pdf"
+    ],
+    "avalon": [
+      "avalon"
     ]
   },
 
   'defaultThumbnailURI': "resources/images/default-thumbnail.jpg",
-  'defaultLoadingThumbnailURI': "resources/images/loading2.gif"
+  'defaultLoadingThumbnailURI': "resources/images/loading2.gif",
+  'avalonUrl': 'avalon-pre.library.tamu.edu:443'
 
 };
