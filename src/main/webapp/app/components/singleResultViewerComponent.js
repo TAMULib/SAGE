@@ -51,9 +51,8 @@ sage.component("singleResultViewer", {
       $scope.singleResultContext = $scope.$ctrl.context;
 
       $scope.singleResultContext.ready().then(function() {
-
         if(!!$scope.singleResultContext.preferredPlayer) {
-          $scope.contentType = $scope.singleResultContext.prefreredPlayer;
+          $scope.contentType = $scope.singleResultContext.preferredPlayer;
           $scope.ready = true;
         }
         else if ($scope.singleResultContext.manifestUri) {
