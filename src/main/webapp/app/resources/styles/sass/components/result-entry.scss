@@ -1,12 +1,31 @@
 result-entry {
   dt {
     width: 100px;
+    font-size: 14px;
     text-align: right;
-    margin-top: 5px;
+    hyphens: auto;
+  }
+  dt:after {
+    content: ":";
   }
   dd {
     margin-left: 125px;
     width: 250px;
     margin-top: -19px;
+    min-height: 28px;
+  }
+}
+
+.single-result {
+  margin-bottom: 5px;
+  result-entry {
+    dt {
+      font-size: 20px;
+      width: 250px;
+    }
+    dd {
+      margin-top: -28px;
+      margin-left: 275px;
+    }
   }
 }
