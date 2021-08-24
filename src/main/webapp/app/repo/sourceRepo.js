@@ -4,7 +4,7 @@ sage.repo("SourceRepo", function (Source, WsApi) {
 
   sourceRepo.scaffold = new Source({
     name: "Local Solr",
-    uri: "http://localhost:8983/solr/sage-discovery",
+    uri: "http://machuff.tamu.edu:8983/solr/sage-discovery",
     readOnly: true,
     requiresFilter: true,
     username: "",
