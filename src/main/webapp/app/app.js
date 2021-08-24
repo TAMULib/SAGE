@@ -14,7 +14,7 @@ setUpApp(function (connected) {
 
   sage.constant('appConfig', appConfig);
   sage.constant('api', apiMapping);
-  console.log("active");
+
   angular.element(document).ready(function () {
     try {
       // If the app is already bootstrapped then an error will be thrown
