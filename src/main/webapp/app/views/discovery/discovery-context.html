@@ -119,15 +119,8 @@
             </div>
             <div class="media-body">
               <h4 class="media-heading"><a href="discovery-context/{{discoveryContext.slug}}/{{result.uniqueIdentifier}}">{{result.title}}</a></h4>
-              <dl class="dl-horizontal dc-result-metadata">
-                <span class="dc-field" ng-repeat="resultField in result.fields" ng-if="resultField.inList">
-                  <dt><span class="dc-field-key">{{resultField.label}}:</span></dt>
-                  <dd>
-                    <div class="dc-field-value" ng-repeat="value in resultField.value">
-                      <present-value>{{value}}</present-value>
-                    </div>
-                  </dd>
-                </span>
+              <dl class="dc-result-metadata">
+                <result-entry class="dc-field" ng-repeat="resultField in result.fields" result-field="resultField"></result-entry>
               </dl>
             </div>
             <hr>

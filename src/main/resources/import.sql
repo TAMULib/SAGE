@@ -42,5 +42,7 @@ INSERT INTO INTERNAL_METADATA SELECT * FROM (
   SELECT 37, 'itemIdentifier', 'Physical Item Identifier (dc.identifier)', false UNION
   SELECT 38, 'itemLocation', 'Physical Item Location (dc.description)', false UNION
   SELECT 39, 'details', 'Details (local.details)', false UNION
-  SELECT 40, 'spatial', 'Spatial (dcterms.spatial)', false
+  SELECT 40, 'spatial', 'Spatial (dcterms.spatial)', false UNION
+  SELECT 41, 'preferredPlayer', 'Preferred Player', false
+
 ) M WHERE NOT EXISTS(SELECT * FROM INTERNAL_METADATA);

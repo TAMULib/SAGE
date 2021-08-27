@@ -15,6 +15,8 @@ import edu.tamu.sage.model.MetadataField;
 
 public class SingleResultContext {
 
+    private static final String PREFERRED_PLAYER_KEY = "preferred_player";
+
     private String title;
 
     private String uniqueIdentifier;
@@ -26,6 +28,8 @@ public class SingleResultContext {
     private String manifestUri;
 
     private List<ResultMetadataField> resultMetadataFields;
+
+    private String preferredPlayer;
 
     public SingleResultContext() {
         super();
@@ -80,6 +84,14 @@ public class SingleResultContext {
         this.resultMetadataFields = resultMetadataFields;
     }
 
+    public String getPreferredPlayer() {
+        return this.preferredPlayer;
+    }
+
+    public void setPreferredPlayer(String preferredPlayer) {
+        this.preferredPlayer = preferredPlayer;
+    }
+
     public static SingleResultContext of(DiscoveryView dv, SolrDocument solrDocument) {
         SingleResultContext src = buildSingleResult(dv, solrDocument);
 
@@ -110,6 +122,7 @@ public class SingleResultContext {
         Optional<String> locationOption = compileTemplateEntry(dv.getResourceLocationUriKey(), solrDocument);
         Optional<String> thumbnailOption = compileTemplateEntry(dv.getResourceThumbnailUriKey(), solrDocument);
         Optional<String> manifestOption = compileTemplateEntry(dv.getManifestUriKey(), solrDocument);
+        Optional<Object> preferredPlayerOption = Optional.ofNullable(solrDocument.getFirstValue(PREFERRED_PLAYER_KEY));
 
         if (titleOption.isPresent()) {
             src.setTitle(titleOption.get());
@@ -126,6 +139,10 @@ public class SingleResultContext {
         if (manifestOption.isPresent()) {
             src.setManifestUri(manifestOption.get());
         }
+        if (preferredPlayerOption.isPresent()) {
+            src.setPreferredPlayer(preferredPlayerOption.get().toString().split("\"")[1]);
+        }
+
         return src;
     }
 }
