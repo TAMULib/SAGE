@@ -32,12 +32,12 @@ result-entry {
   @media only screen and (max-width: 758px) {
     result-entry {
       dt {
-        width: 100% !important;
+        width: 100%;
         text-align: left;
       }
       dd {
-        min-width: 758px !important;
-        text-align: justify;
+        width: 100%;
+        word-break: break-word;
         margin: 0 0 0 14px;
       }
     }
