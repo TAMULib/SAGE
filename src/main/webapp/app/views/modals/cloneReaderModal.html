@@ -1,0 +1,66 @@
+   <form name="readerForms.create" ng-submit="createReader()" novalidate class="reader-forms-create">
+    <div class="modal-header {{attr.modalHeaderClass}}">
+      <button type="button" class="close modal-close" aria-label="Close" ng-click="cancelCreateReader()"><span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title">Clone Reader</h4>
+    </div>
+    <div class="modal-body">
+      <alerts seconds="30" channels="source/solr/fields" types="WARNING,ERROR" exclusive></alerts>
+      <validationmessage results="readerForms.getResults()"></validationmessage>
+  
+      <div class="row">
+        <div class="col-sm-10 col-sm-offset-1">
+          <validatedinput
+            id="readerToCreateName"
+            model="readerToClone"
+            property="name"
+            label="Name"
+            form="readerForms.create"
+            validations="readerForms.validations"
+            results="readerForms.getResults()"
+            autocomplete="off">
+          </validatedinput>
+  
+          <validatedselect
+            id="readerToCreateSource"
+            model="readerToClone"
+            property="source"
+            options="sources"
+            optionproperty="name"
+            label="Source"
+            form="readerForms.create"
+            validations="readerForms.validations"
+            results="readerForms.getResults()"
+            change="updateFields(readerToUpdate)"
+            autocomplete="off">
+          </validatedselect>
+  
+          <validatedinput
+            id="readerToUpdateFilter"
+            model="readerToClone"
+            property="filter"
+            label="Filter"
+            placeholder=""
+            form="readerForms.update"
+            validations="readerForms.validations"
+            results="readerForms.getResults()"
+            autocomplete="off">
+          </validatedinput>
+  
+          <label>Field Mappings</label>
+          <ul class="list-group">
+            <li class="list-group-item" ng-repeat="metadatum in internalMetadata | orderBy: 'id'">
+              <label>{{metadatum.gloss}}</label>
+              <input class="form-control" type="text" name="fieldMapping" ng-model="readerFields[metadatum.field].value" uib-typeahead="f.name for f in fields | filter:$viewValue" />
+              <small ng-if="metadatum.required" class="form-text text-muted">This field is required.</small>
+            </li>
+          </ul>
+  
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" ng-click="cancelCreateReader()">Cancel</button>
+      <button ng-disabled="disableSubmit(readerForms.create)" type="submit" class="btn btn-success">Clone</button>
+    </div>
+  </form>
+  
