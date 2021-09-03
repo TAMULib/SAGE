@@ -1,6 +1,6 @@
-   <form name="readerForms.create" ng-submit="createReader()" novalidate class="reader-forms-create">
+   <form name="readerForms.clone" ng-submit="cloneReader()" novalidate class="reader-forms-clone">
     <div class="modal-header {{attr.modalHeaderClass}}">
-      <button type="button" class="close modal-close" aria-label="Close" ng-click="cancelCreateReader()"><span aria-hidden="true">&times;</span></button>
+      <button type="button" class="close modal-close" aria-label="Close" ng-click="cancelcloneReader()"><span aria-hidden="true">&times;</span></button>
       <h4 class="modal-title">Clone Reader</h4>
     </div>
     <div class="modal-body">
@@ -10,24 +10,24 @@
       <div class="row">
         <div class="col-sm-10 col-sm-offset-1">
           <validatedinput
-            id="readerToCreateName"
+            id="readerToCloneName"
             model="readerToClone"
             property="name"
             label="Name"
-            form="readerForms.create"
+            form="readerForms.clone"
             validations="readerForms.validations"
             results="readerForms.getResults()"
             autocomplete="off">
           </validatedinput>
   
           <validatedselect
-            id="readerToCreateSource"
+            id="readerToCloneSource"
             model="readerToClone"
             property="source"
             options="sources"
             optionproperty="name"
             label="Source"
-            form="readerForms.create"
+            form="readerForms.clone"
             validations="readerForms.validations"
             results="readerForms.getResults()"
             change="updateFields(readerToUpdate)"
@@ -40,7 +40,7 @@
             property="filter"
             label="Filter"
             placeholder=""
-            form="readerForms.update"
+            form="readerForms.clone"
             validations="readerForms.validations"
             results="readerForms.getResults()"
             autocomplete="off">
@@ -59,8 +59,8 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-default" ng-click="cancelCreateReader()">Cancel</button>
-      <button ng-disabled="disableSubmit(readerForms.create)" type="submit" class="btn btn-success">Clone</button>
+      <button type="button" class="btn btn-default" ng-click="cancelcloneReader()">Cancel</button>
+      <button ng-disabled="disableSubmit(readerForms.clone)" type="submit" class="btn btn-success">Clone</button>
     </div>
   </form>
   
