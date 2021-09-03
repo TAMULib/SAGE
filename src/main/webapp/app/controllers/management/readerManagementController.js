@@ -112,16 +112,21 @@ sage.controller('ReaderManagementController', function ($controller, $scope, $ti
     $scope.cloningReader = true;
     applyFields($scope.readerToClone);
     $scope.readerToClone.dirty(true);
-    $scope.readerToClone.save().then(function() {
-      $scope.resetReaderForms();
-      $scope.cloningReader = false;
-    });
+    if($scope.readerToClone.id) {
+      delete $scope.readerToClone.id;
+      ReaderRepo.create($scope.readerToClone).then(function(res) {
+        if (angular.fromJson(res.body).meta.status === "SUCCESS") {
+          $scope.cancelUpdateReader();
+        }
+      });
+    }
   };
 
+  var readerToCloneWatcher;
   $scope.startCloneReader = function(reader) {
   $scope.readerToClone = reader;
-  if (readerToUpdateWatcher !== undefined) {
-    readerToUpdateWatcher();
+  if (readerToCloneWatcher !== undefined) {
+    readerToCloneWatcher();
   }
   readerToCloneWatcher = $scope.$watch("readerToClone.filter", filterChangeWrapper($scope.readerToClone));
   angular.forEach($scope.readerToClone.fields, function(field) {

@@ -1,6 +1,6 @@
    <form name="readerForms.clone" ng-submit="cloneReader()" novalidate class="reader-forms-clone">
     <div class="modal-header {{attr.modalHeaderClass}}">
-      <button type="button" class="close modal-close" aria-label="Close" ng-click="cancelcloneReader()"><span aria-hidden="true">&times;</span></button>
+      <button type="button" class="close modal-close" aria-label="Close" ng-click="cancelUpdateReader()"><span aria-hidden="true">&times;</span></button>
       <h4 class="modal-title">Clone Reader</h4>
     </div>
     <div class="modal-body">
@@ -30,12 +30,11 @@
             form="readerForms.clone"
             validations="readerForms.validations"
             results="readerForms.getResults()"
-            change="updateFields(readerToUpdate)"
             autocomplete="off">
           </validatedselect>
   
           <validatedinput
-            id="readerToUpdateFilter"
+            id="readerToCloneFilter"
             model="readerToClone"
             property="filter"
             label="Filter"
@@ -59,7 +58,7 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-default" ng-click="cancelcloneReader()">Cancel</button>
+      <button type="button" class="btn btn-default" ng-click="cancelUpdateReader()">Cancel</button>
       <button ng-disabled="disableSubmit(readerForms.clone)" type="submit" class="btn btn-success">Clone</button>
     </div>
   </form>
