@@ -1,4 +1,4 @@
-sage.controller('ReaderManagementController', function ($controller, $scope, $timeout, NgTableParams, InternalMetadataRepo, ReaderRepo, SourceRepo) {
+sage.controller('ReaderManagementController', function ($controller, $route, $scope, $timeout, NgTableParams, InternalMetadataRepo, ReaderRepo, SourceRepo) {
 
   angular.extend(this, $controller('AbstractController', {
       $scope: $scope
@@ -115,8 +115,9 @@ sage.controller('ReaderManagementController', function ($controller, $scope, $ti
     if($scope.readerToClone.id) {
       delete $scope.readerToClone.id;
       ReaderRepo.create($scope.readerToClone).then(function(res) {
+        $route.reload();
         if (angular.fromJson(res.body).meta.status === "SUCCESS") {
-          $scope.cancelUpdateReader();
+          $scope.cancelCloneReader();
         }
       });
     }
@@ -134,8 +135,15 @@ sage.controller('ReaderManagementController', function ($controller, $scope, $ti
       value: field.name
     };
   });
+
   $scope.openModal("#cloneReaderModal");
-};
+ };
+
+  $scope.cancelCloneReader = function() {
+    $scope.readerToClone = {};
+    $scope.readerFields = {};
+    $scope.resetReaderForms();
+  };
 
   $scope.cancelUpdateReader = function() {
     $scope.readerToUpdate = {};
