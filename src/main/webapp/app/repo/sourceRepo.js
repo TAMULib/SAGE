@@ -12,20 +12,22 @@ sage.repo("SourceRepo", function (Source, WsApi) {
   });
 
   sourceRepo.getAvailableFields = function (uri, filter) {
-    var fields = [];
-    var getAvailableFieldsPromise = WsApi.fetch(sourceRepo.mapping.getAvailableFields, {
-      query: {
-        uri: uri,
-        filter: filter
-      }
+    var fieldsPromise = new Promise((resolve, reject) => {
+      var getAvailableFieldsPromise = WsApi.fetch(sourceRepo.mapping.getAvailableFields, {
+        query: {
+          uri: uri,
+          filter: filter
+        }
+      });
+      getAvailableFieldsPromise.then(function (response) {
+        var apiRes = angular.fromJson(response.body);
+        if (apiRes.meta.status === 'SUCCESS') {
+          resolve(apiRes.payload['ArrayList<SolrField>']);
+        }
+      });
     });
-    getAvailableFieldsPromise.then(function (response) {
-      var apiRes = angular.fromJson(response.body);
-      if (apiRes.meta.status === 'SUCCESS') {
-        angular.extend(fields, apiRes.payload['ArrayList<SolrField>']);
-      }
-    });
-    return fields;
+
+    return fieldsPromise;
   };
 
   sourceRepo.getIndexedFields = function (uri, filter) {
