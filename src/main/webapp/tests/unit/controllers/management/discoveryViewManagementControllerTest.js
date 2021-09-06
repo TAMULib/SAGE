@@ -276,8 +276,11 @@ describe("controller: DiscoveryViewManagementController", function () {
       discoveryView.source.requiresFilter = false;
 
       SourceRepo.getAvailableFields = function (uri, filter) {
-        receivedUri = uri;
-        receivedFilter = filter;
+        return new Promise((resolve, reject) => {
+          receivedUri = uri;
+          receivedFilter = filter;
+          resolve();
+        });
       };
 
       spyOn(SourceRepo, "getAvailableFields").and.callThrough();
