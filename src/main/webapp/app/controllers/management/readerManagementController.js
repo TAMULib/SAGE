@@ -124,7 +124,7 @@ sage.controller('ReaderManagementController', function ($controller, $scope, $ti
 
   var readerToCloneWatcher;
   $scope.startCloneReader = function(reader) {
-  $scope.readerToClone = reader;
+  $scope.readerToClone = angular.copy(reader);
   if (readerToCloneWatcher !== undefined) {
     readerToCloneWatcher();
   }
