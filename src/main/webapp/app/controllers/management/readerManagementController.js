@@ -1,4 +1,4 @@
-sage.controller('ReaderManagementController', function ($controller, $route, $scope, $timeout, NgTableParams, InternalMetadataRepo, ReaderRepo, SourceRepo) {
+sage.controller('ReaderManagementController', function ($controller, $scope, $timeout, NgTableParams, InternalMetadataRepo, ReaderRepo, SourceRepo) {
 
   angular.extend(this, $controller('AbstractController', {
       $scope: $scope
@@ -115,7 +115,6 @@ sage.controller('ReaderManagementController', function ($controller, $route, $sc
     if($scope.readerToClone.id) {
       delete $scope.readerToClone.id;
       ReaderRepo.create($scope.readerToClone).then(function(res) {
-        $route.reload();
         if (angular.fromJson(res.body).meta.status === "SUCCESS") {
           $scope.cancelCloneReader();
         }
