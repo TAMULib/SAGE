@@ -17,6 +17,8 @@ public class SingleResultContext {
 
     private static final String PREFERRED_PLAYER_KEY = "preferred_player";
 
+    private static final String FORMAT_KEY = "format";
+
     private String title;
 
     private String uniqueIdentifier;
@@ -30,6 +32,8 @@ public class SingleResultContext {
     private List<ResultMetadataField> resultMetadataFields;
 
     private String preferredPlayer;
+
+    private String format;
 
     public SingleResultContext() {
         super();
@@ -92,6 +96,14 @@ public class SingleResultContext {
         this.preferredPlayer = preferredPlayer;
     }
 
+    public String getFormat() {
+        return this.format;
+    }
+
+    public void setFormat(String format) {
+        this.format = format;
+    }
+
     public static SingleResultContext of(DiscoveryView dv, SolrDocument solrDocument) {
         SingleResultContext src = buildSingleResult(dv, solrDocument);
 
@@ -123,6 +135,7 @@ public class SingleResultContext {
         Optional<String> thumbnailOption = compileTemplateEntry(dv.getResourceThumbnailUriKey(), solrDocument);
         Optional<String> manifestOption = compileTemplateEntry(dv.getManifestUriKey(), solrDocument);
         Optional<Object> preferredPlayerOption = Optional.ofNullable(solrDocument.getFirstValue(PREFERRED_PLAYER_KEY));
+        Optional<Object> formatOption = Optional.ofNullable(solrDocument.getFirstValue(FORMAT_KEY));
 
         if (titleOption.isPresent()) {
             src.setTitle(titleOption.get());
@@ -141,6 +154,9 @@ public class SingleResultContext {
         }
         if (preferredPlayerOption.isPresent()) {
             src.setPreferredPlayer(preferredPlayerOption.get().toString().split("\"")[1]);
+        }
+        if (formatOption.isPresent()) {
+            src.setFormat(formatOption.get().toString());
         }
 
         return src;

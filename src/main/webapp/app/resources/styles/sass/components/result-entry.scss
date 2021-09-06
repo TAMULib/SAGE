@@ -28,4 +28,18 @@ result-entry {
       margin-left: 275px;
     }
   }
+
+  @media only screen and (max-width: 758px) {
+    result-entry {
+      dt {
+        width: 100% !important;
+        text-align: left;
+      }
+      dd {
+        min-width: 758px !important;
+        text-align: justify;
+        margin: 0 0 0 14px;
+      }
+    }
+  }
 }
