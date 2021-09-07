@@ -56,6 +56,11 @@ var appConfig = {
     ]
   },
 
+  'audioVideoMap': {
+    "audio": "Sound Recording",
+    "video": "Moving Image"
+  },
+
   'defaultThumbnailURI': "resources/images/default-thumbnail.jpg",
   'defaultLoadingThumbnailURI': "resources/images/loading2.gif",
   'avalonUrl': ''

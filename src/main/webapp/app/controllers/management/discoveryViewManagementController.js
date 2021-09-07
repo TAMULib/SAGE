@@ -17,6 +17,8 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
   $scope.queryParsers = [ "", "EDISMAX", "DISMAX" ];
   $scope.queryOperands = [ "", "AND", "OR" ];
 
+  $scope.fields = [];
+
   $scope.discoveryViewForms = {
     validations: DiscoveryViewRepo.getValidations(),
     getResults: DiscoveryViewRepo.getValidationResults
@@ -323,7 +325,9 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
       if (dv.source.requiresFilter && filter.length === 0) {
         filter = "*.*";
       }
-      $scope.fields = SourceRepo.getAvailableFields(dv.source.uri, filter);
+      SourceRepo.getAvailableFields(dv.source.uri, filter).then(function(res) {
+        angular.extend($scope.fields, res);
+      });
     }
   };
 
