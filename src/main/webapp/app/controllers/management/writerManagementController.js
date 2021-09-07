@@ -8,6 +8,7 @@ sage.controller('WriterManagementController', function ($controller, $scope, NgT
   $scope.sources = SourceRepo.getWriteable();
 
   $scope.writerToCreate = WriterRepo.getScaffold();
+  $scope.writerToClone = {};
   $scope.writerMappings = {};
   $scope.writerToUpdate = {};
   $scope.writerToDelete = {};
@@ -102,6 +103,34 @@ sage.controller('WriterManagementController', function ($controller, $scope, NgT
       $scope.deletingWriter = false;
       $scope.resetWriterForms();
     });
+  };
+
+  $scope.cloneWriter = function() {
+    $scope.cloningWriter = true;
+    applyMappings($scope.writerToCreate);
+    $scope.writerToClone.dirty(true);
+    if($scope.writerToClone.id) {
+      delete $scope.writerToClone.id; console.log($scope.writerToClone);
+      WriterRepo.create($scope.writerToClone).then(function(res) {
+      if (angular.fromJson(res.body).meta.status === "SUCCESS") {
+        $scope.cancelCloneWriter();
+      }
+    });
+    }
+  };
+
+  $scope.startCloneWriter = function(writer) {
+    $scope.writerToClone = angular.copy(writer);
+    angular.forEach($scope.writerToClone.outputMappings, function(mapping) {
+      $scope.writerMappings[mapping.inputField] = mapping.mappings.join(";");
+    });
+    $scope.openModal("#cloneWriterModal");
+  };
+
+  $scope.cancelCloneWriter = function() {
+    $scope.writerToClone = {};
+    $scope.writerMappings = {};
+    $scope.resetWriterForms();
   };
 
   $scope.disableSubmit = function(form) {

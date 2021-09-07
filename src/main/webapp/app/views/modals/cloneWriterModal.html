@@ -1,0 +1,54 @@
+<form name="writerForms.clone" ng-submit="cloneWriter()" novalidate class="writer-forms-clone">
+    <div class="modal-header {{attr.modalHeaderClass}}">
+      <button type="button" class="close modal-close" aria-label="Close" ng-click="cancelCloneWriter()"><span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title">Clone Writer</h4>
+    </div>
+    <div class="modal-body">
+      <alerts seconds="30" channels="source/solr/fields" types="WARNING,ERROR" exclusive></alerts>
+      <validationmessage results="writerForms.getResults()"></validationmessage>
+  
+      <div class="row">
+        <div class="col-sm-10 col-sm-offset-1">
+          <validatedinput
+            id="writerToCloneName"
+            model="writerToClone"
+            property="name"
+            label="Name"
+            form="writerForms.clone"
+            validations="writerForms.validations"
+            results="writerForms.getResults()"
+            autocomplete="off">
+          </validatedinput>
+  
+          <validatedselect
+            id="writerToCloneSource"
+            model="writerToClone"
+            property="source"
+            options="sources"
+            optionproperty="name"
+            label="Destination"
+            form="writerForms.clone"
+            validations="writerForms.validations"
+            results="writerForms.getResults()"
+            change="updateFields(writerToClone)"
+            autocomplete="off">
+          </validatedselect>
+  
+          <label>Field Mappings</label>
+          <ul class="list-group">
+            <li class="list-group-item" ng-repeat="metadatum in internalMetadata | orderBy: 'id'">
+              <label>{{metadatum.gloss}}</label>
+              <input class="form-control" type="text" name="writerMappings" ng-model="writerMappings[metadatum.field]" uib-typeahead="f.name for f in fields | filter:$viewValue" />
+              <small ng-if="metadatum.required" class="form-text text-muted">This field is required.</small>
+            </li>
+          </ul>
+  
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" ng-click="cancelCloneWriter()">Cancel</button>
+      <button ng-disabled="disableSubmit(writerForms.clone)" type="submit" class="btn btn-success">Clone</button>
+    </div>
+  </form>
+  
