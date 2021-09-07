@@ -1,0 +1,395 @@
+<form name="discoveryViewForms.clone" ng-submit="cloneDiscoveryView()" novalidate class="discovery-view-forms-clone">
+    <div class="modal-header {{attr.modalHeaderClass}}">
+      <button type="button" class="close modal-close" aria-label="Close" ng-click="cancelCloneDiscoveryView()"><span aria-hidden="true">&times;</span></button>
+      <h4 class="modal-title">Clone Discovery View</h4>
+    </div>
+    <div class="modal-body" ng-if="discoveryView">
+      <div class="form-group text-center">
+        <a role="button" class="btn btn-default" target="_blank" href="discovery-context/{{discoveryView.slug}}">View {{discoveryView.name}}</a>
+      </div>
+      <alerts seconds="30" channels="source/solr/fields,source/solr/test,discovery-view" types="WARNING,ERROR" exclusive></alerts>
+      <validationmessage results="discoveryViewForms.getResults()"></validationmessage>
+  
+      <uib-tabset ng-if="tabs.inUpdate" active="tabs.active" justified="true">
+        <uib-tab index="0" heading="General" select="stepTransitionRefresh(tabs.active)">
+          <div class="row">
+            <div class="col-sm-10 col-sm-offset-1">
+              <br>
+              <validatedinput
+                id="discoveryViewToCloneName"
+                model="discoveryView"
+                property="name"
+                label="{{makeLabel('Name')}}"
+                placeholder="Name for the cloned Discovery View"
+                form="discoveryViewForms.clone"
+                validations="discoveryViewForms.validations"
+                results="discoveryViewForms.getResults()"
+                autocomplete="off">
+              </validatedinput>
+  
+              <validatedselect
+                id="discoveryViewToCloneSource"
+                model="discoveryView"
+                property="source"
+                options="sources"
+                optionproperty="name"
+                label="{{makeLabel('Source')}}"
+                placeholder="Source for the cloned Writer"
+                form="discoveryViewForms.clone"
+                validations="discoveryViewForms.validations"
+                results="discoveryViewForms.getResults()"
+                autocomplete="off"
+                change="refreshSource(discoveryView)">
+              </validatedselect>
+  
+              <validatedinput
+                id="discoveryViewToCloneFilter"
+                model="discoveryView"
+                property="filter"
+                label="{{makeLabel('Filter')}}"
+                placeholder=""
+                form="discoveryViewForms.clone"
+                validations="discoveryViewForms.validations"
+                results="discoveryViewForms.getResults()"
+                autocomplete="off"
+                change="refreshSource(discoveryView)">
+              </validatedinput>
+  
+              <validatedinput
+                id="discoveryViewToCloneSlug"
+                model="discoveryView"
+                property="slug"
+                label="{{makeLabel('Slug')}}"
+                placeholder="The URI slug of this Discovery View"
+                form="discoveryViewForms.clone"
+                validations="discoveryViewForms.validations"
+                results="discoveryViewForms.getResults()"
+                autocomplete="off">
+              </validatedinput>
+  
+              <validatedinput
+                id="discoveryViewToCloneLogoUrl"
+                model="discoveryView"
+                property="logoUrl"
+                label="{{makeLabel('Narrow Logo URL (3:5 Aspect Ratio)')}}"
+                placeholder="Narrow Logo URL for the updated Discovery View"
+                form="discoveryViewForms.clone"
+                validations="discoveryViewForms.validations"
+                results="discoveryViewForms.getResults()"
+                autocomplete="off">
+              </validatedinput>
+  
+              <validatedinput
+                id="discoveryViewToCloneWideLogoUrl"
+                model="discoveryView"
+                property="wideLogoUrl"
+                label="{{makeLabel('Wide Logo URL (5:3 Aspect Ratio)')}}"
+                placeholder="Wide Logo URL for the updated Discovery View"
+                form="discoveryViewForms.clone"
+                validations="discoveryViewForms.validations"
+                results="discoveryViewForms.getResults()"
+                autocomplete="off">
+              </validatedinput>
+  
+              <validatedinput
+                id="discoveryViewToCloneInfoLinkText"
+                model="discoveryView"
+                property="infoLinkText"
+                label="{{makeLabel('Info Link Text')}}"
+                placeholder="e.g. 'About This Collection'"
+                form="discoveryViewForms.clone"
+                validations="discoveryViewForms.validations"
+                results="discoveryViewForms.getResults()"
+                autocomplete="off">
+              </validatedinput>
+  
+              <validatedinput
+                id="discoveryViewToCloneInfoLinkUrl"
+                model="discoveryView"
+                property="infoLinkUrl"
+                label="{{makeLabel('Info Link Url')}}"
+                placeholder="The URL of the info link"
+                form="discoveryViewForms.clone"
+                validations="discoveryViewForms.validations"
+                results="discoveryViewForms.getResults()"
+                autocomplete="off">
+              </validatedinput>
+  
+              <validatedtextarea
+                id="discoveryViewToCloneInfoText"
+                model="discoveryView"
+                property="infoText"
+                label="{{makeLabel('Info Text')}}"
+                form="discoveryViewForms.clone"
+                validations="discoveryViewForms.validations"
+                results="discoveryViewForms.getResults()">
+              </validatedtextarea>
+  
+              <validatedselect
+                id="discoveryViewToCloneQueryParser"
+                model="discoveryView"
+                property="queryParser"
+                options="queryParsers"
+                label="{{makeLabel('Query Parser')}}"
+                placeholder="Optionally specify a query parser"
+                form="discoveryViewForms.clone"
+                validations="discoveryViewForms.validations"
+                results="discoveryViewForms.getResults()"
+                autocomplete="off">
+              </validatedselect>
+  
+              <validatedselect
+                id="discoveryViewToCloneDefaultOperand"
+                model="discoveryView"
+                property="defaultOperand"
+                options="queryOperands"
+                label="{{makeLabel('Default Operand')}}"
+                placeholder="Optionally Specify a default operand"
+                form="discoveryViewForms.clone"
+                validations="discoveryViewForms.validations"
+                results="discoveryViewForms.getResults()"
+                autocomplete="off">
+              </validatedselect>
+            </div>
+          </div>
+        </uib-tab>
+        <uib-tab index="1" heading="Facets" disable="isTransitionDenied(1)" select="stepTransitionRefresh(tabs.active)">
+          <div class="row">
+            <div class="row">
+              <div class="col-sm-offset-1 co-xs-12">
+                <h4>Facet Fields</h4>
+              </div>
+            </div>
+            <div class="row" ng-repeat="facetField in discoveryView.facetFields track by $index">
+              <div class="col-xs-2 col-sm-offset-1">
+                <div class="form-group">
+                  <label for="key">Key</label>
+                  <select name="key" class="form-control" ng-model="discoveryView.facetFields[$index].key" ng-options="option['name'] as option['name'] for option in fields" ></select>
+                </div>
+              </div>
+              <div class="col-xs-5">
+                <div class="form-group">
+                  <label for="label">Label</label>
+                  <input name="label" placeholder="Display label of filter" type="text" class="form-control" ng-model="discoveryView.facetFields[$index].label">
+                </div>
+              </div>
+              <div class="col-xs-2">
+                <div class="form-group">
+                  <label for="widget">Widget</label>
+                  <select name="widget" class="form-control" ng-model="discoveryView.facetFields[$index].widget">
+                    <option>Link</option>
+                    <option>Typeahead</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-xs-2">
+                <div class="form-group add-field-group">
+                  <button ng-if="$index == 0" type="button" class="btn btn-success" ng-click="appendFacetFieldItem(discoveryView)"><span class="glyphicon glyphicon-plus"></span></button>
+                  <button ng-if="$index > 0 || discoveryView.facetFields.length > 1" type="button" class="btn btn-danger" ng-click="discoveryView.facetFields.splice($index,1)"><span class="glyphicon glyphicon-minus"></span></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </uib-tab>
+        <uib-tab index="2" heading="Search" disable="isTransitionDenied(2)" select="stepTransitionRefresh(tabs.active)">
+          <div class="row">
+            <div class="row">
+              <div class="col-sm-offset-1 co-xs-12">
+                <h4>Search Fields</h4>
+              </div>
+            </div>
+            <div class="row" ng-repeat="searchField in discoveryView.searchFields track by $index">
+              <div class="col-xs-2 col-sm-offset-1">
+                <div class="form-group">
+                  <label for="key">Key</label>
+                  <select name="key" class="form-control" ng-model="discoveryView.searchFields[$index].key" ng-options="option['name'] as option['name'] for option in fields" ></select>
+                </div>
+              </div>
+              <div class="col-xs-7">
+                <div class="form-group">
+                  <label for="label">Label</label>
+                  <input name="label" placeholder="Display label of field" type="text" class="form-control" ng-model="discoveryView.searchFields[$index].label">
+                </div>
+              </div>
+              <div class="col-xs-2">
+                <div class="form-group add-field-group">
+                  <button ng-if="$index == 0" type="button" class="btn btn-success" ng-click="appendSearchFieldItem(discoveryView)"><span class="glyphicon glyphicon-plus"></span></button>
+                  <button ng-if="$index > 0 || discoveryView.searchFields.length > 1" type="button" class="btn btn-danger" ng-click="discoveryView.searchFields.splice($index,1)"><span class="glyphicon glyphicon-minus"></span></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </uib-tab>
+        <uib-tab index="3" heading="Results" disable="isTransitionDenied(3)" select="stepTransitionRefresh(tabs.active)">
+          <div class="row">
+  
+            <div class="row">
+              <div class="col-sm-offset-1 co-xs-12">
+                <h4>Result Heading</h4>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-5 col-sm-offset-1">
+                <validatedselect
+                  id="discoveryViewToCloneUniqueIdentifierKey"
+                  model="discoveryView"
+                  property="uniqueIdentifierKey"
+                  options="fields"
+                  optionproperty="name"
+                  optionvalue="name"
+                  label="Unique Identifier Key"
+                  placeholder="A unique identifier key for the updated Discovery View"
+                  form="discoveryViewForms.clone"
+                  validations="discoveryViewForms.validations"
+                  results="discoveryViewForms.getResults()">
+                </validatedselect>
+              </div>
+              <div class="col-sm-5">
+                <multi-suggestion-input
+                  id="discoveryViewToCloneTitleKey"
+                  model="discoveryView"
+                  property="titleKey"
+                  optionproperty="name"
+                  suggestions="fields"
+                  name="titleKey"
+                  label="Title Key"
+                  placeholder="'{{' to see Title Key suggestions">
+                </multi-suggestion-input>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-5 col-sm-offset-1">
+                <multi-suggestion-input
+                  id="discoveryViewToCloneResourceThumbnailUriKey"
+                  model="discoveryView"
+                  property="resourceThumbnailUriKey"
+                  optionproperty="name"
+                  suggestions="fields"
+                  name="resourceThumbnailUriKey"
+                  label="Thumbnail URI Key"
+                  placeholder="'{{' to see Thumbnail URI Key suggestions">
+                </multi-suggestion-input>
+              </div>
+              <div class="col-sm-5">
+                <multi-suggestion-input
+                  id="discoveryViewToCloneResourceUriKey"
+                  model="discoveryView"
+                  property="resourceLocationUriKey"
+                  optionproperty="name"
+                  suggestions="fields"
+                  name="resourceLocationUriKey"
+                  label="Resource URI Key"
+                  placeholder="'{{' to see Resource URI Key suggestions">
+                </multi-suggestion-input>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-5 col-sm-offset-1">
+                <multi-suggestion-input
+                  id="discoveryViewToCloneManifestUriKey"
+                  model="discoveryView"
+                  property="manifestUriKey"
+                  optionproperty="name"
+                  suggestions="fields"
+                  name="manifestUriKey"
+                  label="Manifest URI Key"
+                  placeholder="'{{' to see Manifest URI Key suggestions">
+                </multi-suggestion-input>
+              </div>
+              <div  class="col-sm-5">
+                <div class="form-group">
+                  <div>
+                    <label id="discoveryViewToCloneDefaultSort">Default Sort</label>
+                  </div>
+                  <label class="radio-inline" role="group" aria-labelledby="discoveryViewDefaultSort">
+                    <input type="radio" name="discoveryViewDefaultSort" ng-model="discoveryView.ascending" ng-value="true"> Ascending
+                  </label>
+                  <label class="radio-inline" role="group" aria-labelledby="discoveryViewDefaultSort">
+                    <input type="radio" name="discoveryViewDefaultSort" ng-model="discoveryView.ascending" ng-value="false"> Descending
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div  class="col-sm-5 col-sm-offset-1">
+                <div class="form-group">
+                  <div>
+                    <label id="discoveryViewToCloneDefaultSort">Published</label>
+                  </div>
+                  <label class="radio-inline" role="group" aria-labelledby="discoveryViewPublished">
+                    <input type="radio" name="discoveryViewPublished" ng-model="discoveryView.published" ng-value="true"> Published
+                  </label>
+                  <label class="radio-inline" role="group" aria-labelledby="discoveryViewPublished">
+                    <input type="radio" name="discoveryViewPublished" ng-model="discoveryView.published" ng-value="false"> Unpublished
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="row">
+              <div class="col-sm-offset-1 co-xs-12">
+                <h4>Result Metadata</h4>
+              </div>
+            </div>
+            <div class="row" ng-repeat="resultMetadataField in discoveryView.resultMetadataFields track by $index">
+              <div class="col-xs-3 col-sm-offset-1">
+                <div class="form-group">
+                  <label for="key">Key</label>
+                  <select name="key" class="form-control" ng-model="discoveryView.resultMetadataFields[$index].key" ng-options="option['name'] as option['name'] for option in fields" ng-change="discoveryView.resultMetadataFields[$index].sortable=!findFieldByKey(discoveryView.resultMetadataFields[$index].key).multiValued"></select>
+                </div>
+              </div>
+              <div class="col-xs-2">
+                <div class="form-group">
+                  <label for="label">Label</label>
+                  <input name="label" placeholder="Display label of filter" type="text" class="form-control" ng-model="discoveryView.resultMetadataFields[$index].label">
+                </div>
+              </div>
+              <div class="col-xs-1">
+                <div class="form-group">
+                  <label for="sortable">Sortable</label>
+                  <input name="sortable" type="checkbox" class="form-control" ng-model="discoveryView.resultMetadataFields[$index].sortable" ng-disabled="findFieldByKey(discoveryView.resultMetadataFields[$index].key).multiValued">
+                </div>
+              </div>
+              <div class="col-xs-1">
+                <div class="form-group">
+                  <label for="list">List</label>
+                  <input name="list" type="checkbox" class="form-control" ng-model="discoveryView.resultMetadataFields[$index].inList">
+                </div>
+              </div>
+              <div class="col-xs-1">
+                <div class="form-group">
+                  <label for="grid">Grid</label>
+                  <input name="grid" type="checkbox" class="form-control" ng-model="discoveryView.resultMetadataFields[$index].inGrid">
+                </div>
+              </div>
+              <div class="col-xs-1">
+                <div class="form-group">
+                  <label for="item">Item</label>
+                  <input name="item" type="checkbox" class="form-control" ng-model="discoveryView.resultMetadataFields[$index].inSingleResult">
+                </div>
+              </div>
+              <div class="col-xs-2">
+                <div class="form-group add-field-group">
+                  <button ng-if="$index == 0" type="button" class="btn btn-success" ng-click="appendResultMetadataFieldItem(discoveryView)"><span class="glyphicon glyphicon-plus"></span></button>
+                  <button ng-if="$index > 0 || discoveryView.resultMetadataFields.length > 1" type="button" class="btn btn-danger" ng-click="discoveryView.resultMetadataFields.splice($index,1)"><span class="glyphicon glyphicon-minus"></span></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </uib-tab>
+      </uib-tabset>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" ng-click="cancelCloneDiscoveryView()">Cancel</button>
+      <button ng-show="tabs.active === 0" ng-disabled="isDiscoveryViewGeneralInvalid('clone')" type="button" class="btn btn-success" ng-click="next()">Next</button>
+      <button ng-show="tabs.active === 1" type="button" class="btn btn-success" ng-click="back()">Back</button>
+      <button ng-show="tabs.active === 1" ng-disabled="isDiscoveryViewFacetsInvalid('clone')" type="button" class="btn btn-success" ng-click="next()">Next</button>
+      <button ng-show="tabs.active === 2" type="button" class="btn btn-success" ng-click="back()">Back</button>
+      <button ng-show="tabs.active === 2" ng-disabled="isDiscoveryViewSearchInvalid('clone')" type="button" class="btn btn-success" ng-click="next()">Next</button>
+      <button ng-show="tabs.active === 3" type="button" class="btn btn-success" ng-click="back()">Back</button>
+      <button ng-disabled="isDiscoveryViewResultsInvalid('clone') || discoveryViewForms.update.$invalid" type="submit" class="btn btn-success">Update</button>
+    </div>
+  </form>
+  
