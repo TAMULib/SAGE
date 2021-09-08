@@ -66,6 +66,7 @@ sage.component("singleResultViewer", {
           });
         }
 
+        $scope.format = $filter("removeBrackets")($scope.singleResultContext.format).replaceAll("\"", "").trim();
       });
     });
 

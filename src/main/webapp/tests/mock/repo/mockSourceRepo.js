@@ -30,7 +30,7 @@ angular.module("mock.sourceRepo", []).service("SourceRepo", function ($q) {
 
   repo.getAvailableFields = function () {
     // @todo
-    return [];
+    return Promise.resolve([]);
   };
 
   repo.getIndexedFields = function () {
