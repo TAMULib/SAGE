@@ -5,7 +5,7 @@ var appConfig = {
   'allowAnonymous': true,
   'anonymousRole': 'ROLE_ANONYMOUS',
 
-  'authStrategies': ['weaverAuth'],
+  'authStrategies': ['emailRegistration'],
 
   //'authService': window.location.protocol + '//' + window.location.host + window.location.base + '/authfix',
   'authService': 'https://labs.library.tamu.edu/authfix',
@@ -63,6 +63,6 @@ var appConfig = {
 
   'defaultThumbnailURI': "resources/images/default-thumbnail.jpg",
   'defaultLoadingThumbnailURI': "resources/images/loading2.gif",
-  'avalonUrl': 'avalon-pre.library.tamu.edu:443'
+  'avalonUrl': ''
 
 };
