@@ -10,7 +10,7 @@
       <alerts seconds="30" channels="source/solr/fields,source/solr/test,discovery-view" types="WARNING,ERROR" exclusive></alerts>
       <validationmessage results="discoveryViewForms.getResults()"></validationmessage>
   
-      <uib-tabset ng-if="tabs.inUpdate" active="tabs.active" justified="true">
+      <uib-tabset ng-if="tabs.inClone" active="tabs.active" justified="true">
         <uib-tab index="0" heading="General" select="stepTransitionRefresh(tabs.active)">
           <div class="row">
             <div class="col-sm-10 col-sm-offset-1">
@@ -20,7 +20,7 @@
                 model="discoveryView"
                 property="name"
                 label="{{makeLabel('Name')}}"
-                placeholder="Name for the cloned Discovery View"
+                placeholder="Name for the updated Discovery View"
                 form="discoveryViewForms.clone"
                 validations="discoveryViewForms.validations"
                 results="discoveryViewForms.getResults()"
@@ -53,6 +53,7 @@
                 results="discoveryViewForms.getResults()"
                 autocomplete="off"
                 change="refreshSource(discoveryView)">
+                </validatedinput>
               </validatedinput>
   
               <validatedinput
@@ -389,7 +390,7 @@
       <button ng-show="tabs.active === 2" type="button" class="btn btn-success" ng-click="back()">Back</button>
       <button ng-show="tabs.active === 2" ng-disabled="isDiscoveryViewSearchInvalid('clone')" type="button" class="btn btn-success" ng-click="next()">Next</button>
       <button ng-show="tabs.active === 3" type="button" class="btn btn-success" ng-click="back()">Back</button>
-      <button ng-disabled="isDiscoveryViewResultsInvalid('clone') || discoveryViewForms.update.$invalid" type="submit" class="btn btn-success">Update</button>
+      <button ng-disabled="isDiscoveryViewResultsInvalid('clone') || discoveryViewForms.clone.$invalid" type="submit" class="btn btn-success">Clone</button>
     </div>
   </form>
   
