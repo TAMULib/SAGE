@@ -23,7 +23,8 @@
 
   <link rel="stylesheet" th:href="${@environment.getProperty('app.url')+'/wro/app.css'}" />
   <link rel="stylesheet" type="text/css" href="resources/styles/mirador-combined.min.css">
-
+  <!-- TODO - uncomment for tl-component style.css -->
+  <!-- <link rel="stylesheet" type="text/css" href="resources/styles/styles.css"> -->
 </head>
 
 <body>
@@ -81,7 +82,7 @@
       </div>
     </div>
   </main>
-  <tl-footer></tl-footer>
+  <tl-footer login-url="{{loginUrl}}"></tl-footer>
   <tl-themes active-theme="tamu"></tl-themes>
   <!-- build:js resources/scripts/bundle.js -->
   <!-- Vendor Libraries -->
