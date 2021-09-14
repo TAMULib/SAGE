@@ -24,10 +24,10 @@
   <link rel="stylesheet" th:href="${@environment.getProperty('app.url')+'/wro/app.css'}" />
   <link rel="stylesheet" type="text/css" href="resources/styles/mirador-combined.min.css">
   <!-- TODO - uncomment for tl-component style.css -->
-  <!-- <link rel="stylesheet" type="text/css" href="resources/styles/styles.css"> -->
+  <link rel="stylesheet" type="text/css" href="resources/styles/styles.css">
 </head>
 
-<body>
+<body ng-controller="AppLoginController">
   <main>
     <tl-header page-title="Digital Collections" page-title-url="https://library.tamu.edu/research/digital_collections.html"></tl-header>
 
@@ -41,9 +41,10 @@
         <div class="col-md-12" ng-controller="AppLoginController">
           <div ng-if="isAnonymous()" class="col-md-12">
             <ul class="nav navbar-nav navbar-right">
-              <li class="dropdown">
+              <!-- <li class="dropdown">
                 <a href ng-click="openModal('#loginModal')">Login</a>
-              </li>
+              </li> -->
+
               <li ng-if="isEmailEnabled()" class="dropdown">
                 <a href ng-click="openModal('#verifyEmailModal')">Register</a>
               </li>
@@ -82,7 +83,9 @@
       </div>
     </div>
   </main>
-  <tl-footer login-url="{{loginUrl}}"></tl-footer>
+{{loginUrl}}
+  <tl-footer  ng-if="!!loginUrl" login-url="{{loginUrl}}"></tl-footer>
+ 
   <tl-themes active-theme="tamu"></tl-themes>
   <!-- build:js resources/scripts/bundle.js -->
   <!-- Vendor Libraries -->
@@ -270,7 +273,8 @@
   <!-- endbuild -->
 
   <!-- CDN tl-component -->
-  <script src="https://labs.library.tamu.edu/tl-components/latest/tl-components.js"></script>
+  <script src="resources/tl-components.js"></script>
+  <!-- <script src="https://labs.library.tamu.edu/tl-components/latest/tl-components.js"></script> -->
 
 </body>
 
