@@ -22,6 +22,7 @@ import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import edu.tamu.sage.model.BaseOp;
@@ -37,10 +38,11 @@ public class SimpleProcessorService implements ProcessorService {
 
     private final static Map<Long, AtomicBoolean> processing = new ConcurrentHashMap<Long, AtomicBoolean>();
 
+    @Value("${app.solr.batch-size:250}")
+    private Integer batchSize;
+
     private List<Map<String, Collection<Object>>> readSolrCore(Reader solrReader, List<BaseOp> operators) {
         logger.info("Using Reader: " + solrReader.getName() + " to read from SOLR Core: " + solrReader.getSource().getName() + " - " + solrReader.getSource().getUri());
-
-        int batchSize = 500;
 
         List<Map<String, Collection<Object>>> mappedResults = new ArrayList<Map<String, Collection<Object>>>();
 
