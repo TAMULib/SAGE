@@ -11,6 +11,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -135,7 +136,11 @@ public class SimpleProcessorService implements ProcessorService {
                         logger.debug("Writing field: " + outputMapping.getInputField());
                         outputMapping.getMappings().forEach(mapping -> {
                             logger.debug("Indexing metatdata: " + outputMapping.getInputField() + " = '" + map.get(outputMapping.getInputField()) + "' to field: " + mapping);
-                            document.addField(mapping, map.get(outputMapping.getInputField()));
+                            if (StringUtils.isNotEmpty(mapping)) {
+                                document.addField(mapping, map.get(outputMapping.getInputField()));
+                            } else {
+                                logger.warn("Empty field mapping for field {}", outputMapping.getInputField());
+                            }
                         });
                     } else {
                         logger.debug("Skipping field: " + outputMapping.getInputField());
