@@ -117,8 +117,6 @@ public class SimpleProcessorService implements ProcessorService {
     }
 
     private void writeSolrCore(Writer writer, List<Map<String, Collection<Object>>> mappedResults) {
-        int batchSize = 1000;
-
         SolrClient writeableSolr = new HttpSolrClient(writer.getSource().getUri());
 
         try {
