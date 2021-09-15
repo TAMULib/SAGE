@@ -50,7 +50,7 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
           $location.search("page", null);
         }
 
-        if (angular.isDefined($scope.discoveryContext.sortFields) && $scope.discoveryContext.sortFields.length > 0 ) {
+        if (angular.isDefined($scope.discoveryContext.sortFields) && ($scope.discoveryContext.sortFields.length > 0)) {
           if ($scope.discoveryContext.search.page.sort === $scope.discoveryContext.sortFields[0].key) {
             $location.search("sort", null);
           }
@@ -66,7 +66,7 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
         }
       }
 
-      if (!angular.isDefined($scope.discoveryContext.search.page.sort) && $scope.discoveryContext.sortFields.length > 0 ) {
+      if (!angular.isDefined($scope.discoveryContext.search.page.sort) &&($scope.discoveryContext.sortFields.length > 0)) {
         $scope.discoveryContext.search.page.sort = $scope.discoveryContext.sortFields[0].key;
       }
 
