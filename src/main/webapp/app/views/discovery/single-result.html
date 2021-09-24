@@ -7,7 +7,7 @@
     <div class="pull-right" ng-if="isManager() || isAdmin()">
       <button class="btn" ng-click="setResultContext(!singleResultContext.fullView)">{{singleResultContext.fullView ? "Standard":"Full"}} View</button>
     </div>
-    <div class="col-xs-9 col-xs-offset-1">
+    <div class="col-md-9 col-md-offset-1 single-result-container">
       <div class="title"><h3>{{singleResultContext.title}}</h3></div>
       <single-result-viewer context="singleResultContext"></single-result-viewer>
       <dl>
