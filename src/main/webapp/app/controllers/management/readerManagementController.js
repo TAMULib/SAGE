@@ -10,10 +10,10 @@ sage.controller('ReaderManagementController', function ($controller, $scope, $ti
   $scope.readerToCreate = ReaderRepo.getScaffold();
   $scope.readerFields = {};
   $scope.readerToUpdate = {};
+  $scope.readerToClone = {};
   $scope.readerToDelete = {};
 
   $scope.internalMetadata = InternalMetadataRepo.getAll();
-
   $scope.fields = [];
 
   $scope.readerForms = {
@@ -106,6 +106,41 @@ sage.controller('ReaderManagementController', function ($controller, $scope, $ti
       };
     });
     $scope.openModal("#updateReaderModal");
+  };
+
+  $scope.cloneReader = function() {
+    $scope.cloningReader = true;
+    applyFields($scope.readerToClone);
+    $scope.readerToClone.dirty(true);
+    if($scope.readerToClone.id) {
+      delete $scope.readerToClone.id;
+      ReaderRepo.create($scope.readerToClone).then(function(res) {
+        if (angular.fromJson(res.body).meta.status === "SUCCESS") {
+          $scope.cancelCloneReader();
+        }
+      });
+    }
+  };
+
+  var readerToCloneWatcher;
+  $scope.startCloneReader = function(reader) {
+    $scope.readerToClone = angular.copy(reader);
+    if (readerToCloneWatcher !== undefined) {
+      readerToCloneWatcher();
+    }
+    readerToCloneWatcher = $scope.$watch("readerToClone.filter", filterChangeWrapper($scope.readerToClone));
+    angular.forEach($scope.readerToClone.fields, function(field) {
+      $scope.readerFields[field.schemaMapping] = {
+        value: field.name
+      };
+    });
+    $scope.openModal("#cloneReaderModal");
+  };
+
+  $scope.cancelCloneReader = function() {
+    $scope.readerToClone = {};
+    $scope.readerFields = {};
+    $scope.resetReaderForms();
   };
 
   $scope.cancelUpdateReader = function() {

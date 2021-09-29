@@ -17,6 +17,8 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
   $scope.queryParsers = [ "", "EDISMAX", "DISMAX" ];
   $scope.queryOperands = [ "", "AND", "OR" ];
 
+  $scope.fields = [];
+
   $scope.discoveryViewForms = {
     validations: DiscoveryViewRepo.getValidations(),
     getResults: DiscoveryViewRepo.getValidationResults
@@ -88,6 +90,11 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
       if (transitionTo > 1 && $scope.isDiscoveryViewFacetsInvalid("update")) return true;
       if (transitionTo > 2 && $scope.isDiscoveryViewSearchInvalid("update")) return true;
       if (transitionTo > 3 && $scope.isDiscoveryViewResultsInvalid("update") || $scope.discoveryViewForms.update.$invalid) return true;
+    } else if ($scope.tabs.inClone) {
+      if (transitionTo > 0 && $scope.isDiscoveryViewGeneralInvalid("clone")) return true;
+      if (transitionTo > 1 && $scope.isDiscoveryViewFacetsInvalid("clone")) return true;
+      if (transitionTo > 2 && $scope.isDiscoveryViewSearchInvalid("clone")) return true;
+      if (transitionTo > 3 && $scope.isDiscoveryViewResultsInvalid("clone") || $scope.discoveryViewForms.clone.$invalid) return true;
     }
 
     return $scope.tabs.completed < transitionTo;
@@ -317,13 +324,58 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
     });
   };
 
+  $scope.startCloneDiscoveryView = function(dv) {
+    $scope.discoveryView = new DiscoveryView(angular.copy(dv));
+    $scope.originalSourceName = $scope.discoveryView.source.name;
+    $scope.originalFilter = $scope.discoveryView.filter;
+
+    if (dv.facetFields.length == 0) $scope.appendFacetFieldItem($scope.discoveryView);
+    if (dv.searchFields.length == 0) $scope.appendSearchFieldItem($scope.discoveryView);
+    if (dv.resultMetadataFields.length == 0) $scope.appendResultMetadataFieldItem($scope.discoveryView);
+
+    $scope.getFields($scope.discoveryView);
+    $scope.tabs.completed = $scope.tabs.length - 1;
+    $scope.tabs.inClone = true;
+    $scope.openModal("#cloneDiscoveryViewModal");
+  };
+
+  $scope.cloneDiscoveryView = function() {
+    $scope.cloningDiscoveryView = true;
+
+    // The first field cannot be deleted but if it is empty, consider it deleted.
+    if ($scope.discoveryView.facetFields.length === 1 && $scope.discoveryView.facetFields[0].key === "") {
+      $scope.discoveryView.facetFields.length = 0;
+    }
+
+    if ($scope.discoveryView.resultMetadataFields.length === 1 && $scope.discoveryView.resultMetadataFields[0].key === "") {
+      $scope.discoveryView.resultMetadataFields.length = 0;
+    }
+
+    $scope.discoveryView.dirty(true);
+
+    if($scope.discoveryView.id) {
+      delete $scope.discoveryView.id;
+      DiscoveryViewRepo.create($scope.discoveryView).then(function(res) {
+        if (angular.fromJson(res.body).meta.status === "SUCCESS") {
+          $scope.cancelCloneDiscoveryView();
+        }
+      });
+    }
+  };
+
+  $scope.cancelCloneDiscoveryView = function() {
+    $scope.resetDiscoveryViewForms();
+  };
+
   $scope.getFields = function(dv) {
     if (angular.isDefined(dv) && angular.isDefined(dv.source) && angular.isDefined(dv.source.uri)) {
       var filter = angular.isDefined(dv.filter) && dv.filter.length > 0 ? dv.filter : "";
       if (dv.source.requiresFilter && filter.length === 0) {
         filter = "*.*";
       }
-      $scope.fields = SourceRepo.getAvailableFields(dv.source.uri, filter);
+      SourceRepo.getAvailableFields(dv.source.uri, filter).then(function(res) {
+        angular.extend($scope.fields, res);
+      });
     }
   };
 
