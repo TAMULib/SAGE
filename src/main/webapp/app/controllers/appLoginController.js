@@ -4,6 +4,10 @@ sage.controller('AppLoginController', function ($controller, $scope) {
     $scope: $scope
   }));
 
+  $scope.loginUrl = function () {
+    return sessionStorage.role === 'ROLE_ANONYMOUS' ? appConfig.authService + "/token?referrer="+encodeURIComponent(window.location.href) : '';
+  };
+
   $scope.checkAuthStrategy = function (strategy) {
     return (appConfig.authStrategies.indexOf(strategy) > -1);
   };
