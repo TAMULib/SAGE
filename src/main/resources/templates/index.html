@@ -71,8 +71,19 @@
       </div>
     </div>
   </main>
-
-  <tl-footer login-url="{{loginUrl()}}"></tl-footer>
+  <div ng-controller="AppLoginController" class="container">
+    <div class="col-md-12" ng-if="isAnonymous()">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href ng-click="openModal('#loginModal')">Login</a>
+        </li>
+        <li ng-if="isEmailEnabled()" class="dropdown">
+          <a href ng-click="openModal('#verifyEmailModal')">Register</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <tl-footer></tl-footer>
   <tl-themes active-theme="tamu"></tl-themes>
   <!-- build:js resources/scripts/bundle.js -->
   <!-- Vendor Libraries -->
