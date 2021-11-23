@@ -19,7 +19,7 @@ public class RegexReplaceOpValidator extends BaseOpValidator {
 
         String regexProperty = "regex";
         this.addInputValidator(new InputValidator(InputValidationType.required, "A regex replace operator requires a regex", regexProperty, true));
-        this.addInputValidator(new InputValidator(InputValidationType.minlength, "A regex replace operator regex must be at least 2 characters", regexProperty, 2));
+        this.addInputValidator(new InputValidator(InputValidationType.minlength, "A regex replace operator regex must be at least 1 characters", regexProperty, 1));
     }
 
 }
