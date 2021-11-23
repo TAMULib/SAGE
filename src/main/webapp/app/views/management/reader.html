@@ -17,6 +17,7 @@
               {{reader.source.name}}
             </td>
             <td data-title="'Actions'">
+              <span class="glyphicon glyphicon-duplicate clickable" ng-click="startCloneReader(reader)"></span>
               <span class="glyphicon glyphicon-pencil clickable" ng-click="startUpdateReader(reader)"></span>
               <span class="glyphicon glyphicon-trash clickable" ng-click="confirmDeleteReader(reader)"></span>
             </td>
@@ -48,5 +49,13 @@
     modal-fullscreen="true"
     wvr-modal-backdrop="static">
   </modal>
+
+  <modal
+    modal-id="cloneReaderModal"
+    modal-view="views/modals/cloneReaderModal.html"
+    modal-header-class="modal-header-primary"
+    modal-fullscreen="true"
+    wvr-modal-backdrop="static">
+</modal>
 
 </div>
