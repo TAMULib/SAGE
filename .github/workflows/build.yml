@@ -41,7 +41,16 @@ jobs:
           java-version: 1.8
 
       - name: "Maven and Node Tests"
-        run: mvn clean test cobertura:cobertura jacoco:report coveralls:report -DdryRun=true -DtestClient
+        run:  |
+          npm i && grunt coverage
+          mvn clean test cobertura:cobertura jacoco:report
+          if [ -f "coveralls.json" ]; then
+            mvn clean test coveralls:report -DdryRun=true -DtestClient
+            echo "::error::coveralls.json is not missing."
+            exit 1
+          fi
+          
+          
 
       - name: "Combine Coverage"
         run: jq 'reduce inputs as $i (.; .source_files += $i.source_files)' target/coveralls.json src/main/webapp/coverage/coveralls.json > coveralls.json
