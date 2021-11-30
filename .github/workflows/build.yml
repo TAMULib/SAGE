@@ -42,8 +42,9 @@ jobs:
 
       - name: "Maven and Node Tests"
         run:  |
-          npm i && grunt coverage
           mvn clean test cobertura:cobertura jacoco:report
+          npm i && npm run test
+          xvfb-run --auto-servernum npm run test-ci && grunt coverage
           if [ -f "coveralls.json" ]; then
             mvn clean test coveralls:report -DdryRun=true -DtestClient
             echo "::error::coveralls.json is not missing."
