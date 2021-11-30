@@ -42,10 +42,10 @@ jobs:
 
       - name: "Maven and Node Tests"
         run: |
-          npm install
+          npm i
           npm run test
-          npm run test-ci
-          npm run posttest-ci
+          xvfb-run --auto-servernum npm run test-ci
+          grunt coverage
           mvn clean test cobertura:cobertura jacoco:report coveralls:report -DdryRun=true -DtestClient
 
       - name: "Combine Coverage"
