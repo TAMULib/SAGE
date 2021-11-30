@@ -42,7 +42,10 @@ jobs:
 
       - name: "Maven and Node Tests"
         run: |
-          mvn clean test cobertura:cobertura jacoco:report
+          npm install
+          npm run test-single-run
+          grunt coverage
+          mvn clean test cobertura:cobertura jacoco:report coveralls:report -DdryRun=true -DtestClient
 
       - name: "Combine Coverage"
         run: jq 'reduce inputs as $i (.; .source_files += $i.source_files)' target/coveralls.json src/main/webapp/coverage/coveralls.json > coveralls.json
