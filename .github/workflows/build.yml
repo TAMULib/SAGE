@@ -44,6 +44,7 @@ jobs:
         run: |
           npm install
           npm run test
+          npm run test-ci
           npm run posttest-ci
           mvn clean test cobertura:cobertura jacoco:report coveralls:report -DdryRun=true -DtestClient
 
