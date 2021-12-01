@@ -41,10 +41,13 @@ jobs:
           java-version: 1.8
 #  mvn clean test cobertura:cobertura jacoco:report
 #  mvn coveralls:report -DdryRun=true -DtestClient
+
       - name: "Maven and Node Tests"
         continue-on-error: true
         run: |
+          mvn clean install test
           npm i
+          echo pwd && ls -altr
           xvfb-run --auto-servernum npm run test
           echo ls -alrt
           xvfb-run --auto-servernum npm run posttest-ci
