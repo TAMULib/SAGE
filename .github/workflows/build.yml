@@ -47,18 +47,20 @@ jobs:
           xvfb-run --auto-servernum npm run test
           xvfb-run --auto-servernum npm run posttest-ci
           xvfb-run --auto-servernum npm run test-ci          
-          mvn test coveralls:report -DdryRun=true -DtestClient
+          mvn coveralls:report -DdryRun=true -DtestClient
+          echo pwd && ls -altr
+          cd target && ls -altr
 
-      - name: Check file existence
-        id: check_files
-        uses: andstor/file-existence-action@v1
-        with:
-          files: "package.json, coveralls.json, README.md"
+      # - name: Check file existence
+      #   id: check_files
+      #   uses: andstor/file-existence-action@v1
+      #   with:
+      #     files: "package.json, coveralls.json, README.md"
 
-      - name: File exists
-        if: steps.check_files.outputs.files_exists == 'true'
-        # Only runs if all of the files exists
-        run: echo All files exists!
+      # - name: File exists
+      #   if: steps.check_files.outputs.files_exists == 'true'
+      #   # Only runs if all of the files exists
+      #   run: echo All files exists!
 
       - name: "Combine Coverage"
         run: jq 'reduce inputs as $i (.; .source_files += $i.source_files)' target/coveralls.json src/main/webapp/coverage/coveralls.json > coveralls.json
@@ -70,12 +72,12 @@ jobs:
           path-to-file: './coveralls.json'
           coverage-format: raw
 
-      - name: "Deploy GH-Pages"
-        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-        uses: JamesIves/github-pages-deploy-action@3.7.1
-        with:
-          github_token: ${{ secrets.github_token }}
-          branch: gh-pages
-          folder: target/generated-docs
-          clean: true
-          single_commit: true
+      # - name: "Deploy GH-Pages"
+      #   if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+      #   uses: JamesIves/github-pages-deploy-action@3.7.1
+      #   with:
+      #     github_token: ${{ secrets.github_token }}
+      #     branch: gh-pages
+      #     folder: target/generated-docs
+      #     clean: true
+      #     single_commit: true
