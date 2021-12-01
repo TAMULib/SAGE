@@ -42,9 +42,10 @@ jobs:
 
       - name: "Maven and Node Tests"
         run:  |
-          mvn clean test cobertura:cobertura jacoco:report
+          mvn clean install
           npm i && npm run test
-          xvfb-run --auto-servernum npm run test-ci
+          xvfb-run --auto-servernum npm run test-ci          
+          mvn test cobertura:cobertura jacoco:report
 
       - name: Check file existence
         id: check_files
