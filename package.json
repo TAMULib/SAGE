@@ -10,7 +10,7 @@
     "grunt": "grunt",
     "grunt:develop": "grunt develop",
     "grunt:deploy": "grunt deploy",
-    "test": "karma start src/main/webapp/tests/karma.conf.js --single-run --single-run --browsers Firefox,ChromeHeadlessNoSandbox",
+    "test": "karma start src/main/webapp/tests/karma.conf.js --single-run --browsers Firefox,ChromeHeadlessNoSandbox",
     "test-single-run": "karma start src/main/webapp/tests/karma.conf.js --single-run",
     "test-ci": "karma start src/main/webapp/tests/karma.conf.js --no-auto-watch --single-run --browsers=ChromeHeadlessNoSandbox",
     "posttest-ci": "grunt coverage",
