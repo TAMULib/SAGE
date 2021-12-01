@@ -43,7 +43,6 @@ jobs:
       - name: "Maven and Node Tests"
         run:  |
           mvn clean install
-          npm i && npm run test
           xvfb-run --auto-servernum npm run test-ci          
           mvn test cobertura:cobertura jacoco:report
 
