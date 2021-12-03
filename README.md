@@ -25,4 +25,4 @@ SAGE boasts an intuitive user interface, but some much needed user documentation
 - [Deployment Documentation](https://github.com/TAMULib/SAGE/blob/master/DEPLOYING.md)
 - [API Documentation](https://tamulib.github.io/SAGE)
 
-Please feel free to file any issues concerning SAGE to the issues section of the repository. Any questions concerning cap can be directed to [helpdesk@library.tamu.edu]()
+Please feel free to file any issues concerning SAGE to the issues section of the repository. Any questions concerning SAGE can be directed to [helpdesk@library.tamu.edu]()
