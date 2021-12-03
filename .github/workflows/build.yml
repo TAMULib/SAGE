@@ -9,9 +9,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: "Install Chrome Drivers"
-        run: sudo apt-get install xvfb
-
       - name: "Node Cache"
         uses: actions/cache@v2
         with:
@@ -33,40 +30,15 @@ jobs:
       - name: "Setup Node"
         uses: actions/setup-node@v2
         with:
-          node-version: 10
+          node-version: 14
 
       - name: "Setup Java"
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-#  mvn clean test cobertura:cobertura jacoco:report
-#  mvn coveralls:report -DdryRun=true -DtestClient
 
       - name: "Maven and Node Tests"
-        continue-on-error: true
-        run: |
-          mvn clean install test
-          npm i
-          echo pwd && ls -altr
-          xvfb-run --auto-servernum npm run test
-          echo ls -alrt
-          xvfb-run --auto-servernum npm run posttest-ci
-          echo ls -altr
-          xvfb-run --auto-servernum npm run test-ci          
-         
-          echo pwd && ls -altr
-          cd target && ls -altr
-
-      # - name: Check file existence
-      #   id: check_files
-      #   uses: andstor/file-existence-action@v1
-      #   with:
-      #     files: "package.json, coveralls.json, README.md"
-
-      # - name: File exists
-      #   if: steps.check_files.outputs.files_exists == 'true'
-      #   # Only runs if all of the files exists
-      #   run: echo All files exists!
+        run: mvn clean test cobertura:cobertura jacoco:report coveralls:report -DdryRun=true -DtestClient
 
       - name: "Combine Coverage"
         run: jq 'reduce inputs as $i (.; .source_files += $i.source_files)' target/coveralls.json src/main/webapp/coverage/coveralls.json > coveralls.json
@@ -78,12 +50,12 @@ jobs:
           path-to-file: './coveralls.json'
           coverage-format: raw
 
-      # - name: "Deploy GH-Pages"
-      #   if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-      #   uses: JamesIves/github-pages-deploy-action@3.7.1
-      #   with:
-      #     github_token: ${{ secrets.github_token }}
-      #     branch: gh-pages
-      #     folder: target/generated-docs
-      #     clean: true
-      #     single_commit: true
+      - name: "Deploy GH-Pages"
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          github_token: ${{ secrets.github_token }}
+          branch: gh-pages
+          folder: target/generated-docs
+          clean: true
+          single_commit: true
