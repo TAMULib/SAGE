@@ -55,6 +55,7 @@
     "karma-jasmine": "2.0.1",
     "karma-junit-reporter": "2.0.1",
     "karma-ng-html2js-preprocessor": "1.0.0",
-    "protractor": "5.4.2"
+    "protractor": "5.4.2",
+    "uglify-js": "^3.14.4"
   }
 }
