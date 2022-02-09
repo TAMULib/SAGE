@@ -23,7 +23,8 @@
   },
   "dependencies": {
     "@wvr/core": "2.2.0",
-    "mirador": "2.7.2",
+    "sanitize-html": "1.13.0",
+    "mirador": "3.3.0",
     "ng-csv": "0.3.6",
     "ng-file-upload": "12.2.13",
     "ng-openseadragon": "1.3.5",

@@ -76,7 +76,7 @@ module.exports = function (grunt) {
           "node_modules/openseadragon/build/openseadragon/openseadragon.min.js",
           "node_modules/ng-openseadragon/build/angular-openseadragon.js",
 
-          "node_modules/mirador/dist/mirador.js"
+          "node_modules/mirador/dist/mirador.min.js"
         ],
         dest: "<%= build.app %>/resources/scripts/vendor_concat.js"
       },
@@ -196,25 +196,12 @@ module.exports = function (grunt) {
     },
 
     copy: {
-      styles: {
-        files: [{
-          cwd: "node_modules/mirador/dist/css/",
-          src: "mirador-combined.min.css",
-          dest: "<%= build.app %>/resources/styles/",
-          expand: true
-        }]
-      },
       fonts: {
         files: [{
           src: [
             "node_modules/bootstrap-sass/assets/fonts/bootstrap/*"
           ],
           dest: "<%= build.app %>",
-          expand: true
-        }, {
-          cwd: "node_modules/mirador/dist/fonts/",
-          src: "*",
-          dest: "<%= build.app %>/resources/fonts/",
           expand: true
         }],
       },

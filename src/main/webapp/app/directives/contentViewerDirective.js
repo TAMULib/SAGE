@@ -31,16 +31,16 @@ sage.directive("contentviewer", function($filter, $sce, appConfig) {
      
       if (viewerTemplate === 'mirador') {
         $scope.loadViewer = function () {
-          Mirador({
+          Mirador.viewer({
             id: 'mirador-wrapper',
-            data: [{ 
+            manifests: [{
               manifestUri: $scope.resource,
               location: "TAMU"
             }],
             mainMenuSettings: {
               show: false
             },
-            windowObjects: [{
+            windows: [{
               loadedManifest: $scope.resource,
               viewType: 'ImageView',
               displayLayout: false,
