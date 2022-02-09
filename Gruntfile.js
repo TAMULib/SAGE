@@ -238,13 +238,13 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks("grunt-contrib-symlink");
   grunt.loadNpmTasks("grunt-karma-coveralls");
 
-  grunt.registerTask("default", ["jshint", "copy:styles", "copy:fonts", "clean", "symlink"]);
+  grunt.registerTask("default", ["jshint", "copy:fonts", "clean", "symlink"]);
 
-  grunt.registerTask("coverage", ["jshint", "copy:styles", "copy:fonts", "symlink", "coveralls"]);
+  grunt.registerTask("coverage", ["jshint", "copy:fonts", "symlink", "coveralls"]);
 
   grunt.registerTask("watch", ["watch"]);
 
-  grunt.registerTask("develop", ["jshint", "concat", "usemin", "copy:styles", "copy:fonts", "clean", "symlink", "watch"]);
+  grunt.registerTask("develop", ["jshint", "concat", "usemin", "copy:fonts", "clean", "symlink", "watch"]);
 
   grunt.registerTask("deploy", ["jshint", "concat", "uglify", "usemin", "clean", "copy"]);
 
