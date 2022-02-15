@@ -31,24 +31,7 @@ sage.directive("contentviewer", function($filter, $sce, appConfig) {
 
       if (viewerTemplate === 'mirador') {
         $scope.loadViewer = function () {
-          Mirador.viewer({
-            id: 'mirador-wrapper',
-            window: {
-              allowClose: false,
-              allowFullscreen: true,
-              hideWindowTitle: true,
-              sideBarOpen: false
-            },
-            windows: [{
-              manifestId: $scope.resource
-             }],
-            workspaceControlPanel: {
-              enabled: false
-            },
-            workspace: {
-              showZoomControls: true
-            }
-          });
+          TAMUMirador.getMirador("mirador-wrapper", $scope.resource);
         };
       }
 
