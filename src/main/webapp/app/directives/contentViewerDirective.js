@@ -31,8 +31,15 @@ sage.directive("contentviewer", function($filter, $sce, appConfig) {
 
       if (viewerTemplate === 'mirador') {
         $scope.loadViewer = function () {
-          TAMUMirador.getMirador("mirador-wrapper", $scope.resource);
+          const tamuMirador = TAMUMirador.getInstance();
+          tamuMirador.initialize("mirador-wrapper");
+          tamuMirador.addWindow($scope.resource);
+
+          $scope.$on("$destroy", function() {
+            tamuMirador.destroy();
+          });
         };
+
       }
 
       if (viewerTemplate === 'avalon') {
