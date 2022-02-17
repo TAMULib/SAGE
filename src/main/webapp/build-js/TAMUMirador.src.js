@@ -1,5 +1,4 @@
 import Mirador from '../../../../node_modules/mirador/dist/es/src/index';
-import MiradorViewer from '../../../../node_modules/mirador/dist/es/src/lib/MiradorViewer';
 import { miradorImageToolsPlugin } from '../../../../node_modules/mirador-image-tools/es/index';
 
 var getInstance = function() {
@@ -9,23 +8,23 @@ var getInstance = function() {
   return {
       initialize: function (domId) {
         if (_miradorInstance == null) {
-          _miradorInstance = new MiradorViewer({
-                id: domId,
-                window: {
-                  allowClose: false,
-                  allowFullscreen: true,
-                  hideWindowTitle: true,
-                  sideBarOpen: false
-                },
-                windows: [],
-                workspaceControlPanel: {
-                  enabled: false
-                },
-                workspace: {
-                  showZoomControls: true
-                }
-              },
-              { plugins: [miradorImageToolsPlugin]});
+          _miradorInstance = Mirador.viewer({
+            id: domId,
+            window: {
+              allowClose: false,
+              allowFullscreen: true,
+              hideWindowTitle: true,
+              sideBarOpen: false
+            },
+            windows: [],
+            workspaceControlPanel: {
+              enabled: false
+            },
+            workspace: {
+              showZoomControls: true
+            }
+          }, [miradorImageToolsPlugin]);
+
         }
       },
       addWindow: function (manifestId) {
