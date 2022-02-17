@@ -153,7 +153,7 @@ module.exports = function (grunt) {
           "<%= build.app %>/**/*.js",
           "!<%= build.app %>/config/appConfig.js",
           "!<%= build.app %>/config/apiMapping.js",
-          "!<%= build.app %>/resources/**/*",
+          "!<%= build.app %>/resources/scripts/*",
           "!<%= build.app %>/node_modules/**/*"
         ],
         dest: "<%= build.app %>/resources/scripts/app_concat.js"
