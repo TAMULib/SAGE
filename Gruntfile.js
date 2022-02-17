@@ -1,4 +1,6 @@
 module.exports = function (grunt) {
+  const path = require('path');
+  const webpack = require('webpack');
 
   // Configurable paths
   var build = {
@@ -74,9 +76,8 @@ module.exports = function (grunt) {
           "node_modules/file-saver/FileSaver.min.js",
 
           "node_modules/openseadragon/build/openseadragon/openseadragon.min.js",
-          "node_modules/ng-openseadragon/build/angular-openseadragon.js",
+          "node_modules/ng-openseadragon/build/angular-openseadragon.js"
 
-          "node_modules/mirador/dist/mirador.js"
         ],
         dest: "<%= build.app %>/resources/scripts/vendor_concat.js"
       },
@@ -152,7 +153,7 @@ module.exports = function (grunt) {
           "<%= build.app %>/**/*.js",
           "!<%= build.app %>/config/appConfig.js",
           "!<%= build.app %>/config/apiMapping.js",
-          "!<%= build.app %>/resources/**/*",
+          "!<%= build.app %>/resources/scripts/*",
           "!<%= build.app %>/node_modules/**/*"
         ],
         dest: "<%= build.app %>/resources/scripts/app_concat.js"
@@ -196,25 +197,12 @@ module.exports = function (grunt) {
     },
 
     copy: {
-      styles: {
-        files: [{
-          cwd: "node_modules/mirador/dist/css/",
-          src: "mirador-combined.min.css",
-          dest: "<%= build.app %>/resources/styles/",
-          expand: true
-        }]
-      },
       fonts: {
         files: [{
           src: [
             "node_modules/bootstrap-sass/assets/fonts/bootstrap/*"
           ],
           dest: "<%= build.app %>",
-          expand: true
-        }, {
-          cwd: "node_modules/mirador/dist/fonts/",
-          src: "*",
-          dest: "<%= build.app %>/resources/fonts/",
           expand: true
         }],
       },
@@ -237,10 +225,31 @@ module.exports = function (grunt) {
         coverageDir: "src/main/webapp/coverage/",
         dryRun: true
       }
+    },
+    webpack: {
+      mdConfig: {
+        entry: path.resolve('./src/main/webapp/build-js/TAMUMirador.src.js'),
+        mode: 'production',
+        output: {
+          filename: 'TAMUMirador.js',
+          path: path.resolve('./src/main/webapp/app/resources/js/'),
+          library: 'TAMUMirador',
+          libraryTarget: "var"
+        },
+        plugins: [
+          new webpack.IgnorePlugin({
+            resourceRegExp: /@blueprintjs\/(core|icons)/, // ignore optional UI framework dependencies
+          }),
+          new webpack.optimize.LimitChunkCountPlugin({
+            maxChunks: 1
+          })
+        ]
+      }
     }
 
   });
 
+  grunt.loadNpmTasks("grunt-webpack");
   grunt.loadNpmTasks("grunt-usemin");
   grunt.loadNpmTasks("grunt-contrib-copy");
   grunt.loadNpmTasks("grunt-contrib-clean");
@@ -251,14 +260,14 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks("grunt-contrib-symlink");
   grunt.loadNpmTasks("grunt-karma-coveralls");
 
-  grunt.registerTask("default", ["jshint", "copy:styles", "copy:fonts", "clean", "symlink"]);
+  grunt.registerTask("default", ["webpack", "jshint", "copy:fonts", "clean", "symlink"]);
 
-  grunt.registerTask("coverage", ["jshint", "copy:styles", "copy:fonts", "symlink", "coveralls"]);
+  grunt.registerTask("coverage", ["webpack", "jshint", "copy:fonts", "symlink", "coveralls"]);
 
   grunt.registerTask("watch", ["watch"]);
 
-  grunt.registerTask("develop", ["jshint", "concat", "usemin", "copy:styles", "copy:fonts", "clean", "symlink", "watch"]);
+  grunt.registerTask("develop", ["webpack", "jshint", "concat", "usemin", "copy:fonts", "clean", "symlink", "watch"]);
 
-  grunt.registerTask("deploy", ["jshint", "concat", "uglify", "usemin", "clean", "copy"]);
+  grunt.registerTask("deploy", ["webpack", "jshint", "concat", "uglify", "usemin", "clean", "copy"]);
 
 };

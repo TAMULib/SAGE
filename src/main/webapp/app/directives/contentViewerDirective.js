@@ -28,30 +28,18 @@ sage.directive("contentviewer", function($filter, $sce, appConfig) {
         $scope.options.prefixUrl = 'resources/images/';
         $scope.options.tileSources = [$scope.resource];
       }
-     
+
       if (viewerTemplate === 'mirador') {
         $scope.loadViewer = function () {
-          Mirador({
-            id: 'mirador-wrapper',
-            data: [{ 
-              manifestUri: $scope.resource,
-              location: "TAMU"
-            }],
-            mainMenuSettings: {
-              show: false
-            },
-            windowObjects: [{
-              loadedManifest: $scope.resource,
-              viewType: 'ImageView',
-              displayLayout: false,
-              bottomPanel: true,
-              bottomPanelAvailable: false,
-              bottomPanelVisible: false,
-              sidePanel: false,
-              annotationLayer: false
-            }]
+          const tamuMirador = TAMUMirador.getInstance();
+          tamuMirador.initialize("mirador-wrapper");
+          tamuMirador.addWindow($scope.resource);
+
+          $scope.$on("$destroy", function() {
+            tamuMirador.destroy();
           });
         };
+
       }
 
       if (viewerTemplate === 'avalon') {
