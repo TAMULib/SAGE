@@ -120,7 +120,7 @@
             <div class="media-body">
               <h4 class="media-heading"><a href="discovery-context/{{discoveryContext.slug}}/{{result.uniqueIdentifier}}">{{result.title}}</a></h4>
               <dl class="dc-result-metadata">
-                <result-entry class="dc-field" ng-repeat="resultField in result.fields" result-field="resultField"></result-entry>
+                <result-entry ng-if="resultField.inList" class="dc-field" ng-repeat="resultField in result.fields" result-field="resultField"></result-entry>
               </dl>
             </div>
             <hr>
