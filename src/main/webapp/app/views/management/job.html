@@ -1,7 +1,7 @@
 <div ng-controller="JobManagementController" class="jobs-management">
   <h1>Job Management</h1>
 
-  <alerts channels="job/solr/run,job/solr/run-all" types="SUCCESS,INFO,WARNING,ERROR"></alerts>
+  <alerts channels="job/solr/run,job/solr/run-all" types="SUCCESS,INFO,WARNING,ERROR" exclusive="job/solr/run"></alerts>
 
   <div class="panel panel-default jobs-container">
 
