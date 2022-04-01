@@ -251,8 +251,7 @@ sage.controller('JobManagementController', function ($controller, $scope, NgTabl
 
     AlertService.add({
       message: message,
-      status: entry.status,
-      exclusive: true
+      status: entry.status
     }, "job/solr/run");
   });
 
