@@ -42,7 +42,7 @@
     "grunt-contrib-jshint": "2.0.0",
     "grunt-contrib-symlink": "1.0.0",
     "grunt-contrib-uglify": "4.0.0",
-    "grunt-contrib-uglify-es": "git://github.com/gruntjs/grunt-contrib-uglify.git#harmony",
+    "grunt-contrib-uglify-es": "gruntjs/grunt-contrib-uglify.git#harmony",
     "grunt-contrib-watch": "1.1.0",
     "grunt-karma-coveralls": "2.5.4",
     "grunt-ngdocs": "0.2.11",
