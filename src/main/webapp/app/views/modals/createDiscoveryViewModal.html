@@ -164,7 +164,7 @@
                 <select name="key" class="form-control" ng-model="discoveryView.facetFields[$index].key" ng-options="option['name'] as option['name'] for option in fields" ></select>
               </div>
             </div>
-            <div class="col-xs-5">
+            <div class="col-xs-4">
               <div class="form-group">
                 <label for="label">Label</label>
                 <input name="label" placeholder="Display label of filter" type="text" class="form-control" ng-model="discoveryView.facetFields[$index].label">
@@ -185,6 +185,16 @@
                 <button ng-if="$index > 0 || discoveryView.facetFields.length > 1" type="button" class="btn btn-danger" ng-click="discoveryView.facetFields.splice($index,1)"><span class="glyphicon glyphicon-minus"></span></button>
               </div>
             </div>
+            <div class="col-xs-1 clickers">
+              <div class="form-group">
+                <div class="row">
+                  <span ng-if="!$first" title="Move Facet Up" class="glyphicon glyphicon glyphicon-arrow-up clickable" ng-click="moveUp(discoveryView.facetFields, facetField)"></span>
+                </div>
+                <div class="row">
+                  <span ng-if="!$last" title="Move Facet Down" class="glyphicon glyphicon glyphicon-arrow-down clickable" ng-click="moveDown(discoveryView.facetFields, facetField)"></span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </uib-tab>
@@ -202,7 +212,7 @@
                 <select name="key" class="form-control" ng-model="discoveryView.searchFields[$index].key" ng-options="option['name'] as option['name'] for option in fields" ></select>
               </div>
             </div>
-            <div class="col-xs-7">
+            <div class="col-xs-6">
               <div class="form-group">
                 <label for="label">Label</label>
                 <input name="label" placeholder="Display label of search" type="text" class="form-control" ng-model="discoveryView.searchFields[$index].label">
@@ -212,6 +222,16 @@
               <div class="form-group add-field-group">
                 <button ng-if="$index == 0" type="button" class="btn btn-success" ng-click="appendSearchFieldItem(discoveryView)"><span class="glyphicon glyphicon-plus"></span></button>
                 <button ng-if="$index > 0 || discoveryView.searchFields.length > 1" type="button" class="btn btn-danger" ng-click="discoveryView.searchFields.splice($index,1)"><span class="glyphicon glyphicon-minus"></span></button>
+              </div>
+            </div>
+            <div class="col-xs-1 clickers">
+              <div class="form-group">
+                <div class="row">
+                  <span ng-if="!$first" title="Move Facet Up" class="glyphicon glyphicon glyphicon-arrow-up clickable" ng-click="moveUp(discoveryView.searchFields, searchField)"></span>
+                </div>
+                <div class="row">
+                  <span ng-if="!$last" title="Move Facet Down" class="glyphicon glyphicon glyphicon-arrow-down clickable" ng-click="moveDown(discoveryView.searchFields, searchField)"></span>
+                </div>
               </div>
             </div>
           </div>
@@ -343,34 +363,46 @@
                 <input name="label" placeholder="Display label of filter" type="text" class="form-control" ng-model="discoveryView.resultMetadataFields[$index].label">
               </div>
             </div>
-            <div class="col-xs-1">
-              <div class="form-group">
-                <label for="sortable">Sortable</label>
-                <input name="sortable" type="checkbox" class="form-control" ng-model="discoveryView.resultMetadataFields[$index].sortable" ng-disabled="findFieldByKey(discoveryView.resultMetadataFields[$index].key).multiValued">
+            <div class="col-xs-3">
+              <div class="col-xs-3">
+                <div class="form-group">
+                  <label for="sortable">Sortable</label>
+                  <input name="sortable" type="checkbox" class="form-control" ng-model="discoveryView.resultMetadataFields[$index].sortable" ng-disabled="findFieldByKey(discoveryView.resultMetadataFields[$index].key).multiValued">
+                </div>
               </div>
-            </div>
-            <div class="col-xs-1">
-              <div class="form-group">
-                <label for="list">List</label>
-                <input name="list" type="checkbox" class="form-control" ng-model="discoveryView.resultMetadataFields[$index].inList">
+              <div class="col-xs-3">
+                <div class="form-group">
+                  <label for="list">List</label>
+                  <input name="list" type="checkbox" class="form-control" ng-model="discoveryView.resultMetadataFields[$index].inList">
+                </div>
               </div>
-            </div>
-            <div class="col-xs-1">
-              <div class="form-group">
-                <label for="grid">Grid</label>
-                <input name="grid" type="checkbox" class="form-control" ng-model="discoveryView.resultMetadataFields[$index].inGrid">
+              <div class="col-xs-3">
+                <div class="form-group">
+                  <label for="grid">Grid</label>
+                  <input name="grid" type="checkbox" class="form-control" ng-model="discoveryView.resultMetadataFields[$index].inGrid">
+                </div>
               </div>
-            </div>
-            <div class="col-xs-1">
-              <div class="form-group">
-                <label for="item">Item</label>
-                <input name="item" type="checkbox" class="form-control" ng-model="discoveryView.resultMetadataFields[$index].inSingleResult">
+              <div class="col-xs-3">
+                <div class="form-group">
+                  <label for="item">Item</label>
+                  <input name="item" type="checkbox" class="form-control" ng-model="discoveryView.resultMetadataFields[$index].inSingleResult">
+                </div>
               </div>
             </div>
             <div class="col-xs-2">
               <div class="form-group add-field-group">
                 <button ng-if="$index == 0" type="button" class="btn btn-success" ng-click="appendResultMetadataFieldItem(discoveryView)"><span class="glyphicon glyphicon-plus"></span></button>
                 <button ng-if="$index > 0 || discoveryView.resultMetadataFields.length > 1" type="button" class="btn btn-danger" ng-click="discoveryView.resultMetadataFields.splice($index,1)"><span class="glyphicon glyphicon-minus"></span></button>
+              </div>
+            </div>
+            <div class="col-xs-1 clickers">
+              <div class="form-group">
+                <div class="row">
+                  <span ng-if="!$first" title="Move Facet Up" class="glyphicon glyphicon glyphicon-arrow-up clickable" ng-click="moveUp(discoveryView.resultMetadataFields, resultMetadataField)"></span>
+                </div>
+                <div class="row">
+                  <span ng-if="!$last" title="Move Facet Down" class="glyphicon glyphicon glyphicon-arrow-down clickable" ng-click="moveDown(discoveryView.resultMetadataFields, resultMetadataField)"></span>
+                </div>
               </div>
             </div>
           </div>
