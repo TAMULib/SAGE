@@ -9,7 +9,7 @@
     </li>
   </ul>
   <ul class="list-group dc-facet-counts" ng-class="{'open':open}">
-    <li class="list-group-item dc-facet-count clickable clearfix" ng-repeat="count in countsList | orderBy: 'facetCount': true track by $index" ng-click="addRemoveFacetFilter($ctrl.facet, count.facetName)" ng-if="!findFilterByFacet($ctrl.facet.label, count.facetName) && $index < 10">
+    <li class="list-group-item dc-facet-count clickable clearfix" ng-repeat="count in countsList | orderBy:['facetName','facetCount']" ng-click="addRemoveFacetFilter($ctrl.facet, count.facetName)" ng-if="!findFilterByFacet($ctrl.facet.label, count.facetName) && $index < 10">
       {{count.facetName}} <span class="badge pull-right">{{count.facetCount}}</span>
     </li>
     <li class="list-group-item dc-facet-count clickable clearfix" ng-if="getFacetCountKeys().length > 10" ng-click="openMoreFacets()">more...</li>
