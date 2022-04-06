@@ -6,6 +6,8 @@
       <a class="btn btn-info btn-lg" href="https://github.com/TAMULib/sage" role="button">Learn more</a>
       <a class="btn btn-primary btn-lg" href="management" role="button">Manage</a>
       <a class="btn btn-success btn-lg" href="discovery" role="button">Discover</a>
+      <a ng-if="isEmailEnabled() && isAnonymous()" class="btn btn-success btn-lg" ng-click="openModal('#loginModal')" role="button">Login</a>
+      <a ng-if="isEmailEnabled() && isAnonymous()" class="btn btn-success btn-lg" ng-click="openModal('#verifyEmailModal')" role="button">Register</a>
     </p>
   </div>
 </div>
