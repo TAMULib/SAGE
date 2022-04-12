@@ -397,6 +397,23 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
     }
   };
 
+  $scope.moveUp = function(items, item) {
+    var index = items.indexOf(item);
+    if (index !== 0) {
+      var temp = items.splice(index, 1)[0];
+      items.splice(index - 1, 0, temp);
+    }
+
+  };
+
+  $scope.moveDown = function(items, item) {
+    var index = items.indexOf(item);
+    if (index !== items.length - 1) {
+      var temp = items.splice(index, 1)[0];
+      items.splice(index + 1, 0, temp);
+    }
+  };
+
   DiscoveryViewRepo.ready().then(function() {
     $scope.setTable = function() {
       $scope.tableParams = new NgTableParams({
