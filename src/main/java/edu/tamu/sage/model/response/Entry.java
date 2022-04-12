@@ -6,6 +6,8 @@ public class Entry {
     private String status;
     private String stage;
 
+    public Entry() {}
+
     public String getMessage() {
         return message;
     }
