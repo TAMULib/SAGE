@@ -171,6 +171,7 @@ public class SimpleProcessorService implements ProcessorService {
                 if (outputDocuments.size() >= batchSize) {
                     try {
                         logger.debug("Writing batch of " + batchSize);
+                        stage = "attempting to write batch of documents to " + writer.getSource().getName();
                         writeableSolr.add(outputDocuments);
                         outputDocuments.clear();
                     } catch (SolrServerException | IOException e) {
