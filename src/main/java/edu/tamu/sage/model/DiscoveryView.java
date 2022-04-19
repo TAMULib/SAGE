@@ -74,9 +74,11 @@ public class DiscoveryView extends ValidatingBaseEntity {
     @Column(nullable = false)
     private boolean published;
 
+    @OrderColumn
     @ElementCollection
     private List<MetadataField> resultMetadataFields;
 
+    @OrderColumn
     @ElementCollection
     private List<FacetField> facetFields;
 

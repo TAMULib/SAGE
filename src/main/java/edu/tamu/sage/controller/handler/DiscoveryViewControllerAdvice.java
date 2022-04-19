@@ -15,14 +15,14 @@ import edu.tamu.weaver.response.ApiResponse;
 @RestController
 @ControllerAdvice
 public class DiscoveryViewControllerAdvice {
-    
+
     @ResponseStatus(value = HttpStatus.OK)
     @ExceptionHandler(DiscoveryContextBuildException.class)
     public ApiResponse handleDiscoveryContextBuildException(DiscoveryContextBuildException e) {
         e.printStackTrace();
         return new ApiResponse(ERROR, e.getMessage());
     }
-    
+
     @ResponseStatus(value = HttpStatus.OK)
     @ExceptionHandler(DiscoveryContextNotFoundException.class)
     public ApiResponse handleDiscoveryContextNotFoundException(DiscoveryContextNotFoundException e) {

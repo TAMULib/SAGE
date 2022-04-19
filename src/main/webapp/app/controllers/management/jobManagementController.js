@@ -1,4 +1,4 @@
-sage.controller('JobManagementController', function ($controller, $scope, NgTableParams, JobRepo, OperatorRepo, ReaderRepo, WriterRepo) {
+sage.controller('JobManagementController', function ($controller, $scope, NgTableParams, AlertService, JobRepo, OperatorRepo, ReaderRepo, WriterRepo, WsApi) {
 
   angular.extend(this, $controller('AbstractController', {
     $scope: $scope
@@ -243,6 +243,16 @@ sage.controller('JobManagementController', function ($controller, $scope, NgTabl
       });
     };
     $scope.setTable();
+  });
+
+  WsApi.listen("/channel/job/solr/run").then(null, null, function (response) {
+    var entry = angular.fromJson(response.body).payload.Entry;
+    var message = entry.stage ? entry.message + " While " + entry.stage : entry.message;
+
+    AlertService.add({
+      message: message,
+      status: entry.status
+    }, "job/solr/run");
   });
 
 });

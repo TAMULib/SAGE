@@ -4,8 +4,9 @@
     <h4 class="modal-title">Create Writer</h4>
   </div>
   <div class="modal-body">
+
     <ul class="list-group dc-facet-counts" ng-class="{'open':open}">
-      <li ng-if="!findFilterByFacet($ctrl.facet.label, facet.facetName)" class="list-group-item dc-facet-count clickable clearfix" ng-repeat="facet in moreFacets | orderBy : 'facetCount' : true | limitTo : 10 : page * 10 track by $index" ng-click="addFacetFilter(facet.facetName)">
+      <li ng-if="!findFilterByFacet($ctrl.facet.label, facet.facetName)" class="list-group-item dc-facet-count clickable clearfix" ng-repeat="facet in moreFacets | orderBy : ['-facetCount', '+facetName'] | limitTo : 10 : page * 10 track by $index" ng-click="addFacetFilter(facet.facetName)">
         {{facet.facetName}} <span class="badge pull-right">{{facet.facetCount}}</span>
       </li>
     </ul>
