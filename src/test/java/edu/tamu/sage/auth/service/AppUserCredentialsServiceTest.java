@@ -1,26 +1,26 @@
 package edu.tamu.sage.auth.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.util.ReflectionTestUtils.setField;
 
 import java.util.Optional;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.boot.test.context.SpringBootTest;
 
+import edu.tamu.sage.SageApplication;
 import edu.tamu.sage.model.Role;
 import edu.tamu.sage.model.User;
 import edu.tamu.sage.model.repo.UserRepo;
 import edu.tamu.weaver.auth.model.Credentials;
 
-@RunWith(SpringRunner.class)
+@SpringBootTest(classes = { SageApplication.class })
 public class AppUserCredentialsServiceTest {
 
     private static final Credentials TEST_CREDENTIALS_1 = new Credentials();
@@ -67,7 +67,7 @@ public class AppUserCredentialsServiceTest {
     @InjectMocks
     private AppUserCredentialsService credentialsService;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         when(userRepo.findByUsername(TEST_CREDENTIALS_1.getEmail())).thenReturn(optionalUser1);
@@ -81,31 +81,31 @@ public class AppUserCredentialsServiceTest {
     public void testUpdateUserByCredentials() {
         setField(credentialsService, "admins", testAdmins);
         User foundUser = credentialsService.updateUserByCredentials(TEST_CREDENTIALS_1);
-        assertEquals("Unable to find user", testUser1, foundUser);
+        assertEquals(testUser1, foundUser, "Unable to find user");
         User unfoundUser = credentialsService.updateUserByCredentials(TEST_CREDENTIALS_2);
-        assertEquals("Unable to find user", testUser2, unfoundUser);
+        assertEquals(testUser2, unfoundUser, "Unable to find user");
     }
 
     @Test
     public void testGetAnonymousRole() {
         String anonRole = credentialsService.getAnonymousRole();
-        assertEquals("Anonymous Role not set correctly", Role.ROLE_ANONYMOUS.toString(), anonRole);
+        assertEquals(Role.ROLE_ANONYMOUS.toString(), anonRole, "Anonymous Role not set correctly");
     }
 
     @Test
     public void testNullRole() {
         setField(credentialsService, "admins", testAdmins);
         User nullUser = credentialsService.updateUserByCredentials(TEST_NULL_CREDENTIALS);
-        assertEquals("Null Role not updated", TEST_CREDENTIALS_1.getRole(), nullUser.getRole().toString());
+        assertEquals(TEST_CREDENTIALS_1.getRole(), nullUser.getRole().toString(), "Null Role not updated");
     }
 
     @Test
     public void testChangedUser() {
         User changedUser = credentialsService.updateUserByCredentials(TEST_CHANGED_CREDENTIALS);
-        assertEquals("is present", changedUser, optionalUser1.get());
-        assertEquals("Username was not updated", TEST_CHANGED_CREDENTIALS.getEmail(), changedUser.getUsername());
-        assertEquals("First name was not updated", TEST_CHANGED_CREDENTIALS.getFirstName(), changedUser.getFirstName());
-        assertEquals("Last name was not updated", TEST_CHANGED_CREDENTIALS.getLastName(), changedUser.getLastName());
-        assertEquals("Role was not updated", TEST_CHANGED_CREDENTIALS.getRole(), changedUser.getRole().toString());
+        assertEquals(changedUser, optionalUser1.get(), "is present");
+        assertEquals(TEST_CHANGED_CREDENTIALS.getEmail(), changedUser.getUsername(), "Username was not updated");
+        assertEquals(TEST_CHANGED_CREDENTIALS.getFirstName(), changedUser.getFirstName(), "First name was not updated");
+        assertEquals(TEST_CHANGED_CREDENTIALS.getLastName(), changedUser.getLastName(), "Last name was not updated");
+        assertEquals(TEST_CHANGED_CREDENTIALS.getRole(), changedUser.getRole().toString(), "Role was not updated");
     }
 }

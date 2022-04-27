@@ -2,14 +2,14 @@ package edu.tamu.sage.auth.model;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
+import edu.tamu.sage.SageApplication;
 import edu.tamu.sage.model.User;
 import edu.tamu.weaver.auth.model.Credentials;
 
-@RunWith(SpringRunner.class)
+@SpringBootTest(classes = { SageApplication.class })
 public class CustomUserDetailsTest {
 
     private static final Credentials TEST_CREDENTIALS = new Credentials();

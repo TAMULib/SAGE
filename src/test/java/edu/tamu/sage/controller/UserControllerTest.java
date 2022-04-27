@@ -3,7 +3,7 @@ package edu.tamu.sage.controller;
 import static edu.tamu.weaver.response.ApiStatus.ERROR;
 import static edu.tamu.weaver.response.ApiStatus.SUCCESS;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
@@ -11,20 +11,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import edu.tamu.sage.model.User;
 import edu.tamu.sage.model.repo.UserRepo;
 import edu.tamu.weaver.auth.model.Credentials;
 import edu.tamu.weaver.response.ApiResponse;
 
-@RunWith(SpringRunner.class)
+@SpringBootTest
 public class UserControllerTest {
 
     private static final Credentials TEST_CREDENTIALS_1 = new Credentials();
@@ -59,7 +58,7 @@ public class UserControllerTest {
     @InjectMocks
     private UserController userController;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         when(userRepo.findAll()).thenReturn(mockUserList);
         when(userRepo.update(any(User.class))).thenReturn(testUser1);

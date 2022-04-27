@@ -35,10 +35,10 @@ import edu.tamu.sage.model.repo.OperatorRepo;
 import edu.tamu.weaver.response.ApiResponse;
 import edu.tamu.weaver.response.ApiStatus;
 
-@SpringBootTest
 @AutoConfigureMockMvc
-@ExtendWith(SpringExtension.class)
 @AutoConfigureRestDocs(outputDir = "target/generated-snippets")
+@ExtendWith(SpringExtension.class)
+@SpringBootTest
 public class OperatorControllerTest {
 
     @Autowired

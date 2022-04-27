@@ -4,7 +4,6 @@ import static edu.tamu.sage.model.InternalMetadatumTest.getMockInternalMetadatum
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +68,7 @@ public class InternalMetadataRepoTest {
         assertEquals(0, internalMetadataRepo.count());
     }
 
-    @AfterEach
+    @AfterEachEach
     public void deleteAllViews() {
         internalMetadataRepo.deleteAll();
     }
