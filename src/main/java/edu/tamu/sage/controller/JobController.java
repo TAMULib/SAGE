@@ -82,7 +82,7 @@ public class JobController {
     @PreAuthorize("hasRole('MANAGER')")
     public ApiResponse run(@PathVariable Long jobId) {
         ApiResponse response;
-        Job job = jobRepo.findOne(jobId);
+        Job job = jobRepo.findById(jobId).get();
         if (job != null) {
             boolean processStarted = processorService.process(job);
             if (processStarted) {
