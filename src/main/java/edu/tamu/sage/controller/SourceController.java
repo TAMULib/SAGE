@@ -58,7 +58,9 @@ public class SourceController {
     @RequestMapping("/test/ping")
     @PreAuthorize("hasRole('ANONYMOUS')")
     public ApiResponse testSolrCorePing(@WeaverValidatedModel Source source) throws IOException {
-        SolrClient solr = new HttpSolrClient(source.getUri());
+        HttpSolrClient.Builder builder = new HttpSolrClient.Builder();
+        builder.withBaseSolrUrl(source.getUri());
+        SolrClient solr = builder.build();
 
         ApiResponse response = new ApiResponse(SUCCESS);
 
@@ -79,7 +81,10 @@ public class SourceController {
     public ApiResponse testSolrCoreLocation(@WeaverValidatedModel Source source) throws IOException {
         logger.info("Testing Source location: " + source.getName());
 
-        SolrClient solr = new HttpSolrClient(source.getUri());
+        HttpSolrClient.Builder builder = new HttpSolrClient.Builder();
+        builder.withBaseSolrUrl(source.getUri());
+
+        SolrClient solr = builder.build();
 
         ApiResponse response = new ApiResponse(SUCCESS);
 
