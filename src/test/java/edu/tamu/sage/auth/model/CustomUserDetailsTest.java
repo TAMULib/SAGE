@@ -3,8 +3,8 @@ package edu.tamu.sage.auth.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import edu.tamu.sage.model.User;
 import edu.tamu.weaver.auth.model.Credentials;

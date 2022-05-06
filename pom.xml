@@ -98,7 +98,7 @@
     <dependency>
       <groupId>xml-apis</groupId>
       <artifactId>xml-apis</artifactId>
-      <version>1.4.01</version> <!--$NO-MVN-MAN-VER$ -->
+      <version>1.4.01</version>
     </dependency>
 
     <dependency>
@@ -162,19 +162,18 @@
     <dependency>
       <groupId>org.thymeleaf</groupId>
       <artifactId>thymeleaf</artifactId>
-      <version>3.0.11.RELEASE</version> <!--$NO-MVN-MAN-VER$ -->
     </dependency>
 
     <dependency>
       <groupId>org.thymeleaf</groupId>
       <artifactId>thymeleaf-spring4</artifactId>
-      <version>3.0.11.RELEASE</version> <!--$NO-MVN-MAN-VER$ -->
+      <version>3.0.15.RELEASE</version>
     </dependency>
 
     <dependency>
       <groupId>org.thymeleaf.extras</groupId>
       <artifactId>thymeleaf-extras-springsecurity4</artifactId>
-      <version>3.0.4.RELEASE</version> <!--$NO-MVN-MAN-VER$ -->
+      <version>3.0.4.RELEASE</version>
     </dependency>
 
     <dependency>
@@ -239,8 +238,6 @@
         <configuration>
           <mainClass>edu.tamu.sage.SageApplication</mainClass>
           <addResources>false</addResources>
-          <source>${java.version}</source>
-          <target>${java.version}</target>
         </configuration>
       </plugin>
 
@@ -302,24 +299,6 @@
               </excludes>
             </webResource>
           </webResources>
-          <webResource>
-            <filtering>false</filtering>
-            <directory>node_modules/@wvr/core/app/resources/styles</directory>
-            <targetPath>WEB-INF/classes</targetPath>
-            <excludes>
-              <exclude>**/*.css</exclude>
-            </excludes>
-          </webResource>
-          <webResource>
-            <filtering>false</filtering>
-            <directory>node_modules/bootstrap-sass/assets</directory>
-            <targetPath>WEB-INF/classes</targetPath>
-            <excludes>
-              <exclude>fonts/**</exclude>
-              <exclude>images/**</exclude>
-              <exclude>javascript/**</exclude>
-            </excludes>
-          </webResource>
         </configuration>
       </plugin>
 
@@ -334,54 +313,6 @@
             <version>3.1.1</version>
           </dependency>
         </dependencies>
-        <configuration>
-          <failOnMissingWebXml>false</failOnMissingWebXml>
-          <webResources>
-            <webResource>
-              <filtering>true</filtering>
-              <directory>src/main/resources</directory>
-              <targetPath>WEB-INF</targetPath>
-              <includes>
-                <include>application.properties</include>
-              </includes>
-              <excludes>
-                <exclude>**/*.xls</exclude>
-              </excludes>
-            </webResource>
-            <webResource>
-              <filtering>false</filtering>
-              <directory>src/main/resources</directory>
-              <targetPath>WEB-INF/classes</targetPath>
-              <exclude>application.properties</exclude>
-            </webResource>
-            <webResource>
-              <filtering>false</filtering>
-              <directory>src/main/webapp/app/resources/styles</directory>
-              <targetPath>WEB-INF/classes</targetPath>
-              <excludes>
-                <exclude>**/*.css</exclude>
-              </excludes>
-            </webResource>
-          </webResources>
-          <webResource>
-            <filtering>false</filtering>
-            <directory>node_modules/@wvr/core/app/resources/styles</directory>
-            <targetPath>WEB-INF/classes</targetPath>
-            <excludes>
-              <exclude>**/*.css</exclude>
-            </excludes>
-          </webResource>
-          <webResource>
-            <filtering>false</filtering>
-            <directory>node_modules/bootstrap-sass/assets</directory>
-            <targetPath>WEB-INF/classes</targetPath>
-            <excludes>
-              <exclude>fonts/**</exclude>
-              <exclude>images/**</exclude>
-              <exclude>javascript/**</exclude>
-            </excludes>
-          </webResource>
-        </configuration>
       </plugin>
 
       <plugin>

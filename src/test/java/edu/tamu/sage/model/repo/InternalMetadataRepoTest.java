@@ -56,8 +56,8 @@ public class InternalMetadataRepoTest {
 
         internalMetadatum = internalMetadataRepo.read(currentId);
 
-        assertEquals("Test Metadatum Updated", internalMetadatum.getGloss());
-        assertEquals("test_metadatum_updated", internalMetadatum.getField());
+        assertEquals(internalMetadatum.getGloss(), "Test Metadatum Updated");
+        assertEquals(internalMetadatum.getField(), "test_metadatum_updated");
     }
 
     @Test

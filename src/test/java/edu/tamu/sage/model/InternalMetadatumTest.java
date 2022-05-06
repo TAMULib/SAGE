@@ -30,16 +30,16 @@ public class InternalMetadatumTest {
 
         assertEquals(1L, internalMetadatum.getId(), 1);
 
-        assertEquals("Test Metadatum", internalMetadatum.getGloss());
-        assertEquals("test_metadatum", internalMetadatum.getField());
+        assertEquals(internalMetadatum.getGloss(), "Test Metadatum");
+        assertEquals(internalMetadatum.getField(), "test_metadatum");
         assertFalse(internalMetadatum.isRequired());
 
         internalMetadatum.setGloss("Test Metadatum Updated");
         internalMetadatum.setField("test_metadatum_updated");
         internalMetadatum.setRequired(true);
 
-        assertEquals("Test Metadatum Updated", internalMetadatum.getGloss());
-        assertEquals("test_metadatum_updated", internalMetadatum.getField());
+        assertEquals(internalMetadatum.getGloss(), "Test Metadatum Updated");
+        assertEquals(internalMetadatum.getField(), "test_metadatum_updated");
         assertTrue(internalMetadatum.isRequired());
     }
 

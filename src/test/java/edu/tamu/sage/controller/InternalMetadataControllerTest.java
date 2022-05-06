@@ -153,7 +153,7 @@ public class InternalMetadataControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
+    @WithMockUser(roles = { "ADMIN" })
     public void testDeleteInternalMedadatum() throws JsonProcessingException, Exception {
         performCreateInternalMedadatum();
 

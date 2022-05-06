@@ -62,9 +62,9 @@ public class OperatorRepoTest {
 
         operator = (ConstantOp) operatorRepo.read(currentId);
 
-        assertEquals("Test Constant Op Updated", operator.getName());
-        assertEquals("test_constant_op_updated", operator.getField());
-        assertEquals("Test Constant Value Updated", operator.getValue());
+        assertEquals(operator.getName(), "Test Constant Op Updated");
+        assertEquals(operator.getField(), "test_constant_op_updated");
+        assertEquals(operator.getValue(), "Test Constant Value Updated");
     }
 
     @Test
@@ -105,9 +105,9 @@ public class OperatorRepoTest {
 
         operator = (ConstantOp) operatorRepo.read(currentId);
 
-        assertEquals("Test Default Op Updated", operator.getName());
-        assertEquals("test_default_op_updated", operator.getField());
-        assertEquals("Test Default Value Updated", operator.getValue());
+        assertEquals(operator.getName(), "Test Default Op Updated");
+        assertEquals(operator.getField(), "test_default_op_updated");
+        assertEquals(operator.getValue(), "Test Default Value Updated");
     }
 
     @Test
