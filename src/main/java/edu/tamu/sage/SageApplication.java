@@ -6,7 +6,7 @@ import java.net.URISyntaxException;
 
 import javax.annotation.PostConstruct;
 
-import org.springframework.boot.ApplicationHome;
+import org.springframework.boot.system.ApplicationHome;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
