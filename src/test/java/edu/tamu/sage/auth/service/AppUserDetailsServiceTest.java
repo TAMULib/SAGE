@@ -11,7 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import edu.tamu.sage.model.User;
 import edu.tamu.weaver.auth.model.Credentials;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 public class AppUserDetailsServiceTest {
 
     private static final Credentials TEST_CREDENTIALS_1 = new Credentials();

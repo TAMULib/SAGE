@@ -24,7 +24,7 @@ import edu.tamu.sage.model.repo.UserRepo;
 import edu.tamu.weaver.auth.model.Credentials;
 import edu.tamu.weaver.response.ApiResponse;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 public class UserControllerTest {
 
     private static final Credentials TEST_CREDENTIALS_1 = new Credentials();
@@ -59,7 +59,7 @@ public class UserControllerTest {
     @InjectMocks
     private UserController userController;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         when(userRepo.findAll()).thenReturn(mockUserList);
         when(userRepo.update(any(User.class))).thenReturn(testUser1);

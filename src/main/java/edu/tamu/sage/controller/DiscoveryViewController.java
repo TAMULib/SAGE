@@ -100,7 +100,7 @@ public class DiscoveryViewController {
         if (sortableField.isPresent() && sortableField.get().isSortable()) {
             if (page.getSort() == null) {
                 Direction defaultDirection = discoveryView.isAscending() ? Direction.ASC : Direction.DESC;
-                PageRequest pageRequest = new PageRequest(page.getPageNumber(), page.getPageSize(), defaultDirection, sortableField.get().getKey());
+                PageRequest pageRequest = new PageRequest(page.getPageNumber(), page.getPageSize(),Sort.by(defaultDirection, field));
                 page = pageRequest;
             } else {
                 String sort = page.getSort().toString().split(":")[0];

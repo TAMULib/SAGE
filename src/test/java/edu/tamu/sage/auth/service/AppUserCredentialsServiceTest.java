@@ -20,7 +20,7 @@ import edu.tamu.sage.model.User;
 import edu.tamu.sage.model.repo.UserRepo;
 import edu.tamu.weaver.auth.model.Credentials;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 public class AppUserCredentialsServiceTest {
 
     private static final Credentials TEST_CREDENTIALS_1 = new Credentials();
@@ -67,7 +67,7 @@ public class AppUserCredentialsServiceTest {
     @InjectMocks
     private AppUserCredentialsService credentialsService;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         when(userRepo.findByUsername(TEST_CREDENTIALS_1.getEmail())).thenReturn(optionalUser1);
