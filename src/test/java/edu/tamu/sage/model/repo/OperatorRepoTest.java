@@ -2,8 +2,8 @@ package edu.tamu.sage.model.repo;
 
 import static edu.tamu.sage.model.ConstantOpTest.getMockConstantOp;
 import static edu.tamu.sage.model.DefaultOpTest.getMockDefaultOp;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;

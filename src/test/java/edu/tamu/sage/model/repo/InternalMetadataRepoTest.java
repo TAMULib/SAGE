@@ -1,7 +1,7 @@
 package edu.tamu.sage.model.repo;
 
 import static edu.tamu.sage.model.InternalMetadatumTest.getMockInternalMetadatum;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.AfterEach;

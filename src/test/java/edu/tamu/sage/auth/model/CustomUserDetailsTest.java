@@ -1,6 +1,6 @@
 package edu.tamu.sage.auth.model;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,6 +26,6 @@ public class CustomUserDetailsTest {
     @Test
     public void testConstructor() {
         CustomUserDetails userDetails = new CustomUserDetails(testUser);
-        assertEquals("The parent constructor was not called correctly", testUser.getId(), userDetails.getId());
+        assertEquals(testUser.getId(), userDetails.getId(), "The parent constructor was not called correctly");
     }
 }

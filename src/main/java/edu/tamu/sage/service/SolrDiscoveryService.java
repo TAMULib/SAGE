@@ -202,7 +202,9 @@ public class SolrDiscoveryService {
     }
 
     private SolrDocument getSingleResultDocument(DiscoveryView discoveryView, String resultId) throws DiscoveryContextBuildException {
-        try (SolrClient solr = new HttpSolrClient(discoveryView.getSource().getUri())) {
+        HttpSolrClient.Builder builder = new HttpSolrClient.Builder();
+        builder.withBaseSolrUrl(discoveryView.getSource().getUri());
+        try (SolrClient solr = builder.build()) {
             SolrQuery query = new SolrQuery();
 
             query.setQuery(discoveryView.getUniqueIdentifierKey() + ":" + resultId);
@@ -227,7 +229,9 @@ public class SolrDiscoveryService {
         List<Result> results = new ArrayList<Result>();
         List<FacetFilter> facetFilters = new ArrayList<FacetFilter>();
 
-        SolrClient solr = new HttpSolrClient(discoveryView.getSource().getUri());
+        HttpSolrClient.Builder builder = new HttpSolrClient.Builder();
+        builder.withBaseSolrUrl(discoveryView.getSource().getUri());
+        SolrClient solr = builder.build();
 
         search.setTotal(0);
 

@@ -72,7 +72,9 @@ public class SolrSourceService implements SourceService {
 
     // luke handler provides dynamic fields that have been mapped in a document
     private Stream<SolrField> lookupFieldsWithLuke(String uri, String filter) {
-        try (SolrClient solr = new HttpSolrClient(uri)) {
+        HttpSolrClient.Builder builder = new HttpSolrClient.Builder();
+        builder.withBaseSolrUrl(uri);
+        try (SolrClient solr = builder.build()) {
             List<SolrField> fields = new ArrayList<SolrField>();
 
             LukeRequest luke = new LukeRequest();
