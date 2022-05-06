@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -100,11 +101,11 @@ public class DiscoveryViewController {
         if (sortableField.isPresent() && sortableField.get().isSortable()) {
             if (page.getSort() == null) {
                 Direction defaultDirection = discoveryView.isAscending() ? Direction.ASC : Direction.DESC;
-                PageRequest pageRequest = new PageRequest(page.getPageNumber(), page.getPageSize(),Sort.by(defaultDirection, field));
+                PageRequest pageRequest = PageRequest.of(page.getPageNumber(), page.getPageSize(),Sort.by(defaultDirection, field));
                 page = pageRequest;
             } else {
                 String sort = page.getSort().toString().split(":")[0];
-                page = new PageRequest(page.getPageNumber(), page.getPageSize(), Direction.fromString(direction), sort);
+                page = PageRequest.of(page.getPageNumber(), page.getPageSize(),Sort.Direction.fromString(direction), sort);
             }
         }
 
