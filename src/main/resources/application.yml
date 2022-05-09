@@ -1,0 +1,135 @@
+server:
+ port: 9000
+ contextPath:
+
+# use this as the security key for encryption
+security:
+ user:
+  password: 81d56928-891a-41b2-8dd2-132593e6d057
+
+spring:
+ template.cache: false
+ jpa:
+  database-platform: org.hibernate.dialect.H2Dialect
+  generate-ddl: true
+  show-sql: false
+  hibernate:
+   ddl-auto: create-drop
+  properties:
+   hibernate:
+    event:
+     merge.entity_copy_observer: allow
+ http:
+  multipart:
+   maxFileSize: 20MB
+   maxRequestSize: 20MB
+
+ # H2
+ sql.init.platform: h2
+ datasource:
+  url: jdbc:h2:file:./tmp/sage
+  #mem:AZ;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+  driverClassName: org.h2.Driver
+  # database username and password
+  username: sage
+  password: sage
+  # common database config -- might be needed for postgres
+  defaultAutoCommit: false
+  test-on-borrow: true
+  validation-query: select version();
+  # datasource initial imports
+  data: classpath:/import.sql
+
+ thymeleaf:
+  cache: false
+  model: LEGACYHTML5
+
+# File size limit
+multipart:
+ maxFileSize: 100Mb
+ # Total request size for a multipart/form-data
+ maxRequestSize: 1000Mb
+
+app:
+ url: http://localhost:${server.port}
+ cvcache:
+  duration: 3600000
+ ui:
+  path: /app
+ # edu.tamu.weaver.auth.service.CryptoService
+ security:
+  secret: verysecretsecret
+  allow-access: http://localhost:${server.port}
+ # edu.tamu.weaver.auth.controller.WeaverAssumeUserController
+ assume:
+  enabled: false
+  claims-url:
+
+ email:
+  host: relay.tamu.edu
+  from: noreply@library.tamu.edu
+  replyTo: dev@library.tamu.edu
+  # edu.tamu.weaver.reporting.controller.ReportingController
+ reporting:
+  address: dev@tdl.org
+ model:
+  packages: edu.tamu.sage.model
+ http:
+  timeout: 10000
+ # edu.tamu.weaver.auth.service.UserCredentialsService
+ authority:
+  admins: rmathew@tamu.edu
+
+# options: weaverAuth,emailRegistration
+authenticationStrategies: weaverAuth
+
+auth:
+ path: /auth
+ # edu.tamu.weaver.token.service.TokenService
+ security:
+  jwt.secret: verysecretsecret
+  security:
+   jwt:
+    issuer: localhost
+    duration: 1
+
+wro:
+ managerFactoryClassName: edu.tamu.cap.wro.manager.factory.ConfigurableWroManagerFactory
+ # Define which preProcessors should be used to process SASS
+ preProcessors: lessCssImport
+ # Define which postProcessors should be used to process SASS
+ postProcessors: rubySassCss
+
+theme:
+ manager: false
+ # Define the locations of SASS files to be processed
+ default:
+  css: sass/app.scss
+  # Define the location of default themes config file, if used
+  location: config/theme-defaults.json
+
+info:
+ build:
+  production:@production@
+  artifact:@project.artifactId@
+  name:@project.name@
+  description:@project.description@
+  version:@project.version@
+
+# logging
+logging:
+ level:
+  edu.tamu: INFO
+  org.hibernate: INFO
+  org.springframework: INFO
+  org.springframework.jndi: INFO
+  org.springframework.orm.jpa: INFO
+  ro.isdc.wro: INFO
+ file: sage.log
+ path: /var/log
+ 
+ #pattern:
+  # Logging pattern for the console
+  #console: %d{yyyy-MM-dd HH:mm:ss} %highlight(%-5level) %cyan(%logger{15}) - %msg %n
+  # Logging pattern for file
+  #file: %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
