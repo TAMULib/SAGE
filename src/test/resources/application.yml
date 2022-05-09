@@ -66,11 +66,11 @@ logging:
 
 info:
  build:
-  production: false
-  artifact: @project.artifactId@
-  name: @project.name@
-  description: @project.description@
-  version: @project.version@
+ - production: false
+ - artifact: @project.artifactId@
+ - name: @project.name@
+ - description: @project.description@
+ - version: @project.version@
 
 app:
  email:
