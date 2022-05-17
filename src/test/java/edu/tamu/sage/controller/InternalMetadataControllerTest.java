@@ -59,7 +59,7 @@ public class InternalMetadataControllerTest {
             get("/internal/metadata")
                 .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andDo(
                 document(
                     "internal/metadata/get-all",
@@ -165,7 +165,7 @@ public class InternalMetadataControllerTest {
                 .content(objectMapper.writeValueAsString(internalMetadatum))
                 .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andDo(
                 document(
                     "internal/metadata/delete",
@@ -203,7 +203,7 @@ public class InternalMetadataControllerTest {
                 .content(body)
                 .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                     .andExpect(content().json(objectMapper.writeValueAsString(expectedResponse))
             );
         // @formatter:on

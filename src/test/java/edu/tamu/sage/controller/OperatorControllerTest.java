@@ -62,7 +62,7 @@ public class OperatorControllerTest {
             get("/operators")
                 .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andDo(
                 document(
                     "operators/get-all",
@@ -87,7 +87,7 @@ public class OperatorControllerTest {
             get("/operators/types")
                 .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andDo(
                 document(
                     "operators/get-types",
@@ -233,7 +233,7 @@ public class OperatorControllerTest {
                 .content(body)
                 .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
                     .andExpect(content().json(objectMapper.writeValueAsString(expectedResponse))
             );
         // @formatter:on
