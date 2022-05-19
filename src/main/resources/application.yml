@@ -24,10 +24,6 @@ spring:
     # Init only happens on embedded DBs by default, set to always to ensure that the data.sql is always imported.
     mode: always
 
-  h2.console:
-    enabled: true
-    path: /h2
-
   datasource:
 
     # common database config -- might be needed for postgres
@@ -54,9 +50,7 @@ spring:
     show-sql: false
     hibernate:
       ddl-auto: create-drop
-    properties:
-      hibernate:
-        event.merge.entity_copy_observer: allow
+      event.merge.entity_copy_observer: allow
 
     # Executing data.sql happens before the schema initialization by default, set this to true to ensure the data.sql happens after the database is created.
     defer-datasource-initialization: true
@@ -101,14 +95,13 @@ logging:
 
 info:
   build:
-    production: "@production@"
     artifact: "@project.artifactId@"
     name: "@project.name@"
     description: "@project.description@"
     version: "@project.version@"
 
 app:
-  url: http://localhost:${server.port}
+  url: http://localhost:${server.port}${server.contextPath}
 
   # edu.tamu.weaver.email.config.WeaverEmailConfig
   email:
@@ -143,14 +136,14 @@ app:
 # options: weaverAuth,emailRegistration
 authenticationStrategies: emailRegistration
 
-#shib:
-#  keys: netid,uin,lastName,firstName,email
-#  subject: email
-#  netid: edupersonprincipalnameunscoped
-#  uin: tamuuin
-#  lastName: tdl-sn
-#  firstName: tdl-givenname
-#  email: tdl-mail
+shib:
+  keys: netid,uin,lastName,firstName,email
+  subject: email
+  netid: edupersonprincipalnameunscoped
+  uin: tamuuin
+  lastName: tdl-sn
+  firstName: tdl-givenname
+  email: tdl-mail
 
 auth:
   path: /auth
@@ -170,7 +163,11 @@ wro:
 # edu.tamu.weaver.wro.service.ThemeManagerService
 theme:
   manager: false
-  # Define the locations of SASS files to be processed
-  default.css: sass/app.scss
-  # Define the location of default themes config file, if used
-  default.location: config/theme-defaults.json
+  default:
+    # Define the locations of SASS files to be processed
+    css: sass/app.scss
+
+    # Define the location of default themes config file, if used
+    location: config/theme-defaults.json
+
+    reloadUrl: '${app.url}/wro/wroAPI/reloadCache'
