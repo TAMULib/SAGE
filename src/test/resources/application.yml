@@ -1,138 +1,152 @@
 server:
- port: 9100
- contextPath:
+  port: 9100
+  contextPath:
 
 # use this as the security key for encryption
 security:
- user:
-  password: 81d56928-891a-41b2-8dd2-132593e6d057
+  user:
+    password: 81d56928-891a-41b2-8dd2-132593e6d057
 
 spring:
- thymeleaf:
-  cache: false
-  model: LEGACYHTML5
- datasource:
-   # common database config -- might be needed for postgres
-   defaultAutoCommit: false
-   test-on-borrow: true
-   driverClassName: org.h2.Driver
-   validation-query: select version();
-   url: jdbc:h2:mem:AZ;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-   username: sage
-   password: sage
- http:
-  multipart:
-   maxFileSize: 20MB
-   maxRequestSize: 20MB
- jpa:
-  database-platform: org.hibernate.dialect.H2Dialect
-  generate-ddl: true
-  hibernate:
-   ddl-auto: create-drop
-  show-sql: false
-  properties:
-   hibernate:
-    event:
-     merge:
-      entity_copy_observer: allow
-  # H2
- sql:
-  init:
-   platform: h2
- template:
-   cache: false
+  template:
+    cache: false
 
-# logging
+  http:
+    multipart:
+      maxFileSize: 20MB
+      maxRequestSize: 20MB
+
+  sql.init:
+    platform: h2
+    mode: never
+
+  datasource:
+
+    # common database config -- might be needed for postgres
+    default-auto-commit: false
+    test-on-borrow: true
+    validation-query: select version();
+
+    # h2
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:AZ;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sage
+    password: sage
+
+  jpa:
+    generate-ddl: true
+    show-sql: false
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        event.merge.entity_copy_observer: allow
+
+    database-platform: org.hibernate.dialect.H2Dialect
+
+    thymeleaf:
+      cache: false
+      model: LEGACYHTML5
+
+  main:
+
+    # Bean overriding is necessary for TokenAuthorizationFilter.
+    allow-bean-definition-overriding: true
+
+    # Circular bean dependency between appWebMvcConfig and userRepoImpl.
+    allow-circular-references: true
+
+# (is overwritten by logback-test.xml)
 logging:
- level:
-  edu:
-   tamu: INFO
-  org:
-   hibernate: INFO
-   springframework: INFO
-   springframework.jndi: INFO
-   springframework.orm.jpa: INFO
-  ro:
-   isdc:
-    wro: INFO
   file:
-   name: sage.log
-  path: /var/log
- # Logging pattern for the console
- pattern:
-  console: %d{yyyy-MM-dd HH:mm:ss} %highlight(%-5level) %cyan(%logger{15}) - %msg %n
-  # Logging pattern for file
-  file: %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+    name: logs/sage-test.log
+  level:
+    com.zaxxer: ERROR
+    edu.tamu: WARN
+    org:
+      hibernate: OFF
+      springframework: ERROR
+    ro.isdc.wro: ERROR
+
+  #pattern:
+  #  console: "%d{yyyy-MM-dd  HH:mm:ss}  %highlight(%-5level)  %cyan(%logger{15})  -  %msg  %n"
+  #  file: "%d{yyyy-MM-dd  HH:mm:ss}  [%thread]  %-5level  %logger{36}  -  %msg%n"
 
 info:
- build:
- - production: false
- - artifact: @project.artifactId@
- - name: @project.name@
- - description: @project.description@
- - version: @project.version@
+  build:
+  -  production: false
+  -  artifact: "@project.artifactId@"
+  -  name: "@project.name@"
+  -  description: "@project.description@"
+  -  version: "@project.version@"
 
 app:
- email:
-  host: relay.tamu.edu
-  from: noreply@library.tamu.edu
-  replyTo: dev@library.tamu.edu
-  # edu.tamu.weaver.reporting.controller.ReportingController
- reporting:
-  address: dev@tdl.org
- http:
-  timeout: 10000
- model:
-  packages: edu.tamu.sage.model
+  url: http://localhost:${server.port}${server.contextPath}
+  email:
+    host: relay.tamu.edu
+    from: noreply@library.tamu.edu
+    replyTo: dev@library.tamu.edu
 
- security:
-  secret: verysecretsecret
-  allow-access: http://localhost:${server.port}
- url: http://localhost:${server.port}${server.contextPath}
- cvcache:
-  duration: 3600000
- # edu.tamu.weaver.auth.service.UserCredentialsService
- authority:
-  admins: aggieJack@tamu.edu
- ui:
-  path: /app
+  # edu.tamu.weaver.reporting.controller.ReportingController
+  reporting:
+    address: dev@tdl.org
+  http:
+    timeout: 10000
+  model:
+    packages: edu.tamu.sage.model
+
+  security:
+    secret: verysecretsecret
+    allow-access: http://localhost:${server.port}
+  cvcache:
+    duration: 3600000
+
+  # edu.tamu.weaver.auth.service.UserCredentialsService
+  authority:
+    admins: aggieJack@tamu.edu
+  ui:
+    path: /app
 
 auth:
- path: /auth
- security:
-  jwt:
-  secret: verysecretsecret
-  issuer: localhost
-  duration: 1
-
+  path: /auth
+  security:
+    jwt:
+      secret: verysecretsecret
+      issuer: localhost
+      duration: 1
 
 multipart:
- # File size limit
- maxFileSize: 100Mb
- # Total request size for a multipart/form-data
- maxRequestSize: 1000Mb
- 
+  # File size limit
+  maxFileSize: 100Mb
+
+  # Total request size for a multipart/form-data
+  maxRequestSize: 1000Mb
+
 shib:
- keys: netid,uin,lastName,firstName,email
- subject: email
- netid: edupersonprincipalnameunscoped
- uin: tamuuin
- lastName: tdl-sn
- firstName: tdl-givenname
- email: tdl-mail
+  keys: netid,uin,lastName,firstName,email
+  subject: email
+  netid: edupersonprincipalnameunscoped
+  uin: tamuuin
+  lastName: tdl-sn
+  firstName: tdl-givenname
+  email: tdl-mail
 
 wro:
- managerFactoryClassName: edu.tamu.weaver.wro.manager.factory.WeaverConfigurableWroManagerFactory
- # Define which preProcessors should be used to process SASS
- preProcessors: lessCssImport
- # Define which postProcessors should be used to process SASS
- postProcessors: rubySassCss
+  managerFactoryClassName: edu.tamu.weaver.wro.manager.factory.WeaverConfigurableWroManagerFactory
+
+  # Define which preProcessors should be used to process SASS
+  preProcessors: lessCssImport
+
+  # Define which postProcessors should be used to process SASS
+  postProcessors: rubySassCss
 
 theme:
- manager: false
- # Define the locations of SASS files to be processed
- default:
-  css: sass/app.scss
-  # Define the location of default themes config file, if used
-  location: config/theme-defaults.json
- initialize: false
+  manager: false
+  initialize: false
+
+  # Define the locations of SASS files to be processed
+  default:
+    css: sass/app.scss
+
+    # Define the location of default themes config file, if used
+    location: config/theme-defaults.json

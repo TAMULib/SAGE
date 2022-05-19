@@ -60,7 +60,7 @@ public class DiscoveryViewController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ANONYMOUS')")
     public ApiResponse getDiscoveryViewById(@PathVariable long id) {
-        return new ApiResponse(SUCCESS, discoveryViewRepo.read(id));
+        return new ApiResponse(SUCCESS, discoveryViewRepo.findById(id).get());
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -84,7 +84,7 @@ public class DiscoveryViewController {
     @WeaverValidation(business = { @WeaverValidation.Business(value = DELETE) })
     public ApiResponse deleteDiscoveryView(@RequestBody DiscoveryView discoveryView) {
         logger.info("Deleting Discovery View: " + discoveryView.getName());
-        discoveryViewRepo.delete(discoveryView);
+        discoveryViewRepo.deleteById(discoveryView.getId());
         return new ApiResponse(SUCCESS);
     }
 

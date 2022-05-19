@@ -20,12 +20,19 @@ RUN useradd -d $HOME_DIR -m -u $USER_ID -g $USER_ID $USER_NAME
 # Update the system.
 RUN apt-get update && apt-get upgrade -y
 
+# Install Nodejs and npm.
+RUN apt-get install -y nodejs
+RUN apt-get install -y npm
+
 # Set deployment directory.
 WORKDIR $SOURCE_DIR
 
 # Copy files over.
 COPY ./pom.xml ./pom.xml
 COPY ./src ./src
+COPY ./package.json ./package.json
+COPY ./Gruntfile.js ./Gruntfile.js
+COPY ./.jshintrc ./.jshintrc
 
 # Assign file permissions.
 RUN chown -R ${USER_ID}:${USER_ID} ${SOURCE_DIR}

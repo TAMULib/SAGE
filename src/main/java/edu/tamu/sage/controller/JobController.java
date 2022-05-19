@@ -65,7 +65,7 @@ public class JobController {
     @WeaverValidation(business = { @WeaverValidation.Business(value = DELETE) })
     public ApiResponse deleteReader(@WeaverValidatedModel Job job) {
         logger.info(String.format("Deleting job %s", job.getName()));
-        jobRepo.delete(job);
+        jobRepo.deleteById(job.getId());
         return new ApiResponse(SUCCESS);
     }
 

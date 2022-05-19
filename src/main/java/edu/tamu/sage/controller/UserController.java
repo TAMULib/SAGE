@@ -95,7 +95,7 @@ public class UserController {
     @RequestMapping("/delete")
     @PreAuthorize("hasRole('MANAGER')")
     public ApiResponse delete(@RequestBody User user) throws Exception {
-        userRepo.delete(user);
+        userRepo.deleteById(user.getId());
         return new ApiResponse(SUCCESS);
     }
 

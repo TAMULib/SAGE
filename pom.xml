@@ -20,12 +20,12 @@
     <production>false</production>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <maven-plugins.version>2.22.0</maven-plugins.version>
     <java.version>11</java.version>
     <start-class>edu.tamu.sage.SageApplication</start-class>
   </properties>
 
   <dependencies>
-
     <dependency>
       <groupId>edu.tamu.weaver</groupId>
       <artifactId>auth</artifactId>
@@ -75,42 +75,37 @@
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-csv</artifactId>
       <version>1.9.0</version>
-      <exclusions>
-        <exclusion>
-          <groupId>com.h2database</groupId>
-          <artifactId>h2</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
 
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-rdf-api</artifactId>
-      <version>0.3.0-incubating</version>
+      <version>0.5.0</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-rdf-simple</artifactId>
-      <version>0.3.0-incubating</version>
+      <version>0.5.0</version>
     </dependency>
 
     <dependency>
       <groupId>xml-apis</groupId>
       <artifactId>xml-apis</artifactId>
-      <version>1.4.01</version>
+      <!-- 2.0.2 is actually older than 1.4.01 and the 2.0.X versions should not be used! -->
+      <version>1.4.01</version><!--$NO-MVN-MAN-VER$ -->
     </dependency>
 
     <dependency>
       <groupId>com.github.jsonld-java.jsonld-java</groupId>
       <artifactId>jsonld-java</artifactId>
-      <version>0.12.5</version>
+      <version>0.13.4</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.jena</groupId>
       <artifactId>apache-jena-libs</artifactId>
-      <version>3.17.0</version>
+      <version>4.5.0</version>
       <type>pom</type>
       <exclusions>
         <exclusion>
@@ -124,21 +119,22 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter</artifactId>
       <exclusions>
-          <exclusion>
-              <groupId>org.springframework.boot</groupId>
-              <artifactId>spring-boot-starter-logging</artifactId>
-          </exclusion>
+        <exclusion>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-logging</artifactId>
+        </exclusion>
       </exclusions>
-  </dependency>
-  <dependency>
+    </dependency>
+
+    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-log4j2</artifactId>
-  </dependency>
+    </dependency>
 
     <dependency>
       <groupId>org.apache.tika</groupId>
       <artifactId>tika-core</artifactId>
-      <version>1.24.1</version>
+      <version>1.28.2</version>
       <exclusions>
         <exclusion>
           <groupId>xom</groupId>
@@ -166,14 +162,12 @@
 
     <dependency>
       <groupId>org.thymeleaf</groupId>
-      <artifactId>thymeleaf-spring4</artifactId>
-      <version>3.0.15.RELEASE</version>
+      <artifactId>thymeleaf-spring5</artifactId>
     </dependency>
 
     <dependency>
       <groupId>org.thymeleaf.extras</groupId>
-      <artifactId>thymeleaf-extras-springsecurity4</artifactId>
-      <version>3.0.4.RELEASE</version>
+      <artifactId>thymeleaf-extras-springsecurity5</artifactId>
     </dependency>
 
     <dependency>
@@ -214,13 +208,12 @@
       <groupId>org.apache.solr</groupId>
       <artifactId>solr-common</artifactId>
       <version>1.3.0</version>
-  </dependency>
+    </dependency>
 
-  <dependency>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-web</artifactId>
-  </dependency>
-
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
   </dependencies>
 
   <build>
@@ -228,8 +221,17 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven-plugins.version}</version>
+        <configuration>
+          <useSystemClassLoader>false</useSystemClassLoader>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
-        <version>2.22.2</version>
+        <version>${maven-plugins.version}</version>
       </plugin>
 
       <plugin>
@@ -244,18 +246,10 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.10.1</version>
         <configuration>
           <source>${java.version}</source>
           <target>${java.version}</target>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.22.2</version>
-        <configuration>
-          <useSystemClassLoader>false</useSystemClassLoader>
         </configuration>
       </plugin>
 
@@ -278,7 +272,7 @@
               <directory>src/main/resources</directory>
               <targetPath>WEB-INF</targetPath>
               <includes>
-                <include>application.properties</include>
+                <include>application.yml</include>
               </includes>
               <excludes>
                 <exclude>**/*.xls</exclude>
@@ -288,7 +282,7 @@
               <filtering>false</filtering>
               <directory>src/main/resources</directory>
               <targetPath>WEB-INF/classes</targetPath>
-              <exclude>application.properties</exclude>
+              <exclude>application.yml</exclude>
             </webResource>
             <webResource>
               <filtering>false</filtering>
@@ -327,12 +321,20 @@
           </execution>
         </executions>
       </plugin>
+
       <plugin>
         <groupId>org.eluder.coveralls</groupId>
         <artifactId>coveralls-maven-plugin</artifactId>
         <configuration>
           <repoToken></repoToken>
         </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+          </dependency>
+        </dependencies>
       </plugin>
 
       <plugin>
@@ -357,6 +359,7 @@
           </execution>
         </executions>
       </plugin>
+
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>
         <configuration>
@@ -387,7 +390,6 @@
           </execution>
         </executions>
       </plugin>
-
     </plugins>
 
     <resources>
@@ -395,7 +397,7 @@
         <directory>src/main/resources</directory>
         <filtering>true</filtering>
         <includes>
-          <include>application.properties</include>
+          <include>application.yml</include>
         </includes>
         <excludes>
           <exclude>**/*.jks</exclude>
@@ -429,6 +431,7 @@
       </resource>
     </resources>
   </build>
+
   <profiles>
     <profile>
       <id>windows-profile</id>
@@ -534,7 +537,6 @@
                   <goal>exec</goal>
                 </goals>
               </execution>
-
             </executions>
           </plugin>
         </plugins>
@@ -609,6 +611,7 @@
         </plugins>
       </build>
     </profile>
+
     <profile>
       <id>test-client</id>
       <activation>
@@ -683,38 +686,23 @@
                   <goal>exec</goal>
                 </goals>
               </execution>
-
             </executions>
           </plugin>
-
         </plugins>
       </build>
     </profile>
   </profiles>
+
   <reporting>
     <plugins>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.7</version>
+        <version>3.3.0</version>
         <configuration>
           <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
         </configuration>
       </plugin>
-
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>cobertura-maven-plugin</artifactId>
-        <version>2.6</version>
-        <configuration>
-          <formats>
-            <format>html</format>
-            <format>xml</format>
-          </formats>
-        </configuration>
-      </plugin>
-
     </plugins>
   </reporting>
 
@@ -725,12 +713,14 @@
       <releases><enabled>true</enabled></releases>
       <snapshots><enabled>false</enabled></snapshots>
     </repository>
+
     <repository>
       <id>tamu-snapshots</id>
       <url>https://artifacts.library.tamu.edu/repository/maven-snapshots</url>
       <releases><enabled>false</enabled></releases>
       <snapshots><enabled>true</enabled></snapshots>
     </repository>
+
     <repository>
       <id>jitpack.io</id>
       <name>JitPack for Maven</name>
