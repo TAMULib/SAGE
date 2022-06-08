@@ -58,7 +58,9 @@ public class SourceController {
     @RequestMapping("/test/ping")
     @PreAuthorize("hasRole('ANONYMOUS')")
     public ApiResponse testSolrCorePing(@WeaverValidatedModel Source source) throws IOException {
-        SolrClient solr = new HttpSolrClient(source.getUri());
+        HttpSolrClient.Builder builder = new HttpSolrClient.Builder();
+        builder.withBaseSolrUrl(source.getUri());
+        SolrClient solr = builder.build();
 
         ApiResponse response = new ApiResponse(SUCCESS);
 
@@ -78,8 +80,10 @@ public class SourceController {
     @PreAuthorize("hasRole('ANONYMOUS')")
     public ApiResponse testSolrCoreLocation(@WeaverValidatedModel Source source) throws IOException {
         logger.info("Testing Source location: " + source.getName());
+        HttpSolrClient.Builder builder = new HttpSolrClient.Builder();
+        builder.withBaseSolrUrl(source.getUri());
 
-        SolrClient solr = new HttpSolrClient(source.getUri());
+        SolrClient solr = builder.build();
 
         ApiResponse response = new ApiResponse(SUCCESS);
 
@@ -170,7 +174,7 @@ public class SourceController {
     @WeaverValidation(business = { @WeaverValidation.Business(value = DELETE) })
     public ApiResponse deleteSolrCore(@WeaverValidatedModel Source source) {
         logger.info("Deleting Source: " + source.getName());
-        sourceRepo.delete(source);
+        sourceRepo.deleteById(source.getId());
         return new ApiResponse(SUCCESS);
     }
 

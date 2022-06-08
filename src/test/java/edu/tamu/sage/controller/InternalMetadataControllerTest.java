@@ -9,19 +9,18 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.subsectionWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -35,7 +34,6 @@ import edu.tamu.weaver.response.ApiStatus;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ExtendWith(SpringExtension.class)
 @AutoConfigureRestDocs(outputDir = "target/generated-snippets")
 public class InternalMetadataControllerTest {
 
@@ -59,7 +57,7 @@ public class InternalMetadataControllerTest {
             get("/internal/metadata")
                 .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andDo(
                 document(
                     "internal/metadata/get-all",
@@ -69,7 +67,8 @@ public class InternalMetadataControllerTest {
                         fieldWithPath("meta.action").description("Action of the request."),
                         fieldWithPath("meta.message").description("Message of the response."),
                         fieldWithPath("meta.status").description("Status of the response."),
-                        fieldWithPath("payload").description("API response payload containing the List of Internal Metadatum.")
+                        fieldWithPath("payload").description("API response payload containing the List of Internal Metadatum."),
+                        subsectionWithPath("payload.ArrayList<InternalMetadata>").description("An array of the internal metadatum.")
                     )
                 )
             );
@@ -111,7 +110,8 @@ public class InternalMetadataControllerTest {
     @WithMockUser(roles = "ADMIN")
     public void testUpdateInternalMedadatum() throws JsonProcessingException, Exception {
         performCreateInternalMedadatum();
-        InternalMetadata internalMetadatum = internalMetadataRepo.read(currentId);
+
+        InternalMetadata internalMetadatum = internalMetadataRepo.findById(currentId).get();
 
         internalMetadatum.setGloss("Test Metadatum Updated");
         internalMetadatum.setField("test_metadatum_updated");
@@ -124,7 +124,7 @@ public class InternalMetadataControllerTest {
                 .content(objectMapper.writeValueAsString(internalMetadatum))
                 .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                     .andExpect(content().json(objectMapper.writeValueAsString(expectedResponse))
             ).andDo(
                 document(
@@ -153,11 +153,11 @@ public class InternalMetadataControllerTest {
     }
 
     @Test
-    @WithMockUser(roles = "ADMIN")
+    @WithMockUser(roles = { "ADMIN" })
     public void testDeleteInternalMedadatum() throws JsonProcessingException, Exception {
         performCreateInternalMedadatum();
 
-        InternalMetadata internalMetadatum = internalMetadataRepo.read(currentId);
+        InternalMetadata internalMetadatum = internalMetadataRepo.findById(currentId).get();
 
         // @formatter:off
         mockMvc.perform(
@@ -165,7 +165,7 @@ public class InternalMetadataControllerTest {
                 .content(objectMapper.writeValueAsString(internalMetadatum))
                 .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andDo(
                 document(
                     "internal/metadata/delete",
@@ -203,7 +203,7 @@ public class InternalMetadataControllerTest {
                 .content(body)
                 .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                     .andExpect(content().json(objectMapper.writeValueAsString(expectedResponse))
             );
         // @formatter:on

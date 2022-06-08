@@ -5,7 +5,6 @@
   <groupId>edu.tamu</groupId>
   <artifactId>sage</artifactId>
   <version>1.3.1</version>
-  <packaging>war</packaging>
 
   <name>Sage</name>
   <description>Weaver Solr Aggregation Engine</description>
@@ -13,47 +12,58 @@
   <parent>
     <groupId>edu.tamu.weaver</groupId>
     <artifactId>webservice-parent</artifactId>
-    <version>2.1.0</version>
+    <version>2.1.1-RC9</version>
   </parent>
 
   <properties>
-    <production>false</production>
+    <is-production>false</is-production>
+    <java.version>11</java.version>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <java.version>1.8</java.version>
+    <maven-plugins.version>2.22.2</maven-plugins.version>
     <start-class>edu.tamu.sage.SageApplication</start-class>
+    <maven.packaging>war</maven.packaging>
   </properties>
 
-  <dependencies>
+  <packaging>${maven.packaging}</packaging>
 
+  <dependencies>
     <dependency>
       <groupId>edu.tamu.weaver</groupId>
       <artifactId>auth</artifactId>
-      <version>2.1.0</version>
+      <version>${project.parent.version}</version>
     </dependency>
 
     <dependency>
       <groupId>edu.tamu.weaver</groupId>
       <artifactId>token-provider</artifactId>
-      <version>2.1.0</version>
+      <version>${project.parent.version}</version>
     </dependency>
 
     <dependency>
       <groupId>edu.tamu.weaver</groupId>
       <artifactId>validation</artifactId>
-      <version>2.1.0</version>
+      <version>${project.parent.version}</version>
     </dependency>
 
     <dependency>
       <groupId>edu.tamu.weaver</groupId>
       <artifactId>wro</artifactId>
-      <version>2.1.0</version>
+      <version>${project.parent.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.webjars.npm</groupId>
+          <artifactId>jshint</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
       <groupId>edu.tamu.weaver</groupId>
       <artifactId>reporting</artifactId>
-      <version>2.1.0</version>
+      <version>${project.parent.version}</version>
     </dependency>
 
     <dependency>
@@ -62,45 +72,50 @@
     </dependency>
 
     <dependency>
-      <groupId>commons-lang</groupId>
-      <artifactId>commons-lang</artifactId>
-      <version>2.6</version>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.solr</groupId>
+      <artifactId>solr-core</artifactId>
     </dependency>
 
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-csv</artifactId>
-      <version>1.1</version>
+      <version>1.9.0</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-rdf-api</artifactId>
-      <version>0.3.0-incubating</version>
+      <version>0.5.0</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-rdf-simple</artifactId>
-      <version>0.3.0-incubating</version>
+      <version>0.5.0</version>
     </dependency>
 
     <dependency>
       <groupId>xml-apis</groupId>
       <artifactId>xml-apis</artifactId>
-      <version>1.4.01</version> <!--$NO-MVN-MAN-VER$ -->
+      <!-- 2.0.2 is actually older than 1.4.01 and the 2.0.X versions should not be used! -->
+      <version>1.4.01</version><!--$NO-MVN-MAN-VER$ -->
     </dependency>
 
     <dependency>
       <groupId>com.github.jsonld-java.jsonld-java</groupId>
       <artifactId>jsonld-java</artifactId>
-      <version>0.12.5</version>
+      <version>0.13.4</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.jena</groupId>
       <artifactId>apache-jena-libs</artifactId>
-      <version>3.17.0</version>
+      <version>4.5.0</version>
       <type>pom</type>
       <exclusions>
         <exclusion>
@@ -111,9 +126,25 @@
     </dependency>
 
     <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-log4j2</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>org.apache.tika</groupId>
       <artifactId>tika-core</artifactId>
-      <version>1.24.1</version>
+      <version>1.28.2</version>
       <exclusions>
         <exclusion>
           <groupId>xom</groupId>
@@ -123,39 +154,56 @@
     </dependency>
 
     <dependency>
-      <groupId>org.thymeleaf</groupId>
-      <artifactId>thymeleaf</artifactId>
-      <version>3.0.11.RELEASE</version> <!--$NO-MVN-MAN-VER$ -->
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-junit-jupiter</artifactId>
+      <scope>test</scope>
     </dependency>
 
     <dependency>
       <groupId>org.thymeleaf</groupId>
-      <artifactId>thymeleaf-spring4</artifactId>
-      <version>3.0.11.RELEASE</version> <!--$NO-MVN-MAN-VER$ -->
+      <artifactId>thymeleaf</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.thymeleaf</groupId>
+      <artifactId>thymeleaf-spring5</artifactId>
     </dependency>
 
     <dependency>
       <groupId>org.thymeleaf.extras</groupId>
-      <artifactId>thymeleaf-extras-springsecurity4</artifactId>
-      <version>3.0.4.RELEASE</version> <!--$NO-MVN-MAN-VER$ -->
+      <artifactId>thymeleaf-extras-springsecurity5</artifactId>
     </dependency>
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-devtools</artifactId>
-      <optional>true</optional>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-validation</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.solr</groupId>
+      <artifactId>solr-common</artifactId>
+      <version>1.3.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
     </dependency>
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-starter-logging</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
 
     <dependency>
@@ -170,66 +218,6 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- Begin of Note: The following dependencies are candidates for removal after an upgrade to Spring Boot 2.x -->
-
-    <dependency>
-      <groupId>org.junit.platform</groupId>
-      <artifactId>junit-platform-launcher</artifactId>
-      <version>1.3.2</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-api</artifactId>
-      <version>5.3.2</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-params</artifactId>
-      <version>5.3.2</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-engine</artifactId>
-      <version>5.3.2</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.junit.vintage</groupId>
-      <artifactId>junit-vintage-engine</artifactId>
-      <version>5.3.2</version>
-      <scope>test</scope>
-    </dependency>
-
-    <!-- <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
-      <version>2.23.4</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-junit-jupiter</artifactId>
-      <version>2.23.4</version>
-      <scope>test</scope>
-    </dependency> -->
-
-    <dependency>
-      <groupId>com.github.sbrannen</groupId>
-      <artifactId>spring-test-junit5</artifactId>
-      <version>1.3.2</version>
-      <scope>test</scope>
-    </dependency>
-
-    <!-- End of Note: candidates for removal after an upgrade to Spring Boot 2.x -->
-
     <dependency>
       <groupId>org.springframework.restdocs</groupId>
       <artifactId>spring-restdocs-mockmvc</artifactId>
@@ -237,14 +225,111 @@
     </dependency>
 
     <dependency>
-      <groupId>org.springframework.data</groupId>
-      <artifactId>spring-data-solr</artifactId>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <scope>test</scope>
     </dependency>
-
   </dependencies>
 
   <build>
     <finalName>ROOT</finalName>
+
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>application.yml</include>
+        </includes>
+        <excludes>
+          <exclude>**/*.jks</exclude>
+        </excludes>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>false</filtering>
+        <excludes>
+          <exclude>application.yml</exclude>
+        </excludes>
+      </resource>
+      <resource>
+        <directory>src/main/webapp/app</directory>
+        <filtering>false</filtering>
+        <!-- would be better to exclude what is causing CI to fail -->
+        <includes>
+          <include>**/*.html</include>
+          <include>**/*.scss</include>
+          <include>**/*.js</include>
+          <include>**/*.js.map</include>
+          <include>**/*.gif</include>
+          <include>**/*.png</include>
+          <include>**/*.svg</include>
+          <include>**/*.eot</include>
+          <include>**/*.ttf</include>
+          <include>**/*.woff</include>
+          <include>**/*.woff2</include>
+        </includes>
+        <excludes>
+          <exclude>**/sha.js/</exclude>
+        </excludes>
+      </resource>
+      <resource>
+        <directory>src/main/webapp/app/resources/styles</directory>
+        <filtering>false</filtering>
+        <excludes>
+          <exclude>**/*.css</exclude>
+        </excludes>
+      </resource>
+      <resource>
+        <directory>node_modules/@wvr/core/app/resources/styles</directory>
+        <filtering>false</filtering>
+        <excludes>
+          <exclude>**/*.css</exclude>
+          <exclude>application.yml</exclude>
+        </excludes>
+      </resource>
+      <resource>
+        <directory>node_modules/bootstrap-sass/assets</directory>
+        <filtering>false</filtering>
+        <excludes>
+          <exclude>fonts/**</exclude>
+          <exclude>images/**</exclude>
+          <exclude>javascript/**</exclude>
+        </excludes>
+      </resource>
+    </resources>
+
+    <pluginManagement>
+      <plugins>
+        <!--This plugin's configuration is used to store Eclipse m2e settings 
+          only. It has no influence on the Maven build itself. -->
+        <plugin>
+          <groupId>org.eclipse.m2e</groupId>
+          <artifactId>lifecycle-mapping</artifactId>
+          <version>1.0.0</version>
+          <configuration>
+            <lifecycleMappingMetadata>
+              <pluginExecutions>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>org.asciidoctor</groupId>
+                    <artifactId>asciidoctor-maven-plugin</artifactId>
+                    <versionRange>[1.5.3,)</versionRange>
+                    <goals>
+                      <goal>process-asciidoc</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <ignore></ignore>
+                  </action>
+                </pluginExecution>
+              </pluginExecutions>
+            </lifecycleMappingMetadata>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>
@@ -253,200 +338,17 @@
           <mainClass>edu.tamu.sage.SageApplication</mainClass>
           <addResources>false</addResources>
         </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.22.1</version>
-        <configuration>
-          <useSystemClassLoader>false</useSystemClassLoader>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>3.2.0</version>
-        <dependencies>
-          <dependency>
-            <groupId>org.apache.maven.shared</groupId>
-            <artifactId>maven-filtering</artifactId>
-            <version>3.1.1</version>
-          </dependency>
-        </dependencies>
-        <configuration>
-          <failOnMissingWebXml>false</failOnMissingWebXml>
-          <webResources>
-            <webResource>
-              <filtering>true</filtering>
-              <directory>src/main/resources</directory>
-              <targetPath>WEB-INF</targetPath>
-              <includes>
-                <include>application.properties</include>
-              </includes>
-              <excludes>
-                <exclude>**/*.xls</exclude>
-              </excludes>
-            </webResource>
-            <webResource>
-              <filtering>false</filtering>
-              <directory>src/main/resources</directory>
-              <targetPath>WEB-INF/classes</targetPath>
-              <exclude>application.properties</exclude>
-            </webResource>
-            <webResource>
-              <filtering>false</filtering>
-              <directory>src/main/webapp/app/resources/styles</directory>
-              <targetPath>WEB-INF/classes</targetPath>
-              <excludes>
-                <exclude>**/*.css</exclude>
-              </excludes>
-            </webResource>
-          </webResources>
-          <webResource>
-            <filtering>false</filtering>
-            <directory>node_modules/@wvr/core/app/resources/styles</directory>
-            <targetPath>WEB-INF/classes</targetPath>
-            <excludes>
-              <exclude>**/*.css</exclude>
-            </excludes>
-          </webResource>
-          <webResource>
-            <filtering>false</filtering>
-            <directory>node_modules/bootstrap-sass/assets</directory>
-            <targetPath>WEB-INF/classes</targetPath>
-            <excludes>
-              <exclude>fonts/**</exclude>
-              <exclude>images/**</exclude>
-              <exclude>javascript/**</exclude>
-            </excludes>
-          </webResource>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>3.0.2</version>
-        <dependencies>
-          <dependency>
-            <groupId>org.apache.maven.shared</groupId>
-            <artifactId>maven-filtering</artifactId>
-            <version>3.1.1</version>
-          </dependency>
-        </dependencies>
-        <configuration>
-          <failOnMissingWebXml>false</failOnMissingWebXml>
-          <webResources>
-            <webResource>
-              <filtering>true</filtering>
-              <directory>src/main/resources</directory>
-              <targetPath>WEB-INF</targetPath>
-              <includes>
-                <include>application.properties</include>
-              </includes>
-              <excludes>
-                <exclude>**/*.xls</exclude>
-              </excludes>
-            </webResource>
-            <webResource>
-              <filtering>false</filtering>
-              <directory>src/main/resources</directory>
-              <targetPath>WEB-INF/classes</targetPath>
-              <exclude>application.properties</exclude>
-            </webResource>
-            <webResource>
-              <filtering>false</filtering>
-              <directory>src/main/webapp/app/resources/styles</directory>
-              <targetPath>WEB-INF/classes</targetPath>
-              <excludes>
-                <exclude>**/*.css</exclude>
-              </excludes>
-            </webResource>
-          </webResources>
-          <webResource>
-            <filtering>false</filtering>
-            <directory>node_modules/@wvr/core/app/resources/styles</directory>
-            <targetPath>WEB-INF/classes</targetPath>
-            <excludes>
-              <exclude>**/*.css</exclude>
-            </excludes>
-          </webResource>
-          <webResource>
-            <filtering>false</filtering>
-            <directory>node_modules/bootstrap-sass/assets</directory>
-            <targetPath>WEB-INF/classes</targetPath>
-            <excludes>
-              <exclude>fonts/**</exclude>
-              <exclude>images/**</exclude>
-              <exclude>javascript/**</exclude>
-            </excludes>
-          </webResource>
-        </configuration>
-      </plugin>
-
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>cobertura-maven-plugin</artifactId>
-        <configuration>
-          <quiet>true</quiet>
-          <instrumentation>
-            <ignoreTrivial>true</ignoreTrivial>
-            <ignores>
-              <ignore>java.util.logging.*</ignore>
-            </ignores>
-          </instrumentation>
-          <formats>
-            <format>html</format>
-            <format>xml</format>
-          </formats>
-          <aggregate>true</aggregate>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.jacoco</groupId>
-        <artifactId>jacoco-maven-plugin</artifactId>
         <executions>
           <execution>
-            <id>prepare-agent</id>
             <goals>
-              <goal>prepare-agent</goal>
+              <goal>repackage</goal>
             </goals>
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>org.eluder.coveralls</groupId>
-        <artifactId>coveralls-maven-plugin</artifactId>
-        <configuration>
-          <repoToken></repoToken>
-        </configuration>
-      </plugin>
 
       <plugin>
-        <groupId>org.asciidoctor</groupId>
-        <artifactId>asciidoctor-maven-plugin</artifactId>
-        <version>1.5.7.1</version>
-        <executions>
-          <execution>
-            <id>generate-docs</id>
-            <phase>test</phase>
-            <goals>
-              <goal>process-asciidoc</goal>
-            </goals>
-            <configuration>
-              <backend>html5</backend>
-              <doctype>book</doctype>
-              <attributes>
-                <snippets>${project.build.directory}/generated-snippets</snippets>
-                <project-version>${project.version}</project-version>
-              </attributes>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
         <configuration>
           <includeEmptyDirs>true</includeEmptyDirs>
@@ -463,7 +365,7 @@
             </goals>
             <configuration>
               <outputDirectory>
-                ${project.build.outputDirectory}/static/docs
+                ${project.build.outputDirectory}/docs
               </outputDirectory>
               <resources>
                 <resource>
@@ -477,48 +379,186 @@
         </executions>
       </plugin>
 
-    </plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven-plugins.version}</version>
+        <configuration>
+          <useSystemClassLoader>false</useSystemClassLoader>
+        </configuration>
+      </plugin>
 
-    <resources>
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>true</filtering>
-        <includes>
-          <include>application.properties</include>
-        </includes>
-        <excludes>
-          <exclude>**/*.jks</exclude>
-        </excludes>
-      </resource>
-      <resource>
-        <directory>src/main/resources</directory>
-      </resource>
-      <resource>
-        <directory>src/main/webapp/app/resources/styles</directory>
-        <filtering>false</filtering>
-        <excludes>
-          <exclude>**/*.css</exclude>
-        </excludes>
-      </resource>
-      <resource>
-        <directory>node_modules/@wvr/core/app/resources/styles</directory>
-        <filtering>false</filtering>
-        <excludes>
-          <exclude>**/*.css</exclude>
-        </excludes>
-      </resource>
-      <resource>
-        <directory>node_modules/bootstrap-sass/assets</directory>
-        <filtering>false</filtering>
-        <excludes>
-          <exclude>fonts/**</exclude>
-          <exclude>images/**</exclude>
-          <exclude>javascript/**</exclude>
-        </excludes>
-      </resource>
-    </resources>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>${maven-plugins.version}</version>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.10.1</version>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.3.0</version>
+        <executions>
+          <execution>
+            <id>copy-dependencies</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>
+                    ${project.build.directory}/libs
+              </outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.2.2</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.maven.shared</groupId>
+            <artifactId>maven-filtering</artifactId>
+            <version>3.2.0</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <classpathPrefix>libs/</classpathPrefix>
+              <mainClass>edu.tamu.sage.SageApplication</mainClass>
+            </manifest>
+          </archive>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.3.2</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.maven.shared</groupId>
+            <artifactId>maven-filtering</artifactId>
+            <version>3.2.0</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <classpathPrefix>libs/</classpathPrefix>
+              <mainClass>edu.tamu.sage.SageApplication</mainClass>
+            </manifest>
+          </archive>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>properties-maven-plugin</artifactId>
+        <version>1.0.0</version>
+        <executions>
+          <execution>
+            <phase>initialize</phase>
+            <goals>
+              <goal>read-project-properties</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <files>
+            <file>src/main/resources/application.yml</file>
+          </files>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>prepare-agent</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.eluder.coveralls</groupId>
+        <artifactId>coveralls-maven-plugin</artifactId>
+        <configuration>
+          <repoToken></repoToken>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+
+      <plugin>
+        <groupId>org.asciidoctor</groupId>
+        <artifactId>asciidoctor-maven-plugin</artifactId>
+        <version>1.5.7.1</version>
+        <executions>
+          <execution>
+            <id>generate-docs</id>
+            <phase>test</phase>
+            <goals>
+              <goal>process-asciidoc</goal>
+            </goals>
+            <configuration>
+              <backend>html</backend>
+              <doctype>book</doctype>
+              <sourceDocumentName>index.adoc</sourceDocumentName>
+            </configuration>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>org.springframework.restdocs</groupId>
+            <artifactId>spring-restdocs-asciidoctor</artifactId>
+            <version>2.0.6.RELEASE</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+    </plugins>
   </build>
+
   <profiles>
+    <profile>
+      <id>war</id>
+      <properties>
+        <maven.packaging>war</maven.packaging>
+      </properties>
+    </profile>
+    <profile>
+      <id>jar</id>
+      <properties>
+        <maven.packaging>jar</maven.packaging>
+      </properties>
+    </profile>
     <profile>
       <id>windows-profile</id>
       <activation>
@@ -557,25 +597,8 @@
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>exec-maven-plugin</artifactId>
-            <version>1.6.0</version>
+            <version>3.0.0</version>
             <executions>
-
-              <!-- NPM Unlink -->
-              <execution>
-                <id>exec-npm-unlink</id>
-                <phase>generate-sources</phase>
-                <configuration>
-                  <executable>npm${npm-extension}</executable>
-                  <arguments>
-                    <argument>unlink</argument>
-                    <argument>${link}</argument>
-                    <argument>--no-save</argument>
-                  </arguments>
-                </configuration>
-                <goals>
-                  <goal>exec</goal>
-                </goals>
-              </execution>
 
               <!-- NPM Install -->
               <execution>
@@ -607,23 +630,6 @@
                   <goal>exec</goal>
                 </goals>
               </execution>
-
-              <!-- NPM Link -->
-              <execution>
-                <id>exec-npm-link</id>
-                <phase>process-classes</phase>
-                <configuration>
-                  <executable>npm${npm-extension}</executable>
-                  <arguments>
-                    <argument>link</argument>
-                    <argument>${link}</argument>
-                  </arguments>
-                </configuration>
-                <goals>
-                  <goal>exec</goal>
-                </goals>
-              </execution>
-
             </executions>
           </plugin>
         </plugins>
@@ -642,25 +648,8 @@
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>exec-maven-plugin</artifactId>
-            <version>1.6.0</version>
+            <version>3.0.0</version>
             <executions>
-
-              <!-- NPM Unlink -->
-              <execution>
-                <id>exec-npm-unlink</id>
-                <phase>generate-sources</phase>
-                <configuration>
-                  <executable>npm${npm-extension}</executable>
-                  <arguments>
-                    <argument>unlink</argument>
-                    <argument>${link}</argument>
-                    <argument>--no-save</argument>
-                  </arguments>
-                </configuration>
-                <goals>
-                  <goal>exec</goal>
-                </goals>
-              </execution>
 
               <!-- NPM Install -->
               <execution>
@@ -698,6 +687,7 @@
         </plugins>
       </build>
     </profile>
+
     <profile>
       <id>test-client</id>
       <activation>
@@ -710,25 +700,8 @@
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>exec-maven-plugin</artifactId>
-            <version>1.6.0</version>
+            <version>3.0.0</version>
             <executions>
-
-              <!-- NPM Unlink -->
-              <execution>
-                <id>exec-npm-unlink</id>
-                <phase>generate-sources</phase>
-                <configuration>
-                  <executable>npm${npm-extension}</executable>
-                  <arguments>
-                    <argument>unlink</argument>
-                    <argument>${link}</argument>
-                    <argument>--no-save</argument>
-                  </arguments>
-                </configuration>
-                <goals>
-                  <goal>exec</goal>
-                </goals>
-              </execution>
 
               <!-- NPM Install -->
               <execution>
@@ -772,38 +745,24 @@
                   <goal>exec</goal>
                 </goals>
               </execution>
-
             </executions>
           </plugin>
-
         </plugins>
       </build>
     </profile>
   </profiles>
-  <reporting>
-    <plugins>
 
+  <reporting>
+    <outputDirectory>${project.build.directory}/site</outputDirectory>
+    <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.7</version>
+        <version>3.3.0</version>
         <configuration>
           <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
         </configuration>
       </plugin>
-
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>cobertura-maven-plugin</artifactId>
-        <version>2.6</version>
-        <configuration>
-          <formats>
-            <format>html</format>
-            <format>xml</format>
-          </formats>
-        </configuration>
-      </plugin>
-
     </plugins>
   </reporting>
 
@@ -811,15 +770,25 @@
     <repository>
       <id>tamu-releases</id>
       <url>https://artifacts.library.tamu.edu/repository/maven-releases</url>
-      <releases><enabled>true</enabled></releases>
-      <snapshots><enabled>false</enabled></snapshots>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
     </repository>
+
     <repository>
       <id>tamu-snapshots</id>
       <url>https://artifacts.library.tamu.edu/repository/maven-snapshots</url>
-      <releases><enabled>false</enabled></releases>
-      <snapshots><enabled>true</enabled></snapshots>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
     </repository>
+
     <repository>
       <id>jitpack.io</id>
       <name>JitPack for Maven</name>

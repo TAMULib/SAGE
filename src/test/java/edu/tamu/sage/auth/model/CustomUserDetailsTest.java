@@ -1,15 +1,15 @@
 package edu.tamu.sage.auth.model;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import edu.tamu.sage.model.User;
 import edu.tamu.weaver.auth.model.Credentials;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 public class CustomUserDetailsTest {
 
     private static final Credentials TEST_CREDENTIALS = new Credentials();
@@ -26,6 +26,6 @@ public class CustomUserDetailsTest {
     @Test
     public void testConstructor() {
         CustomUserDetails userDetails = new CustomUserDetails(testUser);
-        assertEquals("The parent constructor was not called correctly", testUser.getId(), userDetails.getId());
+        assertEquals(testUser.getId(), userDetails.getId(), "The parent constructor was not called correctly");
     }
 }

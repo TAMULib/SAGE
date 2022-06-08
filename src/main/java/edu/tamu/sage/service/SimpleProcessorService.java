@@ -59,7 +59,9 @@ public class SimpleProcessorService implements ProcessorService {
 
         List<Map<String, Collection<Object>>> mappedResults = new ArrayList<Map<String, Collection<Object>>>();
 
-        SolrClient solr = new HttpSolrClient(solrReader.getSource().getUri());
+        HttpSolrClient.Builder builder = new HttpSolrClient.Builder();
+        builder.withBaseSolrUrl(solrReader.getSource().getUri());
+        SolrClient solr = builder.build();
 
         try {
             solr.ping();
@@ -135,7 +137,9 @@ public class SimpleProcessorService implements ProcessorService {
     }
 
     private void writeSolrCore(Writer writer, List<Map<String, Collection<Object>>> mappedResults) {
-        SolrClient writeableSolr = new HttpSolrClient(writer.getSource().getUri());
+        HttpSolrClient.Builder builder = new HttpSolrClient.Builder();
+        builder.withBaseSolrUrl(writer.getSource().getUri());
+        SolrClient writeableSolr = builder.build();
 
         String stage = "starting writing to solr core: " + writer.getSource().getName();
 

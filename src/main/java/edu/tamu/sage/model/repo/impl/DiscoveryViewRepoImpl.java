@@ -10,5 +10,5 @@ public class DiscoveryViewRepoImpl extends AbstractWeaverRepoImpl<DiscoveryView,
     @Override
     protected String getChannel() {
         return "/channel/discovery-view";
-    }    
+    }
 }

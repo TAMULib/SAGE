@@ -2,29 +2,30 @@ package edu.tamu.sage.controller;
 
 import static edu.tamu.weaver.response.ApiStatus.ERROR;
 import static edu.tamu.weaver.response.ApiStatus.SUCCESS;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.lenient;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import edu.tamu.sage.model.User;
 import edu.tamu.sage.model.repo.UserRepo;
 import edu.tamu.weaver.auth.model.Credentials;
 import edu.tamu.weaver.response.ApiResponse;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
+@ExtendWith(MockitoExtension.class)
 public class UserControllerTest {
 
     private static final Credentials TEST_CREDENTIALS_1 = new Credentials();
@@ -59,43 +60,44 @@ public class UserControllerTest {
     @InjectMocks
     private UserController userController;
 
-    @Before
+    @BeforeEach
     public void setUp() {
-        when(userRepo.findAll()).thenReturn(mockUserList);
-        when(userRepo.update(any(User.class))).thenReturn(testUser1);
-        doNothing().when(simpMessagingTemplate).convertAndSend(any(String.class), any(Object.class));
-        doNothing().when(userRepo).delete(any(User.class));
+        lenient().when(userRepo.findAll()).thenReturn(mockUserList);
+        lenient().when(userRepo.update(any(User.class))).thenReturn(testUser1);
     }
 
     @Test
     public void testCredentials() {
         apiResponse = userController.credentials(TEST_CREDENTIALS_1);
-        assertEquals("Unable to get user credentials", SUCCESS, apiResponse.getMeta().getStatus());
+        assertEquals(SUCCESS, apiResponse.getMeta().getStatus(), "Unable to get user credentials");
     }
 
     @Test
     public void testNullCredentials() {
         apiResponse = userController.credentials(null);
-        assertEquals("Unable to get user credentials", ERROR, apiResponse.getMeta().getStatus());
+        assertEquals(ERROR, apiResponse.getMeta().getStatus(), "Unable to get user credentials");
     }
 
     @Test
     @SuppressWarnings("unchecked")
     public void testAllUsers() throws Exception {
+        lenient().when(userRepo.findAll()).thenReturn(mockUserList);
+        lenient().when(userRepo.update(any(User.class))).thenReturn(testUser1);
         apiResponse = userController.allUsers();
-        assertEquals("Request for users was unsuccessful", SUCCESS, apiResponse.getMeta().getStatus());
-        assertEquals("Number of users was not correct", 2, ((ArrayList<User>) apiResponse.getPayload().get("ArrayList<User>")).size());
+        assertEquals(SUCCESS, apiResponse.getMeta().getStatus(), "Request for users was unsuccessful");
+        assertEquals(2, ((ArrayList<User>) apiResponse.getPayload().get("ArrayList<User>")).size(),
+                "Number of users was not correct");
     }
 
     @Test
     public void testUpdateUser() throws Exception {
         apiResponse = userController.update(testUser1);
-        assertEquals("User was not successfully updated", SUCCESS, apiResponse.getMeta().getStatus());
+        assertEquals(SUCCESS, apiResponse.getMeta().getStatus(), "User was not successfully updated");
     }
 
     @Test
     public void testDeleteUser() throws Exception {
         apiResponse = userController.delete(testUser1);
-        assertEquals("User was not successfully deleted", SUCCESS, apiResponse.getMeta().getStatus());
+        assertEquals(SUCCESS, apiResponse.getMeta().getStatus(), "User was not successfully deleted");
     }
 }

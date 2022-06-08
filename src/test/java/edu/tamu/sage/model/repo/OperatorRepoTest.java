@@ -2,9 +2,9 @@ package edu.tamu.sage.model.repo;
 
 import static edu.tamu.sage.model.ConstantOpTest.getMockConstantOp;
 import static edu.tamu.sage.model.DefaultOpTest.getMockDefaultOp;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
@@ -43,14 +43,14 @@ public class OperatorRepoTest {
     @Test
     public void testReadConstantOp() {
         testCreateConstantOp();
-        BaseOp operator = operatorRepo.read(currentId);
+        BaseOp operator = operatorRepo.findById(currentId).get();
         assertNotNull(operator);
     }
 
     @Test
     public void testUpdateConstantOp() {
         testCreateConstantOp();
-        ConstantOp operator = (ConstantOp) operatorRepo.read(currentId);
+        ConstantOp operator = (ConstantOp) operatorRepo.findById(currentId).get();
 
         operator.setName("Test Constant Op Updated");
         operator.setField("test_constant_op_updated");
@@ -60,18 +60,18 @@ public class OperatorRepoTest {
 
         assertEquals(1, operatorRepo.count());
 
-        operator = (ConstantOp) operatorRepo.read(currentId);
+        operator = (ConstantOp) operatorRepo.findById(currentId).get();
 
-        assertEquals("Test Constant Op Updated", operator.getName());
-        assertEquals("test_constant_op_updated", operator.getField());
-        assertEquals("Test Constant Value Updated", operator.getValue());
+        assertEquals(operator.getName(), "Test Constant Op Updated");
+        assertEquals(operator.getField(), "test_constant_op_updated");
+        assertEquals(operator.getValue(), "Test Constant Value Updated");
     }
 
     @Test
     public void testDeleteConstantOp() {
         testCreateConstantOp();
         assertEquals(1, operatorRepo.count());
-        BaseOp operator = operatorRepo.read(currentId);
+        BaseOp operator = operatorRepo.findById(currentId).get();
         operatorRepo.delete(operator);
         assertEquals(0, operatorRepo.count());
     }
@@ -86,14 +86,14 @@ public class OperatorRepoTest {
     @Test
     public void testReadDefaultOp() {
         testCreateConstantOp();
-        BaseOp operator = operatorRepo.read(currentId);
+        BaseOp operator = operatorRepo.findById(currentId).get();
         assertNotNull(operator);
     }
 
     @Test
     public void testUpdateDefaultOp() {
         testCreateConstantOp();
-        ConstantOp operator = (ConstantOp) operatorRepo.read(currentId);
+        ConstantOp operator = (ConstantOp) operatorRepo.findById(currentId).get();
 
         operator.setName("Test Default Op Updated");
         operator.setField("test_default_op_updated");
@@ -103,18 +103,18 @@ public class OperatorRepoTest {
 
         assertEquals(1, operatorRepo.count());
 
-        operator = (ConstantOp) operatorRepo.read(currentId);
+        operator = (ConstantOp) operatorRepo.findById(currentId).get();
 
-        assertEquals("Test Default Op Updated", operator.getName());
-        assertEquals("test_default_op_updated", operator.getField());
-        assertEquals("Test Default Value Updated", operator.getValue());
+        assertEquals(operator.getName(), "Test Default Op Updated");
+        assertEquals(operator.getField(), "test_default_op_updated");
+        assertEquals(operator.getValue(), "Test Default Value Updated");
     }
 
     @Test
     public void testDeleteDefaultOp() {
         testCreateConstantOp();
         assertEquals(1, operatorRepo.count());
-        BaseOp operator = operatorRepo.read(currentId);
+        BaseOp operator = operatorRepo.findById(currentId).get();
         operatorRepo.delete(operator);
         assertEquals(0, operatorRepo.count());
     }

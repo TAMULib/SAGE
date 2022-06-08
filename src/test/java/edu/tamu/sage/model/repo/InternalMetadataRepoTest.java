@@ -1,8 +1,8 @@
 package edu.tamu.sage.model.repo;
 
 import static edu.tamu.sage.model.InternalMetadatumTest.getMockInternalMetadatum;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -39,14 +39,14 @@ public class InternalMetadataRepoTest {
     @Test
     public void testRead() {
         testCreate();
-        InternalMetadata internalMetadatum = internalMetadataRepo.read(currentId);
+        InternalMetadata internalMetadatum = internalMetadataRepo.findById(currentId).get();
         assertNotNull(internalMetadatum);
     }
 
     @Test
     public void testUpdate() {
         testCreate();
-        InternalMetadata internalMetadatum = internalMetadataRepo.read(currentId);
+        InternalMetadata internalMetadatum = internalMetadataRepo.findById(currentId).get();
         internalMetadatum.setGloss("Test Metadatum Updated");
         internalMetadatum.setField("test_metadatum_updated");
 
@@ -54,17 +54,17 @@ public class InternalMetadataRepoTest {
 
         assertEquals(1, internalMetadataRepo.count());
 
-        internalMetadatum = internalMetadataRepo.read(currentId);
+        internalMetadatum = internalMetadataRepo.findById(currentId).get();
 
-        assertEquals("Test Metadatum Updated", internalMetadatum.getGloss());
-        assertEquals("test_metadatum_updated", internalMetadatum.getField());
+        assertEquals(internalMetadatum.getGloss(), "Test Metadatum Updated");
+        assertEquals(internalMetadatum.getField(), "test_metadatum_updated");
     }
 
     @Test
     public void testDelete() {
         testCreate();
         assertEquals(1, internalMetadataRepo.count());
-        InternalMetadata internalMetadatum = internalMetadataRepo.read(currentId);
+        InternalMetadata internalMetadatum = internalMetadataRepo.findById(currentId).get();
         internalMetadataRepo.delete(internalMetadatum);
         assertEquals(0, internalMetadataRepo.count());
     }

@@ -10,6 +10,7 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.subsectionWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -62,7 +63,7 @@ public class OperatorControllerTest {
             get("/operators")
                 .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andDo(
                 document(
                     "operators/get-all",
@@ -72,7 +73,8 @@ public class OperatorControllerTest {
                         fieldWithPath("meta.action").description("Action of the request."),
                         fieldWithPath("meta.message").description("Message of the response."),
                         fieldWithPath("meta.status").description("Status of the response."),
-                        fieldWithPath("payload").description("API response payload containing the List of Operators.")
+                        fieldWithPath("payload").description("API response payload containing the List of Operators."),
+                        subsectionWithPath("payload.ArrayList<ConstantOp>").description("An array of the Operators.")
                     )
                 )
             );
@@ -87,7 +89,7 @@ public class OperatorControllerTest {
             get("/operators/types")
                 .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andDo(
                 document(
                     "operators/get-types",
@@ -97,7 +99,8 @@ public class OperatorControllerTest {
                         fieldWithPath("meta.action").description("Action of the request."),
                         fieldWithPath("meta.message").description("Message of the response."),
                         fieldWithPath("meta.status").description("Status of the response."),
-                        fieldWithPath("payload").description("API response payload containing the List of Operator Types.")
+                        fieldWithPath("payload").description("API response payload containing the List of Operator Types."),
+                        subsectionWithPath("payload.ArrayList<OperatorType>").description("An array of the operator types.")
                     )
                 )
             );
@@ -129,6 +132,7 @@ public class OperatorControllerTest {
                         fieldWithPath("payload.ConstantOp.id").description("The Operator id."),
                         fieldWithPath("payload.ConstantOp.name").description("The Operator name."),
                         fieldWithPath("payload.ConstantOp.field").description("The Operator field."),
+                        fieldWithPath("payload.ConstantOp.type").description("The Operator type."),
                         fieldWithPath("payload.ConstantOp.value").description("The Operator value.")
                     )
                 )
@@ -140,7 +144,7 @@ public class OperatorControllerTest {
     @WithMockUser(roles = "ADMIN")
     public void testUpdateOperator() throws JsonProcessingException, Exception {
         performCreateOperator(getMockConstantOp());
-        ConstantOp operator = (ConstantOp) operatorRepo.read(currentId);
+        ConstantOp operator = (ConstantOp) operatorRepo.findById(currentId).get();
 
         operator.setName("Test Constant Op Updated");
         operator.setField("test_constant_op_updated");
@@ -154,7 +158,7 @@ public class OperatorControllerTest {
                 .content(objectMapper.writeValueAsString(operator))
                 .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                     .andExpect(content().json(objectMapper.writeValueAsString(expectedResponse))
             ).andDo(
                 document(
@@ -176,6 +180,7 @@ public class OperatorControllerTest {
                         fieldWithPath("payload.ConstantOp.id").description("The Operator id."),
                         fieldWithPath("payload.ConstantOp.name").description("The Operator name."),
                         fieldWithPath("payload.ConstantOp.field").description("The Operator field."),
+                        fieldWithPath("payload.ConstantOp.type").description("The Operator type."),
                         fieldWithPath("payload.ConstantOp.value").description("The Operator value.")
                     )
                 )
@@ -188,7 +193,7 @@ public class OperatorControllerTest {
     public void testDeleteOperator() throws JsonProcessingException, Exception {
         performCreateOperator(getMockConstantOp());
 
-        ConstantOp operator = (ConstantOp) operatorRepo.read(currentId);
+        ConstantOp operator = (ConstantOp) operatorRepo.findById(currentId).get();
 
         // @formatter:off
         mockMvc.perform(
@@ -196,7 +201,7 @@ public class OperatorControllerTest {
                 .content(objectMapper.writeValueAsString(operator))
                 .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andDo(
                 document(
                     "operators/delete",
@@ -233,7 +238,7 @@ public class OperatorControllerTest {
                 .content(body)
                 .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                     .andExpect(content().json(objectMapper.writeValueAsString(expectedResponse))
             );
         // @formatter:on

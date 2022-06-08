@@ -1,0 +1,173 @@
+server:
+  port: 9000
+  contextPath:
+
+# use this as the security key for encryption
+security:
+  user:
+    password: 81d56928-891a-41b2-8dd2-132593e6d057
+
+spring:
+  template:
+    cache: false
+
+  http:
+    multipart:
+      maxFileSize: 20MB
+      maxRequestSize: 20MB
+
+  sql.init:
+    platform: h2
+    #platform: postgresql
+    #platform: mysql
+
+    # Init only happens on embedded DBs by default, set to always to ensure that the data.sql is always imported.
+    mode: always
+
+  datasource:
+
+    # common database config -- might be needed for postgres
+    default-auto-commit: false
+    test-on-borrow: true
+    validation-query: select version();
+
+    # h2
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:AZ;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sage
+    password: sage
+
+    # PostgreSQL
+    #driverClassName: org.postgresql.Driver
+    #url: jdbc:postgresql://localhost:5432/sage
+
+    # MySQL
+    #driverClassName: com.mysql.jdbc.Driver
+    #url: jdbc:mysql://localhost/sage
+
+  jpa:
+    generate-ddl: true
+    show-sql: false
+    hibernate:
+      ddl-auto: create-drop
+      event.merge.entity_copy_observer: allow
+
+    # Executing data.sql happens before the schema initialization by default, set this to true to ensure the data.sql happens after the database is created.
+    defer-datasource-initialization: true
+
+    database-platform: org.hibernate.dialect.H2Dialect
+    #database-platform: org.hibernate.dialect.PostgreSQLDialect
+    #database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+
+  thymeleaf:
+    cache: false
+    model: LEGACYHTML5
+
+  main:
+
+    # Bean overriding is necessary for TokenAuthorizationFilter.
+    allow-bean-definition-overriding: true
+
+    # Circular bean dependency between appWebMvcConfig and userRepoImpl.
+    allow-circular-references: true
+
+# File size limit
+multipart:
+  maxFileSize: 100Mb
+  # Total request size for a multipart/form-data
+  maxRequestSize: 1000Mb
+
+# logging
+logging:
+  file:
+    name: logs/sage.log
+  level:
+    edu.tamu: INFO
+    org.springframework: INFO
+  ro.isdc.wro: INFO
+
+  #pattern:
+  #  console: "%d{yyyy-MM-dd HH:mm:ss} %highlight(%-5level) %cyan(%logger{15}) - %msg %n"
+  #  file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+# spring.profiles: production, development, test, mock-token-provider
+# spring.profiles.active: development
+
+info:
+  build:
+    artifact: "@project.artifactId@"
+    name: "@project.name@"
+    description: "@project.description@"
+    version: "@project.version@"
+
+app:
+  url: http://localhost:${server.port}${server.contextPath}
+
+  # edu.tamu.weaver.email.config.WeaverEmailConfig
+  email:
+    host: relay.tamu.edu
+    from: noreply@library.tamu.edu
+    replyTo: dev@library.tamu.edu
+
+  cvcache:
+    duration: 3600000
+
+  ui:
+    path: /app
+
+  # edu.tamu.weaver.auth.service.UserCredentialsService
+  authority.admins:
+  security:
+    secret: verysecretsecret
+    allow-access: http://localhost:${server.port}
+  assume:
+    enabled: false
+    claims-url:
+
+  # edu.tamu.weaver.reporting.controller.ReportingController
+  reporting.address: dev@tdl.org
+
+  # edu.tamu.weaver.utility.HttpUtility
+  http.timeout: 10000
+
+  # edu.tamu.weaver.validation.controller.ValidationsController
+  model.packages: edu.tamu.sage.model
+
+# options: weaverAuth,emailRegistration
+authenticationStrategies: emailRegistration
+
+shib:
+  keys: netid,uin,lastName,firstName,email
+  subject: email
+  netid: edupersonprincipalnameunscoped
+  uin: tamuuin
+  lastName: tdl-sn
+  firstName: tdl-givenname
+  email: tdl-mail
+
+auth:
+  path: /auth
+  security:
+    jwt:
+      secret: verysecretsecret
+      issuer: localhost
+      duration: 1
+
+wro:
+  managerFactoryClassName: edu.tamu.weaver.wro.manager.factory.WeaverConfigurableWroManagerFactory
+  # Define which preProcessors should be used to process SASS
+  preProcessors: lessCssImport
+  # Define which postProcessors should be used to process SASS
+  postProcessors: rubySassCss
+
+# edu.tamu.weaver.wro.service.ThemeManagerService
+theme:
+  manager: false
+  default:
+    # Define the locations of SASS files to be processed
+    css: sass/app.scss
+
+    # Define the location of default themes config file, if used
+    location: config/theme-defaults.json
+
+    reloadUrl: '${app.url}/wro/wroAPI/reloadCache'

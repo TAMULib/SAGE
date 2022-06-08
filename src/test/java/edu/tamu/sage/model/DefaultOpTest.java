@@ -1,6 +1,6 @@
 package edu.tamu.sage.model;
 
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -28,17 +28,17 @@ public class DefaultOpTest {
 
         assertEquals(1L, operator.getId(), 1);
 
-        assertEquals("Test Default Op", operator.getName());
-        assertEquals("test_default_op", operator.getField());
-        assertEquals("Test Default Value", operator.getValue());
+        assertEquals(operator.getName(), "Test Default Op");
+        assertEquals(operator.getField(), "test_default_op");
+        assertEquals(operator.getValue(), "Test Default Value");
 
         operator.setName("Test Default Op Updated");
         operator.setField("test_default_op_updated");
         operator.setValue("Test Default Value Updated");
 
-        assertEquals("Test Default Op Updated", operator.getName());
-        assertEquals("test_default_op_updated", operator.getField());
-        assertEquals("Test Default Value Updated", operator.getValue());
+        assertEquals(operator.getName(), "Test Default Op Updated");
+        assertEquals(operator.getField(), "test_default_op_updated");
+        assertEquals(operator.getValue(), "Test Default Value Updated");
     }
 
     public static DefaultOp getMockDefaultOp() {

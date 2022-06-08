@@ -1,6 +1,6 @@
 package edu.tamu.sage.model;
 
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -28,17 +28,17 @@ public class ConstantOpTest {
 
         assertEquals(1L, operator.getId(), 1);
 
-        assertEquals("Test Constant Op", operator.getName());
-        assertEquals("test_constant_op", operator.getField());
-        assertEquals("Test Constant Value", operator.getValue());
+        assertEquals(operator.getName(), "Test Constant Op");
+        assertEquals(operator.getField(), "test_constant_op");
+        assertEquals(operator.getValue(), "Test Constant Value");
 
         operator.setName("Test Constant Op Updated");
         operator.setField("test_constant_op_updated");
         operator.setValue("Test Constant Value Updated");
 
-        assertEquals("Test Constant Op Updated", operator.getName());
-        assertEquals("test_constant_op_updated", operator.getField());
-        assertEquals("Test Constant Value Updated", operator.getValue());
+        assertEquals(operator.getName(), "Test Constant Op Updated");
+        assertEquals(operator.getField(), "test_constant_op_updated");
+        assertEquals(operator.getValue(), "Test Constant Value Updated");
     }
 
     public static ConstantOp getMockConstantOp() {
