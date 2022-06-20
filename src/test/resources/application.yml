@@ -82,7 +82,7 @@ info:
     version: "@project.version@"
 
 app:
-  url: http://localhost:${server.port}${server.contextPath}
+  url: http://localhost:${server.port}${server.servlet.context-path}
   email:
     host: relay.tamu.edu
     from: noreply@library.tamu.edu

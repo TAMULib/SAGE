@@ -102,7 +102,7 @@ info:
     version: "@project.version@"
 
 app:
-  url: http://localhost:${server.port}${server.contextPath}
+  url: http://localhost:${server.port}${server.servlet.context-path}
 
   # edu.tamu.weaver.email.config.WeaverEmailConfig
   email:
