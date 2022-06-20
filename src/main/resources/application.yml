@@ -85,7 +85,7 @@ logging:
   level:
     edu.tamu: INFO
     org.springframework: INFO
-  ro.isdc.wro: INFO
+    ro.isdc.wro: INFO
 
   #pattern:
   #  console: "%d{yyyy-MM-dd HH:mm:ss} %highlight(%-5level) %cyan(%logger{15}) - %msg %n"
