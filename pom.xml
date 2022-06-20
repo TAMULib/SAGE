@@ -52,12 +52,6 @@
       <groupId>edu.tamu.weaver</groupId>
       <artifactId>wro</artifactId>
       <version>${project.parent.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.webjars.npm</groupId>
-          <artifactId>jshint</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
 
     <dependency>
