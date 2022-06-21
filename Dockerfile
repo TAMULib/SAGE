@@ -67,6 +67,7 @@ WORKDIR $HOME_DIR
 
 # Copy over the built artifact from the maven image.
 COPY --from=maven $SOURCE_DIR/target/ROOT.jar ./sage.jar
+COPY --from=maven $SOURCE_DIR/target/libs ./libs
 
 # Run java command.
 CMD ["java", "-jar", "./sage.jar"]

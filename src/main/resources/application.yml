@@ -126,7 +126,7 @@ app:
     claims-url:
 
   # edu.tamu.weaver.reporting.controller.ReportingController
-  reporting.address: dev@tdl.org
+  reporting.address: helpdesk@library.tamu.edu
 
   # edu.tamu.weaver.utility.HttpUtility
   http.timeout: 10000

@@ -90,7 +90,7 @@ app:
 
   # edu.tamu.weaver.reporting.controller.ReportingController
   reporting:
-    address: dev@tdl.org
+    address: helpdesk@library.tamu.edu
   http:
     timeout: 10000
   model:

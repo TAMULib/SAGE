@@ -22,7 +22,7 @@
     "start-dev": "wvr server -b /sage --uid sage-webserver"
   },
   "dependencies": {
-    "@wvr/core": "2.2.0",
+    "@wvr/core": "2.2.2-rc.0",
     "mirador": "^3.0.0",
     "mirador-image-tools": "^0.10.0",
     "ng-csv": "0.3.6",
