@@ -1,4 +1,5 @@
 # Settings.
+ARG PROFILE=production
 ARG USER_ID=3001
 ARG USER_NAME=sage
 ARG HOME_DIR=/$USER_NAME
@@ -6,6 +7,7 @@ ARG SOURCE_DIR=$HOME_DIR/source
 
 # Maven stage.
 FROM maven:3-openjdk-11-slim as maven
+ARG PROFILE
 ARG USER_ID
 ARG USER_NAME
 ARG HOME_DIR
@@ -44,7 +46,7 @@ RUN chown -R ${USER_ID}:${USER_ID} ${SOURCE_DIR}
 USER $USER_NAME
 
 # Build.
-RUN mvn package -Pjar -DskipTests=true
+RUN mvn package -D${PROFILE} -Pjar -DskipTests=true
 
 # Switch to Normal JRE Stage.
 FROM openjdk:11-jre-slim
