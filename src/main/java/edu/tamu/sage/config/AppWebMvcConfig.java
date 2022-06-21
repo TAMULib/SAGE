@@ -37,9 +37,6 @@ public class AppWebMvcConfig implements WebMvcConfigurer {
     @Value("${app.ui.path}")
     private String path;
 
-    @Value("#{new Boolean('${info.build.production:false}')}")
-    private boolean production;
-
     @Autowired
     private List<HttpMessageConverter<?>> converters;
 

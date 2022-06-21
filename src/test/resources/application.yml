@@ -134,19 +134,17 @@ shib:
 
 wro:
   managerFactoryClassName: edu.tamu.weaver.wro.manager.factory.WeaverConfigurableWroManagerFactory
-
   # Define which preProcessors should be used to process SASS
   preProcessors: lessCssImport
-
   # Define which postProcessors should be used to process SASS
   postProcessors: rubySassCss
 
+# edu.tamu.weaver.wro.service.ThemeManagerService
 theme:
   manager: false
-  initialize: false
   reloadUrl: '${app.url}/wro/wroAPI/reloadCache'
-  # Define the locations of SASS files to be processed
   default:
+    # Define the locations of SASS files to be processed
     css: sass/app.scss
     # Define the location of default themes config file, if used
     location: config/theme-defaults.json
