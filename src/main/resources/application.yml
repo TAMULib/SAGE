@@ -1,6 +1,7 @@
 server:
   port: 9000
-  contextPath:
+  servlet:
+    context-path:
 
 # use this as the security key for encryption
 security:
@@ -84,7 +85,7 @@ logging:
   level:
     edu.tamu: INFO
     org.springframework: INFO
-  ro.isdc.wro: INFO
+    ro.isdc.wro: INFO
 
   #pattern:
   #  console: "%d{yyyy-MM-dd HH:mm:ss} %highlight(%-5level) %cyan(%logger{15}) - %msg %n"
@@ -101,7 +102,7 @@ info:
     version: "@project.version@"
 
 app:
-  url: http://localhost:${server.port}${server.contextPath}
+  url: http://localhost:${server.port}${server.servlet.context-path}
 
   # edu.tamu.weaver.email.config.WeaverEmailConfig
   email:
@@ -125,7 +126,7 @@ app:
     claims-url:
 
   # edu.tamu.weaver.reporting.controller.ReportingController
-  reporting.address: dev@tdl.org
+  reporting.address: helpdesk@library.tamu.edu
 
   # edu.tamu.weaver.utility.HttpUtility
   http.timeout: 10000
@@ -163,11 +164,9 @@ wro:
 # edu.tamu.weaver.wro.service.ThemeManagerService
 theme:
   manager: false
+  reloadUrl: '${app.url}/wro/wroAPI/reloadCache'
   default:
     # Define the locations of SASS files to be processed
     css: sass/app.scss
-
     # Define the location of default themes config file, if used
     location: config/theme-defaults.json
-
-    reloadUrl: '${app.url}/wro/wroAPI/reloadCache'

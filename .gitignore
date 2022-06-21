@@ -21,7 +21,7 @@ node_modules/
 .externalToolBuilders
 
 
-*.log*
+logs/
 
 .DS_Store
 package-lock.json
