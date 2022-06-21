@@ -2,7 +2,7 @@
 ARG USER_ID=3001
 ARG USER_NAME=sage
 ARG HOME_DIR=/$USER_NAME
-ARG SOURCE_DIR=$HOME_DIR/
+ARG SOURCE_DIR=$HOME_DIR/source
 
 # Maven stage.
 FROM maven:3-openjdk-11-slim as maven
@@ -65,7 +65,7 @@ USER $USER_NAME
 # Set deployment directory.
 WORKDIR $HOME_DIR
 
-# Copy over the built artifact from the maven image.
+# Copy over the built artifact and library from the maven image.
 COPY --from=maven $SOURCE_DIR/target/ROOT.jar ./sage.jar
 COPY --from=maven $SOURCE_DIR/target/libs ./libs
 
