@@ -144,12 +144,9 @@ wro:
 theme:
   manager: false
   initialize: false
-
+  reloadUrl: '${app.url}/wro/wroAPI/reloadCache'
   # Define the locations of SASS files to be processed
   default:
     css: sass/app.scss
-
     # Define the location of default themes config file, if used
     location: config/theme-defaults.json
-
-    reloadUrl: '${app.url}/wro/wroAPI/reloadCache'
