@@ -140,7 +140,7 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
     };
 
     $scope.search = function() {
-        $scope.discoveryContext.setSearchField($scope.currentSearchField.key, $scope.currentSearchValue, $scope.findSearchFieldLabel($scope.currentSearchField.key));
+        $scope.discoveryContext.setSearchField($scope.currentSearchField.key, window.encodeURIComponent($scope.currentSearchValue), $scope.findSearchFieldLabel($scope.currentSearchField.key));
         $scope.discoveryContext.executeSearch().then(function() {
           $scope.prepareSearch();
         });
