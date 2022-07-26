@@ -103,8 +103,12 @@ public class DiscoveryViewController {
                 PageRequest pageRequest = new PageRequest(page.getPageNumber(), page.getPageSize(), defaultDirection, sortableField.get().getKey());
                 page = pageRequest;
             } else {
-                String sort = page.getSort().toString().split(":")[0];
-                page = new PageRequest(page.getPageNumber(), page.getPageSize(), Direction.fromString(direction), sort);
+                String sort = (page.getSort().toString().split(":")[0] != "UNSORTED") ? page.getSort().toString().split(":")[0] : discoveryView.getResourceLocationUriKey().replaceAll("[{}]", "");
+                if (Arrays.asList(Sort.Direction.values()).contains(direction)) {
+                    page = PageRequest.of(page.getPageNumber(), page.getPageSize(), Direction.valueOf(direction), sort);
+                } else {
+                    page = PageRequest.of(page.getPageNumber(), page.getPageSize(), Direction.ASC, sort);
+                }
             }
         }
 
