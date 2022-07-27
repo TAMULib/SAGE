@@ -7,6 +7,7 @@ import static edu.tamu.weaver.validation.model.BusinessValidationType.UPDATE;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -104,8 +105,12 @@ public class DiscoveryViewController {
                 PageRequest pageRequest = PageRequest.of(page.getPageNumber(), page.getPageSize(),Sort.by(defaultDirection, field));
                 page = pageRequest;
             } else {
-                String sort = page.getSort().toString().split(":")[0];
-                page = PageRequest.of(page.getPageNumber(), page.getPageSize(),Sort.Direction.fromString(direction), sort);
+                String sort = (page.getSort().toString().split(":")[0] != "UNSORTED") ? page.getSort().toString().split(":")[0] : discoveryView.getResourceLocationUriKey().replaceAll("[{}]", "");
+                if (Arrays.asList(Sort.Direction.values()).contains(direction)) {
+                    page = PageRequest.of(page.getPageNumber(), page.getPageSize(), Direction.valueOf(direction), sort);
+                } else {
+                    page = PageRequest.of(page.getPageNumber(), page.getPageSize(), Direction.ASC, sort);
+                }
             }
         }
 
