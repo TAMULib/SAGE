@@ -1,5 +1,10 @@
 [![Build Status](https://github.com/TAMULib/SAGE/workflows/Build/badge.svg)](https://github.com/TAMULib/SAGE/actions?query=workflow%3ABuild)
 [![Coverage Status](https://coveralls.io/repos/github/TAMULib/SAGE/badge.svg)](https://coveralls.io/github/TAMULib/SAGE)
+[![Performance](https://tamulib.github.io/SAGE/audit/assets/performance.svg)](https://tamulib.github.io/SAGE/audit/#performance)
+[![Accessibility](https://tamulib.github.io/SAGE/audit/assets/accessibility.svg)](https://tamulib.github.io/SAGE/audit/#accessibility)
+[![Best Practices](https://tamulib.github.io/SAGE/audit/assets/best-practices.svg)](https://tamulib.github.io/SAGE/audit/#best-practices)
+[![SEO](https://tamulib.github.io/SAGE/audit/assets/seo.svg)](https://tamulib.github.io/SAGE/audit/#seo)
+[![Progressive Web App](https://tamulib.github.io/SAGE/audit/assets/pwa.svg)](https://tamulib.github.io/SAGE/audit/#pwa)
 
 # SAGE
 
