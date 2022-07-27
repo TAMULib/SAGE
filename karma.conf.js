@@ -77,7 +77,13 @@ module.exports = function (config) {
 
       "src/main/webapp/tests/mock/**/*.js",
 
-      "src/main/webapp/tests/unit/**/*.js"
+      // "src/main/webapp/tests/unit/**/*.js"
+      'src/main/webapp/tests/unit/repos/**/*.js',
+      'src/main/webapp/tests/unit/models/**/*.js',
+      'src/main/webapp/tests/unit/components/**/*.js',
+      'src/main/webapp/tests/unit/filters/**/*.js',
+      // 'src/main/webapp/tests/unit/controllers/**/*.js',
+      'src/main/webapp/tests/unit/directives/**/*.js'
     ],
 
     autoWatch: true,

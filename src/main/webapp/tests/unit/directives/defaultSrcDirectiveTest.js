@@ -41,15 +41,4 @@ describe("directive: defaultSrc", function () {
     });
   });
 
-  describe("Does the directive", function () {
-    // @todo determine how to test attrs.$observe and implement tests here.
-    /*
-    it("work observe src changes", function () {
-      defaultSrc = "example.png";
-
-      initializeDirective();
-    });
-    */
-  });
-
 });
