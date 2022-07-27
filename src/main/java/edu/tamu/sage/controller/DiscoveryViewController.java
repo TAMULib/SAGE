@@ -7,11 +7,11 @@ import static edu.tamu.weaver.validation.model.BusinessValidationType.UPDATE;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import org.apache.commons.lang3.EnumUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,17 +100,19 @@ public class DiscoveryViewController {
         String titleKey = discoveryView.getTitleKey().replaceAll("[{}]", "");
         Optional<MetadataField> sortableField = discoveryView.getResultMetadataFields().stream().filter(r -> r.getKey().equals(titleKey)).findFirst();
         if (sortableField.isPresent() && sortableField.get().isSortable()) {
+            Direction defaultDirection = discoveryView.isAscending() ? Direction.ASC : Direction.DESC;
             if (page.getSort() == null) {
-                Direction defaultDirection = discoveryView.isAscending() ? Direction.ASC : Direction.DESC;
-                PageRequest pageRequest = PageRequest.of(page.getPageNumber(), page.getPageSize(),Sort.by(defaultDirection, field));
-                page = pageRequest;
+                page = PageRequest.of(page.getPageNumber(), page.getPageSize(), Sort.by(defaultDirection, field));
             } else {
-                String sort = (page.getSort().toString().split(":")[0] != "UNSORTED") ? page.getSort().toString().split(":")[0] : discoveryView.getResourceLocationUriKey().replaceAll("[{}]", "");
-                if (Arrays.asList(Sort.Direction.values()).contains(direction)) {
-                    page = PageRequest.of(page.getPageNumber(), page.getPageSize(), Direction.valueOf(direction), sort);
-                } else {
-                    page = PageRequest.of(page.getPageNumber(), page.getPageSize(), Direction.ASC, sort);
+                String sort = page.getSort().toString().split(":")[0];
+                if (sort.equals("UNSORTED")) {
+                    sort = discoveryView.getResourceLocationUriKey().replaceAll("[{}]", "");
                 }
+
+                Direction dir = EnumUtils.isValidEnum(Direction.class, direction) ? Direction.valueOf(direction)
+                        : defaultDirection;
+
+                page = PageRequest.of(page.getPageNumber(), page.getPageSize(), dir, sort);
             }
         }
 

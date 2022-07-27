@@ -50,7 +50,7 @@ spring:
     generate-ddl: true
     show-sql: false
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
       event.merge.entity_copy_observer: allow
 
     # Executing data.sql happens before the schema initialization by default, set this to true to ensure the data.sql happens after the database is created.
@@ -117,7 +117,7 @@ app:
     path: /app
 
   # edu.tamu.weaver.auth.service.UserCredentialsService
-  authority.admins: rmathew@tamu.edu
+  authority.admins:
   security:
     secret: verysecretsecret
     allow-access: http://localhost:${server.port}
@@ -135,7 +135,7 @@ app:
   model.packages: edu.tamu.sage.model
 
 # options: weaverAuth,emailRegistration
-authenticationStrategies: weaverAuth
+authenticationStrategies: emailRegistration
 
 shib:
   keys: netid,uin,lastName,firstName,email
