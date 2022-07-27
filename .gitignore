@@ -26,4 +26,8 @@ logs/
 .DS_Store
 package-lock.json
 
-src/main/webapp/app/resources/js/*
+.env
+
+.wvr/tmp/
+dist/
+coverage/

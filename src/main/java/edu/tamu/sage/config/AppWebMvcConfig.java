@@ -34,8 +34,8 @@ import edu.tamu.weaver.validation.resolver.WeaverValidatedModelMethodProcessor;
 @EnableScheduling
 public class AppWebMvcConfig implements WebMvcConfigurer {
 
-    @Value("${app.ui.path}")
-    private String path;
+    @Value("${app.config.path}")
+    private String appConfigPath;
 
     @Autowired
     private List<HttpMessageConverter<?>> converters;
@@ -67,7 +67,8 @@ public class AppWebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/**").addResourceLocations("classpath:");
+        registry.addResourceHandler("/appConfig.js").addResourceLocations(appConfigPath);
+        registry.addResourceHandler("/**").addResourceLocations("classpath:/");
         registry.setOrder(Integer.MAX_VALUE - 2);
     }
 

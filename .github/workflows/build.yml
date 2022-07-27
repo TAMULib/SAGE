@@ -7,50 +7,83 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: "Checkout Repository"
+        uses: actions/checkout@v3
+        with:
+          path: repo
+
+      - name: "Checkout Weaver-UI-Core"
+        uses: actions/checkout@v3
+        with:
+          repository: TAMULib/Weaver-UI-Core
+          path: weaver-ui
+          ref: 2.x-staging
+
+      - name: "Run Weaver-UI-Core Docker Compose Registry Image"
+        run: docker-compose -f $GITHUB_WORKSPACE/weaver-ui/docker-compose.yml up -d registry
+
+      - name: "Publish Weaver-UI-Core (@wvr/core)"
+        run: |
+          cd $GITHUB_WORKSPACE/weaver-ui
+          npm run publish:local
+
+      - name: "Install Chrome Drivers"
+        run: sudo apt-get install xvfb
 
       - name: "Node Cache"
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-cache-node-${{ hashFiles('**/package.json', '**/package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package.json', '**/package-lock.json') }}
 
       - name: "Node Modules Cache"
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: node_modules
-          key: ${{ runner.os }}-cache-node_modules-${{ hashFiles('**/package.json', '**/package-lock.json') }}
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package.json', '**/package-lock.json') }}
 
       - name: "Maven Cache"
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-cache-maven-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
 
       - name: "Setup Node"
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
 
       - name: "Setup Java"
         uses: actions/setup-java@v1
         with:
           java-version: 11
 
-      - name: "Maven and Node Tests"
+      - name: "Maven Tests"
+        env:
+          NPM_CONFIG_REGISTRY: http://localhost:4873
         run: |
-          npm i
+          cd $GITHUB_WORKSPACE/repo
           mvn clean test jacoco:report coveralls:report -DdryRun=true -DtestClient
 
       - name: "Combine Coverage"
-        run: jq 'reduce inputs as $i (.; .source_files += $i.source_files)' target/coveralls.json src/main/webapp/coverage/coveralls.json > coveralls.json
+        run: |
+          cd $GITHUB_WORKSPACE/repo
+          cat coverage/lcov.info | node node_modules/coveralls/bin/coveralls.js -s > coverage/coveralls.json
+          jq 'reduce inputs as $i (.; .source_files += $i.source_files)' target/coveralls.json coverage/coveralls.json > coveralls.json
 
       - name: "Coverage Report"
         uses: MikeEdgar/github-action@raw_coverage_file
         with:
           github-token: ${{ secrets.github_token }}
-          path-to-file: './coveralls.json'
+          path-to-file: repo/coveralls.json
           coverage-format: raw
+
+      - name: "Lighthouse Report"
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+        run: |
+          cd $GITHUB_WORKSPACE/repo
+          xvfb-run --auto-servernum npm run test:audit
 
       - name: "Deploy GH-Pages"
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
@@ -58,6 +91,6 @@ jobs:
         with:
           github_token: ${{ secrets.github_token }}
           branch: gh-pages
-          folder: target/generated-docs
+          folder: repo/target/gh-pages
           clean: true
           single_commit: true

@@ -19,6 +19,16 @@ SAGE boasts an intuitive user interface, but some much needed user documentation
    docker run -p 8983:8983 sage/solr
 ```
 
+### Deployment
+
+* Copy the `example.env` file and call it `.env`. These are build args used in docker-compose.yml.
+* Change variables as needed.
+* Run `docker-compose` commands.
+
+```sh
+docker-compose up
+```
+
 ### Developer Documentation
 
 - [Contributors Documentation](https://github.com/TAMULib/SAGE/blob/master/CONTRIBUTING.md)
