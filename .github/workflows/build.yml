@@ -78,12 +78,12 @@ jobs:
           path-to-file: repo/coveralls.json
           coverage-format: raw
 
-      - name: "Lighthouse Report"
-        env:
-          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
-        run: |
-          cd $GITHUB_WORKSPACE/repo
-          xvfb-run --auto-servernum npm run test:audit
+      # - name: "Lighthouse Report"
+      #   env:
+      #     LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+      #   run: |
+      #     cd $GITHUB_WORKSPACE/repo
+      #     xvfb-run --auto-servernum npm run test:audit
 
       - name: "Deploy GH-Pages"
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
