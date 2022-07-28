@@ -38,6 +38,9 @@ const config = {
     },
   ],
   entry: {
+    mirador: [
+      './src/main/webapp/build-js/TAMUMirador.src.js'
+    ],
     app: [
       './node_modules/jquery/dist/jquery.js',
       './node_modules/bootstrap/dist/js/bootstrap.js',
