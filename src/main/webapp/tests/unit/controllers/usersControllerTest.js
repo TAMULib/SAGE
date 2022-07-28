@@ -41,6 +41,7 @@ describe("controller: UsersController", function () {
   beforeEach(function () {
     module("core");
     module("sage");
+    module("templates");
     module("mock.storageService");
     module("mock.user", function ($provide) {
       var User = function () {
@@ -55,6 +56,10 @@ describe("controller: UsersController", function () {
     installPromiseMatchers();
     initializeVariables();
     initializeController();
+  });
+
+  afterEach(function () {
+    $scope.$destroy();
   });
 
   describe("Is the controller", function () {

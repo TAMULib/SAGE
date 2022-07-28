@@ -1,5 +1,5 @@
 describe("controller: DiscoveryViewManagementController", function () {
-  var $q, $scope, $timeout, DiscoveryViewRepo, MockedDiscoveryView, MockedFacetField, MockedMetadataField, MockedSearchField, MockedSource, NgTableParams, SourceRepo, controller;
+  var $q, $scope, $timeout, DiscoveryViewRepo, MockedUser, MockedDiscoveryView, MockedFacetField, MockedMetadataField, MockedSearchField, MockedSource, NgTableParams, SourceRepo, controller;
 
   var initializeVariables = function () {
     inject(function (_$q_, _DiscoveryViewRepo_, _WsApi_, _SourceRepo_) {
@@ -14,6 +14,7 @@ describe("controller: DiscoveryViewManagementController", function () {
       MockedMetadataField = new mockMetadataField($q);
       MockedSearchField = new mockSearchField($q);
       MockedSource = new mockSource($q);
+      MockedUser = new mockUser($q);
     });
   };
 
@@ -47,6 +48,7 @@ describe("controller: DiscoveryViewManagementController", function () {
   beforeEach(function () {
     module("core");
     module("sage");
+    module("templates");
     module("mock.discoveryView", function ($provide) {
       var DiscoveryView = function () {
         return MockedDiscoveryView;
@@ -81,10 +83,21 @@ describe("controller: DiscoveryViewManagementController", function () {
     });
     module("mock.sourceRepo");
     module("mock.wsApi");
+    module("mock.user", function ($provide) {
+      var User = function () {
+        return MockedUser;
+      };
+      $provide.value("User", User);
+    });
+    module("mock.userService");
 
     installPromiseMatchers();
     initializeVariables();
     initializeController();
+  });
+
+  afterEach(function () {
+    $scope.$destroy();
   });
 
   describe("Is the controller", function () {

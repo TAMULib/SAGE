@@ -1,7 +1,12 @@
 describe("filter: convertBracketsToButtons", function () {
-  var $scope, filter;
+  var $scope, MockedUser, filter;
 
   var initializeVariables = function () {
+    inject(function (_$q_) {
+      $q = _$q_;
+
+      MockedUser = new mockUser($q);
+    });
   };
 
   var initializeFilter = function (settings) {
@@ -15,10 +20,22 @@ describe("filter: convertBracketsToButtons", function () {
   beforeEach(function () {
     module("core");
     module("sage");
+    module("templates");
+    module("mock.user", function ($provide) {
+      var User = function () {
+        return MockedUser;
+      };
+      $provide.value("User", User);
+    });
+    module("mock.userService");
 
     installPromiseMatchers();
     initializeVariables();
     initializeFilter();
+  });
+
+  afterEach(function () {
+    $scope.$destroy();
   });
 
   describe("Is the filter", function () {

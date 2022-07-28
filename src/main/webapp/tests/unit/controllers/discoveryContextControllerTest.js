@@ -55,13 +55,9 @@ describe("controller: DiscoveryContextController", function () {
       routeParams = {};
       $provide.value("$routeParams", routeParams);
     });
+    module("core");
     module("sage");
-    module("mock.discoveryContext", function ($provide) {
-      DiscoveryContext = function () {
-        return MockedDiscoveryContext;
-      };
-      $provide.value("DiscoveryContext", DiscoveryContext);
-    });
+    module("templates");
     module("mock.user", function ($provide) {
       var User = function () {
         return MockedUser;
@@ -69,11 +65,21 @@ describe("controller: DiscoveryContextController", function () {
       $provide.value("User", User);
     });
     module("mock.userService");
+    module("mock.discoveryContext", function ($provide) {
+      DiscoveryContext = function () {
+        return MockedDiscoveryContext;
+      };
+      $provide.value("DiscoveryContext", DiscoveryContext);
+    });
     module("mock.wsApi");
 
     installPromiseMatchers();
     initializeVariables();
     initializeController();
+  });
+
+  afterEach(function () {
+    $scope.$destroy();
   });
 
   describe("Is the controller", function () {

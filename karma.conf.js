@@ -77,28 +77,7 @@ module.exports = function (config) {
 
       "src/main/webapp/tests/mock/**/*.js",
 
-      // "src/main/webapp/tests/unit/**/*.js"
-      'src/main/webapp/tests/unit/repos/**/*.js',
-      'src/main/webapp/tests/unit/models/**/*.js',
-      'src/main/webapp/tests/unit/components/**/*.js',
-      'src/main/webapp/tests/unit/filters/**/*.js',
-      'src/main/webapp/tests/unit/directives/**/*.js',
-      // 'src/main/webapp/tests/unit/controllers/**/*.js',
-
-      // 'src/main/webapp/tests/unit/controllers/appLoginControllerTest.js',
-      // 'src/main/webapp/tests/unit/controllers/discoveryContextControllerTest.js',
-      // 'src/main/webapp/tests/unit/controllers/managementControllerTest.js',
-      // 'src/main/webapp/tests/unit/controllers/singleResultControllerTest.js',
-      // 'src/main/webapp/tests/unit/controllers/usersControllerTest.js',
-
-      // 'src/main/webapp/tests/unit/controllers/management/discoveryViewManagementControllerTest.js',
-      // 'src/main/webapp/tests/unit/controllers/management/internalMetadataManagementControllerTest.js',
-      // 'src/main/webapp/tests/unit/controllers/management/jobManagementControllerTest.js',
-      // 'src/main/webapp/tests/unit/controllers/management/operatorManagementControllerTest.js',
-      // 'src/main/webapp/tests/unit/controllers/management/readerManagementControllerTest.js',
-      // 'src/main/webapp/tests/unit/controllers/management/sourceManagementControllerTest.js',
-      // 'src/main/webapp/tests/unit/controllers/management/writerManagementControllerTest.js'
-
+      "src/main/webapp/tests/unit/**/*.js"
     ],
 
     autoWatch: true,

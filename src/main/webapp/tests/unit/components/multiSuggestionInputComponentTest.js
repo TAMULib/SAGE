@@ -1,9 +1,12 @@
 describe("component: multiSuggestionInput", function () {
-  var $compile, $scope, component, element, suggestions, model, property, optionproperty, displayproperty, name, label, placeholder;
+  var $compile, $scope, MockedUser, component, element, suggestions, model, property, optionproperty, displayproperty, name, label, placeholder;
 
   var initializeVariables = function () {
-    inject(function (_$compile_) {
+    inject(function (_$q_, _$compile_) {
+      $q = _$q_;
       $compile = _$compile_;
+
+      MockedUser = new mockUser($q);
 
       suggestions = "";
       model = {};
@@ -41,9 +44,20 @@ describe("component: multiSuggestionInput", function () {
     module("core");
     module("sage");
     module("templates");
+    module("mock.user", function ($provide) {
+      var User = function () {
+        return MockedUser;
+      };
+      $provide.value("User", User);
+    });
+    module("mock.userService");
 
     installPromiseMatchers();
     initializeVariables();
+  });
+
+  afterEach(function () {
+    $scope.$destroy();
   });
 
   describe("Is the component", function () {

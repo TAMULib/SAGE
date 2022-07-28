@@ -46,6 +46,7 @@ describe("controller: WriterManagementController", function () {
   beforeEach(function () {
     module("core");
     module("sage");
+    module("templates");
     module("mock.internalMetadata", function ($provide) {
       var InternalMetadata = function () {
         return MockedInternalMetadata;
@@ -85,6 +86,10 @@ describe("controller: WriterManagementController", function () {
     installPromiseMatchers();
     initializeVariables();
     initializeController();
+  });
+
+  afterEach(function () {
+    $scope.$destroy();
   });
 
   describe("Is the controller", function () {

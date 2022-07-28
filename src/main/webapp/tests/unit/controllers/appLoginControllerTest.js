@@ -1,7 +1,7 @@
 describe("controller: AppLoginController", function () {
   var $q, $scope, MockedUser, WsApi, controller;
 
-  var initializeVariables = function () {
+  var initializeVariables = function (settings) {
     inject(function (_$q_, _WsApi_) {
       $q = _$q_;
 
@@ -33,6 +33,7 @@ describe("controller: AppLoginController", function () {
   beforeEach(function () {
     module("core");
     module("sage");
+    module("templates");
     module("mock.user", function ($provide) {
       var User = function () {
         return MockedUser;
@@ -45,6 +46,10 @@ describe("controller: AppLoginController", function () {
     installPromiseMatchers();
     initializeVariables();
     initializeController();
+  });
+
+  afterEach(function () {
+    $scope.$destroy();
   });
 
   describe("Is the controller", function () {

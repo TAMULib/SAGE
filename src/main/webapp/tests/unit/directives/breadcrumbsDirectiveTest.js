@@ -1,11 +1,12 @@
 describe("directive: breadcrumbs", function () {
-  var $compile, $q, $scope, MockedDiscoveryContext, MockedSingleResultContext, directive, element, contexts, home, reload;
+  var $compile, $q, $scope, MockedUser, MockedDiscoveryContext, MockedSingleResultContext, directive, element, contexts, home, reload;
 
-  var initializeVariables = function () {
+  var initializeVariables = function (settings) {
     inject(function (_$q_, _$compile_) {
       $q = _$q_;
       $compile = _$compile_;
 
+      MockedUser = new mockUser($q);
       MockedDiscoveryContext = new mockDiscoveryContext($q);
       MockedSingleResultContext = new mockSingleResultContext($q);
 
@@ -37,6 +38,13 @@ describe("directive: breadcrumbs", function () {
     module("core");
     module("sage");
     module("templates");
+    module("mock.user", function ($provide) {
+      var User = function () {
+        return MockedUser;
+      };
+      $provide.value("User", User);
+    });
+    module("mock.userService");
     module("mock.discoveryContext", function ($provide) {
       var DiscoveryContext = function () {
         return MockedDiscoveryContext;
@@ -52,6 +60,10 @@ describe("directive: breadcrumbs", function () {
 
     installPromiseMatchers();
     initializeVariables();
+  });
+
+  afterEach(function () {
+    $scope.$destroy();
   });
 
   describe("Is the directive", function () {
