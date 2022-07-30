@@ -89,6 +89,3 @@ if(fs.existsSync(lighthouseCiPath)) {
 } else {
   console.warn(`${lighthouseCiPath} does not exist. Please run 'npm run test:audit'`);
 }
-
-
-
