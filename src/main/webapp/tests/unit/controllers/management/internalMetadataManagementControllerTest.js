@@ -1,6 +1,5 @@
 describe("controller: InternalMetadataManagementController", function () {
-
-  var $q, $scope, MockedInternalMetadata, NgTableParams, controller;
+  var $q, $scope, MockedUser, MockedInternalMetadata, NgTableParams, controller;
 
   var initializeVariables = function () {
     inject(function (_$q_, _InternalMetadataRepo_) {
@@ -8,6 +7,7 @@ describe("controller: InternalMetadataManagementController", function () {
 
       InternalMetadataRepo = _InternalMetadataRepo_;
       MockedInternalMetadata = new mockInternalMetadata($q);
+      MockedUser = new mockUser($q);
       NgTableParams = mockNgTableParams;
     });
   };
@@ -35,6 +35,7 @@ describe("controller: InternalMetadataManagementController", function () {
   beforeEach(function () {
     module("core");
     module("sage");
+    module("templates");
     module("mock.internalMetadata", function ($provide) {
       var InternalMetadata = function () {
         return MockedInternalMetadata;
@@ -44,10 +45,21 @@ describe("controller: InternalMetadataManagementController", function () {
     module("mock.internalMetadataRepo");
     module("mock.ngTableParams");
     module("mock.wsApi");
+    module("mock.user", function ($provide) {
+      var User = function () {
+        return MockedUser;
+      };
+      $provide.value("User", User);
+    });
+    module("mock.userService");
 
     installPromiseMatchers();
     initializeVariables();
     initializeController();
+  });
+
+  afterEach(function () {
+    $scope.$destroy();
   });
 
   describe("Is the controller", function () {

@@ -43,6 +43,7 @@ describe("controller: ReaderManagementController", function () {
   beforeEach(function () {
     module("core");
     module("sage");
+    module("templates");
     module("mock.reader", function ($provide) {
       var Reader = function () {
         return MockedReader;
@@ -75,6 +76,10 @@ describe("controller: ReaderManagementController", function () {
     installPromiseMatchers();
     initializeVariables();
     initializeController();
+  });
+
+  afterEach(function () {
+    $scope.$destroy();
   });
 
   describe("Is the controller", function () {

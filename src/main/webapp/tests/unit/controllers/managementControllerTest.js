@@ -32,6 +32,7 @@ describe("controller: ManagementController", function () {
   beforeEach(function () {
     module("core");
     module("sage");
+    module("templates");
     module("mock.user", function ($provide) {
       var User = function () {
         return MockedUser;
@@ -44,6 +45,10 @@ describe("controller: ManagementController", function () {
     installPromiseMatchers();
     initializeVariables();
     initializeController();
+  });
+
+  afterEach(function () {
+    $scope.$destroy();
   });
 
   describe("Is the controller", function () {

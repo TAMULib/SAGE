@@ -1,0 +1,22 @@
+version: '3.7'
+
+networks:
+  default:
+    name: weaver
+
+services:
+
+  service:
+    container_name: sage
+    hostname: sage
+    build:
+      dockerfile: Dockerfile
+      context: './'
+      args:
+        - NPM_REGISTRY_URL=${NPM_REGISTRY_URL}
+        - NODE_ENV=${NODE_ENV}
+    image: ${IMAGE_HOST}/${SERVICE_PROJECT}/sage:${IMAGE_VERSION}
+    ports:
+      - 9000:9000
+    env_file:
+      - .env

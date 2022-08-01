@@ -1,11 +1,12 @@
 describe("service: abstractAppRepo", function () {
-  var $q, $rootScope, $scope, WsApi, repo, mockedRepo;
+  var $q, $rootScope, $scope, MockedUser, WsApi, repo, mockedRepo;
 
   var initializeVariables = function (settings) {
     inject(function (_$q_, _$rootScope_, _WsApi_) {
       $q = _$q_;
       $rootScope = _$rootScope_;
 
+      MockedUser = new mockUser($q);
       WsApi = _WsApi_;
     });
   };
@@ -26,6 +27,14 @@ describe("service: abstractAppRepo", function () {
   beforeEach(function () {
     module("core");
     module("sage");
+    module("templates");
+    module("mock.user", function ($provide) {
+      var User = function () {
+        return MockedUser;
+      };
+      $provide.value("User", User);
+    });
+    module("mock.userService");
     module("mock.wsApi");
 
     initializeVariables();

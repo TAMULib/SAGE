@@ -53,6 +53,7 @@ describe("controller: JobManagementController", function () {
   beforeEach(function () {
     module("core");
     module("sage");
+    module("templates");
     module("mock.job", function ($provide) {
       var Job = function () {
         return MockedJob;
@@ -100,6 +101,10 @@ describe("controller: JobManagementController", function () {
     installPromiseMatchers();
     initializeVariables();
     initializeController();
+  });
+
+  afterEach(function () {
+    $scope.$destroy();
   });
 
   describe("Is the controller", function () {
