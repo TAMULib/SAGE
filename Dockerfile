@@ -28,7 +28,7 @@ RUN useradd --non-unique -d $HOME_DIR -m -u $USER_ID -g $USER_ID $USER_NAME
 # Install stable Nodejs and npm.
 RUN \
   apt-get update \
-  && apt-get -y install nodejs npm \
+  && apt-get -y install nodejs npm iproute2 \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* \
   && npm cache clean -f \
@@ -74,6 +74,15 @@ RUN \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 
+# Copy files from outside docker to inside.
+COPY build/appConfig.js.template /usr/local/app/templates/appConfig.js.template
+COPY build/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+
+# Enable execute of docker entrypoint for root user.
+RUN \
+  chmod ugo+r /usr/local/app/templates/appConfig.js.template \
+  && chmod ugo+rx /usr/local/bin/docker-entrypoint.sh
+
 # Create the group (use a high ID to attempt to avoid conflits).
 RUN groupadd --non-unique -g $USER_ID $USER_NAME
 
@@ -86,16 +95,9 @@ USER $USER_NAME
 # Set deployment directory.
 WORKDIR $HOME_DIR
 
-
 # Copy over the built artifact and library from the maven image.
 COPY --from=maven $SOURCE_DIR/target/ROOT.jar ./sage.jar
 COPY --from=maven $SOURCE_DIR/target/libs ./libs
-
-# Copy app config.
-COPY build/appConfig.js.template /usr/local/app/templates/appConfig.js.template
-
-# Copy of docker entrypoint to user local binary directory.
-COPY build/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 ENV AUTH_STRATEGY weaverAuth
 
