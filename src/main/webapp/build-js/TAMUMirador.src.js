@@ -1,5 +1,5 @@
-import Mirador from '../../../../node_modules/mirador/dist/es/src/index';
-import { miradorImageToolsPlugin } from '../../../../node_modules/mirador-image-tools/es/index';
+import Mirador from 'mirador';
+import { miradorImageToolsPlugin } from 'mirador-image-tools';
 
 var getInstance = function() {
 
