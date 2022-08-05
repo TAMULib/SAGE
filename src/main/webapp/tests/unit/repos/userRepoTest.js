@@ -22,12 +22,14 @@ describe("service: userRepo", function () {
   beforeEach(function () {
     module("core");
     module("sage");
+    module("templates");
     module("mock.user", function ($provide) {
       var User = function () {
         return MockedUser;
       };
       $provide.value("User", User);
     });
+    module("mock.userService");
     module("mock.wsApi");
 
     initializeVariables();

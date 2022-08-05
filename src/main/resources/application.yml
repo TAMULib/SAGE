@@ -113,9 +113,6 @@ app:
   cvcache:
     duration: 3600000
 
-  ui:
-    path: /app
-
   # edu.tamu.weaver.auth.service.UserCredentialsService
   authority.admins:
   security:
@@ -134,8 +131,11 @@ app:
   # edu.tamu.weaver.validation.controller.ValidationsController
   model.packages: edu.tamu.sage.model
 
+  config:
+    path: classpath:/appConfig.js
+
 # options: weaverAuth,emailRegistration
-authenticationStrategies: emailRegistration
+authenticationStrategies: weaverAuth
 
 shib:
   keys: netid,uin,lastName,firstName,email

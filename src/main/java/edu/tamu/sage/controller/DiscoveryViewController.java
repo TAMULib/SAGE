@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import org.apache.commons.lang3.EnumUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,13 +100,19 @@ public class DiscoveryViewController {
         String titleKey = discoveryView.getTitleKey().replaceAll("[{}]", "");
         Optional<MetadataField> sortableField = discoveryView.getResultMetadataFields().stream().filter(r -> r.getKey().equals(titleKey)).findFirst();
         if (sortableField.isPresent() && sortableField.get().isSortable()) {
+            Direction defaultDirection = discoveryView.isAscending() ? Direction.ASC : Direction.DESC;
             if (page.getSort() == null) {
-                Direction defaultDirection = discoveryView.isAscending() ? Direction.ASC : Direction.DESC;
-                PageRequest pageRequest = PageRequest.of(page.getPageNumber(), page.getPageSize(),Sort.by(defaultDirection, field));
-                page = pageRequest;
+                page = PageRequest.of(page.getPageNumber(), page.getPageSize(), Sort.by(defaultDirection, field));
             } else {
                 String sort = page.getSort().toString().split(":")[0];
-                page = PageRequest.of(page.getPageNumber(), page.getPageSize(),Sort.Direction.fromString(direction), sort);
+                if (sort.equals("UNSORTED")) {
+                    sort = discoveryView.getResourceLocationUriKey().replaceAll("[{}]", "");
+                }
+
+                Direction dir = EnumUtils.isValidEnum(Direction.class, direction) ? Direction.valueOf(direction)
+                        : defaultDirection;
+
+                page = PageRequest.of(page.getPageNumber(), page.getPageSize(), dir, sort);
             }
         }
 

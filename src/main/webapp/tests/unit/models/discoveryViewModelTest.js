@@ -1,8 +1,9 @@
 describe("model: DiscoveryView", function () {
-  var $rootScope, $scope, $location, WsApi, model, routeParams;
+  var $rootScope, $scope, $location, MockedUser, WsApi, model, routeParams;
 
   var initializeVariables = function (settings) {
-    inject(function (_$location_, _$rootScope_, _WsApi_) {
+    inject(function (_$q_, _$location_, _$rootScope_, _WsApi_) {
+      $q = _$q_;
       $location = _$location_;
       $rootScope = _$rootScope_;
 
@@ -10,6 +11,7 @@ describe("model: DiscoveryView", function () {
         angular.extend(routeParams, settings.routeParams);
       }
 
+      MockedUser = new mockUser($q);
       WsApi = _WsApi_;
     });
   };
@@ -39,10 +41,22 @@ describe("model: DiscoveryView", function () {
       $provide.value("$routeParams", routeParams);
     });
     module("sage");
+    module("templates");
+    module("mock.user", function ($provide) {
+      var User = function () {
+        return MockedUser;
+      };
+      $provide.value("User", User);
+    });
+    module("mock.userService");
     module("mock.wsApi");
 
     initializeVariables();
     initializeModel();
+  });
+
+  afterEach(function () {
+    $scope.$destroy();
   });
 
   describe("Is the model", function () {

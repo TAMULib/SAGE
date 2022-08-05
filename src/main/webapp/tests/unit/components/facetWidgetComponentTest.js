@@ -1,10 +1,13 @@
 describe("component: facetWidget", function () {
-  var $compile, $httpBackend, $scope, component, element, facet, discoveryContext, resetSearch;
+  var $compile, $httpBackend, $scope, MockedUser, component, element, facet, discoveryContext, resetSearch;
 
   var initializeVariables = function () {
-    inject(function (_$compile_, _$httpBackend_) {
+    inject(function (_$q_, _$compile_, _$httpBackend_) {
+      $q = _$q_;
       $compile = _$compile_;
       $httpBackend = _$httpBackend_;
+
+      MockedUser = new mockUser($q);
 
       $httpBackend.whenGET("views/components/facetTypes/Facet.html").respond("<div></div>");
       $httpBackend.whenGET("node_modules/@wvr/core/app/views/modalWrapper.html").respond("<div></div>");
@@ -36,9 +39,20 @@ describe("component: facetWidget", function () {
     module("core");
     module("sage");
     module("templates");
+    module("mock.user", function ($provide) {
+      var User = function () {
+        return MockedUser;
+      };
+      $provide.value("User", User);
+    });
+    module("mock.userService");
 
     installPromiseMatchers();
     initializeVariables();
+  });
+
+  afterEach(function () {
+    $scope.$destroy();
   });
 
   describe("Is the component", function () {

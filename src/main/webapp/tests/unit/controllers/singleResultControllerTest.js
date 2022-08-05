@@ -39,6 +39,7 @@ describe("controller: SingleResultController", function () {
   beforeEach(function () {
     module("core");
     module("sage");
+    module("templates");
     module("mock.discoveryContext", function ($provide) {
       var DiscoveryContext = function () {
         return MockedDiscoveryContext;
@@ -63,6 +64,10 @@ describe("controller: SingleResultController", function () {
     installPromiseMatchers();
     initializeVariables();
     initializeController();
+  });
+
+  afterEach(function () {
+    $scope.$destroy();
   });
 
   describe("Is the controller", function () {

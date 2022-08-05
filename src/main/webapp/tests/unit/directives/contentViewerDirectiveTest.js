@@ -1,10 +1,13 @@
 describe("directive: contentviewer", function () {
-  var $compile, $scope, appConfig, directive, element, contentType, resource;
+  var $compile, $scope, MockedUser, appConfig, directive, element, contentType, resource;
 
-  var initializeVariables = function () {
-    inject(function (_$compile_, _appConfig_) {
+  var initializeVariables = function (settings) {
+    inject(function (_$q_, _$compile_, _appConfig_) {
+      $q = _$q_;
       $compile = _$compile_;
       appConfig = _appConfig_;
+
+      MockedUser = new mockUser($q);
 
       contentType = "";
       context = {};
@@ -34,9 +37,20 @@ describe("directive: contentviewer", function () {
     module("core");
     module("sage");
     module("templates");
+    module("mock.user", function ($provide) {
+      var User = function () {
+        return MockedUser;
+      };
+      $provide.value("User", User);
+    });
+    module("mock.userService");
 
     installPromiseMatchers();
     initializeVariables();
+  });
+
+  afterEach(function () {
+    $scope.$destroy();
   });
 
   describe("Is the directive", function () {

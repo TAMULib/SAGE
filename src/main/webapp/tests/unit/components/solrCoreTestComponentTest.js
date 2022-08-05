@@ -1,11 +1,12 @@
 describe("component: solrCoreTest", function () {
-  var $compile, $q, $scope, MockedSource, component, element, source;
+  var $compile, $q, $scope, MockedUser, MockedSource, component, element, source;
 
   var initializeVariables = function () {
-    inject(function (_$compile_, _$q_) {
-      $compile = _$compile_;
+    inject(function (_$q_, _$compile_) {
       $q = _$q_;
+      $compile = _$compile_;
 
+      MockedUser = new mockUser($q);
       MockedSource = new mockSource($q);
 
       source = "";
@@ -32,6 +33,13 @@ describe("component: solrCoreTest", function () {
     module("core");
     module("sage");
     module("templates");
+    module("mock.user", function ($provide) {
+      var User = function () {
+        return MockedUser;
+      };
+      $provide.value("User", User);
+    });
+    module("mock.userService");
     module("mock.source", function ($provide) {
       var Source = function () {
         return MockedSource;
@@ -41,6 +49,10 @@ describe("component: solrCoreTest", function () {
 
     installPromiseMatchers();
     initializeVariables();
+  });
+
+  afterEach(function () {
+    $scope.$destroy();
   });
 
   describe("Is the component", function () {

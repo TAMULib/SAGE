@@ -105,8 +105,9 @@ app:
   # edu.tamu.weaver.auth.service.UserCredentialsService
   authority:
     admins: aggieJack@tamu.edu
-  ui:
-    path: /app
+
+  config:
+    path: classpath:/appConfig.js
 
 auth:
   path: /auth

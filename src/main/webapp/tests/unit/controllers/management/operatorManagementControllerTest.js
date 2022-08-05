@@ -1,5 +1,5 @@
 describe("controller: OperatorManagementController", function () {
-  var $q, $scope, MockedInternalMetadata, MockedOperator, NgTableParams, OperatorRepo, controller;
+  var $q, $scope, MockedUser, MockedInternalMetadata, MockedOperator, NgTableParams, OperatorRepo, controller;
 
   var initializeVariables = function () {
     inject(function (_$q_, _OperatorRepo_) {
@@ -7,6 +7,7 @@ describe("controller: OperatorManagementController", function () {
 
       MockedInternalMetadata = new mockInternalMetadata($q);
       MockedOperator = new mockOperator($q);
+      MockedUser = new mockUser($q);
       NgTableParams = mockNgTableParams;
       OperatorRepo = _OperatorRepo_;
     });
@@ -39,6 +40,7 @@ describe("controller: OperatorManagementController", function () {
   beforeEach(function () {
     module("core");
     module("sage");
+    module("templates");
     module("mock.internalMetadata", function ($provide) {
       var InternalMetadata = function () {
         return MockedInternalMetadata;
@@ -54,10 +56,21 @@ describe("controller: OperatorManagementController", function () {
     });
     module("mock.operatorRepo");
     module("mock.validationStore");
+    module("mock.user", function ($provide) {
+      var User = function () {
+        return MockedUser;
+      };
+      $provide.value("User", User);
+    });
+    module("mock.userService");
 
     installPromiseMatchers();
     initializeVariables();
     initializeController();
+  });
+
+  afterEach(function () {
+    $scope.$destroy();
   });
 
   describe("Is the controller", function () {
