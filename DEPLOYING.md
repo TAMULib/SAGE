@@ -102,7 +102,7 @@ The **development** deployment can also use `docker-compose` in the same way.
 <div align="right">(<a href="#readme-top">back to top</a>)</div>
 
 
-## Development Deployment using **Docker**
+## Development Deployment using Docker
 
 To manually use `docker` rather than `docker-compose`, run the following:
 
@@ -130,9 +130,11 @@ The host system affects the network being used and is different from **Windows**
 <div align="right">(<a href="#readme-top">back to top</a>)</div>
 
 
-## Development Deployment using **NPM**
+## Development Deployment using NPM and Maven
 
-Manual installation can be summed up by running:
+Manual deployment can be summed up by running:
+
+**NPM**
 
 ```shell
 npm install
@@ -140,11 +142,17 @@ npm run build
 npm run start
 ```
 
+**Maven**
+
+```shell
+mvn clean spring-boot:run
+```
+
 Those steps are a great way to start but they also fail to explain the customization that is often needed.
 There are multiple ways to further configure this for deployment to better meet the desired requirements.
 
 It is highly recommended only to perform *manual installation* when developing.
-For production deployment, please use `docker-compose` via the [MAGPIE App Repo][app-repo] or use the **Docker** method above.
+For production deployment, please use either the `docker-compose` method or the **Docker** method above.
 
 <div align="right">(<a href="#readme-top">back to top</a>)</div>
 
@@ -176,6 +184,7 @@ The advantage of this method of configuration is that of preserving the changes 
 There is only a small section that should be changed.
 
 The `.wvr/build-config.js` file has only a single section of interest and might look something like this:
+
 ```js
     {
       from: './build/appConfig.js.template',
@@ -189,16 +198,16 @@ The `.wvr/build-config.js` file has only a single section of interest and might 
       },
     },
 ```
+
 In the above example snippet, only the lines containing `'${STOMP_DEBUG}'`, `'${AUTH_SERVICE_URL}'`, and `'${WEB_SERVICE_URL}'` should be changed.
 For example `'http://localhost:9001/products'` could be changed to `'http://localhost:8181/products'` (changing the port number from 9001 to 8181).
 
-Once this is done all of the steps from *Development Deployment using NPM* above can be followed.
+Once this is done all of the steps from *Development Deployment using NPM and Maven* above can be followed.
 
 <div align="right">(<a href="#readme-top">back to top</a>)</div>
 
 
 <!-- LINKS -->
-[app-repo]: https://github.com/TAMULib/Magpie
 [weaver-ui]: https://github.com/TAMULib/Weaver-UI-Core
 [verdaccio]: https://verdaccio.org
 [solr-url]: https://solr.apache.org/
