@@ -15,7 +15,7 @@ services:
       args:
         - NPM_REGISTRY=${NPM_REGISTRY}
         - NODE_ENV=${NODE_ENV}
-    image: ${IMAGE_HOST}/${SERVICE_PROJECT}/sage:${IMAGE_VERSION}
+    image: ${IMAGE_HOST}/${SERVICE_PROJECT}${SERVICE_PATH}:${IMAGE_VERSION}
     ports:
       - 9000:9000
     env_file:
