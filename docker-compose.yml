@@ -13,7 +13,7 @@ services:
       dockerfile: Dockerfile
       context: './'
       args:
-        - NPM_REGISTRY_URL=${NPM_REGISTRY_URL}
+        - NPM_REGISTRY=${NPM_REGISTRY}
         - NODE_ENV=${NODE_ENV}
     image: ${IMAGE_HOST}/${SERVICE_PROJECT}/sage:${IMAGE_VERSION}
     ports:
