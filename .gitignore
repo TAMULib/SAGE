@@ -77,8 +77,8 @@ replay_pid*
 
 
 ### Maven ###
-target/
 logs/
+target/
 
 .classpth
 .mvn/timing.properties
