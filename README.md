@@ -14,13 +14,9 @@
 
 ## User Documentation
 
-By default, *SAGE* is configured to support e-mail based registration and authorization using passwords using the `emailRegistration` setting.
-There is generally no need to change this.
+*CAP* user documentation can be found in [the wiki][user-docs].
 
-*SAGE* can also be configured to use *Weaver Authentication* using the `weaverAuth` setting.
-The *Weaver Authentication* is an external authorization abstraction which brings additional identity provider support into the platform.
-
-More advanced authorization configurations are described in the [Deployment Guide][deployment-guide].
+For more technical users, deployment related configurations are described in the [Deployment Guide][deployment-guide].
 
 <div align="right">(<a href="#readme-top">back to top</a>)</div>
 
@@ -48,6 +44,8 @@ cp example.env.service .env.service
 docker-compose up
 ```
 
+<sub>_* Note: It may be necessary to disable caching during build by passing `--no-cache` to the `docker-compose up` command._</sub>
+
 <div align="right">(<a href="#readme-top">back to top</a>)</div>
 
 
@@ -74,6 +72,7 @@ Copyright © 2022 Texas A&M University Libraries under the [MIT License][license
 
 [tamu-library]: http://library.tamu.edu
 [api-docs]: https://tamulib.github.io/SAGE
+[user-docs]: https://github.com/TAMULib/SAGE/wiki
 [solr-url]: https://solr.apache.org/
 
 [deployment-guide]: DEPLOYING.md
