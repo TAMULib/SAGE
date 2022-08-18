@@ -45,6 +45,17 @@ dump.rdb
 tmp/
 
 
+### Node / NPM ###
+coverage/
+logs/
+node_modules/
+
+.npmrc
+
+npm-debug.log
+package-lock.json
+
+
 ### Virtual Machine ###
 hs_err_pid*
 replay_pid*
