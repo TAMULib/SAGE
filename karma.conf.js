@@ -66,7 +66,7 @@ module.exports = function (config) {
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
         base: 'ChromeHeadless',
-        flags: ['--no-sandbox']
+        flags: ['--no-sandbox'],
       }
     },
 
@@ -82,18 +82,18 @@ module.exports = function (config) {
 
     junitReporter: {
       outputFile: 'test_out/unit.xml',
-      suite: 'unit'
+      suite: 'unit',
     },
 
     ngHtml2JsPreprocessor: {
       stripPrefix: 'src/main/webapp/app/',
-      moduleName: 'templates'
+      moduleName: 'templates',
     },
 
     coverageReporter: {
       type: 'lcov',
       dir: 'coverage/',
-      subdir: '.'
+      subdir: '.',
     }
 
   });
