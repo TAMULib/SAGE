@@ -192,15 +192,16 @@ The `.wvr/build-config.js` file has only a single section of interest and might 
       transform(content) {
         return content
           .toString()
-          .replace('${STOMP_DEBUG}', 'false')
+          .replace('${AUTH_STRATEGY}', 'weaverAuth')
           .replace('${AUTH_SERVICE_URL}', 'https://labs.library.tamu.edu/authfix')
-          .replace('${WEB_SERVICE_URL}', 'http://localhost:9001/products');
+          .replace('${STOMP_DEBUG}', 'false')
+          .replace('${AVALON_URL}', 'avalon-pre.library.tamu.edu:443');
       },
     },
 ```
 
-In the above example snippet, only the lines containing `'${STOMP_DEBUG}'`, `'${AUTH_SERVICE_URL}'`, and `'${WEB_SERVICE_URL}'` should be changed.
-For example `'http://localhost:9001/products'` could be changed to `'http://localhost:8181/products'` (changing the port number from 9001 to 8181).
+In the above example snippet, only the lines containing `'${AUTH_STRATEGY}'`, `'${AUTH_SERVICE_URL}'`, `'${STOMP_DEBUG}'`, and `'${AVALON_URL}'` should be changed.
+For example `'https://labs.library.tamu.edu/authfix'` could be changed to `'https://labs.library.tamu.edu:8443/authfix'` (changing the port number from 443 to 8443).
 
 Once this is done all of the steps from *Development Deployment using NPM and Maven* above can be followed.
 
