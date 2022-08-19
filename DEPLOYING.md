@@ -1,74 +1,216 @@
-The DEPLOYING documentation is currently a work in progress.
+<a name="readme-top"></a>
+# Search Aggregation Engine Deployment Guide
 
-### Development with Weaver
 
-* Clone [Weaver-UI-Core](git@github.com:TAMULib/Weaver-UI-Core.git)
-* Start docker compose within Weaver-UI-Core directory.
+## Configuration
 
-```sh
+There are several files that allow for configuration:
+
+* The `.env` file.
+* The `src/main/resources/application.yml` file.
+* The `build/appConfig.js.template` file.
+
+Most settings can and should be configured using the `.env` file when using `docker-compose`.
+In other cases, either passing environment variables to `docker`, manually exporting environment variables, or directly editing the configuration files may be necessary.
+
+The `src/main/resources/application.yml` file can be configured through environment variables.
+Consult the [Spring Documentation][spring-docs-binding] in regards to this.
+
+The `build/appConfig.js.template` has limited support for environment variables but for those that are exposed may be altered using the `.env` file.
+
+
+### Authorization
+
+By default, *SAGE* is configured to support e-mail based registration and authorization using passwords using the `emailRegistration` setting.
+There is generally no need to change this.
+
+*SAGE* can also be configured to use *Weaver Authentication* using the `weaverAuth` setting.
+The *Weaver Authentication* is an external authorization abstraction which brings additional identity provider support into the platform.
+
+
+### Advanced Authorization
+
+The *SAGE UI*'s appConfig object has an `authStrategies` property that accepts a list of strings representing the active auth strategies:
+
+```
+  'authStrategies': ['emailRegistration'],
+```
+
+The *SAGE UI* displays different login prompts and exhibits certain behaviors based on the `authStrategies` property.
+
+When `emailRegistration` is active, the `appLoginController`, an extension of **Weaver's** `LoginController` is used.
+When `weaverAuth` is active, a controller provided by **Weaver UI Core** is used.
+
+If you are using an auth service other than *SAGE's* built in service, you will need to provide its url using the 'authService' property, also part of the appConfig object:
+
+It's most common to choose a single authentication strategy, but it is technically possible to support multiple strategies simultaneously by listing each entry separated by commas.
+
+
+### Mocked Authorization
+
+The *SAGE* service can also be run with a development only profile that provides mock auth credentials.
+
+This is activated by choosing `mock-token-provider` as the active profile in `application.yml` (or via an appropriate environment variable):
+
+```
+spring.profiles.active: mock-token-provider
+```
+
+
+### Customizing Authorization Strategies
+
+The `emailRegistration` strategy can be customized by altering the `AuthController.java` class.
+
+It is also possible to substitute this class for a different class by having that class extend `edu.tamu.weaver.auth.controller.WeaverAuthController`.
+
+You will also need to remove the `@RestController` and `@RequestMapping("/auth")` annotations from `AuthController` and add them to your new class.
+Under the hood, the **Weaver Framework** uses the `"/auth"` API endpoint to pass auth tokens to client applications.
+
+<div align="right">(<a href="#readme-top">back to top</a>)</div>
+
+
+## Production Deployments
+
+For **production** deployments, deploy using `docker-compose`.
+This is the recommended method of deployment for production systems.
+
+Perform the following steps to deploy (with an existing [Solr][solr-url] index):
+
+```shell
+git clone https://github.com/TAMULib/SAGE.git SAGE
+
+cd SAGE/
+
+cp example.env .env
+
+# Make any changes to the .env file before here (see the configuration sections).
 docker-compose up
 ```
 
-* Copy the `example.env` file and call it `.env`. These are build args and container environment variables used in docker-compose.yml.
-* Change variables as needed.
-* Run `docker-compose` commands.
+If an existing [Solr][solr-url] index is not available, then perform the following after copying the `.env` file.
 
-```sh
-docker-compose build --no-cache
-docker-compose up
+```shell
+cd SAGE/solr
+docker build -t sage/solr .
+docker run -p 8983:8983 -it sage/solr
 ```
 
-### AUTHORIZATION
+<sub>_* Note: when using the same terminal to start both the [Solr][solr-url] index and *SAGE*, the `-d` parameter may be useful to detach when running (`docker run -p 8983:8983 -dit sage/solr`)._</sub>
 
-By default, SAGE is configured to support email based registration and authorization with password ('emailRegistration'). There is generally no need to change this.
+The **development** deployment can also use `docker-compose` in the same way.
 
-SAGE can also be configured to use Weaver Authentication ('weaverAuth'), an external authorization abstraction which brings additional identity provider support into the Weaver platform.
-
-### ADVANCED AUTHORIZATION CONFIGURATION
-
-The SAGE UI's appConfig object has an 'authStrategies' property that accepts a list of strings representing the active auth strategies:
-
-https://github.com/TAMULib/SAGE/blob/master/build/appConfig.js.template#L8
-
-The SAGE UI displays different login prompts and exhibits certain behaviors based on the authStrategies property:
-
-https://github.com/TAMULib/SAGE/blob/master/src/main/webapp/app/controllers/appLoginController.js
-
-https://github.com/TAMULib/SAGE/blob/master/src/main/webapp/app/views/modals/loginModal.html
-
-When emailRegistration is active, the 'appLoginController', an extension of Weaver's LoginController is used. When 'weaverAuth' is active, a controller provided by Weaver UI Core is used.
-
-If you are using an auth service other than SAGE's built in service, you will need to provide its url using the 'authService' property, also part of the appConfig object:
-
-https://github.com/TAMULib/SAGE/blob/master/build/appConfig.js.template#L10
-
-It's most common to choose one authentication strategy, but it is technically possible to support two or more strategies simultaneously by listing each entry separated by commas.
+<div align="right">(<a href="#readme-top">back to top</a>)</div>
 
 
-### DEVELOPMENT ONLY
+## Development Deployment using Docker
 
-The SAGE service can also be run with a development only profile that provides mock auth credentials.
+To manually use `docker` rather than `docker-compose`, run the following:
 
-This is activated by choosing 'mock-token-provider' as the active profile in application.yml:
+```shell
+docker image build -t project .
+docker run -it project
+```
 
-https://github.com/TAMULib/SAGE/blob/master/src/main/resources/application.yml
+<sub>_* Note: `-t project` and `-it project` may be changed to another tag name as desired, such as `-t developing_on_this` and `-it developing_on_this`._</sub><br>
+<sub>_** Note: An additional step may be required, such as deploying alongside a [Weaver UI Core][weaver-ui] instance using [Verdaccio][verdaccio]._</sub>
 
-And pointing the SAGE UI to the mock auth API by setting the appConfig object's 'authService' property to:
+To deploy alongside a [Weaver UI Core][weaver-ui] instance using [Verdaccio][verdaccio], do the following *before* deploying:
 
-window.location.protocol + '//' + window.location.host + window.location.base + '/mock/auth'
+```shell
+cd Weaver-UI-Core
+docker image build -t weaver-ui .
+docker run -it weaver-ui
+```
 
-https://github.com/TAMULib/SAGE/blob/master/build/appConfig.js.template
+The host system affects the network being used and is different from **Windows** to **Mac** to **Linux**.
+* The `--network=` argument may be needed to assist with this, such as `--network=weaver`.
+* The `--build-arg` may be needed to use the appropriate **NPM** registry settings, such as `--build-arg=NPM_REGISTRY="docker-linux"`.
+* More network related changes may be required, so please consult the appropriate **Docker** documentation.
 
-The authorization level of the mock user is determined by the 'mockRole' property, also on the appConfig object:
-
-https://github.com/TAMULib/SAGE/blob/master/build/appConfig.js.template
+<div align="right">(<a href="#readme-top">back to top</a>)</div>
 
 
-### CUSTOMIZING AUTH STRATEGIES
+## Development Deployment using NPM and Maven
 
-The emailRegistration strategy can be customized by altering the AuthController java class:
-https://github.com/TAMULib/SAGE/blob/master/src/main/java/edu/tamu/sage/auth/controller/AuthController.java
+Manual deployment can be summed up by running:
 
-It is also possible to substitute this class for a different class by having that class extend edu.tamu.weaver.auth.controller.WeaverAuthController.
+**NPM**
 
-You will also need to remove the @RestController and @RequestMapping("/auth") annotations from AuthController and add them to your new class. Under the hood, the Weaver Framework uses the "/auth" api endpoint to pass auth tokens to client applications.
+```shell
+npm install
+npm run build
+npm run start
+```
+
+**Maven**
+
+```shell
+mvn clean spring-boot:run
+```
+
+Those steps are a great way to start but they also fail to explain the customization that is often needed.
+There are multiple ways to further configure this for deployment to better meet the desired requirements.
+
+It is highly recommended only to perform *manual installation* when developing.
+For production deployment, please use either the `docker-compose` method or the **Docker** method above.
+
+<div align="right">(<a href="#readme-top">back to top</a>)</div>
+
+
+### Directly Configuring the `dist/appConfig.js` File
+
+This method of configuration works by altering the built distribution configuration file.
+This file is deleted every time either `npm run build` or `npm run clean` are run.
+But in the event that a quick and manual change is needed, this is the simplest way to do so.
+
+With this in mind, the deployment steps now look like:
+
+```shell
+npm install
+npm run build
+dist/appConfig.js
+npm run start
+```
+
+<sub>_* Remember, changes to `dist/appConfig.js` are lost every time `npm run build` is run._</sub>
+
+<div align="right">(<a href="#readme-top">back to top</a>)</div>
+
+
+### Directly Configuring the `.wvr/build-config.js` Build File
+
+This method of configuration is only recommended for `advanced uses` but is otherwise not recommended.
+The advantage of this method of configuration is that of preserving the changes between _build_ or _clean_ commands.
+There is only a small section that should be changed.
+
+The `.wvr/build-config.js` file has only a single section of interest and might look something like this:
+
+```js
+    {
+      from: './build/appConfig.js.template',
+      to: './appConfig.js',
+      transform(content) {
+        return content
+          .toString()
+          .replace('${AUTH_STRATEGY}', 'weaverAuth')
+          .replace('${AUTH_SERVICE_URL}', 'https://labs.library.tamu.edu/authfix')
+          .replace('${STOMP_DEBUG}', 'false')
+          .replace('${AVALON_URL}', 'avalon-pre.library.tamu.edu:443');
+      },
+    },
+```
+
+In the above example snippet, only the lines containing `'${AUTH_STRATEGY}'`, `'${AUTH_SERVICE_URL}'`, `'${STOMP_DEBUG}'`, and `'${AVALON_URL}'` should be changed.
+For example `'https://labs.library.tamu.edu/authfix'` could be changed to `'https://labs.library.tamu.edu:8443/authfix'` (changing the port number from 443 to 8443).
+
+Once this is done all of the steps from *Development Deployment using NPM and Maven* above can be followed.
+
+<div align="right">(<a href="#readme-top">back to top</a>)</div>
+
+
+<!-- LINKS -->
+[weaver-ui]: https://github.com/TAMULib/Weaver-UI-Core
+[verdaccio]: https://verdaccio.org
+[solr-url]: https://solr.apache.org/
+
+[spring-docs-binding]: https://docs.spring.io/spring-boot/docs/2.0.x/reference/html/boot-features-external-config.html#boot-features-external-config-relaxed-binding
