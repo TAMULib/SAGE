@@ -17,7 +17,7 @@ jobs:
         with:
           repository: TAMULib/Weaver-UI-Core
           path: weaver-ui
-          ref: 2.x-staging
+          ref: 2.x
 
       - name: "Run Weaver-UI-Core Docker Compose Registry Image"
         run: docker-compose -f $GITHUB_WORKSPACE/weaver-ui/docker-compose.yml up -d registry
@@ -34,19 +34,19 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package.json', '**/package-lock.json') }}
+          key: ${{ runner.os }}-cache-node-${{ hashFiles('**/package.json', '**/package-lock.json') }}
 
       - name: "Node Modules Cache"
         uses: actions/cache@v3
         with:
-          path: node_modules
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package.json', '**/package-lock.json') }}
+          path: $GITHUB_WORKSPACE/repo/node_modules
+          key: ${{ runner.os }}-cache-node_modules-${{ hashFiles('**/package.json', '**/package-lock.json') }}
 
       - name: "Maven Cache"
         uses: actions/cache@v3
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-cache-maven-${{ hashFiles('**/pom.xml') }}
 
       - name: "Setup Node"
         uses: actions/setup-node@v3
@@ -58,7 +58,7 @@ jobs:
         with:
           java-version: 11
 
-      - name: "Maven Tests"
+      - name: "Maven Test"
         env:
           NPM_CONFIG_REGISTRY: http://localhost:4873
         run: |
@@ -75,7 +75,7 @@ jobs:
         uses: MikeEdgar/github-action@raw_coverage_file
         with:
           github-token: ${{ secrets.github_token }}
-          path-to-file: repo/coveralls.json
+          path-to-file: 'repo/coveralls.json'
           coverage-format: raw
 
       # - name: "Lighthouse Report"
@@ -86,7 +86,7 @@ jobs:
       #     xvfb-run --auto-servernum npm run test:audit
 
       - name: "Deploy GH-Pages"
-        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
           github_token: ${{ secrets.github_token }}
