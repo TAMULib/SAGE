@@ -17,7 +17,7 @@ jobs:
         with:
           repository: TAMULib/Weaver-UI-Core
           path: weaver-ui
-          ref: 2.x-staging
+          ref: 2.x
 
       - name: "Run Weaver-UI-Core Docker Compose Registry Image"
         run: docker-compose -f $GITHUB_WORKSPACE/weaver-ui/docker-compose.yml up -d registry
