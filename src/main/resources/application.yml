@@ -117,7 +117,7 @@ app:
   authority.admins:
   security:
     secret: verysecretsecret
-    allow-access: http://localhost:${server.port}
+    allow-access: http://localhost:${server.port},https://labs.library.tamu.edu,http://labs.library.tamu.edu
   assume:
     enabled: false
     claims-url:

@@ -25,7 +25,7 @@
     "build": "wvr build --clean"
   },
   "dependencies": {
-    "@wvr/core": "2.2.2-rc.8",
+    "@wvr/core": "2.2.2-rc.9",
     "mirador": "^3.0.0",
     "mirador-image-tools": "^0.10.0",
     "ng-csv": "0.3.6",
