@@ -31,7 +31,7 @@ sage.directive("contentviewer", function($filter, $sce, appConfig) {
 
       if (viewerTemplate === 'mirador') {
         $scope.loadViewer = function () {
-          const tamuMirador = TAMUMirador.getInstance();
+          const tamuMirador = Mirador.tamu.getInstance();
           tamuMirador.initialize("mirador-wrapper");
           tamuMirador.addWindow($scope.resource);
 
