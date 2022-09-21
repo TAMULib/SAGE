@@ -44,9 +44,6 @@ const config = {
     },
   ],
   entry: {
-    mirador: [
-      './src/main/webapp/build-js/TAMUMirador.src.js'
-    ],
     app: [
       './node_modules/jquery/dist/jquery.js',
       './node_modules/bootstrap/dist/js/bootstrap.js',
@@ -63,6 +60,7 @@ const config = {
       './node_modules/ng-table/bundles/ng-table.js',
       './node_modules/openseadragon/build/openseadragon/openseadragon.js',
       './node_modules/ng-openseadragon/build/angular-openseadragon.js',
+      './node_modules/tamu-mirador/dist/mirador.min.js',
       './node_modules/@wvr/core/app/config/coreConfig.js',
       './node_modules/@wvr/core/app/components/version/version.js',
       './node_modules/@wvr/core/app/components/version/version-directive.js',
