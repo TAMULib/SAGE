@@ -1,6 +1,11 @@
 <a name="readme-top"></a>
 [![Build Status][build-badge]][build-status]
 [![Coverage Status][coverage-badge]][coverage-status]
+[![Performance][performance-badge]][performance-status]
+[![Accessibility][accessibility-badge]][accessibility-status]
+[![Best Practices][best_practices-badge]][best_practices-status]
+[![SEO][seo-badge]][seo-status]
+[![Progressive Web App][pwa-badge]][pwa-status]
 
 
 # Search Aggregation Engine
@@ -14,7 +19,7 @@
 
 ## User Documentation
 
-*CAP* user documentation can be found in [the wiki][user-docs].
+*SAGE* user documentation can be found in [the wiki][user-docs].
 
 For more technical users, deployment related configurations are described in the [Deployment Guide][deployment-guide].
 
@@ -69,6 +74,16 @@ Copyright © 2022 Texas A&M University Libraries under the [MIT License][license
 [build-badge]: https://github.com/TAMULib/SAGE/workflows/Build/badge.svg
 [coverage-status]: https://coveralls.io/github/TAMULib/SAGE
 [coverage-badge]: https://coveralls.io/repos/github/TAMULib/SAGE/badge.svg
+[performance-status]: https://tamulib.github.io/SAGE/audit/#performance
+[performance-badge]: https://tamulib.github.io/SAGE/audit/assets/performance.svg
+[accessibility-status]: https://tamulib.github.io/SAGE/audit/#accessibility
+[accessibility-badge]: https://tamulib.github.io/SAGE/audit/assets/accessibility.svg
+[best_practices-status]: https://tamulib.github.io/SAGE/audit/#best-practices
+[best_practices-badge]: https://tamulib.github.io/SAGE/audit/assets/best-practices.svg
+[seo-status]: https://tamulib.github.io/SAGE/audit/#seo
+[seo-badge]: https://tamulib.github.io/SAGE/audit/assets/seo.svg
+[pwa-status]: https://tamulib.github.io/SAGE/audit/#pwa
+[pwa-badge]: https://tamulib.github.io/SAGE/audit/assets/pwa.svgb/SAGE/badge.svg
 
 [tamu-library]: http://library.tamu.edu
 [api-docs]: https://tamulib.github.io/SAGE
