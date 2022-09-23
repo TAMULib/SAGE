@@ -5,7 +5,8 @@
     "collect": {
       "numberOfRuns": 1,
       "url": ["http://localhost:9000/"],
-      "startServerCommand": "mvn spring-boot:run"
+      "startServerCommand": "mvn spring-boot:run",
+      "startServerReadyPattern": "Started SageApplication"
     },
     "assert": {
       "assertions": {
