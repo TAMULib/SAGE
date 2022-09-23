@@ -4,7 +4,6 @@ const https = require('https');
 const fs = require('fs-extra');
 const glob = require("glob");
 
-const ghPagesPath = `src/main/resources/gh-pages`;
 const lighthousePath = `src/main/resources/gh-pages/audit`;
 const lighthouseAssetsPath = `${lighthousePath}/assets`;
 const lighthouseCiPath = './.lighthouseci';
