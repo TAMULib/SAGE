@@ -87,6 +87,11 @@ USER $USER_NAME
 # Set deployment directory.
 WORKDIR /$USER_NAME
 
+# Set up Contrast Agent
+ COPY contrast_security.yaml /etc/contrast/java/contrast_security.yaml
+ RUN curl -L 'https://repository.sonatype.org/service/local/artifact/maven/redirect?r=central-proxy&g=com.contrastsecurity&a=contrast-agent&v=LATEST' -o contrast.jar
+ RUN java -javaagent:./contrast.jar -Dcontrast.config.path=contrast_security.yaml -jar /etc/contrast/java/contrast_security.yaml
+
 # Copy over the built artifact and library from the maven image.
 COPY --from=maven $SOURCE_DIR/target/ROOT.jar ./sage.jar
 COPY --from=maven $SOURCE_DIR/target/libs ./libs
