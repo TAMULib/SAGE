@@ -60,7 +60,7 @@ spring:
     # PostgreSQL https://hibernate.atlassian.net/browse/HHH-15487 - Remove support for PostgreSQL versions older than 10
 
     database-platform: org.hibernate.dialect.H2Dialect
-    # database-platform: org.hibernate.dialect.PostgreSQL95Dialect
+    # database-platform: org.hibernate.dialect.PostgreSQL10Dialect
     # database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
 
   thymeleaf:
