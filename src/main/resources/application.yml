@@ -37,17 +37,14 @@ spring:
 
     # h2
     driverClassName: org.h2.Driver
-    database-platform: org.hibernate.dialect.H2Dialect
     url: jdbc:h2:mem:AZ;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
 
     # PostgreSQL
     # driverClassName: org.postgresql.Driver
-    # database-platform: org.hibernate.dialect.PostgreSQL95Dialect
     # url: jdbc:postgresql://localhost:5432/sage
 
     # MySQL
     # driverClassName: com.mysql.jdbc.Driver
-    # database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     # url: jdbc:mysql://localhost/sage
 
   jpa:
