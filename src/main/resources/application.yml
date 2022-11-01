@@ -42,7 +42,7 @@ spring:
 
     # PostgreSQL
     # driverClassName: org.postgresql.Driver
-    # database-platform: org.hibernate.dialect.PostgreSQL94Dialect
+    # database-platform: org.hibernate.dialect.PostgreSQL95Dialect
     # url: jdbc:postgresql://localhost:5432/sage
 
     # MySQL
@@ -61,7 +61,7 @@ spring:
     defer-datasource-initialization: true
 
     database-platform: org.hibernate.dialect.H2Dialect
-    # database-platform: org.hibernate.dialect.PostgreSQL94Dialect
+    # database-platform: org.hibernate.dialect.PostgreSQL95Dialect
     # database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
 
   thymeleaf:
