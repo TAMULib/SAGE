@@ -57,6 +57,8 @@ spring:
     # Executing data.sql happens before the schema initialization by default, set this to true to ensure the data.sql happens after the database is created.
     defer-datasource-initialization: true
 
+    # PostgreSQL https://hibernate.atlassian.net/browse/HHH-15487 - Remove support for PostgreSQL versions older than 10
+
     database-platform: org.hibernate.dialect.H2Dialect
     # database-platform: org.hibernate.dialect.PostgreSQL95Dialect
     # database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
