@@ -19,13 +19,16 @@ spring:
 
   sql.init:
     platform: h2
-    #platform: postgresql
-    #platform: mysql
+    # platform: postgresql
+    # platform: mysql
 
     # Init only happens on embedded DBs by default, set to always to ensure that the data.sql is always imported.
     mode: always
 
   datasource:
+
+    username: sage
+    password: sage
 
     # common database config -- might be needed for postgres
     default-auto-commit: false
@@ -35,16 +38,14 @@ spring:
     # h2
     driverClassName: org.h2.Driver
     url: jdbc:h2:mem:AZ;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    username: sage
-    password: sage
 
     # PostgreSQL
-    #driverClassName: org.postgresql.Driver
-    #url: jdbc:postgresql://localhost:5432/sage
+    # driverClassName: org.postgresql.Driver
+    # url: jdbc:postgresql://localhost:5432/sage
 
     # MySQL
-    #driverClassName: com.mysql.jdbc.Driver
-    #url: jdbc:mysql://localhost/sage
+    # driverClassName: com.mysql.jdbc.Driver
+    # url: jdbc:mysql://localhost/sage
 
   jpa:
     generate-ddl: true
@@ -56,9 +57,11 @@ spring:
     # Executing data.sql happens before the schema initialization by default, set this to true to ensure the data.sql happens after the database is created.
     defer-datasource-initialization: true
 
+    # PostgreSQL https://hibernate.atlassian.net/browse/HHH-15487 - Remove support for PostgreSQL versions older than 10
+
     database-platform: org.hibernate.dialect.H2Dialect
-    #database-platform: org.hibernate.dialect.PostgreSQLDialect
-    #database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    # database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+    # database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
 
   thymeleaf:
     cache: false
