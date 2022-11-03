@@ -1,3 +1,5 @@
+-- Creat default internal metadata.
+
 INSERT INTO INTERNAL_METADATA 
   (gloss, field, required) 
 VALUES 
