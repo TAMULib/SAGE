@@ -117,7 +117,7 @@ app:
     duration: 3600000
 
   # edu.tamu.weaver.auth.service.UserCredentialsService
-  authority.admins: huff@tamu.edu
+  authority.admins:
   security:
     secret: verysecretsecret
     allow-access: http://localhost:${server.port},https://labs.library.tamu.edu,http://labs.library.tamu.edu
