@@ -1,8 +1,7 @@
 name: Contrast Security SCA
-on:
-  push:
-    branches:
-      - "contrast-security-actions"
+
+on: [ push, pull_request, workflow_dispatch ]
+
 jobs:
   Check-Dependency-Vulnerabilities:
     runs-on: ubuntu-latest
