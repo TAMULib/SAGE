@@ -28,8 +28,7 @@ jobs:
           authHeader: ${{ secrets.CONTRAST_AUTH_HEADER }}
           apiUrl: ${{ secrets.CONTRAST_API_URL }}
           filePath: pom.xml
-          severity: medium
-          fail: false
+
 
       - name: Contrast SCA Action on UI
         uses: Contrast-Security-OSS/contrast-sca-action@v1
@@ -39,5 +38,4 @@ jobs:
           authHeader: ${{ secrets.CONTRAST_AUTH_HEADER }}
           apiUrl: ${{ secrets.CONTRAST_API_URL }}
           filePath: package.json
-          severity: medium
-          fail: false
+
