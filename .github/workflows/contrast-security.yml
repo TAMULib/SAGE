@@ -8,17 +8,19 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set up JDK 11
+      - name: "Setup Node"
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: "Setup Java"
         uses: actions/setup-java@v3
         with:
-          java-version: '11'
+          java-version: 11
           distribution: 'adopt'
+          cache: 'maven'
 
-      - name: build jar
-        run: |
-          mvn clean install -DskipTests
-
-      - name: Contrast SCA Action
+      - name: Contrast SCA Action on WebService
         uses: Contrast-Security-OSS/contrast-sca-action@v1
         with:
           apiKey: ${{ secrets.CONTRAST_API_KEY }}
@@ -27,4 +29,15 @@ jobs:
           apiUrl: ${{ secrets.CONTRAST_API_URL }}
           filePath: pom.xml
           severity: medium
-          fail: true
+          fail: false
+
+      - name: Contrast SCA Action on UI
+        uses: Contrast-Security-OSS/contrast-sca-action@v1
+        with:
+          apiKey: ${{ secrets.CONTRAST_API_KEY }}
+          orgId: ${{ secrets.CONTRAST_ORGANIZATION_ID }}
+          authHeader: ${{ secrets.CONTRAST_AUTH_HEADER }}
+          apiUrl: ${{ secrets.CONTRAST_API_URL }}
+          filePath: package.json
+          severity: medium
+          fail: false
