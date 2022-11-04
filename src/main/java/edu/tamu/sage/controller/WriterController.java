@@ -55,7 +55,7 @@ public class WriterController {
     @WeaverValidation(business = { @WeaverValidation.Business(value = DELETE) })
     public ApiResponse deleteWriter(@WeaverValidatedModel Writer solrWriter) {
         logger.info("Deleting Writer: " + solrWriter.getName());
-        solrWriterRepo.deleteById(solrWriter.getId());
+        solrWriterRepo.delete(solrWriter);
         return new ApiResponse(SUCCESS);
     }
 }

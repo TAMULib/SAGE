@@ -55,7 +55,7 @@ public class ReaderController {
     @WeaverValidation(business = { @WeaverValidation.Business(value = DELETE) })
     public ApiResponse deleteReader(@WeaverValidatedModel Reader solrReader) {
         logger.info("Deleting Reader: " + solrReader.getName());
-        solrReaderRepo.deleteById(solrReader.getId());
+        solrReaderRepo.delete(solrReader);
         return new ApiResponse(SUCCESS);
     }
 
