@@ -20,7 +20,11 @@ jobs:
           distribution: 'adopt'
           cache: 'maven'
 
-      - name: Contrast SCA Action on WebService
+      - name: Build
+        run: |
+          mvn clean install -DskipTests
+
+      - name: Contrast SCA Action on Webservice
         uses: Contrast-Security-OSS/contrast-sca-action@v1
         with:
           apiKey: ${{ secrets.CONTRAST_API_KEY }}
