@@ -1,6 +1,12 @@
 name: Contrast Security SCA
 
-on: [ push, pull_request, workflow_dispatch ]
+on:
+  push:
+    branches:
+      - main
+      - contrast-security-actions
+      - contrast-security-actions-patch-1
+  workflow_dispatch:
 
 jobs:
   Check-Dependency-Vulnerabilities:
