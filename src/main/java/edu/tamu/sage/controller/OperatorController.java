@@ -77,7 +77,7 @@ public class OperatorController {
     @WeaverValidation(business = { @WeaverValidation.Business(value = DELETE, joins = Job.class, path = "operators") })
     public ApiResponse deleteInternalMetadatum(@WeaverValidatedModel BaseOp operator) {
         logger.info(String.format("Deleting operator %s of type %s", operator.getName(), operator.getType()));
-        operatorRepo.deleteById(operator.getId());
+        operatorRepo.delete(operator);
         return new ApiResponse(SUCCESS);
     }
 

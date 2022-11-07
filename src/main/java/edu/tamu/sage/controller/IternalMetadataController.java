@@ -58,7 +58,7 @@ public class IternalMetadataController {
     @WeaverValidation(business = { @WeaverValidation.Business(value = DELETE) })
     public ApiResponse deleteInternalMetadatum(@WeaverValidatedModel InternalMetadata internalMetadatum) {
         logger.info(String.format("Deleting internal metadatum %s with field %s", internalMetadatum.getGloss(), internalMetadatum.getField()));
-        internalMetadataRepo.deleteById(internalMetadatum.getId());
+        internalMetadataRepo.delete(internalMetadatum);
         return new ApiResponse(SUCCESS);
     }
 
