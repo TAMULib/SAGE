@@ -1,3 +1,5 @@
+-- Creat default internal metadata.
+
 INSERT INTO INTERNAL_METADATA SELECT * FROM (
   SELECT 1, 'id', 'Id', true UNION
   SELECT 2, 'collection', 'Collection', true UNION
