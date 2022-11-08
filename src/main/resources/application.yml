@@ -37,7 +37,8 @@ spring:
 
     # h2
     driverClassName: org.h2.Driver
-    url: jdbc:h2:mem:AZ;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    url: jdbc:h2:mem:AZ;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL
+    # url: jdbc:h2:./sage;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL
 
     # PostgreSQL
     # driverClassName: org.postgresql.Driver
