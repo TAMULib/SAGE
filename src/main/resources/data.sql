@@ -1,3 +1,5 @@
+-- Creat default internal metadata.
+
 INSERT INTO INTERNAL_METADATA SELECT * FROM (
   SELECT 1, 'id', 'Id', true UNION
   SELECT 2, 'collection', 'Collection', true UNION
@@ -12,7 +14,7 @@ INSERT INTO INTERNAL_METADATA SELECT * FROM (
   SELECT 10, 'rightsAccess', 'Rights/Access (dc.rights, dcterms.terms)', false UNION
   SELECT 11, 'reformatting', 'Reformatting (dc.format, dcterms.formats)', false UNION
   SELECT 12, 'filename', 'Filename (dc.identifier, ebucore.filename)', false UNION
-  
+
   SELECT 13, 'subject', 'Subject (dc.subject, dcterms.subject)', false UNION
   SELECT 14, 'creator', 'Creator (dc.creator, dcterms.creator)', false UNION
   SELECT 15, 'datePublished', 'Date Published (dcterms.dateAccepted)', false UNION
@@ -23,7 +25,7 @@ INSERT INTO INTERNAL_METADATA SELECT * FROM (
   SELECT 20, 'standardDigitalIdentifier', 'Standard Digital Identifier (dc.identifier)', false UNION
   SELECT 21, 'localDigitalIdentifier', 'Local Digital Identifier (dc.identifier)', false UNION
   SELECT 22, 'editionRevisionInformation', 'Edition/Revision Information (dc.description, dcterms.hasVersion)', false UNION
-  
+
   SELECT 23, 'alternativeTitle', 'Alternative Title (dcterms.alternative)', false UNION
   SELECT 24, 'genre', 'Genre (dc.type)', false UNION
   SELECT 25, 'tableOfContents', 'Table of Contents (dcterms.tableOfContents)', false UNION
@@ -32,7 +34,7 @@ INSERT INTO INTERNAL_METADATA SELECT * FROM (
   SELECT 28, 'originalPublisher', 'Original Publisher (dc.publisher)', false UNION
   SELECT 29, 'physicalExtent', 'Physical Extent (dcterms.extent)', false UNION
   SELECT 30, 'sponsor', 'Sponsor (dc.contributor, dc.description)', false UNION
-  
+
   SELECT 31, 'sourceCollection', 'Source Collection (dc.relation, dcterms.relation)', false UNION
   SELECT 32, 'originalResource', 'Original Resource (dc.source, dcterms.source)', false UNION
   SELECT 33, 'notes', 'Notes (dc.description, dc.provenance)', false UNION
@@ -46,3 +48,5 @@ INSERT INTO INTERNAL_METADATA SELECT * FROM (
   SELECT 41, 'preferredPlayer', 'Preferred Player', false
 
 ) M WHERE NOT EXISTS(SELECT * FROM INTERNAL_METADATA);
+
+ALTER SEQUENCE IF EXISTS internal_metadata_id_seq RESTART WITH 42;

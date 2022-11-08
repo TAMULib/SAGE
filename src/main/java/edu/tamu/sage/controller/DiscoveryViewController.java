@@ -85,7 +85,7 @@ public class DiscoveryViewController {
     @WeaverValidation(business = { @WeaverValidation.Business(value = DELETE) })
     public ApiResponse deleteDiscoveryView(@RequestBody DiscoveryView discoveryView) {
         logger.info("Deleting Discovery View: " + discoveryView.getName());
-        discoveryViewRepo.deleteById(discoveryView.getId());
+        discoveryViewRepo.delete(discoveryView);
         return new ApiResponse(SUCCESS);
     }
 

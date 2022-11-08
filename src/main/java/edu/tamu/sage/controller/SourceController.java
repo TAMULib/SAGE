@@ -174,7 +174,7 @@ public class SourceController {
     @WeaverValidation(business = { @WeaverValidation.Business(value = DELETE) })
     public ApiResponse deleteSolrCore(@WeaverValidatedModel Source source) {
         logger.info("Deleting Source: " + source.getName());
-        sourceRepo.deleteById(source.getId());
+        sourceRepo.delete(source);
         return new ApiResponse(SUCCESS);
     }
 
