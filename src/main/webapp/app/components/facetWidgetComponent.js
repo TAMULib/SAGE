@@ -7,6 +7,7 @@ sage.component("facetWidget", {
   },
   controller: function($scope, $filter, ModalService) {
 
+    $scope.moreFacetsLabel = "";
     $scope.moreFacets = [];
 
     $scope.page = 0;
@@ -84,6 +85,7 @@ sage.component("facetWidget", {
           return {facetName: facet[0], facetCount: facet[1]};
         });
       $scope.moreFacets.push(...facets);
+      $scope.moreFacetsLabel = $scope.$ctrl.facet.label;
 
       ModalService.openModal("#moreFacetsModal-" + $scope.$ctrl.facet.label.split(' ').join('-'));
     };
@@ -91,6 +93,7 @@ sage.component("facetWidget", {
     $scope.closeMoreFacets = function() {
       ModalService.closeModal();
       $scope.page = 0;
+      $scope.moreFacetsLabel = "";
     };
 
     $scope.hasNext = function() {
