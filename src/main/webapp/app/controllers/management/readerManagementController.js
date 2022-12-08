@@ -112,11 +112,14 @@ sage.controller('ReaderManagementController', function ($controller, $scope, $ti
     $scope.cloningReader = true;
     applyFields($scope.readerToClone);
     $scope.readerToClone.dirty(true);
-    if($scope.readerToClone.id) {
+    if ($scope.readerToClone.id) {
+      var originalId = $scope.readerToClone.id;
       delete $scope.readerToClone.id;
       ReaderRepo.create($scope.readerToClone).then(function(res) {
         if (angular.fromJson(res.body).meta.status === "SUCCESS") {
           $scope.cancelCloneReader();
+        } else {
+          $scope.readerToClone.id = originalId;
         }
       });
     }

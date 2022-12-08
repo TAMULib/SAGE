@@ -353,11 +353,14 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
 
     $scope.discoveryView.dirty(true);
 
-    if($scope.discoveryView.id) {
+    if ($scope.discoveryView.id) {
+      var originalId = $scope.discoveryView.id;
       delete $scope.discoveryView.id;
       DiscoveryViewRepo.create($scope.discoveryView).then(function(res) {
         if (angular.fromJson(res.body).meta.status === "SUCCESS") {
           $scope.cancelCloneDiscoveryView();
+        } else {
+          $scope.discoveryView.id = originalId;
         }
       });
     }
