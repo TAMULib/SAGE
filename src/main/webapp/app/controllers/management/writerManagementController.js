@@ -109,11 +109,14 @@ sage.controller('WriterManagementController', function ($controller, $scope, NgT
     $scope.cloningWriter = true;
     applyMappings($scope.writerToClone);
     $scope.writerToClone.dirty(true);
-    if($scope.writerToClone.id) {
+    if ($scope.writerToClone.id) {
+      var originalId = $scope.writerToClone.id;
       delete $scope.writerToClone.id;
       WriterRepo.create($scope.writerToClone).then(function(res) {
       if (angular.fromJson(res.body).meta.status === "SUCCESS") {
         $scope.cancelCloneWriter();
+      } else {
+        $scope.writerToClone.id = originalId;
       }
     });
     }
