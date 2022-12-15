@@ -37,45 +37,71 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
       $scope.discoveryContext
     ];
 
+    $scope.currentSearchValue = "";
+
     $scope.prepareSearch = function(useQueryParams) {
-      var i;
-
       if (useQueryParams) {
-        if ($scope.discoveryContext.search.field === "") {
+        if (angular.isUndefined($scope.discoveryContext.search)) {
           $location.search("field", null);
-        }
-
-        if ($scope.discoveryContext.search.value === "") {
-          $location.search("value", null);
-        }
-
-        if ($scope.discoveryContext.search.page.number === 0) {
+          $location.search("value", "");
           $location.search("page", null);
-        }
+          $location.search("sort", null);
+          $location.search("offset", null);
+          $location.search("direction", null);
 
-        if (angular.isDefined($scope.discoveryContext.sortFields) && ($scope.discoveryContext.sortFields.length > 0)) {
-          if ($scope.discoveryContext.search.page.sort === $scope.discoveryContext.sortFields[0].key) {
-            $location.search("sort", null);
-          }
-        }
-
-        if (options.indexOf($scope.discoveryContext.search.page.size) === -1) {
           $scope.discoveryContext.search.page.size = options[0];
           $location.search("size", options[0]);
-        }
+        } else {
+          if (angular.isUndefined($scope.discoveryContext.search.field)) {
+            $location.search("field", null);
+          }
 
-        if ($scope.discoveryContext.search.page.offset === 0) {
-          $location.search("offset", null);
+          if (angular.isUndefined($scope.discoveryContext.search.value)) {
+            $location.search("value", "");
+          }
+
+          if (angular.isUndefined($scope.discoveryContext.search.page.number) || $scope.discoveryContext.search.page.number === 0) {
+            $location.search("page", null);
+          }
+
+          if (angular.isUndefined($scope.discoveryContext.sortFields)) {
+            $location.search("sort", null);
+          } else if ($scope.discoveryContext.sortFields.length > 0) {
+            if ($scope.discoveryContext.search.page.sort === $scope.discoveryContext.sortFields[0].key) {
+              $location.search("sort", null);
+            }
+          }
+
+          if (angular.isUndefined($scope.discoveryContext.search.page.size) || options.indexOf($scope.discoveryContext.search.page.size) === -1) {
+            $scope.discoveryContext.search.page.size = options[0];
+            $location.search("size", options[0]);
+          }
+
+          if (angular.isUndefined($scope.discoveryContext.search.page.offset) || $scope.discoveryContext.search.page.offset === 0) {
+            $location.search("offset", null);
+          }
         }
       }
 
-      if (!angular.isDefined($scope.discoveryContext.search.page.sort) &&($scope.discoveryContext.sortFields.length > 0)) {
+      // Require search value to always be defined to avoid passing 'undefined' as a string.'
+      if (angular.isUndefined($scope.discoveryContext.search.value)) {
+        $location.search("value", "");
+      }
+
+      if (angular.isUndefined($scope.discoveryContext.search)) {
         $scope.discoveryContext.search.page.sort = $scope.discoveryContext.sortFields[0].key;
-      }
 
-      if (!angular.isDefined($scope.discoveryContext.search.page.direction)) {
-        $scope.discoveryContext.search.page.direction = $scope.discoveryContext.ascending ? "ASC" : "DESC";
+        $scope.discoveryContext.search.page.direction = !$scope.discoveryContext.ascending ? "DESC" : "ASC";
         $location.search("direction", $scope.discoveryContext.search.page.direction);
+      } else {
+        if (angular.isUndefined($scope.discoveryContext.search.page.sort) && ($scope.discoveryContext.sortFields.length > 0)) {
+          $scope.discoveryContext.search.page.sort = $scope.discoveryContext.sortFields[0].key;
+        }
+
+        if (angular.isUndefined($scope.discoveryContext.search.page.direction)) {
+          $scope.discoveryContext.search.page.direction = !$scope.discoveryContext.ascending ? "DESC" : "ASC";
+          $location.search("direction", $scope.discoveryContext.search.page.direction);
+        }
       }
 
       if (angular.isDefined($scope.discoveryContext.searchFields)) {
@@ -200,6 +226,10 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
     };
 
     $scope.hasSearch = function() {
+      if (angular.isUndefined($scope.discoveryContext.search)) {
+        return false;
+      }
+
       return typeof $scope.discoveryContext.search.value === "string" && $scope.discoveryContext.search.value !== "";
     };
 
