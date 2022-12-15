@@ -22,6 +22,9 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
 
   $scope.discoveryContext.ready().then(function() {
 
+    // Prevent search value from being initially set as the string 'undefined'.
+    $scope.currentSearchValue = "";
+
     $scope.getNarrowLogoClass = function() {
       return {'background-image': 'url(' + $scope.discoveryContext.logoUrl + ')'};
     };
