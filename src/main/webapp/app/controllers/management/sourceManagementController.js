@@ -55,7 +55,7 @@ sage.controller('SourceManagementController', function ($controller, $scope, NgT
   };
 
   $scope.startUpdateSource = function(core) {
-    $scope.sourceToUpdate = core;
+    $scope.sourceToUpdate = angular.copy(core);
     $scope.openModal("#updateSourceModal");
   };
 
