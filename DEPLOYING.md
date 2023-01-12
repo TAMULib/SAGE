@@ -18,6 +18,17 @@ Consult the [Spring Documentation][spring-docs-binding] in regards to this.
 
 The `build/appConfig.js.template` has limited support for environment variables but for those that are exposed may be altered using the `.env` file.
 
+In addition to the configuration file, the following build arguments are available for customization for a Docker utilizing the `solr/Dockerfile` file:
+* **SOLR_USER**: A user name that solr runs as (this should almost always be set to `solr`).
+* **MAIN_CORE**: The primary SOLR core (this must always be defined).
+* **EXTRA_CORES**: Additional (space separated) SOLR cores to use (this may be empty).
+
+Example building and running SOLR using **EXTRA_CORES**:
+```shell
+cd solr/
+docker image build --no-cache --build-arg=EXTRA_CORES="extra_core-1 extra_core-2" -t local_solr .
+docker run -it local_solr
+```
 
 ### Authorization
 
