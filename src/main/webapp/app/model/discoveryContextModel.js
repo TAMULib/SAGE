@@ -64,11 +64,12 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
 
     discoveryContext.before(function () {
       var filters = [];
+      var pattern = /#/;
 
       angular.forEach($routeParams, function(value, key) {
         if (key.match(/^f\./i)) {
           var filter = {
-            key: key.replace(/^f\./, ""),
+            key: key.replace(/^f\./, "").replace(pattern, "%23"),
             value: value
           };
           filters.push(filter);
@@ -76,8 +77,8 @@ sage.model("DiscoveryContext", function ($q, $location, $routeParams, Field, Man
       });
 
       discoveryContext.search = new Search({
-        field: angular.isDefined($routeParams.field) ? $routeParams.field : "",
-        value: angular.isDefined($routeParams.value) ? $routeParams.value : "",
+        field: angular.isDefined($routeParams.field) ? $routeParams.field.replace(pattern, "%23") : "",
+        value: angular.isDefined($routeParams.value) ? $routeParams.value.replace(pattern, "%23") : "",
         label: "",
         filters: filters,
         start: 0,
