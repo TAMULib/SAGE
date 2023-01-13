@@ -18,9 +18,10 @@ spring:
       maxRequestSize: 20MB
 
   sql.init:
-    platform: h2
-    # platform: postgresql
-    # platform: mysql
+    # Set platform to 'create' to designate that the 'data-create.sql' is to be run.
+    platform: create
+    # platform: update
+    # platform: none
 
     # Init only happens on embedded DBs by default, set to always to ensure that the data.sql is always imported.
     mode: always
