@@ -48,6 +48,7 @@ sage.controller('SourceManagementController', function ($controller, $scope, NgT
 
   $scope.updateSource = function() {
     $scope.updatingSource = true;
+    $scope.sourceToUpdate.dirty(true);
     $scope.sourceToUpdate.save().then(function() {
       $scope.resetSourceForms();
       $scope.updatingSource = false;
