@@ -317,7 +317,8 @@ describe("controller: JobManagementController", function () {
 
       $scope.startUpdateJob(job);
 
-      expect($scope.jobToUpdate.id).toEqual(job.id);
+      expect($scope.jobToUpdate).toBeDefined();
+      expect($scope.jobToUpdate.id).toEqual(job.id)
       expect($scope.openModal).toHaveBeenCalled();
     });
 

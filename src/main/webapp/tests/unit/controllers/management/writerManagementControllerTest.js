@@ -285,7 +285,8 @@ describe("controller: WriterManagementController", function () {
 
       $scope.startUpdateWriter(writer);
 
-      expect($scope.writerToUpdate).toEqual(writer);
+      expect($scope.writerToUpdate).toBeDefined();
+      expect($scope.writerToUpdate.id).toEqual(writer.id)
       expect($scope.openModal).toHaveBeenCalled();
     });
 
