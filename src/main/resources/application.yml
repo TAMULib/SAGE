@@ -23,6 +23,7 @@ spring:
     # platform: mysql
 
     # Init only happens on embedded DBs by default, set to always to ensure that the data.sql is always imported.
+    # When using a anything other than 'create-drop' for 'spring.jpa.hibernate.ddl-auto', this should be set to 'none'.
     mode: always
 
   datasource:
@@ -52,6 +53,7 @@ spring:
     generate-ddl: true
     show-sql: false
     hibernate:
+      # Be sure to change 'spring.sql.init.mode' to 'none' when using something other than 'create-drop'.
       ddl-auto: create-drop
       event.merge.entity_copy_observer: allow
 
