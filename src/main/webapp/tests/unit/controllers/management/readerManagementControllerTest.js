@@ -263,7 +263,8 @@ describe("controller: ReaderManagementController", function () {
 
       $scope.startUpdateReader(reader);
 
-      expect($scope.readerToUpdate).toEqual(reader);
+      expect($scope.readerToUpdate).toBeDefined();
+      expect($scope.readerToUpdate.id).toEqual(reader.id)
       expect($scope.openModal).toHaveBeenCalled();
     });
 

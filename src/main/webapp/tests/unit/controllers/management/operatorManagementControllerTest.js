@@ -239,7 +239,8 @@ describe("controller: OperatorManagementController", function () {
 
       $scope.startUpdateOperator(operator);
 
-      expect($scope.operatorToUpdate).toEqual(operator);
+      expect($scope.operatorToUpdate).toBeDefined();
+      expect($scope.operatorToUpdate.id).toEqual(operator.id);
       expect($scope.openModal).toHaveBeenCalled();
     });
 

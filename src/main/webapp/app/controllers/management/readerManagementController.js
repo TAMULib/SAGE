@@ -95,7 +95,7 @@ sage.controller('ReaderManagementController', function ($controller, $scope, $ti
   var readerToUpdateWatcher;
 
   $scope.startUpdateReader = function(reader) {
-    $scope.readerToUpdate = reader;
+    $scope.readerToUpdate = angular.copy(reader);
     if (readerToUpdateWatcher !== undefined) {
       readerToUpdateWatcher();
     }
