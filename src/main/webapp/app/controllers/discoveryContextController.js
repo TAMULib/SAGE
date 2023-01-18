@@ -8,6 +8,8 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
 
   $scope.defaultThumbnailURI = appConfig.defaultThumbnailURI;
 
+  $scope.searchHelpUrl = appConfig.searchHelpUrl;
+
   $scope.rowOptions = [];
 
   var options = [10, 25, 50, 100];

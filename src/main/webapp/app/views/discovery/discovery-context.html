@@ -60,6 +60,9 @@
                   </select>
               </span>
               <input aria-labelledby="searchButton" type="text" class="form-control dc-search-input" ng-model="currentSearchValue" ng-keypress="searchProcessKeyPress($event)">
+              <span class="input-group-btn dc-search-help">
+                <a href="{{searchHelpUrl}}" class="dc-search-help-link glyphicon glyphicon-question-sign clickable" title="Help about searching." rel="help" target="_blank"></a>
+              </span>
               <span class="input-group-btn">
                 <button id="searchButton" ng-click="search()" type="button" class="btn btn-default dc-filter dc-filter-search">Search</button>
               </span>

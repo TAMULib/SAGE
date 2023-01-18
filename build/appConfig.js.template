@@ -61,6 +61,7 @@ var appConfig = {
 
   'defaultThumbnailURI': "resources/images/default-thumbnail.jpg",
   'defaultLoadingThumbnailURI': "resources/images/loading2.gif",
-  'avalonUrl': '${AVALON_URL}'
+  'avalonUrl': '${AVALON_URL}',
+  'searchHelpUrl': 'https://github.com/TAMULib/SAGE/wiki/Searching',
 
 };
