@@ -8,7 +8,7 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
 
   $scope.defaultThumbnailURI = appConfig.defaultThumbnailURI;
 
-  $scope.searchHelpUrl = appConfig.searchHelpUrl;
+  $scope.searchHelpUrl = "";
 
   $scope.rowOptions = [];
 
@@ -23,6 +23,26 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
   });
 
   $scope.discoveryContext.ready().then(function() {
+    $scope.isAndOperand = function() {
+      if (angular.isDefined($scope.discoveryContext.defaultOperand) && $scope.discoveryContext.defaultOperand == "AND") {
+        return true;
+      }
+
+      return false;
+    };
+
+    if (angular.isDefined($scope.discoveryContext.queryParser)) {
+      if ($scope.discoveryContext.queryParser == "EDISMAX") {
+        $scope.searchHelpUrl = $scope.isAndOperand() ? appConfig.searchHelpEdismaxAndUrl : appConfig.searchHelpEdismaxOrUrl;
+      }
+      else if ($scope.discoveryContext.queryParser == "DISMAX") {
+        $scope.searchHelpUrl = $scope.isAndOperand() ? appConfig.searchHelpDismaxAndUrl : appConfig.searchHelpDismaxOrUrl;
+      }
+    }
+
+    if ($scope.searchHelpUrl == "") {
+      $scope.searchHelpUrl = $scope.isAndOperand() ? appConfig.searchHelpLuceneAndUrl : appConfig.searchHelpLuceneOrUrl;
+    }
 
     // Prevent search value from being initially set as the string 'undefined'.
     $scope.currentSearchValue = "";
