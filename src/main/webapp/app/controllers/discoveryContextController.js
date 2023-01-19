@@ -225,6 +225,10 @@ sage.controller('DiscoveryContextController', function ($controller, $scope, $ro
       return typeof $scope.discoveryContext.search.value === "string" && $scope.discoveryContext.search.value !== "";
     };
 
+    $scope.notAllSearch = function() {
+      return angular.isDefined($scope.currentSearchField) && $scope.currentSearchField.key !== "all_fields";
+    };
+
     $scope.presentCollectionText = function(value) {
       return $sce.trustAsHtml(value);
     };
