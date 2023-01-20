@@ -74,7 +74,7 @@ sage.controller('WriterManagementController', function ($controller, $scope, NgT
   };
 
   $scope.startUpdateWriter = function(writer) {
-    $scope.writerToUpdate = writer;
+    $scope.writerToUpdate = angular.copy(writer);
     angular.forEach($scope.writerToUpdate.outputMappings, function(mapping) {
       $scope.writerMappings[mapping.inputField] = mapping.mappings.join(";");
     });

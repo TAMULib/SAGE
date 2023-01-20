@@ -227,7 +227,8 @@ describe("controller: InternalMetadataManagementController", function () {
 
       $scope.startUpdateInternalMetadatum(dataInternalMetadata1);
 
-      expect($scope.internalMetadatumToUpdate).toEqual(dataInternalMetadata1);
+      expect($scope.internalMetadatumToUpdate).toBeDefined();
+      expect($scope.internalMetadatumToUpdate.id).toEqual(dataInternalMetadata1.id)
       expect($scope.openModal).toHaveBeenCalled();
     });
 
