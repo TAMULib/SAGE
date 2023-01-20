@@ -1,4 +1,4 @@
-sage.controller('DiscoveryViewManagementController', function ($controller, $scope, $timeout, DiscoveryView, DiscoveryViewRepo, FacetField, MetadataField, NgTableParams, SearchField, SourceRepo) {
+sage.controller('DiscoveryViewManagementController', function ($controller, $scope, $timeout, DiscoveryView, DiscoveryViewRepo, FacetField, MetadataField, NgTableParams, SearchField, SourceRepo, appConfig) {
 
   angular.extend(this, $controller('AbstractController', {
     $scope: $scope
@@ -16,6 +16,8 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
 
   $scope.queryParsers = [ "", "EDISMAX", "DISMAX" ];
   $scope.queryOperands = [ "", "AND", "OR" ];
+
+  $scope.searchHelpUrl = appConfig.searchHelpManageUrl;
 
   $scope.fields = [];
 
