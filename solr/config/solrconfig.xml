@@ -83,6 +83,9 @@
 
   <lib dir="${solr.install.dir:../../../..}/contrib/velocity/lib" regex=".*\.jar" />
   <lib dir="${solr.install.dir:../../../..}/dist/" regex="solr-velocity-\d.*\.jar" />
+
+  <lib dir="${solr.install.dir:../../../..}/contrib/analysis-extras/lib/" regex=".*\.jar" />
+  <lib dir="${solr.install.dir:../../../..}/contrib/analysis-extras/lucene-libs/" regex=".*\.jar" />
   <!-- an exact 'path' can be used instead of a 'dir' to specify a
        specific jar file.  This will cause a serious error to be logged
        if it can't be loaded.
@@ -1189,9 +1192,10 @@
     </arr>
   </updateProcessor>
   <updateProcessor class="solr.AddSchemaFieldsUpdateProcessorFactory" name="add-schema-fields">
+    <str name="defaultFieldType">strings</str>
     <lst name="typeMapping">
       <str name="valueClass">java.lang.String</str>
-      <str name="fieldType">text_general</str>
+      <str name="fieldType">text</str>
       <lst name="copyField">
         <str name="dest">*_str</str>
         <int name="maxChars">256</int>
@@ -1201,20 +1205,20 @@
     </lst>
     <lst name="typeMapping">
       <str name="valueClass">java.lang.Boolean</str>
-      <str name="fieldType">booleans</str>
+      <str name="fieldType">boolean</str>
     </lst>
     <lst name="typeMapping">
       <str name="valueClass">java.util.Date</str>
-      <str name="fieldType">pdates</str>
+      <str name="fieldType">tdate</str>
     </lst>
     <lst name="typeMapping">
       <str name="valueClass">java.lang.Long</str>
       <str name="valueClass">java.lang.Integer</str>
-      <str name="fieldType">plongs</str>
+      <str name="fieldType">tlong</str>
     </lst>
     <lst name="typeMapping">
       <str name="valueClass">java.lang.Number</str>
-      <str name="fieldType">pdoubles</str>
+      <str name="fieldType">tdouble</str>
     </lst>
   </updateProcessor>
 

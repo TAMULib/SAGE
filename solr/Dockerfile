@@ -1,4 +1,4 @@
-FROM solr:7.7.2-slim
+FROM solr:6.6.6-slim
 
 ARG SOLR_USER="solr"
 ARG MAIN_CORE="sage-discovery"
@@ -13,7 +13,7 @@ USER root
 RUN if [ "$EXTRA_CORES" != "" ] ; then \
       for core in $EXTRA_CORES ; do \
         precreate-core $core && \
-        cp -R /opt/solr/server/solr/mycores/${MAIN_CORE}/conf /opt/solr/server/solr/mycores/${core}/ || exit 1 ; \
+        cp -r /opt/solr/server/solr/mycores/${MAIN_CORE}/conf /opt/solr/server/solr/mycores/${core}/ || exit 1 ; \
       done \
     fi
 
