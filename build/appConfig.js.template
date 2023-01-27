@@ -61,6 +61,12 @@ var appConfig = {
 
   'defaultThumbnailURI': "resources/images/default-thumbnail.jpg",
   'defaultLoadingThumbnailURI': "resources/images/loading2.gif",
-  'avalonUrl': '${AVALON_URL}'
-
+  'avalonUrl': '${AVALON_URL}',
+  'searchHelpManageUrl': 'https://github.com/TAMULib/SAGE/wiki/Searching',
+  'searchHelpDismaxAndUrl': 'https://github.com/TAMULib/SAGE/wiki/Search-Syntax-Using-Dismax-And',
+  'searchHelpDismaxOrUrl': 'https://github.com/TAMULib/SAGE/wiki/Search-Syntax-Using-Dismax-Or',
+  'searchHelpEdismaxAndUrl': 'https://github.com/TAMULib/SAGE/wiki/Search-Syntax-Using-Edismax-And',
+  'searchHelpEdismaxOrUrl': 'https://github.com/TAMULib/SAGE/wiki/Search-Syntax-Using-Edismax-Or',
+  'searchHelpLuceneAndUrl': 'https://github.com/TAMULib/SAGE/wiki/Search-Syntax-Using-Lucene-And',
+  'searchHelpLuceneOrUrl': 'https://github.com/TAMULib/SAGE/wiki/Search-Syntax-Using-Lucene-Or',
 };

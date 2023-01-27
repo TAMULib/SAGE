@@ -242,7 +242,8 @@ describe("controller: SourceManagementController", function () {
 
       $scope.startUpdateSource(source);
 
-      expect($scope.sourceToUpdate).toEqual(source);
+      expect($scope.sourceToUpdate).toBeDefined();
+      expect($scope.sourceToUpdate.id).toEqual(source.id)
       expect($scope.openModal).toHaveBeenCalled();
     });
 

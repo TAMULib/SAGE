@@ -53,6 +53,11 @@ public class OperatorController {
         for (Type type : jsonSubTypes.value()) {
             types.add(new OperatorType(type.name(), type.value().getSimpleName()));
         }
+
+        types.sort((e1, e2) -> {
+          return e1.getName().compareTo(e2.getName());
+        });
+
         return new ApiResponse(SUCCESS, types);
     }
 

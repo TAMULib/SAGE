@@ -113,7 +113,7 @@ sage.controller('OperatorManagementController', function ($controller, $scope, N
   };
 
   $scope.startUpdateOperator = function(operator) {
-    $scope.operatorToUpdate = operator;
+    $scope.operatorToUpdate = angular.copy(operator);
     $scope.typeChanged($scope.operatorToUpdate);
     $scope.openModal("#updateOperatorModal");
   };

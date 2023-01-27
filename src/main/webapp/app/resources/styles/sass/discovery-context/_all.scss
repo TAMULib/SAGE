@@ -143,6 +143,17 @@
           height: 40px;
         }
 
+        .dc-search-help {
+          font-size: 1rem;
+
+          .dc-search-help-link {
+            cursor: help;
+
+            padding: 8px 8px;
+            margin: 0px 4px;
+          }
+        }
+
       }
       .dc-active-filters {
 

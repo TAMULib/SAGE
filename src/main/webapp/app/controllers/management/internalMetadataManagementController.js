@@ -57,7 +57,7 @@ sage.controller('InternalMetadataManagementController', function ($controller, $
   };
 
   $scope.startUpdateInternalMetadatum = function(internalMetadatum) {
-    $scope.internalMetadatumToUpdate = internalMetadatum;
+    $scope.internalMetadatumToUpdate = angular.copy(internalMetadatum);
     $scope.openModal("#updateInternalMetadatumModal");
   };
 
