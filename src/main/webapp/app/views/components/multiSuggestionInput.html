@@ -12,7 +12,7 @@
   />
   <div class="btn-group" uib-dropdown is-open="open">
     <ul class="dropdown-menu" uib-dropdown-menu role="menu">
-      <li role="menuitem" ng-repeat="suggestion in filteredSuggestion = ($ctrl.suggestions | filter:curentValue) | orderBy:'name'" ng-click="addSelection(suggestion[$ctrl.optionproperty])" ng-class="{'active': selectedIndex===$index}"><a href="#" ng-bind-html="suggestion[$ctrl.displayproperty] || suggestion[$ctrl.optionproperty] | boldMatch:curentValue"></a></li>
+      <li role="menuitem" ng-repeat="suggestion in filteredSuggestion = ($ctrl.suggestions | filter:curentValue)" ng-click="addSelection(suggestion[$ctrl.optionproperty])" ng-class="{'active': selectedIndex===$index}"><a href="#" ng-bind-html="suggestion[$ctrl.displayproperty] || suggestion[$ctrl.optionproperty] | boldMatch:curentValue"></a></li>
     </ul>
   </div>
 </div>

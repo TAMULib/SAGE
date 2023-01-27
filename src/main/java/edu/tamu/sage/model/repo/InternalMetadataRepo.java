@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface InternalMetadataRepo extends WeaverRepo<InternalMetadata>, InternalMetadataRepoCustom {
 
-  public List<InternalMetadata> findAllByOrderByFieldAsc();
+  public List<InternalMetadata> findAllByOrderByGlossAsc();
 }

@@ -31,7 +31,7 @@ public class ReaderController {
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasRole('ANONYMOUS')")
     public ApiResponse getAll() {
-        return new ApiResponse(SUCCESS, solrReaderRepo.findAll());
+        return new ApiResponse(SUCCESS, solrReaderRepo.findAllByOrderByNameAsc());
     }
 
     @RequestMapping(method = RequestMethod.POST)
