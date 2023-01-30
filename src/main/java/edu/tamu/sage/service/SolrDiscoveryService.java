@@ -126,6 +126,7 @@ public class SolrDiscoveryService {
 
             solrQuery.setFacet(true);
             solrQuery.setFacetLimit(Integer.MAX_VALUE);
+            solrQuery.setFacetMinCount(1);
         }
 
         search.setFilters(filters);
