@@ -9,7 +9,7 @@
     <div class="panel-body">
       <table ng-table="tableParams" class="table table-hover internal-metadata-table">
         <tbody>
-          <tr ng-repeat="internalMetadatum in $data | orderBy: 'id'">
+          <tr ng-repeat="internalMetadatum in $data | orderBy:'gloss'">
             <td data-title="'Gloss'" sortable="'gloss'">
               {{internalMetadatum.gloss}}
             </td>

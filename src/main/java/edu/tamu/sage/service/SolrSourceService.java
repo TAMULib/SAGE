@@ -51,14 +51,18 @@ public class SolrSourceService implements SourceService {
 
         fields.add(defaultField);
 
-        getFields(uri, filter).filter(field -> field.isStored()).forEach(field -> fields.add(field));
+        getFields(uri, filter).filter(field -> field.isStored()).sorted((left, right) -> {
+          return left.getName().compareTo(right.getName());
+        }).forEach(field -> fields.add(field));
 
         return fields;
     }
 
     @Override
     public List<SolrField> getIndexedFields(String uri, String filter) throws SourceServiceException {
-        return getFields(uri, filter).filter(field -> field.isIndexed()).collect(Collectors.toList());
+        return getFields(uri, filter).filter(field -> field.isIndexed()).sorted((left, right) -> {
+          return left.getName().compareTo(right.getName());
+        }).collect(Collectors.toList());
     }
 
     @Override

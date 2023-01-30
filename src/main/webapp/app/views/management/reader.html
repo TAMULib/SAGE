@@ -9,7 +9,7 @@
     <div class="panel-body">
       <table ng-table="tableParams" class="table table-hover solr-source-table">
         <tbody>
-          <tr ng-repeat="reader in $data">
+          <tr ng-repeat="reader in $data | orderBy:'name'">
             <td data-title="'Name'" sortable="'name'">
               {{reader.name}}
             </td>

@@ -7,7 +7,7 @@
     <div class="panel-body">
       <table ng-table="tableParams" class="table table-hover discovery-view-table">
         <tbody>
-          <tr ng-repeat="discoveryView in $data" ng-if="discoveryView.published || isAdmin() || isManager()">
+          <tr ng-repeat="discoveryView in $data | orderBy:'name'" ng-if="discoveryView.published || isAdmin() || isManager()">
             <td data-title="'Name'" sortable="'name'">
               <a href="discovery-context/{{discoveryView.slug}}">{{discoveryView.name}}</a>
             </td>

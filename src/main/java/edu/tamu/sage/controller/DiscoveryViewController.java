@@ -55,7 +55,7 @@ public class DiscoveryViewController {
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasRole('ANONYMOUS')")
     public ApiResponse getAll() {
-        return new ApiResponse(SUCCESS, discoveryViewRepo.findAll());
+        return new ApiResponse(SUCCESS, discoveryViewRepo.findAllByOrderByNameAsc());
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
