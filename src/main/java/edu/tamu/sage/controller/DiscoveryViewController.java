@@ -126,7 +126,7 @@ public class DiscoveryViewController {
 
         Map<String, String> filterMap = new HashMap<String,String>();
         reqFilterMap.forEach((k,v) -> {
-           filterMap.put( k.replace("f.", ""), v);
+           filterMap.put(k.replace("f.", ""), v);
         });
 
         return new ApiResponse(SUCCESS, solrDiscoveryService.buildDiscoveryContext(discoveryView, field, value, page, offset, filterMap));
