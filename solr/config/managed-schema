@@ -102,18 +102,8 @@
 
   <!-- "facet" = provides a facet in its near original form for utilizing in searches.  -->
   <fieldType name="facet" class="solr.TextField" positionIncrementGap="100">
-    <analyzer type="index">
-      <tokenizer class="solr.StandardTokenizerFactory" />
-
-      <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" />
-      <filter class="solr.FlattenGraphFilterFactory" />
-    </analyzer>
-
-    <analyzer type="query">
-      <tokenizer class="solr.StandardTokenizerFactory" />
-
-      <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" />
-      <filter class="solr.CommonGramsQueryFilterFactory" />
+    <analyzer>
+      <tokenizer class="solr.KeywordTokenizerFactory" />
     </analyzer>
   </fieldType>
 
