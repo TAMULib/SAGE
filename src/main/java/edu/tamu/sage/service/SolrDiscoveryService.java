@@ -84,18 +84,11 @@ public class SolrDiscoveryService {
             });
         }
 
-        String query = "";
-        if (search.getField().isEmpty() && search.getValue().isEmpty()) {
-            query = "*";
-        } else if (search.getField().isEmpty()) {
-            query = search.getValue();
-        } else if (search.getValue().isEmpty()) {
-            query = search.getField() + ":*";
-        } else {
-            query = search.getField() + ":" + search.getValue();
-        }
+        SolrQuery solrQuery = new SolrQuery(StringUtils.isEmpty(search.getValue()) ? "*" : search.getValue());
 
-        SolrQuery solrQuery = new SolrQuery(query);
+        if (StringUtils.isNotEmpty(search.getField())) {
+          solrQuery.add("df", search.getField());
+        }
 
         // Only filter against designated facet fields.
         List<Filter> filters = new ArrayList<Filter>();
