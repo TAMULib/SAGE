@@ -84,17 +84,9 @@ public class SolrDiscoveryService {
             });
         }
 
-        String query = "";
-        if (search.getField().isEmpty() && search.getValue().isEmpty()) {
-            query = "*";
-        }
-        else {
-          query = search.getValue();
-        }
+        SolrQuery solrQuery = new SolrQuery(StringUtils.isEmpty(search.getValue()) ? "*" : search.getValue());
 
-        SolrQuery solrQuery = new SolrQuery(query);
-
-        if (!search.getField().isEmpty()) {
+        if (StringUtils.isNotEmpty(search.getField())) {
           solrQuery.add("df", search.getField());
         }
 
