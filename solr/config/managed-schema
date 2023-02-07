@@ -99,6 +99,7 @@
 
   <!-- Copy all fields ending in '_t' into the all text search field. -->
   <copyField source="*_t" dest="_text_" />
+  <copyField source="*_t" dest="_text_ws" />
 
   <!-- "facet" = provides a facet in its near original form for utilizing in searches.  -->
   <fieldType name="facet" class="solr.TextField" positionIncrementGap="100">
