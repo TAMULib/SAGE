@@ -86,22 +86,16 @@ public class SolrDiscoveryService {
 
         String query = "";
         if (search.getField().isEmpty() && search.getValue().isEmpty()) {
-            query = "*:*";
+            query = "*";
         } else if (search.getField().isEmpty()) {
             query = search.getValue();
+        } else if (search.getValue().isEmpty()) {
+            query = search.getField() + ":*";
         } else {
             query = search.getField() + ":" + search.getValue();
         }
 
         SolrQuery solrQuery = new SolrQuery(query);
-
-        if (discoveryView.getFilter().isEmpty()) {
-            if (discoveryView.getSource().getRequiresFilter()) {
-                solrQuery.addFilterQuery(FILTER_WILDCARD);
-            }
-        } else {
-            solrQuery.addFilterQuery(discoveryView.getFilter());
-        }
 
         // Only filter against designated facet fields.
         List<Filter> filters = new ArrayList<Filter>();
@@ -111,8 +105,8 @@ public class SolrDiscoveryService {
 
                 String filterKey = facetField.getKey();
                 if (filterMap.containsKey(filterKey)) {
-                    String[] filterValues = filterMap.get(filterKey).split(","+FILTER_VALUE_PREFIX, -1);
-                    filterValues[0] = filterValues[0].replace(FILTER_VALUE_PREFIX,"");
+                    String[] filterValues = filterMap.get(filterKey).split("," + FILTER_VALUE_PREFIX, -1);
+                    filterValues[0] = filterValues[0].replace(FILTER_VALUE_PREFIX, "");
                     for (int i = 0; i < filterValues.length; i++) {
                         Filter filter = new Filter();
                         filter.setKey(facetField.getKey());
@@ -127,6 +121,14 @@ public class SolrDiscoveryService {
             solrQuery.setFacet(true);
             solrQuery.setFacetLimit(Integer.MAX_VALUE);
             solrQuery.setFacetMinCount(1);
+        }
+
+        if (discoveryView.getFilter().isEmpty()) {
+            if (filters.isEmpty() && discoveryView.getSource().getRequiresFilter()) {
+                solrQuery.addFilterQuery(FILTER_WILDCARD);
+            }
+        } else {
+            solrQuery.addFilterQuery(discoveryView.getFilter());
         }
 
         search.setFilters(filters);
@@ -144,6 +146,9 @@ public class SolrDiscoveryService {
                 solrQuery.setParam("q.op", defaultOperand);
             }
         }
+
+        // Default "Separate On Whitespace" to true.
+        solrQuery.setParam("sow", "true");
 
         solrQuery.setRows(page.getPageSize());
         solrQuery.setStart((page.getPageNumber() * page.getPageSize()) + offset);
