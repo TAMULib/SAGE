@@ -80,7 +80,7 @@
   <dynamicField name="*_whole_si" type="whole" indexed="true" stored="true" multiValued="false" />
   <dynamicField name="*_whole_si_t" type="whole" indexed="true" stored="true" multiValued="false" />
 
-  <!-- Special / Core fields. -->
+  <!-- Special / Core field types. -->
   <fieldType name="binary" class="solr.BinaryField" />
   <fieldType name="bool" class="solr.BoolField" sortMissingLast="true" />
   <fieldType name="date" class="solr.DatePointField" docValues="true" />
