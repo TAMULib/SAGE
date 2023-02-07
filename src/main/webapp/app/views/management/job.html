@@ -13,23 +13,23 @@
     <div class="panel-body">
       <table ng-table="tableParams" class="table table-hover jobs-table">
         <tbody>
-          <tr ng-repeat="job in $data">
+          <tr ng-repeat="job in $data | orderBy:'name'">
             <td data-title="'Name'" sortable="'name'">
               {{job.name}}
             </td>
             <td data-title="'Readers'" class="jobs-table-row-reader">
               <ul ng-if="job.readers && job.readers.length">
-                <li ng-repeat="reader in job.readers">{{reader.name}}</li>
+                <li ng-repeat="reader in job.readers | orderBy:'name'">{{reader.name}}</li>
               </ul>
             </td>
             <td data-title="'Operators'" class="jobs-table-row-operator">
               <ul ng-if="job.operators && job.operators.length">
-                <li ng-repeat="operator in job.operators">{{operator.name}}</li>
+                <li ng-repeat="operator in job.operators | orderBy:'name'">{{operator.name}}</li>
               </ul>
             </td>
             <td data-title="'Writers'" class="jobs-table-row-writer">
               <ul ng-if="job.writers && job.writers.length">
-                <li ng-repeat="writer in job.writers">{{writer.name}}</li>
+                <li ng-repeat="writer in job.writers | orderBy:'name'">{{writer.name}}</li>
               </ul>
             </td>
             <td data-title="'Actions'">

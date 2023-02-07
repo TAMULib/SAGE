@@ -42,7 +42,7 @@ public class OperatorController {
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ApiResponse getAll() {
-        return new ApiResponse(SUCCESS, operatorRepo.findAll());
+        return new ApiResponse(SUCCESS, operatorRepo.findAllByOrderByNameAsc());
     }
 
     @GetMapping("/types")

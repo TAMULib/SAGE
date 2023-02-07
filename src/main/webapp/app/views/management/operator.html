@@ -9,7 +9,7 @@
     <div class="panel-body">
       <table ng-table="tableParams" class="table table-hover operator-table">
         <tbody>
-          <tr ng-repeat="operator in $data">
+          <tr ng-repeat="operator in $data | orderBy:'name'">
             <td data-title="'Name'" sortable="'name'">
               {{operator.name}}
             </td>

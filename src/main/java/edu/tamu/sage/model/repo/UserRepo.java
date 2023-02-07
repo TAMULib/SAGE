@@ -9,11 +9,10 @@
  */
 package edu.tamu.sage.model.repo;
 
-import org.springframework.stereotype.Repository;
-
 import edu.tamu.sage.model.User;
 import edu.tamu.sage.model.repo.custom.UserRepoCustom;
 import edu.tamu.weaver.auth.model.repo.AbstractWeaverUserRepo;
+import org.springframework.stereotype.Repository;
 
 /**
  * User repository.
@@ -23,5 +22,6 @@ import edu.tamu.weaver.auth.model.repo.AbstractWeaverUserRepo;
  */
 @Repository
 public interface UserRepo extends AbstractWeaverUserRepo<User>, UserRepoCustom {
+
     public User findByEmail(String email);
 }

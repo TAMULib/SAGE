@@ -86,7 +86,7 @@ public class SolrDiscoveryService {
 
         String query = "";
         if (search.getField().isEmpty() && search.getValue().isEmpty()) {
-            query = "*:*";
+            query = "*";
         }
         else {
           query = search.getValue();
@@ -96,14 +96,6 @@ public class SolrDiscoveryService {
 
         if (!search.getField().isEmpty()) {
           solrQuery.add("df", search.getField());
-        }
-
-        if (discoveryView.getFilter().isEmpty()) {
-            if (discoveryView.getSource().getRequiresFilter()) {
-                solrQuery.addFilterQuery(FILTER_WILDCARD);
-            }
-        } else {
-            solrQuery.addFilterQuery(discoveryView.getFilter());
         }
 
         // Only filter against designated facet fields.
@@ -129,6 +121,15 @@ public class SolrDiscoveryService {
 
             solrQuery.setFacet(true);
             solrQuery.setFacetLimit(Integer.MAX_VALUE);
+            solrQuery.setFacetMinCount(1);
+        }
+
+        if (discoveryView.getFilter().isEmpty()) {
+            if (filters.isEmpty() && discoveryView.getSource().getRequiresFilter()) {
+                solrQuery.addFilterQuery(FILTER_WILDCARD);
+            }
+        } else {
+            solrQuery.addFilterQuery(discoveryView.getFilter());
         }
 
         search.setFilters(filters);
@@ -146,6 +147,9 @@ public class SolrDiscoveryService {
                 solrQuery.setParam("q.op", defaultOperand);
             }
         }
+
+        // Default "Separate On Whitespace" to true.
+        solrQuery.setParam("sow", "true");
 
         solrQuery.setRows(page.getPageSize());
         solrQuery.setStart((page.getPageNumber() * page.getPageSize()) + offset);

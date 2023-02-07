@@ -38,7 +38,7 @@ public class JobRunner {
 
     @Scheduled(cron = "0 0/30 * * * ?")
     private void runJobs() {
-        List<Job> activeJobs = jobRepo.findByScheduleActiveTrue();
+        List<Job> activeJobs = jobRepo.findByScheduleActiveTrueOrderByNameAsc();
         logger.debug("Checking " + activeJobs.size() + " Active Jobs");
         LocalDateTime schedulerStarted = java.time.LocalDateTime.now(ZoneId.of("UTC"));
         activeJobs.forEach(j -> {

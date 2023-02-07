@@ -1,4 +1,4 @@
-describe("filter: boldMatch", function () {
+describe("filter: simpleAscii", function () {
   var $scope, MockedUser, filter;
 
   var initializeVariables = function () {
@@ -13,7 +13,7 @@ describe("filter: boldMatch", function () {
     inject(function (_$filter_, _$rootScope_) {
       $scope = _$rootScope_.$new();
 
-      filter = _$filter_("boldMatch");
+      filter = _$filter_("simpleAscii");
     });
   };
 
@@ -48,25 +48,51 @@ describe("filter: boldMatch", function () {
     it("return nothing on empty input", function () {
       var result;
 
-      result = filter("", "");
+      result = filter("");
 
       expect(result).toBe("");
     });
 
-    it("add bold tag on match", function () {
+    it("all valid characters", function () {
       var result;
+      var all = "abcdefghijklmnopqrstuvwxyz";
+      all += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      all += "1234567890";
+      all += "+-._~";
 
-      result = filter("<div>match</div>", "match");
+      result = filter(all);
 
-      expect(result).toBe("<div><b>match</b></div>");
+      expect(result).toBe(all);
     });
 
-    it("not add bold tag on no match", function () {
+    it("without whitespace", function () {
       var result;
 
-      result = filter("<div>miss</div>", "match");
+      // The character U+200A is between the 'h' and 'i' while U+200D is between the 'i' and 'j'.
+      // These may not normally display in a text editor.
+      var all = "a b  c\fd e f g h i‍j";
 
-      expect(result).toBe("<div>miss</div>");
+      result = filter(all);
+
+      expect(result).toBe("abcdefghij");
+    });
+
+    it("without most symbols", function () {
+      var result;
+      var all = "a`!@#$%^&*()=b{}[];:'\"\\|,<>/?";
+
+      result = filter(all);
+
+      expect(result).toBe("ab");
+    });
+
+    it("skips non-ascii unicode characters", function () {
+      var result;
+      var all = "a↡b𒆷c𔙃d𔑳↡𒆷𔙃e";
+
+      result = filter(all);
+
+      expect(result).toBe("abcde");
     });
   });
 });
