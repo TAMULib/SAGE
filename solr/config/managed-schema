@@ -128,17 +128,26 @@
   </fieldType>
 
   <!-- "text_ws" = normal text using whitespace tokenization (separates spaces on query)  -->
-  <fieldType name="text_ws" class="solr.TextField" positionIncrementGap="100">
+  <fieldType name="text_ws" class="solr.TextField" positionIncrementGap="100" autoGeneratePhraseQueries="true">
     <analyzer type="index">
       <tokenizer class="solr.WhitespaceTokenizerFactory" />
 
+      <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_en.txt" />
+      <filter class="solr.WordDelimiterGraphFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="1" catenateNumbers="1" catenateAll="0" splitOnCaseChange="1" />
       <filter class="solr.LowerCaseFilterFactory" />
+      <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt" />
+      <filter class="solr.PorterStemFilterFactory" />
+      <filter class="solr.FlattenGraphFilterFactory" />
     </analyzer>
 
     <analyzer type="query">
       <tokenizer class="solr.WhitespaceTokenizerFactory" />
 
+      <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_en.txt" />
+      <filter class="solr.WordDelimiterGraphFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="0" catenateNumbers="0" catenateAll="0" splitOnCaseChange="1" />
       <filter class="solr.LowerCaseFilterFactory" />
+      <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt" />
+      <filter class="solr.PorterStemFilterFactory" />
       <filter class="solr.CommonGramsQueryFilterFactory" />
     </analyzer>
   </fieldType>
@@ -181,8 +190,6 @@
 
     <analyzer type="query">
       <tokenizer class="solr.StandardTokenizerFactory" />
-
-      <filter class="solr.LowerCaseFilterFactory" />
     </analyzer>
   </fieldType>
 
