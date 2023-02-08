@@ -94,6 +94,10 @@ sage.component("facetWidget", {
       ModalService.closeModal();
       $scope.page = 0;
       $scope.moreFacetsLabel = "";
+
+      if (angular.isDefined($scope.moreFacets)) {
+        $scope.moreFacets.length = 0;
+      }
     };
 
     $scope.hasNext = function() {
