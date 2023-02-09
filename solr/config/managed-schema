@@ -132,21 +132,26 @@
     <analyzer type="index">
       <tokenizer class="solr.WhitespaceTokenizerFactory" />
 
+      <filter class="solr.SynonymGraphFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="false" />
       <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_en.txt" />
+      <filter class="solr.WordDelimiterGraphFilterFactory" preserveOriginal="1" generateWordParts="0" generateNumberParts="0" catenateWords="1" catenateNumbers="1" catenateAll="0" />
       <filter class="solr.LowerCaseFilterFactory" />
       <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt" />
-      <filter class="solr.PorterStemFilterFactory" />
+      <filter class="solr.EnglishMinimalStemFilterFactory" />
+      <!-- <filter class="RemoveDuplicatesTokenFilterFactory" /> --> <!-- Not currently available. -->
       <filter class="solr.FlattenGraphFilterFactory" />
     </analyzer>
 
     <analyzer type="query">
       <tokenizer class="solr.WhitespaceTokenizerFactory" />
 
+      <filter class="solr.SynonymGraphFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="false" />
       <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_en.txt" />
+      <filter class="solr.WordDelimiterGraphFilterFactory" preserveOriginal="1" generateWordParts="0" generateNumberParts="0" catenateWords="1" catenateNumbers="1" catenateAll="0" />
       <filter class="solr.LowerCaseFilterFactory" />
       <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt" />
-      <filter class="solr.PorterStemFilterFactory" />
-      <filter class="solr.CommonGramsQueryFilterFactory" />
+      <filter class="solr.EnglishMinimalStemFilterFactory" />
+      <!-- <filter class="RemoveDuplicatesTokenFilterFactory" /> --> <!-- Not currently available. -->
     </analyzer>
   </fieldType>
 
