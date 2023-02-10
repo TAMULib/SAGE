@@ -6,6 +6,6 @@ sage.filter('boldMatch', function() {
       }
     }
 
-    return "";
+    return input.replace(match, "");
   };
 });
