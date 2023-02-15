@@ -59,7 +59,7 @@ const config = {
       './node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js',
       './node_modules/ng-table/bundles/ng-table.js',
       './node_modules/openseadragon/build/openseadragon/openseadragon.js',
-      './node_modules/ng-openseadragon/build/angular-openseadragon.js',
+      './node_modules/ng-openseadragon/dist/ng-openseadragon.min.js',
       './node_modules/tamu-mirador/dist/mirador.min.js',
       './node_modules/@wvr/core/app/config/coreConfig.js',
       './node_modules/@wvr/core/app/components/version/version.js',
