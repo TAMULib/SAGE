@@ -28,7 +28,7 @@
     "@wvr/core": "2.2.2",
     "tamu-mirador": "3.3.1-rc.1",
     "ng-csv": "0.3.6",
-    "ng-openseadragon": "1.3.5",
+    "ng-openseadragon": "https://github.com/driannaude/ng-openseadragon.git#fa1a0faf005f2052aa2661e64df646c86c353ed3",
     "ng-table": "3.1.0",
     "openseadragon": "2.4.2",
     "react": "^16.13.1",
