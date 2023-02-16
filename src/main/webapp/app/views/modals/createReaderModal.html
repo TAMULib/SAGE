@@ -50,9 +50,9 @@
 
         <label>Field Mappings</label>
         <ul class="list-group">
-          <li class="list-group-item" ng-repeat="metadatum in internalMetadata | orderBy: 'id'">
+          <li class="list-group-item" ng-repeat="metadatum in internalMetadata | orderBy:'gloss'">
             <label>{{metadatum.gloss}}</label>
-            <input class="form-control" type="text" name="fieldMapping" ng-model="readerFields[metadatum.field].value" uib-typeahead="f.name for f in fields | orderBy:'name' | filter:$viewValue" />
+            <input class="form-control" type="text" name="fieldMapping" ng-model="readerFields[metadatum.field].value" uib-typeahead="f.name for f in fields | filter:$viewValue" />
             <small ng-if="metadatum.required" class="form-text text-muted">This field is required.</small>
           </li>
         </ul>

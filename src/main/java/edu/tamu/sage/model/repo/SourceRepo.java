@@ -7,5 +7,8 @@ import edu.tamu.sage.model.repo.custom.SourceRepoCustom;
 import edu.tamu.weaver.data.model.repo.WeaverRepo;
 
 public interface SourceRepo extends WeaverRepo<Source>, SourceRepoCustom    {
-    List<Source> findByReadOnly(Boolean readOnly);
+
+    public List<Source> findAllByOrderByNameAsc();
+
+    public List<Source> findByReadOnlyOrderByNameAsc(Boolean readOnly);
 }

@@ -123,14 +123,14 @@
     <field name="thumbnail" type="string" indexed="true" stored="true" multiValued="false"/>
     <field name="resource" type="string" indexed="true" stored="true" multiValued="false"/>
     <field name="manifest" type="string" indexed="true" stored="true" multiValued="false"/>
-    <field name="application_type" type="whole_string" indexed="true" stored="true" multiValued="false"/>
+    <field name="application_type" type="string" indexed="true" stored="true" multiValued="false"/>
 
     <!-- Mandatory (M) -->
     <field name="title" type="sorting_string" indexed="true" stored="true" multiValued="false"/>
-    <field name="content_type" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
-    <field name="digital_publisher" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
-    <field name="rights_access" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
-    <field name="reformatting" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
+    <field name="content_type" type="strings" indexed="true" stored="true" multiValued="true"/>
+    <field name="digital_publisher" type="strings" indexed="true" stored="true" multiValued="true"/>
+    <field name="rights_access" type="strings" indexed="true" stored="true" multiValued="true"/>
+    <field name="reformatting" type="strings" indexed="true" stored="true" multiValued="true"/>
     <field name="filename" type="sorting_string" indexed="true" stored="true" multiValued="true"/>
 
     <copyField source="title" dest="_text_"/>
@@ -142,13 +142,13 @@
     <field name="creator" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
     <field name="date_published" type="pdate" indexed="true" stored="true" multiValued="false"/>
     <!--<field name="date_created" type="pdate" indexed="true" stored="true" multiValued="false"/>-->
-    <field name="date_created" type="whole_string" indexed="true" stored="true" multiValued="false"/>
-    <field name="summary_abstract" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
+    <field name="date_created" type="string" indexed="true" stored="true" multiValued="false"/>
+    <field name="summary_abstract" type="strings" indexed="true" stored="true" multiValued="true"/>
     <field name="language" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
     <field name="institution_department" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
-    <field name="standard_digital_identifier" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
-    <field name="local_digital_identifier" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
-    <field name="edition_revision_information" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
+    <field name="standard_digital_identifier" type="strings" indexed="true" stored="true" multiValued="true"/>
+    <field name="local_digital_identifier" type="strings" indexed="true" stored="true" multiValued="true"/>
+    <field name="edition_revision_information" type="strings" indexed="true" stored="true" multiValued="true"/>
 
     <copyField source="subject" dest="_text_"/>
     <copyField source="creator" dest="_text_"/>
@@ -158,13 +158,13 @@
     <copyField source="summary_abstract" dest="summary_abstract_txt_en_split_mv"/>
 
     <!-- Non-core Recommended -->
-    <field name="alternative_title" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
+    <field name="alternative_title" type="strings" indexed="true" stored="true" multiValued="true"/>
     <field name="genre" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
-    <field name="table_of_contents" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
+    <field name="table_of_contents" type="strings" indexed="true" stored="true" multiValued="true"/>
     <field name="contributor" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
     <field name="related_resource" type="strings" indexed="true" stored="true" multiValued="true"/>
-    <field name="original_publisher" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
-    <field name="physical_extent" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
+    <field name="original_publisher" type="strings" indexed="true" stored="true" multiValued="true"/>
+    <field name="physical_extent" type="strings" indexed="true" stored="true" multiValued="true"/>
     <field name="sponsor" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
     <field name="details" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
     <field name="spatial" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
@@ -180,11 +180,11 @@
     <!-- Non-core Optional -->
     <field name="source_collection" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
     <field name="original_resource" type="strings" indexed="true" stored="true" multiValued="true"/>
-    <field name="notes" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
-    <field name="origin" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
-    <field name="audience_level" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
+    <field name="notes" type="strings" indexed="true" stored="true" multiValued="true"/>
+    <field name="origin" type="strings" indexed="true" stored="true" multiValued="true"/>
+    <field name="audience_level" type="strings" indexed="true" stored="true" multiValued="true"/>
     <field name="classification" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
-    <field name="physical_item_identifier" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
+    <field name="physical_item_identifier" type="strings" indexed="true" stored="true" multiValued="true"/>
     <field name="physical_item_location" type="whole_strings" indexed="true" stored="true" multiValued="true"/>
 
     <copyField source="notes" dest="_text_"/>
@@ -244,23 +244,10 @@
       </analyzer>
     </fieldType>
 
-    <!--
-      An alternative to string type that is utilizes a lower case filter.
-      The solr.StrField does not allow this.
-      Base types like solr.StrField have omitNorms="true" by default.
-      This sets omitNorms="true" to more closely match the solr.StrField type.
-      The docValues="true" from solrStrField cannot be preserved because solr.TextField does not support it.
-    -->
-    <fieldType name="whole_string" class="solr.TextField" omitNorms="true" sortMissingLast="true">
-      <analyzer>
-        <tokenizer class="solr.KeywordTokenizerFactory"/>
-        <filter class="solr.LowerCaseFilterFactory"/>
-      </analyzer>
-    </fieldType>
+    <!-- whole strings type -->
     <fieldType name="whole_strings" class="solr.TextField" omitNorms="true" sortMissingLast="true" multiValued="true">
       <analyzer>
         <tokenizer class="solr.KeywordTokenizerFactory"/>
-        <filter class="solr.LowerCaseFilterFactory"/>
       </analyzer>
     </fieldType>
 

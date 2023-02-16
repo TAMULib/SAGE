@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<schema name="sage-config" version="1.0">
+
+  <uniqueKey>id</uniqueKey>
+
+  <!-- Core Fields -->
+  <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" />
+  <field name="_version_" type="long" indexed="false" stored="false" multiValued="false" />
+  <field name="_root_" type="string" indexed="true" stored="false" docValues="false" />
+  <field name="_text_" type="text" />
+  <field name="timestamp" type="date" indexed="true" stored="true" default="NOW" multiValued="false" />
+
+  <!-- '_si' = single, '_t' = copy to '_text_' -->
+  <dynamicField name="*_binary" type="binary" indexed="true" stored="true" multiValued="true" />
+  <dynamicField name="*_binary_t" type="binary" indexed="true" stored="true" multiValued="true" />
+  <dynamicField name="*_binary_si" type="binary" indexed="true" stored="true" multiValued="false" />
+  <dynamicField name="*_binary_si_t" type="binary" indexed="true" stored="true" multiValued="false" />
+
+  <dynamicField name="*_bool" type="bool" indexed="true" stored="true" multiValued="true" />
+  <dynamicField name="*_bool_t" type="bool" indexed="true" stored="true" multiValued="true" />
+  <dynamicField name="*_bool_si" type="bool" indexed="true" stored="true" multiValued="false" />
+  <dynamicField name="*_bool_si_t" type="bool" indexed="true" stored="true" multiValued="false" />
+
+  <dynamicField name="*_date" type="date" indexed="true" stored="true" multiValued="true" />
+  <dynamicField name="*_date_t" type="date" indexed="true" stored="true" multiValued="true" />
+  <dynamicField name="*_date_si" type="date" indexed="true" stored="true" multiValued="false" />
+  <dynamicField name="*_date_si_t" type="date" indexed="true" stored="true" multiValued="false" />
+
+  <dynamicField name="*_double" type="double" indexed="true" stored="true" multiValued="true" />
+  <dynamicField name="*_double_t" type="double" indexed="true" stored="true" multiValued="true" />
+  <dynamicField name="*_double_si" type="double" indexed="true" stored="true" multiValued="false" />
+  <dynamicField name="*_double_si_t" type="double" indexed="true" stored="true" multiValued="false" />
+
+  <dynamicField name="*_facet" type="facet" indexed="true" stored="true" multiValued="true" />
+  <dynamicField name="*_facet_si" type="facet" indexed="true" stored="true" multiValued="false" />
+
+  <dynamicField name="*_float" type="float" indexed="true" stored="true" multiValued="true" />
+  <dynamicField name="*_float_t" type="float" indexed="true" stored="true" multiValued="true" />
+  <dynamicField name="*_float_si" type="float" indexed="true" stored="true" multiValued="false" />
+  <dynamicField name="*_float_si_t" type="float" indexed="true" stored="true" multiValued="false" />
+
+  <dynamicField name="*_int" type="int" indexed="true" stored="true" multiValued="true" />
+  <dynamicField name="*_int_t" type="int" indexed="true" stored="true" multiValued="true" />
+  <dynamicField name="*_int_si" type="int" indexed="true" stored="true" multiValued="false" />
+  <dynamicField name="*_int_si_t" type="int" indexed="true" stored="true" multiValued="false" />
+
+  <dynamicField name="*_long" type="long" indexed="true" stored="true" multiValued="true" />
+  <dynamicField name="*_long_t" type="long" indexed="true" stored="true" multiValued="true" />
+  <dynamicField name="*_long_si" type="long" indexed="true" stored="true" multiValued="false" />
+  <dynamicField name="*_long_si_t" type="long" indexed="true" stored="true" multiValued="false" />
+
+  <dynamicField name="*_random" type="random" indexed="true" stored="true" multiValued="true" />
+  <dynamicField name="*_random_t" type="random" indexed="true" stored="true" multiValued="true" />
+  <dynamicField name="*_random_si" type="random" indexed="true" stored="true" multiValued="false" />
+  <dynamicField name="*_random_si_t" type="random" indexed="true" stored="true" multiValued="false" />
+
+  <dynamicField name="*_string" type="string" indexed="true" stored="true" multiValued="true" />
+  <dynamicField name="*_string_t" type="string" indexed="true" stored="true" multiValued="true" />
+  <dynamicField name="*_string_si" type="string" indexed="true" stored="true" multiValued="false" />
+  <dynamicField name="*_string_si_t" type="string" indexed="true" stored="true" multiValued="false" />
+
+  <dynamicField name="*_text" type="text" indexed="true" stored="true" multiValued="true" />
+  <dynamicField name="*_text_t" type="text" indexed="true" stored="true" multiValued="true" />
+  <dynamicField name="*_text_si" type="text" indexed="true" stored="true" multiValued="false" />
+  <dynamicField name="*_text_si_t" type="text" indexed="true" stored="true" multiValued="false" />
+
+  <dynamicField name="*_text_en_split" type="text_en_split"  indexed="true"  stored="true" />
+  <dynamicField name="*_text_en_split_t" type="text_en_split"  indexed="true"  stored="true" />
+  <dynamicField name="*_text_si_en_split" type="text_en_split"  indexed="true"  stored="true" multiValued="false" />
+  <dynamicField name="*_text_si_en_split_t" type="text_en_split"  indexed="true"  stored="true" multiValued="false" />
+
+  <dynamicField name="*_ws" type="text_ws" indexed="true" stored="true" multiValued="true" />
+  <dynamicField name="*_ws_t" type="text_ws" indexed="true" stored="true" multiValued="true" />
+  <dynamicField name="*_ws_si" type="text_ws" indexed="true" stored="true" multiValued="false" />
+  <dynamicField name="*_ws_si_t" type="text_ws" indexed="true" stored="true" multiValued="false" />
+
+  <dynamicField name="*_whole" type="whole" indexed="true" stored="true" multiValued="true" />
+  <dynamicField name="*_whole_t" type="whole" indexed="true" stored="true" multiValued="true" />
+  <dynamicField name="*_whole_si" type="whole" indexed="true" stored="true" multiValued="false" />
+  <dynamicField name="*_whole_si_t" type="whole" indexed="true" stored="true" multiValued="false" />
+
+  <!-- Special / Core field types. -->
+  <fieldType name="binary" class="solr.BinaryField" />
+  <fieldType name="bool" class="solr.BoolField" sortMissingLast="true" />
+  <fieldType name="date" class="solr.DatePointField" docValues="true" />
+  <fieldType name="double" class="solr.DoublePointField" docValues="true" />
+  <fieldType name="float" class="solr.FloatPointField" docValues="true" />
+  <fieldType name="int" class="solr.IntPointField" docValues="true" />
+  <fieldType name="long" class="solr.LongPointField" docValues="true" />
+  <fieldType name="random" class="solr.RandomSortField" indexed="true" />
+  <fieldType name="string" class="solr.StrField" sortMissingLast="true" docValues="true" />
+
+  <!-- Special Multi-valued used in solrconfig.xml -->
+  <fieldType name="dates" class="solr.DatePointField" docValues="true" multiValued="true" />
+  <fieldType name="bools" class="solr.BoolField" sortMissingLast="true" multiValued="true" />
+  <fieldType name="longs" class="solr.LongPointField" docValues="true" multiValued="true" />
+  <fieldType name="doubles" class="solr.DoublePointField" docValues="true" multiValued="true" />
+
+  <!-- Copy all fields ending in '_t' into the all text search field. -->
+  <copyField source="*_t" dest="_text_" />
+  <copyField source="*_t" dest="_text_ws" />
+
+  <!-- "facet" = provides a facet in its near original form for utilizing in searches.  -->
+  <fieldType name="facet" class="solr.TextField" positionIncrementGap="100">
+    <analyzer>
+      <tokenizer class="solr.KeywordTokenizerFactory" />
+    </analyzer>
+  </fieldType>
+
+  <!-- "text" = normal text (separates spaces on query)  -->
+  <fieldType name="text" class="solr.TextField" positionIncrementGap="100">
+    <analyzer type="index">
+      <tokenizer class="solr.StandardTokenizerFactory" />
+
+      <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" />
+      <filter class="solr.WordDelimiterGraphFilterFactory" preserveOriginal="1" />
+      <filter class="solr.FlattenGraphFilterFactory" />
+      <filter class="solr.LowerCaseFilterFactory" />
+    </analyzer>
+
+    <analyzer type="query">
+      <tokenizer class="solr.WhitespaceTokenizerFactory" />
+
+      <filter class="solr.LowerCaseFilterFactory" />
+      <filter class="solr.CommonGramsQueryFilterFactory" />
+    </analyzer>
+  </fieldType>
+
+  <!-- "text_ws" = normal text using whitespace tokenization (separates spaces on query)  -->
+  <fieldType name="text_ws" class="solr.TextField" positionIncrementGap="100" autoGeneratePhraseQueries="true">
+    <analyzer type="index">
+      <tokenizer class="solr.WhitespaceTokenizerFactory" />
+
+      <filter class="solr.SynonymGraphFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="false" />
+      <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_en.txt" />
+      <filter class="solr.WordDelimiterGraphFilterFactory" preserveOriginal="1" generateWordParts="0" generateNumberParts="0" catenateWords="1" catenateNumbers="1" catenateAll="0" />
+      <filter class="solr.LowerCaseFilterFactory" />
+      <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt" />
+      <filter class="solr.EnglishMinimalStemFilterFactory" />
+      <!-- <filter class="RemoveDuplicatesTokenFilterFactory" /> --> <!-- Not currently available. -->
+      <filter class="solr.FlattenGraphFilterFactory" />
+    </analyzer>
+
+    <analyzer type="query">
+      <tokenizer class="solr.WhitespaceTokenizerFactory" />
+
+      <filter class="solr.SynonymGraphFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="false" />
+      <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_en.txt" />
+      <filter class="solr.WordDelimiterGraphFilterFactory" preserveOriginal="1" generateWordParts="0" generateNumberParts="0" catenateWords="1" catenateNumbers="1" catenateAll="0" />
+      <filter class="solr.LowerCaseFilterFactory" />
+      <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt" />
+      <filter class="solr.EnglishMinimalStemFilterFactory" />
+      <!-- <filter class="RemoveDuplicatesTokenFilterFactory" /> --> <!-- Not currently available. -->
+    </analyzer>
+  </fieldType>
+
+  <!-- A language-specific text field with aggressive word-splitting and autophrase features enabled. -->
+  <fieldType name="text_en_split" class="solr.TextField" positionIncrementGap="100" autoGeneratePhraseQueries="true">
+    <analyzer type="index">
+      <tokenizer class="solr.WhitespaceTokenizerFactory" />
+
+      <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_en.txt" />
+      <filter class="solr.WordDelimiterGraphFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="1" catenateNumbers="1" catenateAll="0" splitOnCaseChange="1" />
+      <filter class="solr.LowerCaseFilterFactory" />
+      <filter class="solr.EnglishMinimalStemFilterFactory" />
+      <filter class="solr.EnglishPossessiveFilterFactory" />
+      <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt" />
+      <filter class="solr.PorterStemFilterFactory" />
+      <filter class="solr.FlattenGraphFilterFactory" />
+    </analyzer>
+
+    <analyzer type="query">
+      <tokenizer class="solr.WhitespaceTokenizerFactory" />
+
+      <filter class="solr.SynonymGraphFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true" />
+      <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_en.txt" />
+      <filter class="solr.WordDelimiterGraphFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="0" catenateNumbers="0" catenateAll="0" splitOnCaseChange="1" />
+      <filter class="solr.LowerCaseFilterFactory" />
+      <filter class="solr.EnglishMinimalStemFilterFactory" />
+      <filter class="solr.EnglishPossessiveFilterFactory" />
+      <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt" />
+      <filter class="solr.PorterStemFilterFactory" />
+      <filter class="solr.CommonGramsQueryFilterFactory" />
+    </analyzer>
+  </fieldType>
+
+  <!-- "whole" = whole string (does not separate spaces on query) -->
+  <fieldType name="whole" class="solr.TextField" omitNorms="true" sortMissingLast="true">
+    <analyzer type="index">
+      <tokenizer class="solr.KeywordTokenizerFactory" />
+    </analyzer>
+
+    <analyzer type="query">
+      <tokenizer class="solr.StandardTokenizerFactory" />
+    </analyzer>
+  </fieldType>
+
+  <!-- Everything below is added for compatibility with older style, remove these when no longer needed. -->
+
+  <!-- Internal -->
+  <field name="collection" type="whole" indexed="true" stored="true" multiValued="false" required="true" />
+  <field name="thumbnail" type="whole" indexed="true" stored="true" multiValued="false" />
+  <field name="resource" type="whole" indexed="true" stored="true" multiValued="false" />
+  <field name="manifest" type="whole" indexed="true" stored="true" multiValued="false" />
+  <field name="application_type" type="text" indexed="true" stored="true" multiValued="false" />
+
+  <copyField source="application_type" dest="application_type_facet" />
+
+  <!-- Mandatory (M) -->
+  <field name="title" type="text" indexed="true" stored="true" multiValued="false" />
+  <field name="content_type" type="text" indexed="true" stored="true" />
+  <field name="digital_publisher" type="text" indexed="true" stored="true" />
+  <field name="rights_access" type="text" indexed="true" stored="true" />
+  <field name="reformatting" type="text" indexed="true" stored="true" />
+  <field name="filename" type="whole" indexed="true" stored="true" />
+
+  <copyField source="title" dest="_text_" />
+  <copyField source="title" dest="_text_ws" />
+  <copyField source="title" dest="title_text_si_en_split" />
+  <copyField source="title" dest="title_facet" />
+  <copyField source="content_type" dest="content_type_facet" />
+  <copyField source="digital_publisher" dest="_text_" />
+  <copyField source="digital_publisher" dest="_text_ws" />
+  <copyField source="digital_publisher" dest="digital_publisher_facet" />
+
+  <!-- Mandatory if applicable and available (MA) -->
+  <field name="subject" type="text" indexed="true" stored="true" />
+  <field name="creator" type="text" indexed="true" stored="true" />
+  <field name="date_published" type="date" indexed="true" stored="true" multiValued="false" />
+  <field name="date_created" type="date" indexed="true" stored="true" multiValued="false" />
+  <field name="summary_abstract" type="text" indexed="true" stored="true" />
+  <field name="language" type="text" indexed="true" stored="true" />
+  <field name="institution_department" type="text" indexed="true" stored="true" />
+  <field name="standard_digital_identifier" type="text" indexed="true" stored="true" />
+  <field name="local_digital_identifier" type="text" indexed="true" stored="true" />
+  <field name="edition_revision_information" type="text" indexed="true" stored="true" />
+
+  <copyField source="subject" dest="_text_" />
+  <copyField source="subject" dest="_text_ws" />
+  <copyField source="subject" dest="subject_facet" />
+  <copyField source="subject" dest="subject_ws" />
+  <copyField source="creator" dest="_text_" />
+  <copyField source="creator" dest="_text_ws" />
+  <copyField source="creator" dest="creator_facet" />
+  <copyField source="summary_abstract" dest="_text_" />
+  <copyField source="summary_abstract" dest="_text_ws" />
+  <copyField source="summary_abstract" dest="summary_abstract_facet" />
+  <copyField source="summary_abstract" dest="summary_abstract_text_en_split" />
+  <copyField source="institution_department" dest="_text_" />
+  <copyField source="institution_department" dest="_text_ws" />
+  <copyField source="institution_department" dest="institution_department_facet" />
+
+  <!-- Non-core Recommended -->
+  <field name="alternative_title" type="text" indexed="true" stored="true" />
+  <field name="genre" type="text" indexed="true" stored="true" />
+  <field name="table_of_contents" type="text" indexed="true" stored="true" />
+  <field name="contributor" type="text" indexed="true" stored="true" />
+  <field name="related_resource" type="text" indexed="true" stored="true" />
+  <field name="original_publisher" type="text" indexed="true" stored="true" />
+  <field name="physical_extent" type="text" indexed="true" stored="true" />
+  <field name="sponsor" type="text" indexed="true" stored="true" />
+  <field name="details" type="text" indexed="true" stored="true" />
+  <field name="spatial" type="text" indexed="true" stored="true" />
+
+  <copyField source="alternative_title" dest="_text_" />
+  <copyField source="alternative_title" dest="_text_ws" />
+  <copyField source="alternative_title" dest="alternative_title_facet" />
+  <copyField source="genre" dest="_text_" />
+  <copyField source="genre" dest="_text_ws" />
+  <copyField source="genre" dest="genre_facet" />
+  <copyField source="contributor" dest="_text_" />
+  <copyField source="contributor" dest="_text_ws" />
+  <copyField source="contributor" dest="contributor_facet" />
+  <copyField source="original_publisher" dest="_text_" />
+  <copyField source="original_publisher" dest="_text_ws" />
+  <copyField source="original_publisher" dest="original_publisher_facet" />
+  <copyField source="sponsor" dest="_text_" />
+  <copyField source="sponsor" dest="_text_ws" />
+  <copyField source="sponsor" dest="sponsor_facet" />
+  <copyField source="details" dest="_text_" />
+  <copyField source="details" dest="_text_ws" />
+  <copyField source="details" dest="details_facet" />
+  <copyField source="spatial" dest="_text_" />
+  <copyField source="spatial" dest="_text_ws" />
+  <copyField source="spatial" dest="spatial_facet" />
+
+  <!-- Non-core Optional -->
+  <field name="source_collection" type="text" indexed="true" stored="true" />
+  <field name="original_resource" type="text" indexed="true" stored="true" />
+  <field name="notes" type="text" indexed="true" stored="true" />
+  <field name="origin" type="text" indexed="true" stored="true" />
+  <field name="audience_level" type="text" indexed="true" stored="true" />
+  <field name="classification" type="text" indexed="true" stored="true" />
+  <field name="physical_item_identifier" type="text" indexed="true" stored="true" />
+  <field name="physical_item_location" type="text" indexed="true" stored="true" />
+
+  <copyField source="notes" dest="_text_" />
+  <copyField source="notes" dest="_text_ws" />
+  <copyField source="notes" dest="notes_facet" />
+  <copyField source="notes" dest="notes_text_en_split" />
+  <copyField source="classification" dest="_text_" />
+  <copyField source="classification" dest="_text_ws" />
+  <copyField source="classification" dest="classification_facet" />
+</schema>

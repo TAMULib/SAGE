@@ -50,8 +50,7 @@ describe("filter: boldMatch", function () {
 
       result = filter("", "");
 
-      // fixme: the test should return an empty string not "<b></b>", the filter needs to be fixed!
-      //expect(result).toBe("");
+      expect(result).toBe("");
     });
 
     it("add bold tag on match", function () {

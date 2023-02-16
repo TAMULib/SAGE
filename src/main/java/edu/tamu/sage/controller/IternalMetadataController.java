@@ -33,7 +33,7 @@ public class IternalMetadataController {
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ApiResponse getAll() {
-        return new ApiResponse(SUCCESS, internalMetadataRepo.findAllByOrderByFieldAsc());
+        return new ApiResponse(SUCCESS, internalMetadataRepo.findAllByOrderByGlossAsc());
     }
 
     @PostMapping

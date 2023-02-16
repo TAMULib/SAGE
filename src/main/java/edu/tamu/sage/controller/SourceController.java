@@ -138,19 +138,19 @@ public class SourceController {
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasRole('ANONYMOUS')")
     public ApiResponse getAll(@WeaverUser User user) {
-        return new ApiResponse(SUCCESS, sourceRepo.findAll());
+        return new ApiResponse(SUCCESS, sourceRepo.findAllByOrderByNameAsc());
     }
 
     @RequestMapping("/writeable")
     @PreAuthorize("hasRole('USER')")
     public ApiResponse getWriteable(@WeaverUser User user) {
-        return new ApiResponse(SUCCESS, sourceRepo.findByReadOnly(false));
+        return new ApiResponse(SUCCESS, sourceRepo.findByReadOnlyOrderByNameAsc(false));
     }
 
     @RequestMapping("/readable")
     @PreAuthorize("hasRole('USER')")
     public ApiResponse getReadable(@WeaverUser User user) {
-        return new ApiResponse(SUCCESS, sourceRepo.findByReadOnly(true));
+        return new ApiResponse(SUCCESS, sourceRepo.findByReadOnlyOrderByNameAsc(true));
     }
 
     @RequestMapping(method = RequestMethod.POST)
