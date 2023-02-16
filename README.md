@@ -57,6 +57,8 @@ docker-compose up
 
 SAGE utilizes the angular-openseadragon library when displaying some media types.  This dependency was removed from npm, so the original JavaScript is now packaged in the SAGE code base at src/main/webapp/app/resources/scripts/ng-openseadragon/build/angular-openseadragon.js.
 
+<div align="right">(<a href="#readme-top">back to top</a>)</div>
+
 ## Additional Resources
 
 - [Contributors Documentation][contribute-guide]
