@@ -32,7 +32,7 @@ sage.component("facetWidget", {
     $scope.addFacetFilter = function(facetName) {
       if (!$scope.findFilterByFacet($scope.$ctrl.facet.label, facetName)) {
         $scope.closeMoreFacets();
-        angular.element("#moreFacetsModal-" + $scope.$ctrl.facet.label.split(' ').join('-')).on('hidden.bs.modal', function (e) {
+        angular.element("#moreFacetsModal-" + $filter('simpleAscii')($scope.$ctrl.facet.label)).on('hidden.bs.modal', function (e) {
           $scope.$ctrl.discoveryContext.addFilter($scope.$ctrl.facet.label, $scope.$ctrl.facet.key, facetName).then(function() {
             $scope.$ctrl.resetSearch();
           });
@@ -87,13 +87,17 @@ sage.component("facetWidget", {
       $scope.moreFacets.push(...facets);
       $scope.moreFacetsLabel = $scope.$ctrl.facet.label;
 
-      ModalService.openModal("#moreFacetsModal-" + $scope.$ctrl.facet.label.split(' ').join('-'));
+      ModalService.openModal("#moreFacetsModal-" + $filter('simpleAscii')($scope.$ctrl.facet.label));
     };
 
     $scope.closeMoreFacets = function() {
       ModalService.closeModal();
       $scope.page = 0;
       $scope.moreFacetsLabel = "";
+
+      if (angular.isDefined($scope.moreFacets)) {
+        $scope.moreFacets.length = 0;
+      }
     };
 
     $scope.hasNext = function() {

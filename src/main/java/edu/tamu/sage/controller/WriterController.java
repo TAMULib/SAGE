@@ -31,7 +31,7 @@ public class WriterController {
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("hasRole('ANONYMOUS')")
     public ApiResponse getAll() {
-        return new ApiResponse(SUCCESS, solrWriterRepo.findAll());
+        return new ApiResponse(SUCCESS, solrWriterRepo.findAllByOrderByNameAsc());
     }
 
     @RequestMapping(method = RequestMethod.POST)

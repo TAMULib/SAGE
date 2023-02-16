@@ -36,7 +36,7 @@
 
         <label>Field Mappings</label>
         <ul class="list-group">
-          <li class="list-group-item" ng-repeat="metadatum in internalMetadata | orderBy: 'id'">
+          <li class="list-group-item" ng-repeat="metadatum in internalMetadata | orderBy:'gloss'">
             <label>{{metadatum.gloss}}</label>
             <input class="form-control" type="text" name="writerMappings" ng-model="writerMappings[metadatum.field]" uib-typeahead="f.name for f in fields | filter:$viewValue" />
             <small ng-if="metadatum.required" class="form-text text-muted">This field is required.</small>

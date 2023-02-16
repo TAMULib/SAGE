@@ -34,9 +34,9 @@ sage.controller('DiscoveryViewManagementController', function ($controller, $sco
     });
 
     return `${label}
-            ${$scope.discoveryViewForms.validations[labelAsKey] && 
-            $scope.discoveryViewForms.validations[labelAsKey].required ? 
-            '*': 
+            ${$scope.discoveryViewForms.validations[labelAsKey] &&
+            $scope.discoveryViewForms.validations[labelAsKey].required ?
+            '*':
             ''}`;
   };
 

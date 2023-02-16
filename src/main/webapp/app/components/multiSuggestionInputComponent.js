@@ -20,7 +20,7 @@ sage.component("multiSuggestionInput", {
 
     $scope.processKeyDown = function($event, filteredSuggestion) {
       switch($event.which) {
-        case 38: //Up Arrow 
+        case 38: //Up Arrow
           $event.preventDefault();
           break;
         case 40: //Down Arrow
@@ -35,7 +35,7 @@ sage.component("multiSuggestionInput", {
     };
 
     $scope.processKeyUp = function($event, filteredSuggestion) {
-      switch($event.which) {
+      switch ($event.which) {
         case 13: //Enter
           addValue(fs[$scope.selectedIndex][$ctrl.optionproperty]);
           $timeout(function() {
@@ -48,7 +48,7 @@ sage.component("multiSuggestionInput", {
           break;
         case 37: //Left Arrow
           if(shouldOpen()) {
-            openSuggestions(); 
+            openSuggestions();
           } else {
             closeSuggestions();
           }
@@ -60,7 +60,7 @@ sage.component("multiSuggestionInput", {
           break;
         case 39: //Right Arrow
           if(shouldOpen()) {
-            openSuggestions(); 
+            openSuggestions();
           } else {
             closeSuggestions();
           }
@@ -69,7 +69,7 @@ sage.component("multiSuggestionInput", {
         case 40: //Down Arrow
           $scope.selectedIndex = $scope.selectedIndex === filteredSuggestion.length - 1 ? 0: $scope.selectedIndex+1;
           $event.preventDefault();
-          break;  
+          break;
         default:
           typing($event);
       }
@@ -81,26 +81,26 @@ sage.component("multiSuggestionInput", {
     var typing = function($event) {
       var elem = $element.find(".input").get(0);
       var cursorPos = getCursorPosition();
-      
+
       var m = $scope.$ctrl.model[$scope.$ctrl.property];
 
       var nextChar = angular.copy(m.slice(cursorPos, cursorPos+1));
 
-      if($scope.open) {
+      if ($scope.open) {
         $scope.curentValue =  angular.copy(m.slice(curentValueStartPos, cursorPos));
         $scope.selectedIndex=0;
       } else {
         curentValueStartPos=cursorPos;
       }
 
-      if(shouldOpen()) {
+      if (shouldOpen()) {
         openSuggestions();
         if(nextChar!=="}") {
           addValue("}}", true);
           $timeout(function() {
             setCursor(elem,cursorPos);
           });
-        }  
+        }
       } else {
         $timeout(function() {
           closeSuggestions();
@@ -162,7 +162,7 @@ sage.component("multiSuggestionInput", {
     var setCursor = function(node,pos){
 
         node = (typeof node == "string" || node instanceof String) ? document.getElementById(node) : node;
-    
+
         if(!node){
             return false;
         }else if(node.createTextRange){
@@ -174,10 +174,10 @@ sage.component("multiSuggestionInput", {
             return true;
         } else if(node.setSelectionRange){
               node.setSelectionRange(pos,pos);
-            
+
             return true;
         }
-    
+
         return false;
     };
 

@@ -41,7 +41,7 @@ public class JobController {
     @GetMapping
     @PreAuthorize("hasRole('USER')")
     public ApiResponse getAll() {
-        return new ApiResponse(SUCCESS, jobRepo.findAll());
+        return new ApiResponse(SUCCESS, jobRepo.findAllByOrderByNameAsc());
     }
 
     @PostMapping
