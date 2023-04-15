@@ -25,7 +25,7 @@
     "build": "wvr build --clean"
   },
   "dependencies": {
-    "@wvr/core": "2.2.2",
+    "@wvr/core": "2.2.4",
     "tamu-mirador": "3.3.1-rc.1",
     "ng-csv": "0.3.6",
     "ng-table": "3.1.0",
