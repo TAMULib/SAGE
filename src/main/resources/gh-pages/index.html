@@ -2,8 +2,6 @@
 <html lang="en" class="no-js">
 
 <head>
-    
-
   <base th:href="${ base + '/'}" />
 
   <title>Sage :: Solr Aggregation Engine</title>
@@ -11,30 +9,27 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
   <meta name="description" content="Fedora User Interface" />
-
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"
+    crossorigin="anonymous">
   <link rel="stylesheet" th:href="${@environment.getProperty('app.url')+'/wro/app.css'}" />
-
 </head>
 
-  <body>
-      
-      <main>
-          <tl-header page-title="SAGE Documentation"></tl-header>
-          <div class="jumbotron jumbotron-fluid">
-              <div class="container">
-                  <h1 class="display-4">SAGE</h1>
-                  <p class="lead">Choose your option:
-                      <a class="btn btn-primary ml-2" href="/SAGE/audit/">Audit</a>
-                      <a class="btn btn-success ml-2" href="/SAGE/api-docs/">Api Docs</a>
-                  </p>
-              </div>
-          </div>
-      </main>
-      <tl-footer></tl-footer>
-    <script src="https://api.library.tamu.edu/tl-components/latest/tl-components.js"></script>
-  </body>
+<body>
+  <main>
+    <tl-header page-title="SAGE Documentation"></tl-header>
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container">
+        <h1 class="display-4">SAGE</h1>
+        <p class="lead">Choose your option:
+          <a class="btn btn-primary ml-2" href="/SAGE/audit/">Audit</a>
+          <a class="btn btn-success ml-2" href="/SAGE/api-docs/">Api Docs</a>
+        </p>
+      </div>
+    </div>
+  </main>
+  <tl-footer></tl-footer>
+  <script src="https://api.library.tamu.edu/tl-components/latest/tl-components.js"></script>
+</body>
+
 </html>
