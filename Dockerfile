@@ -20,9 +20,9 @@ RUN groupadd --non-unique -g $USER_ID $USER_NAME && \
     useradd --non-unique -d /$USER_NAME -m -u $USER_ID -g $USER_ID $USER_NAME
 
 # Install stable Nodejs and npm.
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y nodejs npm iproute2 && \
+RUN apt-get update --fix-missing && \
+    apt-get upgrade -y --fix-missing && \
+    apt-get install -y nodejs npm iproute2 --fix-missing && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     npm cache clean -f && \
@@ -42,7 +42,15 @@ COPY ./pom.xml ./pom.xml
 COPY ./.wvr/build-config.js ./.wvr/build-config.js
 COPY ./src ./src
 COPY ./build ./build
+COPY ./build/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 COPY ./package.json ./package.json
+
+
+USER root
+COPY ./build/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+
+# RUN chmod +x ./build/docker-entrypoint.sh
+RUN chmod ugo+rx /usr/local/bin/docker-entrypoint.sh
 
 # Assign file permissions.
 RUN chown -R $USER_ID:$USER_ID $SOURCE_DIR
@@ -53,6 +61,18 @@ USER $USER_NAME
 # Perform actions.
 RUN echo $NPM_REGISTRY && \
     bash $SOURCE_DIR/build/docker-npmrc.sh $NPM_REGISTRY
+
+# Copy in your index.html file and modify it before the mvn package command
+COPY ./src/main/resources/templates/index.html $SOURCE_DIR/src/main/resources/templates/index.html
+
+RUN ga4=$(cat ./build/Ga4.txt) && \
+    gtm=$(cat ./build/Gtm.txt) && \
+    ga4_one_line=$(echo "$ga4" | tr -d '\n') && \
+    gtm_one_line=$(echo "$gtm" | tr -d '\n') && \
+    ga4_escaped=$(echo "$ga4_one_line" | sed -e 's/[\/&]/\\&/g') && \
+    gtm_escaped=$(echo "$gtm_one_line" | sed -e 's/[\/&]/\\&/g') && \
+    sed -i "s#<!--google Analytics Tag -->#${ga4_escaped}#g" $SOURCE_DIR/src/main/resources/templates/index.html && \
+    sed -i "s#<!-- Google Tag Manager (noscript) -->#${gtm_escaped}#g" $SOURCE_DIR/src/main/resources/templates/index.html
 
 # Build.
 RUN mvn package -Pjar -DskipTests
@@ -81,15 +101,21 @@ RUN chmod ugo+r /usr/local/app/templates/appConfig.js.template && \
 RUN groupadd --non-unique -g $USER_ID $USER_NAME && \
     useradd --non-unique -d /$USER_NAME -m -u $USER_ID -g $USER_ID $USER_NAME
 
-# Login as user.
-USER $USER_NAME
-
 # Set deployment directory.
 WORKDIR /$USER_NAME
+
+# Login as user.
+USER $USER_NAME
 
 # Copy over the built artifact and library from the maven image.
 COPY --from=maven $SOURCE_DIR/target/ROOT.jar ./sage.jar
 COPY --from=maven $SOURCE_DIR/target/libs ./libs
+COPY --from=maven $SOURCE_DIR/build/Ga4.txt ./build/Ga4.txt
+COPY --from=maven $SOURCE_DIR/build/Gtm.txt ./build/Gtm.txt
+COPY --from=maven $SOURCE_DIR/src/main/resources/templates/index.html ./src/main/resources/templates/index.html
+
+# Make sure the user has the necessary permissions on index.html
+RUN chown $USER_NAME:$USER_NAME ./src/main/resources/templates/index.html && chmod u+rw ./src/main/resources/templates/index.html
 
 ENV AUTH_STRATEGY=weaverAuth
 
@@ -103,7 +129,7 @@ ENV APP_CONFIG_PATH=file:/$USER_NAME/appConfig.js
 EXPOSE 9000
 
 # Entrypoint performs environment substitution on appConfig.js.
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 
 # Run java command.
 CMD ["java", "-jar", "./sage.jar"]

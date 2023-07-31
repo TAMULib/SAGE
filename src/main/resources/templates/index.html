@@ -3,17 +3,9 @@
 <html lang="en" class="no-js">
 
 <head>
-
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YQGZPWHMW1"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-YQGZPWHMW1');
-  </script>
-  <!-- End of Google tag (gtag.js) -->
-
+  <!-- Google Tag Manager -->
+  <!--google Analytics Tag -->
+  <!-- End Google Tag Manager -->
   <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
     window.location.base = [[${ base }]];
@@ -38,19 +30,28 @@
 </head>
 
 <body ng-controller="AppLoginController" class="wvr-components-loading">
+
+  <!-- Google Tag Manager (noscript) -->
+
+  <!-- End Google Tag Manager (noscript) -->
+
   <main>
-    <tl-header page-title="Digital Collections" page-title-url="https://library.tamu.edu/research/digital_collections.html"></tl-header>
+    <tl-header page-title="Digital Collections"
+      page-title-url="https://library.tamu.edu/research/digital_collections.html"></tl-header>
 
     <alerts types="WARNING,ERROR"></alerts>
 
-    <modal modal-id="verifyEmailModal" modal-view="views/modals/verifyEmailModal.html" modal-header-class="modal-header-primary" wvr-modal-backdrop="static"></modal>
-    <modal modal-id="loginModal" modal-view="views/modals/loginModal.html" modal-header-class="modal-header-primary" wvr-modal-backdrop="static"></modal>
+    <modal modal-id="verifyEmailModal" modal-view="views/modals/verifyEmailModal.html"
+      modal-header-class="modal-header-primary" wvr-modal-backdrop="static"></modal>
+    <modal modal-id="loginModal" modal-view="views/modals/loginModal.html" modal-header-class="modal-header-primary"
+      wvr-modal-backdrop="static"></modal>
 
     <div class="container-fluid">
       <div class="container">
         <div class="col-md-12" ng-controller="AppLoginController">
           <div ng-if="!isAnonymous()" class="col-md-12" ng-controller="CoreAdminController">
-            <modal modal-id="assumeUserModal" modal-view="views/modals/assumeUserModal.html" modal-header-class="modal-header-primary" wvr-modal-backdrop="static"></modal>
+            <modal modal-id="assumeUserModal" modal-view="views/modals/assumeUserModal.html"
+              modal-header-class="modal-header-primary" wvr-modal-backdrop="static"></modal>
             <div class="row">
               <nav class="pull-right">
                 <div class="dropdown">
@@ -60,12 +61,15 @@
                     <username></username> <span class="caret"></span>
                   </a>
                   <ul class="dropdown-menu" role="menu">
-                    <li ng-if="isManager() || isAdmin()"><a href="management/discovery-view">Manage Discovery Views</a></li>
+                    <li ng-if="isManager() || isAdmin()"><a href="management/discovery-view">Manage Discovery Views</a>
+                    </li>
                     <li ng-if="isAdmin() || isAssuming() == 'true'" role="presentation" class="divider"></li>
-                    <li ng-if="isAdmin() || isAssuming() == 'true'" role="presentation" class="dropdown-header">Admin Actions</li>
+                    <li ng-if="isAdmin() || isAssuming() == 'true'" role="presentation" class="dropdown-header">Admin
+                      Actions</li>
                     <li ng-if="isAdmin()"><a href="users">Manage Users</a></li>
                     <li ng-if="isAdmin() || isAssuming() == 'true'">
-                      <a href ng-if="isAssuming() == 'false'" data-toggle="modal" ng-click="openModal('#assumeUserModal')">{{assumedControl.button}}</a>
+                      <a href ng-if="isAssuming() == 'false'" data-toggle="modal"
+                        ng-click="openModal('#assumeUserModal')">{{assumedControl.button}}</a>
                       <a href ng-if="isAssuming() == 'true'" ng-click="assumeUser(assume)">{{assumedControl.button}}</a>
                     </li>
                   </ul>
