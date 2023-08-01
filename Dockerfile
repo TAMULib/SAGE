@@ -45,7 +45,6 @@ COPY ./build ./build
 COPY ./build/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 COPY ./package.json ./package.json
 
-
 USER root
 COPY ./build/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 

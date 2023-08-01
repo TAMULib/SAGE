@@ -10,7 +10,6 @@ envsubst < /usr/local/app/templates/appConfig.js.template > appConfig.js
 echo "Done"
 head -n 20 appConfig.js
 
-echo "Done docker-entrypoint..."
 
 ### Below is the injecting script that will inject the txt files into the placeholder###
 ### into the index.html file incase you do not want it to be built within the Docker image###
@@ -36,5 +35,7 @@ echo "Done docker-entrypoint..."
 # sed -i "s#<!-- Google Tag Manager (noscript) -->#${gtm_escaped}#g" "${htmlfiles_dir}index.html"
 
 # chown -R $USER_NAME:$USER_NAME ./src/main/resources/templates && chmod -R u+rw ./src/main/resources/templates
+
+echo "Done docker-entrypoint..."
 
 exec "$@"
