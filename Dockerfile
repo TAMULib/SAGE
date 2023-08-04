@@ -46,7 +46,8 @@ COPY ./build/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 COPY ./package.json ./package.json
 
 USER root
-COPY ./src/main/resources/templates/index.html $SOURCE_DIR/src/main/resources/templates/index.html
+# COPY ./src/main/resources/templates/index.html $SOURCE_DIR/src/main/resources/templates/index.html
+COPY ./build/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 # Set ownership and permissions for the directory and the file
 RUN chown -R $USER_ID:$USER_ID $SOURCE_DIR/src/main/resources/templates && \
@@ -57,17 +58,17 @@ RUN chmod ugo+rx /usr/local/bin/docker-entrypoint.sh
 # Assign file permissions.
 RUN chown -R $USER_ID:$USER_ID $SOURCE_DIR
 
+# Login as user.
+USER $USER_NAME
 
 # Perform actions.
 RUN echo $NPM_REGISTRY && \
     bash $SOURCE_DIR/build/docker-npmrc.sh $NPM_REGISTRY
 
 # Copy in your index.html file and modify it before the mvn package command
-# COPY ./src/main/resources/templates/index.html $SOURCE_DIR/src/main/resources/templates/index.html
+COPY ./src/main/resources/templates/index.html $SOURCE_DIR/src/main/resources/templates/index.html
 # RUN chmod u+rw $SOURCE_DIR/src/main/resources/templates/index.html
 
-# Login as user.
-USER $USER_NAME
 
 # Injection script to be built into the image
 RUN if [ "$NODE_ENV" = "production" ]; then \
@@ -122,10 +123,13 @@ COPY --from=maven $SOURCE_DIR/build/Gtm.txt ./build/Gtm.txt
 COPY --from=maven $SOURCE_DIR/src/main/resources/templates/index.html ./src/main/resources/templates/index.html
 
 # Make sure the user has the necessary permissions on the templates directory and its contents
-USER root
-RUN chown -R $USER_NAME:$USER_NAME ./src/main/resources/templates && \
-    chmod -R a+rw ./src/main/resources/templates
-USER sage
+# USER root
+# RUN chown -R $USER_NAME:$USER_NAME ./src/main/resources/templates && \
+#     chmod -R a+rw ./src/main/resources/templates
+# USER sage
+
+# Make sure the user has the necessary permissions on index.html
+RUN chown $USER_NAME:$USER_NAME ./src/main/resources/templates/index.html && chmod u+rw ./src/main/resources/templates/index.html
 
 ENV AUTH_STRATEGY=weaverAuth
 

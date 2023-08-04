@@ -38,6 +38,8 @@ if [ "$NODE_ENV" = "production" ]; then
 # sed -i "s#<!--google Analytics Tag -->#${ga4_escaped}#g" "${htmlfiles_dir}index.html"
 # sed -i "s#<!-- Google Tag Manager (noscript) -->#${gtm_escaped}#g" "${htmlfiles_dir}index.html"
 
+# chown -R $USER_NAME:$USER_NAME ./src/main/resources/templates && chmod -R u+rw ./src/main/resources/templates
+
 else
   echo "Not running in production environment"
 fi
