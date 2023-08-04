@@ -46,32 +46,38 @@ COPY ./build/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 COPY ./package.json ./package.json
 
 USER root
-COPY ./build/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+COPY ./src/main/resources/templates/index.html $SOURCE_DIR/src/main/resources/templates/index.html
 
-# RUN chmod +x ./build/docker-entrypoint.sh
+# Set ownership and permissions for the directory and the file
+RUN chown -R $USER_ID:$USER_ID $SOURCE_DIR/src/main/resources/templates && \
+    chmod -R u+rw $SOURCE_DIR/src/main/resources/templates
+
 RUN chmod ugo+rx /usr/local/bin/docker-entrypoint.sh
 
 # Assign file permissions.
 RUN chown -R $USER_ID:$USER_ID $SOURCE_DIR
 
-# Login as user.
-USER $USER_NAME
 
 # Perform actions.
 RUN echo $NPM_REGISTRY && \
     bash $SOURCE_DIR/build/docker-npmrc.sh $NPM_REGISTRY
 
 # Copy in your index.html file and modify it before the mvn package command
-COPY ./src/main/resources/templates/index.html $SOURCE_DIR/src/main/resources/templates/index.html
+# COPY ./src/main/resources/templates/index.html $SOURCE_DIR/src/main/resources/templates/index.html
+# RUN chmod u+rw $SOURCE_DIR/src/main/resources/templates/index.html
 
-RUN ga4=$(cat ./build/Ga4.txt) && \
-    gtm=$(cat ./build/Gtm.txt) && \
-    ga4_one_line=$(echo "$ga4" | tr -d '\n') && \
-    gtm_one_line=$(echo "$gtm" | tr -d '\n') && \
-    ga4_escaped=$(echo "$ga4_one_line" | sed -e 's/[\/&]/\\&/g') && \
-    gtm_escaped=$(echo "$gtm_one_line" | sed -e 's/[\/&]/\\&/g') && \
-    sed -i "s#<!--google Analytics Tag -->#${ga4_escaped}#g" $SOURCE_DIR/src/main/resources/templates/index.html && \
-    sed -i "s#<!-- Google Tag Manager (noscript) -->#${gtm_escaped}#g" $SOURCE_DIR/src/main/resources/templates/index.html
+# Login as user.
+USER $USER_NAME
+
+# Injection script to be built into the image
+# RUN ga4=$(cat ./build/Ga4.txt) && \
+#     gtm=$(cat ./build/Gtm.txt) && \
+#     ga4_one_line=$(echo "$ga4" | tr -d '\n') && \
+#     gtm_one_line=$(echo "$gtm" | tr -d '\n') && \
+#     ga4_escaped=$(echo "$ga4_one_line" | sed -e 's/[\/&]/\\&/g') && \
+#     gtm_escaped=$(echo "$gtm_one_line" | sed -e 's/[\/&]/\\&/g') && \
+#     sed -i "s#<!--google Analytics Tag -->#${ga4_escaped}#g" $SOURCE_DIR/src/main/resources/templates/index.html && \
+#     sed -i "s#<!-- Google Tag Manager (noscript) -->#${gtm_escaped}#g" $SOURCE_DIR/src/main/resources/templates/index.html
 
 # Build.
 RUN mvn package -Pjar -DskipTests
@@ -113,8 +119,11 @@ COPY --from=maven $SOURCE_DIR/build/Ga4.txt ./build/Ga4.txt
 COPY --from=maven $SOURCE_DIR/build/Gtm.txt ./build/Gtm.txt
 COPY --from=maven $SOURCE_DIR/src/main/resources/templates/index.html ./src/main/resources/templates/index.html
 
-# Make sure the user has the necessary permissions on index.html
-RUN chown $USER_NAME:$USER_NAME ./src/main/resources/templates/index.html && chmod u+rw ./src/main/resources/templates/index.html
+# Make sure the user has the necessary permissions on the templates directory and its contents
+USER root
+RUN chown -R $USER_NAME:$USER_NAME ./src/main/resources/templates && \
+    chmod -R a+rw ./src/main/resources/templates
+USER sage
 
 ENV AUTH_STRATEGY=weaverAuth
 
