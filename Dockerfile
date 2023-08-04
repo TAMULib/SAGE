@@ -1,21 +1,9 @@
-# # Injection script to be built into the image
-# RUN if [ "$NODE_ENV" = "production" ]; then \
-#         ga4=$(cat ./build/Ga4.txt) && \
-#         gtm=$(cat ./build/Gtm.txt) && \
-#         ga4_one_line=$(echo "$ga4" | tr -d '\n') && \
-#         gtm_one_line=$(echo "$gtm" | tr -d '\n') && \
-#         ga4_escaped=$(echo "$ga4_one_line" | sed -e 's/[\/&]/\\&/g') && \
-#         gtm_escaped=$(echo "$gtm_one_line" | sed -e 's/[\/&]/\\&/g') && \
-#         sed -i "s#<!--google Analytics Tag -->#${ga4_escaped}#g" $SOURCE_DIR/src/main/resources/templates/index.html && \
-#         sed -i "s#<!-- Google Tag Manager (noscript) -->#${gtm_escaped}#g" $SOURCE_DIR/src/main/resources/templates/index.html; \
-#         fi
-
 # Settings.
 ARG USER_ID=3001
 ARG USER_NAME=sage
 ARG SOURCE_DIR=/$USER_NAME/source
 ARG NPM_REGISTRY=upstream
-ARG NODE_ENV=development
+ARG NODE_ENV=production
 
 # Maven stage.
 FROM maven:3-openjdk-11-slim as maven
@@ -86,7 +74,7 @@ RUN if [ "$NODE_ENV" = "production" ]; then \
         gtm_escaped=$(echo "$gtm_one_line" | sed -e 's/[\/&]/\\&/g') && \
         sed -i "s#<!--google Analytics Tag -->#${ga4_escaped}#g" $SOURCE_DIR/src/main/resources/templates/index.html && \
         sed -i "s#<!-- Google Tag Manager (noscript) -->#${gtm_escaped}#g" $SOURCE_DIR/src/main/resources/templates/index.html; \
-    fi
+fi
 
 # Build.
 RUN mvn package -Pjar -DskipTests
