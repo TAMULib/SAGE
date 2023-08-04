@@ -70,14 +70,16 @@ RUN echo $NPM_REGISTRY && \
 USER $USER_NAME
 
 # Injection script to be built into the image
-# RUN ga4=$(cat ./build/Ga4.txt) && \
-#     gtm=$(cat ./build/Gtm.txt) && \
-#     ga4_one_line=$(echo "$ga4" | tr -d '\n') && \
-#     gtm_one_line=$(echo "$gtm" | tr -d '\n') && \
-#     ga4_escaped=$(echo "$ga4_one_line" | sed -e 's/[\/&]/\\&/g') && \
-#     gtm_escaped=$(echo "$gtm_one_line" | sed -e 's/[\/&]/\\&/g') && \
-#     sed -i "s#<!--google Analytics Tag -->#${ga4_escaped}#g" $SOURCE_DIR/src/main/resources/templates/index.html && \
-#     sed -i "s#<!-- Google Tag Manager (noscript) -->#${gtm_escaped}#g" $SOURCE_DIR/src/main/resources/templates/index.html
+RUN if [ "$NODE_ENV" = "production" ]; then \
+        ga4=$(cat ./build/Ga4.txt) && \
+        gtm=$(cat ./build/Gtm.txt) && \
+        ga4_one_line=$(echo "$ga4" | tr -d '\n') && \
+        gtm_one_line=$(echo "$gtm" | tr -d '\n') && \
+        ga4_escaped=$(echo "$ga4_one_line" | sed -e 's/[\/&]/\\&/g') && \
+        gtm_escaped=$(echo "$gtm_one_line" | sed -e 's/[\/&]/\\&/g') && \
+        sed -i "s#<!--google Analytics Tag -->#${ga4_escaped}#g" $SOURCE_DIR/src/main/resources/templates/index.html && \
+        sed -i "s#<!-- Google Tag Manager (noscript) -->#${gtm_escaped}#g" $SOURCE_DIR/src/main/resources/templates/index.html; \
+        fi
 
 # Build.
 RUN mvn package -Pjar -DskipTests
