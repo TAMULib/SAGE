@@ -128,8 +128,10 @@ COPY --from=maven $SOURCE_DIR/build/Ga4.txt ./build/Ga4.txt
 COPY --from=maven $SOURCE_DIR/build/Gtm.txt ./build/Gtm.txt
 COPY --from=maven $SOURCE_DIR/src/main/resources/templates/index.html ./src/main/resources/templates/index.html
 
+USER root
 # Make sure the user has the necessary permissions on index.html
 RUN chown $USER_NAME:$USER_NAME ./src/main/resources/templates/index.html && chmod u+rw ./src/main/resources/templates/index.html
+USER sage
 
 ENV AUTH_STRATEGY=weaverAuth
 
