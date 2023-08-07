@@ -34,12 +34,22 @@ For _advanced use cases_, or when `docker-compose` is unavailable, the use of `d
 
 Deployment, in general, may look something like this:
 
+### Starting Solr
 ```shell
-cd solr
-docker build -t sage/solr .
-docker run -p 8983:8983 -it sage/solr
+# Switch into solr directory.
+cd solr/
+
+# Create and use a local volume.
+mkdir -vp volume/solr-data_var/data/sage-1_0
+docker volume create solr-data_var
+cp -vR configsets volume/solr-data_var/data/
+cp -v core.properties volume/solr-data_var/data/sage-1_0/
+
+# Run the Docker, using the desired pre-built image, such as solr:9.3.0-slim.
+docker run --name local_solr --mount source=solr-data_var,target=/var/solr/ -p 8983:8983 -it solr:9.3.0-slim
 ```
 
+### Starting Sage
 ```shell
 cp example.env .env
 cp example.env.client .env.client

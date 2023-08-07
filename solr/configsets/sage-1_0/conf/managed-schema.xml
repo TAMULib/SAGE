@@ -8,7 +8,7 @@
   <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" />
   <field name="_version_" type="long" indexed="false" stored="false" multiValued="false" />
   <field name="_root_" type="string" indexed="true" stored="false" docValues="false" />
-  <field name="_text_" type="text" />
+  <field name="_text_" type="text_general" multiValued="true" />
   <field name="timestamp" type="date" indexed="true" stored="true" default="NOW" multiValued="false" />
 
   <!-- '_si' = single, '_t' = copy to '_text_' -->
@@ -60,13 +60,13 @@
   <dynamicField name="*_string_si" type="string" indexed="true" stored="true" multiValued="false" />
   <dynamicField name="*_string_si_t" type="string" indexed="true" stored="true" multiValued="false" />
 
-  <dynamicField name="*_text" type="text" indexed="true" stored="true" multiValued="true" />
-  <dynamicField name="*_text_t" type="text" indexed="true" stored="true" multiValued="true" />
-  <dynamicField name="*_text_si" type="text" indexed="true" stored="true" multiValued="false" />
-  <dynamicField name="*_text_si_t" type="text" indexed="true" stored="true" multiValued="false" />
+  <dynamicField name="*_text" type="text_general" indexed="true" stored="true" multiValued="true" />
+  <dynamicField name="*_text_t" type="text_general" indexed="true" stored="true" multiValued="true" />
+  <dynamicField name="*_text_si" type="text_general" indexed="true" stored="true" multiValued="false" />
+  <dynamicField name="*_text_si_t" type="text_general" indexed="true" stored="true" multiValued="false" />
 
-  <dynamicField name="*_text_en_split" type="text_en_split"  indexed="true"  stored="true" />
-  <dynamicField name="*_text_en_split_t" type="text_en_split"  indexed="true"  stored="true" />
+  <dynamicField name="*_text_en_split" type="text_en_split"  indexed="true"  stored="true" multiValued="true" />
+  <dynamicField name="*_text_en_split_t" type="text_en_split"  indexed="true"  stored="true" multiValued="true" />
   <dynamicField name="*_text_si_en_split" type="text_en_split"  indexed="true"  stored="true" multiValued="false" />
   <dynamicField name="*_text_si_en_split_t" type="text_en_split"  indexed="true"  stored="true" multiValued="false" />
 
@@ -81,21 +81,21 @@
   <dynamicField name="*_whole_si_t" type="whole" indexed="true" stored="true" multiValued="false" />
 
   <!-- Special / Core field types. -->
-  <fieldType name="binary" class="solr.BinaryField" />
-  <fieldType name="bool" class="solr.BoolField" sortMissingLast="true" />
-  <fieldType name="date" class="solr.DatePointField" docValues="true" />
-  <fieldType name="double" class="solr.DoublePointField" docValues="true" />
-  <fieldType name="float" class="solr.FloatPointField" docValues="true" />
-  <fieldType name="int" class="solr.IntPointField" docValues="true" />
-  <fieldType name="long" class="solr.LongPointField" docValues="true" />
-  <fieldType name="random" class="solr.RandomSortField" indexed="true" />
-  <fieldType name="string" class="solr.StrField" sortMissingLast="true" docValues="true" />
+  <fieldType name="binary" class="solr.BinaryField" multiValued="true" />
+  <fieldType name="bool" class="solr.BoolField" sortMissingLast="true" multiValued="true" />
+  <fieldType name="date" class="solr.DatePointField" docValues="true" multiValued="true" />
+  <fieldType name="double" class="solr.DoublePointField" docValues="true" multiValued="true" />
+  <fieldType name="float" class="solr.FloatPointField" docValues="true" multiValued="true" />
+  <fieldType name="int" class="solr.IntPointField" docValues="true" multiValued="true" />
+  <fieldType name="long" class="solr.LongPointField" docValues="true" multiValued="true" />
+  <fieldType name="random" class="solr.RandomSortField" indexed="true" multiValued="true" />
+  <fieldType name="string" class="solr.StrField" sortMissingLast="true" docValues="true" multiValued="true" />
 
   <!-- Special Multi-valued used in solrconfig.xml -->
-  <fieldType name="dates" class="solr.DatePointField" docValues="true" multiValued="true" />
-  <fieldType name="bools" class="solr.BoolField" sortMissingLast="true" multiValued="true" />
-  <fieldType name="longs" class="solr.LongPointField" docValues="true" multiValued="true" />
-  <fieldType name="doubles" class="solr.DoublePointField" docValues="true" multiValued="true" />
+  <fieldType name="pdates" class="solr.DatePointField" docValues="true" multiValued="true" />
+  <fieldType name="booleans" class="solr.BoolField" sortMissingLast="true" multiValued="true" />
+  <fieldType name="plongs" class="solr.LongPointField" docValues="true" multiValued="true" />
+  <fieldType name="pdoubles" class="solr.DoublePointField" docValues="true" multiValued="true" />
 
   <!-- Copy all fields ending in '_t' into the all text search field. -->
   <copyField source="*_t" dest="_text_" />
@@ -108,8 +108,8 @@
     </analyzer>
   </fieldType>
 
-  <!-- "text" = normal text (separates spaces on query)  -->
-  <fieldType name="text" class="solr.TextField" positionIncrementGap="100">
+  <!-- "text_general" = normal text (separates spaces on query)  -->
+  <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
     <analyzer type="index">
       <tokenizer class="solr.StandardTokenizerFactory" />
 
@@ -203,17 +203,17 @@
   <field name="thumbnail" type="whole" indexed="true" stored="true" multiValued="false" />
   <field name="resource" type="whole" indexed="true" stored="true" multiValued="false" />
   <field name="manifest" type="whole" indexed="true" stored="true" multiValued="false" />
-  <field name="application_type" type="text" indexed="true" stored="true" multiValued="false" />
+  <field name="application_type" type="text_general" indexed="true" stored="true" multiValued="false" />
 
   <copyField source="application_type" dest="application_type_facet" />
 
   <!-- Mandatory (M) -->
-  <field name="title" type="text" indexed="true" stored="true" multiValued="false" />
-  <field name="content_type" type="text" indexed="true" stored="true" />
-  <field name="digital_publisher" type="text" indexed="true" stored="true" />
-  <field name="rights_access" type="text" indexed="true" stored="true" />
-  <field name="reformatting" type="text" indexed="true" stored="true" />
-  <field name="filename" type="whole" indexed="true" stored="true" />
+  <field name="title" type="text_general" indexed="true" stored="true" multiValued="false" />
+  <field name="content_type" type="text_general" indexed="true" stored="true" multiValued="true" />
+  <field name="digital_publisher" type="text_general" indexed="true" stored="true" multiValued="true" />
+  <field name="rights_access" type="text_general" indexed="true" stored="true" multiValued="true" />
+  <field name="reformatting" type="text_general" indexed="true" stored="true" multiValued="true" />
+  <field name="filename" type="whole" indexed="true" stored="true" multiValued="true" />
 
   <copyField source="title" dest="_text_" />
   <copyField source="title" dest="_text_ws" />
@@ -225,16 +225,16 @@
   <copyField source="digital_publisher" dest="digital_publisher_facet" />
 
   <!-- Mandatory if applicable and available (MA) -->
-  <field name="subject" type="text" indexed="true" stored="true" />
-  <field name="creator" type="text" indexed="true" stored="true" />
+  <field name="subject" type="text_general" indexed="true" stored="true" multiValued="true" />
+  <field name="creator" type="text_general" indexed="true" stored="true" multiValued="true" />
   <field name="date_published" type="date" indexed="true" stored="true" multiValued="false" />
   <field name="date_created" type="date" indexed="true" stored="true" multiValued="false" />
-  <field name="summary_abstract" type="text" indexed="true" stored="true" />
-  <field name="language" type="text" indexed="true" stored="true" />
-  <field name="institution_department" type="text" indexed="true" stored="true" />
-  <field name="standard_digital_identifier" type="text" indexed="true" stored="true" />
-  <field name="local_digital_identifier" type="text" indexed="true" stored="true" />
-  <field name="edition_revision_information" type="text" indexed="true" stored="true" />
+  <field name="summary_abstract" type="text_general" indexed="true" stored="true" multiValued="true" />
+  <field name="language" type="text_general" indexed="true" stored="true" multiValued="true" />
+  <field name="institution_department" type="text_general" indexed="true" stored="true" multiValued="true" />
+  <field name="standard_digital_identifier" type="text_general" indexed="true" stored="true" multiValued="true" />
+  <field name="local_digital_identifier" type="text_general" indexed="true" stored="true" multiValued="true" />
+  <field name="edition_revision_information" type="text_general" indexed="true" stored="true" multiValued="true" />
 
   <copyField source="subject" dest="_text_" />
   <copyField source="subject" dest="_text_ws" />
@@ -252,16 +252,16 @@
   <copyField source="institution_department" dest="institution_department_facet" />
 
   <!-- Non-core Recommended -->
-  <field name="alternative_title" type="text" indexed="true" stored="true" />
-  <field name="genre" type="text" indexed="true" stored="true" />
-  <field name="table_of_contents" type="text" indexed="true" stored="true" />
-  <field name="contributor" type="text" indexed="true" stored="true" />
-  <field name="related_resource" type="text" indexed="true" stored="true" />
-  <field name="original_publisher" type="text" indexed="true" stored="true" />
-  <field name="physical_extent" type="text" indexed="true" stored="true" />
-  <field name="sponsor" type="text" indexed="true" stored="true" />
-  <field name="details" type="text" indexed="true" stored="true" />
-  <field name="spatial" type="text" indexed="true" stored="true" />
+  <field name="alternative_title" type="text_general" indexed="true" stored="true" multiValued="true" />
+  <field name="genre" type="text_general" indexed="true" stored="true" multiValued="true" />
+  <field name="table_of_contents" type="text_general" indexed="true" stored="true" multiValued="true" />
+  <field name="contributor" type="text_general" indexed="true" stored="true" multiValued="true" />
+  <field name="related_resource" type="text_general" indexed="true" stored="true" multiValued="true" />
+  <field name="original_publisher" type="text_general" indexed="true" stored="true" multiValued="true" />
+  <field name="physical_extent" type="text_general" indexed="true" stored="true" multiValued="true" />
+  <field name="sponsor" type="text_general" indexed="true" stored="true" multiValued="true" />
+  <field name="details" type="text_general" indexed="true" stored="true" multiValued="true" />
+  <field name="spatial" type="text_general" indexed="true" stored="true" multiValued="true" />
 
   <copyField source="alternative_title" dest="_text_" />
   <copyField source="alternative_title" dest="_text_ws" />
@@ -286,14 +286,14 @@
   <copyField source="spatial" dest="spatial_facet" />
 
   <!-- Non-core Optional -->
-  <field name="source_collection" type="text" indexed="true" stored="true" />
-  <field name="original_resource" type="text" indexed="true" stored="true" />
-  <field name="notes" type="text" indexed="true" stored="true" />
-  <field name="origin" type="text" indexed="true" stored="true" />
-  <field name="audience_level" type="text" indexed="true" stored="true" />
-  <field name="classification" type="text" indexed="true" stored="true" />
-  <field name="physical_item_identifier" type="text" indexed="true" stored="true" />
-  <field name="physical_item_location" type="text" indexed="true" stored="true" />
+  <field name="source_collection" type="text_general" indexed="true" stored="true" multiValued="true" />
+  <field name="original_resource" type="text_general" indexed="true" stored="true" multiValued="true" />
+  <field name="notes" type="text_general" indexed="true" stored="true" multiValued="true" />
+  <field name="origin" type="text_general" indexed="true" stored="true" multiValued="true" />
+  <field name="audience_level" type="text_general" indexed="true" stored="true" multiValued="true" />
+  <field name="classification" type="text_general" indexed="true" stored="true" multiValued="true" />
+  <field name="physical_item_identifier" type="text_general" indexed="true" stored="true" multiValued="true" />
+  <field name="physical_item_location" type="text_general" indexed="true" stored="true" multiValued="true" />
 
   <copyField source="notes" dest="_text_" />
   <copyField source="notes" dest="_text_ws" />
