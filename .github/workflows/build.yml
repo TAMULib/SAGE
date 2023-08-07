@@ -2,6 +2,10 @@ name: Build
 
 on: [ push, pull_request, workflow_dispatch ]
 
+env:
+  CI_WUI_BRANCH: ${{ vars.CI_WUI_BRANCH }}
+  CI_WUI_DISABLE_LOCAL_PUBLISH: ${{ vars.CI_WUI_DISABLE_LOCAL_PUBLISH }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -18,11 +22,32 @@ jobs:
           repository: TAMULib/Weaver-UI-Core
           path: weaver-ui
           ref: 2.x
+          # Specify depth of 0 to enable fetching all branches and tags so that the "Use Custom Weaver-UI-Core Repo Version" works.
+          fetch-depth: 0
+
+      - name: "Detect Custom Weaver-UI-Core Repo Version"
+        continue-on-error: true
+        if: ${{ env.CI_WUI_BRANCH == '' }}
+        run: |
+            cd weaver-ui
+            export CI_WUI_BRANCH_VERSION=$(grep -so -m 1 '"@wvr/core": "[^"]*"' ../repo/package.json | sed -e 's|"@wvr/core": "||' -e 's|"$||')
+            export CI_WUI_BRANCH=$(git tag | grep -so -m 1 "^$CI_WUI_BRANCH_VERSION$")
+            # Some projects prefix their version with a "v".
+            if [[ $CI_WUI_BRANCH == "" && $CI_WUI_BRANCH_VERSION != "" ]] ; then export CI_WUI_BRANCH=$(git tag | grep -so -m 1 "^v$CI_WUI_BRANCH_VERSION$") ; fi
+            echo "CI_WUI_BRANCH=$CI_WUI_BRANCH" >> $GITHUB_ENV
+
+      - name: "Use Custom Weaver-UI-Core Repo Version"
+        continue-on-error: true
+        if: ${{ env.CI_WUI_BRANCH != '' }}
+        run: |
+          cd weaver-ui
+          git reset --hard $CI_WUI_BRANCH
 
       - name: "Run Weaver-UI-Core Docker Compose Registry Image"
         run: docker-compose -f $GITHUB_WORKSPACE/weaver-ui/docker-compose.yml up -d registry
 
       - name: "Publish Weaver-UI-Core (@wvr/core)"
+        if: ${{ env.CI_WUI_DISABLE_LOCAL_PUBLISH != 'true' }}
         run: |
           cd $GITHUB_WORKSPACE/weaver-ui
           npm run publish:local
