@@ -85,20 +85,11 @@ public class SolrSourceService implements SourceService {
             luke.setNumTerms(0);
             LukeResponse lr = luke.process(solr);
 
-            // lookup solr document using filter to only gets available fields used in this scope
-            SolrQuery query = new SolrQuery();
-            query.setRows(1);
-
             for (FieldInfo info : lr.getFieldInfo().values()) {
                 SolrField field = SolrField.from(info);
 
                 if (!info.getName().contains("*") && !info.getName().equals("_version_")) {
-                    String q = String.format("%s AND %s:*", filter, info.getName());
-                    query.setQuery(q);
-                    QueryResponse qr = solr.query(query);
-                    if (qr.getResults().size() > 0) {
-                        fields.add(field);
-                    }
+                    fields.add(field);
                 }
             }
             return fields.stream();
