@@ -227,8 +227,8 @@
   <!-- Mandatory if applicable and available (MA) -->
   <field name="subject" type="text_general" indexed="true" stored="true" multiValued="true" />
   <field name="creator" type="text_general" indexed="true" stored="true" multiValued="true" />
-  <field name="date_published" type="date" indexed="true" stored="true" multiValued="false" />
-  <field name="date_created" type="date" indexed="true" stored="true" multiValued="false" />
+  <field name="date_published" type="string" indexed="true" stored="true" multiValued="false" />
+  <field name="date_created" type="string" indexed="true" stored="true" multiValued="false" />
   <field name="summary_abstract" type="text_general" indexed="true" stored="true" multiValued="true" />
   <field name="language" type="text_general" indexed="true" stored="true" multiValued="true" />
   <field name="institution_department" type="text_general" indexed="true" stored="true" multiValued="true" />
