@@ -205,6 +205,9 @@
   <field name="manifest" type="string" indexed="true" stored="true" multiValued="false" />
   <field name="application_type" type="text_general" indexed="true" stored="true" multiValued="false" />
 
+  <copyField source="collection" dest="collection_facet" />
+  <copyField source="thumbnail" dest="thumbnail_facet" />
+  <copyField source="resource" dest="resource_facet" />
   <copyField source="application_type" dest="application_type_facet" />
 
   <!-- Mandatory (M) -->
@@ -223,6 +226,8 @@
   <copyField source="digital_publisher" dest="_text_" />
   <copyField source="digital_publisher" dest="_text_ws" />
   <copyField source="digital_publisher" dest="digital_publisher_facet" />
+  <copyField source="reformatting" dest="reformatting_facet" />
+  <copyField source="filename" dest="filename_facet" />
 
   <!-- Mandatory if applicable and available (MA) -->
   <field name="subject" type="text_general" indexed="true" stored="true" multiValued="true" />
@@ -232,8 +237,8 @@
   <field name="summary_abstract" type="text_general" indexed="true" stored="true" multiValued="true" />
   <field name="language" type="text_general" indexed="true" stored="true" multiValued="true" />
   <field name="institution_department" type="text_general" indexed="true" stored="true" multiValued="true" />
-  <field name="standard_digital_identifier" type="text_general" indexed="true" stored="true" multiValued="true" />
-  <field name="local_digital_identifier" type="text_general" indexed="true" stored="true" multiValued="true" />
+  <field name="standard_digital_identifier" type="string" indexed="true" stored="true" multiValued="true" />
+  <field name="local_digital_identifier" type="string" indexed="true" stored="true" multiValued="true" />
   <field name="edition_revision_information" type="text_general" indexed="true" stored="true" multiValued="true" />
 
   <copyField source="subject" dest="_text_" />
@@ -243,13 +248,21 @@
   <copyField source="creator" dest="_text_" />
   <copyField source="creator" dest="_text_ws" />
   <copyField source="creator" dest="creator_facet" />
+  <copyField source="date_published" dest="date_published_facet" />
+  <copyField source="date_created" dest="date_created_facet" />
   <copyField source="summary_abstract" dest="_text_" />
   <copyField source="summary_abstract" dest="_text_ws" />
   <copyField source="summary_abstract" dest="summary_abstract_facet" />
   <copyField source="summary_abstract" dest="summary_abstract_text_en_split" />
+  <copyField source="language" dest="language_facet" />
   <copyField source="institution_department" dest="_text_" />
   <copyField source="institution_department" dest="_text_ws" />
   <copyField source="institution_department" dest="institution_department_facet" />
+  <copyField source="standard_digital_identifier" dest="standard_digital_identifier_text" />
+  <copyField source="standard_digital_identifier" dest="standard_digital_identifier_facet" />
+  <copyField source="local_digital_identifier" dest="local_digital_identifier_text" />
+  <copyField source="local_digital_identifier" dest="local_digital_identifier_facet" />
+  <copyField source="edition_revision_information" dest="edition_revision_information_facet" />
 
   <!-- Non-core Recommended -->
   <field name="alternative_title" type="text_general" indexed="true" stored="true" multiValued="true" />
@@ -286,20 +299,29 @@
   <copyField source="spatial" dest="spatial_facet" />
 
   <!-- Non-core Optional -->
-  <field name="source_collection" type="text_general" indexed="true" stored="true" multiValued="true" />
-  <field name="original_resource" type="text_general" indexed="true" stored="true" multiValued="true" />
-  <field name="notes" type="text_general" indexed="true" stored="true" multiValued="true" />
-  <field name="origin" type="text_general" indexed="true" stored="true" multiValued="true" />
-  <field name="audience_level" type="text_general" indexed="true" stored="true" multiValued="true" />
-  <field name="classification" type="text_general" indexed="true" stored="true" multiValued="true" />
-  <field name="physical_item_identifier" type="text_general" indexed="true" stored="true" multiValued="true" />
-  <field name="physical_item_location" type="text_general" indexed="true" stored="true" multiValued="true" />
+  <field name="source_collection" type="string" indexed="true" stored="true" multiValued="true" />
+  <field name="original_resource" type="string" indexed="true" stored="true" multiValued="true" />
+  <field name="notes" type="string" indexed="true" stored="true" multiValued="true" />
+  <field name="origin" type="string" indexed="true" stored="true" multiValued="true" />
+  <field name="audience_level" type="string" indexed="true" stored="true" multiValued="true" />
+  <field name="classification" type="string" indexed="true" stored="true" multiValued="true" />
+  <field name="physical_item_identifier" type="string" indexed="true" stored="true" multiValued="true" />
+  <field name="physical_item_location" type="string" indexed="true" stored="true" multiValued="true" />
 
+  <copyField source="source_collection" dest="source_collection_facet" />
+  <copyField source="origin" dest="origin_text" />
+  <copyField source="origin" dest="origin_facet" />
   <copyField source="notes" dest="_text_" />
   <copyField source="notes" dest="_text_ws" />
   <copyField source="notes" dest="notes_facet" />
+  <copyField source="notes" dest="notes_text" />
   <copyField source="notes" dest="notes_text_en_split" />
+  <copyField source="audience_level" dest="audience_level_text" />
+  <copyField source="audience_level" dest="audience_level_facet" />
   <copyField source="classification" dest="_text_" />
   <copyField source="classification" dest="_text_ws" />
+  <copyField source="classification" dest="classification_text" />
   <copyField source="classification" dest="classification_facet" />
+  <copyField source="physical_item_identifier" dest="physical_item_identifier_facet" />
+  <copyField source="physical_item_location" dest="physical_item_location_facet" />
 </schema>
