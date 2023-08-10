@@ -85,13 +85,12 @@ public class SolrSourceService implements SourceService {
             luke.setNumTerms(0);
             LukeResponse lr = luke.process(solr);
 
-            for (FieldInfo info : lr.getFieldInfo().values()) {
-                SolrField field = SolrField.from(info);
-
-                if (!info.getName().contains("*") && !info.getName().equals("_version_")) {
-                    fields.add(field);
+            lr.getFieldInfo().forEach((key, value) -> {
+                if (!value.getName().contains("*") && !value.getName().equals("_version_")) {
+                    fields.add(SolrField.from(value));
                 }
-            }
+            });
+
             return fields.stream();
         } catch (ConnectException | SolrServerException e) {
             throw new SourceNotFoundException("Could not connect to the core, uri: " + uri, e);
