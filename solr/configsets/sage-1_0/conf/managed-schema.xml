@@ -199,9 +199,9 @@
   <!-- Everything below is added for compatibility with older style, remove these when no longer needed. -->
 
   <!-- Internal -->
-  <field name="collection" type="string" indexed="true" stored="true" multiValued="false" required="true" />
+  <field name="collection" type="string" indexed="true" stored="true" multiValued="true" required="true" />
   <field name="thumbnail" type="string" indexed="true" stored="true" multiValued="false" />
-  <field name="resource" type="string" indexed="true" stored="true" multiValued="false" />
+  <field name="resource" type="string" indexed="true" stored="true" multiValued="true" />
   <field name="manifest" type="string" indexed="true" stored="true" multiValued="false" />
   <field name="application_type" type="text_general" indexed="true" stored="true" multiValued="false" />
 
