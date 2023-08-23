@@ -3,7 +3,7 @@ ARG USER_ID=3001
 ARG USER_NAME=sage
 ARG SOURCE_DIR=/$USER_NAME/source
 ARG NPM_REGISTRY=upstream
-ARG NODE_ENV=production
+ARG NODE_ENV=development
 
 # Maven stage.
 FROM maven:3-openjdk-11-slim as maven
