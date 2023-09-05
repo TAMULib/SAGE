@@ -105,3 +105,7 @@ dist/
 !**/src/test/**
 
 *.mv.db
+
+### Google Tags/ Analytics ###
+/SAGE/build/Ga4.txt
+/SAGE/build/Gtm.txt
