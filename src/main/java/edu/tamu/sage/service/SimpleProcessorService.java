@@ -49,6 +49,12 @@ public class SimpleProcessorService implements ProcessorService {
     @Value("${app.solr.batch-size:250}")
     private Integer batchSize;
 
+    @Value("${app.googleTag}")
+    private String googleAnalytics;
+
+    public String getGoogleAnalytics() {
+        return googleAnalytics;
+    }
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 
