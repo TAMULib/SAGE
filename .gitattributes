@@ -1,0 +1,2 @@
+build/docker-entrypoint.sh text eol=lf
+build/docker-npmrc.sh text eol=lf
