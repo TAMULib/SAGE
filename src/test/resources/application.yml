@@ -83,6 +83,7 @@ info:
 
 app:
   url: http://localhost:${server.port}${server.servlet.context-path}
+  googleTag: GTM-5ZRSWRW
   email:
     host: relay.tamu.edu
     from: noreply@library.tamu.edu

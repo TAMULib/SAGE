@@ -110,6 +110,7 @@ info:
 app:
   url: http://localhost:${server.port}${server.servlet.context-path}
 
+  googleTag: GTM-5ZRSWRW
   # edu.tamu.weaver.email.config.WeaverEmailConfig
   email:
     host: relay.tamu.edu
@@ -118,6 +119,7 @@ app:
 
   cvcache:
     duration: 3600000
+
 
   # edu.tamu.weaver.auth.service.UserCredentialsService
   authority.admins:

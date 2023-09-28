@@ -49,7 +49,6 @@ COPY ./package.json ./package.json
 USER root
 COPY ./build/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
-# RUN chmod +x ./build/docker-entrypoint.sh
 RUN chmod ugo+rx /usr/local/bin/docker-entrypoint.sh
 
 # Assign file permissions.
@@ -64,15 +63,6 @@ RUN echo $NPM_REGISTRY && \
 
 # Copy in your index.html file and modify it before the mvn package command
 COPY ./src/main/resources/templates/index.html $SOURCE_DIR/src/main/resources/templates/index.html
-
-RUN ga4=$(cat ./build/Ga4.txt) && \
-    gtm=$(cat ./build/Gtm.txt) && \
-    ga4_one_line=$(echo "$ga4" | tr -d '\n') && \
-    gtm_one_line=$(echo "$gtm" | tr -d '\n') && \
-    ga4_escaped=$(echo "$ga4_one_line" | sed -e 's/[\/&]/\\&/g') && \
-    gtm_escaped=$(echo "$gtm_one_line" | sed -e 's/[\/&]/\\&/g') && \
-    sed -i "s#<!--google Analytics Tag -->#${ga4_escaped}#g" $SOURCE_DIR/src/main/resources/templates/index.html && \
-    sed -i "s#<!-- Google Tag Manager (noscript) -->#${gtm_escaped}#g" $SOURCE_DIR/src/main/resources/templates/index.html
 
 # Build.
 RUN mvn package -Pjar -DskipTests
@@ -110,12 +100,7 @@ USER $USER_NAME
 # Copy over the built artifact and library from the maven image.
 COPY --from=maven $SOURCE_DIR/target/ROOT.jar ./sage.jar
 COPY --from=maven $SOURCE_DIR/target/libs ./libs
-COPY --from=maven $SOURCE_DIR/build/Ga4.txt ./build/Ga4.txt
-COPY --from=maven $SOURCE_DIR/build/Gtm.txt ./build/Gtm.txt
-COPY --from=maven $SOURCE_DIR/src/main/resources/templates/index.html ./src/main/resources/templates/index.html
-
-# Make sure the user has the necessary permissions on index.html
-RUN chown $USER_NAME:$USER_NAME ./src/main/resources/templates/index.html && chmod u+rw ./src/main/resources/templates/index.html
+COPY --from=maven $SOURCE_DIR/build/docker-entrypoint.sh ./build/docker-entrypoint.sh
 
 ENV AUTH_STRATEGY=weaverAuth
 
