@@ -1,0 +1,49 @@
+name: Actions Runner Demo
+
+on:
+  push:
+    branches: [ "actions-runner-demo" ]
+  pull_request:
+    branches: [ "actions-runner-demo" ]
+
+jobs:
+
+  build:
+
+    runs-on: self-hosted
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Get app version from package.json
+      run: echo "VERSION=$(jq -r .version package.json)" >> $GITHUB_ENV
+
+    - name: Extract short commit hash
+      run: echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
+
+    - name: Construct full image tag
+      run: echo "FULL_IMAGE_TAG=${{ secrets.HARBOR_URL }}/${{ secrets.HARBOR_PROJECT }}/sage:${{ env.VERSION }}-${{ env.SHORT_SHA }}" >> $GITHUB_ENV
+    
+    - name: Build the Docker image
+      run: docker image build . --file Dockerfile --tag ${{ env.FULL_IMAGE_TAG }}
+
+    - name: List and verify the image
+      run: docker image ls --format "{{.Repository}}:{{.Tag}}" | grep "${{ env.FULL_IMAGE_TAG }}"
+
+    - name: Log in to Harbor using Robot Account
+      run: echo '${{ secrets.HARBOR_ROBOT_TOKEN }}' | docker login '${{ secrets.HARBOR_URL }}' --username '${{ secrets.HARBOR_ROBOT_USERNAME }}' --password-stdin
+
+    - name: Push image to harbor
+      run: docker image push ${{ env.FULL_IMAGE_TAG }}
+
+    - name: Log out from harbor
+      run: docker logout '${{ secrets.HARBOR_URL }}'
+    
+    - name: Remove image from node
+      run: docker image rm ${{ env.FULL_IMAGE_TAG }}
+
+    - name: Swap image using kubectl
+      run: kubectl set image deployment/sage sage=${{ env.FULL_IMAGE_TAG }} -n sage
+
+    - name: Confirm deployment rollout status
+      run: kubectl rollout status deployment/sage -n sage
