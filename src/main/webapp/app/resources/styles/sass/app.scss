@@ -57,3 +57,17 @@ tamufooter {
   overflow-y: auto;
 }
 
+//TAMU Customizations
+.btn-tamu-maroon {
+  background-color: #500000;
+  border-color:     darken(#500000, 10%);
+  color:            #ffffff;
+
+  &:hover,
+  &.active,
+  &.focus {
+    background-color: lighten(#500000, 5%);
+    border-color:     #500000;
+    color:            #ffffff;
+  }
+}
