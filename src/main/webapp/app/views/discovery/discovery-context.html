@@ -94,21 +94,25 @@
           <div class="row">
             <div class="input-group">
               <span ng-if="isAscending()" class="input-group-btn">
-                <button aria-label="Toggle Sort Order" class="btn btn-default" type="button" ng-click="toggleSort()">
+                <button aria-label="Sort by descending Order" class="btn btn-default" type="button" ng-click="toggleSort()" aria-pressed="{{!isAscending()}}">
                   <span class="glyphicon glyphicon-arrow-down"></span>
                 </button>
               </span>
               <span ng-if="!isAscending()" class="input-group-btn">
-                <button aria-label="Toggle Sort Order" class="btn btn-default" type="button" ng-click="toggleSort()">
+                <button aria-label="Sort by descending Order" class="btn btn-default" type="button" ng-click="toggleSort()" aria-pressed="{{!isAscending()}}">
                   <span class="glyphicon glyphicon-arrow-up"></span>
                 </button>
               </span>
+              <label id="sortByLabel" class="sr-only">Sort results by</label>
+              <select id="sortBy" class="form-control dc-filter-select" ng-model="discoveryContext.search.page.sort" ng-options="sort.key as sort.label for sort in discoveryContext.sortFields" trackby="sort.key" ng-change="updateSort()" aria-labelledby="sortByLabel"></select>
+
               <select class="form-control dc-filter-select" ng-model="discoveryContext.search.page.sort" ng-options="sort.key as sort.label for sort in discoveryContext.sortFields" trackby="sort.key" ng-change="updateSort()"></select>
             </div>
           </div>
         </div>
         <div class="col-sm-4 col-md-3">
-          <select class="form-control dc-filter-select" ng-model="discoveryContext.search.page.size" ng-options="rows.value as rows.label for rows in rowOptions" ng-change="updateLimit()"></select>
+          <label id="pageSizeLabel" class="sr-only">Results per page</label>
+          <select id="pageSize" class="form-control dc-filter-select" ng-model="discoveryContext.search.page.size" ng-options="rows.value as rows.label for rows in rowOptions" ng-change="updateLimit()" aria-labelledby="pageSizeLabel"></select>
         </div>
       </div>
       <hr class="dc-results-hr top">
