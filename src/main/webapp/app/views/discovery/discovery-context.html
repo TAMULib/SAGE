@@ -9,20 +9,20 @@
       <div ng-if="discoveryContext.logoUrl && discoveryContext.wideLogoUrl">
         <div ng-style="getNarrowLogoClass()" class="panel panel-default information-box logo-information-box narrow-logo">
           <div ng-if="discoveryContext.infoLinkText" class="panel-body">
-            <h3>
+            <h1>
               <a ng-if="discoveryContext.infoLinkUrl" href="{{discoveryContext.infoLinkUrl}}">{{discoveryContext.infoLinkText}}</a>
               <span ng-if="!discoveryContext.infoLinkUrl">{{discoveryContext.infoLinkText}}</span>
-            </h3>
+            </h1>
             <div ng-if="discoveryContext.infoText" class="panel-footer" ng-bind-html="presentCollectionText(discoveryContext.infoText)">
             </div>
           </div>
         </div>
         <div ng-style="getWideLogoClass()" class="panel panel-default information-box logo-information-box wide-logo">
           <div ng-if="discoveryContext.infoLinkText" class="panel-body">
-            <h3>
+            <h2>
               <a ng-if="discoveryContext.infoLinkUrl" href="{{discoveryContext.infoLinkUrl}}">{{discoveryContext.infoLinkText}}</a>
               <span ng-if="!discoveryContext.infoLinkUrl">{{discoveryContext.infoLinkText}}</span>
-            </h3>
+            </h2>
             <div ng-if="discoveryContext.infoText" class="panel-footer" ng-bind-html="presentCollectionText(discoveryContext.infoText)">
             </div>
           </div>
@@ -30,20 +30,20 @@
       </div>
       <div ng-style="getNarrowLogoClass()" ng-if="discoveryContext.logoUrl && !discoveryContext.wideLogoUrl" class="panel panel-default information-box logo-information-box">
         <div ng-if="discoveryContext.infoLinkText" class="panel-body">
-          <h3>
+          <h2>
             <a ng-if="discoveryContext.infoLinkUrl" href="{{discoveryContext.infoLinkUrl}}">{{discoveryContext.infoLinkText}}</a>
             <span ng-if="!discoveryContext.infoLinkUrl">{{discoveryContext.infoLinkText}}</span>
-          </h3>
+          </h2>
           <div ng-if="discoveryContext.infoText" class="panel-footer" ng-bind-html="presentCollectionText(discoveryContext.infoText)">
           </div>
         </div>
       </div>
       <div ng-if="!discoveryContext.logoUrl && discoveryContext.infoLinkText" class="panel panel-default information-box">
         <div class="panel-body">
-          <h3>
+          <h2>
             <a ng-if="discoveryContext.infoLinkUrl" href="{{discoveryContext.infoLinkUrl}}">{{discoveryContext.infoLinkText}}</a>
             <span ng-if="!discoveryContext.infoLinkUrl">{{discoveryContext.infoLinkText}}</span>
-          </h3>
+          </h2>
           <div ng-if="discoveryContext.infoText" class="panel-footer" ng-bind-html="presentCollectionText(discoveryContext.infoText)">
           </div>
         </div>
@@ -123,7 +123,7 @@
               </a>
             </div>
             <div class="media-body">
-              <h4 class="media-heading"><a href="discovery-context/{{discoveryContext.slug}}/{{result.uniqueIdentifier}}">{{result.title}}</a></h4>
+              <h3 class="media-heading"><a href="discovery-context/{{discoveryContext.slug}}/{{result.uniqueIdentifier}}">{{result.title}}</a></h3>
               <dl class="dc-result-metadata">
                 <result-entry ng-if="resultField.inList" class="dc-field" ng-repeat="resultField in result.fields" result-field="resultField"></result-entry>
               </dl>
