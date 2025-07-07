@@ -73,6 +73,13 @@ tamufooter {
 
 }
 
-.breadcrumb {
-  color: #333333 !important;
+.breadcrumbs {
+  ol.breadcrumb > li > a,
+  ol.breadcrumb > li.active > a.link-like {
+    color: #333333 !important;
+  }
+
+  ol.breadcrumb > li + li::before {
+    color: #333333 !important;
+  }
 }
