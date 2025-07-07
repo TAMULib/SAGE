@@ -1,7 +1,7 @@
 <div class="discovery-context row">
   {{$window}}
   <div class="dc-heading">
-    <h2>{{discoveryContext.name}}</h2>
+    <h1>{{discoveryContext.name}}</h1>
   </div>
   <div class="dc-content">
     <breadcrumbs contexts="breadcrumbContexts" reload="resetPage" home=""></breadcrumbs>
@@ -9,20 +9,20 @@
       <div ng-if="discoveryContext.logoUrl && discoveryContext.wideLogoUrl">
         <div ng-style="getNarrowLogoClass()" class="panel panel-default information-box logo-information-box narrow-logo">
           <div ng-if="discoveryContext.infoLinkText" class="panel-body">
-            <h3>
+            <h1>
               <a ng-if="discoveryContext.infoLinkUrl" href="{{discoveryContext.infoLinkUrl}}">{{discoveryContext.infoLinkText}}</a>
               <span ng-if="!discoveryContext.infoLinkUrl">{{discoveryContext.infoLinkText}}</span>
-            </h3>
+            </h1>
             <div ng-if="discoveryContext.infoText" class="panel-footer" ng-bind-html="presentCollectionText(discoveryContext.infoText)">
             </div>
           </div>
         </div>
         <div ng-style="getWideLogoClass()" class="panel panel-default information-box logo-information-box wide-logo">
           <div ng-if="discoveryContext.infoLinkText" class="panel-body">
-            <h3>
+            <h2>
               <a ng-if="discoveryContext.infoLinkUrl" href="{{discoveryContext.infoLinkUrl}}">{{discoveryContext.infoLinkText}}</a>
               <span ng-if="!discoveryContext.infoLinkUrl">{{discoveryContext.infoLinkText}}</span>
-            </h3>
+            </h2>
             <div ng-if="discoveryContext.infoText" class="panel-footer" ng-bind-html="presentCollectionText(discoveryContext.infoText)">
             </div>
           </div>
@@ -30,20 +30,20 @@
       </div>
       <div ng-style="getNarrowLogoClass()" ng-if="discoveryContext.logoUrl && !discoveryContext.wideLogoUrl" class="panel panel-default information-box logo-information-box">
         <div ng-if="discoveryContext.infoLinkText" class="panel-body">
-          <h3>
+          <h2>
             <a ng-if="discoveryContext.infoLinkUrl" href="{{discoveryContext.infoLinkUrl}}">{{discoveryContext.infoLinkText}}</a>
             <span ng-if="!discoveryContext.infoLinkUrl">{{discoveryContext.infoLinkText}}</span>
-          </h3>
+          </h2>
           <div ng-if="discoveryContext.infoText" class="panel-footer" ng-bind-html="presentCollectionText(discoveryContext.infoText)">
           </div>
         </div>
       </div>
       <div ng-if="!discoveryContext.logoUrl && discoveryContext.infoLinkText" class="panel panel-default information-box">
         <div class="panel-body">
-          <h3>
+          <h2>
             <a ng-if="discoveryContext.infoLinkUrl" href="{{discoveryContext.infoLinkUrl}}">{{discoveryContext.infoLinkText}}</a>
             <span ng-if="!discoveryContext.infoLinkUrl">{{discoveryContext.infoLinkText}}</span>
-          </h3>
+          </h2>
           <div ng-if="discoveryContext.infoText" class="panel-footer" ng-bind-html="presentCollectionText(discoveryContext.infoText)">
           </div>
         </div>
@@ -94,21 +94,23 @@
           <div class="row">
             <div class="input-group">
               <span ng-if="isAscending()" class="input-group-btn">
-                <button aria-label="Toggle Sort Order" class="btn btn-default" type="button" ng-click="toggleSort()">
+                <button aria-label="Sort by descending Order" class="btn btn-default" type="button" ng-click="toggleSort()" aria-pressed="{{!isAscending()}}">
                   <span class="glyphicon glyphicon-arrow-down"></span>
                 </button>
               </span>
               <span ng-if="!isAscending()" class="input-group-btn">
-                <button aria-label="Toggle Sort Order" class="btn btn-default" type="button" ng-click="toggleSort()">
+                <button aria-label="Sort by descending Order" class="btn btn-default" type="button" ng-click="toggleSort()" aria-pressed="{{!isAscending()}}">
                   <span class="glyphicon glyphicon-arrow-up"></span>
                 </button>
               </span>
-              <select class="form-control dc-filter-select" ng-model="discoveryContext.search.page.sort" ng-options="sort.key as sort.label for sort in discoveryContext.sortFields" trackby="sort.key" ng-change="updateSort()"></select>
+              <label id="sortByLabel" class="sr-only">Sort results by</label>
+              <select id="sortBy" class="form-control dc-filter-select" ng-model="discoveryContext.search.page.sort" ng-options="sort.key as sort.label for sort in discoveryContext.sortFields" trackby="sort.key" ng-change="updateSort()" aria-labelledby="sortByLabel"></select>
             </div>
           </div>
         </div>
         <div class="col-sm-4 col-md-3">
-          <select class="form-control dc-filter-select" ng-model="discoveryContext.search.page.size" ng-options="rows.value as rows.label for rows in rowOptions" ng-change="updateLimit()"></select>
+          <label id="pageSizeLabel" class="sr-only">Results per page</label>
+          <select id="pageSize" class="form-control dc-filter-select" ng-model="discoveryContext.search.page.size" ng-options="rows.value as rows.label for rows in rowOptions" ng-change="updateLimit()" aria-labelledby="pageSizeLabel"></select>
         </div>
       </div>
       <hr class="dc-results-hr top">
@@ -116,12 +118,12 @@
         <div class="col-xs-12 results" ng-class="{'hide-results': discoveryContext.isSearching()}">
           <div class="media dc-result" ng-repeat="result in discoveryContext.results">
             <div class="media-left">
-              <a href="discovery-context/{{discoveryContext.slug}}/{{result.uniqueIdentifier}}">
+              <a>
                 <img-async result="result"></img-async>
               </a>
             </div>
             <div class="media-body">
-              <h4 class="media-heading"><a href="discovery-context/{{discoveryContext.slug}}/{{result.uniqueIdentifier}}">{{result.title}}</a></h4>
+              <h2 class="media-heading"><a href="discovery-context/{{discoveryContext.slug}}/{{result.uniqueIdentifier}}">{{result.title}}</a></h2>
               <dl class="dc-result-metadata">
                 <result-entry ng-if="resultField.inList" class="dc-field" ng-repeat="resultField in result.fields" result-field="resultField"></result-entry>
               </dl>
