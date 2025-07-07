@@ -105,8 +105,6 @@
               </span>
               <label id="sortByLabel" class="sr-only">Sort results by</label>
               <select id="sortBy" class="form-control dc-filter-select" ng-model="discoveryContext.search.page.sort" ng-options="sort.key as sort.label for sort in discoveryContext.sortFields" trackby="sort.key" ng-change="updateSort()" aria-labelledby="sortByLabel"></select>
-
-              <select class="form-control dc-filter-select" ng-model="discoveryContext.search.page.sort" ng-options="sort.key as sort.label for sort in discoveryContext.sortFields" trackby="sort.key" ng-change="updateSort()"></select>
             </div>
           </div>
         </div>
