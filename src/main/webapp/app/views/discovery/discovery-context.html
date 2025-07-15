@@ -1,9 +1,9 @@
 <div class="discovery-context row">
   {{$window}}
-  <div class="dc-heading">
+  <div class="dc-heading" tabindex="0">
     <h1>{{discoveryContext.name}}</h1>
   </div>
-  <div class="dc-content">
+  <div class="dc-content" tabindex="0">
     <breadcrumbs contexts="breadcrumbContexts" reload="resetPage" home=""></breadcrumbs>
     <div class="col-md-3 dc-side-panel">
       <div ng-if="discoveryContext.logoUrl && discoveryContext.wideLogoUrl">
@@ -123,7 +123,7 @@
               </a>
             </div>
             <div class="media-body">
-              <h2 class="media-heading"><a href="discovery-context/{{discoveryContext.slug}}/{{result.uniqueIdentifier}}">{{result.title}}</a></h2>
+              <h3 class="media-heading"><a href="discovery-context/{{discoveryContext.slug}}/{{result.uniqueIdentifier}}">{{result.title}}</a></h3>
               <dl class="dc-result-metadata">
                 <result-entry ng-if="resultField.inList" class="dc-field" ng-repeat="resultField in result.fields" result-field="resultField"></result-entry>
               </dl>
