@@ -8,7 +8,7 @@
       <button class="btn" ng-click="setResultContext(!singleResultContext.fullView)">{{singleResultContext.fullView ? "Standard":"Full"}} View</button>
     </div>
     <div class="col-md-9 col-md-offset-1 single-result-container">
-      <div class="title"><h2>{{singleResultContext.title}}</h2></div>
+      <div class="title"><h1>{{singleResultContext.title}}</h1></div>
       <single-result-viewer context="singleResultContext"></single-result-viewer>
       <dl>
         <result-entry class="dc-field" ng-repeat="metadataField in singleResultContext.resultMetadataFields" result-field="metadataField" ng-if="metadataField.inSingleResult"></result-entry>
