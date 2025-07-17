@@ -141,10 +141,10 @@
           </ul>
         </div>
         <div class="col-sm-4 col-md-3">
-          <select class="form-control dc-filter-select" ng-model="discoveryContext.search.page.sort" ng-options="sort.key as sort.label for sort in discoveryContext.sortFields" ng-change="updateSort()"></select>
+          <select class="form-control dc-filter-select" ng-model="discoveryContext.search.page.sort" ng-options="sort.key as sort.label for sort in discoveryContext.sortFields" ng-change="updateSort()" aria-labelledby="sortByLabel"></select>
         </div>
         <div class="col-sm-4 col-md-3">
-          <select class="form-control dc-filter-select" ng-model="discoveryContext.search.page.size" ng-options="rows.value as rows.label for rows in rowOptions" ng-change="updateLimit()"></select>
+          <select class="form-control dc-filter-select" ng-model="discoveryContext.search.page.size" ng-options="rows.value as rows.label for rows in rowOptions" ng-change="updateLimit()" aria-labelledby="pageSizeLabel"></select>
         </div>
       </div>
     </div>
