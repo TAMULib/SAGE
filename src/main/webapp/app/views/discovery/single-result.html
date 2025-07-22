@@ -1,6 +1,6 @@
 <div class="single-result row">
-  <div class="dc-heading">
-    <h2>{{discoveryContext.name}}</h2>
+  <div class="dc-heading" role="heading" aria-level="1">
+    {{discoveryContext.name}}
   </div>
   <div class="dc-content">
     <breadcrumbs contexts="breadcrumbContexts" reload="" home=""></breadcrumbs>
@@ -8,7 +8,7 @@
       <button class="btn" ng-click="setResultContext(!singleResultContext.fullView)">{{singleResultContext.fullView ? "Standard":"Full"}} View</button>
     </div>
     <div class="col-md-9 col-md-offset-1 single-result-container">
-      <div class="title"><h3>{{singleResultContext.title}}</h3></div>
+      <div class="title"><h1>{{singleResultContext.title}}</h1></div>
       <single-result-viewer context="singleResultContext"></single-result-viewer>
       <dl>
         <result-entry class="dc-field" ng-repeat="metadataField in singleResultContext.resultMetadataFields" result-field="metadataField" ng-if="metadataField.inSingleResult"></result-entry>
