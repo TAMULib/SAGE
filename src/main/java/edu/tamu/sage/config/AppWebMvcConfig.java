@@ -7,7 +7,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,9 +32,6 @@ import edu.tamu.weaver.validation.resolver.WeaverValidatedModelMethodProcessor;
 @EnableJpaRepositories(basePackages = { "edu.tamu.sage.model.repo" })
 @EnableScheduling
 public class AppWebMvcConfig implements WebMvcConfigurer {
-
-    @Value("${app.config.path}")
-    private String appConfigPath;
 
     @Autowired
     private List<HttpMessageConverter<?>> converters;
@@ -67,7 +63,6 @@ public class AppWebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/appConfig.js").addResourceLocations(appConfigPath);
         registry.addResourceHandler("/**").addResourceLocations("classpath:/");
         registry.setOrder(Integer.MAX_VALUE - 2);
     }
