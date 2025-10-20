@@ -17,9 +17,11 @@
 
   <properties>
     <java.version>25</java.version>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <maven-plugins.version>2.22.2</maven-plugins.version>
+    <maven-plugins.version>3.5.4</maven-plugins.version>
     <start-class>edu.tamu.sage.SageApplication</start-class>
     <maven.packaging>war</maven.packaging>
   </properties>
