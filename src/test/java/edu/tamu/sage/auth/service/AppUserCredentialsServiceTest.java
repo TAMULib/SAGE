@@ -10,8 +10,8 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import edu.tamu.sage.model.Role;
@@ -61,7 +61,7 @@ public class AppUserCredentialsServiceTest {
 
     private Optional<User> optionalUser1 = Optional.of(testUser1);
 
-    @Mock
+    @MockBean
     private UserRepo userRepo;
 
     @InjectMocks
