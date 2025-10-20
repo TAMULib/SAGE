@@ -5,7 +5,15 @@ ARG SOURCE_DIR=/$USER_NAME/source
 ARG NPM_REGISTRY=upstream
 ARG NODE_ENV=development
 
-# Maven stage.
+# ----------------------------------------------------------------------
+# Stage 1: Build a dedicated Node.js image to copy binaries from.
+# ----------------------------------------------------------------------
+FROM node:20.12.2-alpine AS node
+
+# ----------------------------------------------------------------------
+# Stage 2: Build SAGE artifact with Maven. Specific versions of Node.js,
+# Python, and build tools are required for node-sass.
+# ----------------------------------------------------------------------
 FROM maven:3-eclipse-temurin-25-alpine AS maven
 ARG USER_ID
 ARG USER_NAME
@@ -22,8 +30,20 @@ RUN addgroup -g $USER_ID $USER_NAME && \
 # Install Nodejs, npm, python, and other build tools.
 RUN apk update && \
     apk upgrade && \
-    apk add --no-cache nodejs~=20 npm python3 make g++ && \
-    rm -rf /var/cache/apk/*
+    apk add --no-cache \
+      build-base \
+      make \
+      python3 py3-setuptools \
+      g++ libstdc++ && \
+    apk add --no-cache
+
+COPY --from=node /usr/local/bin/ /usr/local/bin/
+COPY --from=node /usr/local/lib/ /usr/local/lib/
+COPY --from=node /usr/local/share/ /usr/local/share/
+COPY --from=node /usr/local/include/ /usr/local/include/
+
+RUN rm -rf /var/cache/apk/* && \
+    node -v && npm -v
 
 # Ensure source directory exists and has appropriate file permissions.
 RUN mkdir -p $SOURCE_DIR && \
@@ -40,7 +60,6 @@ COPY ./src ./src
 COPY ./build ./build
 COPY ./build/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 COPY ./package.json ./package.json
-
 
 USER root
 COPY ./build/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
@@ -60,10 +79,14 @@ RUN echo $NPM_REGISTRY && \
 # Copy in your index.html file and modify it before the mvn package command
 COPY ./src/main/resources/templates/index.html $SOURCE_DIR/src/main/resources/templates/index.html
 
+RUN mvn dependency:resolve
+
 # Build.
 RUN mvn package -Pjar -DskipTests
 
-# Switch to Normal JRE Stage.
+# ----------------------------------------------------------------------
+# Stage 3: Normal JRE Stage to run SAGE artifact with Java.
+# ----------------------------------------------------------------------
 FROM eclipse-temurin:25-jre-alpine
 ARG USER_ID
 ARG USER_NAME
