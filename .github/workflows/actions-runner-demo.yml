@@ -2,7 +2,7 @@ name: Actions Runner Demo
 
 on:
   push:
-    branches: [ "actions-runner-demo" ]
+    branches: [ "actions-runner-demo", "internal-sprint7-574-575-upgrade" ]
   pull_request:
     branches: [ "actions-runner-demo" ]
 

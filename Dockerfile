@@ -6,7 +6,7 @@ ARG NPM_REGISTRY=upstream
 ARG NODE_ENV=development
 
 # Maven stage.
-FROM maven:3-openjdk-11-slim as maven
+FROM maven:3-eclipse-temurin-25-alpine AS maven
 ARG USER_ID
 ARG USER_NAME
 ARG SOURCE_DIR
@@ -16,15 +16,13 @@ ARG NODE_ENV
 ENV NODE_ENV=$NODE_ENV
 
 # Create the user and group (use a high ID to attempt to avoid conflicts).
-RUN groupadd --non-unique -g $USER_ID $USER_NAME && \
-    useradd --non-unique -d /$USER_NAME -m -u $USER_ID -g $USER_ID $USER_NAME
+RUN addgroup -g $USER_ID $USER_NAME && \
+    adduser -D -h /$USER_NAME -u $USER_ID -G $USER_NAME $USER_NAME
 
 # Install stable Nodejs and npm.
-RUN apt-get update --fix-missing && \
-    apt-get upgrade -y --fix-missing && \
-    apt-get install -y nodejs npm iproute2 --fix-missing && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && \
+RUN apk update && \
+    apk upgrade && \
+    apk add --no-cache nodejs npm iproute2 && \
     npm cache clean -f && \
     npm install -g n && \
     n stable
@@ -68,16 +66,15 @@ COPY ./src/main/resources/templates/index.html $SOURCE_DIR/src/main/resources/te
 RUN mvn package -Pjar -DskipTests
 
 # Switch to Normal JRE Stage.
-FROM openjdk:11-jre-slim
+FROM eclipse-temurin:25-jre-alpine
 ARG USER_ID
 ARG USER_NAME
 ARG SOURCE_DIR
 
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get -y install gettext-base && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+RUN apk update && \
+    apk upgrade && \
+    apk add --no-cache gettext bash && \
+    rm -rf /var/cache/apk/*
 
 # Copy files from outside docker to inside.
 COPY build/appConfig.js.template /usr/local/app/templates/appConfig.js.template
@@ -88,8 +85,8 @@ RUN chmod ugo+r /usr/local/app/templates/appConfig.js.template && \
     chmod ugo+rx /usr/local/bin/docker-entrypoint.sh
 
 # Create the user and group (use a high ID to attempt to avoid conflicts).
-RUN groupadd --non-unique -g $USER_ID $USER_NAME && \
-    useradd --non-unique -d /$USER_NAME -m -u $USER_ID -g $USER_ID $USER_NAME
+RUN addgroup -g $USER_ID $USER_NAME && \
+    adduser -D -h /$USER_NAME -u $USER_ID -G $USER_NAME $USER_NAME
 
 # Set deployment directory.
 WORKDIR /$USER_NAME
