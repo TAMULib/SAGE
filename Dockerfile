@@ -19,13 +19,11 @@ ENV NODE_ENV=$NODE_ENV
 RUN addgroup -g $USER_ID $USER_NAME && \
     adduser -D -h /$USER_NAME -u $USER_ID -G $USER_NAME $USER_NAME
 
-# Install stable Nodejs and npm.
+# Install Nodejs, npm, python, and other build tools.
 RUN apk update && \
     apk upgrade && \
-    apk add --no-cache nodejs npm iproute2 && \
-    npm cache clean -f && \
-    npm install -g n && \
-    n stable
+    apk add --no-cache nodejs~=20 npm python3 make g++ && \
+    rm -rf /var/cache/apk/*
 
 # Ensure source directory exists and has appropriate file permissions.
 RUN mkdir -p $SOURCE_DIR && \
