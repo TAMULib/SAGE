@@ -1,14 +1,14 @@
 package edu.tamu.sage.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 
 import edu.tamu.sage.model.validation.BasicValueOpValidator;
 
 @Entity
 public abstract class BasicValueOp extends BasicOp {
 
-    @Column(nullable = true)
+    @Column(nullable = true, name = "\"value\"")
     private String value;
 
     public BasicValueOp() {

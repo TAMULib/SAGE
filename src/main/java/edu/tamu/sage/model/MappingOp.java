@@ -5,10 +5,10 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 
 @Entity
 @DiscriminatorValue("Mapping")

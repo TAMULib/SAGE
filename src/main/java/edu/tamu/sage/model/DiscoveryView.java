@@ -2,12 +2,12 @@ package edu.tamu.sage.model;
 
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OrderColumn;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OrderColumn;
+import jakarta.validation.constraints.NotNull;
 
 import edu.tamu.sage.model.validation.DiscoveryViewValidator;
 import edu.tamu.weaver.validation.model.ValidatingBaseEntity;

@@ -12,8 +12,10 @@ package edu.tamu.sage.model;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -38,7 +40,8 @@ public class User extends AbstractWeaverUserDetails {
 
     private static final long serialVersionUID = -322779181704256964L;
 
-    @Column(name = "role")
+    @Column(name = "role", columnDefinition = "INT")
+    @Enumerated(EnumType.ORDINAL)
     private Role role;
 
     @Column(name = "first_name")

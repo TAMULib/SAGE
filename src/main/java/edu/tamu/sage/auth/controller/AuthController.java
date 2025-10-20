@@ -85,7 +85,7 @@ public class AuthController extends WeaverAuthController {
 
             try {
                 emailSender.sendEmail(email, finalEmail.getSubject(), finalEmail.getMessage());
-            } catch (javax.mail.MessagingException e) {
+            } catch (jakarta.mail.MessagingException e) {
                 logger.debug("Unable to send email! " + email);
                 return new ApiResponse(ERROR, "Unable to send email! " + email);
             }
