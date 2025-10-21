@@ -66,6 +66,7 @@ public class InternalMetadataControllerTest {
                         fieldWithPath("meta.id").description("Id of the request."),
                         fieldWithPath("meta.action").description("Action of the request."),
                         fieldWithPath("meta.message").description("Message of the response."),
+                        fieldWithPath("meta.stacktrace").description("Stacktrace of the response."),
                         fieldWithPath("meta.status").description("Status of the response."),
                         fieldWithPath("payload").description("API response payload containing the List of Internal Metadatum."),
                         subsectionWithPath("payload.ArrayList<InternalMetadata>").description("An array of the internal metadatum.")
@@ -94,6 +95,7 @@ public class InternalMetadataControllerTest {
                         fieldWithPath("meta.id").description("Id of the request."),
                         fieldWithPath("meta.action").description("Action of the request."),
                         fieldWithPath("meta.message").description("Message of the response."),
+                        fieldWithPath("meta.stacktrace").description("Stacktrace of the response."),
                         fieldWithPath("meta.status").description("Status of the response."),
                         fieldWithPath("payload").description("API response payload containing the Internal Metadatum."),
                         fieldWithPath("payload.InternalMetadata.id").description("The Internal Metadatum id."),
@@ -140,6 +142,7 @@ public class InternalMetadataControllerTest {
                         fieldWithPath("meta.id").description("Id of the request."),
                         fieldWithPath("meta.action").description("Action of the request."),
                         fieldWithPath("meta.message").description("Message of the response."),
+                        fieldWithPath("meta.stacktrace").description("Stacktrace of the response."),
                         fieldWithPath("meta.status").description("Status of the response."),
                         fieldWithPath("payload").description("API response payload containing the Internal Metadatum."),
                         fieldWithPath("payload.InternalMetadata.id").description("The Internal Metadatum id."),
@@ -180,6 +183,7 @@ public class InternalMetadataControllerTest {
                         fieldWithPath("meta.id").description("Id of the request."),
                         fieldWithPath("meta.action").description("Action of the request."),
                         fieldWithPath("meta.message").description("Message of the response."),
+                        fieldWithPath("meta.stacktrace").description("Stacktrace of the response."),
                         fieldWithPath("meta.status").description("Status of the response."),
                         fieldWithPath("payload").description("Empty API response payload.")
                     )

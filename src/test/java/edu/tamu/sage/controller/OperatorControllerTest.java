@@ -72,6 +72,7 @@ public class OperatorControllerTest {
                         fieldWithPath("meta.id").description("Id of the request."),
                         fieldWithPath("meta.action").description("Action of the request."),
                         fieldWithPath("meta.message").description("Message of the response."),
+                        fieldWithPath("meta.stacktrace").description("Stacktrace of the response."),
                         fieldWithPath("meta.status").description("Status of the response."),
                         fieldWithPath("payload").description("API response payload containing the List of Operators."),
                         subsectionWithPath("payload.ArrayList<ConstantOp>").description("An array of the Operators.")
@@ -98,6 +99,7 @@ public class OperatorControllerTest {
                         fieldWithPath("meta.id").description("Id of the request."),
                         fieldWithPath("meta.action").description("Action of the request."),
                         fieldWithPath("meta.message").description("Message of the response."),
+                        fieldWithPath("meta.stacktrace").description("Stacktrace of the response."),
                         fieldWithPath("meta.status").description("Status of the response."),
                         fieldWithPath("payload").description("API response payload containing the List of Operator Types."),
                         subsectionWithPath("payload.ArrayList<OperatorType>").description("An array of the operator types.")
@@ -127,6 +129,7 @@ public class OperatorControllerTest {
                         fieldWithPath("meta.id").description("Id of the request."),
                         fieldWithPath("meta.action").description("Action of the request."),
                         fieldWithPath("meta.message").description("Message of the response."),
+                        fieldWithPath("meta.stacktrace").description("Stacktrace of the response."),
                         fieldWithPath("meta.status").description("Status of the response."),
                         fieldWithPath("payload").description("API response payload containing the Operator."),
                         fieldWithPath("payload.ConstantOp.id").description("The Operator id."),
@@ -175,6 +178,7 @@ public class OperatorControllerTest {
                         fieldWithPath("meta.id").description("Id of the request."),
                         fieldWithPath("meta.action").description("Action of the request."),
                         fieldWithPath("meta.message").description("Message of the response."),
+                        fieldWithPath("meta.stacktrace").description("Stacktrace of the response."),
                         fieldWithPath("meta.status").description("Status of the response."),
                         fieldWithPath("payload").description("API response payload containing the Operator."),
                         fieldWithPath("payload.ConstantOp.id").description("The Operator id."),
@@ -217,6 +221,7 @@ public class OperatorControllerTest {
                         fieldWithPath("meta.id").description("Id of the request."),
                         fieldWithPath("meta.action").description("Action of the request."),
                         fieldWithPath("meta.message").description("Message of the response."),
+                        fieldWithPath("meta.stacktrace").description("Stacktrace of the response."),
                         fieldWithPath("meta.status").description("Status of the response."),
                         fieldWithPath("payload").description("Empty API response payload.")
                     )
