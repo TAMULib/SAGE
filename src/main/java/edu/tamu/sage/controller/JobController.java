@@ -80,7 +80,7 @@ public class JobController {
 
     @GetMapping("/run/{jobId}")
     @PreAuthorize("hasRole('MANAGER')")
-    public ApiResponse run(@PathVariable Long jobId) {
+    public ApiResponse run(@PathVariable("jobId") Long jobId) {
         ApiResponse response;
         Job job = jobRepo.findById(jobId).get();
         if (job != null) {
