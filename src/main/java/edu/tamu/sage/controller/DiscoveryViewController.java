@@ -91,7 +91,7 @@ public class DiscoveryViewController {
 
     @RequestMapping(value = "/context/{slug}", method = RequestMethod.GET)
     @PreAuthorize("hasRole('ANONYMOUS')")
-    public ApiResponse findBySlug(@PathVariable("slug") String slug, @RequestParam(name = "field", defaultValue = "") String field, @RequestParam(name = "value", defaultValue = "") String value, @PageableDefault(page = 0, size = 10) Pageable page, @RequestParam(name = "offset", defaultValue = "0") int offset, @RequestParam("direction") String direction, @RequestParam("reqFilterMap") Map<String, String> reqFilterMap) throws DiscoveryContextNotFoundException, UnsupportedEncodingException, DiscoveryContextBuildException {
+    public ApiResponse findBySlug(@PathVariable("slug") String slug, @RequestParam(name = "field", defaultValue = "") String field, @RequestParam(name = "value", defaultValue = "") String value, @PageableDefault(page = 0, size = 10) Pageable page, @RequestParam(name = "offset", defaultValue = "0") int offset, @RequestParam("direction") String direction, @RequestParam Map<String, String> reqFilterMap) throws DiscoveryContextNotFoundException, UnsupportedEncodingException, DiscoveryContextBuildException {
         DiscoveryView discoveryView = discoveryViewRepo.findOneBySlug(slug);
         if (discoveryView == null) {
             throw new DiscoveryContextNotFoundException(String.format("Could not find Discovery Context for %s", slug));
