@@ -3,16 +3,16 @@ package edu.tamu.sage.model;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Embeddable;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapKeyColumn;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapKeyColumn;
+import jakarta.validation.constraints.NotNull;
 
 @Embeddable
 public class Schedule {
@@ -27,8 +27,8 @@ public class Schedule {
     private Frequency frequency;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    @MapKeyColumn(name = "key")
-    @Column(name = "value")
+    @MapKeyColumn(name = "\"key\"")
+    @Column(name = "\"value\"")
     @CollectionTable(name = "schedule_data", joinColumns = @JoinColumn(name = "schedule_id"))
     private Map<String, String> scheduleData;
 

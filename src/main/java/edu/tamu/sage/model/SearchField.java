@@ -1,12 +1,15 @@
 package edu.tamu.sage.model;
 
-import javax.persistence.Embeddable;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class SearchField {
 
+    @Column(name = "\"key\"")
     private String key;
 
+    @Column(name = "\"label\"")
     private String label;
 
     public SearchField() {

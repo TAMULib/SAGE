@@ -1,8 +1,8 @@
 package edu.tamu.sage.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.validation.constraints.NotNull;
 
 import edu.tamu.weaver.validation.model.ValidatingBaseEntity;
 

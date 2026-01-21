@@ -5,8 +5,8 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
 
 import edu.tamu.sage.utility.ValueTemplateUtility;
 

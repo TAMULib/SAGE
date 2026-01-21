@@ -2,10 +2,14 @@ package edu.tamu.sage.config;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.web.SecurityFilterChain;
 
 import edu.tamu.sage.auth.service.AppUserDetailsService;
 import edu.tamu.sage.model.Role;
@@ -18,8 +22,12 @@ import edu.tamu.weaver.auth.config.AuthWebSecurityConfig;
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class AppWebSecurityConfig extends AuthWebSecurityConfig<User, UserRepo, AppUserDetailsService> {
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Bean
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // @formatter:off
         http
             .sessionManagement()
@@ -27,7 +35,9 @@ public class AppWebSecurityConfig extends AuthWebSecurityConfig<User, UserRepo, 
             .and()
                 .authorizeRequests()
                     .expressionHandler(webExpressionHandler())
-                    .antMatchers("/**/*")
+                    .requestMatchers("/")
+                        .permitAll()
+                    .requestMatchers("/**")
                         .permitAll()
             .and()
                 .headers()
@@ -36,8 +46,10 @@ public class AppWebSecurityConfig extends AuthWebSecurityConfig<User, UserRepo, 
             .and()
                 .csrf()
                     .disable()
-            .addFilter(tokenAuthorizationFilter());
+            .addFilter(tokenAuthorizationFilter(authenticationManager));
         // @formatter:on
+
+        return http.build();
     }
 
     @Override

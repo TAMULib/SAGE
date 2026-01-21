@@ -5,8 +5,16 @@ ARG SOURCE_DIR=/$USER_NAME/source
 ARG NPM_REGISTRY=upstream
 ARG NODE_ENV=development
 
-# Maven stage.
-FROM maven:3-openjdk-11-slim as maven
+# ----------------------------------------------------------------------
+# Stage 1: Build a dedicated Node.js image to copy binaries from.
+# ----------------------------------------------------------------------
+FROM node:20.12.2-alpine AS node
+
+# ----------------------------------------------------------------------
+# Stage 2: Build SAGE artifact with Maven. Specific versions of Node.js,
+# Python, and build tools are required for node-sass.
+# ----------------------------------------------------------------------
+FROM maven:3-eclipse-temurin-25-alpine AS maven
 ARG USER_ID
 ARG USER_NAME
 ARG SOURCE_DIR
@@ -16,18 +24,26 @@ ARG NODE_ENV
 ENV NODE_ENV=$NODE_ENV
 
 # Create the user and group (use a high ID to attempt to avoid conflicts).
-RUN groupadd --non-unique -g $USER_ID $USER_NAME && \
-    useradd --non-unique -d /$USER_NAME -m -u $USER_ID -g $USER_ID $USER_NAME
+RUN addgroup -g $USER_ID $USER_NAME && \
+    adduser -D -h /$USER_NAME -u $USER_ID -G $USER_NAME $USER_NAME
 
-# Install stable Nodejs and npm.
-RUN apt-get update --fix-missing && \
-    apt-get upgrade -y --fix-missing && \
-    apt-get install -y nodejs npm iproute2 --fix-missing && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* && \
-    npm cache clean -f && \
-    npm install -g n && \
-    n stable
+# Install Nodejs, npm, python, and other build tools.
+RUN apk update && \
+    apk upgrade && \
+    apk add --no-cache \
+      build-base \
+      make \
+      python3 py3-setuptools \
+      g++ libstdc++ && \
+    apk add --no-cache
+
+COPY --from=node /usr/local/bin/ /usr/local/bin/
+COPY --from=node /usr/local/lib/ /usr/local/lib/
+COPY --from=node /usr/local/share/ /usr/local/share/
+COPY --from=node /usr/local/include/ /usr/local/include/
+
+RUN rm -rf /var/cache/apk/* && \
+    node -v && npm -v
 
 # Ensure source directory exists and has appropriate file permissions.
 RUN mkdir -p $SOURCE_DIR && \
@@ -44,7 +60,6 @@ COPY ./src ./src
 COPY ./build ./build
 COPY ./build/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 COPY ./package.json ./package.json
-
 
 USER root
 COPY ./build/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
@@ -64,20 +79,23 @@ RUN echo $NPM_REGISTRY && \
 # Copy in your index.html file and modify it before the mvn package command
 COPY ./src/main/resources/templates/index.html $SOURCE_DIR/src/main/resources/templates/index.html
 
+RUN mvn dependency:resolve
+
 # Build.
 RUN mvn package -Pjar -DskipTests
 
-# Switch to Normal JRE Stage.
-FROM openjdk:11-jre-slim
+# ----------------------------------------------------------------------
+# Stage 3: Normal JRE Stage to run SAGE artifact with Java.
+# ----------------------------------------------------------------------
+FROM eclipse-temurin:25-jre-alpine
 ARG USER_ID
 ARG USER_NAME
 ARG SOURCE_DIR
 
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get -y install gettext-base && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+RUN apk update && \
+    apk upgrade && \
+    apk add --no-cache gettext bash && \
+    rm -rf /var/cache/apk/*
 
 # Copy files from outside docker to inside.
 COPY build/appConfig.js.template /usr/local/app/templates/appConfig.js.template
@@ -88,8 +106,8 @@ RUN chmod ugo+r /usr/local/app/templates/appConfig.js.template && \
     chmod ugo+rx /usr/local/bin/docker-entrypoint.sh
 
 # Create the user and group (use a high ID to attempt to avoid conflicts).
-RUN groupadd --non-unique -g $USER_ID $USER_NAME && \
-    useradd --non-unique -d /$USER_NAME -m -u $USER_ID -g $USER_ID $USER_NAME
+RUN addgroup -g $USER_ID $USER_NAME && \
+    adduser -D -h /$USER_NAME -u $USER_ID -G $USER_NAME $USER_NAME
 
 # Set deployment directory.
 WORKDIR /$USER_NAME

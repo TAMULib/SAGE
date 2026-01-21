@@ -1,7 +1,7 @@
 -- Creat default internal metadata.
 
-INSERT INTO INTERNAL_METADATA SELECT * FROM (
-  SELECT 1, 'id', 'Id', true UNION
+INSERT INTO INTERNAL_METADATA (id, field, gloss, required) SELECT * FROM (
+  SELECT 1 AS id, 'id' AS field, 'Id' AS gloss, true AS required UNION
   SELECT 2, 'collection', 'Collection', true UNION
   SELECT 3, 'thumbnail', 'Thumbnail', false UNION
   SELECT 4, 'resource', 'Resource', false UNION

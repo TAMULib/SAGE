@@ -180,14 +180,14 @@ public class SourceController {
 
     @GetMapping("/fields/indexed")
     @PreAuthorize("hasRole('USER')")
-    public ApiResponse getIndexedFields(@RequestParam String uri, @RequestParam String filter) throws SourceFieldsException {
+    public ApiResponse getIndexedFields(@RequestParam("uri") String uri, @RequestParam("filter") String filter) throws SourceFieldsException {
         logger.info(String.format("Getting indexed fields for source %s with filter %s ", uri, filter));
         return new ApiResponse(SUCCESS, sourceService.getIndexedFields(uri, filter));
     }
 
     @GetMapping("/fields/available")
     @PreAuthorize("hasRole('USER')")
-    public ApiResponse getAvailableFields(@RequestParam String uri, @RequestParam String filter) throws SourceFieldsException {
+    public ApiResponse getAvailableFields(@RequestParam("uri") String uri, @RequestParam("filter") String filter) throws SourceFieldsException {
         logger.info(String.format("Getting available fields for source %s with filter %s ", uri, filter));
         return new ApiResponse(SUCCESS, sourceService.getAvailableFields(uri, filter));
     }

@@ -67,8 +67,10 @@ spring:
     # database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
 
   thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
     cache: false
-    model: LEGACYHTML5
 
   main:
 
